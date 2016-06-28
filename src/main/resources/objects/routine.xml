@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="procedure" parent="parentSchemaObjectBean">
+        <property name="name" value="procedure" />
+        <property name="sql" >
+            <value>
+                select p.owner as "schema"
+                     , p.object_name as "procedure"
+                  from all_objects p
+                 where p.object_type = 'PROCEDURE'
+                   and lower(p.owner) like '${@schema}'
+                   and lower(p.object_name) like '${@procedure}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createProcedure" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/procedures/${procedure?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('PROCEDURE', upper('${procedure}'), '${schema}') as ddl from DUAL
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropProcedure" parent="parentTemplateGeneratorBean">
+                    <property name="template" >
+                        <value>
+                            DROP PROCEDURE ${schema}.${procedure};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="function" parent="parentSchemaObjectBean">
+        <property name="name" value="function" />
+        <property name="sql" >
+            <value>
+                select p.owner as "schema"
+                     , p.object_name as "function"
+                  from all_objects p
+                 where p.object_type = 'FUNCTION'
+                   and lower(p.owner) like '${@schema}'
+                   and lower(p.object_name) like '${@function}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createFunction" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/functions/${function?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('FUNCTION', upper('${function}'), '${schema}') as ddl from DUAL
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropFunction" parent="parentTemplateGeneratorBean">
+                    <property name="template" >
+                        <value>
+                            DROP FUNCTION ${this.schema}.${function};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

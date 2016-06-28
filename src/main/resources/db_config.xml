@@ -1,0 +1,95 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="objects/*.xml" />
+
+
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
+        <property name="dataSourceName" value="ds"/>
+        <property name="URL" value="jdbc:oracle:thin:@localhost:49161:xe"/>
+        <property name="user" value="hr"/>
+        <property name="password" value="hr"/>
+    </bean>
+
+    <bean id="templateEngine" class="com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine" />
+
+
+
+    <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.sqlglue.actions.generator.impl.SQLGenerator" abstract="true">
+        <property name="dataSource" ref="dataSource" />
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="action" ref="CREATE" />
+        <property name="prepareSql" >
+            <value>
+                begin
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'CONSTRAINTS_AS_ALTER', false );
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'STORAGE', false );
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SQLTERMINATOR', FALSE );
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'TABLESPACE', false );
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'CONSTRAINTS', false );
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'REF_CONSTRAINTS', false );
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SEGMENT_ATTRIBUTES', false );
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SQLTERMINATOR', true);
+                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'EMIT_SCHEMA', false);
+                end;
+            </value>
+        </property>
+    </bean>
+
+    <bean id="parentTemplateGeneratorBean" class = "com.github.mgramin.sqlglue.actions.generator.impl.TemplateGenerator" abstract="true">
+        <property name="action" ref="CREATE" />
+        <property name="templateEngine" ref="templateEngine" />
+    </bean>
+
+
+
+    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlglue.model.DBSchemaObjectType" abstract="true">
+        <property name="dataSource" ref="dataSource" />
+        <property name="templateEngine" ref="templateEngine" />
+    </bean>
+
+
+    <bean id="actionContainer" class="com.github.mgramin.sqlglue.actions.ActionContainer">
+        <property name="actions">
+            <list>
+                <ref bean="CREATE" />
+                <ref bean="DROP" />
+                <ref bean="EXISTS" />
+                <ref bean="REBUILD" />
+                <ref bean="GATHER" />
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean name="command" abstract="true" class="com.github.mgramin.sqlglue.actions.Action" />
+
+    <bean name="CREATE" parent="command" >
+        <property name="name" value="create" />
+        <property name="aliases" value="create;c;+" />
+    </bean>
+
+    <bean name="DROP" parent="command" >
+        <property name="name" value="drop" />
+        <property name="aliases" value="drop;d;-" />
+    </bean>
+
+    <bean name="EXISTS" parent="command" >
+        <property name="name" value="exists" />
+        <property name="aliases" value="exists;e;?" />
+    </bean>
+
+    <bean name="REBUILD" parent="command" >
+        <property name="name" value="rebuild" />
+        <property name="aliases" value="rebuild;r;*" />
+    </bean>
+
+    <bean name="GATHER" parent="command" >
+        <property name="name" value="gather_stat" />
+        <property name="aliases" value="stat;s;#" />
+    </bean>
+
+</beans>

@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean name="sequence;seq;s" parent="parentSchemaObjectBean">
+        <property name="name" value="sequence" />
+        <property name="sql" >
+            <value>
+                select s.sequence_owner as "schema"
+                     , s.sequence_name as "sequence"
+                  from all_sequences s
+                 where lower(s.sequence_owner) like '${@schema}'
+                   and lower(s.sequence_name) like '${@view}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createNewSequence" parent="parentTemplateGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/sequences/${sequence?lower_case}.sql" />
+                    <property name="template" >
+                        <value>
+                            create sequence ${schema}.${sequence};
+                        </value>
+                    </property>
+                </bean>
+                <bean id="createSequence" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/sequences/${sequence?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('SEQUENCE', upper('${sequence}'), '${schema}') as ddl
+                              from DUAL
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropSequence" parent="parentTemplateGeneratorBean">
+                    <property name="template" >
+                        <value>
+                            DROP SEQUENCE ${schema}.${sequence};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

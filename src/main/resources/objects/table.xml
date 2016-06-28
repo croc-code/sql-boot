@@ -1,0 +1,289 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--<TODO>get fk columns without indexes</TODO>-->
+
+    <bean name="table,tbl,t" parent="parentSchemaObjectBean">
+        <property name="name" value="table" />
+        <property name="sql" >
+            <value>
+                select t.owner as "schema"
+                     , t.table_name as "table"
+                  from all_tables t
+                 where lower(t.owner) like '${@schemaMask}'
+                   and lower(t.table_name) like '${@tableMask}'
+            </value>
+        </property>
+        <property name="child">
+            <list>
+                <value>#{pk}</value>
+                <value>#{fk}</value>
+                <value>#{index}</value>
+                <value>#{trigger}</value>
+                <value>#{table_grant}</value>
+                <value>#{table_comment}</value>
+                <!--<value>#{column}</value>-->
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean name="createTable" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/ddl.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('TABLE', '${table}', '${schema}') as ddl from DUAL
+                        </value>
+                    </property>
+                </bean>
+                <bean name="dropTable" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>
+                            DROP TABLE ${schema}.${table};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean name="index,idx,i" parent="parentSchemaObjectBean">
+        <property name="name" value="index" />
+        <property name="sql">
+            <value>
+                select i.owner as "schema"
+                     , i.table_name as "table"
+                     , i.index_name as "index"
+                  from all_indexes i
+                 where lower(i.owner) like '${@schema}'
+                   and lower(i.table_name) like '${@table}'
+                   and lower(i.index_name) like '${@index}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean name="createIndex" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/indexes/${index?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>select DBMS_METADATA.GET_DDL('INDEX', '${index}', '${schema}') as ddl from DUAL</value>
+                    </property>
+                </bean>
+                <bean name="dropIndex" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>drop index ${schema}.${index};</value>
+                    </property>
+                </bean>
+                <bean name="rebuildIndex" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="REBUILD" />
+                    <property name="template" >
+                        <value>alter index ${schema}.${index} rebuild;</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean name="column,clmn,c" parent="parentSchemaObjectBean">
+        <property name="name" value="column" />
+        <property name="sql" >
+            <value>
+                select c.owner as "schema"
+                     , c.table_name as "table"
+                     , c.column_name as "column"
+                  from all_tab_columns c
+                 where lower(c.owner) like '${@schema}'
+                   and lower(c.table_name) like '${@table}'
+                   and lower(c.column_name) like '${@column}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="addColumn" parent="parentTemplateGeneratorBean">
+                    <property name="template" >
+                        <value>
+                            ALTER TABLE ${schema}.${table} ADD (${column});
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>
+                            ALTER TABLE ${schema}.${table} DROP COLUMN ${column};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean name="trigger,trg,tr" parent="parentSchemaObjectBean">
+        <property name="name" value="trigger" />
+        <property name="sql" >
+            <value>
+                select c.owner as "schema"
+                     , c.table_name as "table"
+                     , c.trigger_name as "trigger"
+                  from all_triggers c
+                 where lower(c.owner) like '${@schema}'
+                   and lower(c.table_name) like '${@table}'
+                   and lower(c.trigger_name) like '${@trigger}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createTrigger" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/triggers/${trigger?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('TRIGGER', '${trigger}', '${schema}') as ddl from DUAL
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropTrigger" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template">
+                        <value>
+                            drop trigger ${schema}.${trigger};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="pk" parent="parentSchemaObjectBean">
+        <property name="name" value="pk" />
+        <property name="sql" >
+            <value>
+                select c.owner as "schema"
+                     , c.table_name as "table"
+                     , c.constraint_name as "pk"
+                  from all_constraints c
+                 where c.constraint_type = 'P'
+                   and lower(c.owner) like '${@schema}'
+                   and lower(c.table_name) like '${@table}'
+                   and lower(c.constraint_name) like '${@pk}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createPK" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/pk.sql" />
+                    <property name="sql" >
+                        <value>
+                            select dbms_metadata.get_ddl('CONSTRAINT', '${pk}', '${schema}') as ddl
+                              from DUAL
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="fk" parent="parentSchemaObjectBean">
+        <property name="name" value="fk" />
+        <property name="sql" >
+            <value>
+                select c.owner as "schema"
+                     , c.table_name as "table"
+                     , c.constraint_name as "fk"
+                  from all_constraints c
+                     , all_objects o
+                 where c.constraint_type = 'R'
+                   and o.object_name = c.table_name
+                   and lower(c.owner) like '${@schema}'
+                   and lower(c.table_name) like '${@table}'
+                   and lower(c.constraint_name) like '${@fk}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createFk" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/fk/${fk?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('REF_CONSTRAINT', '${fk}', '${schema}') as ddl from DUAL
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropFk" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template">
+                        <value>
+                            alter table ${schema}.${table} drop constraint ${fk};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean name="table_grant,tg" parent="parentSchemaObjectBean">
+        <property name="name" value="tables grant" />
+        <property name="sql">
+            <value>
+                select distinct t.owner as "schema"
+                     , p.table_name as "table"
+                  from all_objects t
+                     , all_tab_privs p
+                 where t.object_name = p.TABLE_NAME
+                   and t.object_type = 'TABLE'
+                   and lower(t.owner) like '${@schema}'
+                   and lower(p.TABLE_NAME) like '${@table}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="grantTable" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/grants.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DEPENDENT_DDL('OBJECT_GRANT', '${table}') as ddl
+                              from DUAL
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean name="table_comment,tc" parent="parentSchemaObjectBean">
+        <property name="name" value="tables grant" />
+        <property name="sql">
+            <value>
+                select utc.owner as "schema"
+                     , utc.table_name as "table"
+                  from all_tab_comments utc
+                 where utc.table_type = 'TABLE'
+                   and utc.COMMENTS is not null
+                   and lower(utc.owner) like '${@schema}'
+                   and lower(utc.table_name) like '${@table}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="commentTable" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/comments.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DEPENDENT_DDL('COMMENT', '${table}') as ddl
+                            from DUAL
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

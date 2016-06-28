@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="package" name="package,pack,p" parent="parentSchemaObjectBean">
+        <property name="name" value="package" />
+        <property name="sql" >
+            <value>
+                select p.owner as "schema"
+                     , object_name as "package"
+                  from all_objects p
+                 where object_type = 'PACKAGE'
+                   and lower(owner) like '${@schema}'
+                   and lower(object_name) like '${@package}'
+            </value>
+        </property>
+        <property name="child">
+            <list>
+                <value>#{package_head}</value>
+                <value>#{package_body}</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="package_head" name="package_head,packh,ph" parent="package">
+        <property name="name" value="package_head" />
+        <property name="child"><null /></property>
+        <property name="commands">
+            <list>
+                <bean id="createPackageHead" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/packages/${package?lower_case}/head.sql" />
+                    <property name="sql" >
+                        <value>
+                            select dbms_metadata.get_ddl('PACKAGE_SPEC', '${package}', '${schema}')
+                              from dual
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="package_body" name="package_body,packb,pb" parent="package">
+        <property name="name" value="package_body" />
+        <property name="child"><null /></property>
+        <property name="commands">
+            <list>
+                <bean id="createPackageBody" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/packages/${package?lower_case}/body.sql" />
+                    <property name="sql" >
+                        <value>
+                            select dbms_metadata.get_ddl('PACKAGE_BODY', '${package}', '${schema}')
+                              from dual
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

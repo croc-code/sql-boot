@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="schema" parent="parentSchemaObjectBean">
+        <property name="name" value="schema" />
+        <property name="sql" >
+            <value>
+                select username as "schema"
+                  from all_users u
+                 where lower(u.username) like '${@schema}'
+            </value>
+        </property>
+        <property name="child">
+            <list>
+                <value>#{table}</value>
+                <value>#{package}</value>
+                <value>#{procedure}</value>
+                <value>#{function}</value>
+                <value>#{view}</value>
+                <!--<value>#{job}</value>-->
+                <!--<value>#{type}</value>-->
+                <!--<value>#{sequence}</value>-->
+                <!--<value>#{queue}</value>-->
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createSchema" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/${schema?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>
+                            SELECT dbms_metadata.get_ddl('USER', '${schema}')
+                              FROM dual
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,109 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="aq" parent="parentSchemaObjectBean">
+        <property name="name" value="aq" />
+        <property name="sql" >
+            <value>
+                select q.owner as "schema"
+                     , q.name as "queue"
+                     , q.queue_table as "queue_table"
+                  from all_queues q
+                 where q.queue_type = 'NORMAL_QUEUE'
+                   and lower(q.owner) like '${@schema}'
+                   and lower(q.name) like '${@queue}'
+            </value>
+        </property>
+        <property name="child">
+            <list>
+                <value>#{queue}</value>
+                <value>#{aq_table}</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="queue" parent="aq">
+        <property name="name" value="queue" />
+        <property name="child"><null /></property>
+        <property name="commands">
+            <list>
+                <bean id="createQueue" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/AQ/${queue}/queue.sql" />
+                    <property name="sql" >
+                        <value>
+                            select dbms_metadata.get_ddl('AQ_QUEUE', upper('${queue}'), '${schema}') as ddl
+                              from dual
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropQueue" parent="parentTemplateGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/AQ/${queue}/drop_queue.sql" />
+                    <property name="template">
+                        <value>
+                            declare
+                                po_t dbms_aqadm.aq$_purge_options_t;
+                            begin
+                                dbms_aqadm.purge_queue_table('${queue_table}', null, po_t);
+                                dbms_aqadm.stop_queue(queue_name => '${queue}');
+                                dbms_aqadm.drop_queue(queue_name => '${queue}');
+                                dbms_aqadm.drop_queue_table(queue_table => '${queue_table}');
+                            end;
+                        </value>
+                    </property>
+                </bean>
+                <bean id="startQueue" parent="parentTemplateGeneratorBean">
+                    <property name="template">
+                        <value>
+                            begin
+                                dbms_aqadm.start_queue (queue_name => '${queue}');
+                            end;
+                        </value>
+                    </property>
+                </bean>
+                <bean id="stopQueue" parent="parentTemplateGeneratorBean">
+                    <property name="template">
+                        <value>
+                            begin
+                                dbms_aqadm.stop_queue (queue_name => '${queue}');
+                            end;
+                        </value>
+                    </property>
+                </bean>
+                <bean id="purgeQueueTable" parent="parentTemplateGeneratorBean">
+                    <property name="template">
+                        <value>
+                            DECLARE
+                                po_t dbms_aqadm.aq$_purge_options_t;
+                            BEGIN
+                                dbms_aqadm.purge_queue_table('${queue_table}', NULL, po_t);
+                            END;
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="aq_table" parent="aq">
+        <property name="name" value="queue" />
+        <property name="child"><null /></property>
+        <property name="commands">
+            <list>
+                <bean id="createAQTable" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/AQ/${queue}/table.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('AQ_QUEUE_TABLE', upper('${queue_table}'), '${schema}') as ddl
+                              from DUAL
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

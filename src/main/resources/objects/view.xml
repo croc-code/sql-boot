@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="view" name="view,vw,v" parent="parentSchemaObjectBean">
+        <property name="name" value="view" />
+        <property name="sql" >
+            <value>
+                select t.owner as "schema"
+                     , t.view_name as "view"
+                  from all_views t
+                 where lower(t.owner) like '${@schema}'
+                   and lower(t.view_name) like '${@view}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="createView" parent="parentSQLGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/views/${view?lower_case}.sql" />
+                    <property name="sql" >
+                        <value>
+                            select DBMS_METADATA.GET_DDL('VIEW', upper('${view}'), '${schema}') as ddl from DUAL
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropView" parent="parentTemplateGeneratorBean">
+                    <property name="template">
+                        <value>
+                            DROP VIEW ${schema}.${view};
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
