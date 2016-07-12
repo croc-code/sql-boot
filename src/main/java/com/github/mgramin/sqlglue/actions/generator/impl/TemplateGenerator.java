@@ -25,7 +25,9 @@ public class TemplateGenerator extends AbstractActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) {
-        return templateEngine.process(variables, template);
+        String result = templateEngine.process(variables, template);
+        // Arrays.asList(result.split("\n")).forEach(n -> n.trim());
+        return result;
     }
 
 
@@ -51,6 +53,14 @@ public class TemplateGenerator extends AbstractActionGenerator {
 
     public void setTemplate(String template) {
         this.template = template;
+    }
+
+
+    @Override
+    public String toString() {
+        return "TemplateGenerator{" +
+                "template='" + template + '\'' +
+                '}';
     }
 
 }

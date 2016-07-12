@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <import resource="objects/*.xml" />
+    <import resource="oracle/all_objects.xml" />
 
 
     <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
@@ -14,6 +14,10 @@
     </bean>
 
     <bean id="templateEngine" class="com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine" />
+
+    <bean id="sqlHelper" class="com.github.mgramin.sqlglue.util.SQLHelper">
+        <property name="dataSource" ref = "dataSource" />
+    </bean>
 
 
 
@@ -46,21 +50,8 @@
 
 
     <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlglue.model.DBSchemaObjectType" abstract="true">
-        <property name="dataSource" ref="dataSource" />
+        <property name="sqlHelper" ref="sqlHelper" />
         <property name="templateEngine" ref="templateEngine" />
-    </bean>
-
-
-    <bean id="actionContainer" class="com.github.mgramin.sqlglue.actions.ActionContainer">
-        <property name="actions">
-            <list>
-                <ref bean="CREATE" />
-                <ref bean="DROP" />
-                <ref bean="EXISTS" />
-                <ref bean="REBUILD" />
-                <ref bean="GATHER" />
-            </list>
-        </property>
     </bean>
 
 
@@ -77,6 +68,11 @@
         <property name="aliases" value="drop;d;-" />
     </bean>
 
+    <bean name="DROP_IF_EXISTS" parent="command" >
+        <property name="name" value="drop_if_exists" />
+        <property name="aliases" value="drop_if_exists;dx;_" />
+    </bean>
+
     <bean name="EXISTS" parent="command" >
         <property name="name" value="exists" />
         <property name="aliases" value="exists;e;?" />
@@ -91,5 +87,11 @@
         <property name="name" value="gather_stat" />
         <property name="aliases" value="stat;s;#" />
     </bean>
+
+    <bean name="COMPILE" parent="command" >
+        <property name="name" value="compile" />
+        <property name="aliases" value="comp;cmp;^" />
+    </bean>
+
 
 </beans>

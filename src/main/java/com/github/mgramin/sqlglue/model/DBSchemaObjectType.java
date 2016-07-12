@@ -1,14 +1,11 @@
 package com.github.mgramin.sqlglue.model;
 
 import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlglue.uri.ObjURI;
+import com.github.mgramin.sqlglue.util.SQLHelper;
 import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
 import org.apache.log4j.Logger;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 import java.util.*;
 
 /**
@@ -16,23 +13,82 @@ import java.util.*;
  */
 public class DBSchemaObjectType implements IDBSchemaObjectType {
 
-    protected final static Logger logger = Logger.getLogger(DBSchemaObjectType.class);
+    private final static Logger logger = Logger.getLogger(DBSchemaObjectType.class);
 
-    protected DataSource dataSource;
-    protected ITemplateEngine templateEngine;
-
-    protected String name;
-    protected String sql;
-    protected List<DBSchemaObjectType> child;
-    protected List<IActionGenerator> commands;
+    private SQLHelper sqlHelper;
+    private ITemplateEngine templateEngine;
 
 
-    public DataSource getDataSource() {
-        return dataSource;
+    private String name;
+    private String sql;
+    private List<DBSchemaObjectType> child;
+    private List<IActionGenerator> commands;
+
+    @Override
+    public Map<String, DBSchemaObject> scan(List<String> list, String action, Boolean recursive) {
+        Map<String, DBSchemaObject> objects = new TreeMap<>();
+        try {
+            Map<String, Object> data = new HashMap();
+            int i=0;
+            for (String s : templateEngine.referenceSet(sql)) {
+                try {
+                    data.put(s, list.get(i++));
+                } catch (Throwable t) {
+                    data.put(s, '%');
+                }
+            }
+
+            String prepareSQL = templateEngine.process(data, sql);
+            logger.debug(prepareSQL);
+
+            for (Map<String, String> stringStringMap : sqlHelper.select(prepareSQL)) {
+                DBSchemaObject object = new DBSchemaObject();
+                object.setPaths(stringStringMap);
+                Map<String, Object> dataNew = new LinkedHashMap<>();
+                for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
+                    if (!stringStringEntry.getKey().startsWith("@")) {
+                        dataNew.put(stringStringEntry.getKey(), stringStringEntry.getValue());
+                        object.setName(stringStringEntry.getValue());
+                    } else {
+                        object.addProperty(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());
+                    }
+                }
+                ObjURI objURI = new ObjURI();
+                List<Object> l = new ArrayList<>(dataNew.values());
+                List<String> strings = (List<String>) (Object) l;
+
+                objURI.setType(this.getName());
+                objURI.setObjects(strings);
+                object.setObjURI(objURI);
+
+                object.setType(this);
+                objects.put(object.getObjURI().toString(), object);
+
+            }
+
+            if (this.child != null) {
+                for (DBSchemaObjectType dbSchemaObject : this.child) {
+                    objects.putAll(dbSchemaObject.scan(list, action, true));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objects;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public SQLHelper getSqlHelper() {
+        return sqlHelper;
+    }
+
+    public void setSqlHelper(SQLHelper sqlHelper) {
+        this.sqlHelper = sqlHelper;
     }
 
     public ITemplateEngine getTemplateEngine() {
@@ -43,10 +99,12 @@ public class DBSchemaObjectType implements IDBSchemaObjectType {
         this.templateEngine = templateEngine;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -75,81 +133,10 @@ public class DBSchemaObjectType implements IDBSchemaObjectType {
         this.commands = commands;
     }
 
-
-    @Override
-    public List<DBSchemaObject> scan(List<String> list, Boolean recursive, String action) {
-        List<DBSchemaObject> objects = new ArrayList<>();
-        try {
-            Map<String, Object> data = new HashMap();
-            int i=0;
-            for (String s : templateEngine.referenceSet(sql)) {
-                try {
-                    data.put(s, list.get(i++));
-                } catch (Throwable t) {
-                    data.put(s, '%');
-                }
-            }
-
-            String prepareSQL = templateEngine.process(data, sql);
-            logger.debug(prepareSQL);
-            try (Connection connection = dataSource.getConnection()) {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(prepareSQL);
-                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-                int columnCount = resultSetMetaData.getColumnCount();
-
-                while (resultSet.next()) {
-                    DBSchemaObject object = new DBSchemaObject();
-                    object.setType(this);
-
-                    Map<String, Object> dataNew = new HashMap();
-
-                    for (int ii = 1; ii < columnCount + 1; ii++) {
-                        object.getProperties().setProperty(resultSetMetaData.getColumnName(ii), resultSet.getString(resultSetMetaData.getColumnName(ii)));
-                        dataNew.put(resultSetMetaData.getColumnName(ii), resultSet.getString(resultSetMetaData.getColumnName(ii)));
-                    }
-
-                    if (commands != null) {
-                        for (IActionGenerator command : commands) {
-                            if (command.getAction() != null && command.getAction().getAliases().contains(action)) {
-                                String sql = command.generate(dataNew);
-                                logger.debug(sql);
-                                object.setDdl(sql);
-                            }
-                            /*if (command.getFilePath() != null) {
-                                File file = new File("repo/" + templateEngine.process(dataNew, command.getFilePath()));
-                                FileUtils.writeStringToFile(file, sql);
-                            }*/
-                        }
-                    }
-                    objects.add(object);
-                }
-            }
-
-            if (recursive && this.child != null) {
-                for (DBSchemaObjectType dbSchemaObject : this.child) {
-
-                    objects.addAll(dbSchemaObject.scan(list, true, action));
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return objects;
-    }
-
-
     @Override
     public String toString() {
         return "DBSchemaObjectType{" +
-                "dataSource=" + dataSource +
-                ", templateEngine=" + templateEngine +
-                ", name='" + name + '\'' +
-                ", sql='" + sql + '\'' +
-                ", child=" + child +
-                ", commands=" + commands +
+                "name='" + name + '\'' +
                 '}';
     }
 

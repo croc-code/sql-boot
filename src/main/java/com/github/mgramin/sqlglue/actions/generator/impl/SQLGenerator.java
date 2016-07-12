@@ -89,4 +89,12 @@ public class SQLGenerator extends AbstractActionGenerator {
         this.sql = sql;
     }
 
+
+    @Override
+    public String toString() {
+        return "SQLGenerator{" +
+                "sql='" + sql + '\'' +
+                '}';
+    }
+
 }

@@ -16,6 +16,9 @@ public class ObjURI {
     private Boolean recursive;
     private Map<String, String> params = new HashMap<>();
 
+    public ObjURI() {
+
+    }
 
     public ObjURI(String uri) {
         String pathString;
@@ -44,13 +47,16 @@ public class ObjURI {
 
     @Override
     public String toString() {
-        return "ObjURI{" +
+
+        return type + "/" + String.join(".", objects);
+
+        /*return "ObjURI{" +
                 "type='" + type + '\'' +
                 ", action='" + action + '\'' +
                 ", objects=" + objects +
                 ", recursive=" + recursive +
                 ", params=" + params +
-                '}';
+                '}';*/
     }
 
     public String getType() {

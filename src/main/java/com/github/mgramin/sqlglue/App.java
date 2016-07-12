@@ -1,13 +1,15 @@
 package com.github.mgramin.sqlglue;
 
+import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlglue.model.DBSchemaObject;
+import com.github.mgramin.sqlglue.model.DBSchemaObjectType;
 import com.github.mgramin.sqlglue.model.IDBSchemaObjectType;
-
+import com.github.mgramin.sqlglue.model.ObjectService;
 import com.github.mgramin.sqlglue.uri.ObjURI;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by maksim on 18.05.16.
@@ -15,28 +17,48 @@ import java.util.List;
 public class App {
 
     public static void main(String[] args) {
+        GenericXmlApplicationContext context = new GenericXmlApplicationContext();
+        context.getEnvironment().setActiveProfiles("oracle");
+        context.load("db_config.xml");
+        context.refresh();
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("db_config.xml");
         String uri;
 
         if (args != null && args.length >= 1) {
             uri = args[0];
         }
         else {
-            uri = "p/hr/";
+            uri = "table/hr.employees2";
         }
 
         ObjURI objURI = new ObjURI(uri);
 
+        IDBSchemaObjectType type = context.getBean(objURI.getType(), IDBSchemaObjectType.class);
+        Map<String, DBSchemaObject> objects = type.scan(objURI.getObjects(), objURI.getAction(), objURI.getRecursive());
+
+        for (Map.Entry<String, DBSchemaObject> object : objects.entrySet()) {
+            ObjectService objectService = new ObjectService(objects, String.join(".", object.getValue().getObjURI().getObjects()));
+            if (objURI.getType().equals(object.getValue().getType().getName())) {
+                for (IActionGenerator generator : ((DBSchemaObjectType) object.getValue().getType()).getCommands()) {
+                    if (generator.getAction() != null && generator.getAction().getAliases().contains(objURI.getAction())) {
+                        Map<String, Object> test = new TreeMap<>();
+                        test.putAll(object.getValue().getPaths());
+                        test.put("srv", objectService);
+                        System.out.println(generator.generate(test));
+                    }
+                }
+            }
+        }
+
+        /*if (command.getFilePath() != null) {
+            object.getProperties().setProperty("file", "repo/" + templateEngine.process(dataNew, command.getFilePath()));
+        }*/
 
 
-        IDBSchemaObjectType dbSchemaObject = context.getBean(objURI.getType(), IDBSchemaObjectType.class);
-        List<DBSchemaObject> objects = dbSchemaObject.scan(objURI.getObjects(), objURI.getRecursive(), objURI.getAction());
-
-
-        
-        for (DBSchemaObject object : objects) {
-            System.out.println(object.getDdl());
+        String baseUri = "HR.EMPLOYEES2";
+        ObjectService objectService = new ObjectService(objects, baseUri);
+        for (DBSchemaObject dbSchemaObject : objectService.get("column")) {
+            //System.out.println(dbSchemaObject.getObjURI());
         }
 
     }

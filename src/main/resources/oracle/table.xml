@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <!--<TODO>get fk columns without indexes</TODO>-->
 
@@ -24,25 +24,76 @@
                 <value>#{trigger}</value>
                 <value>#{table_grant}</value>
                 <value>#{table_comment}</value>
-                <!--<value>#{column}</value>-->
+                <value>#{column}</value>
             </list>
         </property>
         <property name="commands">
             <list>
-                <bean name="createTable" parent="parentSQLGeneratorBean">
+                <!--<bean name="createTable" parent="parentSQLGeneratorBean">
                     <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/ddl.sql" />
                     <property name="sql" >
                         <value>
-                            select DBMS_METADATA.GET_DDL('TABLE', '${table}', '${schema}') as ddl from DUAL
+                            select DBMS_METADATA.GET_DDL('TABLE', '${table}', '${schema}') as ddl from dual
                         </value>
+                    </property>
+                </bean>-->
+                <bean name="create" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="CREATE" />
+                    <property name="template" >
+                        <value><![CDATA[
+                            create table ${schema}.${table} (
+                            <#list srv.get("column") as item>
+                                ${item.name} ${item.getProperty("data_type")},
+                            </#list>
+                            );
+                        ]]></value>
                     </property>
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template" >
+                        <value>drop table ${schema}.${table};</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean name="column,clmn,c" parent="parentSchemaObjectBean">
+        <property name="name" value="column" />
+        <property name="sql" >
+            <value>
+                select c.owner as "schema"
+                     , c.table_name as "table"
+                     , c.column_name as "column"
+                     , c.data_type as "@data_type"
+                     , c.data_length as "@data_length"
+                     --, c.data_precision as "@data_precision"
+                     --, c.data_scale as "@data_scale"
+                     , c.column_id as "@column_id"
+                  from all_tab_columns c
+                     , all_objects o
+                 where lower(c.owner) like '${@schema}'
+                   and lower(c.table_name) like '${@table}'
+                   and lower(c.column_name) like '${@column}'
+                   and c.table_name = o.object_name
+                   and o.object_type = 'TABLE'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="addColumn" parent="parentTemplateGeneratorBean">
+                    <property name="template" >
                         <value>
-                            DROP TABLE ${schema}.${table};
+                            ALTER TABLE ${schema}.${table} ADD (${column});
                         </value>
+                    </property>
+                </bean>
+                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>alter table ${schema}.${table} drop column ${column};</value>
                     </property>
                 </bean>
             </list>
@@ -65,58 +116,33 @@
         </property>
         <property name="commands">
             <list>
-                <bean name="createIndex" parent="parentSQLGeneratorBean">
+                <bean name="create" parent="parentSQLGeneratorBean">
                     <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/indexes/${index?lower_case}.sql" />
                     <property name="sql" >
                         <value>select DBMS_METADATA.GET_DDL('INDEX', '${index}', '${schema}') as ddl from DUAL</value>
                     </property>
                 </bean>
-                <bean name="dropIndex" parent="parentTemplateGeneratorBean">
+                <bean name="drop" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template" >
                         <value>drop index ${schema}.${index};</value>
                     </property>
                 </bean>
-                <bean name="rebuildIndex" parent="parentTemplateGeneratorBean">
+                <bean name="drop_if_exists" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP_IF_EXISTS" />
+                    <property name="template" >
+                        <value>
+                            begin
+                                drop index ${schema}.${index};
+                            end;
+                            /
+                        </value>
+                    </property>
+                </bean>
+                <bean name="rebuild" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="REBUILD" />
                     <property name="template" >
                         <value>alter index ${schema}.${index} rebuild;</value>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-
-
-    <bean name="column,clmn,c" parent="parentSchemaObjectBean">
-        <property name="name" value="column" />
-        <property name="sql" >
-            <value>
-                select c.owner as "schema"
-                     , c.table_name as "table"
-                     , c.column_name as "column"
-                  from all_tab_columns c
-                 where lower(c.owner) like '${@schema}'
-                   and lower(c.table_name) like '${@table}'
-                   and lower(c.column_name) like '${@column}'
-            </value>
-        </property>
-        <property name="commands">
-            <list>
-                <bean id="addColumn" parent="parentTemplateGeneratorBean">
-                    <property name="template" >
-                        <value>
-                            ALTER TABLE ${schema}.${table} ADD (${column});
-                        </value>
-                    </property>
-                </bean>
-                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
-                    <property name="template" >
-                        <value>
-                            ALTER TABLE ${schema}.${table} DROP COLUMN ${column};
-                        </value>
                     </property>
                 </bean>
             </list>
@@ -150,9 +176,7 @@
                 <bean id="dropTrigger" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template">
-                        <value>
-                            drop trigger ${schema}.${trigger};
-                        </value>
+                        <value>drop trigger ${schema}.${trigger};</value>
                     </property>
                 </bean>
             </list>
@@ -217,9 +241,7 @@
                 <bean id="dropFk" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template">
-                        <value>
-                            alter table ${schema}.${table} drop constraint ${fk};
-                        </value>
+                        <value>alter table ${schema}.${table} drop constraint ${fk};</value>
                     </property>
                 </bean>
             </list>
