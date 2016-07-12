@@ -18,7 +18,8 @@ public class App {
 
     public static void main(String[] args) {
         GenericXmlApplicationContext context = new GenericXmlApplicationContext();
-        context.getEnvironment().setActiveProfiles("oracle");
+        /*context.getEnvironment().setActiveProfiles("oracle");*/
+        context.getEnvironment().setActiveProfiles("postgres");
         context.load("db_config.xml");
         context.refresh();
 
@@ -28,7 +29,8 @@ public class App {
             uri = args[0];
         }
         else {
-            uri = "table/hr.employees2";
+            /*uri = "table/hr";*/
+            uri = "table/public.a%";
         }
 
         ObjURI objURI = new ObjURI(uri);
@@ -39,12 +41,14 @@ public class App {
         for (Map.Entry<String, DBSchemaObject> object : objects.entrySet()) {
             ObjectService objectService = new ObjectService(objects, String.join(".", object.getValue().getObjURI().getObjects()));
             if (objURI.getType().equals(object.getValue().getType().getName())) {
-                for (IActionGenerator generator : ((DBSchemaObjectType) object.getValue().getType()).getCommands()) {
-                    if (generator.getAction() != null && generator.getAction().getAliases().contains(objURI.getAction())) {
-                        Map<String, Object> test = new TreeMap<>();
-                        test.putAll(object.getValue().getPaths());
-                        test.put("srv", objectService);
-                        System.out.println(generator.generate(test));
+                if (((DBSchemaObjectType) object.getValue().getType()).getCommands() != null) {
+                    for (IActionGenerator generator : ((DBSchemaObjectType) object.getValue().getType()).getCommands()) {
+                        if (generator.getAction() != null && generator.getAction().getAliases().contains(objURI.getAction())) {
+                            Map<String, Object> test = new TreeMap<>();
+                            test.putAll(object.getValue().getPaths());
+                            test.put("srv", objectService);
+                            System.out.println(generator.generate(test));
+                        }
                     }
                 }
             }

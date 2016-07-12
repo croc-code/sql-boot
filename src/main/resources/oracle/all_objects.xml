@@ -4,6 +4,14 @@
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
         profile="oracle">
 
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
+        <property name="dataSourceName" value="ds"/>
+        <property name="URL" value="jdbc:oracle:thin:@localhost:49161:xe"/>
+        <property name="user" value="hr"/>
+        <property name="password" value="hr"/>
+    </bean>
+
+
     <import resource="schema.xml" />
     <import resource="table.xml" />
     <import resource="aq.xml" />

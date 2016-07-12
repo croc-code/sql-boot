@@ -29,7 +29,6 @@
             <version>1.2.17</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -42,20 +41,44 @@
             <version>${spring.version}</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>cn.guoyukun.jdbc</groupId>
-            <artifactId>oracle-ojdbc6</artifactId>
-            <version>11.2.0.3.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.23</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4.1208.jre7</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+
+
+
     </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>codelds</id>
+            <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+        </repository>
+    </repositories>
+
 
     <build>
         <plugins>

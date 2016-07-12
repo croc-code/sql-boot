@@ -29,24 +29,12 @@
         </property>
         <property name="commands">
             <list>
-                <!--<bean name="createTable" parent="parentSQLGeneratorBean">
+                <bean name="createTable" parent="parentSQLGeneratorBean">
                     <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/ddl.sql" />
                     <property name="sql" >
                         <value>
                             select DBMS_METADATA.GET_DDL('TABLE', '${table}', '${schema}') as ddl from dual
                         </value>
-                    </property>
-                </bean>-->
-                <bean name="create" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="CREATE" />
-                    <property name="template" >
-                        <value><![CDATA[
-                            create table ${schema}.${table} (
-                            <#list srv.get("column") as item>
-                                ${item.name} ${item.getProperty("data_type")},
-                            </#list>
-                            );
-                        ]]></value>
                     </property>
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">

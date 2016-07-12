@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean name="table,tbl,t" parent="parentSchemaObjectBean">
+    <property name="name" value="table" />
+        <property name="sql" >
+            <value>
+                select t.table_schema as "schema"
+                     , t.table_name as "table"
+                  from information_schema.tables t
+                 where lower(t.table_schema) like '${@schemaMask}'
+                   and lower(t.table_name) like '${@tableMask}'
+            </value>
+        </property>
+        <property name="child">
+            <list>
+                <!--<value>#{pk}</value>
+                <value>#{fk}</value>
+                <value>#{index}</value>
+                <value>#{trigger}</value>
+                <value>#{table_grant}</value>
+                <value>#{table_comment}</value>-->
+                <value>#{column}</value>
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean name="create" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="CREATE" />
+                    <property name="template" >
+                        <value><![CDATA[
+                            create table ${schema}.${table} (
+                            <#list srv.get("column") as item>
+                                ${item.name} ${item.getProperty("data_type")},
+                            </#list>
+                            );
+                        ]]></value>
+                    </property>
+                </bean>
+                <bean name="dropTable" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>drop table ${schema}.${table};</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean name="column,clmn,c" parent="parentSchemaObjectBean">
+        <property name="name" value="column" />
+        <property name="sql" >
+            <value>
+                select c.table_schema as "schema"
+                , c.table_name as "table"
+                , c.column_name as "column"
+                , c.data_type as "@data_type"
+                --, c.is_nullable as "@is_nullable"
+                --, c.column_default as "@column_default"
+                --, c.numeric_precision as "@numeric_precision"
+                --, c.numeric_scale as "@numeric_scale"
+                from information_schema.columns c
+                where lower(c.table_schema) like '${@schema}'
+                and lower(c.table_name) like '${@table}'
+                and lower(c.column_name) like '${@column}'
+                order by c.ordinal_position asc
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="addColumn" parent="parentTemplateGeneratorBean">
+                    <property name="template" >
+                        <value>
+                            ALTER TABLE ${schema}.${table} ADD (${column});
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>alter table ${schema}.${table} drop column ${column};</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>
