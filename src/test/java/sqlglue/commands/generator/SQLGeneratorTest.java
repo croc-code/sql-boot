@@ -20,7 +20,7 @@ public class SQLGeneratorTest {
 
     @Test
     public void testGenerate() throws Exception {
-        ApplicationContext context = new ClassPathXmlApplicationContext("db_config.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("config.xml");
 
         Map<String, Object> maps = new HashMap<>();
         maps.put("name", "World");

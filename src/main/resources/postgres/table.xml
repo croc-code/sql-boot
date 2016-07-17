@@ -16,13 +16,13 @@
         </property>
         <property name="child">
             <list>
+                <value>#{column}</value>
+                <value>#{index}</value>
                 <!--<value>#{pk}</value>
                 <value>#{fk}</value>
-                <value>#{index}</value>
                 <value>#{trigger}</value>
                 <value>#{table_grant}</value>
                 <value>#{table_comment}</value>-->
-                <value>#{column}</value>
             </list>
         </property>
         <property name="commands">
@@ -32,11 +32,11 @@
                     <property name="template" >
                         <value><![CDATA[
                             create table ${schema}.${table} (
-                            <#list srv.get("column") as item>
-                                ${item.name} ${item.getProperty("data_type")},
-                            </#list>
-                            );
-                        ]]></value>
+                            <#list srv.get("column") as column>
+                                ${column.name?right_pad(32)} ${column.getProperty("data_type")}${column.getProperty("length")}<#sep>,
+                            </#list>);
+                            ]]>
+                        </value>
                     </property>
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
@@ -55,18 +55,17 @@
         <property name="sql" >
             <value>
                 select c.table_schema as "schema"
-                , c.table_name as "table"
-                , c.column_name as "column"
-                , c.data_type as "@data_type"
-                --, c.is_nullable as "@is_nullable"
-                --, c.column_default as "@column_default"
-                --, c.numeric_precision as "@numeric_precision"
-                --, c.numeric_scale as "@numeric_scale"
-                from information_schema.columns c
-                where lower(c.table_schema) like '${@schema}'
-                and lower(c.table_name) like '${@table}'
-                and lower(c.column_name) like '${@column}'
-                order by c.ordinal_position asc
+                     , c.table_name as "table"
+                     , c.column_name as "column"
+                     , c.udt_name as "@data_type"
+                     , case when c.udt_name like 'varchar%' then '('|| c.character_maximum_length ||')' end as "@length"
+                     , c.is_nullable as "@is_nullable"
+                     , c.column_default as "@column_default"
+                  from information_schema.columns c
+                 where lower(c.table_schema) like '${@schema}'
+                   and lower(c.table_name) like '${@table}'
+                   and lower(c.column_name) like '${@column}'
+                 order by c.ordinal_position asc
             </value>
         </property>
         <property name="commands">
@@ -74,7 +73,7 @@
                 <bean id="addColumn" parent="parentTemplateGeneratorBean">
                     <property name="template" >
                         <value>
-                            ALTER TABLE ${schema}.${table} ADD (${column});
+                            alter table ${schema}.${table} add (${column});
                         </value>
                     </property>
                 </bean>
@@ -88,5 +87,37 @@
         </property>
     </bean>
 
+
+    <bean name="index,idx,i" parent="parentSchemaObjectBean">
+        <property name="name" value="index" />
+        <property name="sql" >
+            <value>
+                select i.schemaname     as "schema"
+                     , i.tablename      as "table"
+                     , i.indexname      as "index"
+                     , i.indexdef       as "@indexdef"
+                  from pg_indexes i
+                 where lower(i.schemaname) like '${@schema}'
+                   and lower(i.tablename) like '${@table}'
+                   and lower(i.indexname) like '${@index}'
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean name="create" parent="parentTemplateGeneratorBean">
+                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/indexes/${index?lower_case}.sql" />
+                    <property name="template" >
+                        <value>${@indexdef?lower_case};</value>
+                    </property>
+                </bean>
+                <bean name="dropTable" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>drop index ${schema}.${index};</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>

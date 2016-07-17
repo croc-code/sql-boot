@@ -20,7 +20,7 @@ public class App {
         GenericXmlApplicationContext context = new GenericXmlApplicationContext();
         /*context.getEnvironment().setActiveProfiles("oracle");*/
         context.getEnvironment().setActiveProfiles("postgres");
-        context.load("db_config.xml");
+        context.load("config.xml");
         context.refresh();
 
         String uri;
@@ -30,40 +30,36 @@ public class App {
         }
         else {
             /*uri = "table/hr";*/
-            uri = "table/public.a%";
+            uri = "i/public.american_football_action_participants%";
         }
 
         ObjURI objURI = new ObjURI(uri);
 
         IDBSchemaObjectType type = context.getBean(objURI.getType(), IDBSchemaObjectType.class);
+
         Map<String, DBSchemaObject> objects = type.scan(objURI.getObjects(), objURI.getAction(), objURI.getRecursive());
 
         for (Map.Entry<String, DBSchemaObject> object : objects.entrySet()) {
             ObjectService objectService = new ObjectService(objects, String.join(".", object.getValue().getObjURI().getObjects()));
-            if (objURI.getType().equals(object.getValue().getType().getName())) {
-                if (((DBSchemaObjectType) object.getValue().getType()).getCommands() != null) {
-                    for (IActionGenerator generator : ((DBSchemaObjectType) object.getValue().getType()).getCommands()) {
-                        if (generator.getAction() != null && generator.getAction().getAliases().contains(objURI.getAction())) {
-                            Map<String, Object> test = new TreeMap<>();
-                            test.putAll(object.getValue().getPaths());
-                            test.put("srv", objectService);
-                            System.out.println(generator.generate(test));
-                        }
+            if (((DBSchemaObjectType) object.getValue().getType()).getCommands() != null) {
+                for (IActionGenerator generator : ((DBSchemaObjectType) object.getValue().getType()).getCommands()) {
+                    if (generator.getAction() != null && generator.getAction().getAliases().contains(objURI.getAction())) {
+                        Map<String, Object> test = new TreeMap<>();
+                        test.putAll(object.getValue().getPaths());
+                        test.put("srv", objectService);
+                        System.out.println(generator.generate(test));
                     }
                 }
             }
         }
 
+        for (Map.Entry<String, DBSchemaObject> object : objects.entrySet()) {
+
+        }
+
         /*if (command.getFilePath() != null) {
             object.getProperties().setProperty("file", "repo/" + templateEngine.process(dataNew, command.getFilePath()));
         }*/
-
-
-        String baseUri = "HR.EMPLOYEES2";
-        ObjectService objectService = new ObjectService(objects, baseUri);
-        for (DBSchemaObject dbSchemaObject : objectService.get("column")) {
-            //System.out.println(dbSchemaObject.getObjURI());
-        }
 
     }
 

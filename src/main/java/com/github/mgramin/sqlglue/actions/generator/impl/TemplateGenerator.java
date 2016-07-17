@@ -11,22 +11,19 @@ import java.util.Map;
 public class TemplateGenerator extends AbstractActionGenerator {
 
     private ITemplateEngine templateEngine;
-    private Map<String, Object> variables;
     private String template;
 
     public TemplateGenerator() {
     }
 
-    public TemplateGenerator(ITemplateEngine templateEngine, Map<String, Object> variables, String template) {
+    public TemplateGenerator(ITemplateEngine templateEngine, String template) {
         this.templateEngine = templateEngine;
-        this.variables = variables;
         this.template = template;
     }
 
     @Override
     public String generate(Map<String, Object> variables) {
         String result = templateEngine.process(variables, template);
-        // Arrays.asList(result.split("\n")).forEach(n -> n.trim());
         return result;
     }
 
@@ -37,14 +34,6 @@ public class TemplateGenerator extends AbstractActionGenerator {
 
     public void setTemplateEngine(ITemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
-    }
-
-    public Map<String, Object> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(Map<String, Object> variables) {
-        this.variables = variables;
     }
 
     public String getTemplate() {

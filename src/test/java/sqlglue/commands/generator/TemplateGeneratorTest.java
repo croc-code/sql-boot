@@ -19,7 +19,7 @@ public class TemplateGeneratorTest {
     public void testGenerate() throws Exception {
         Map<String, Object> maps = new HashMap<>();
         maps.put("name", "World");
-        IActionGenerator commandGenerator = new TemplateGenerator(new FMTemplateEngine(), maps, "Hello, ${name}!");
+        IActionGenerator commandGenerator = new TemplateGenerator(new FMTemplateEngine(), "Hello, ${name}!");
         assertEquals(commandGenerator.generate(maps), "Hello, World!");
     }
 }

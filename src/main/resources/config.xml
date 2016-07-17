@@ -3,8 +3,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <import resource="oracle/all_objects.xml" />
-    <import resource="postgres/all_objects.xml" />
+    <import resource="oracle/config.xml" />
+    <import resource="postgres/config.xml" />
 
 
     <bean id="templateEngine" class="com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine" />
