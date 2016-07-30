@@ -1,0 +1,83 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean name="table,tbl,t" parent="parentSchemaObjectBean">
+        <property name="name" value="table" />
+        <property name="sql" >
+            <value>
+                select keyspace_name as "schema"
+                     , table_name as "table"
+                  from system_schema.tables
+                 where keyspace_name = '${@schemaMask}'
+                  and table_name = '${@tableMask}'
+                 allow filtering
+            </value>
+        </property>
+        <property name="child">
+            <list>
+                <value>#{column}</value>
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean name="create" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="CREATE" />
+                    <property name="template" >
+                        <value><![CDATA[
+                            create table ${schema}.${table} (
+                            <#list srv.get("column") as column>
+                                ${column.name?right_pad(32)} ${column.getProperty("data_type")}<#sep>,
+                            </#list>);
+                            ]]>
+                        </value>
+                    </property>
+                </bean>
+                <bean name="dropTable" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>drop table ${schema}.${table};</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="column,clmn,c" parent="parentSchemaObjectBean">
+        <property name="name" value="column" />
+        <property name="sql" >
+            <value>
+                select keyspace_name as "schema"
+                     , table_name as "table"
+                     , column_name as "column"
+                     , type as "@data_type"
+                     , kind as "@kind"
+                     , position as "@position"
+                     , clustering_order as "@clustering_order"
+                  from system_schema.columns
+                 where keyspace_name = 'testks'
+                   and table_name = 'cats'
+                 allow filtering
+            </value>
+        </property>
+        <property name="commands">
+            <list>
+                <bean id="addColumn" parent="parentTemplateGeneratorBean">
+                    <property name="template" >
+                        <value>
+                            alter table ${schema}.${table} add (${@data_type});
+                        </value>
+                    </property>
+                </bean>
+                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
+                    <property name="action" ref="DROP" />
+                    <property name="template" >
+                        <value>alter table ${schema}.${table} drop column ${column};</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

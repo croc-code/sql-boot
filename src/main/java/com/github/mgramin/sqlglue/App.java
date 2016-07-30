@@ -17,9 +17,12 @@ import java.util.TreeMap;
 public class App {
 
     public static void main(String[] args) {
+
+        // TODO create user filtering rules (e.g. for Cassandra, LIKE etc ...)
+
         GenericXmlApplicationContext context = new GenericXmlApplicationContext();
         /*context.getEnvironment().setActiveProfiles("oracle");*/
-        context.getEnvironment().setActiveProfiles("postgres");
+        context.getEnvironment().setActiveProfiles("cassandra");
         context.load("config.xml");
         context.refresh();
 
@@ -30,7 +33,8 @@ public class App {
         }
         else {
             /*uri = "table/hr";*/
-            uri = "ISqlHelper/public.american_football_action_participants%";
+            /*uri = "ISqlHelper/public.american_football_action_participants%";*/
+            uri = "table/testks.cats";
         }
 
         ObjURI objURI = new ObjURI(uri);

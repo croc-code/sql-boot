@@ -5,6 +5,7 @@
 
     <import resource="oracle/config.xml" />
     <import resource="postgres/config.xml" />
+    <import resource="cassandra/config.xml" />
 
 
     <bean id="templateEngine" class="com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine" />

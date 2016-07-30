@@ -15,25 +15,26 @@ public class JdbcSqlHelper implements ISqlHelper {
         List<Map<String, String>> result = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery(sql)) {
+                    ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                    int columnCount = resultSetMetaData.getColumnCount();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            int columnCount = resultSetMetaData.getColumnCount();
-
-            while (resultSet.next()) {
-                Map<String, String> map = new LinkedHashMap<>();
-                for (int ii = 1; ii < columnCount + 1; ii++) {
-                    String columnName = resultSetMetaData.getColumnName(ii)/*.toLowerCase()*/;
-                    String columnValue = resultSet.getString(columnName)/*.toLowerCase()*/;
-                    map.put(columnName, columnValue);
+                    while (resultSet.next()) {
+                        Map<String, String> map = new LinkedHashMap<>();
+                        for (int ii = 1; ii < columnCount + 1; ii++) {
+                            String columnName = resultSetMetaData.getColumnName(ii)/*.toLowerCase()*/;
+                            String columnValue = resultSet.getString(columnName)/*.toLowerCase()*/;
+                            map.put(columnName, columnValue);
+                        }
+                        result.add(map);
+                    }
                 }
-                result.add(map);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return result;
     }
 
