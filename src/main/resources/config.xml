@@ -9,9 +9,10 @@
 
     <bean id="templateEngine" class="com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine" />
 
-    <bean id="sqlHelper" class="com.github.mgramin.sqlglue.util.SQLHelper">
+    <bean id="sqlHelper" class="com.github.mgramin.sqlglue.util.sql.JdbcSqlHelper">
         <property name="dataSource" ref = "dataSource" />
     </bean>
+
 
     <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.sqlglue.actions.generator.impl.SQLGenerator" abstract="true">
         <property name="dataSource" ref="dataSource" />
@@ -34,15 +35,17 @@
         </property>
     </bean>
 
-    <bean id="parentTemplateGeneratorBean" class = "com.github.mgramin.sqlglue.actions.generator.impl.TemplateGenerator" abstract="true">
+    <bean id="parentTemplateGeneratorBean" class="com.github.mgramin.sqlglue.actions.generator.impl.TemplateGenerator" abstract="true">
         <property name="action" ref="CREATE" />
         <property name="templateEngine" ref="templateEngine" />
     </bean>
+
 
     <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlglue.model.DBSchemaObjectType" abstract="true">
         <property name="sqlHelper" ref="sqlHelper" />
         <property name="templateEngine" ref="templateEngine" />
     </bean>
+
 
 
     <bean name="command" abstract="true" class="com.github.mgramin.sqlglue.actions.Action" />

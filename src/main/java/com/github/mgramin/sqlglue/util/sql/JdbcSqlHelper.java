@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlglue.util;
+package com.github.mgramin.sqlglue.util.sql;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by maksim on 09.07.16.
  */
-public class SQLHelper {
+public class JdbcSqlHelper implements ISqlHelper {
 
     private DataSource dataSource;
 

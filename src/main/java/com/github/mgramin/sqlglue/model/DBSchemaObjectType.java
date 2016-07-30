@@ -2,7 +2,7 @@ package com.github.mgramin.sqlglue.model;
 
 import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlglue.uri.ObjURI;
-import com.github.mgramin.sqlglue.util.SQLHelper;
+import com.github.mgramin.sqlglue.util.sql.JdbcSqlHelper;
 import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
 import org.apache.log4j.Logger;
 
@@ -15,7 +15,7 @@ public class DBSchemaObjectType implements IDBSchemaObjectType {
 
     private final static Logger logger = Logger.getLogger(DBSchemaObjectType.class);
 
-    private SQLHelper sqlHelper;
+    private JdbcSqlHelper sqlHelper;
     private ITemplateEngine templateEngine;
 
 
@@ -94,11 +94,11 @@ public class DBSchemaObjectType implements IDBSchemaObjectType {
         return logger;
     }
 
-    public SQLHelper getSqlHelper() {
+    public JdbcSqlHelper getSqlHelper() {
         return sqlHelper;
     }
 
-    public void setSqlHelper(SQLHelper sqlHelper) {
+    public void setSqlHelper(JdbcSqlHelper sqlHelper) {
         this.sqlHelper = sqlHelper;
     }
 

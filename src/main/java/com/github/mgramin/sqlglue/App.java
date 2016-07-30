@@ -30,7 +30,7 @@ public class App {
         }
         else {
             /*uri = "table/hr";*/
-            uri = "i/public.american_football_action_participants%";
+            uri = "ISqlHelper/public.american_football_action_participants%";
         }
 
         ObjURI objURI = new ObjURI(uri);
