@@ -1,5 +1,7 @@
 package com.github.mgramin.sqlglue.util.sql;
 
+import com.github.mgramin.sqlglue.exceptions.GlueException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,6 @@ import java.util.Map;
  */
 public interface ISqlHelper {
 
-    List<Map<String, String>> select(String sql);
+    List<Map<String, String>> select(String sql) throws GlueException;
 
 }

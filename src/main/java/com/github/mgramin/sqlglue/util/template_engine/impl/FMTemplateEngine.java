@@ -1,6 +1,6 @@
 package com.github.mgramin.sqlglue.util.template_engine.impl;
 
-import com.github.mgramin.sqlglue.exceptions.TemplateEngineException;
+import com.github.mgramin.sqlglue.exceptions.GlueException;
 import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
 import freemarker.core.TemplateElement;
 import freemarker.ext.beans.StringModel;
@@ -35,11 +35,10 @@ public class FMTemplateEngine implements ITemplateEngine {
         return out.toString();
     }
 
-    public List<String> referenceSet(String templateText) throws TemplateEngineException {
+    public List<String> referenceSet(String templateText) throws GlueException {
 
         Configuration cfg = new Configuration();
         Template template = null;
-        Writer out = null;
         try {
             template = new Template("templateName", new StringReader(templateText), cfg);
         } catch (IOException e) {
@@ -78,7 +77,7 @@ public class FMTemplateEngine implements ITemplateEngine {
             }
 
         } catch (NoSuchFieldException | IllegalAccessException | TemplateModelException e) {
-            throw new TemplateEngineException("Unable to reflect template model", e);
+            throw new GlueException("Unable to reflect template model", e);
         }
         return result;
     }

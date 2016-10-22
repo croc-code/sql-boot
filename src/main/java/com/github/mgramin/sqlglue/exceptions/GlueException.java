@@ -3,7 +3,7 @@ package com.github.mgramin.sqlglue.exceptions;
 /**
  * Created by maksim on 12.06.16.
  */
-public abstract class GlueException extends Exception {
+public class GlueException extends Exception {
 
     public GlueException(String message) {
         super(message);

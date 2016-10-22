@@ -1,6 +1,6 @@
 package com.github.mgramin.sqlglue.util.template_engine;
 
-import com.github.mgramin.sqlglue.exceptions.TemplateEngineException;
+import com.github.mgramin.sqlglue.exceptions.GlueException;
 import freemarker.template.TemplateModelException;
 
 import java.util.List;
@@ -25,6 +25,6 @@ public interface ITemplateEngine {
      * @return
      * @throws TemplateModelException
      */
-    List<String> referenceSet(String templateText) throws TemplateEngineException;
+    List<String> referenceSet(String templateText) throws GlueException;
 
 }
