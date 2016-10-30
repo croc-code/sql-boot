@@ -2,7 +2,7 @@ package com.github.mgramin.sqlglue.model;
 
 import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlglue.uri.ObjURI;
-import com.github.mgramin.sqlglue.util.sql.JdbcSqlHelper;
+import com.github.mgramin.sqlglue.util.sql.ISqlHelper;
 import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
 import org.apache.log4j.Logger;
 
@@ -15,15 +15,21 @@ public class DBSchemaObjectType implements IDBSchemaObjectType {
 
     private final static Logger logger = Logger.getLogger(DBSchemaObjectType.class);
 
-    private JdbcSqlHelper sqlHelper;
+    private ISqlHelper sqlHelper;
     private ITemplateEngine templateEngine;
-
 
     private String name;
     private String sql;
     private List<DBSchemaObjectType> child;
     private List<IActionGenerator> commands;
 
+    /**
+     *
+     * @param list
+     * @param action
+     * @param recursive
+     * @return
+     */
     @Override
     public Map<String, DBSchemaObject> scan(List<String> list, String action, Boolean recursive) {
         Map<String, DBSchemaObject> objects = new LinkedHashMap<>();
@@ -56,23 +62,20 @@ public class DBSchemaObjectType implements IDBSchemaObjectType {
                         else {
                             object.addProperty(stringStringEntry.getKey().substring(1), "");
                         }
-
                     }
                 }
-                ObjURI objURI = new ObjURI();
-                List<Object> l = new ArrayList<>(dataNew.values());
-                List<String> strings = (List<String>) (Object) l;
 
-                objURI.setType(this.getName());
-                objURI.setObjects(strings);
-                object.setObjURI(objURI);
+                List<String> strings = (List<String>) (Object) new ArrayList<>(dataNew.values());
+                object.setObjURI(new ObjURI(this.getName(), strings));
 
                 object.setType(this);
                 objects.put(object.getObjURI().toString(), object);
 
-                for (IActionGenerator generator : ((DBSchemaObjectType) object.getType()).getCommands()) {
-                    if (generator.getFilePath() != null) {
-                        System.out.println("repo/" + templateEngine.process(dataNew, generator.getFilePath()));
+                if (object.getType().getCommands() != null) {
+                    for (IActionGenerator generator : object.getType().getCommands()) {
+                        if (generator.getFilePath() != null) {
+                            System.out.println("repo/" + templateEngine.process(dataNew, generator.getFilePath()));
+                        }
                     }
                 }
             }
@@ -90,15 +93,7 @@ public class DBSchemaObjectType implements IDBSchemaObjectType {
     }
 
 
-    public static Logger getLogger() {
-        return logger;
-    }
-
-    public JdbcSqlHelper getSqlHelper() {
-        return sqlHelper;
-    }
-
-    public void setSqlHelper(JdbcSqlHelper sqlHelper) {
+    public void setSqlHelper(ISqlHelper sqlHelper) {
         this.sqlHelper = sqlHelper;
     }
 

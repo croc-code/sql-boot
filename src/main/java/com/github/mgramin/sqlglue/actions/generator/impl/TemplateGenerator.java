@@ -10,11 +10,8 @@ import java.util.Map;
  */
 public class TemplateGenerator extends AbstractActionGenerator {
 
-    private ITemplateEngine templateEngine;
-    private String template;
-
-    public TemplateGenerator() {
-    }
+    public ITemplateEngine templateEngine;
+    public String template;
 
     public TemplateGenerator(ITemplateEngine templateEngine, String template) {
         this.templateEngine = templateEngine;
@@ -28,22 +25,16 @@ public class TemplateGenerator extends AbstractActionGenerator {
     }
 
 
-    public ITemplateEngine getTemplateEngine() {
-        return templateEngine;
-    }
-
     public void setTemplateEngine(ITemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
-    }
-
-    public String getTemplate() {
-        return template;
     }
 
     public void setTemplate(String template) {
         this.template = template;
     }
 
+    public TemplateGenerator() {
+    }
 
     @Override
     public String toString() {

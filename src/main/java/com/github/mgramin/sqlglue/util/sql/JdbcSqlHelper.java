@@ -13,36 +13,26 @@ public class JdbcSqlHelper implements ISqlHelper {
 
     private DataSource dataSource;
 
+    public JdbcSqlHelper(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public List<Map<String, String>> select(String sql) throws GlueException {
         List<Map<String, String>> result = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-            int columnCount = resultSetMetaData.getColumnCount();
-
-            while (resultSet.next()) {
+        try (ResultSet rs = dataSource.getConnection().createStatement().executeQuery(sql)) {
+            ResultSetMetaData rsMetaData = rs.getMetaData();
+            int columnCount = rsMetaData.getColumnCount();
+            while (rs.next()) {
                 Map<String, String> map = new LinkedHashMap<>();
-                for (int ii = 1; ii < columnCount + 1; ii++) {
-                    String columnName = resultSetMetaData.getColumnName(ii)/*.toLowerCase()*/;
-                    String columnValue = resultSet.getString(columnName)/*.toLowerCase()*/;
-                    map.put(columnName, columnValue);
+                for (int i = 1; i < columnCount + 1; i++) {
+                    map.put(rsMetaData.getColumnName(i), rs.getString(i));
                 }
                 result.add(map);
             }
         } catch (SQLException e) {
-            throw new GlueException("");
+            throw new GlueException("SQL Exception", e);
         }
-
         return result;
-    }
-
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
     }
 
 }

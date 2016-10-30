@@ -1,11 +1,15 @@
 package com.github.mgramin.sqlglue.actions.generator;
 
 import com.github.mgramin.sqlglue.actions.Action;
+import com.github.mgramin.sqlglue.actions.generator.impl.SQLGenerator;
+import org.apache.log4j.Logger;
 
 /**
  * Created by maksim on 23.05.16.
  */
 public abstract class AbstractActionGenerator implements IActionGenerator {
+
+    protected final static Logger logger = Logger.getLogger(SQLGenerator.class);
 
     protected String filePath;
     protected Action action;

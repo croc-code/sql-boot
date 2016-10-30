@@ -10,7 +10,7 @@
 
     <bean id="templateEngine" class="com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine" />
 
-    <bean id="sqlHelper" class="com.github.mgramin.sqlglue.util.sql.JdbcSqlHelper">
+    <bean id="sqlHelper" class="com.github.mgramin.sqlglue.util.db.sql.JdbcSqlHelper">
         <property name="dataSource" ref = "dataSource" />
     </bean>
 
@@ -86,6 +86,7 @@
         <property name="name" value="compile" />
         <property name="aliases" value="comp;cmp;^" />
     </bean>
+
 
 
 </beans>

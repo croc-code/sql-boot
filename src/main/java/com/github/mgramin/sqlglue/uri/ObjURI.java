@@ -17,7 +17,11 @@ public class ObjURI {
     private Map<String, String> params = new HashMap<>();
 
     public ObjURI() {
+    }
 
+    public ObjURI(String type, List<String> objects) {
+        this.type = type;
+        this.objects = objects;
     }
 
     public ObjURI(String uri) {
