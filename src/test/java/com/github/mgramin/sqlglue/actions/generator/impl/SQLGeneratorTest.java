@@ -1,6 +1,5 @@
 package com.github.mgramin.sqlglue.actions.generator.impl;
 
-import com.github.mgramin.sqlglue.actions.generator.impl.SQLGenerator;
 import com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine;
 import org.junit.Test;
 import org.junit.runner.RunWith;

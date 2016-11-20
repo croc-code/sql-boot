@@ -17,7 +17,7 @@ public interface ITemplateEngine {
      * @param template
      * @return
      */
-    String process(Map<String, Object> variables, String template);
+    String process(Map<String, Object> variables, String template) throws GlueException;
 
     /**
      * Get all variables from template in order
@@ -25,6 +25,6 @@ public interface ITemplateEngine {
      * @return
      * @throws TemplateModelException
      */
-    List<String> referenceSet(String templateText) throws GlueException;
+    List<String> getAllProperties(String templateText) throws GlueException;
 
 }

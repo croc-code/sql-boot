@@ -1,6 +1,7 @@
 package com.github.mgramin.sqlglue.actions.generator;
 
 import com.github.mgramin.sqlglue.actions.Action;
+import com.github.mgramin.sqlglue.exceptions.GlueException;
 
 import java.util.Map;
 
@@ -9,7 +10,8 @@ import java.util.Map;
  */
 public interface IActionGenerator {
 
-    String generate(Map<String, Object> variables);
+    String generate(Map<String, Object> variables) throws GlueException;
+
 
     String getFilePath();
 

@@ -51,9 +51,7 @@ public class ObjURI {
 
     @Override
     public String toString() {
-
         return type + "/" + String.join(".", objects);
-
         /*return "ObjURI{" +
                 "type='" + type + '\'' +
                 ", action='" + action + '\'' +

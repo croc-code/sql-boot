@@ -23,8 +23,8 @@ public class JdbcSqlHelperTest {
 
     @Test
     public void select() throws Exception {
-        List<Map<String, String>> select = jdbcSqlHelper.select("select name, email from users");
-        assertEquals(select.toString(), "[{NAME=mkyong, EMAIL=mkyong@gmail.com}, {NAME=alex, EMAIL=alex@yahoo.com}, {NAME=joel, EMAIL=joel@gmail.com}]");
+        List<Map<String, String>> select = jdbcSqlHelper.select("select * from (select name AS n, email as mail from main_schema.users)");
+        assertEquals(select.toString(), "[{N=mkyong, MAIL=mkyong@gmail.com}, {N=alex, MAIL=alex@yahoo.com}, {N=joel, MAIL=joel@gmail.com}]");
     }
 
 }

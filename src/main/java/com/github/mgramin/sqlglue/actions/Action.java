@@ -5,19 +5,12 @@ package com.github.mgramin.sqlglue.actions;
  */
 public class Action {
 
-    private String name;
-    private String aliases;
+    public String name;
+    public String aliases;
 
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAliases() {
-        return aliases;
     }
 
     public void setAliases(String aliases) {

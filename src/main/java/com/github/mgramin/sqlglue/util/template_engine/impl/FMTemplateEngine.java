@@ -21,34 +21,33 @@ import java.util.Map;
 public class FMTemplateEngine implements ITemplateEngine {
 
     @Override
-    public String process(Map<String, Object> variables, String templateText) {
-        Configuration cfg = new Configuration();
-        Template template = null;
+    public String process(Map<String, Object> variables, String templateText) throws GlueException {
         Writer out = null;
         try {
-            template = new Template("templateName", new StringReader(templateText), cfg);
+            Configuration cfg = new Configuration();
+            Template template = new Template("templateName", new StringReader(templateText), cfg);
             out = new StringWriter();
             template.process(variables, out);
-        } catch (TemplateException | IOException e) {
-            e.printStackTrace();
-        }
+        } catch (Throwable e) {
+            System.out.println("!!!!!!!!!!!!!!!! = " + variables);
+            System.out.println("!!!!!!!!!!!!!!!! = " + templateText);
+            //new GlueException(e);
+        } /*catch (TemplateException e) {
+            //e.printStackTrace();
+        } catch (IOException e) {
+            //e.printStackTrace();
+        }*/
         return out.toString();
     }
 
-    public List<String> referenceSet(String templateText) throws GlueException {
-
+    public List<String> getAllProperties(String templateText) throws GlueException {
         Configuration cfg = new Configuration();
         Template template = null;
-        try {
-            template = new Template("templateName", new StringReader(templateText), cfg);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         List<String> result = new ArrayList<>();
-        TemplateElement rootTreeNode = template.getRootTreeNode();
-
         try {
+            template = new Template("templateName", new StringReader(templateText), cfg);
+            TemplateElement rootTreeNode = template.getRootTreeNode();
             for (int i = 0; i < rootTreeNode.getChildCount(); i++) {
                 TemplateModel templateModel = rootTreeNode.getChildNodes().get(i);
                 if (!(templateModel instanceof StringModel)) {
@@ -58,7 +57,6 @@ public class FMTemplateEngine implements ITemplateEngine {
                 if (!"DollarVariable".equals(wrappedObject.getClass().getSimpleName())) {
                     continue;
                 }
-
 
                 Object expression = getInternalState(wrappedObject, "expression");
                 switch (expression.getClass().getSimpleName()) {
@@ -76,7 +74,7 @@ public class FMTemplateEngine implements ITemplateEngine {
 
             }
 
-        } catch (NoSuchFieldException | IllegalAccessException | TemplateModelException e) {
+        } catch (NoSuchFieldException | IllegalAccessException | TemplateModelException | IOException e) {
             throw new GlueException("Unable to reflect template model", e);
         }
         return result;

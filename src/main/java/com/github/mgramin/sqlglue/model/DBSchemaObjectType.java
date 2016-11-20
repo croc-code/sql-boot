@@ -1,148 +1,46 @@
 package com.github.mgramin.sqlglue.model;
 
 import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
-import com.github.mgramin.sqlglue.uri.ObjURI;
-import com.github.mgramin.sqlglue.util.sql.ISqlHelper;
-import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
-import org.apache.log4j.Logger;
+import com.github.mgramin.sqlglue.scanners.IObjectScanner;
 
 import java.util.*;
 
 /**
  * Created by maksim on 19.05.16.
  */
-public class DBSchemaObjectType implements IDBSchemaObjectType {
+public class DBSchemaObjectType {
 
-    private final static Logger logger = Logger.getLogger(DBSchemaObjectType.class);
+    public String name;
+    public String description;
+    public List<DBSchemaObjectType> child;
+    public List<IObjectScanner> scanners;
+    public List<IActionGenerator> commands;
 
-    private ISqlHelper sqlHelper;
-    private ITemplateEngine templateEngine;
-
-    private String name;
-    private String sql;
-    private List<DBSchemaObjectType> child;
-    private List<IActionGenerator> commands;
-
-    /**
-     *
-     * @param list
-     * @param action
-     * @param recursive
-     * @return
-     */
-    @Override
-    public Map<String, DBSchemaObject> scan(List<String> list, String action, Boolean recursive) {
-        Map<String, DBSchemaObject> objects = new LinkedHashMap<>();
-        try {
-            Map<String, Object> data = new HashMap();
-            int i=0;
-            for (String s : templateEngine.referenceSet(sql)) {
-                try {
-                    data.put(s, list.get(i++));
-                } catch (Throwable t) {
-                    data.put(s, '%');
-                }
-            }
-
-            String prepareSQL = templateEngine.process(data, sql);
-            logger.debug(prepareSQL);
-
-            for (Map<String, String> stringStringMap : sqlHelper.select(prepareSQL)) {
-                DBSchemaObject object = new DBSchemaObject();
-                object.setPaths(stringStringMap);
-                Map<String, Object> dataNew = new LinkedHashMap<>();
-                for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
-                    if (!stringStringEntry.getKey().startsWith("@")) {
-                        dataNew.put(stringStringEntry.getKey(), stringStringEntry.getValue());
-                        object.setName(stringStringEntry.getValue());
-                    } else {
-                        if (stringStringEntry.getValue() != null) {
-                            object.addProperty(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());
-                        }
-                        else {
-                            object.addProperty(stringStringEntry.getKey().substring(1), "");
-                        }
-                    }
-                }
-
-                List<String> strings = (List<String>) (Object) new ArrayList<>(dataNew.values());
-                object.setObjURI(new ObjURI(this.getName(), strings));
-
-                object.setType(this);
-                objects.put(object.getObjURI().toString(), object);
-
-                if (object.getType().getCommands() != null) {
-                    for (IActionGenerator generator : object.getType().getCommands()) {
-                        if (generator.getFilePath() != null) {
-                            System.out.println("repo/" + templateEngine.process(dataNew, generator.getFilePath()));
-                        }
-                    }
-                }
-            }
-
-            if (this.child != null) {
-                for (DBSchemaObjectType dbSchemaObject : this.child) {
-                    objects.putAll(dbSchemaObject.scan(list, action, true));
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return objects;
-    }
-
-
-    public void setSqlHelper(ISqlHelper sqlHelper) {
-        this.sqlHelper = sqlHelper;
-    }
-
-    public ITemplateEngine getTemplateEngine() {
-        return templateEngine;
-    }
-
-    public void setTemplateEngine(ITemplateEngine templateEngine) {
-        this.templateEngine = templateEngine;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getSql() {
-        return sql;
-    }
-
-    public void setSql(String sql) {
-        this.sql = sql;
-    }
-
-    public List<DBSchemaObjectType> getChild() {
-        return child;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setChild(List<DBSchemaObjectType> child) {
         this.child = child;
     }
 
-    public List<IActionGenerator> getCommands() {
-        return commands;
-    }
-
     public void setCommands(List<IActionGenerator> commands) {
         this.commands = commands;
+    }
+
+    public void setScanners(List<IObjectScanner> scanners) {
+        this.scanners = scanners;
     }
 
     @Override
     public String toString() {
         return "DBSchemaObjectType{" +
                 "name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 

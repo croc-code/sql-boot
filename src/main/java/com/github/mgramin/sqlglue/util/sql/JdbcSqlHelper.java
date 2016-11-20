@@ -11,7 +11,10 @@ import java.util.*;
  */
 public class JdbcSqlHelper implements ISqlHelper {
 
-    private DataSource dataSource;
+    public DataSource dataSource;
+
+    public JdbcSqlHelper() {
+    }
 
     public JdbcSqlHelper(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -35,4 +38,7 @@ public class JdbcSqlHelper implements ISqlHelper {
         return result;
     }
 
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 }

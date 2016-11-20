@@ -6,19 +6,20 @@
     <import resource="oracle/config.xml" />
     <import resource="postgres/config.xml" />
     <import resource="cassandra/config.xml" />
+    <import resource="information_schema/config.xml" />
 
 
     <bean id="templateEngine" class="com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine" />
 
-    <bean id="sqlHelper" class="com.github.mgramin.sqlglue.util.db.sql.JdbcSqlHelper">
+    <bean id="sqlHelper" class="com.github.mgramin.sqlglue.util.sql.JdbcSqlHelper">
         <property name="dataSource" ref = "dataSource" />
     </bean>
 
 
+    <!-- Generators -->
     <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.sqlglue.actions.generator.impl.SQLGenerator" abstract="true">
         <property name="dataSource" ref="dataSource" />
         <property name="templateEngine" ref="templateEngine" />
-        <property name="action" ref="CREATE" />
         <property name="prepareSql" >
             <value>
                 begin
@@ -41,10 +42,15 @@
         <property name="templateEngine" ref="templateEngine" />
     </bean>
 
+    <!-- Scanners -->
+
+    <bean name="baseSqlScanner" class="com.github.mgramin.sqlglue.scanners.impl.SqlObjectScanner" abstract="true">
+        <property name="sqlHelper" ref="sqlHelper"/>
+        <property name="templateEngine" ref="templateEngine"/>
+    </bean>
+
 
     <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlglue.model.DBSchemaObjectType" abstract="true">
-        <property name="sqlHelper" ref="sqlHelper" />
-        <property name="templateEngine" ref="templateEngine" />
     </bean>
 
 
@@ -86,7 +92,5 @@
         <property name="name" value="compile" />
         <property name="aliases" value="comp;cmp;^" />
     </bean>
-
-
 
 </beans>

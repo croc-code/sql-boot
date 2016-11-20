@@ -4,16 +4,7 @@
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean name="table,tbl,t" parent="parentSchemaObjectBean">
-    <property name="name" value="table" />
-        <property name="sql" >
-            <value>
-                select t.table_schema as "schema"
-                     , t.table_name as "table"
-                  from information_schema.tables t
-                 where lower(t.table_schema) like '${@schemaMask}'
-                   and lower(t.table_name) like '${@tableMask}'
-            </value>
-        </property>
+        <property name="name" value="table" />
         <property name="child">
             <list>
                 <value>#{column}</value>
@@ -25,6 +16,23 @@
                 <value>#{table_comment}</value>-->
             </list>
         </property>
+        <!-- -->
+        <property name="scanners">
+            <list>
+                <bean name="sqlScanner" parent="parentTemplateGeneratorBean">
+                    <property name="sql" >
+                        <value>
+                            select t.table_schema as "schema"
+                                 , t.table_name as "table"
+                              from information_schema.tables t
+                             where lower(t.table_schema) like '${@schemaMask}'
+                               and lower(t.table_name) like '${@tableMask}'
+                        </value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <!-- -->
         <property name="commands">
             <list>
                 <bean name="create" parent="parentTemplateGeneratorBean">

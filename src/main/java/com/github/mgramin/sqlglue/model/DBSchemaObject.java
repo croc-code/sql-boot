@@ -10,51 +10,15 @@ import java.util.Properties;
  */
 public class DBSchemaObject implements Comparable<DBSchemaObject> {
 
-    private String name;
-    private IDBSchemaObjectType type;
-    private String ddl;
+    public String name;
+    public DBSchemaObjectType type;
+    public String ddl;
+    public ObjURI objURI;
+    public Map<String, String> paths;
+    public Properties properties = new Properties();
 
-    private ObjURI objURI;
-    private Map<String, String> paths;
-
-    private Properties properties = new Properties();
-
-
-    public String getProperty(String key) {
+    public String getProp(String key) {
         return properties.getProperty(key);
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public IDBSchemaObjectType getType() {
-        return type;
-    }
-
-    public void setType(IDBSchemaObjectType type) {
-        this.type = type;
-    }
-
-    public String getDdl() {
-        return ddl;
-    }
-
-    public void setDdl(String ddl) {
-        this.ddl = ddl;
-    }
-
-    public Properties getProperties() {
-        return properties;
-    }
-
-    public void setProperties(Properties properties) {
-        this.properties = properties;
     }
 
     public void addProperty(Object key, Object value){
@@ -73,25 +37,33 @@ public class DBSchemaObject implements Comparable<DBSchemaObject> {
                 '}';
     }
 
+    public String getName() {
+        return name;
+    }
 
-    @Override
-    public int compareTo(DBSchemaObject o) {
-        return (this.name).compareTo(o.name);
+    public DBSchemaObjectType getType() {
+        return type;
+    }
+
+    public String getDdl() {
+        return ddl;
     }
 
     public ObjURI getObjURI() {
         return objURI;
     }
 
-    public void setObjURI(ObjURI objURI) {
-        this.objURI = objURI;
-    }
-
     public Map<String, String> getPaths() {
         return paths;
     }
 
-    public void setPaths(Map<String, String> paths) {
-        this.paths = paths;
+    public Properties getProperties() {
+        return properties;
     }
+
+    @Override
+    public int compareTo(DBSchemaObject o) {
+        return (this.objURI.toString()).compareTo(o.objURI.toString());
+    }
+
 }
