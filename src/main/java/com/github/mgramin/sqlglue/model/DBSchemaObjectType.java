@@ -3,7 +3,7 @@ package com.github.mgramin.sqlglue.model;
 import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlglue.scanners.IObjectScanner;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by maksim on 19.05.16.

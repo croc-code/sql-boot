@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlglue.actions.generator.impl;
+package sqlglue.actions.generator.impl;
 
 import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlglue.actions.generator.impl.TemplateGenerator;

@@ -1,15 +1,13 @@
-package com.github.mgramin.sqlglue.scanners.impl;
+package sqlglue.scanners.impl;
 
 import com.github.mgramin.sqlglue.actions.generator.impl.TemplateGenerator;
 import com.github.mgramin.sqlglue.model.DBSchemaObjectType;
+import com.github.mgramin.sqlglue.scanners.impl.SqlObjectScanner;
 import com.github.mgramin.sqlglue.uri.ObjURI;
 import com.github.mgramin.sqlglue.util.sql.ISqlHelper;
 import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
 import com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 

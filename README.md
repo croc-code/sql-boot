@@ -1,3 +1,3 @@
 # sql-glue
 
-Evolutionary and transparent db tool for developers, DBA and DevOps engineers
+    Evolutionary and Transparent db tool for Developers, DBA and DevOps Engineers

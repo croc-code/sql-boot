@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlglue.model;
+package sqlglue.model;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

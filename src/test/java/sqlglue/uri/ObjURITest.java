@@ -1,9 +1,6 @@
-package com.github.mgramin.sqlglue.uri;
+package sqlglue.uri;
 
-import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by maksim on 12.06.16.

@@ -1,12 +1,13 @@
 package com.github.mgramin.sqlglue.actions.generator.impl;
 
 import com.github.mgramin.sqlglue.actions.generator.AbstractActionGenerator;
-import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.HashMap;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Map;
 
 /**

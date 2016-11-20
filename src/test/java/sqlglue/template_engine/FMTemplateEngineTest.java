@@ -1,7 +1,7 @@
-package com.github.mgramin.sqlglue.template_engine;
+package sqlglue.template_engine;
 
-import com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine;
 import com.github.mgramin.sqlglue.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine;
 
 import java.util.Arrays;
 import java.util.HashMap;

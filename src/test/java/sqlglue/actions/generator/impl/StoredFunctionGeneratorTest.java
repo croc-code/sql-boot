@@ -1,6 +1,6 @@
-package com.github.mgramin.sqlglue.actions.generator.impl;
+package sqlglue.actions.generator.impl;
 
-import com.github.mgramin.sqlglue.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlglue.actions.generator.impl.StoredFunctionGenerator;
 import com.github.mgramin.sqlglue.util.template_engine.impl.FMTemplateEngine;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by mgramin on 29.10.2016.

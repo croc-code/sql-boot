@@ -3,8 +3,13 @@ package com.github.mgramin.sqlglue.util.sql;
 import com.github.mgramin.sqlglue.exceptions.GlueException;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maksim on 09.07.16.
