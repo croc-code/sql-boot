@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.mgramin.sqlglue</groupId>
-    <artifactId>sql-glue</artifactId>
+    <groupId>com.github.mgramin.sqlboot</groupId>
+    <artifactId>sql-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>sql-glue</name>
-	<description>Evolutionary and Transparent db tool for Developers, DBA and DevOps Engineers</description>
+	<name>sql-boot</name>
+	<description>Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
