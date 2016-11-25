@@ -1,3 +1,3 @@
-# sql-glue
+# sql-boot
 
-    Evolutionary and Transparent db tool for Developers, DBA and DevOps Engineers
+Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers

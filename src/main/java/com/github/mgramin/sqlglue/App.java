@@ -17,7 +17,7 @@ import java.util.TreeMap;
  */
 public class App {
 
-    public static void main(String[] args) throws GlueException {
+    public void main(String[] args) throws GlueException {
 
         // TODO create user filtering rules (e.g. for Cassandra, LIKE etc ...)
 

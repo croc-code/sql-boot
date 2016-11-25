@@ -27,9 +27,9 @@ public class FMTemplateEngineTest {
                               "and lower(c.column_name) like 'id'";
 
         Map<String, Object> maps = new HashMap<>();
+        maps.put("@column", "id");
         maps.put("@schema", "public");
         maps.put("@table", "persons");
-        maps.put("@column", "id");
 
         assertEquals(t.process(maps, txt), result);
     }

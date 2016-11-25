@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import java.util.*;
 
 /**
- * Created by mgramin on 31.10.2016.
+ * Custom-SQL object scanner
  */
 public class SqlObjectScanner extends AbstractObjectScanner implements IObjectScanner {
 
