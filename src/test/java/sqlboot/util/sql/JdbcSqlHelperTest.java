@@ -1,11 +1,11 @@
 package sqlboot.util.sql;
 
-import com.github.mgramin.sqlboot.util.sql.JdbcSqlHelper;
+import com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by mgramin on 24.10.2016.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
 public class JdbcSqlHelperTest {
 

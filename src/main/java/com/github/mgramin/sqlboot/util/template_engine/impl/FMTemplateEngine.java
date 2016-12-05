@@ -22,25 +22,21 @@ public class FMTemplateEngine implements ITemplateEngine {
 
     @Override
     public String process(Map<String, Object> variables, String templateText) throws SqlBootException {
-        Writer out = null;
+        templateText = templateText.replace("!{", "${");
         try {
             Configuration cfg = new Configuration();
             Template template = new Template("templateName", new StringReader(templateText), cfg);
-            out = new StringWriter();
+            Writer out = new StringWriter();
             template.process(variables, out);
-        } catch (Throwable e) {
-            System.out.println("!!!!!!!!!!!!!!!! = " + variables);
-            System.out.println("!!!!!!!!!!!!!!!! = " + templateText);
-            //new SqlBootException(e);
-        } /*catch (TemplateException e) {
-            //e.printStackTrace();
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }*/
-        return out.toString();
+            return out.toString();
+        } catch (TemplateException | IOException e) {
+            System.out.println(templateText + "!!!!!!!!!!!!!!!!!!!!!!");
+            throw new SqlBootException(e);
+        }
     }
 
     public List<String> getAllProperties(String templateText) throws SqlBootException {
+        templateText = templateText.replace("!", "$");
         Configuration cfg = new Configuration();
         Template template = null;
 

@@ -1,6 +1,7 @@
-package com.github.mgramin.sqlboot.util.sql;
+package com.github.mgramin.sqlboot.util.sql.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;

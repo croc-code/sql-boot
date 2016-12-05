@@ -82,11 +82,13 @@
             <version>2.1.1</version>
         </dependency>
 
+		<!-- embedded db for unit-tests and presentations -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${dbh2.version}</version>
 		</dependency>
+
 
 
         <!--Temp dependencies-->
@@ -117,6 +119,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

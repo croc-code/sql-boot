@@ -15,7 +15,7 @@
             <null />
         </constructor-arg>
     </bean>
-
+s
     <import resource="keyspace.xml"/>
     <import resource="column_family.xml"/>
 

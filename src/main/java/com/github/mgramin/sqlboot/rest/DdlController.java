@@ -1,8 +1,13 @@
 package com.github.mgramin.sqlboot.rest;
 
+import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.model.DBSchemaObject;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
-import com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine;
+import com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer;
+import com.github.mgramin.sqlboot.model.ObjectService;
+import com.github.mgramin.sqlboot.scanners.IObjectScanner;
+import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ImportResource;
@@ -11,33 +16,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 @ImportResource("classpath:config.xml")
-public class GreetingController {
+public class DdlController {
 
     @Autowired
-    @Qualifier("templateEngine")
-    FMTemplateEngine templateEngine;
-
-    @Autowired
-    @Qualifier("table")
-    DBSchemaObjectType type;
+    @Qualifier("container")
+    DBSchemaObjectTypeContainer container;
 
 
     @RequestMapping("/ddl")
-    public String greeting(@RequestParam(value="name", defaultValue="World") String name
-    ,HttpServletRequest request) throws SqlBootException {
+    public String getDdl(@RequestParam(value="name", defaultValue="World") String name,
+                         HttpServletRequest request) throws SqlBootException {
 
-        /*StringBuilder builder = new StringBuilder();
+        DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals("table")).findFirst().get();
 
-        GenericXmlApplicationContext context = new GenericXmlApplicationContext();
-        context.getEnvironment().setActiveProfiles("information_schema");
-        context.load("config.xml");
-        context.refresh();
+        StringBuilder builder = new StringBuilder();
 
         ObjURI uri = new ObjURI("t/hr");
-        DBSchemaObjectType type = context.getBean(uri.getType(), DBSchemaObjectType.class);
 
         IObjectScanner scanner = type.scanners.stream().findFirst().get();
 
@@ -52,18 +51,20 @@ public class GreetingController {
                         test.putAll(object.paths);
                         test.put("srv", objectService);
                         String generate = command.generate(test);
-                        System.out.println(generate);
                         builder.append(generate).append("\n");
+                        System.out.println(generate);
+                        System.out.println("****************");
                     }
                 }
             }
 
         }
 
-        return builder.toString();*/
+        return builder.toString();
 
         //return type.name;
-        return type.name.toString();
+
+//        return String.valueOf(type);
 
         /*String s = request.getRequestURL().toString() + "?" + request.getQueryString();
         System.out.println(s.substring(5));

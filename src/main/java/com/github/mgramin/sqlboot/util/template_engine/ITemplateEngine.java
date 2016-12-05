@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by home on 25.01.2015.
+ * Template engine
  */
 public interface ITemplateEngine {
 
     /**
-     * Generate text from template and variables
+     * Generate text from template
      * @param variables
      * @param template
      * @return
@@ -20,7 +20,7 @@ public interface ITemplateEngine {
     String process(Map<String, Object> variables, String template) throws SqlBootException;
 
     /**
-     * Get all variables from template in order
+     * Get all user variables from template in sequence order
      * @param templateText
      * @return
      * @throws TemplateModelException

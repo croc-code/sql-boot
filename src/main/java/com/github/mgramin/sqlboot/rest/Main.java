@@ -7,11 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
 
 	public static void main(String[] args) {
+		SpringApplication application = new SpringApplication();
+		//application.setAdditionalProfiles("spring.profiles.active=information_schema");
 
-		SpringApplication springApplication = new SpringApplication();
-		springApplication.setAdditionalProfiles("information_schema");
-
-		springApplication.run(Main.class, args);
+		application.run(Main.class, args);
 	}
 
 }

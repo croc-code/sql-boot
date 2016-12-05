@@ -18,9 +18,9 @@ public class FMTemplateEngineTest {
     public void testProcess() throws Exception {
         ITemplateEngine t = new FMTemplateEngine();
 
-        String txt = "... where lower(c.table_schema) like '${@schema}'\n" +
-                           "and lower(c.table_name) like '${@table}'\n" +
-                           "and lower(c.column_name) like '${@column}'";
+        String txt = "... where lower(c.table_schema) like '!{@schema}'\n" +
+                           "and lower(c.table_name) like '!{@table}'\n" +
+                           "and lower(c.column_name) like '!{@column}'";
 
         String result = "... where lower(c.table_schema) like 'public'\n" +
                               "and lower(c.table_name) like 'persons'\n" +
@@ -37,9 +37,9 @@ public class FMTemplateEngineTest {
     @org.junit.Test
     public void testGetAllProperties() throws Exception {
         ITemplateEngine t = new FMTemplateEngine();
-        String txt = "... where lower(c.table_schema) like '${@schema}'\n" +
-                           "and lower(c.table_name) like '${@table}'\n" +
-                           "and lower(c.column_name) like '${@column}'";
+        String txt = "... where lower(c.table_schema) like '!{@schema}'\n" +
+                           "and lower(c.table_name) like '!{@table}'\n" +
+                           "and lower(c.column_name) like '!{@column}'";
         assertEquals(t.getAllProperties(txt), Arrays.asList("@schema", "@table", "@column"));
     }
 

@@ -4,6 +4,16 @@
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
        profile="information_schema">
 
+    <bean id="container" class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer">
+        <property name="types">
+            <list>
+                <value>#{table}</value>
+                <value>#{column}</value>
+            </list>
+        </property>
+    </bean>
+
+
     <bean id="table" name="table,tbl,t" parent="parentSchemaObjectBean">
         <property name="name" value="table" />
         <property name="child">
@@ -14,16 +24,7 @@
         <property name="scanners">
             <list>
                 <bean name="sqlScanner" parent="baseSqlScanner">
-                    <property name="sql" >
-                        <value>
-                            select * from (
-                            select t.table_schema as "schema"
-                                 , t.table_name as "table"
-                              from information_schema.tables t
-                             where lower(t.table_schema) like '${@schema}'
-                               and lower(t.table_name) like '${@table}')
-                        </value>
-                    </property>
+                    <property name="sql" value="${table}" />
                 </bean>
             </list>
         </property>
@@ -31,21 +32,11 @@
             <list>
                 <bean name="create" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="CREATE" />
-                    <property name="template" >
-                        <value><![CDATA[
-                            create table ${schema}.${table} (
-                            <#list srv.get("column") as c>
-                                ${c.name?right_pad(32)} ${c.getProp("data_type")}${c.getProp("length")}<#sep>,
-                            </#list>);
-                            ]]>
-                        </value>
-                    </property>
+                    <property name="template" value="${table.create}" />
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
-                    <property name="template" >
-                        <value>drop table ${schema}.${table};</value>
-                    </property>
+                    <property name="template" value="${table.drop}" />
                 </bean>
             </list>
         </property>
@@ -57,23 +48,7 @@
         <property name="scanners">
             <list>
                 <bean name="sqlScanner" parent="baseSqlScanner">
-                    <property name="sql" >
-                        <value>
-                            select * from (
-                            select c.table_schema as "schema"
-                                 , c.table_name as "table"
-                                 , c.column_name as "column"
-                                 , c.type_name as "@data_type"
-                                 , case when c.type_name like 'VARCHAR%' then '('|| c.character_maximum_length ||')' end as "@length"
-                                 , c.nullable as "@nullable"
-                                 , c.column_default as "@column_default"
-                              from information_schema.columns c
-                             where lower(c.table_schema) like '${@schema}'
-                               and lower(c.table_name) like '${@table}'
-                               and lower(c.column_name) like '${@column}'
-                             order by c.ordinal_position asc)
-                        </value>
-                    </property>
+                    <property name="sql" value="${table.column}" />
                 </bean>
             </list>
         </property>
@@ -82,14 +57,14 @@
                 <bean id="addColumn" parent="parentTemplateGeneratorBean">
                     <property name="template" >
                         <value>
-                            alter table ${schema}.${table} add ${column} (${@data_type} ${@length});
+                            alter table @{schema}.@{table} add @{column} (@{@data_type} @{@length});
                         </value>
                     </property>
                 </bean>
                 <bean id="dropColumn" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template" >
-                        <value>alter table ${schema}.${table} drop column ${column};</value>
+                        <value>alter table @{schema}.@{table} drop column @{column};</value>
                     </property>
                 </bean>
             </list>
