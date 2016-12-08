@@ -2,6 +2,7 @@ package sqlboot.template_engine;
 
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
 import com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class FMTemplateEngineTest {
 
-    @org.junit.Test
+    @Test
     public void testProcess() throws Exception {
         ITemplateEngine t = new FMTemplateEngine();
 
@@ -34,7 +35,18 @@ public class FMTemplateEngineTest {
         assertEquals(t.process(maps, txt), result);
     }
 
-    @org.junit.Test
+    @Test
+    public void testPadding() throws Exception {
+        ITemplateEngine t = new FMTemplateEngine();
+        Map<String, Object> maps = new HashMap<>();
+        maps.put("column", "FIRST_NAME");
+
+        assertEquals(t.process(maps, "${column?right_pad(12)}varchar(20)"), "FIRST_NAME  varchar(20)");
+        assertEquals(t.process(maps, "${column?right_pad(15)}varchar(20)"), "FIRST_NAME     varchar(20)");
+        assertEquals(t.process(maps, "${column?right_pad(18)}varchar(20)"), "FIRST_NAME        varchar(20)");
+    }
+
+    @Test
     public void testGetAllProperties() throws Exception {
         ITemplateEngine t = new FMTemplateEngine();
         String txt = "... where lower(c.table_schema) like '!{@schema}'\n" +
@@ -42,5 +54,7 @@ public class FMTemplateEngineTest {
                            "and lower(c.column_name) like '!{@column}'";
         assertEquals(t.getAllProperties(txt), Arrays.asList("@schema", "@table", "@column"));
     }
+
+
 
 }

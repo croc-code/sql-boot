@@ -1,6 +1,7 @@
 package com.github.mgramin.sqlboot.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,11 @@ public class ObjectService {
             }
         }
         return result;
+    }
+
+    public Integer getMaxLength(String type, String name) {
+        DBSchemaObject column = get(type).stream()/*.filter(o -> o.paths.get("table").equalsIgnoreCase(name))*/.max(Comparator.comparing(i -> i.paths.get(type))).get();
+        return column.paths.get("column").length() + 7;
     }
 
 }

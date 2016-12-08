@@ -11,9 +11,7 @@ import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -29,9 +27,7 @@ public class DdlController {
 
 
     @RequestMapping("/ddl")
-    public String getDdl(@RequestParam(value="name", defaultValue="World") String name,
-                         HttpServletRequest request) throws SqlBootException {
-
+    public String getDdl(HttpServletRequest request) throws SqlBootException {
         DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals("table")).findFirst().get();
 
         StringBuilder builder = new StringBuilder();
