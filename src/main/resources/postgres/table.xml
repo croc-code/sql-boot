@@ -3,12 +3,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <bean id="container" class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer">
+        <property name="types">
+            <list>
+                <value>#{table}</value>
+                <value>#{column}</value>
+            </list>
+        </property>
+    </bean>
+
+
     <bean name="table,tbl,t" parent="parentSchemaObjectBean">
         <property name="name" value="table" />
         <property name="child">
             <list>
                 <value>#{column}</value>
-                <value>#{index}</value>
+                <!--<value>#{index}</value>-->
                 <!--<value>#{pk}</value>
                 <value>#{fk}</value>
                 <value>#{trigger}</value>
@@ -16,42 +26,22 @@
                 <value>#{table_comment}</value>-->
             </list>
         </property>
-        <!-- -->
         <property name="scanners">
             <list>
-                <bean name="sqlScanner" parent="parentTemplateGeneratorBean">
-                    <property name="sql" >
-                        <value>
-                            select t.table_schema as "schema"
-                                 , t.table_name as "table"
-                              from information_schema.tables t
-                             where lower(t.table_schema) like '${@schemaMask}'
-                               and lower(t.table_name) like '${@tableMask}'
-                        </value>
-                    </property>
+                <bean name="sqlScanner" parent="baseSqlScanner">
+                    <property name="sql" value="${table}" />
                 </bean>
             </list>
         </property>
-        <!-- -->
         <property name="commands">
             <list>
                 <bean name="create" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="CREATE" />
-                    <property name="template" >
-                        <value><![CDATA[
-                            create table ${schema}.${table} (
-                            <#list srv.get("column") as column>
-                                ${column.name?right_pad(32)} ${column.getProperty("data_type")}${column.getProperty("length")}<#sep>,
-                            </#list>);
-                            ]]>
-                        </value>
-                    </property>
+                    <property name="template" value="${table.create}" />
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
-                    <property name="template" >
-                        <value>drop table ${schema}.${table};</value>
-                    </property>
+                    <property name="template" value="${table.drop}" />
                 </bean>
             </list>
         </property>
@@ -60,43 +50,34 @@
 
     <bean name="column,clmn,c" parent="parentSchemaObjectBean">
         <property name="name" value="column" />
-        <property name="sql" >
-            <value>
-                select c.table_schema as "schema"
-                     , c.table_name as "table"
-                     , c.column_name as "column"
-                     , c.udt_name as "@data_type"
-                     , case when c.udt_name like 'varchar%' then '('|| c.character_maximum_length ||')' end as "@length"
-                     , c.is_nullable as "@is_nullable"
-                     , c.column_default as "@column_default"
-                  from information_schema.columns c
-                 where lower(c.table_schema) like '${@schema}'
-                   and lower(c.table_name) like '${@table}'
-                   and lower(c.column_name) like '${@column}'
-                 order by c.ordinal_position asc
-            </value>
+        <property name="scanners">
+            <list>
+                <bean name="sqlScanner" parent="baseSqlScanner">
+                    <property name="sql" value="${table.column}" />
+                </bean>
+            </list>
         </property>
-        <property name="commands">
+        <!--<property name="commands">
             <list>
                 <bean id="addColumn" parent="parentTemplateGeneratorBean">
                     <property name="template" >
                         <value>
-                            alter table ${schema}.${table} add (${column});
+                            alter table !{schema}.!{table} add (!{column});
                         </value>
                     </property>
                 </bean>
                 <bean id="dropColumn" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template" >
-                        <value>alter table ${schema}.${table} drop column ${column};</value>
+                        <value>alter table !{schema}.!{table} drop column !{column};</value>
                     </property>
                 </bean>
             </list>
-        </property>
+        </property>-->
     </bean>
 
 
-    <bean name="index,idx,i" parent="parentSchemaObjectBean">
+    <!--<bean name="index,idx,i" parent="parentSchemaObjectBean">
         <property name="name" value="index" />
         <property name="sql" >
             <value>
@@ -105,27 +86,27 @@
                      , i.indexname      as "index"
                      , i.indexdef       as "@indexdef"
                   from pg_indexes i
-                 where lower(i.schemaname) like '${@schema}'
-                   and lower(i.tablename) like '${@table}'
-                   and lower(i.indexname) like '${@index}'
+                 where lower(i.schemaname) like '!{@schema}'
+                   and lower(i.tablename) like '!{@table}'
+                   and lower(i.indexname) like '!{@index}'
             </value>
         </property>
         <property name="commands">
             <list>
                 <bean name="create" parent="parentTemplateGeneratorBean">
-                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/indexes/${index?lower_case}.sql" />
+                    <property name="filePath" value="!{schema?lower_case}/tables/!{table?lower_case}/indexes/!{index?lower_case}.sql" />
                     <property name="template" >
-                        <value>${@indexdef?lower_case};</value>
+                        <value>!{@indexdef?lower_case};</value>
                     </property>
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template" >
-                        <value>drop index ${schema}.${index};</value>
+                        <value>drop index !{schema}.!{index};</value>
                     </property>
                 </bean>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
 </beans>

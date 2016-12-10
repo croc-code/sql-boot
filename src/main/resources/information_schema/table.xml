@@ -13,7 +13,6 @@
         </property>
     </bean>
 
-
     <bean id="table" name="table,tbl,t" parent="parentSchemaObjectBean">
         <property name="name" value="table" />
         <property name="child">

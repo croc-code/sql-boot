@@ -1,7 +1,7 @@
 spring:
   profiles.active: information_schema
 
-tables: |
+table: |
   select * from (
     select t.table_schema as "schema"
          , t.table_name as "table"
@@ -11,31 +11,25 @@ tables: |
 
 table.create: |
   create table !{schema}.!{table} (
-  <#list srv.get("column") as c>
-    !{c.name?right_pad(srv.getMaxLength("column", "countries"))} !{c.getProp("data_type")?lower_case}!{c.getProp("length")}<#sep>,
+    <#list srv.get("column") as c>
+      !{c.name?right_pad(32)} !{c.getProp("data_type")}!{c.getProp("length")}<#sep>,
   </#list>);
 
 table.drop: |
   drop table !{schema}.!{table};
 
 
-table.columns: |
+table.column: |
   select * from (
-    select c.table_schema   as "schema"
-         , c.table_name     as "table"
-         , c.column_name    as "column"
-         , c.type_name      as "@data_type"
+    select c.table_schema as "schema"
+         , c.table_name as "table"
+         , c.column_name as "column"
+         , c.type_name as "@data_type"
          , case when c.type_name like 'VARCHAR%' then '('|| c.character_maximum_length ||')' end as "@length"
-         , c.nullable       as "@nullable"
+         , c.nullable as "@nullable"
          , c.column_default as "@column_default"
-     from information_schema.columns c
-    where lower(c.table_schema) like '!{@schema}'
-      and lower(c.table_name) like '!{@table}'
-      and lower(c.column_name) like '!{@column}'
-    order by c.ordinal_position asc)
-
-table.column.create: |
-  alter table !{schema}.!{table} add !{column} ... ;
-
-table.column.drop: |
-  alter table !{schema}.!{table} drop column !{column};
+    from information_schema.columns c
+   where lower(c.table_schema) like '!{@schema}'
+     and lower(c.table_name) like '!{@table}'
+     and lower(c.column_name) like '!{@column}'
+   order by c.ordinal_position asc)
