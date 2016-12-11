@@ -6,17 +6,16 @@ tables: |
     select t.table_schema as "schema"
          , t.table_name as "table"
       from information_schema.tables t
-     where lower(t.table_schema) like '!{@schema}'
-       and lower(t.table_name) like '!{@table}')
+     where lower(t.table_schema) like '$schema'
+       and lower(t.table_name) like '$table')
 
 table.create: |
-  create table !{schema}.!{table} (
-    <#list srv.get("column") as c>
-      !{c.name?right_pad(32)} !{c.getProp("data_type")}!{c.getProp("length")}<#sep>,
-  </#list>);
+  create table $schema.$table (<%srv.get('column').each {%>
+    $it.name $it.properties.data_type,<%}%>
+  );
 
 table.drop: |
-  drop table !{schema}.!{table};
+  drop table $schema.$table;
 
 
 table.columns: |
@@ -29,16 +28,16 @@ table.columns: |
          , c.nullable as "@nullable"
          , c.column_default as "@column_default"
     from information_schema.columns c
-   where lower(c.table_schema) like '!{@schema}'
-     and lower(c.table_name) like '!{@table}'
-     and lower(c.column_name) like '!{@column}'
+   where lower(c.table_schema) like '$schema'
+     and lower(c.table_name) like '$table'
+     and lower(c.column_name) like '$column'
    order by c.ordinal_position asc)
+
 
 
 ---
 spring:
   profiles: postgres
-
 
 table: |
   select t.table_schema as "schema"

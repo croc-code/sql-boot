@@ -1,4 +1,4 @@
-package sqlboot.template_engine;
+package com.github.mgramin.sqlboot.util.template_engine.impl;
 
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
 import com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine;

@@ -9,7 +9,8 @@
     <import resource="information_schema/config.xml" />
 
 
-    <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />
+    <!--<bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />-->
+    <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
 
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
         <property name="dataSource" ref = "dataSource" />

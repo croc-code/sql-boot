@@ -58,10 +58,10 @@ public class SqlObjectScanner extends AbstractObjectScanner implements IObjectSc
             for (Map<String, String> stringStringMap : select) {
                 DBSchemaObject object = new DBSchemaObject();
                 object.paths = stringStringMap;
-                Map<String, Object> dataNew = new LinkedHashMap<>();
+                List<String> objectsForUri = new ArrayList<>();
                 for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
                     if (!stringStringEntry.getKey().startsWith("@")) {
-                        dataNew.put(stringStringEntry.getKey(), stringStringEntry.getValue());
+                        objectsForUri.add(stringStringEntry.getValue());
                         object.name = stringStringEntry.getValue();
                     } else {
                         if (stringStringEntry.getValue() != null) {
@@ -72,9 +72,7 @@ public class SqlObjectScanner extends AbstractObjectScanner implements IObjectSc
                         }
                     }
                 }
-
-                List<String> strings = (List<String>) (Object) new ArrayList<>(dataNew.values());
-                object.objURI = new ObjURI(type.name, strings);
+                object.objURI = new ObjURI(type.name, objectsForUri);
                 object.type = type;
                 objects.put(object.objURI.toString(), object);
             }
