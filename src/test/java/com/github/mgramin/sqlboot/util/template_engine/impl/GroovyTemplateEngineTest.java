@@ -17,9 +17,9 @@ public class GroovyTemplateEngineTest {
     public void process() throws Exception {
         ITemplateEngine t = new GroovyTemplateEngine();
 
-        String txt = "... where lower(c.table_schema) like '$schema'\n" +
-                "and lower(c.table_name) like '$table'\n" +
-                "and lower(c.column_name) like '$column'";
+        String txt = "... where lower(c.table_schema) like '!schema'\n" +
+                "and lower(c.table_name) like '!table'\n" +
+                "and lower(c.column_name) like '!column'";
 
         String result = "... where lower(c.table_schema) like 'public'\n" +
                 "and lower(c.table_name) like 'persons'\n" +
@@ -31,6 +31,9 @@ public class GroovyTemplateEngineTest {
         maps.put("schema", "public");
 
         assertEquals(t.process(maps, txt), result);
+
+        assertEquals(t.process(maps, "create table !{table.toLowerCase()} ..."), "create table persons ...");
+
     }
 
     @Test
