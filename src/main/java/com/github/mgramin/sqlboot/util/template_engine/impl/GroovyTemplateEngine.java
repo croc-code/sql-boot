@@ -26,29 +26,21 @@ public class GroovyTemplateEngine implements ITemplateEngine {
     }
 
     @Override
-    public String process(Map<String, Object> variables, String template) {
-        template = template.replace("!", "$");
-        Writable folderTemplate = null;
+    public String process(Map<String, Object> variables, String template) throws SqlBootException {
         try {
-            folderTemplate = engine.createTemplate(template).make(variables);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return engine.createTemplate(template.replace("!", "$")).make(variables).toString();
+        } catch (ClassNotFoundException | IOException e) {
+            throw new SqlBootException(e);
         }
-        return folderTemplate.toString();
     }
 
     @Override
     public List<String> getAllProperties(String templateText) throws SqlBootException {
-        templateText = templateText.replace("!", "$");
         List<String> result = new ArrayList<>();
         Pattern p = Pattern.compile("\\$\\s*(\\w+)");
-        Matcher m = p.matcher(templateText);
+        Matcher m = p.matcher(templateText.replace("!", "$"));
         while (m.find())
-        {
             result.add(m.group(1));
-        }
         return result;
     }
 

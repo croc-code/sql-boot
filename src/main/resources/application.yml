@@ -11,7 +11,7 @@ tables: |
 
 table.create: |
   create table $schema.$table (<%srv.get('column').each {%>
-    $it.name    !{it.properties.data_type.toLowerCase()}$it.properties.length ,<%}%>
+    $it.name    !{it.properties.data_type.toLowerCase()}!{it.properties.length},<%}%>
   );
 
 table.drop: |
