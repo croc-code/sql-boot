@@ -7,11 +7,13 @@ tables: |
          , t.table_name     as "table"
       from information_schema.tables t
      where lower(t.table_schema) like '$schema'
-       and lower(t.table_name) like '$table')
+       and lower(t.table_name) like '$table'
+     order by t.table_schema
+       and t.table_schema)
 
 table.create: |
-  create table $schema.$table (<%srv.get('column').each {%>
-    !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
+  create table "$schema"."$table" (<%srv.get('column').each {%>
+    "!{it.name.padRight(20)}"!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
 table.drop: |
