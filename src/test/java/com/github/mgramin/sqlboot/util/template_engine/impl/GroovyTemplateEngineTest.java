@@ -19,9 +19,9 @@ public class GroovyTemplateEngineTest {
     public void process() throws SqlBootException {
         ITemplateEngine templateEngine = new GroovyTemplateEngine();
 
-        String txt = "... where lower(c.table_schema) like '!schema'\n" +
-                "and lower(c.table_name) like '!table'\n" +
-                "and lower(c.column_name) like '!column'";
+        String txt = "... where lower(c.table_schema) like '$schema'\n" +
+                "and lower(c.table_name) like '$table'\n" +
+                "and lower(c.column_name) like '$column'";
 
         String result = "... where lower(c.table_schema) like 'public'\n" +
                 "and lower(c.table_name) like 'persons'\n" +
@@ -37,7 +37,7 @@ public class GroovyTemplateEngineTest {
 
     @Test
     public void processLoweCase() throws SqlBootException {
-        ITemplateEngine templateEngine = new GroovyTemplateEngine();
+    ITemplateEngine templateEngine = new GroovyTemplateEngine();
 
         Map<String, Object> maps = new HashMap<>();
         maps.put("column", "id");
@@ -45,6 +45,8 @@ public class GroovyTemplateEngineTest {
         maps.put("schema", "public");
 
         assertEquals(templateEngine.process(maps, "create table !{table.toLowerCase()} ..."), "create table persons ...");
+
+        //assertEquals(templateEngine.process(maps, "!{table.toLowerCase()} ..."), "create table persons ...");
     }
 
     @Test

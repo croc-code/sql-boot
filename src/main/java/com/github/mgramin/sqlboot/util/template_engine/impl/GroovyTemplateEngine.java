@@ -2,9 +2,7 @@ package com.github.mgramin.sqlboot.util.template_engine.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
-import groovy.lang.Writable;
 import groovy.text.GStringTemplateEngine;
-import groovy.text.SimpleTemplateEngine;
 import groovy.text.TemplateEngine;
 
 import java.io.IOException;
@@ -28,7 +26,7 @@ public class GroovyTemplateEngine implements ITemplateEngine {
     @Override
     public String process(Map<String, Object> variables, String template) throws SqlBootException {
         try {
-            return engine.createTemplate(template.replace("!", "$")).make(variables).toString();
+            return engine.createTemplate(template.replace("!{", "${")).make(variables).toString();
         } catch (ClassNotFoundException | IOException e) {
             throw new SqlBootException(e);
         }
