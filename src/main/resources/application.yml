@@ -12,7 +12,7 @@ tables: |
 
 table.create: |
   create table "$schema"."$table" (<%srv.get('column').each {%>
-    "!{it.name.padRight(20)}"!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
+    !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
 table.drop: |
@@ -44,17 +44,17 @@ table: |
   select t.table_schema     as "schema"
        , t.table_name       as "table"
     from information_schema.tables t
-   where lower(t.table_schema) like '!{@schema}'
-     and lower(t.table_name) like '!{@table}'
+   where t.table_type='BASE TABLE'
+     and lower(t.table_schema) like '$schema'
+     and lower(t.table_name) like '$table'
 
 table.create: |
-  create table !{schema}.!{table} (
-  <#list srv.get("column") as column>
-    !{column.name?right_pad(32)} !{column.getProperty("data_type")}!{column.getProperty("length")}<#sep>,
-  </#list>);
+  create table "$schema"."$table" (<%srv.get('column').each {%>
+    !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
+  );
 
 table.drop: |
-  drop table !{schema}.!{table};
+  drop table $schema.$table;
 
 table.column: |
   select c.table_schema     as "schema"
@@ -65,7 +65,11 @@ table.column: |
        , c.is_nullable      as "@is_nullable"
        , c.column_default   as "@column_default"
     from information_schema.columns c
-   where lower(c.table_schema) like '!{@schema}'
-     and lower(c.table_name) like '!{@table}'
-     and lower(c.column_name) like '!{@column}'
+        ,information_schema.tables t
+   where t.table_schema = c.table_schema
+     and t.table_name = c.table_name
+     and t.table_type='BASE TABLE'
+     and lower(c.table_schema) like '$schema'
+     and lower(c.table_name) like '$table'
+     and lower(c.column_name) like '$column'
    order by c.ordinal_position asc

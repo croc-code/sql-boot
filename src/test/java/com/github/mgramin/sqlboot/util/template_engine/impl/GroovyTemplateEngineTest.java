@@ -45,8 +45,6 @@ public class GroovyTemplateEngineTest {
         maps.put("schema", "public");
 
         assertEquals(templateEngine.process(maps, "create table !{table.toLowerCase()} ..."), "create table persons ...");
-
-        //assertEquals(templateEngine.process(maps, "!{table.toLowerCase()} ..."), "create table persons ...");
     }
 
     @Test

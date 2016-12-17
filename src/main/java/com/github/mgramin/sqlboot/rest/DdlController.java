@@ -26,13 +26,15 @@ public class DdlController {
     DBSchemaObjectTypeContainer container;
 
 
-    @RequestMapping("/ddl")
+    @RequestMapping("/ddl/**")
     public String getDdl(HttpServletRequest request) throws SqlBootException {
-        DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals("table")).findFirst().get();
+
+        String s = request.getServletPath() .toString() /*+ "?" + request.getQueryString()*/;
+        ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
+
+        DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
 
         StringBuilder builder = new StringBuilder();
-
-        ObjURI uri = new ObjURI("t/hr");
 
         IObjectScanner scanner = type.scanners.stream().findFirst().get();
 
@@ -56,16 +58,15 @@ public class DdlController {
 
         }
 
+
+
         return builder.toString();
 
         //return type.name;
 
 //        return String.valueOf(type);
 
-        /*String s = request.getRequestURL().toString() + "?" + request.getQueryString();
-        System.out.println(s.substring(5));
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));*/
+
     }
 
 }
