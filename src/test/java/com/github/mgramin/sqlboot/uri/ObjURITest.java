@@ -1,4 +1,4 @@
-package sqlboot.uri;
+package com.github.mgramin.sqlboot.uri;
 
 import org.junit.Test;
 

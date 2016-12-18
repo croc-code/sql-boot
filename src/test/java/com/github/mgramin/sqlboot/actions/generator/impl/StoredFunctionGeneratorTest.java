@@ -1,6 +1,5 @@
-package sqlboot.actions.generator.impl;
+package com.github.mgramin.sqlboot.actions.generator.impl;
 
-import com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator;
 import com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,21 +14,26 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by maksim on 08.04.16.
+ * Created by mgramin on 29.10.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class SQLGeneratorTest {
+public class StoredFunctionGeneratorTest {
 
     @Autowired
     DataSource dataSource;
 
     @Test
-    public void testGenerate() throws Exception {
-        SQLGenerator sqlGenerator = new SQLGenerator(dataSource, new FMTemplateEngine(), "select 'Hello, ${name}!'");
+    public void generate() throws Exception {
+        StoredFunctionGenerator actionGenerator = new StoredFunctionGenerator();
+        actionGenerator.setDataSource(dataSource);
+        actionGenerator.setTemplateEngine(new FMTemplateEngine());
+        actionGenerator.setFunctionName("getVersion");
+
         Map map = new HashMap<String, String>();
         map.put("name", "World");
-        assertEquals(sqlGenerator.generate(map), "Hello, World!");
+
+        assertEquals(actionGenerator.generate(map), "1.4.187");
     }
 
 }

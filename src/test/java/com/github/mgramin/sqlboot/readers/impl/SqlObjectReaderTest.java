@@ -1,8 +1,7 @@
-package sqlboot.readers.impl;
+package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
-import com.github.mgramin.sqlboot.readers.impl.SqlObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;

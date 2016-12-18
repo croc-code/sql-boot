@@ -1,4 +1,4 @@
-package sqlboot.util.sql;
+package com.github.mgramin.sqlboot.util.sql;
 
 import com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper;
 import org.junit.Test;

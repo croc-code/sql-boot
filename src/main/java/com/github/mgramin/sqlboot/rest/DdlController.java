@@ -32,49 +32,25 @@ public class DdlController {
 
     @RequestMapping(value = "/ddl/**", method = RequestMethod.GET, produces = {MediaType.TEXT_PLAIN_VALUE})
     public byte[] getTextDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
-
         String s = request.getServletPath().toString();
-        ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
-
-        DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
-
-        IDBObjectReader reader = type.readers.stream().findFirst().get();
-
-        Map<String, DBSchemaObject> objects = reader.readr(uri, type);
-
-        List<DBSchemaObject> objectsNew = new ArrayList();
-
-        for (DBSchemaObject object : objects.values()) {
-            ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
-            if (object.type.commands == null)
-                continue;
-            IActionGenerator command = object.type.commands.stream().filter(n -> n.getAction().name.equals(uri.getAction())).findFirst().get();
-            Map<String, Object> test = new TreeMap<>();
-            test.putAll(object.paths);
-            test.put("srv", objectService);
-            object.ddl = command.generate(test);
-            objectsNew.add(object);
-        }
-
         response.setHeader("Content-Disposition", "inline;");
-        return new TextAggregator().aggregate(objectsNew);
+        return new TextAggregator().aggregate(getDbSchemaObjects(s));
     }
-
 
     @RequestMapping(value = "/ddl/**", params = {"type=zip"}, method = RequestMethod.GET, produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public byte[] getZipDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
-
         String s = request.getServletPath().toString();
+        response.setHeader("Content-Disposition", "attachment; filename=result.zip");
+        return new ZipAggregator().aggregate(getDbSchemaObjects(s));
+    }
+
+
+    private List<DBSchemaObject> getDbSchemaObjects(String s) throws SqlBootException {
         ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
-
         DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
-
         IDBObjectReader reader = type.readers.stream().findFirst().get();
-
         Map<String, DBSchemaObject> objects = reader.readr(uri, type);
-
         List<DBSchemaObject> objectsNew = new ArrayList();
-
         for (DBSchemaObject object : objects.values()) {
             ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
             if (object.type.commands == null)
@@ -86,9 +62,7 @@ public class DdlController {
             object.ddl = command.generate(test);
             objectsNew.add(object);
         }
-
-        response.setHeader("Content-Disposition", "attachment; filename=result.zip");
-        return new ZipAggregator().aggregate(objectsNew);
+        return objectsNew;
     }
 
 }
