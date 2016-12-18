@@ -1,9 +1,6 @@
 package com.github.mgramin.sqlboot.uri;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by maksim on 12.06.16.
@@ -14,7 +11,7 @@ public class ObjURI {
     private String action;
     private List<String> objects;
     private Boolean recursive;
-    private Map<String, String> params = new HashMap<>();
+    private Map<String, String> params = new LinkedHashMap<>();
 
     public ObjURI() {
     }
@@ -36,7 +33,7 @@ public class ObjURI {
         List<String> list = Arrays.asList(pathString.split("[/]"));
         type = list.get(0);
         objects = Arrays.asList(list.get(1).split("[.]"));
-        if (list.size()==3)
+        if (list.size() == 3)
             action = list.get(2);
         else
             action = "create";
@@ -51,14 +48,31 @@ public class ObjURI {
 
     @Override
     public String toString() {
-        return type + "/" + String.join(".", objects);
-        /*return "ObjURI{" +
+        StringBuilder result = new StringBuilder(type + "/" + String.join(".", objects));
+        if (!action.equals("create"))
+            result.append("/").append(action);
+        if (recursive && !action.equals("create"))
+            result.append("/");
+        if (!params.isEmpty()) {
+            result.append("?");
+            int i = 0;
+            for (Map.Entry<String, String> stringStringEntry : params.entrySet()) {
+                if (++i!=1)
+                    result.append("&");
+                result.append(stringStringEntry.getKey()).append("=").append(stringStringEntry.getValue());
+            }
+        }
+        return result.toString();
+    }
+
+    public String toJson() {
+        return "ObjURI{" +
                 "type='" + type + '\'' +
                 ", action='" + action + '\'' +
                 ", objects=" + objects +
                 ", recursive=" + recursive +
                 ", params=" + params +
-                '}';*/
+                '}';
     }
 
     public String getType() {
