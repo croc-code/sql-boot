@@ -1,10 +1,10 @@
-package com.github.mgramin.sqlboot.scanners.impl;
+package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
-import com.github.mgramin.sqlboot.scanners.AbstractObjectScanner;
-import com.github.mgramin.sqlboot.scanners.IObjectScanner;
+import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
+import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
@@ -13,9 +13,9 @@ import org.apache.log4j.Logger;
 import java.util.*;
 
 /**
- * Custom-SQL object scanner
+ * Custom-SQL db object reader
  */
-public class SqlObjectScanner extends AbstractObjectScanner implements IObjectScanner {
+public class SqlObjectReader extends AbstractObjectReader implements IDBObjectReader {
 
     private final static Logger logger = Logger.getLogger(DBSchemaObjectType.class);
 
@@ -25,10 +25,10 @@ public class SqlObjectScanner extends AbstractObjectScanner implements IObjectSc
     public String prepareSql;
 
 
-    public SqlObjectScanner() {
+    public SqlObjectReader() {
     }
 
-    public SqlObjectScanner(ISqlHelper sqlHelper, ITemplateEngine templateEngine, String sql, String prepareSql) {
+    public SqlObjectReader(ISqlHelper sqlHelper, ITemplateEngine templateEngine, String sql, String prepareSql) {
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
         this.sql = sql;
@@ -36,7 +36,7 @@ public class SqlObjectScanner extends AbstractObjectScanner implements IObjectSc
     }
 
     @Override
-    public Map<String, DBSchemaObject> scan(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
+    public Map<String, DBSchemaObject> read(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
         List<String> list = objURI.getObjects();
 
         Map<String, DBSchemaObject> objects = new LinkedHashMap<>();
@@ -101,7 +101,7 @@ public class SqlObjectScanner extends AbstractObjectScanner implements IObjectSc
 
     @Override
     public String toString() {
-        return "SqlObjectScanner{" +
+        return "SqlObjectReader{" +
                 "sql='" + sql + '\'' +
                 '}';
     }

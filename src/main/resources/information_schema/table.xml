@@ -20,9 +20,9 @@
                 <value>#{column}</value>
             </list>
         </property>
-        <property name="scanners">
+        <property name="readers">
             <list>
-                <bean name="sqlScanner" parent="baseSqlScanner">
+                <bean name="sqlReader" parent="baseSqlReader">
                     <property name="sql" value="${tables}" />
                 </bean>
             </list>
@@ -43,9 +43,9 @@
 
     <bean name="column,clmn,c" parent="parentSchemaObjectBean">
         <property name="name" value="column" />
-        <property name="scanners">
+        <property name="readers">
             <list>
-                <bean name="sqlScanner" parent="baseSqlScanner">
+                <bean name="sqlReader" parent="baseSqlReader">
                     <property name="sql" value="${table.columns}" />
                 </bean>
             </list>

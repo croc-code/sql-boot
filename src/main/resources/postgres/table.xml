@@ -26,9 +26,9 @@
                 <value>#{table_comment}</value>-->
             </list>
         </property>
-        <property name="scanners">
+        <property name="readers">
             <list>
-                <bean name="sqlScanner" parent="baseSqlScanner">
+                <bean name="sqlReader" parent="baseSqlReader">
                     <property name="sql" value="${table}" />
                 </bean>
             </list>
@@ -50,9 +50,9 @@
 
     <bean name="column,clmn,c" parent="parentSchemaObjectBean">
         <property name="name" value="column" />
-        <property name="scanners">
+        <property name="readers">
             <list>
-                <bean name="sqlScanner" parent="baseSqlScanner">
+                <bean name="sqlReader" parent="baseSqlReader">
                     <property name="sql" value="${table.column}" />
                 </bean>
             </list>

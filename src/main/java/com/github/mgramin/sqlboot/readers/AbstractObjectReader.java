@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlboot.scanners;
+package com.github.mgramin.sqlboot.readers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
@@ -11,16 +11,15 @@ import java.util.Map;
 /**
  * Created by mgramin on 03.11.2016.
  */
-public abstract class AbstractObjectScanner implements IObjectScanner {
+public abstract class AbstractObjectReader implements IDBObjectReader {
 
-    public Map<String, DBSchemaObject> scanr(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
+    public Map<String, DBSchemaObject> readr(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
         Map<String, DBSchemaObject> objects = new LinkedHashMap<>();
-        objects.putAll(this.scan(objURI, type));
+        objects.putAll(this.read(objURI, type));
 
         if (type.child != null) {
-            for (DBSchemaObjectType childType : type.child) {
-                objects.putAll(childType.scanners.stream().findFirst().get().scan(objURI, childType));
-            }
+            for (DBSchemaObjectType childType : type.child)
+                objects.putAll(childType.readers.stream().findFirst().get().read(objURI, childType));
         }
         return objects;
     }

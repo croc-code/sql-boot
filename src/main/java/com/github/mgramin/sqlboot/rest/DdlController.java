@@ -6,7 +6,7 @@ import com.github.mgramin.sqlboot.model.DBSchemaObject;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer;
 import com.github.mgramin.sqlboot.model.ObjectService;
-import com.github.mgramin.sqlboot.scanners.IObjectScanner;
+import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,9 +37,9 @@ public class DdlController {
 
         DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
 
-        IObjectScanner scanner = type.scanners.stream().findFirst().get();
+        IDBObjectReader reader = type.readers.stream().findFirst().get();
 
-        Map<String, DBSchemaObject> objects = scanner.scanr(uri, type);
+        Map<String, DBSchemaObject> objects = reader.readr(uri, type);
 
         List<DBSchemaObject> objectsNew = new ArrayList();
 

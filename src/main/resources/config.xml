@@ -44,9 +44,9 @@
         <property name="templateEngine" ref="templateEngine" />
     </bean>
 
-    <!-- Scanners -->
+    <!-- DB-object readers -->
 
-    <bean name="baseSqlScanner" class="com.github.mgramin.sqlboot.scanners.impl.SqlObjectScanner" abstract="true">
+    <bean name="baseSqlReader" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader" abstract="true">
         <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine"/>
     </bean>

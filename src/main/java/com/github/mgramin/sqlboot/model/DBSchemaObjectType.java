@@ -1,7 +1,7 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
-import com.github.mgramin.sqlboot.scanners.IObjectScanner;
+import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class DBSchemaObjectType {
     public String name;
     public String description;
     public List<DBSchemaObjectType> child;
-    public List<IObjectScanner> scanners;
+    public List<IDBObjectReader> readers;
     public List<IActionGenerator> commands;
 
     public void setName(String name) {
@@ -32,8 +32,8 @@ public class DBSchemaObjectType {
         this.commands = commands;
     }
 
-    public void setScanners(List<IObjectScanner> scanners) {
-        this.scanners = scanners;
+    public void setReaders(List<IDBObjectReader> readers) {
+        this.readers = readers;
     }
 
     @Override
