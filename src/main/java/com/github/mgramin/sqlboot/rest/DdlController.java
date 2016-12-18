@@ -55,11 +55,11 @@ public class DdlController {
             objectsNew.add(object);
         }
 
-        response.setHeader("Content-Disposition", "inline;");
-        //response.setContentType("application/pdf");
+        //response.setHeader("Content-Disposition", "inline;");
+        response.setHeader("Content-Disposition", "attachment; filename=result.zip");
+        //response.setContentType("application/zip");
 
-        //return builder.toString();
-        return new TextAggregator().aggregate(objectsNew);
+        return new ZipAggregator().aggregate(objectsNew);
     }
 
 }

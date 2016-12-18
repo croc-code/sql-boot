@@ -1,6 +1,7 @@
 package com.github.mgramin.sqlboot.util;
 
 import java.io.*;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -9,42 +10,26 @@ import java.util.zip.ZipOutputStream;
  */
 public class ZipHelper {
 
-    FileOutputStream fos;
-    ByteArrayOutputStream baos;
-    ZipOutputStream zos;
-
-    public ZipHelper(File zipFile) {
-        this.zipFile = zipFile;
+    public byte[] create(Map<String, byte[]> files) {
         try {
-            fos = new FileOutputStream (new File("test.zip"));
-            baos = new ByteArrayOutputStream();
-            zos = new ZipOutputStream(baos);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
 
-    public void addFile(File file, String text) {
-        try {
-            ZipEntry entry = new ZipEntry(String.valueOf(file));
-            zos.putNextEntry(entry);
-            zos.write(text.getBytes());
-            zos.closeEntry();
+            for (Map.Entry<String, byte[]> stringEntry : files.entrySet()) {
+                ZipEntry entry = new ZipEntry(stringEntry.getKey());
+                zipOutputStream.putNextEntry(entry);
+                zipOutputStream.write(stringEntry.getValue());
+                zipOutputStream.closeEntry();
+            }
+
+            zipOutputStream.close();
+            byteArrayOutputStream.close();
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            return bytes;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
-
-    public void create() {
-        try {
-            baos.writeTo(fos);
-            fos.close();
-            baos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    File zipFile;
 
 }
