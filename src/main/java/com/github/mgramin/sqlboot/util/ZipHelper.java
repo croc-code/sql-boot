@@ -11,17 +11,14 @@ import java.util.zip.ZipOutputStream;
 public class ZipHelper {
 
     public byte[] create(Map<String, byte[]> files) {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
-
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+             ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             for (Map.Entry<String, byte[]> stringEntry : files.entrySet()) {
                 ZipEntry entry = new ZipEntry(stringEntry.getKey());
                 zipOutputStream.putNextEntry(entry);
                 zipOutputStream.write(stringEntry.getValue());
                 zipOutputStream.closeEntry();
             }
-
             zipOutputStream.close();
             byteArrayOutputStream.close();
             byte[] bytes = byteArrayOutputStream.toByteArray();
