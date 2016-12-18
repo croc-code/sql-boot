@@ -13,7 +13,7 @@
         </property>
     </bean>
 
-    <bean id="table" name="table,tbl,t" parent="parentSchemaObjectBean">
+    <bean name="table,tbl,t" parent="parentSchemaObjectBean">
         <property name="name" value="table" />
         <property name="child">
             <list>
@@ -22,17 +22,17 @@
         </property>
         <property name="readers">
             <list>
-                <bean name="sqlReader" parent="baseSqlReader">
+                <bean parent="baseSqlReader">
                     <property name="sql" value="${tables}" />
                 </bean>
             </list>
         </property>
         <property name="commands">
             <list>
-                <bean name="create" parent="parentTemplateGeneratorBean">
+                <bean parent="parentTemplateGeneratorBean">
                     <property name="template" value="${table.create}" />
                 </bean>
-                <bean name="dropTable" parent="parentTemplateGeneratorBean">
+                <bean parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template" value="${table.drop}" />
                 </bean>
@@ -50,17 +50,17 @@
                 </bean>
             </list>
         </property>
-        <!--<property name="commands">
+        <property name="commands">
             <list>
-                <bean id="addColumn" parent="parentTemplateGeneratorBean">
+                <bean parent="parentTemplateGeneratorBean">
                     <property name="template" value="${table.column.create}" />
                 </bean>
-                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
+                <bean parent="parentTemplateGeneratorBean">
                     <property name="action" ref="DROP" />
                     <property name="template" value="${table.column.drop}" />
                 </bean>
             </list>
-        </property>-->
+        </property>
     </bean>
 
 </beans>

@@ -35,6 +35,12 @@ table.columns: |
    order by c.ordinal_position asc)
 
 
+table.column.create: |
+  alter table $table add column $column;
+
+table.column.drop: |
+  alter table $table drop $column;
+
 
 ---
 spring:

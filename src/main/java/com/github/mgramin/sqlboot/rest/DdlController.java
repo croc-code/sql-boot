@@ -11,6 +11,7 @@ import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +30,8 @@ public class DdlController {
     DBSchemaObjectTypeContainer container;
 
 
-    @RequestMapping("/ddl/**")
-    public byte[] getDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
+    @RequestMapping(value = "/ddl/**", method = RequestMethod.GET, produces = {MediaType.TEXT_PLAIN_VALUE})
+    public byte[] getTextDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
 
         String s = request.getServletPath().toString();
         ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
@@ -55,10 +56,38 @@ public class DdlController {
             objectsNew.add(object);
         }
 
-        //response.setHeader("Content-Disposition", "inline;");
-        response.setHeader("Content-Disposition", "attachment; filename=result.zip");
-        //response.setContentType("application/zip");
+        response.setHeader("Content-Disposition", "inline;");
+        return new TextAggregator().aggregate(objectsNew);
+    }
 
+
+    @RequestMapping(value = "/ddl/**", params = {"type=zip"}, method = RequestMethod.GET, produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public byte[] getZipDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
+
+        String s = request.getServletPath().toString();
+        ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
+
+        DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
+
+        IDBObjectReader reader = type.readers.stream().findFirst().get();
+
+        Map<String, DBSchemaObject> objects = reader.readr(uri, type);
+
+        List<DBSchemaObject> objectsNew = new ArrayList();
+
+        for (DBSchemaObject object : objects.values()) {
+            ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
+            if (object.type.commands == null)
+                continue;
+            IActionGenerator command = object.type.commands.stream().filter(n -> n.getAction().name.equals(uri.getAction())).findFirst().get();
+            Map<String, Object> test = new TreeMap<>();
+            test.putAll(object.paths);
+            test.put("srv", objectService);
+            object.ddl = command.generate(test);
+            objectsNew.add(object);
+        }
+
+        response.setHeader("Content-Disposition", "attachment; filename=result.zip");
         return new ZipAggregator().aggregate(objectsNew);
     }
 
