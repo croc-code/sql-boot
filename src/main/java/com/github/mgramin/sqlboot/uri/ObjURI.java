@@ -49,9 +49,9 @@ public class ObjURI {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder(type + "/" + String.join(".", objects));
-        if (!action.equals("create"))
+        if (action != null && !action.equals("create"))
             result.append("/").append(action);
-        if (recursive && !action.equals("create"))
+        if (recursive != null && recursive)
             result.append("/");
         if (!params.isEmpty()) {
             result.append("?");

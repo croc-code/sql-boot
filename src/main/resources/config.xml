@@ -10,15 +10,15 @@
 
 
     <!--<bean id="templateEngine" class="com.github.mgramin.com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />-->
-    <bean id="templateEngine" class="com.github.mgramin.com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
+    <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
 
-    <bean id="sqlHelper" class="com.github.mgramin.com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
+    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
         <property name="dataSource" ref = "dataSource" />
     </bean>
 
 
     <!-- Generators -->
-    <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator" abstract="true">
+    <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator" abstract="true">
         <property name="dataSource" ref="dataSource" />
         <property name="templateEngine" ref="templateEngine" />
         <property name="prepareSql" >
@@ -39,25 +39,25 @@
         </property>
     </bean>
 
-    <bean id="parentTemplateGeneratorBean" class="com.github.mgramin.com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator" abstract="true">
+    <bean id="parentTemplateGeneratorBean" class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator" abstract="true">
         <property name="action" ref="CREATE" />
         <property name="templateEngine" ref="templateEngine" />
     </bean>
 
     <!-- DB-object readers -->
 
-    <bean name="baseSqlReader" class="com.github.mgramin.com.github.mgramin.sqlboot.readers.impl.SqlObjectReader" abstract="true">
+    <bean name="baseSqlReader" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader" abstract="true">
         <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
 
 
-    <bean id="parentSchemaObjectBean" class="com.github.mgramin.com.github.mgramin.sqlboot.model.DBSchemaObjectType" abstract="true" />
+    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DBSchemaObjectType" abstract="true" />
 
 
 
     <!-- TODO Move to single config -->
-    <bean name="command" abstract="true" class="com.github.mgramin.com.github.mgramin.sqlboot.actions.Action" />
+    <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.actions.Action" />
 
     <bean name="CREATE" parent="command" >
         <property name="name" value="create" />
