@@ -10,35 +10,57 @@ import static org.junit.Assert.assertEquals;
 public class ObjURITest {
 
     @Test
-    public void testToString1() throws Exception {
-        test("column/hr.persons.%/drop/?key=value&key2=val2",
-                "ObjURI{type='column', action='drop', objects=[hr, persons, %], recursive=true, params={key=value, key2=val2}}");
+    public void createAllTableFromSchema() {
+        test("table/hr.*", "ObjURI{type='table', action='create', objects=[hr, *], recursive=false, params={}}");
     }
 
     @Test
-    public void testToString2() throws Exception {
-        test("column/hr.persons.%/drop?key=value",
-                "ObjURI{type='column', action='drop', objects=[hr, persons, %], recursive=false, params={key=value}}");
+    public void createAllTableWithChildObjectsFromSchema() {
+        test("table/hr.*/", "ObjURI{type='table', action='create', objects=[hr, *], recursive=true, params={}}");
     }
 
     @Test
-    public void testToString3() throws Exception {
-        test("column/hr.persons.%/drop",
-                "ObjURI{type='column', action='drop', objects=[hr, persons, %], recursive=false, params={}}");
+    public void dropAllTableFromSchema() {
+        test("table/hr.*/drop", "ObjURI{type='table', action='drop', objects=[hr, *], recursive=false, params={}}");
+    }
+
+
+    @Test
+    public void createColumnsForTable() {
+        test("column/hr.persons.*name",
+                "ObjURI{type='column', action='create', objects=[hr, persons, *name], recursive=false, params={}}");
     }
 
     @Test
-    public void testToString4() throws Exception {
-        test("column/hr.persons.%/",
-                "ObjURI{type='column', action='create', objects=[hr, persons, %], recursive=true, params={}}");
+    public void dropColumnFromTable() {
+        test("column/hr.persons.name/drop",
+                "ObjURI{type='column', action='drop', objects=[hr, persons, name], recursive=false, params={}}");
+    }
+
+
+    @Test
+    public void createAllFkForTable() {
+        test("fk/hr.employees.*",
+                "ObjURI{type='fk', action='create', objects=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
-    public void testToString5() throws Exception {
-        test("fk/hr.employees/",
-                "ObjURI{type='fk', action='create', objects=[hr, employees], recursive=true, params={}}");
+    public void dropAllFkFromTable() {
+        test("fk/hr.employees.*/drop",
+                "ObjURI{type='fk', action='drop', objects=[hr, employees, *], recursive=false, params={}}");
     }
 
+    @Test
+    public void disableAllFkFromTable() {
+        test("fk/hr.employees.*/disable",
+                "ObjURI{type='fk', action='disable', objects=[hr, employees, *], recursive=false, params={}}");
+    }
+
+    @Test
+    public void disableAllFkFromSchema() {
+        test("fk/hr.*.*/disable",
+                "ObjURI{type='fk', action='disable', objects=[hr, *, *], recursive=false, params={}}");
+    }
 
     private void test(String uriStringActual, String jsonExpected) {
         ObjURI uri = new ObjURI(uriStringActual);
