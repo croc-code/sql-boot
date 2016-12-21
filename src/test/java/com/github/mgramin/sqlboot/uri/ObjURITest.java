@@ -62,6 +62,12 @@ public class ObjURITest {
                 "ObjURI{type='fk', action='disable', objects=[hr, *, *], recursive=false, params={}}");
     }
 
+    @Test
+    public void testDefaultActionIsCreate() {
+        test("fk/hr.*.*",
+                "ObjURI{type='fk', action='create', objects=[hr, *, *], recursive=false, params={}}");
+    }
+
     private void test(String uriStringActual, String jsonExpected) {
         ObjURI uri = new ObjURI(uriStringActual);
         assertEquals(uriStringActual, uri.toString());

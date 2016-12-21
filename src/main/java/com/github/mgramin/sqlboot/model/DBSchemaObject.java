@@ -12,10 +12,10 @@ public class DBSchemaObject implements Comparable<DBSchemaObject> {
 
     public String name;
     public DBSchemaObjectType type;
-    public String ddl;
     public ObjURI objURI;
     public Map<String, String> paths;
     public Properties properties = new Properties();
+    public String ddl;
 
     public String getProp(String key) {
         return properties.getProperty(key);

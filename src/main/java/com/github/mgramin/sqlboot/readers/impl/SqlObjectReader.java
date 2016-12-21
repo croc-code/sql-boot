@@ -63,6 +63,7 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
                     if (!stringStringEntry.getKey().startsWith("@")) {
                         objectsForUri.add(stringStringEntry.getValue());
                         object.name = stringStringEntry.getValue();
+                        object.addProperty(stringStringEntry.getKey(), stringStringEntry.getValue());
                     } else {
                         if (stringStringEntry.getValue() != null) {
                             object.addProperty(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());

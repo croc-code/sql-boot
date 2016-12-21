@@ -12,9 +12,7 @@ public class TextAggregator implements IAggregator {
     @Override
     public byte[] aggregate(List<DBSchemaObject> objects) {
         StringBuilder builder = new StringBuilder();
-        for (DBSchemaObject object : objects) {
-            builder.append(object.ddl).append("\n");
-        }
+        for (DBSchemaObject o : objects) builder.append(o.ddl).append("\n");
         return builder.toString().getBytes();
     }
 

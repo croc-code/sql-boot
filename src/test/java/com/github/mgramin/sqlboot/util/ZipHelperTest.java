@@ -7,7 +7,6 @@ import java.util.Map;
 
 import static java.nio.file.Files.*;
 import static java.nio.file.Paths.*;
-import static org.junit.Assert.*;
 
 /**
  * Created by MGramin on 28.11.2016.
@@ -20,7 +19,7 @@ public class ZipHelperTest {
         files.put("persons.sql", "create table persons ... ;".getBytes());
         files.put("jobs.sql", "create table jobs ... ;".getBytes());
 
-        write(get("ddl_result.zip"), new ZipHelper().create(files));
+        write(get("ddl_result.zip"), new ZipHelper().compress(files));
     }
 
 }
