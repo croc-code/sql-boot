@@ -57,7 +57,7 @@ public class DdlController {
             ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
             if (object.type.commands == null)
                 continue;
-            IActionGenerator command = object.type.commands.stream().filter(n -> n.getAction().name.equals(uri.getAction())).findFirst().get();
+            IActionGenerator command = object.type.commands.stream().filter(n -> n.getDBSchemaObjectCommand().name.equals(uri.getAction())).findFirst().get();
             Map<String, Object> test = new TreeMap<>();
             test.putAll(object.paths);
             test.put("srv", objectService);

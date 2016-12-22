@@ -1,6 +1,6 @@
 package com.github.mgramin.sqlboot.actions.generator;
 
-import com.github.mgramin.sqlboot.actions.Action;
+import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
 import com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator;
 import org.apache.log4j.Logger;
 
@@ -11,15 +11,15 @@ public abstract class AbstractActionGenerator implements IActionGenerator {
 
     protected final static Logger logger = Logger.getLogger(SQLGenerator.class);
 
-    public Action action;
+    public DBSchemaObjectCommand DBSchemaObjectCommand;
 
 
-    public Action getAction() {
-        return action;
+    public DBSchemaObjectCommand getDBSchemaObjectCommand() {
+        return DBSchemaObjectCommand;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public void setDBSchemaObjectCommand(DBSchemaObjectCommand DBSchemaObjectCommand) {
+        this.DBSchemaObjectCommand = DBSchemaObjectCommand;
     }
 
 }

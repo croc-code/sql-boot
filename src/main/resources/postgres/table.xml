@@ -36,11 +36,11 @@
         <property name="commands">
             <list>
                 <bean name="create" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="CREATE" />
+                    <property name="DBSchemaObjectCommand" ref="CREATE" />
                     <property name="template" value="${table.create}" />
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" value="${table.drop}" />
                 </bean>
             </list>
@@ -67,7 +67,7 @@
                     </property>
                 </bean>
                 <bean id="dropColumn" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>alter table !{schema}.!{table} drop column !{column};</value>
                     </property>
@@ -100,7 +100,7 @@
                     </property>
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop index !{schema}.!{index};</value>
                     </property>

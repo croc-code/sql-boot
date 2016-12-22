@@ -23,7 +23,7 @@
         <property name="commands">
             <list>
                 <bean name="create" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="CREATE" />
+                    <property name="DBSchemaObjectCommand" ref="CREATE" />
                     <property name="template" >
                         <value><![CDATA[
                             create table ${schema}.${table} (
@@ -35,7 +35,7 @@
                     </property>
                 </bean>
                 <bean name="dropTable" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop table ${schema}.${table};</value>
                     </property>
@@ -71,7 +71,7 @@
                     </property>
                 </bean>
                 <bean id="dropColumn" parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>alter table ${schema}.${table} drop column ${column};</value>
                     </property>

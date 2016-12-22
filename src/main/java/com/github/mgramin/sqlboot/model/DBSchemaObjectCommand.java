@@ -1,9 +1,10 @@
-package com.github.mgramin.sqlboot.actions;
+package com.github.mgramin.sqlboot.model;
 
 /**
- * Created by maksim on 19.06.16.
+ * Command for db-object, e.g. "create", "drop", "exists", "rebuild", "gather"(statistics),
+ * "compile"(procedure, function, package), etc
  */
-public class Action {
+public class DBSchemaObjectCommand {
 
     public String name;
     public String aliases;
@@ -20,7 +21,7 @@ public class Action {
 
     @Override
     public String toString() {
-        return "Action{" +
+        return "DBSchemaObjectCommand{" +
                 "name='" + name + '\'' +
                 ", aliases='" + aliases + '\'' +
                 '}';

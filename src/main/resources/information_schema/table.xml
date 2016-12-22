@@ -33,7 +33,7 @@
                     <property name="template" value="${table.create}" />
                 </bean>
                 <bean parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" value="${table.drop}" />
                 </bean>
             </list>
@@ -56,7 +56,7 @@
                     <property name="template" value="${table.column.create}" />
                 </bean>
                 <bean parent="parentTemplateGeneratorBean">
-                    <property name="action" ref="DROP" />
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" value="${table.column.drop}" />
                 </bean>
             </list>
