@@ -16,7 +16,10 @@ public class ZipAggregator implements IAggregator {
     @Override
     public byte[] aggregate(List<DBSchemaObject> objects) {
         Map<String, byte[]> files = new HashMap<>();
-        for (DBSchemaObject o : objects) files.put(o.getProp("schema").toLowerCase() + "/" + o.name + ".sql", o.ddl.getBytes());
+        for (DBSchemaObject o : objects) {
+            if (o.getProp("file_name") != null && !o.getProp("file_name").isEmpty())
+                files.put(o.getProp("file_name").toLowerCase(), o.ddl.getBytes());
+        }
         return compress(files);
     }
 

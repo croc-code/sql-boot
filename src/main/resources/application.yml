@@ -5,6 +5,7 @@ tables: |
   select * from (
     select t.table_schema   as "schema"
          , t.table_name     as "table"
+         , t.table_schema || '/tables/' || t.table_name || '/main.sql' as "@file_name"
       from information_schema.tables t
      where lower(t.table_schema) like '$schema'
        and lower(t.table_name) like '$table'
