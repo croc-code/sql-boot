@@ -11,17 +11,8 @@ public abstract class AbstractActionGenerator implements IActionGenerator {
 
     protected final static Logger logger = Logger.getLogger(SQLGenerator.class);
 
-    public String filePath;
     public Action action;
 
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 
     public Action getAction() {
         return action;

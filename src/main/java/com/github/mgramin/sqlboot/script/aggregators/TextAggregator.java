@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlboot.rest;
+package com.github.mgramin.sqlboot.script.aggregators;
 
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
 

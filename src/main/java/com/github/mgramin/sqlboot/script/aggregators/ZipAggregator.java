@@ -1,5 +1,6 @@
-package com.github.mgramin.sqlboot.rest;
+package com.github.mgramin.sqlboot.script.aggregators;
 
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
 public class ZipAggregator implements IAggregator {
 
     @Override
-    public byte[] aggregate(List<DBSchemaObject> objects) {
+    public byte[] aggregate(List<DBSchemaObject> objects) throws SqlBootException {
         Map<String, byte[]> files = new HashMap<>();
         for (DBSchemaObject o : objects) {
             if (o.getProp("file_name") != null && !o.getProp("file_name").isEmpty())

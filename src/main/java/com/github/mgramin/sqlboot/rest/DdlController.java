@@ -7,6 +7,8 @@ import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer;
 import com.github.mgramin.sqlboot.model.ObjectService;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import com.github.mgramin.sqlboot.script.aggregators.TextAggregator;
+import com.github.mgramin.sqlboot.script.aggregators.ZipAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

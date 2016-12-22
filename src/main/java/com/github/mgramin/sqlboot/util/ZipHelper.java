@@ -1,5 +1,7 @@
 package com.github.mgramin.sqlboot.util;
 
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+
 import java.io.*;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -10,7 +12,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class ZipHelper {
 
-    public static byte[] compress(Map<String, byte[]> files) {
+    public static byte[] compress(Map<String, byte[]> files) throws SqlBootException {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             for (Map.Entry<String, byte[]> stringEntry : files.entrySet()) {
@@ -24,9 +26,8 @@ public class ZipHelper {
             byte[] bytes = byteArrayOutputStream.toByteArray();
             return bytes;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SqlBootException(e);
         }
-        return null;
     }
 
 }

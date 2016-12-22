@@ -13,10 +13,6 @@ public interface IActionGenerator {
     String generate(Map<String, Object> variables) throws SqlBootException;
 
 
-    String getFilePath();
-
-    void setFilePath(String filePath);
-
     Action getAction();
 
     void setAction(Action action);
