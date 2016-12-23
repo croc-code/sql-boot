@@ -32,6 +32,8 @@ public class DdlController {
     DBSchemaObjectTypeContainer container;
 
 
+
+
     @RequestMapping(value = "/ddl/**", method = RequestMethod.GET, produces = {MediaType.TEXT_PLAIN_VALUE})
     public byte[] getTextDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
         String s = request.getServletPath().toString();
