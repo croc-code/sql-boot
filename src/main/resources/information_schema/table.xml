@@ -9,6 +9,7 @@
             <list>
                 <value>#{table}</value>
                 <value>#{column}</value>
+                <value>#{pk}</value>
             </list>
         </property>
     </bean>
@@ -18,6 +19,7 @@
         <property name="child">
             <list>
                 <value>#{column}</value>
+                <value>#{pk}</value>
             </list>
         </property>
         <property name="readers">
@@ -58,6 +60,28 @@
                 <bean parent="parentTemplateGeneratorBean">
                     <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" value="${table.column.drop}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="pk,primary,primary_key" parent="parentSchemaObjectBean">
+        <property name="name" value="pk" />
+        <property name="readers">
+            <list>
+                <bean name="sqlReader" parent="baseSqlReader">
+                    <property name="sql" value="${table.pk}" />
+                </bean>
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="template" value="${table.pk.create}" />
+                </bean>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                    <property name="template" value="${table.pk.drop}" />
                 </bean>
             </list>
         </property>

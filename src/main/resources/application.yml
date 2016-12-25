@@ -43,6 +43,24 @@ table.column.drop: |
   alter table $table drop $column;
 
 
+table.pk: |
+  select * from (
+    select c.table_schema as "schema"
+         , c.table_name as "table"
+         , c.constraint_name as "pk"
+         , c.table_schema || '/tables/' || c.table_name || '/pk.sql' as "@file_name"
+      from information_schema.constraints c
+     where constraint_type  = 'PRIMARY KEY'
+       and lower(table_schema) like '$schema'
+       and lower(table_name) like '$table'
+       and lower(constraint_name) like '$pk')
+
+table.pk.create: |
+  alter table $table add pk $pk;
+
+table.pk.drop: |
+  alter table $table drop pk $pk;
+
 ---
 spring:
   profiles: postgres
