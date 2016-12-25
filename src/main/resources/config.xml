@@ -21,22 +21,6 @@
     <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator" abstract="true">
         <property name="dataSource" ref="dataSource" />
         <property name="templateEngine" ref="templateEngine" />
-        <property name="prepareSql" >
-            <!-- TODO Move to Oracle config -->
-            <value>
-                begin
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'CONSTRAINTS_AS_ALTER', false );
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'STORAGE', false );
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SQLTERMINATOR', FALSE );
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'TABLESPACE', false );
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'CONSTRAINTS', false );
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'REF_CONSTRAINTS', false );
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SEGMENT_ATTRIBUTES', false );
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SQLTERMINATOR', true);
-                    dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'EMIT_SCHEMA', false);
-                end;
-            </value>
-        </property>
     </bean>
 
     <bean id="parentTemplateGeneratorBean" class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator" abstract="true">

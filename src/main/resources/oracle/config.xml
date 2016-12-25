@@ -11,6 +11,22 @@
         <property name="password" value="hr"/>
     </bean>
 
+    <!-- TODO use for transformation -->
+    <!--<property name="prepareSql" >
+        <value>
+            begin
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'CONSTRAINTS_AS_ALTER', false );
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'STORAGE', false );
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SQLTERMINATOR', FALSE );
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'TABLESPACE', false );
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'CONSTRAINTS', false );
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'REF_CONSTRAINTS', false );
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SEGMENT_ATTRIBUTES', false );
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'SQLTERMINATOR', true);
+            dbms_metadata.set_transform_param(DBMS_METADATA.SESSION_TRANSFORM, 'EMIT_SCHEMA', false);
+            end;
+        </value>
+    </property>-->
 
     <import resource="schema.xml" />
     <import resource="table.xml" />
