@@ -11,8 +11,8 @@
        profile="information_schema">
 
     <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:db/sql/create-db.sql"/>
-        <jdbc:script location="classpath:db/sql/init-data.sql"/>
+        <jdbc:script location="classpath:db/sql/integration-test-create-db.sql"/>
+        <jdbc:script location="classpath:db/sql/integration-test-init-data.sql"/>
     </jdbc:embedded-database>
 
     <import resource="table.xml"/>

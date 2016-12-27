@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.AbstractEnvironment;
 
 @SpringBootApplication
-public class Main {
+public class RestRunner {
 
 	public static void main(String[] args) {
 //		String profile = "postgres";
@@ -13,7 +13,7 @@ public class Main {
 
 		System.setProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, profile);
 		SpringApplication application = new SpringApplication();
-		application.run(Main.class, args);
+		application.run(RestRunner.class, args);
 	}
 
 }
