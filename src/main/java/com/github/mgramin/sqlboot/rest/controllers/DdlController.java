@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlboot.rest;
+package com.github.mgramin.sqlboot.rest.controllers;
 
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
