@@ -81,6 +81,11 @@
 			<version>2.4.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
 		<!-- embedded db for unit-tests and demo -->
 		<dependency>
 			<groupId>com.h2database</groupId>

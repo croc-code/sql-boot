@@ -2,14 +2,10 @@ package com.github.mgramin.sqlboot.rest.controllers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,13 +22,25 @@ public class SqlExecuteController {
     @Autowired
     ISqlHelper sqlHelper;
 
-    @RequestMapping(value = "/sql", method = RequestMethod.GET, produces = {MediaType.TEXT_PLAIN_VALUE})
-    public @ResponseBody
-    List<Map<String, String>> execSql(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
-        List<Map<String, String>> select = sqlHelper.select(
-                "select table_catalog, table_schema, table_name from information_schema.tables");
+    @RequestMapping(value = "/exec", produces = {MediaType.APPLICATION_XML_VALUE})
+    List<Map<String, String>> execSqlXml(
+            @RequestParam("sql") String sql,
+            HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
+        return sqlHelper.select(sql);
+    }
 
-        return select;
+    @RequestMapping(value = "/exec", method = RequestMethod.POST, produces = {MediaType.APPLICATION_XML_VALUE})
+    List<Map<String, String>> execSqlXmlPost(
+            @RequestBody() String sql,
+            HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
+        return sqlHelper.select(sql);
+    }
+
+    @RequestMapping(value = "/exec", produces = {MediaType.APPLICATION_JSON_VALUE})
+    List<Map<String, String>> execSqlJson(
+            @RequestParam("sql") String sql,
+            HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
+        return sqlHelper.select(sql);
     }
 
 }
