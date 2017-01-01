@@ -1,5 +1,6 @@
-package com.github.mgramin.sqlboot.rest;
+package com.github.mgramin.sqlboot.rest.controllers;
 
+import com.github.mgramin.sqlboot.rest.RestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- * Created by mgramin on 25.12.2016.
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
