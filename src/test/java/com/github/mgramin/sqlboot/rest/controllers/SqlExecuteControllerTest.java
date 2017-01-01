@@ -22,38 +22,47 @@ import static org.junit.Assert.*;
 public class SqlExecuteControllerTest {
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private TestRestTemplate restClient;
 
     @Test
-    public void execSqlXml() throws Exception {
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<>("", headers);
+    public void execSql2Xml() throws Exception {
+        ResponseEntity<String> forEntity = this.restClient.exchange(
+                "/exec?sql=select 1 as one, 2 as two", HttpMethod.GET, null, String.class);
 
-        ResponseEntity<String> forEntity = this.testRestTemplate.exchange(
-                "/exec?sql=select 1 as one, 2 as two", HttpMethod.POST, entity, String.class);
         assertEquals(forEntity.getBody(), "[{\"ONE\":\"1\",\"TWO\":\"2\"}]");
         assertEquals(forEntity.getHeaders().getContentType(), MediaType.APPLICATION_JSON_UTF8);
     }
 
     @Test
-    public void execSqlXmlPost() throws Exception {
+    public void execSql2XmlPost() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML));
-
         HttpEntity<String> entity = new HttpEntity<>("select 1 as one, 2 as two", headers);
 
-        ResponseEntity<String> forEntity = testRestTemplate.exchange("/exec", HttpMethod.POST, entity, String.class);
-        System.out.println(forEntity.getBody());
+        ResponseEntity<String> forEntity = restClient.exchange("/exec", HttpMethod.POST, entity, String.class);
 
         assertEquals(forEntity.getBody(), "<List><item><ONE>1</ONE><TWO>2</TWO></item></List>");
         //assertEquals(forEntity.getHeaders().getContentType(), MediaType.APPLICATION_XML_VALUE);
-
     }
 
     @Test
-    public void execSqlJson() throws Exception {
-        ResponseEntity<String> forEntity = this.testRestTemplate.getForEntity(
-                "/exec?sql=select 1 as one, 2 as two", String.class);
+    public void execSql2Json() throws Exception {
+        ResponseEntity<String> forEntity = this.restClient.exchange(
+                "/exec?sql=select 1 as one, 2 as two", HttpMethod.GET, null, String.class);
+
+        assertEquals(forEntity.getBody(), "[{\"ONE\":\"1\",\"TWO\":\"2\"}]");
+        assertEquals(forEntity.getHeaders().getContentType(), MediaType.APPLICATION_JSON_UTF8);
+    }
+
+    @Test
+    public void execSql2JsonPost() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>("select 1 as one, 2 as two", headers);
+
+        ResponseEntity<String> forEntity = restClient.exchange("/exec", HttpMethod.POST, entity, String.class);
+        System.out.println(forEntity.getBody());
+
         assertEquals(forEntity.getBody(), "[{\"ONE\":\"1\",\"TWO\":\"2\"}]");
         assertEquals(forEntity.getHeaders().getContentType(), MediaType.APPLICATION_JSON_UTF8);
     }
