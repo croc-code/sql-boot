@@ -1,4 +1,4 @@
-# sql-boot - getting DB done!
+# sql-boot - "getting DB done!"
 
 Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers
 
