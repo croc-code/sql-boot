@@ -3,6 +3,7 @@ package com.github.mgramin.sqlboot.model;
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,6 +16,32 @@ public class DBSchemaObjectType {
     public List<DBSchemaObjectType> child;
     public List<IDBObjectReader> readers;
     public List<IActionGenerator> commands;
+
+    public DBSchemaObjectType() {
+    }
+
+    public DBSchemaObjectType(String name, List<DBSchemaObjectType> child, List<IDBObjectReader> readers) {
+        this.name = name;
+        this.child = child;
+        this.readers = readers;
+    }
+
+    public DBSchemaObjectType(String name, List<IDBObjectReader> reader) {
+        this.name = name;
+        this.readers = reader;
+    }
+
+    public DBSchemaObjectType(String name, IDBObjectReader reader) {
+        this.name = name;
+        this.readers = Arrays.asList(reader);
+    }
+
+    public DBSchemaObjectType(String name, List<DBSchemaObjectType> child, IDBObjectReader reader) {
+        this.name = name;
+        this.child = child;
+        this.readers = Arrays.asList(reader);
+    }
+
 
     public void setName(String name) {
         this.name = name;

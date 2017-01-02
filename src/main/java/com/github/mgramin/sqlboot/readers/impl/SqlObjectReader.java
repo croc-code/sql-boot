@@ -35,6 +35,12 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
         this.prepareSql = prepareSql;
     }
 
+    public SqlObjectReader(ISqlHelper sqlHelper, ITemplateEngine templateEngine, String sql) {
+        this.sqlHelper = sqlHelper;
+        this.templateEngine = templateEngine;
+        this.sql = sql;
+    }
+
     @Override
     public Map<String, DBSchemaObject> read(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
         List<String> list = objURI.getObjects();
