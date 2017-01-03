@@ -11,6 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
@@ -25,8 +27,10 @@ public class DdlControllerTest {
         ResponseEntity<String> forEntity = this.testRestTemplate.getForEntity(
                 "/ddl/table/hr.jobs", String.class);
 
-        System.out.println(forEntity.getStatusCodeValue());
-        System.out.println(forEntity.toString());
+        assertEquals(forEntity.getStatusCodeValue(), 200);
+        System.out.println(forEntity.getBody());
     }
+
+
 
 }

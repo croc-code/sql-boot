@@ -54,15 +54,17 @@ public class DdlController {
         Map<String, DBSchemaObject> objects = reader.readr(uri, type);
         List<DBSchemaObject> objectsNew = new ArrayList();
         for (DBSchemaObject object : objects.values()) {
-            ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
-            if (object.type.commands == null)
-                continue;
-            IActionGenerator command = object.type.commands.stream().filter(n -> n.getDBSchemaObjectCommand().name.equals(uri.getAction())).findFirst().get();
-            Map<String, Object> test = new TreeMap<>();
-            test.putAll(object.paths);
-            test.put("srv", objectService);
-            object.ddl = command.generate(test);
-            objectsNew.add(object);
+            if (object.getType().equals(type) || uri.getRecursive()) {
+                ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
+                if (object.type.commands == null)
+                    continue;
+                IActionGenerator command = object.type.commands.stream().filter(n -> n.getDBSchemaObjectCommand().name.equals(uri.getAction())).findFirst().get();
+                Map<String, Object> test = new TreeMap<>();
+                test.putAll(object.paths);
+                test.put("srv", objectService);
+                object.ddl = command.generate(test);
+                objectsNew.add(object);
+            }
         }
         return objectsNew;
     }

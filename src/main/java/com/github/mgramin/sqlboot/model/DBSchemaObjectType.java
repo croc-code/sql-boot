@@ -1,10 +1,13 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import com.github.mgramin.sqlboot.uri.ObjURI;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maksim on 19.05.16.
@@ -16,6 +19,10 @@ public class DBSchemaObjectType {
     public List<DBSchemaObjectType> child;
     public List<IDBObjectReader> readers;
     public List<IActionGenerator> commands;
+
+    Map<String, DBSchemaObject> read(ObjURI objURI) throws SqlBootException {
+        return null;
+    }
 
     public DBSchemaObjectType() {
     }
