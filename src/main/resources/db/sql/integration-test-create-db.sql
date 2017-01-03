@@ -5,8 +5,11 @@ create table hr.users (
   first_name    varchar(30),
   last_name     varchar(30),
   email         varchar(50),
-  constraint users_pk primary key (id)
+  constraint users_pk primary key (id, first_name)
 );
+
+create index hr.users_email_idx on hr.users (email, last_name);
+
 
 create table hr.jobs (
   id            integer primary key,

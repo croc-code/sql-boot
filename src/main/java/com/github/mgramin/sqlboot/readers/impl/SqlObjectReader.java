@@ -58,7 +58,7 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
             }
 
             String prepareSQL = templateEngine.process(data, sql);
-            logger.debug(prepareSQL);
+            logger.info(prepareSQL);
 
             List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {

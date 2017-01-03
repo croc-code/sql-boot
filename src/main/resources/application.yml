@@ -12,7 +12,7 @@ tables: |
      order by t.table_name)
 
 table.create: |
-  create table "$schema"."$table" (<%srv.get('column').each {%>
+  create table "$schema"."$table.name" (<%srv.get('column').each {%>
     !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
@@ -37,10 +37,10 @@ table.columns: |
 
 
 table.column.create: |
-  alter table $table add column $column;
+  alter table $table add column $column.name;
 
 table.column.drop: |
-  alter table $table drop $column;
+  alter table $table drop $column.name;
 
 
 table.pk: |
@@ -49,6 +49,7 @@ table.pk: |
          , c.table_name as "table"
          , c.constraint_name as "pk"
          , c.table_schema || '/tables/' || c.table_name || '/pk.sql' as "@file_name"
+         , c.sql as "@sql"
       from information_schema.constraints c
      where constraint_type  = 'PRIMARY KEY'
        and lower(table_schema) like '$schema'
@@ -56,10 +57,31 @@ table.pk: |
        and lower(constraint_name) like '$pk')
 
 table.pk.create: |
-  alter table $table add pk $pk;
+  !{pk.properties.sql};
 
 table.pk.drop: |
-  alter table $table drop pk $pk;
+  alter table $table drop pk $pk.name;
+
+
+table.indexes: |
+  select * from (
+    select c.table_schema as "schema"
+         , c.table_name as "table"
+         , c.index_name as "index"
+         , c.table_schema || '/tables/' || c.table_name || '/indexes/' || c.index_name || '.sql' as "@file_name"
+         , c.sql as "@sql"
+      from information_schema.indexes c
+     where index_type_name <> 'PRIMARY KEY'
+       and lower(table_schema) like '$schema'
+       and lower(table_name) like '$table'
+       and lower(index_name) like '$index')
+
+table.index.create: |
+  !{index.properties.sql};
+
+table.index.drop: |
+  drop index $index.name;
+
 
 ---
 spring:

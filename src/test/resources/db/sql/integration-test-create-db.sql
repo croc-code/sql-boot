@@ -1,22 +1,25 @@
 create schema hr;
 
 create table hr.users (
-  id            integer primary key,
+  id            integer,
   first_name    varchar(30),
   last_name     varchar(30),
-  email         varchar(50)
+  email         varchar(50),
+  constraint users_pk primary key (id, first_name)
 );
 
 create table hr.jobs (
   id            integer primary key,
   name          varchar(30),
-  description   varchar(100)
+  description   varchar(100),
+  constraint jobs_pk primary key (id)
 );
 
 create table hr.persons (
   id        integer primary key,
   id_job    integer,
-  id_user   integer
+  id_user   integer,
+  constraint persons_pk primary key (id)
 );
 
 
@@ -24,19 +27,22 @@ create table hr.persons (
 create table hr.countries (
   id            integer primary key,
   name          varchar(50),
-  population    integer
+  population    integer,
+  constraint countries_pk primary key (id)
 );
 
 create table hr.cities (
   id            integer primary key,
   name          varchar(50),
-  id_country    integer
+  id_country    integer,
+  constraint cities_pk primary key (id)
 );
 
 create table hr.cities_2 (
   id            integer primary key,
   name          varchar(50),
-  id_country    integer
+  id_country    integer,
+  constraint cities_2_pk primary key (id)
 );
 
 
