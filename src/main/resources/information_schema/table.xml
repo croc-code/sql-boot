@@ -11,6 +11,7 @@
                 <value>#{column}</value>
                 <value>#{pk}</value>
                 <value>#{index}</value>
+                <value>#{check}</value>
             </list>
         </property>
     </bean>
@@ -22,6 +23,7 @@
                 <value>#{column}</value>
                 <value>#{pk}</value>
                 <value>#{index}</value>
+                <value>#{check}</value>
             </list>
         </property>
         <property name="readers">
@@ -106,6 +108,28 @@
                 <bean parent="parentTemplateGeneratorBean">
                     <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" value="${table.index.drop}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="check,chk" parent="parentSchemaObjectBean">
+        <property name="name" value="check" />
+        <property name="readers">
+            <list>
+                <bean name="sqlReader" parent="baseSqlReader">
+                    <property name="sql" value="${table.checks}" />
+                </bean>
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="template" value="${table.check.create}" />
+                </bean>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                    <property name="template" value="${table.check.drop}" />
                 </bean>
             </list>
         </property>

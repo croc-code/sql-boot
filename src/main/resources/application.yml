@@ -83,6 +83,29 @@ table.index.drop: |
   drop index $index.name;
 
 
+table.checks: |
+  select * from (
+    select c.table_schema as "schema"
+         , c.table_name as "table"
+         , c.constraint_name as "check"
+         , c.table_schema || '/tables/' || c.table_name || '/indexes/' || c.constraint_name || '.sql' as "@file_name"
+         , c.sql as "@sql"
+      from information_schema.constraints c
+     where constraint_type = 'CHECK'
+       and lower(table_schema) like '$schema'
+       and lower(table_name) like '$table'
+       and lower(constraint_name) like '$check')
+
+table.check.create: |
+  !{check.properties.sql};
+
+table.check.drop: |
+  drop check $check.name;
+
+
+
+
+
 ---
 spring:
   profiles: postgres
