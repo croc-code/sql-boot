@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by maksim on 19.05.16.
+ * Object of DB schema
+ * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored proc "GET_ALL_DEPARTMENTS()" etc
  */
 public class DBSchemaObject implements Comparable<DBSchemaObject> {
 

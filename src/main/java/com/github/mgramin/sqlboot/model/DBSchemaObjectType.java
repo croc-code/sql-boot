@@ -1,16 +1,15 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
-import com.github.mgramin.sqlboot.uri.ObjURI;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+
+import static java.util.Collections.*;
 
 /**
- * Created by maksim on 19.05.16.
+ * Object type of DB schema
+ * e.g. "table", "index", "pk", "stored procedure" etc
  */
 public class DBSchemaObjectType {
 
@@ -20,9 +19,9 @@ public class DBSchemaObjectType {
     public List<IDBObjectReader> readers;
     public List<IActionGenerator> commands;
 
-    Map<String, DBSchemaObject> read(ObjURI objURI) throws SqlBootException {
+    /*Map<String, DBSchemaObject> read(ObjURI objURI) throws SqlBootException {
         return null;
-    }
+    }*/
 
     public DBSchemaObjectType() {
     }
@@ -40,13 +39,13 @@ public class DBSchemaObjectType {
 
     public DBSchemaObjectType(String name, IDBObjectReader reader) {
         this.name = name;
-        this.readers = Arrays.asList(reader);
+        this.readers = singletonList(reader);
     }
 
     public DBSchemaObjectType(String name, List<DBSchemaObjectType> child, IDBObjectReader reader) {
         this.name = name;
         this.child = child;
-        this.readers = Arrays.asList(reader);
+        this.readers = singletonList(reader);
     }
 
 
