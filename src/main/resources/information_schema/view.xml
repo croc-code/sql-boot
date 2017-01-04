@@ -7,10 +7,6 @@
 
     <bean name="view,vw,v" parent="parentSchemaObjectBean">
         <property name="name" value="view" />
-        <!--<property name="child">-->
-            <!--<list>-->
-            <!--</list>-->
-        <!--</property>-->
         <property name="readers">
             <list>
                 <bean parent="baseSqlReader">
@@ -26,6 +22,34 @@
                 <bean parent="parentTemplateGeneratorBean">
                     <property name="DBSchemaObjectCommand" ref="DROP" />
                     <property name="template" value="${view.drop}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean name="mview,mvw,mv,materialized_view" parent="parentSchemaObjectBean">
+        <property name="name" value="mview" />
+        <property name="child">
+            <list>
+                <value>#{column}</value>
+            </list>
+        </property>
+        <property name="readers">
+            <list>
+                <bean parent="baseSqlReader">
+                    <property name="sql" value="${mviews}" />
+                </bean>
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="template" value="${mview.create}" />
+                </bean>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                    <property name="template" value="${mview.drop}" />
                 </bean>
             </list>
         </property>

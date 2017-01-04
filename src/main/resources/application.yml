@@ -120,6 +120,28 @@ view.create: |
 view.drop: |
   drop view $view.name;
 
+
+mviews: |
+  select * from (
+    select t.table_schema   as "schema"
+         , t.table_name     as "view"
+         , t.view_definition as "@sql"
+         , t.table_schema || '/views/' || t.table_name || '.sql' as "@file_name"
+      from information_schema.views t
+     where lower(t.table_schema) like '$schema'
+       and lower(t.table_name) like '$table'
+       and lower(t.table_name) like '%_materialized'
+     order by t.table_name)
+
+mview.create: |
+  create table "$schema"."$mview.name" (<%srv.get('column').each {%>
+    !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
+  );
+
+mview.drop: |
+  drop table $mview.name;
+
+
 ---
 spring:
   profiles: postgres

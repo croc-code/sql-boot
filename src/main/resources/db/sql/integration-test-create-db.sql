@@ -27,6 +27,7 @@ create table hr.persons (
   constraint persons_pk primary key (id)
 );
 
+create view hr.persons_view_materialized as select * from hr.persons;
 
 
 create table hr.countries (

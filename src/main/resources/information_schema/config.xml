@@ -28,6 +28,7 @@
                 <value>#{index}</value>
                 <value>#{check}</value>
                 <value>#{view}</value>
+                <value>#{mview}</value>
             </list>
         </property>
     </bean>
