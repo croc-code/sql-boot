@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+       profile="information_schema">
+
+
+    <bean name="view,vw,v" parent="parentSchemaObjectBean">
+        <property name="name" value="view" />
+        <!--<property name="child">-->
+            <!--<list>-->
+            <!--</list>-->
+        <!--</property>-->
+        <property name="readers">
+            <list>
+                <bean parent="baseSqlReader">
+                    <property name="sql" value="${views}" />
+                </bean>
+            </list>
+        </property>
+        <property name="commands">
+            <list>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="template" value="${view.create}" />
+                </bean>
+                <bean parent="parentTemplateGeneratorBean">
+                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                    <property name="template" value="${view.drop}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
