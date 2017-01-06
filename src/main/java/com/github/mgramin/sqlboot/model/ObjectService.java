@@ -21,7 +21,7 @@ public class ObjectService {
     public List<DBSchemaObject> get(String type) {
         List<DBSchemaObject> result = new ArrayList<>();
         for (Map.Entry<String, DBSchemaObject> entry : objects.entrySet()) {
-            if (entry.getKey().startsWith(type + "/" + baseURI)) {
+            if (entry.getKey().startsWith(type + "/" + baseURI + ".")) {
                 result.add(entry.getValue());
             }
         }
