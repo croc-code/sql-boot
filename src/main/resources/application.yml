@@ -19,6 +19,17 @@ table.create: |
 table.drop: |
   drop table $schema.$table;
 
+table.info: |
+  r=srv.get('column')
+  table(border:'1'){
+    caption('"HR"."USERS"')
+    tr{th('COLUMN')th('TYPE')th('SIZE')}
+    r.each{
+      nm=it
+      tr{td(nm.name)td(nm.properties.data_type)td(nm.properties.length)}
+    }
+  }
+
 
 table.columns: |
   select * from (

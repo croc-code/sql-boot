@@ -32,10 +32,12 @@ public class DdlController {
     DBSchemaObjectTypeContainer container;
 
 
-    @RequestMapping(value = "/ddl/**", method = RequestMethod.GET, produces = {MediaType.TEXT_PLAIN_VALUE})
-    public @ResponseBody byte[] getTextDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
+    @RequestMapping(value = "/ddl/**", method = RequestMethod.GET)
+    public byte[] getTextDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
         String s = request.getServletPath().toString();
         response.setHeader("Content-Disposition", "inline;");
+        //response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+        //response.setContentType(MediaType.TEXT_HTML_VALUE);
         return new TextAggregator().aggregate(getDbSchemaObjects(s));
     }
 

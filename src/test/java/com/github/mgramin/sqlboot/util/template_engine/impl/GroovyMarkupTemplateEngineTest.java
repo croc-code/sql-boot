@@ -1,6 +1,7 @@
-package com.github.mgramin.sqlboot.util.template_engine;
+package com.github.mgramin.sqlboot.util.template_engine.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
 import com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,13 +20,22 @@ import static org.junit.Assert.*;
 public class GroovyMarkupTemplateEngineTest {
 
     @Test
-    public void process() throws Exception {
-        ITemplateEngine templateEngine = new GroovyMarkupTemplateEngine();
-
+    public void processXml() throws Exception {
         Map<String, Object> variables = new HashMap<>();
         variables.put("val", "foo");
-        assertEquals("<value>foo</value>", templateEngine.process(variables, "value(val)"));
+        assertEquals("<value>foo</value>",
+                new GroovyMarkupTemplateEngine().process(variables, "value(val)"));
     }
+
+    @Test
+    public void processHtml() throws Exception {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("border_val", "1");
+        assertEquals("<table border='1'><caption>\"HR\".\"USERS\"</caption><tr/></table>",
+                new GroovyMarkupTemplateEngine().process(variables,
+                        "table(border:border_val){caption('\"HR\".\"USERS\"')tr()}"));
+    }
+
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();

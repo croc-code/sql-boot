@@ -9,8 +9,9 @@
     <import resource="information_schema/config.xml" />
 
 
-    <!--<bean id="templateEngine" class="com.github.mgramin.com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />-->
+    <!-- Template engines -->
     <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
+    <bean id="markupTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
 
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
         <property name="dataSource" ref = "dataSource" />
@@ -41,6 +42,7 @@
 
 
     <!-- TODO Move to single config -->
+    <!-- TODO Add "default" flag -->
     <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.model.DBSchemaObjectCommand" />
 
     <bean name="CREATE" parent="command" >
@@ -76,6 +78,16 @@
     <bean name="COMPILE" parent="command" >
         <property name="name" value="compile" />
         <property name="aliases" value="comp;cmp;^" />
+    </bean>
+
+    <bean name="MIGRATE" parent="command" >
+        <property name="name" value="migrate" />
+        <property name="aliases" value="mgr;mg;~" />
+    </bean>
+
+    <bean name="INFO" parent="command" >
+        <property name="name" value="info" />
+        <property name="aliases" value="inf;i;@" />
     </bean>
 
 </beans>
