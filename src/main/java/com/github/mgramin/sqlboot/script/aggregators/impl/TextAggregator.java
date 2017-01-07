@@ -1,6 +1,7 @@
-package com.github.mgramin.sqlboot.script.aggregators;
+package com.github.mgramin.sqlboot.script.aggregators.impl;
 
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
+import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 
 import java.util.List;
 

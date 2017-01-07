@@ -30,6 +30,13 @@ table.info: |
     }
   }
 
+table.migrate: |
+  columns=srv.get('column')
+  changeSet(id:'1', author:'supper_user'){
+    createTable(tableName:table.name){
+      columns.each{column(name:it.name, type:it.properties.data_type.toLowerCase()+it.properties.length)}
+    }
+  }
 
 table.columns: |
   select * from (
