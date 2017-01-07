@@ -20,13 +20,13 @@ table.drop: |
   drop table $schema.$table;
 
 table.info: |
-  r=srv.get('column')
+  columns=srv.get('column')
   table(border:'1'){
     caption('"'+schema+'"."'+table.name+'"')
     tr{th('COLUMN')th('TYPE')th('SIZE')}
-    r.each{
-      nm=it
-      tr{td(nm.name)td(nm.properties.data_type)td(nm.properties.length)}
+    columns.each{
+      column=it
+      tr{td(column.name)td(column.properties.data_type)td(column.properties.length)}
     }
   }
 
