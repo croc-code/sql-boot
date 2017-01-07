@@ -22,7 +22,7 @@ table.drop: |
 table.info: |
   r=srv.get('column')
   table(border:'1'){
-    caption('"HR"."USERS"')
+    caption('"'+schema+'"."'+table.name+'"')
     tr{th('COLUMN')th('TYPE')th('SIZE')}
     r.each{
       nm=it
