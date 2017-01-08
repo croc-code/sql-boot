@@ -12,6 +12,7 @@
     <!-- Template engines -->
     <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
     <bean id="markupTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
+    <bean id="fmTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />
 
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
         <property name="dataSource" ref = "dataSource" />
@@ -35,6 +36,46 @@
         <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
+
+    <!-- Script aggregators -->
+    <bean name="aggregatorContainer" class="com.github.mgramin.sqlboot.script.aggregators.AggregatorContainer">
+        <property name="aggregators">
+            <list>
+                <bean name="textAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
+                    <property name="isDefault" value="true" />
+                    <property name="name" value="text"/>
+                    <property name="httpHeaders">
+                        <map>
+                            <entry key="Content-Type" value="text/plain"/>
+                            <entry key="Content-Disposition" value="inline;"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean name="liquibaseAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
+                    <property name="name" value="liquibase"/>
+                    <property name="httpHeaders">
+                        <map>
+                            <entry key="Content-Type" value="application/xml"/>
+                            <entry key="Content-Disposition" value="inline;"/>
+                        </map>
+                    </property>
+                    <property name="templateEngine" ref="templateEngine" />
+                    <property name="template" value="${templateAggregator}" />
+                </bean>
+                <bean name="zipAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.ZipAggregator">
+                    <property name="name" value="zip"/>
+                    <property name="httpHeaders">
+                        <map>
+                            <entry key="Content-Type" value="application/octet-stream"/>
+                            <entry key="Content-Disposition" value="attachment; filename=result.zip"/>
+                        </map>
+                    </property>
+                    <property name="zipFileName" value="result.zip" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
 
     <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DBSchemaObjectType" abstract="true" />

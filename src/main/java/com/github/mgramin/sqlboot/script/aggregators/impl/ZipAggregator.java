@@ -2,6 +2,7 @@ package com.github.mgramin.sqlboot.script.aggregators.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
+import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 
 import java.util.HashMap;
@@ -13,7 +14,17 @@ import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
 /**
  * Created by mgramin on 17.12.2016.
  */
-public class ZipAggregator implements IAggregator {
+public class ZipAggregator extends AbstractAggregator implements IAggregator {
+
+    private String zipFileName;
+
+    public String getZipFileName() {
+        return zipFileName;
+    }
+
+    public void setZipFileName(String zipFileName) {
+        this.zipFileName = zipFileName;
+    }
 
     @Override
     public byte[] aggregate(List<DBSchemaObject> objects) throws SqlBootException {

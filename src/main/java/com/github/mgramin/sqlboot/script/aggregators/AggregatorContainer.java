@@ -8,6 +8,13 @@ import java.util.List;
  */
 public class AggregatorContainer {
 
-    List<IAggregator> aggregators = new ArrayList<>();
+    private List<IAggregator> aggregators = new ArrayList<>();
 
+    public List<IAggregator> getAggregators() {
+        return aggregators;
+    }
+
+    public void setAggregators(List<IAggregator> aggregators) {
+        this.aggregators = aggregators;
+    }
 }

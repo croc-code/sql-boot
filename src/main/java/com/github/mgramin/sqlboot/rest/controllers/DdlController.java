@@ -7,17 +7,20 @@ import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer;
 import com.github.mgramin.sqlboot.model.ObjectService;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
-import com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.impl.ZipAggregator;
+import com.github.mgramin.sqlboot.script.aggregators.AggregatorContainer;
+import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,23 +34,24 @@ public class DdlController {
     @Qualifier("container")
     DBSchemaObjectTypeContainer container;
 
+    @Autowired
+    private AggregatorContainer aggregatorContainer;
 
-    @RequestMapping(value = "/ddl/**", method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE})
-    public byte[] getTextDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
+
+    @RequestMapping(value = "/ddl/**", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request) throws SqlBootException {
         String servletPath = request.getServletPath().toString();
-        response.setHeader("Content-Disposition", "inline;");
-        //response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        //response.setContentType(MediaType.TEXT_HTML_VALUE);
-        return new TextAggregator().aggregate(getDbSchemaObjects(servletPath));
-    }
+        String type = request.getParameter("type");
+        IAggregator aggregator = aggregatorContainer.getAggregators().stream().filter(c -> c.getName().equalsIgnoreCase(type)).findFirst().orElse(null);
+        if (aggregator == null)
+            aggregator = aggregatorContainer.getAggregators().stream().filter(c -> c.getIsDefault()).findFirst().get();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        for (Map.Entry<String, String> s : aggregator.getHttpHeaders().entrySet()) {
+            responseHeaders.add(s.getKey(), s.getValue());
+        }
 
-    @RequestMapping(value = "/ddl/**", params = {"type=zip"}, method = RequestMethod.GET, produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public byte[] getZipDdl(HttpServletRequest request, HttpServletResponse response) throws SqlBootException {
-        String servletPath = request.getServletPath().toString();
-        response.setHeader("Content-Disposition", "attachment; filename=result.zip");
-        return new ZipAggregator().aggregate(getDbSchemaObjects(servletPath));
+        return new ResponseEntity<>(aggregator.aggregate(getDbSchemaObjects(servletPath)), responseHeaders, HttpStatus.OK);
     }
-
 
     private List<DBSchemaObject> getDbSchemaObjects(String s) throws SqlBootException {
         ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));

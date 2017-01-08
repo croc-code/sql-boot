@@ -1,3 +1,20 @@
+templateAggregator: |
+  <databaseChangeLog
+      xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+      xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+      http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+      <preConditions>
+          <runningAs username="liquibase"/>
+      </preConditions>
+
+      <% objects.each {%>$it.ddl<%}%>
+
+  </databaseChangeLog>
+
+
 spring:
   profiles: information_schema
 
@@ -5,6 +22,7 @@ tables: |
   select * from (
     select t.table_schema   as "schema"
          , t.table_name     as "table"
+         , t.remarks        as "@comment"
          , t.table_schema || '/tables/' || t.table_name || '/main.sql' as "@file_name"
       from information_schema.tables t
      where lower(t.table_schema) like '$schema'
@@ -33,10 +51,11 @@ table.info: |
 table.migrate: |
   columns=srv.get('column')
   changeSet(id:'1', author:'supper_user'){
-    createTable(tableName:table.name){
+    createTable(schemaName:schema, tableName:table.name, remarks:table.properties.comment){
       columns.each{column(name:it.name, type:it.properties.data_type.toLowerCase()+it.properties.length)}
     }
   }
+
 
 table.columns: |
   select * from (
