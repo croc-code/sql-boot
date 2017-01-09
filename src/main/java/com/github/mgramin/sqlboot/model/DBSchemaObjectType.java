@@ -17,7 +17,7 @@ public class DBSchemaObjectType {
     public String description;
     public List<DBSchemaObjectType> child;
     public List<IDBObjectReader> readers;
-    public List<IActionGenerator> commands;
+    public List<DBSchemaObjectTypeAggregator> aggregators;
 
     /*Map<String, DBSchemaObject> read(ObjURI objURI) throws SqlBootException {
         return null;
@@ -61,13 +61,14 @@ public class DBSchemaObjectType {
         this.child = child;
     }
 
-    public void setCommands(List<IActionGenerator> commands) {
-        this.commands = commands;
-    }
-
     public void setReaders(List<IDBObjectReader> readers) {
         this.readers = readers;
     }
+
+    public void setAggregators(List<DBSchemaObjectTypeAggregator> aggregators) {
+        this.aggregators = aggregators;
+    }
+
 
     @Override
     public String toString() {

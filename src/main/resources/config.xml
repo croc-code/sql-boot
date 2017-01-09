@@ -5,7 +5,7 @@
 
     <!--<import resource="oracle/config.xml" />
     <import resource="cassandra/config.xml" />-->
-    <import resource="postgres/config.xml" />
+    <!--<import resource="postgres/config.xml" />-->
     <import resource="information_schema/config.xml" />
 
 
@@ -42,12 +42,12 @@
         <property name="aggregators">
             <list>
                 <bean name="textAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-                    <property name="isDefault" value="true" />
                     <property name="name" value="text"/>
+                    <property name="isDefault" value="true" />
                     <property name="httpHeaders">
                         <map>
                             <entry key="Content-Type" value="text/plain"/>
-                            <entry key="Content-Disposition" value="inline;"/>
+                            <entry key="Content-Disposition" value="inline"/>
                         </map>
                     </property>
                 </bean>
@@ -56,7 +56,7 @@
                     <property name="httpHeaders">
                         <map>
                             <entry key="Content-Type" value="application/xml"/>
-                            <entry key="Content-Disposition" value="inline;"/>
+                            <entry key="Content-Disposition" value="inline"/>
                         </map>
                     </property>
                     <property name="templateEngine" ref="templateEngine" />

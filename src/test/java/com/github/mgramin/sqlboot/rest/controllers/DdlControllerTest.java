@@ -25,7 +25,7 @@ public class DdlControllerTest {
     @Test
     public void getTextDdl() throws Exception {
         ResponseEntity<String> forEntity = this.testRestTemplate.getForEntity(
-                "/ddl/pk/hr", String.class);
+                "/ddl/table/hr/", String.class);
 
         assertEquals(forEntity.getStatusCodeValue(), 200);
         System.out.println(forEntity.getBody());

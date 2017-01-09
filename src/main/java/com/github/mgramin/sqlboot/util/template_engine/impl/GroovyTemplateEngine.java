@@ -27,8 +27,8 @@ public class GroovyTemplateEngine implements ITemplateEngine {
     public String process(Map<String, Object> variables, String template) throws SqlBootException {
         try {
             return engine.createTemplate(template.replace("!{", "${")).make(variables).toString();
-        } catch (ClassNotFoundException | IOException e) {
-            throw new SqlBootException(e);
+        } catch (Exception e) {
+            throw new SqlBootException(template, e);
         }
     }
 

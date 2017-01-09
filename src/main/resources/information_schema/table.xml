@@ -12,6 +12,7 @@
             <list>
                 <value>#{column}</value>
                 <value>#{pk}</value>
+                <!--<value>#{fk}</value>-->
                 <value>#{index}</value>
                 <value>#{check}</value>
             </list>
@@ -23,24 +24,48 @@
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="template" value="${table.create}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="text"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${table.drop}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="INFO" />
+                                <property name="templateEngine" ref="markupTemplateEngine" />
+                                <property name="template" value="${table.info}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${table.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="liquibase"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="CREATE" />
+                                <property name="templateEngine" ref="markupTemplateEngine" />
+                                <property name="template" value="${table.migrate}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="INFO" />
-                    <property name="templateEngine" ref="markupTemplateEngine" />
-                    <property name="template" value="${table.info}" />
-                </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="MIGRATE" />
-                    <property name="templateEngine" ref="markupTemplateEngine" />
-                    <property name="template" value="${table.migrate}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="zip"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.create}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -56,14 +81,21 @@
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="template" value="${table.column.create}" />
-                </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${table.column.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="text"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.column.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${table.column.drop}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -78,14 +110,21 @@
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="template" value="${table.pk.create}" />
-                </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${table.pk.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="text"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.pk.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${table.pk.drop}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -100,14 +139,21 @@
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="template" value="${table.index.create}" />
-                </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${table.index.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="text"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.index.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${table.index.drop}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -122,14 +168,21 @@
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="template" value="${table.check.create}" />
-                </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${table.check.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="text"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.check.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${table.check.drop}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
