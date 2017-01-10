@@ -27,7 +27,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="text"/>
+                    <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
@@ -84,7 +84,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="text"/>
+                    <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
@@ -113,7 +113,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="text"/>
+                    <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
@@ -142,7 +142,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="text"/>
+                    <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
@@ -171,7 +171,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="text"/>
+                    <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">

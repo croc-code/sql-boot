@@ -69,8 +69,6 @@ public class DdlController {
                     variables.put(object.getType().name, object);
                     variables.put("srv", objectService);
 
-                    List<DBSchemaObject> columns = objectService.get("column");
-
                     object.ddl = command.generate(variables);
                     objectsNew.add(object);
                 }

@@ -42,7 +42,7 @@
         <property name="aggregators">
             <list>
                 <bean name="textAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-                    <property name="name" value="text"/>
+                    <property name="name" value="sql"/>
                     <property name="isDefault" value="true" />
                     <property name="httpHeaders">
                         <map>

@@ -20,17 +20,20 @@ import static org.junit.Assert.assertEquals;
 public class DdlControllerTest {
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private TestRestTemplate client;
 
     @Test
     public void getTextDdl() throws Exception {
-        ResponseEntity<String> forEntity = this.testRestTemplate.getForEntity(
-                "/ddl/table/hr/", String.class);
+        test("/ddl/table/hr");
+        test("/ddl/table/hr/");
+        test("/ddl/table/hr?type=sql");
+        test("/ddl/table/hr?type=liquibase");
+    }
 
+    private void test(String uri) {
+        ResponseEntity<String> forEntity = client.getForEntity(uri, String.class);
         assertEquals(forEntity.getStatusCodeValue(), 200);
         System.out.println(forEntity.getBody());
     }
-
-
 
 }
