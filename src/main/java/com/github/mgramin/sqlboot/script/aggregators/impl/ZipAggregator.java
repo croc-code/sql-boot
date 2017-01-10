@@ -16,16 +16,6 @@ import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
  */
 public class ZipAggregator extends AbstractAggregator implements IAggregator {
 
-    private String zipFileName;
-
-    public String getZipFileName() {
-        return zipFileName;
-    }
-
-    public void setZipFileName(String zipFileName) {
-        this.zipFileName = zipFileName;
-    }
-
     @Override
     public byte[] aggregate(List<DBSchemaObject> objects) throws SqlBootException {
         Map<String, byte[]> files = new HashMap<>();

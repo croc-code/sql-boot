@@ -79,7 +79,6 @@
                             <entry key="Content-Disposition" value="attachment; filename=result.zip"/>
                         </map>
                     </property>
-                    <property name="zipFileName" value="result.zip" />
                 </bean>
             </list>
         </property>
