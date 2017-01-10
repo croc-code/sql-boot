@@ -14,14 +14,21 @@
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="template" value="${view.create}" />
-                </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${view.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="sql"/>
+                        <property name="commands">
+                            <list>
+                                <bean parent="parentTemplateGeneratorBean">
+                                    <property name="template" value="${view.create}" />
+                                </bean>
+                                <bean parent="parentTemplateGeneratorBean">
+                                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                                    <property name="template" value="${view.drop}" />
+                                </bean>
+                            </list>
+                        </property>
                 </bean>
             </list>
         </property>
@@ -42,14 +49,21 @@
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="template" value="${mview.create}" />
-                </bean>
-                <bean parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${mview.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="sql"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${mview.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${mview.drop}" />
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>

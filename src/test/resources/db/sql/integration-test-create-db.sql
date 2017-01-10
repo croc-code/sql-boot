@@ -7,6 +7,12 @@ create table hr.users (
   email         varchar(50),
   constraint users_pk primary key (id, first_name)
 );
+comment on table hr.users is 'all system users';
+
+create index hr.users_email_idx on hr.users (email, last_name);
+
+create view hr.users_view as select * from hr.users;
+
 
 create table hr.jobs (
   id            integer primary key,
@@ -14,6 +20,7 @@ create table hr.jobs (
   description   varchar(100),
   constraint jobs_pk primary key (id)
 );
+comment on table hr.jobs is 'all jobs';
 
 create table hr.persons (
   id        integer primary key,
@@ -21,7 +28,10 @@ create table hr.persons (
   id_user   integer,
   constraint persons_pk primary key (id)
 );
+comment on table hr.persons is 'all persons';
 
+
+create view hr.persons_view_materialized as select * from hr.persons;
 
 
 create table hr.countries (
