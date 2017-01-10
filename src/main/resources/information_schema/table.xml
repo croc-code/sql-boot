@@ -37,14 +37,22 @@
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
                                 <property name="template" value="${table.drop}" />
                             </bean>
-                            <!--<bean parent="parentTemplateGeneratorBean">
-                                <property name="DBSchemaObjectCommand" ref="INFO" />
-                                <property name="templateEngine" ref="markupTemplateEngine" />
-                                <property name="template" value="${table.info}" />
-                            </bean>-->
                         </list>
                     </property>
                 </bean>
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="html"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="CREATE" />
+                                <property name="templateEngine" ref="markupTemplateEngine" />
+                                <property name="template" value="${table.info}" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="liquibase"/>
                     <property name="commands">

@@ -28,6 +28,7 @@ public class DdlControllerTest {
         test("/ddl/table/hr/");
         test("/ddl/table/hr?type=sql");
         test("/ddl/table/hr?type=liquibase");
+        test("/ddl/table/hr?type=html");
     }
 
     private void test(String uri) {

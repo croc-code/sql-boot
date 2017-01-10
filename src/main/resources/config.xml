@@ -51,6 +51,15 @@
                         </map>
                     </property>
                 </bean>
+                <bean name="textAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
+                    <property name="name" value="html"/>
+                    <property name="httpHeaders">
+                        <map>
+                            <entry key="Content-Type" value="text/html"/>
+                            <entry key="Content-Disposition" value="inline"/>
+                        </map>
+                    </property>
+                </bean>
                 <bean name="liquibaseAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
                     <property name="name" value="liquibase"/>
                     <property name="httpHeaders">
