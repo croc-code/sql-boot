@@ -37,11 +37,11 @@
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
                                 <property name="template" value="${table.drop}" />
                             </bean>
-                            <bean parent="parentTemplateGeneratorBean">
+                            <!--<bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="INFO" />
                                 <property name="templateEngine" ref="markupTemplateEngine" />
                                 <property name="template" value="${table.info}" />
-                            </bean>
+                            </bean>-->
                         </list>
                     </property>
                 </bean>
