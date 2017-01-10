@@ -24,16 +24,16 @@ public class DdlControllerTest {
 
     @Test
     public void getTextDdl() throws Exception {
-        test("/ddl/table/hr");
-        test("/ddl/table/hr/");
-        test("/ddl/table/hr?type=sql");
-        test("/ddl/table/hr?type=liquibase");
-        test("/ddl/table/hr?type=html");
-        test("/ddl/view/hr");
-        test("/ddl/mview/hr");
+        callRestAndValidate("/ddl/table/hr");
+        callRestAndValidate("/ddl/table/hr/");
+        callRestAndValidate("/ddl/table/hr?type=sql");
+        callRestAndValidate("/ddl/table/hr?type=liquibase");
+        callRestAndValidate("/ddl/table/hr?type=html");
+        callRestAndValidate("/ddl/view/hr");
+        callRestAndValidate("/ddl/mview/hr");
     }
 
-    private void test(String uri) {
+    private void callRestAndValidate(String uri) {
         ResponseEntity<String> forEntity = client.getForEntity(uri, String.class);
         assertEquals(forEntity.getStatusCodeValue(), 200);
         System.out.println(forEntity.getBody());
