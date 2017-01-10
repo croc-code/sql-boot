@@ -121,11 +121,6 @@
         <property name="aliases" value="comp;cmp;^" />
     </bean>
 
-    <bean name="MIGRATE" parent="command" >
-        <property name="name" value="migrate" />
-        <property name="aliases" value="mgr;mg;~" />
-    </bean>
-
     <bean name="INFO" parent="command" >
         <property name="name" value="info" />
         <property name="aliases" value="inf;i;@" />
