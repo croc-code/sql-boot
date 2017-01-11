@@ -7,7 +7,6 @@ import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,13 +25,8 @@ import java.util.TreeMap;
 @ImportResource("classpath:config.xml")
 public class DdlController {
 
-    /*@Autowired
-    @Qualifier("container")
-    DBSchemaObjectTypeContainer container;*/
-
-    @Autowired
+    @Autowired(required = false)
     private List<DBSchemaObjectType> types;
-
 
     @Autowired(required = false)
     private List<IAggregator> aggregators;
