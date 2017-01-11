@@ -18,19 +18,4 @@
     <import resource="table.xml"/>
     <import resource="view.xml"/>
 
-
-    <bean id="container" class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer">
-        <property name="types">
-            <list>
-                <value>#{table}</value>
-                <value>#{column}</value>
-                <value>#{pk}</value>
-                <value>#{index}</value>
-                <value>#{check}</value>
-                <value>#{view}</value>
-                <value>#{mview}</value>
-            </list>
-        </property>
-    </bean>
-
 </beans>

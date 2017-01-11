@@ -38,49 +38,46 @@
     </bean>
 
     <!-- Script aggregators -->
-    <bean name="aggregatorContainer" class="com.github.mgramin.sqlboot.script.aggregators.AggregatorContainer">
-        <property name="aggregators">
-            <list>
-                <bean name="textAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-                    <property name="name" value="sql"/>
-                    <property name="isDefault" value="true" />
-                    <property name="httpHeaders">
-                        <map>
-                            <entry key="Content-Type" value="text/plain"/>
-                            <entry key="Content-Disposition" value="inline"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean name="textAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-                    <property name="name" value="html"/>
-                    <property name="httpHeaders">
-                        <map>
-                            <entry key="Content-Type" value="text/html"/>
-                            <entry key="Content-Disposition" value="inline"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean name="liquibaseAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-                    <property name="name" value="liquibase"/>
-                    <property name="httpHeaders">
-                        <map>
-                            <entry key="Content-Type" value="application/xml"/>
-                            <entry key="Content-Disposition" value="inline"/>
-                        </map>
-                    </property>
-                    <property name="templateEngine" ref="templateEngine" />
-                    <property name="template" value="${templateAggregator}" />
-                </bean>
-                <bean name="zipAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.ZipAggregator">
-                    <property name="name" value="zip"/>
-                    <property name="httpHeaders">
-                        <map>
-                            <entry key="Content-Type" value="application/octet-stream"/>
-                            <entry key="Content-Disposition" value="attachment; filename=result.zip"/>
-                        </map>
-                    </property>
-                </bean>
-            </list>
+    <bean name="sqlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
+        <property name="name" value="sql"/>
+        <property name="isDefault" value="true" />
+        <property name="httpHeaders">
+            <map>
+                <entry key="Content-Type" value="text/plain"/>
+                <entry key="Content-Disposition" value="inline"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="htmlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
+        <property name="name" value="html"/>
+        <property name="httpHeaders">
+            <map>
+                <entry key="Content-Type" value="text/html"/>
+                <entry key="Content-Disposition" value="inline"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="liquibaseAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
+        <property name="name" value="liquibase"/>
+        <property name="httpHeaders">
+            <map>
+                <entry key="Content-Type" value="application/xml"/>
+                <entry key="Content-Disposition" value="inline"/>
+            </map>
+        </property>
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="template" value="${templateAggregator}" />
+    </bean>
+
+    <bean name="zipAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.ZipAggregator">
+        <property name="name" value="zip"/>
+        <property name="httpHeaders">
+            <map>
+                <entry key="Content-Type" value="application/octet-stream"/>
+                <entry key="Content-Disposition" value="attachment; filename=result.zip"/>
+            </map>
         </property>
     </bean>
 

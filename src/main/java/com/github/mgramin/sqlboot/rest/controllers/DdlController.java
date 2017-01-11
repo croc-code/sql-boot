@@ -4,7 +4,6 @@ import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
-import com.github.mgramin.sqlboot.script.aggregators.AggregatorContainer;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +26,25 @@ import java.util.TreeMap;
 @ImportResource("classpath:config.xml")
 public class DdlController {
 
-    @Autowired
+    /*@Autowired
     @Qualifier("container")
-    DBSchemaObjectTypeContainer container;
+    DBSchemaObjectTypeContainer container;*/
 
     @Autowired
-    private AggregatorContainer aggregatorContainer;
+    private List<DBSchemaObjectType> types;
+
+
+    @Autowired(required = false)
+    private List<IAggregator> aggregators;
 
 
     @RequestMapping(value = "/ddl/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request) throws SqlBootException {
         final String servletPath = request.getServletPath().toString();
         final String aggregatorName = request.getParameter("type");
-        IAggregator aggregator = aggregatorContainer.getAggregators().stream().filter(c -> c.getName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
+        IAggregator aggregator = aggregators.stream().filter(c -> c.getName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
         if (aggregator == null)
-            aggregator = aggregatorContainer.getAggregators().stream().filter(c -> c.getIsDefault()).findFirst().get();
+            aggregator = aggregators.stream().filter(c -> c.getIsDefault()).findFirst().get();
         HttpHeaders responseHeaders = new HttpHeaders();
         for (Map.Entry<String, String> s : aggregator.getHttpHeaders().entrySet()) {
             responseHeaders.add(s.getKey(), s.getValue());
@@ -52,7 +55,7 @@ public class DdlController {
 
     private List<DBSchemaObject> getDbSchemaObjects(String s, String aggregatorName) throws SqlBootException {
         ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
-        DBSchemaObjectType type = container.types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
+        DBSchemaObjectType type = types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
         IDBObjectReader reader = type.readers.stream().findFirst().get();
         Map<String, DBSchemaObject> objects = reader.readr(uri, type);
         List<DBSchemaObject> objectsNew = new ArrayList();
