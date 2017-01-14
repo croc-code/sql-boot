@@ -25,11 +25,14 @@ import java.util.TreeMap;
 @ImportResource("classpath:config.xml")
 public class DdlController {
 
-    @Autowired(required = false)
+    @Autowired
     private List<DBSchemaObjectType> types;
 
-    @Autowired(required = false)
+    @Autowired
     private List<IAggregator> aggregators;
+
+    @Autowired
+    private List<DBSchemaObjectCommand> objectCommands;
 
 
     @RequestMapping(value = "/ddl/**", method = RequestMethod.GET)
@@ -49,6 +52,17 @@ public class DdlController {
 
     private List<DBSchemaObject> getDbSchemaObjects(String s, String aggregatorName) throws SqlBootException {
         ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
+
+        DBSchemaObjectCommand currentCommand = null;
+        for (DBSchemaObjectCommand objectCommand : objectCommands) {
+            for (String s1 : objectCommand.aliases.split(";")) {
+                if (s1.equals(uri.getAction())) {
+                    currentCommand = objectCommand;
+                    continue;
+                }
+            }
+        }
+
         DBSchemaObjectType type = types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
         IDBObjectReader reader = type.readers.stream().findFirst().get();
         Map<String, DBSchemaObject> objects = reader.readr(uri, type);
@@ -60,7 +74,8 @@ public class DdlController {
 
                 DBSchemaObjectTypeAggregator aggregator = type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
                 if (aggregator != null) {
-                    IActionGenerator command = object.type.aggregators.stream().filter(a->a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().get().getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(uri.getAction())).findFirst().orElse(null);
+                    DBSchemaObjectCommand finalCurrentCommand = currentCommand;
+                    IActionGenerator command = object.type.aggregators.stream().filter(a->a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().get().getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(finalCurrentCommand.name)).findFirst().orElse(null);
 
                     Map<String, Object> variables = new TreeMap<>(object.paths);
                     variables.put(object.getType().name, object);

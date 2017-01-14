@@ -35,7 +35,7 @@ table.create: |
   );
 
 table.drop: |
-  drop table $schema.$table;
+  drop table $schema.$table.name;
 
 table.info: |
   columns=srv.get('column')
