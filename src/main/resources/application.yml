@@ -27,6 +27,7 @@ tables: |
       from information_schema.tables t
      where lower(t.table_schema) like '$schema'
        and lower(t.table_name) like '$table'
+       and lower(t.table_name) not like '%_materialized'
      order by t.table_name)
 
 table.sql.create: |

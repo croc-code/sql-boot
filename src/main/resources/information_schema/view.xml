@@ -30,6 +30,16 @@
                             </list>
                         </property>
                 </bean>
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="zip"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${view.sql.create}" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -61,6 +71,16 @@
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
                                 <property name="template" value="${mview.sql.drop}" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="zip"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${mview.sql.create}" />
                             </bean>
                         </list>
                     </property>

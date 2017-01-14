@@ -11,7 +11,7 @@ comment on table hr.users is 'all system users';
 
 create index hr.users_email_idx on hr.users (email, last_name);
 
-create view hr.users_view as select * from hr.users;
+create view hr.users_view_materialized as select * from hr.users;
 
 
 create table hr.jobs (

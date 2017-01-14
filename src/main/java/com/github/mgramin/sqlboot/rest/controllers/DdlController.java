@@ -75,20 +75,22 @@ public class DdlController {
         for (DBSchemaObject object : objects.values()) {
             if (object.getType().equals(type) || uri.getRecursive()) {
                 ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
-                //if (object.type.commands == null) continue;
 
-                DBSchemaObjectTypeAggregator aggregator = type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
-                if (aggregator != null) {
-                    DBSchemaObjectCommand finalCurrentCommand = currentCommand;
+                DBSchemaObjectCommand finalCurrentCommand = currentCommand;
 
-                    IActionGenerator currentGenerator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().get().getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(finalCurrentCommand.name)).findFirst().orElse(null);
 
-                    Map<String, Object> variables = new TreeMap<>(object.paths);
-                    variables.put(object.getType().name, object);
-                    variables.put("srv", objectService);
+                DBSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
+                if (objectTypeAggregator != null) {
+                    IActionGenerator currentGenerator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElseGet(null).getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(finalCurrentCommand.name)).findFirst().orElse(null);
 
-                    object.ddl = currentGenerator.generate(variables);
-                    objectsNew.add(object);
+                    if (currentGenerator != null) {
+                        Map<String, Object> variables = new TreeMap<>(object.paths);
+                        variables.put(object.getType().name, object);
+                        variables.put("srv", objectService);
+
+                        object.ddl = currentGenerator.generate(variables);
+                        objectsNew.add(object);
+                    }
                 }
             }
         }
