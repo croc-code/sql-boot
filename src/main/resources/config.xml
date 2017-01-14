@@ -94,6 +94,7 @@
     <bean name="CREATE" parent="command" >
         <property name="name" value="create" />
         <property name="aliases" value="create;c;+" />
+        <property name="isDefault" value="true" />
     </bean>
 
     <bean name="DROP" parent="command" >

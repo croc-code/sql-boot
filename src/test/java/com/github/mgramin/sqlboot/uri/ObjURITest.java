@@ -11,12 +11,12 @@ public class ObjURITest {
 
     @Test
     public void createAllTableFromSchema() {
-        test("table/hr.*", "ObjURI{type='table', DBSchemaObjectCommand='create', objects=[hr, *], recursive=false, params={}}");
+        test("table/hr.*", "ObjURI{type='table', DBSchemaObjectCommand='null', objects=[hr, *], recursive=false, params={}}");
     }
 
     @Test
     public void createAllTableWithChildObjectsFromSchema() {
-        test("table/hr.*/", "ObjURI{type='table', DBSchemaObjectCommand='create', objects=[hr, *], recursive=true, params={}}");
+        test("table/hr.*/", "ObjURI{type='table', DBSchemaObjectCommand='null', objects=[hr, *], recursive=true, params={}}");
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ObjURITest {
     @Test
     public void createColumnsForTable() {
         test("column/hr.persons.*name",
-                "ObjURI{type='column', DBSchemaObjectCommand='create', objects=[hr, persons, *name], recursive=false, params={}}");
+                "ObjURI{type='column', DBSchemaObjectCommand='null', objects=[hr, persons, *name], recursive=false, params={}}");
     }
 
     @Test
@@ -41,7 +41,7 @@ public class ObjURITest {
     @Test
     public void createAllFkForTable() {
         test("fk/hr.employees.*",
-                "ObjURI{type='fk', DBSchemaObjectCommand='create', objects=[hr, employees, *], recursive=false, params={}}");
+                "ObjURI{type='fk', DBSchemaObjectCommand='null', objects=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ObjURITest {
     @Test
     public void testDefaultActionIsCreate() {
         test("fk/hr.*.*",
-                "ObjURI{type='fk', DBSchemaObjectCommand='create', objects=[hr, *, *], recursive=false, params={}}");
+                "ObjURI{type='fk', DBSchemaObjectCommand='null', objects=[hr, *, *], recursive=false, params={}}");
     }
 
     private void test(String uriStringActual, String jsonExpected) {

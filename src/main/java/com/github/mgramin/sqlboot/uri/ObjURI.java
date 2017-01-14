@@ -35,8 +35,8 @@ public class ObjURI {
         objects = Arrays.asList(list.get(1).split("[.]"));
         if (list.size() == 3)
             action = list.get(2);
-        else
-            action = "create";
+        /*else
+            action = "create";*/
         recursive = pathString.charAt(pathString.length() - 1) == '/';
 
         if (queryString != null) {

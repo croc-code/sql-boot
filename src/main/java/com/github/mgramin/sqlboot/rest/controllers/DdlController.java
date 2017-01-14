@@ -54,13 +54,18 @@ public class DdlController {
         ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
 
         DBSchemaObjectCommand currentCommand = null;
-        for (DBSchemaObjectCommand objectCommand : objectCommands) {
-            for (String s1 : objectCommand.aliases.split(";")) {
-                if (s1.equals(uri.getAction())) {
-                    currentCommand = objectCommand;
-                    continue;
+
+        if (uri.getAction() != null) {
+            for (DBSchemaObjectCommand objectCommand : objectCommands) {
+                for (String s1 : objectCommand.aliases.split(";")) {
+                    if (s1.equals(uri.getAction())) {
+                        currentCommand = objectCommand;
+                        continue;
+                    }
                 }
             }
+        } else {
+            currentCommand = objectCommands.stream().filter(c -> c.isDefault).findFirst().orElse(null);
         }
 
         DBSchemaObjectType type = types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
@@ -75,13 +80,14 @@ public class DdlController {
                 DBSchemaObjectTypeAggregator aggregator = type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
                 if (aggregator != null) {
                     DBSchemaObjectCommand finalCurrentCommand = currentCommand;
-                    IActionGenerator command = object.type.aggregators.stream().filter(a->a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().get().getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(finalCurrentCommand.name)).findFirst().orElse(null);
+
+                    IActionGenerator currentGenerator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().get().getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(finalCurrentCommand.name)).findFirst().orElse(null);
 
                     Map<String, Object> variables = new TreeMap<>(object.paths);
                     variables.put(object.getType().name, object);
                     variables.put("srv", objectService);
 
-                    object.ddl = command.generate(variables);
+                    object.ddl = currentGenerator.generate(variables);
                     objectsNew.add(object);
                 }
             }
