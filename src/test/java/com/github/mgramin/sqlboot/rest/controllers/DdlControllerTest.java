@@ -40,6 +40,12 @@ public class DdlControllerTest {
         callRestAndValidate("/ddl/table/hr?type=sql");
         callRestAndValidate("/ddl/table/hr?type=liquibase");
         callRestAndValidate("/ddl/table/hr?type=html");
+
+        callRestAndValidate("/ddl/fk/hr");
+        callRestAndValidate("/ddl/fk/hr/+");
+        callRestAndValidate("/ddl/fk/hr/-");
+        callRestAndValidate("/ddl/fk/hr?type=sql");
+
         callRestAndValidate("/ddl/view/hr");
         callRestAndValidate("/ddl/mview/hr");
     }

@@ -30,8 +30,11 @@ create table hr.persons (
 );
 comment on table hr.persons is 'all persons';
 
+alter table hr.persons add constraint person_to_jobs_fk foreign key (id_job) references hr.jobs(id);
+alter table hr.persons add constraint person_to_users_fk foreign key (id_user) references hr.users(id);
 
 create view hr.persons_view_materialized as select * from hr.persons;
+
 
 
 create table hr.countries (

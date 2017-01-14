@@ -113,6 +113,7 @@
         </property>
     </bean>
 
+
     <bean name="pk,primary,primary_key" parent="parentSchemaObjectBean">
         <property name="name" value="pk" />
         <property name="readers">
@@ -141,6 +142,37 @@
             </list>
         </property>
     </bean>
+
+
+    <bean name="fk,foreign,foreign_key" parent="parentSchemaObjectBean">
+        <property name="name" value="fk" />
+        <property name="readers">
+            <list>
+                <bean name="sqlReader" parent="baseSqlReader">
+                    <property name="sql" value="${table.fk}" />
+                </bean>
+            </list>
+        </property>
+        <property name="aggregators">
+            <list>
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="sql"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.fk.sql.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${table.fk.sql.drop}" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
     <bean name="index,idx" parent="parentSchemaObjectBean">
         <property name="name" value="index" />
