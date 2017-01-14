@@ -21,11 +21,11 @@
                         <property name="commands">
                             <list>
                                 <bean parent="parentTemplateGeneratorBean">
-                                    <property name="template" value="${view.create}" />
+                                    <property name="template" value="${view.sql.create}" />
                                 </bean>
                                 <bean parent="parentTemplateGeneratorBean">
                                     <property name="DBSchemaObjectCommand" ref="DROP" />
-                                    <property name="template" value="${view.drop}" />
+                                    <property name="template" value="${view.sql.create}" />
                                 </bean>
                             </list>
                         </property>
@@ -56,11 +56,11 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${mview.create}" />
+                                <property name="template" value="${mview.sql.create}" />
                             </bean>
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="template" value="${mview.drop}" />
+                                <property name="template" value="${mview.sql.drop}" />
                             </bean>
                         </list>
                     </property>

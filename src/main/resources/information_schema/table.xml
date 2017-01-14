@@ -31,11 +31,11 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${table.create}" />
+                                <property name="template" value="${table.sql.create}" />
                             </bean>
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="template" value="${table.drop}" />
+                                <property name="template" value="${table.sql.drop}" />
                             </bean>
                         </list>
                     </property>
@@ -58,9 +58,13 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="DBSchemaObjectCommand" ref="CREATE" />
                                 <property name="templateEngine" ref="markupTemplateEngine" />
-                                <property name="template" value="${table.migrate}" />
+                                <property name="template" value="${table.migrate.create}" />
+                            </bean>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="templateEngine" ref="markupTemplateEngine" />
+                                <property name="template" value="${table.migrate.drop}" />
                             </bean>
                         </list>
                     </property>
@@ -70,7 +74,7 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${table.create}" />
+                                <property name="template" value="${table.sql.create}" />
                             </bean>
                         </list>
                     </property>
@@ -96,11 +100,11 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${table.column.create}" />
+                                <property name="template" value="${table.column.sql.create}" />
                             </bean>
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="template" value="${table.column.drop}" />
+                                <property name="template" value="${table.column.sql.drop}" />
                             </bean>
                         </list>
                     </property>
@@ -125,11 +129,11 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${table.pk.create}" />
+                                <property name="template" value="${table.pk.sql.create}" />
                             </bean>
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="template" value="${table.pk.drop}" />
+                                <property name="template" value="${table.pk.sql.drop}" />
                             </bean>
                         </list>
                     </property>
@@ -154,11 +158,11 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${table.index.create}" />
+                                <property name="template" value="${table.index.sql.create}" />
                             </bean>
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="template" value="${table.index.drop}" />
+                                <property name="template" value="${table.index.sql.drop}" />
                             </bean>
                         </list>
                     </property>
@@ -183,11 +187,11 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${table.check.create}" />
+                                <property name="template" value="${table.check.sql.create}" />
                             </bean>
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="template" value="${table.check.drop}" />
+                                <property name="template" value="${table.check.sql.drop}" />
                             </bean>
                         </list>
                     </property>

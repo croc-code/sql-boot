@@ -23,6 +23,11 @@ public class DdlControllerTest {
     private TestRestTemplate client;
 
     @Test
+    public void getTextDdl2() throws Exception {
+        callRestAndValidate("/ddl/table/hr/drop?type=liquibase");
+    }
+
+    @Test
     public void getTextDdl() throws Exception {
         callRestAndValidate("/ddl/table/hr");
         callRestAndValidate("/ddl/table/hr/+");

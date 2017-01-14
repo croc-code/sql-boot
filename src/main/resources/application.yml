@@ -29,12 +29,12 @@ tables: |
        and lower(t.table_name) like '$table'
      order by t.table_name)
 
-table.create: |
+table.sql.create: |
   create table "$schema"."$table.name" (<%srv.get('column').each {%>
     !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
-table.drop: |
+table.sql.drop: |
   drop table $schema.$table.name;
 
 table.info: |
@@ -48,7 +48,7 @@ table.info: |
     }
   }
 
-table.migrate: |
+table.migrate.create: |
   columns=srv.get('column')
   changeSet(id:'1', author:'supper_user'){
     createTable(schemaName:schema, tableName:table.name, remarks:table.properties.comment){
@@ -56,6 +56,11 @@ table.migrate: |
     }
   }
 
+table.migrate.drop: |
+  columns=srv.get('column')
+  changeSet(id:'1', author:'supper_user'){
+    dropTable(schemaName:schema, tableName:table.name)
+  }
 
 table.columns: |
   select * from (
@@ -73,10 +78,10 @@ table.columns: |
    order by c.ordinal_position asc)
 
 
-table.column.create: |
+table.column.sql.create: |
   alter table $table add column $column.name;
 
-table.column.drop: |
+table.column.sql.drop: |
   alter table $table drop $column.name;
 
 
@@ -93,10 +98,10 @@ table.pk: |
        and lower(table_name) like '$table'
        and lower(constraint_name) like '$pk')
 
-table.pk.create: |
+table.pk.sql.create: |
   !{pk.properties.sql};
 
-table.pk.drop: |
+table.pk.sql.drop: |
   alter table $table drop pk $pk.name;
 
 
@@ -113,10 +118,10 @@ table.indexes: |
        and lower(table_name) like '$table'
        and lower(index_name) like '$index')
 
-table.index.create: |
+table.index.sql.create: |
   !{index.properties.sql};
 
-table.index.drop: |
+table.index.sql.drop: |
   drop index $index.name;
 
 
@@ -133,10 +138,10 @@ table.checks: |
        and lower(table_name) like '$table'
        and lower(constraint_name) like '$check')
 
-table.check.create: |
+table.check.sql.create: |
   !{check.properties.sql};
 
-table.check.drop: |
+table.check.sql.drop: |
   drop check $check.name;
 
 
@@ -151,10 +156,10 @@ views: |
        and lower(t.table_name) like '$table'
      order by t.table_name)
 
-view.create: |
+view.sql.create: |
   !{view.properties.sql};
 
-view.drop: |
+view.sql.drop: |
   drop view $view.name;
 
 
@@ -170,12 +175,12 @@ mviews: |
        and lower(t.table_name) like '%_materialized'
      order by t.table_name)
 
-mview.create: |
+mview.sql.create: |
   create table "$schema"."$mview.name" (<%srv.get('column').each {%>
     !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
-mview.drop: |
+mview.sql.drop: |
   drop table $mview.name;
 
 

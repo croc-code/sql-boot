@@ -9,14 +9,9 @@
     <import resource="information_schema/config.xml" />
 
 
-    <!-- Template engines -->
-    <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
-    <bean id="markupTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
-    <bean id="fmTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />
 
-    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
-        <property name="dataSource" ref = "dataSource" />
-    </bean>
+    <!-- Base db object schema type -->
+    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DBSchemaObjectType" abstract="true" />
 
 
     <!-- Generators -->
@@ -31,11 +26,11 @@
     </bean>
 
     <!-- DB-object readers -->
-
     <bean name="baseSqlReader" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader" abstract="true">
         <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
+
 
     <!-- Script aggregators -->
     <bean name="sqlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
@@ -83,48 +78,50 @@
 
 
 
-    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DBSchemaObjectType" abstract="true" />
 
 
-
-    <!-- TODO Move to single config -->
-    <!-- TODO Add "default" flag -->
+    <!-- DB commands -->
     <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.model.DBSchemaObjectCommand" />
-
     <bean name="CREATE" parent="command" >
         <property name="name" value="create" />
         <property name="aliases" value="create;c;+" />
         <property name="isDefault" value="true" />
     </bean>
-
     <bean name="DROP" parent="command" >
         <property name="name" value="drop" />
         <property name="aliases" value="drop;d;-" />
     </bean>
-
     <bean name="DROP_IF_EXISTS" parent="command" >
         <property name="name" value="drop_if_exists" />
         <property name="aliases" value="drop_if_exists;dx;_" />
     </bean>
-
     <bean name="EXISTS" parent="command" >
         <property name="name" value="exists" />
         <property name="aliases" value="exists;e;?" />
     </bean>
-
     <bean name="REBUILD" parent="command" >
         <property name="name" value="rebuild" />
         <property name="aliases" value="rebuild;r;*" />
     </bean>
-
     <bean name="GATHER" parent="command" >
         <property name="name" value="gather_stat" />
         <property name="aliases" value="stat;s;#" />
     </bean>
-
     <bean name="COMPILE" parent="command" >
         <property name="name" value="compile" />
         <property name="aliases" value="comp;cmp;^" />
+    </bean>
+
+
+
+    <!-- Template engines -->
+    <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
+    <bean id="markupTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
+    <bean id="fmTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />
+
+    <!-- DB helpers -->
+    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
+        <property name="dataSource" ref = "dataSource" />
     </bean>
 
 </beans>
