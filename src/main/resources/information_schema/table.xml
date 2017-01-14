@@ -54,7 +54,7 @@
                 </bean>
 
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="liquibase"/>
+                    <property name="aggregatorName" value="migration"/>
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">

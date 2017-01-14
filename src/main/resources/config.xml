@@ -54,8 +54,8 @@
         </property>
     </bean>
 
-    <bean name="liquibaseAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-        <property name="name" value="liquibase"/>
+    <bean name="migrationAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
+        <property name="name" value="migration"/>
         <property name="httpHeaders">
             <map>
                 <entry key="Content-Type" value="application/xml"/>

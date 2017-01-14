@@ -24,7 +24,7 @@ public class DdlControllerTest {
 
     @Test
     public void getTextDdl2() throws Exception {
-        callRestAndValidate("/ddl/table/hr/drop?type=liquibase");
+
     }
 
     @Test
@@ -38,7 +38,8 @@ public class DdlControllerTest {
 
         callRestAndValidate("/ddl/table/hr/");
         callRestAndValidate("/ddl/table/hr?type=sql");
-        callRestAndValidate("/ddl/table/hr?type=liquibase");
+        callRestAndValidate("/ddl/table/hr?type=migration");
+        callRestAndValidate("/ddl/table/hr/drop?type=migration");
         callRestAndValidate("/ddl/table/hr?type=html");
 
         callRestAndValidate("/ddl/fk/hr");
