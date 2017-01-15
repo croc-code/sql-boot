@@ -28,8 +28,8 @@ Try online:
 
 Build from source:
 ------------------
-git clone https://github.com/mgramin/sql-boot
-cd sql-boot
-mvn package
+git clone https://github.com/mgramin/sql-boot  
+cd sql-boot  
+mvn package  
 
 [![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
