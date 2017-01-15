@@ -12,4 +12,6 @@ public interface ISqlHelper {
 
     List<Map<String, String>> select(String sql) throws SqlBootException;
 
+    List<Map<String, String>> selectBatch(List<String> sql) throws SqlBootException;
+
 }

@@ -1,5 +1,6 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
+import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sql.DataSource;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,14 +24,14 @@ import static org.junit.Assert.assertEquals;
 public class SQLGeneratorTest {
 
     @Autowired
-    DataSource dataSource;
+    ISqlHelper sqlHelper;
 
     @Test
     public void testGenerate() throws Exception {
-        SQLGenerator sqlGenerator = new SQLGenerator(dataSource, new FMTemplateEngine(), "select 'Hello, ${name}!'");
-        Map map = new HashMap<String, String>();
-        map.put("name", "World");
-        assertEquals(sqlGenerator.generate(map), "Hello, World!");
+        SQLGenerator sqlGenerator = new SQLGenerator(sqlHelper, new FMTemplateEngine(), Collections.singletonList("select 'Hello, ${name}!'"));
+        Map variables = new HashMap<String, String>();
+        variables.put("name", "World");
+        assertEquals(sqlGenerator.generate(variables), "Hello, World!");
     }
 
 }

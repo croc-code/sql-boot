@@ -4,13 +4,8 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Created by maksim on 09.07.16.
@@ -26,25 +21,44 @@ public class JdbcSqlHelper implements ISqlHelper {
         this.dataSource = dataSource;
     }
 
+    @Override
     public List<Map<String, String>> select(String sql) throws SqlBootException {
+        return selectBatch(Arrays.asList(sql));
+    }
+
+    @Override
+    public List<Map<String, String>> selectBatch(List<String> sql) throws SqlBootException {
         List<Map<String, String>> result = new ArrayList<>();
-        try (ResultSet rs = dataSource.getConnection().createStatement().executeQuery(sql)) {
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-            int columnCount = rsMetaData.getColumnCount();
-            while (rs.next()) {
-                Map<String, String> map = new LinkedHashMap<>();
-                for (int i = 1; i < columnCount + 1; i++) {
-                    map.put(rsMetaData.getColumnName(i), rs.getString(i));
+        try (Connection connection = dataSource.getConnection()) {
+            for (String s : sql) {
+                if (s.toLowerCase().startsWith("select")) {
+                    try (ResultSet resultSet = connection.createStatement().executeQuery(s)) {
+                        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+                        int columnCount = resultSetMetaData.getColumnCount();
+                        while (resultSet.next()) {
+                            Map<String, String> map = new LinkedHashMap<>();
+                            for (int i = 1; i < columnCount + 1; i++) {
+                                map.put(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                            }
+                            result.add(map);
+                        }
+                    }
+                } else {
+                    try (Statement statement = connection.createStatement()) {
+                        statement.execute(s);
+                    }
                 }
-                result.add(map);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new SqlBootException("SQL Exception", e);
         }
         return result;
     }
 
+
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
 }

@@ -3,62 +3,43 @@ package com.github.mgramin.sqlboot.actions.generator.impl;
 import com.github.mgramin.sqlboot.actions.generator.AbstractActionGenerator;
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by maksim on 05.04.16.
  */
 public class SQLGenerator extends AbstractActionGenerator implements IActionGenerator {
 
-    public DataSource dataSource;
-    public ITemplateEngine templateEngine;
     public String prepareSql;
-    public String sql;
+    public List<String> sql;
+    private ISqlHelper sqlHelper;
+    public ITemplateEngine templateEngine;
 
-    public void setSql(String sql) {
+    public void setSql(List<String> sql) {
         this.sql = sql;
     }
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        String result = null;
-        try (Connection connection = dataSource.getConnection()) {
-            if (prepareSql != null) {
-                Statement prepareStatement = connection.createStatement();
-                prepareStatement.execute(prepareSql);
-            }
-            Statement statement = connection.createStatement();
-            String txt = templateEngine.process(variables, sql);
-            logger.trace(txt);
-            ResultSet resultSet = statement.executeQuery(txt);
-            resultSet.next();
-            result = resultSet.getString(1);
-        } catch (SQLException e) {
-            throw new SqlBootException(e);
-        }
-        return result;
+        List<String> readySQL = new ArrayList<>();
+        for (String s : sql)
+            readySQL.add(templateEngine.process(variables, s));
+        List<Map<String, String>> maps = sqlHelper.selectBatch(readySQL);
+        return maps.get(0).entrySet().iterator().next().getValue();
     }
 
     public SQLGenerator() {
     }
 
-    public SQLGenerator(DataSource dataSource, ITemplateEngine templateEngine, String sql) {
-        this.dataSource = dataSource;
+    public SQLGenerator(ISqlHelper sqlHelper, ITemplateEngine templateEngine, List<String> sql) {
+        this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
         this.sql = sql;
     }
 
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     public void setTemplateEngine(ITemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
@@ -66,6 +47,14 @@ public class SQLGenerator extends AbstractActionGenerator implements IActionGene
 
     public void setPrepareSql(String prepareSql) {
         this.prepareSql = prepareSql;
+    }
+
+    public ISqlHelper getSqlHelper() {
+        return sqlHelper;
+    }
+
+    public void setSqlHelper(ISqlHelper sqlHelper) {
+        this.sqlHelper = sqlHelper;
     }
 
     @Override
