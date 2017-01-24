@@ -5,8 +5,9 @@
        profile="information_schema">
 
 
-    <bean name="view,vw,v" parent="parentSchemaObjectBean">
+    <bean name="view" parent="parentSchemaObjectBean">
         <property name="name" value="view" />
+        <property name="aliases" value="view,vw,v" />
         <property name="readers">
             <list>
                 <bean parent="baseSqlReader">
@@ -45,8 +46,9 @@
     </bean>
 
 
-    <bean name="mview,mvw,mv,materialized_view" parent="parentSchemaObjectBean">
+    <bean name="mview" parent="parentSchemaObjectBean">
         <property name="name" value="mview" />
+        <property name="aliases" value="mview,mvw,mv,materialized_view" />
         <property name="child">
             <list>
                 <value>#{column}</value>

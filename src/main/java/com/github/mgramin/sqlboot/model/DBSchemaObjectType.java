@@ -3,6 +3,7 @@ package com.github.mgramin.sqlboot.model;
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Collections.*;
@@ -14,6 +15,7 @@ import static java.util.Collections.*;
 public class DBSchemaObjectType {
 
     public String name;
+    public List<String> aliases;
     public String description;
     public List<DBSchemaObjectType> child;
     public List<IDBObjectReader> readers;
@@ -69,13 +71,16 @@ public class DBSchemaObjectType {
         this.aggregators = aggregators;
     }
 
+    public void setAliases(String[] aliases) {
+        this.aliases = Arrays.asList(aliases);
+    }
 
     @Override
     public String toString() {
         return "DBSchemaObjectType{" +
                 "name='" + name + '\'' +
+                ", aliases=" + aliases +
                 ", description='" + description + '\'' +
                 '}';
     }
-
 }

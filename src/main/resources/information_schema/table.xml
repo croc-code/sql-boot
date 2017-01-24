@@ -5,8 +5,9 @@
        profile="information_schema">
 
 
-    <bean name="table,tbl,t" parent="parentSchemaObjectBean">
+    <bean parent="parentSchemaObjectBean">
         <property name="name" value="table" />
+        <property name="aliases" value="table,tbl,t" />
         <property name="child">
             <list>
                 <value>#{column}</value>
@@ -83,8 +84,9 @@
     </bean>
 
 
-    <bean name="column,clmn,c" parent="parentSchemaObjectBean">
+    <bean name="column" parent="parentSchemaObjectBean">
         <property name="name" value="column" />
+        <property name="aliases" value="column,clmn,c" />
         <property name="readers">
             <list>
                 <bean name="sqlReader" parent="baseSqlReader">
@@ -113,8 +115,9 @@
     </bean>
 
 
-    <bean name="pk,primary,primary_key" parent="parentSchemaObjectBean">
+    <bean name="pk" parent="parentSchemaObjectBean">
         <property name="name" value="pk" />
+        <property name="aliases" value="pk,primary,primary_key" />
         <property name="readers">
             <list>
                 <bean name="sqlReader" parent="baseSqlReader">
@@ -153,8 +156,9 @@
     </bean>
 
 
-    <bean name="fk,foreign,foreign_key" parent="parentSchemaObjectBean">
+    <bean name="fk" parent="parentSchemaObjectBean">
         <property name="name" value="fk" />
+        <property name="aliases" value="fk,foreign,foreign_key" />
         <property name="readers">
             <list>
                 <bean name="sqlReader" parent="baseSqlReader">
@@ -193,8 +197,9 @@
     </bean>
 
 
-    <bean name="index,idx" parent="parentSchemaObjectBean">
+    <bean name="index" parent="parentSchemaObjectBean">
         <property name="name" value="index" />
+        <property name="aliases" value="index,idx" />
         <property name="readers">
             <list>
                 <bean name="sqlReader" parent="baseSqlReader">
@@ -232,8 +237,9 @@
         </property>
     </bean>
 
-    <bean name="check,chk" parent="parentSchemaObjectBean">
+    <bean name="check" parent="parentSchemaObjectBean">
         <property name="name" value="check" />
+        <property name="aliases" value="check,chk" />
         <property name="readers">
             <list>
                 <bean name="sqlReader" parent="baseSqlReader">

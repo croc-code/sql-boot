@@ -21,6 +21,7 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
 
     @Override
     public byte[] aggregate(List<DBSchemaObject> objects) throws SqlBootException {
+        if (objects == null) return null;
         if (template == null || template.isEmpty()) {
             StringBuilder builder = new StringBuilder();
             for (DBSchemaObject o : objects) builder.append(o.ddl).append("\n");

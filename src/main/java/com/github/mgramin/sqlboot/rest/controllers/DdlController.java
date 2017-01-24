@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 @RestController
 @ImportResource("classpath:config.xml")
@@ -68,7 +69,13 @@ public class DdlController {
             currentCommand = objectCommands.stream().filter(c -> c.isDefault).findFirst().orElse(null);
         }
 
-        DBSchemaObjectType type = types.stream().filter(n -> n.name.equals(uri.getType())).findFirst().get();
+
+
+        //types.stream().filter(t -> t.aliases != null ).forEach(e -> e.aliases.forEach(a-> System.out.println(a)));
+
+        DBSchemaObjectType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
+        if (type == null) return null;
+
         IDBObjectReader reader = type.readers.stream().findFirst().get();
         Map<String, DBSchemaObject> objects = reader.readr(uri, type);
         List<DBSchemaObject> objectsNew = new ArrayList();

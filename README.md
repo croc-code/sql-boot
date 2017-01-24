@@ -10,7 +10,7 @@ Create and manage your DB source code (DDL, DML, etc).
 Try online:
 -----------
 - <a href="https://sql-boot.herokuapp.com/ddl/table/hr" target="_blank">table/hr</a> - get all table from "hr" schema
-- <a href="https://sql-boot.herokuapp.com/ddl/table/hr.jobs" target="_blank">hr.jobs</a> - get table "hr.jobs"
+- <a href="https://sql-boot.herokuapp.com/ddl/table/hr.jobs" target="_blank">table/hr.jobs</a> - get table "hr.jobs"
 - <a href="https://sql-boot.herokuapp.com/ddl/table/hr.users/" target="_blank">table/hr.users/</a> - get table "hr.users" with child objects (pk, fk, indexes etc)
 - <a href="https://sql-boot.herokuapp.com/ddl/index/hr.users" target="_blank">index/hr.users</a> - get all indexes for table "hr.users"
 - <a href="https://sql-boot.herokuapp.com/ddl/index/hr" target="_blank">index/hr</a> - get all indexes from "hr" schema
