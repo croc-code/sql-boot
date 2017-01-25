@@ -57,21 +57,10 @@ public class DdlController {
         DBSchemaObjectCommand currentCommand = null;
 
         if (uri.getAction() != null) {
-            for (DBSchemaObjectCommand objectCommand : objectCommands) {
-                for (String s1 : objectCommand.aliases.split(";")) {
-                    if (s1.equals(uri.getAction())) {
-                        currentCommand = objectCommand;
-                        continue;
-                    }
-                }
-            }
+            currentCommand = objectCommands.stream().filter(c -> c.aliases.contains(uri.getAction())).findFirst().orElse(null);
         } else {
             currentCommand = objectCommands.stream().filter(c -> c.isDefault).findFirst().orElse(null);
         }
-
-
-
-        //types.stream().filter(t -> t.aliases != null ).forEach(e -> e.aliases.forEach(a-> System.out.println(a)));
 
         DBSchemaObjectType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
         if (type == null) return null;
