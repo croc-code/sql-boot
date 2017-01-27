@@ -75,17 +75,19 @@ public class DdlController {
                 DBSchemaObjectCommand finalCurrentCommand = currentCommand;
 
 
-                DBSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
-                if (objectTypeAggregator != null) {
-                    IActionGenerator currentGenerator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElseGet(null).getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(finalCurrentCommand.name)).findFirst().orElse(null);
+                if (object.type.aggregators != null) {
+                    DBSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
+                    if (objectTypeAggregator != null) {
+                        IActionGenerator currentGenerator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElseGet(null).getCommands().stream().filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(finalCurrentCommand.name)).findFirst().orElse(null);
 
-                    if (currentGenerator != null) {
-                        Map<String, Object> variables = new TreeMap<>(object.paths);
-                        variables.put(object.getType().name, object);
-                        variables.put("srv", objectService);
+                        if (currentGenerator != null) {
+                            Map<String, Object> variables = new TreeMap<>(object.paths);
+                            variables.put(object.getType().name, object);
+                            variables.put("srv", objectService);
 
-                        object.ddl = currentGenerator.generate(variables);
-                        objectsNew.add(object);
+                            object.ddl = currentGenerator.generate(variables);
+                            objectsNew.add(object);
+                        }
                     }
                 }
             }

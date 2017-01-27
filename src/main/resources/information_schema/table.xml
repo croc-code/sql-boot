@@ -5,7 +5,7 @@
        profile="information_schema">
 
 
-    <bean parent="parentSchemaObjectBean">
+    <bean name="table" parent="parentSchemaObjectBean">
         <property name="name" value="table" />
         <property name="aliases" value="table,tbl,t" />
         <property name="child">

@@ -18,6 +18,11 @@ templateAggregator: |
 spring:
   profiles: information_schema
 
+schemas: |
+  select s.schema_name as "schema"
+    from information_schema.schemata s
+   where lower(s.schema_name) like '$schema'
+
 tables: |
   select * from (
     select t.table_schema   as "schema"

@@ -17,7 +17,7 @@ public abstract class AbstractObjectReader implements IDBObjectReader {
         Map<String, DBSchemaObject> objects = new LinkedHashMap<>(this.read(objURI, type));
         if (type.child != null) {
             for (DBSchemaObjectType childType : type.child)
-                objects.putAll(childType.readers.stream().findFirst().get().read(objURI, childType));
+                objects.putAll(childType.readers.stream().findFirst().get().readr(objURI, childType));
         }
         return objects;
     }

@@ -15,6 +15,31 @@
         <jdbc:script location="classpath:db/sql/integration-test-init-data.sql"/>
     </jdbc:embedded-database>
 
+
+
+
+    <bean name="schema" parent="parentSchemaObjectBean">
+        <property name="name" value="schema" />
+        <property name="aliases" value="schema,schm,s" />
+        <property name="child">
+            <list>
+                <value>#{table}</value>
+                <value>#{view}</value>
+                <value>#{mview}</value>
+            </list>
+        </property>
+        <property name="readers">
+            <list>
+                <bean parent="baseSqlReader">
+                    <property name="sql" value="${schemas}" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+
     <import resource="table.xml"/>
     <import resource="view.xml"/>
 
