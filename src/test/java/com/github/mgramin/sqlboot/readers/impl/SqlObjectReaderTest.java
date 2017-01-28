@@ -23,7 +23,7 @@ public class SqlObjectReaderTest {
 
     @Test
     public void readRecursive() throws Exception {
-        ObjURI uri = new ObjURI("column/hr.persons.%");
+        ObjURI uri = new ObjURI("column/hr.persons.*");
 
         ISqlHelper sqlHelper = mock(ISqlHelper.class);
         when(sqlHelper.select(any())).thenReturn(asList(

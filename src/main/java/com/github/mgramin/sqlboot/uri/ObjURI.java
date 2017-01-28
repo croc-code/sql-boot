@@ -1,5 +1,8 @@
 package com.github.mgramin.sqlboot.uri;
 
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -22,26 +25,24 @@ public class ObjURI {
         this.objects = objects;
     }
 
-    public ObjURI(String uri) {
-        String pathString;
-        String queryString = null;
+    public ObjURI(String uriString) throws SqlBootException {
+        try {
+            URI uri = new URI(uriString);
+            String pathString = uri.getPath();
+            String queryString = uri.getQuery();
 
-        pathString = uri.split("[?]")[0];
-        if (uri.split("[?]").length == 2) {
-            queryString = uri.split("[?]")[1];
-        }
+            List<String> list = Arrays.asList(pathString.split("[/]"));
+            type = list.get(0);
+            objects = Arrays.asList(list.get(1).split("[.]"));
+            if (list.size() == 3) action = list.get(2);
+            recursive = pathString.charAt(pathString.length() - 1) == '/';
 
-        List<String> list = Arrays.asList(pathString.split("[/]"));
-        type = list.get(0);
-        objects = Arrays.asList(list.get(1).split("[.]"));
-        if (list.size() == 3)
-            action = list.get(2);
-        recursive = pathString.charAt(pathString.length() - 1) == '/';
-
-        if (queryString != null) {
-            for (String s : queryString.split("&")) {
-                params.put(s.split("=")[0], s.split("=")[1]);
+            if (queryString != null)
+                for (String s : queryString.split("&")) {
+                    params.put(s.split("=")[0], s.split("=")[1]);
             }
+        } catch (Exception e) {
+            throw new SqlBootException(e);
         }
     }
 
