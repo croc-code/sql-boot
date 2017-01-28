@@ -20,7 +20,7 @@ create table hr.jobs (
   description   varchar(100),
   constraint jobs_pk primary key (id)
 );
-comment on table hr.jobs is 'all jobs';
+comment on table hr.jobs is 'all_jobs';
 
 create table hr.persons (
   id        integer primary key,

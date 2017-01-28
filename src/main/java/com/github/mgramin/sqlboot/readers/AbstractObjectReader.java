@@ -16,8 +16,10 @@ public abstract class AbstractObjectReader implements IDBObjectReader {
     public Map<String, DBSchemaObject> readr(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
         Map<String, DBSchemaObject> objects = new LinkedHashMap<>(this.read(objURI, type));
         if (type.child != null) {
-            for (DBSchemaObjectType childType : type.child)
+            for (DBSchemaObjectType childType : type.child) {
+                objURI.setParams(null);
                 objects.putAll(childType.readers.stream().findFirst().get().readr(objURI, childType));
+            }
         }
         return objects;
     }

@@ -68,6 +68,14 @@ public class ObjURITest {
                 "ObjURI{type='fk', DBSchemaObjectCommand='null', objects=[hr, *, *], recursive=false, params={}}");
     }
 
+
+    @Test
+    public void testParams() {
+        test("table/hr?comment=big_table",
+            "ObjURI{type='fk', DBSchemaObjectCommand='null', objects=[hr, *, *], recursive=false, params={}}");
+    }
+
+
     private void test(String uriStringActual, String jsonExpected) {
         ObjURI uri = new ObjURI(uriStringActual);
         assertEquals(uriStringActual, uri.toString());

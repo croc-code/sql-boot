@@ -12,6 +12,7 @@ public class ObjURI {
     private List<String> objects;
     private Boolean recursive;
     private Map<String, String> params = new LinkedHashMap<>();
+    private Map<String, String> filters = new HashMap<>();
 
     public ObjURI() {
     }
@@ -35,8 +36,6 @@ public class ObjURI {
         objects = Arrays.asList(list.get(1).split("[.]"));
         if (list.size() == 3)
             action = list.get(2);
-        /*else
-            action = "create";*/
         recursive = pathString.charAt(pathString.length() - 1) == '/';
 
         if (queryString != null) {
@@ -115,4 +114,11 @@ public class ObjURI {
         this.params = params;
     }
 
+    public Map<String, String> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Map<String, String> filters) {
+        this.filters = filters;
+    }
 }

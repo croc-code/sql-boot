@@ -38,7 +38,7 @@ public class DdlController {
 
     @RequestMapping(value = "/ddl/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request) throws SqlBootException {
-        final String servletPath = request.getServletPath().toString();
+        final String servletPath = request.getServletPath().toString() + "?" + request.getQueryString();
         final String aggregatorName = request.getParameter("type");
         IAggregator aggregator = aggregators.stream().filter(c -> c.getName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
         if (aggregator == null)

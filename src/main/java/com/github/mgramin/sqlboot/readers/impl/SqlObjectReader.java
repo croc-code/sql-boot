@@ -1,5 +1,7 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
+import static java.util.stream.Collectors.toMap;
+
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
@@ -8,6 +10,8 @@ import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -87,6 +91,20 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
         } catch (Exception e) {
             throw new SqlBootException(e);
         }
+
+        if (objURI.getParams() != null) {
+            Map<String, String> filtersParam = objURI.getParams().entrySet().stream().filter(p ->
+                !p.getKey().equalsIgnoreCase("type"))
+                .collect(toMap(p -> p.getKey(), p -> p.getValue()));
+
+            for (Entry<String, String> param : filtersParam.entrySet()) {
+                objects = objects.entrySet().stream().filter(
+                    o -> o.getValue().getProperties().getProperty(param.getKey())
+                        .contains(param.getValue()))
+                    .collect(toMap(o -> o.getKey(), o -> o.getValue()));
+            }
+        }
+
         return objects;
     }
 

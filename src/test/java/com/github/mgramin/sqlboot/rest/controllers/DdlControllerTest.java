@@ -23,8 +23,8 @@ public class DdlControllerTest {
     private TestRestTemplate client;
 
     @Test
-    public void getTextDdl2() throws Exception {
-
+    public void testFilter() throws Exception {
+        callRestAndValidate("t/hr?table_type=system_table");
     }
 
     @Test
@@ -45,6 +45,8 @@ public class DdlControllerTest {
         callRestAndValidate("tbl/hr/-");
         callRestAndValidate("table/hr/drop");
         callRestAndValidate("table/hr/-");
+
+        callRestAndValidate("table/hr.jobs/drop");
 
         /*callRestAndValidate("/ddl/table/hr/");
         callRestAndValidate("/ddl/table/hr?type=sql");
