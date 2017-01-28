@@ -98,10 +98,12 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
                 .collect(toMap(p -> p.getKey(), p -> p.getValue()));
 
             for (Entry<String, String> param : filtersParam.entrySet()) {
-                objects = objects.entrySet().stream().filter(
-                    o -> o.getValue().getProperties().getProperty(param.getKey())
+                if (param.getKey().startsWith("@")) {
+                    objects = objects.entrySet().stream().filter(
+                    o -> o.getValue().getProperties().getProperty(param.getKey().substring(1))
                         .contains(param.getValue()))
                     .collect(toMap(o -> o.getKey(), o -> o.getValue()));
+                }
             }
         }
 

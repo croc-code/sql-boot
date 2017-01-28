@@ -71,16 +71,10 @@ public class ObjURITest {
 
     @Test
     public void testParams() {
-
-        //callRestAndValidate("t/hr");
-
-        ObjURI uri = new ObjURI("t/hr");
-
-        /*test("t/hr",
-            "ObjURI{type='table', DBSchemaObjectCommand='null', objects=[hr], recursive=false, params={comment=big_table}}");
-
-        test("table/hr?comment=big_table",
-            "ObjURI{type='table', DBSchemaObjectCommand='null', objects=[hr], recursive=false, params={comment=big_table}}");*/
+        test("t/hr?@table_comment=big_table",
+            "ObjURI{type='t', DBSchemaObjectCommand='null', objects=[hr], recursive=false, params={@table_comment=big_table}}");
+        test("table/hr?@table_comment=big_table",
+            "ObjURI{type='table', DBSchemaObjectCommand='null', objects=[hr], recursive=false, params={@table_comment=big_table}}");
     }
 
 
