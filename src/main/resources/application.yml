@@ -14,7 +14,7 @@ templateAggregator: |
 
   </databaseChangeLog>
 
-
+---
 spring:
   profiles: information_schema
 
@@ -218,7 +218,7 @@ mview.sql.drop: |
 spring:
   profiles: postgres
 
-table: |
+tables: |
   select t.table_schema     as "schema"
        , t.table_name       as "table"
     from information_schema.tables t
@@ -226,15 +226,13 @@ table: |
      and lower(t.table_schema) like '$schema'
      and lower(t.table_name) like '$table'
 
-table.create: |
-  create table "$schema"."$table" (<%srv.get('column').each {%>
-    !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
-  );
+table.sql.create: |
+  create table "$schema".$table.name" ...;
 
 table.drop: |
   drop table $schema.$table;
 
-table.column: |
+table.columns: |
   select c.table_schema     as "schema"
        , c.table_name       as "table"
        , c.column_name      as "column"

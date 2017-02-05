@@ -1,23 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+        profile="postgres">
 
-    <bean id="container" class="com.github.mgramin.com.github.mgramin.sqlboot.model.DBSchemaObjectTypeContainer">
-        <property name="types">
-            <list>
-                <value>#{table}</value>
-                <value>#{column}</value>
-            </list>
-        </property>
-    </bean>
 
 
     <bean name="table,tbl,t" parent="parentSchemaObjectBean">
         <property name="name" value="table" />
+        <property name="aliases" value="table,tbl,t" />
         <property name="child">
             <list>
-                <value>#{column}</value>
+                <!--<value>#{column}</value>-->
                 <!--<value>#{index}</value>-->
                 <!--<value>#{pk}</value>
                 <value>#{fk}</value>
@@ -28,20 +22,26 @@
         </property>
         <property name="readers">
             <list>
-                <bean name="sqlReader" parent="baseSqlReader">
-                    <property name="sql" value="${table}" />
+                <bean parent="baseSqlReader">
+                    <property name="sql" value="${tables}" />
                 </bean>
             </list>
         </property>
-        <property name="commands">
+        <property name="aggregators">
             <list>
-                <bean name="create" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="CREATE" />
-                    <property name="template" value="${table.create}" />
-                </bean>
-                <bean name="dropTable" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
-                    <property name="template" value="${table.drop}" />
+                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                    <property name="aggregatorName" value="sql"/>
+                    <property name="commands">
+                        <list>
+                            <bean parent="parentTemplateGeneratorBean">
+                                <property name="template" value="${table.sql.create}" />
+                            </bean>
+                            <!--<bean parent="parentTemplateGeneratorBean">
+                                <property name="DBSchemaObjectCommand" ref="DROP" />
+                                <property name="template" value="${table.sql.drop}" />
+                            </bean>-->
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -50,13 +50,13 @@
 
     <bean name="column,clmn,c" parent="parentSchemaObjectBean">
         <property name="name" value="column" />
-        <property name="readers">
+        <!--<property name="readers">
             <list>
                 <bean name="sqlReader" parent="baseSqlReader">
                     <property name="sql" value="${table.column}" />
                 </bean>
             </list>
-        </property>
+        </property>-->
         <!--<property name="commands">
             <list>
                 <bean id="addColumn" parent="parentTemplateGeneratorBean">

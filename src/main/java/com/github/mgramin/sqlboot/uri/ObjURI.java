@@ -1,5 +1,7 @@
 package com.github.mgramin.sqlboot.uri;
 
+import static java.util.Arrays.asList;
+
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import java.net.URI;
 import java.util.*;
@@ -27,12 +29,12 @@ public class ObjURI {
     public ObjURI(String uriString) throws SqlBootException {
         try {
             URI uri = new URI(uriString);
-            String pathString = uri.getPath();
+            String pathString = uri.getPath().replace("*", "%");
             String queryString = uri.getQuery();
 
-            List<String> list = Arrays.asList(pathString.split("[/]"));
+            List<String> list = asList(pathString.split("[/]"));
             type = list.get(0);
-            objects = Arrays.asList(list.get(1).split("[.]"));
+            objects = asList(list.get(1).split("[.]"));
             if (list.size() == 3) action = list.get(2);
             recursive = pathString.charAt(pathString.length() - 1) == '/';
 
@@ -61,17 +63,19 @@ public class ObjURI {
                 result.append(stringStringEntry.getKey()).append("=").append(stringStringEntry.getValue());
             }
         }
-        return result.toString();
+        return result.toString().replace("%", "*");
     }
 
     public String toJson() {
-        return "ObjURI{" +
-                "type='" + type + '\'' +
-                ", DBSchemaObjectCommand='" + action + '\'' +
-                ", objects=" + objects +
-                ", recursive=" + recursive +
-                ", params=" + params +
-                '}';
+        String s = "ObjURI{" +
+            "type='" + type + '\'' +
+            ", DBSchemaObjectCommand='" + action + '\'' +
+            ", objects=" + objects +
+            ", recursive=" + recursive +
+            ", params=" + params +
+            "}";
+        s = s.replace("%", "*");
+        return s;
     }
 
     public String getType() {

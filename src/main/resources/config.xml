@@ -5,7 +5,7 @@
 
     <!--<import resource="oracle/config.xml" />
     <import resource="cassandra/config.xml" />-->
-    <!--<import resource="postgres/config.xml" />-->
+    <import resource="postgres/config.xml" />
     <import resource="information_schema/config.xml" />
 
 

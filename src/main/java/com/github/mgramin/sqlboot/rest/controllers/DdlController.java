@@ -59,7 +59,7 @@ public class DdlController {
     }
 
     private List<DBSchemaObject> getDbSchemaObjects(String s, String aggregatorName) throws SqlBootException {
-        ObjURI uri = new ObjURI(s.substring(5).replace("*", "%"));
+        ObjURI uri = new ObjURI(s.substring(5));
 
         DBSchemaObjectCommand currentCommand = null;
 
