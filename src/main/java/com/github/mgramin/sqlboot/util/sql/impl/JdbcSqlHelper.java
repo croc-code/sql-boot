@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class JdbcSqlHelper implements ISqlHelper {
 
-    public DataSource dataSource;
+    private DataSource dataSource;
 
     public JdbcSqlHelper() {
     }

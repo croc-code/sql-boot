@@ -16,7 +16,7 @@
 
     <!-- Generators -->
     <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator" abstract="true">
-        <property name="dataSource" ref="dataSource" />
+        <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine" />
     </bean>
 
@@ -121,7 +121,16 @@
 
     <!-- DB helpers -->
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
-        <property name="dataSource" ref = "dataSource" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- Connection pool template -->
+    <bean id="templateCP" class = "org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" abstract="true">
+        <property name="validationQuery" value="select 1" />
+        <property name="initialSize" value="5" />
+        <property name="maxActive" value="10" />
+        <property name="maxIdle" value="5" />
+        <property name="minIdle" value="2" />
     </bean>
 
 </beans>
