@@ -52,6 +52,8 @@
                 <entry key="Content-Disposition" value="inline"/>
             </map>
         </property>
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="template" value="${htmlAggregator}" />
     </bean>
 
     <bean name="migrationAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
@@ -63,7 +65,7 @@
             </map>
         </property>
         <property name="templateEngine" ref="templateEngine" />
-        <property name="template" value="${templateAggregator}" />
+        <property name="template" value="${liquibaseChangeLogAggregator}" />
     </bean>
 
     <bean name="zipAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.ZipAggregator">

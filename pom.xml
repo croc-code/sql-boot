@@ -123,6 +123,12 @@
     </dependency>
     <!--Temp dependencies-->
 
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>bootstrap</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+
   </dependencies>
 
   <build>
