@@ -86,7 +86,7 @@ table.info: |
   columns=srv.get('column')
   table(border:'1', class:'table table-striped'){
     caption('"'+schema+'"."'+table.name+'"')
-    tr{th(class:'col-md-2', 'COLUMN')th(class:'col-md-2', 'TYPE')th(class:'col-md-2', 'SIZE')}
+    tr{th(class:'col-md-4', 'COLUMN')th(class:'col-md-4', 'TYPE')th(class:'col-md-1', 'SIZE')}
     columns.each{
       column=it
       tr{td(column.name)td(column.properties.data_type)td(column.properties.length)}
