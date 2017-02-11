@@ -9,8 +9,8 @@ tables: |
 table.sql.create: |
   create table "$schema".$table.name" ...;
 
-table.drop: |
-  drop table $schema.$table;
+table.sql.drop: |
+  drop table $schema.$table.name;
 
 table.columns: |
   select c.table_schema     as "schema"

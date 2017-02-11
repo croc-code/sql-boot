@@ -1,4 +1,3 @@
-
 schemas: |
   select s.schema_name as "schema"
     from information_schema.schemata s

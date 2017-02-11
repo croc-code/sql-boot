@@ -2,8 +2,7 @@
 
 Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers
 
-Create and manage your DB source code (DDL, DML, etc).
-
+- Create and manage your DB source code (DDL, DML, etc).
 - DB independent (use native old SQL);
 - Multiplatform (REST/Java based);
 

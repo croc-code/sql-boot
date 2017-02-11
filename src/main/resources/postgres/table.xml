@@ -36,10 +36,10 @@
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="template" value="${table.sql.create}" />
                             </bean>
-                            <!--<bean parent="parentTemplateGeneratorBean">
+                            <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
                                 <property name="template" value="${table.sql.drop}" />
-                            </bean>-->
+                            </bean>
                         </list>
                     </property>
                 </bean>
