@@ -1,20 +1,17 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine;
-import org.junit.Ignore;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by maksim on 08.04.16.
