@@ -1,5 +1,6 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObject;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
 import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
@@ -15,7 +16,7 @@ public class FSObjectReader extends AbstractObjectReader implements IDBObjectRea
 
     @Override
     public Map<String, DBSchemaObject> read(ObjURI objURI, DBSchemaObjectType type) {
-        return null;
+        throw new SqlBootException("Not implemented!");
     }
 
 }

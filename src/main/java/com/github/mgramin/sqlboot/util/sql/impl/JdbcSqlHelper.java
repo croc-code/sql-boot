@@ -1,5 +1,7 @@
 package com.github.mgramin.sqlboot.util.sql.impl;
 
+import static java.util.Collections.singletonList;
+
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 
@@ -7,23 +9,18 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
-/**
- * Created by maksim on 09.07.16.
- */
 public class JdbcSqlHelper implements ISqlHelper {
-
-    private DataSource dataSource;
-
-    public JdbcSqlHelper() {
-    }
 
     public JdbcSqlHelper(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    private DataSource dataSource;
+
+
     @Override
     public List<Map<String, String>> select(String sql) throws SqlBootException {
-        return selectBatch(Arrays.asList(sql));
+        return selectBatch(singletonList(sql));
     }
 
     @Override
@@ -56,9 +53,5 @@ public class JdbcSqlHelper implements ISqlHelper {
         return result;
     }
 
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
 }

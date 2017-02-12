@@ -28,7 +28,6 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
     public String sql;
     public String prepareSql;
 
-
     public SqlObjectReader() {
     }
 

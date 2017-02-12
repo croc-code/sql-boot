@@ -16,7 +16,7 @@ public class JdbcObjectReader extends AbstractObjectReader implements IDBObjectR
 
     @Override
     public Map<String, DBSchemaObject> read(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
-        return null;
+        throw new SqlBootException("Not implemented!");
     }
 
 }
