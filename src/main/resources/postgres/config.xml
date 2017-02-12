@@ -5,7 +5,7 @@
         profile="postgres">
 
 
-    <bean name="dev" id="dataSource" parent="templateCP">
+    <bean name="dev" id="dataSource" parent="templateCP" primary="true">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="${db_dev_url}"/>
         <property name="username" value="${db_dev_user}" />
@@ -13,12 +13,12 @@
     </bean>
 
 
-    <!--<bean name="test" id="testDataSource" parent="templateCP">
+    <bean name="test" id="testDataSource" parent="templateCP">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="${db_test_url}"/>
         <property name="username" value="${db_test_user}" />
         <property name="password" value="${db_test_password}" />
-    </bean>-->
+    </bean>
 
     <import resource="table.xml" />
 
