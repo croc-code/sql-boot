@@ -11,11 +11,12 @@ import java.util.*;
 
 public class JdbcSqlHelper implements ISqlHelper {
 
-    public JdbcSqlHelper(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JdbcSqlHelper(List<DataSource> dataSources) {
+        this.dataSources = dataSources;
     }
 
-    private DataSource dataSource;
+    private List<DataSource> dataSources; // TODO change to List<DataSource>
+
 
 
     @Override
@@ -26,7 +27,7 @@ public class JdbcSqlHelper implements ISqlHelper {
     @Override
     public List<Map<String, String>> selectBatch(List<String> sql) throws SqlBootException {
         List<Map<String, String>> result = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection()) {
+        try (Connection connection = dataSources.get(0).getConnection()) {
             for (String s : sql) {
                 if (s.toLowerCase().startsWith("select")) {
                     try (ResultSet resultSet = connection.createStatement().executeQuery(s)) {

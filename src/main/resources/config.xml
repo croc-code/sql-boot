@@ -32,6 +32,7 @@
     </bean>
 
 
+
     <!-- Script aggregators -->
     <bean name="sqlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
         <property name="name" value="sql"/>
@@ -80,8 +81,6 @@
 
 
 
-
-
     <!-- DB commands -->
     <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.model.DBSchemaObjectCommand" />
     <bean name="CREATE" parent="command" >
@@ -122,9 +121,7 @@
     <bean id="fmTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />
 
     <!-- DB helpers -->
-    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
-        <constructor-arg ref="dataSource" />
-    </bean>
+    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper" autowire="byType" />
 
     <!-- Connection pool template -->
     <bean id="templateCP" class = "org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" abstract="true">
