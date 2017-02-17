@@ -132,4 +132,6 @@
         <property name="minIdle" value="2" />
     </bean>
 
+    <bean id="dbConnectionsConf" class="com.github.mgramin.sqlboot.util.sql.DbConnectionManager" init-method="init"/>
+
 </beans>

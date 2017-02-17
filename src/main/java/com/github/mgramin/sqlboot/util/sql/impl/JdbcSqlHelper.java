@@ -15,7 +15,7 @@ public class JdbcSqlHelper implements ISqlHelper {
         this.dataSources = dataSources;
     }
 
-    private List<DataSource> dataSources; // TODO change to List<DataSource>
+    private List<DataSource> dataSources;
 
 
 
@@ -27,6 +27,11 @@ public class JdbcSqlHelper implements ISqlHelper {
     @Override
     public List<Map<String, String>> selectBatch(List<String> sql) throws SqlBootException {
         List<Map<String, String>> result = new ArrayList<>();
+
+        // dataSources.stream().filter(s -> s.getConnection().getClientInfo())
+
+        //dataSources.get(0).getConnection().setClientInfo();
+
         try (Connection connection = dataSources.get(0).getConnection()) {
             for (String s : sql) {
                 if (s.toLowerCase().startsWith("select")) {

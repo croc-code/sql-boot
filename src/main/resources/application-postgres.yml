@@ -1,3 +1,13 @@
+connections:
+  - name:         'dev'
+    description:  'develop db'
+    default:      'true'
+    driver:       'org.postgresql.Driver'
+    url:          '${db_dev_url}'
+    user:         '${db_dev_user}'
+    password:     '${db_dev_password}'
+
+
 tables: |
   select t.table_schema     as "schema"
        , t.table_name       as "table"

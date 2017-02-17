@@ -4,6 +4,19 @@
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
         profile="postgres">
 
+    <!--<bean class="com.github.mgramin.sqlboot.util.sql.DBConnectionss">
+        <constructor-arg name="name" value=""/>
+        <constructor-arg name="description" value=""/>
+        <constructor-arg name="isDefault" value=""/>
+        <constructor-arg name="dataSource">
+            <bean parent="templateCP" primary="true">
+                <property name="driverClassName" value="org.postgresql.Driver" />
+                <property name="url" value="${db_dev_url}"/>
+                <property name="username" value="${db_dev_user}" />
+                <property name="password" value="${db_dev_password}" />
+            </bean>
+        </constructor-arg>
+    </bean>-->
 
     <bean name="dev" id="dataSource" parent="templateCP" primary="true">
         <property name="driverClassName" value="org.postgresql.Driver" />
@@ -11,6 +24,7 @@
         <property name="username" value="${db_dev_user}" />
         <property name="password" value="${db_dev_password}" />
     </bean>
+
 
 
     <bean name="test" id="testDataSource" parent="templateCP">
