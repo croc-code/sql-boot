@@ -15,6 +15,10 @@
         <jdbc:script location="classpath:db/sql/integration-test-init-data.sql"/>
     </jdbc:embedded-database>
 
+<!--    <bean name="dev" id="dataSource" parent="templateCP" primary="true">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:mem:testdb"/>
+    </bean>-->
 
 
 

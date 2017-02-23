@@ -5,13 +5,16 @@ import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import com.github.mgramin.sqlboot.readers.impl.SqlObjectReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +38,8 @@ public class DdlController {
 
     @Autowired
     private List<DBSchemaObjectCommand> objectCommands;
+
+    private final static Logger logger = Logger.getLogger(DdlController.class);
 
 
     @RequestMapping(value = "/ddl/**", method = RequestMethod.GET)

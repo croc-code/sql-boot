@@ -10,8 +10,12 @@ import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import java.util.*;
@@ -21,7 +25,7 @@ import java.util.*;
  */
 public class SqlObjectReader extends AbstractObjectReader implements IDBObjectReader {
 
-    private final static Logger logger = Logger.getLogger(DBSchemaObjectType.class);
+    private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
 
     public ISqlHelper sqlHelper;
     public ITemplateEngine templateEngine;
@@ -61,7 +65,10 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
             }
 
             String prepareSQL = templateEngine.process(data, sql);
-            logger.info(prepareSQL);
+            logger.debug(prepareSQL);
+
+
+            /*watch.start();*/
 
             List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {
