@@ -35,6 +35,7 @@ public class FMTemplateEngine implements ITemplateEngine {
         }
     }
 
+    @Override
     public List<String> getAllProperties(String templateText) throws SqlBootException {
         templateText = templateText.replace("!", "$");
         Configuration cfg = new Configuration();

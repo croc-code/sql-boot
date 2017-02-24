@@ -3,6 +3,7 @@ package com.github.mgramin.sqlboot.util.template_engine.impl;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
 import groovy.text.GStringTemplateEngine;
+import groovy.text.Template;
 import groovy.text.TemplateEngine;
 
 import java.io.IOException;
@@ -17,18 +18,33 @@ import java.util.regex.Pattern;
  */
 public class GroovyTemplateEngine implements ITemplateEngine {
 
-    private TemplateEngine engine;
-
     public GroovyTemplateEngine() {
         engine = new GStringTemplateEngine();
     }
 
-    @Override
-    public String process(Map<String, Object> variables, String template) throws SqlBootException {
+    public GroovyTemplateEngine(String template) {
         try {
-            return engine.createTemplate(template.replace("!{", "${")).make(variables).toString();
-        } catch (Exception e) {
+            engine = new GStringTemplateEngine();
+            this.template = engine.createTemplate(template.replace("!{", "${"));
+        } catch (ClassNotFoundException | IOException e) {
             throw new SqlBootException(template, e);
+        }
+    }
+
+    private TemplateEngine engine;
+    private Template template;
+
+
+    @Override
+    public String process(Map<String, Object> variables, String template) {
+        if (this.template == null) {
+            try {
+                return engine.createTemplate(template.replace("!{", "${")).make(variables).toString();
+            } catch (ClassNotFoundException | IOException e) {
+                throw new SqlBootException(e);
+            }
+        } else {
+            return this.template.make(variables).toString();
         }
     }
 

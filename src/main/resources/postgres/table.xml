@@ -34,11 +34,19 @@
                     <property name="commands">
                         <list>
                             <bean parent="parentTemplateGeneratorBean">
-                                <property name="template" value="${table.sql.create}" />
+                                <property name="templateEngine">
+                                    <bean class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine">
+                                        <constructor-arg name="template" value="${table.sql.create}"/>
+                                    </bean>
+                                </property>
                             </bean>
                             <bean parent="parentTemplateGeneratorBean">
                                 <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="template" value="${table.sql.drop}" />
+                                <property name="templateEngine">
+                                    <bean class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine">
+                                        <constructor-arg name="template" value="${table.sql.drop}"/>
+                                    </bean>
+                                </property>
                             </bean>
                         </list>
                     </property>

@@ -8,6 +8,8 @@ import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.readers.impl.SqlObjectReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;

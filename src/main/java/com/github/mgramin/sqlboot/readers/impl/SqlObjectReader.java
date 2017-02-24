@@ -92,6 +92,7 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
                 object.objURI = new ObjURI(type.name, objectsForUri);
                 object.type = type;
                 objects.put(object.objURI.toString(), object);
+                logger.debug("find object " + object.objURI.toString());
             }
 
         } catch (Exception e) {

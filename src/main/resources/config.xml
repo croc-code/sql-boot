@@ -118,7 +118,7 @@
     <!-- Template engines -->
     <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
     <bean id="markupTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
-    <bean id="fmTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />
+    <!--<bean id="fmTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />-->
 
     <!-- DB helpers -->
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper" autowire="byType" />
