@@ -1,5 +1,6 @@
 package com.github.mgramin.sqlboot.model;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
@@ -70,7 +71,7 @@ public class DBSchemaObjectType {
     }
 
     public void setAliases(String[] aliases) {
-        this.aliases = Arrays.asList(aliases);
+        this.aliases = asList(aliases);
     }
 
     @Override

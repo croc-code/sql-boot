@@ -26,7 +26,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
+                    <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
                             <bean parent="templateGeneratorBean" c:template='${table.sql.create}' />
@@ -49,16 +49,6 @@
                         </list>
                     </property>
                 </bean>
-                <!--bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="zip"/>
-                    <property name="commands">
-                        <list>
-                            <bean parent="templateGeneratorBean">
-                                <property name="template" value="${table.sql.create}" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>-->
             </list>
         </property>
     </bean>
@@ -101,7 +91,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
+                    <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
                             <bean parent="templateGeneratorBean" c:template='${table.pk.sql.create}' />
@@ -109,16 +99,6 @@
                         </list>
                     </property>
                 </bean>
-                <!--<bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="zip"/>
-                    <property name="commands">
-                        <list>
-                            <bean parent="templateGeneratorBean">
-                                <property name="template" value="${table.pk.sql.create}" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>-->
             </list>
         </property>
     </bean>
@@ -128,16 +108,14 @@
         <property name="name" value="fk" />
         <property name="aliases" value="fk,foreign,foreign_key" />
         <property name="readers">
-            <list>
                 <bean name="sqlReader" parent="baseSqlReader">
                     <property name="sql" value="${table.fk}" />
                 </bean>
-            </list>
         </property>
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
+                    <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
                             <bean parent="templateGeneratorBean" c:template='${table.fk.sql.create}' />
@@ -145,16 +123,6 @@
                         </list>
                     </property>
                 </bean>
-                <!--<bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="zip"/>
-                    <property name="commands">
-                        <list>
-                            <bean parent="templateGeneratorBean">
-                                <property name="template" value="${table.fk.sql.create}" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>-->
             </list>
         </property>
     </bean>
@@ -173,7 +141,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
+                    <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
                             <bean parent="templateGeneratorBean" c:template='${table.index.sql.create}' />
@@ -181,16 +149,6 @@
                         </list>
                     </property>
                 </bean>
-                <!--<bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="zip"/>
-                    <property name="commands">
-                        <list>
-                            <bean parent="templateGeneratorBean">
-                                <property name="template" value="${table.index.sql.create}" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>-->
             </list>
         </property>
     </bean>
@@ -208,7 +166,7 @@
         <property name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
+                    <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
                             <bean parent="templateGeneratorBean" c:template='${table.check.sql.create}' />
@@ -216,16 +174,6 @@
                         </list>
                     </property>
                 </bean>
-                <!--<bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="zip"/>
-                    <property name="commands">
-                        <list>
-                            <bean parent="templateGeneratorBean">
-                                <property name="template" value="${table.check.sql.create}" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>-->
             </list>
         </property>
     </bean>

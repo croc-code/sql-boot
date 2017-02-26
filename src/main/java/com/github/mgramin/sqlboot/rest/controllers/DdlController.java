@@ -91,10 +91,10 @@ public class DdlController {
                 ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
 
                 if (object.type.aggregators != null) {
-                    DBSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName)).findFirst().orElse(null);
+                    DBSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
                     if (objectTypeAggregator != null) {
                         IActionGenerator currentGenerator = object.type.aggregators.stream()
-                            .filter(a -> a.getAggregatorName().equalsIgnoreCase(aggregatorName))
+                            .filter(a -> a.getAggregatorName().contains(aggregatorName))
                             .findFirst()
                             .orElseGet(null)
                             .getCommands()

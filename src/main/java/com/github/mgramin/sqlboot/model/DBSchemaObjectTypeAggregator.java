@@ -1,7 +1,10 @@
 package com.github.mgramin.sqlboot.model;
 
+import static java.util.Arrays.asList;
+
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,16 +12,16 @@ import java.util.List;
  */
 public class DBSchemaObjectTypeAggregator {
 
-    private String aggregatorName;
+    private List<String> aggregatorName;
     private List<IActionGenerator> commands;
 
 
-    public String getAggregatorName() {
+    public List<String> getAggregatorName() {
         return aggregatorName;
     }
 
-    public void setAggregatorName(String aggregatorName) {
-        this.aggregatorName = aggregatorName;
+    public void setAggregatorName(String[] aggregatorName) {
+        this.aggregatorName = asList(aggregatorName);
     }
 
     public List<IActionGenerator> getCommands() {
