@@ -16,7 +16,7 @@
         </property>
         <property name="commands">
             <list>
-                <bean id="createNewSequence" parent="parentTemplateGeneratorBean">
+                <bean id="createNewSequence" parent="templateGeneratorBean">
                     <property name="filePath" value="${schema?lower_case}/sequences/${sequence?lower_case}.sql" />
                     <property name="template" >
                         <value>
@@ -33,7 +33,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropSequence" parent="parentTemplateGeneratorBean">
+                <bean id="dropSequence" parent="templateGeneratorBean">
                     <property name="template" >
                         <value>
                             DROP SEQUENCE ${schema}.${sequence};

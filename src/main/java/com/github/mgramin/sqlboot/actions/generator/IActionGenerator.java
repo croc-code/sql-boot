@@ -13,8 +13,8 @@ public interface IActionGenerator {
     String generate(Map<String, Object> variables) throws SqlBootException;
 
 
-    DBSchemaObjectCommand getDBSchemaObjectCommand();
+    DBSchemaObjectCommand getDbSchemaObjectCommand();
 
-    void setDBSchemaObjectCommand(DBSchemaObjectCommand DBSchemaObjectCommand);
+    void setDbSchemaObjectCommand(DBSchemaObjectCommand dbSchemaObjectCommand);
 
 }

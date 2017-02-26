@@ -15,9 +15,21 @@ import java.util.Map;
  */
 public class TextAggregator extends AbstractAggregator implements IAggregator {
 
+    public TextAggregator(String name, Boolean isDefault, Map<String, String> httpHeaders) {
+        this.name = name;
+        this.isDefault = isDefault;
+        this.httpHeaders = httpHeaders;
+    }
+
+    public TextAggregator(String name, Map<String, String> httpHeaders, ITemplateEngine templateEngine, String template) {
+        this.name = name;
+        this.httpHeaders = httpHeaders;
+        this.templateEngine = templateEngine;
+        this.template = template;
+    }
+
     private String template;
     private ITemplateEngine templateEngine;
-
 
     @Override
     public byte[] aggregate(List<DBSchemaObject> objects) throws SqlBootException {
@@ -30,24 +42,9 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
         else {
             Map<String, Object> variables = new HashMap<>();
             variables.put("objects", objects);
-            return templateEngine.process(variables, template).getBytes();
+            templateEngine.setTemplate(template); // TODO move to constructor
+            return templateEngine.process(variables).getBytes();
         }
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
-    public ITemplateEngine getTemplateEngine() {
-        return templateEngine;
-    }
-
-    public void setTemplateEngine(ITemplateEngine templateEngine) {
-        this.templateEngine = templateEngine;
     }
 
 }

@@ -35,8 +35,8 @@
                         </value>
                     </property>
                 </bean>
-                <bean name="dropTable" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean name="dropTable" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop table ${schema}.${table};</value>
                     </property>
@@ -67,14 +67,14 @@
                         <value>select DBMS_METADATA.GET_DDL('INDEX', '${index}', '${schema}') as ddl from DUAL</value>
                     </property>
                 </bean>
-                <bean name="drop" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean name="drop" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop index ${schema}.${index};</value>
                     </property>
                 </bean>
-                <bean name="drop_if_exists" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP_IF_EXISTS" />
+                <bean name="drop_if_exists" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP_IF_EXISTS" />
                     <property name="template" >
                         <value>
                             begin
@@ -84,8 +84,8 @@
                         </value>
                     </property>
                 </bean>
-                <bean name="rebuild" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="REBUILD" />
+                <bean name="rebuild" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="REBUILD" />
                     <property name="template" >
                         <value>alter index ${schema}.${index} rebuild;</value>
                     </property>
@@ -118,8 +118,8 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropTrigger" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean id="dropTrigger" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template">
                         <value>drop trigger ${schema}.${trigger};</value>
                     </property>
@@ -185,8 +185,8 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropFk" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean id="dropFk" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template">
                         <value>alter table ${schema}.${table} drop constraint ${fk};</value>
                     </property>

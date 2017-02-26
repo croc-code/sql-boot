@@ -7,33 +7,21 @@ import java.util.Map;
  */
 public abstract class AbstractAggregator implements IAggregator {
 
-    private String name;
-    private Boolean isDefault;
-    private Map<String, String> httpHeaders;
+    protected String name;
+    protected Boolean isDefault;
+    protected Map<String, String> httpHeaders;
 
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Boolean getIsDefault() {
         return isDefault;
     }
 
-    public void setIsDefault(Boolean isDefault) {
-        this.isDefault = isDefault;
-    }
-
     public Map<String, String> getHttpHeaders() {
         return httpHeaders;
-    }
-
-    public void setHttpHeaders(Map<String, String> httpHeaders) {
-        this.httpHeaders = httpHeaders;
     }
 
 }

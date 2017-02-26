@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
@@ -33,21 +34,8 @@
                     <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
-                            <bean parent="parentTemplateGeneratorBean">
-                                <property name="templateEngine">
-                                    <bean class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine">
-                                        <constructor-arg name="template" value="${table.sql.create}"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="parentTemplateGeneratorBean">
-                                <property name="DBSchemaObjectCommand" ref="DROP" />
-                                <property name="templateEngine">
-                                    <bean class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine">
-                                        <constructor-arg name="template" value="${table.sql.drop}"/>
-                                    </bean>
-                                </property>
-                            </bean>
+                            <bean parent="templateGeneratorBean" c:template='${table.sql.create}' />
+                            <bean parent="templateGeneratorBean" c:template='${table.sql.drop}' c:command-ref='DROP'/>
                         </list>
                     </property>
                 </bean>
@@ -67,15 +55,15 @@
         </property>-->
         <!--<property name="commands">
             <list>
-                <bean id="addColumn" parent="parentTemplateGeneratorBean">
+                <bean id="addColumn" parent="templateGeneratorBean">
                     <property name="template" >
                         <value>
                             alter table !{schema}.!{table} add (!{column});
                         </value>
                     </property>
                 </bean>
-                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean id="dropColumn" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>alter table !{schema}.!{table} drop column !{column};</value>
                     </property>
@@ -101,14 +89,14 @@
         </property>
         <property name="commands">
             <list>
-                <bean name="create" parent="parentTemplateGeneratorBean">
+                <bean name="create" parent="templateGeneratorBean">
                     <property name="filePath" value="!{schema?lower_case}/tables/!{table?lower_case}/indexes/!{index?lower_case}.sql" />
                     <property name="template" >
                         <value>!{@indexdef?lower_case};</value>
                     </property>
                 </bean>
-                <bean name="dropTable" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean name="dropTable" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop index !{schema}.!{index};</value>
                     </property>

@@ -1,6 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:c="http://www.springframework.org/schema/c"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!--<import resource="oracle/config.xml" />
@@ -15,18 +16,22 @@
 
 
     <!-- Generators -->
-    <bean id="parentSQLGeneratorBean" class = "com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator" abstract="true">
+    <bean id="parentSQLGeneratorBean" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator">
         <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine" />
+        <property name="dbSchemaObjectCommand" ref="CREATE" />
     </bean>
 
-    <bean id="parentTemplateGeneratorBean" class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator" abstract="true">
-        <property name="DBSchemaObjectCommand" ref="CREATE" />
-        <property name="templateEngine" ref="templateEngine" />
-    </bean>
+    <bean id="templateGeneratorBean" abstract="true" scope="prototype"
+      class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator"
+      c:templateEngine-ref='templateEngine' c:command-ref='CREATE' />
+
+    <bean id="templateMarkupGeneratorBean" abstract="true" scope="prototype"
+      class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator"
+      c:templateEngine-ref='markupTemplateEngine' c:command-ref='CREATE' />
 
     <!-- DB-object readers -->
-    <bean name="baseSqlReader" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader" abstract="true">
+    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader">
         <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine"/>
     </bean>
@@ -35,48 +40,48 @@
 
     <!-- Script aggregators -->
     <bean name="sqlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-        <property name="name" value="sql"/>
-        <property name="isDefault" value="true" />
-        <property name="httpHeaders">
+        <constructor-arg name="name" value="sql"/>
+        <constructor-arg name="isDefault" value="true" />
+        <constructor-arg name="httpHeaders">
             <map>
                 <entry key="Content-Type" value="text/plain"/>
                 <entry key="Content-Disposition" value="inline"/>
             </map>
-        </property>
+        </constructor-arg>
     </bean>
 
     <bean name="htmlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-        <property name="name" value="html"/>
-        <property name="httpHeaders">
+        <constructor-arg name="name" value="html"/>
+        <constructor-arg name="httpHeaders">
             <map>
                 <entry key="Content-Type" value="text/html"/>
                 <entry key="Content-Disposition" value="inline"/>
             </map>
-        </property>
-        <property name="templateEngine" ref="templateEngine" />
-        <property name="template" value="${htmlAggregator}" />
+        </constructor-arg>
+        <constructor-arg name="templateEngine" ref="templateEngine" />
+        <constructor-arg name="template" value="${htmlAggregator}" />
     </bean>
 
     <bean name="migrationAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
-        <property name="name" value="migration"/>
-        <property name="httpHeaders">
+        <constructor-arg name="name" value="migration"/>
+        <constructor-arg name="httpHeaders">
             <map>
                 <entry key="Content-Type" value="application/xml"/>
                 <entry key="Content-Disposition" value="inline"/>
             </map>
-        </property>
-        <property name="templateEngine" ref="templateEngine" />
-        <property name="template" value="${liquibaseChangeLogAggregator}" />
+        </constructor-arg>
+        <constructor-arg name="templateEngine" ref="templateEngine" />
+        <constructor-arg name="template" value="${liquibaseChangeLogAggregator}" />
     </bean>
 
     <bean name="zipAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.ZipAggregator">
-        <property name="name" value="zip"/>
-        <property name="httpHeaders">
+        <constructor-arg name="name" value="zip"/>
+        <constructor-arg name="httpHeaders">
             <map>
                 <entry key="Content-Type" value="application/octet-stream"/>
                 <entry key="Content-Disposition" value="attachment; filename=result.zip"/>
             </map>
-        </property>
+        </constructor-arg>
     </bean>
 
 
@@ -116,9 +121,8 @@
 
 
     <!-- Template engines -->
-    <bean id="templateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
-    <bean id="markupTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
-    <!--<bean id="fmTemplateEngine" class="com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine" />-->
+    <bean id="templateEngine" scope="prototype" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
+    <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
 
     <!-- DB helpers -->
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper" autowire="byType" />

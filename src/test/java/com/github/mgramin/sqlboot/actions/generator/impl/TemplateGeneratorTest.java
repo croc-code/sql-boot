@@ -1,7 +1,7 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
-import com.github.mgramin.sqlboot.util.template_engine.impl.FMTemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ public class TemplateGeneratorTest {
     public void testGenerate() throws Exception {
         Map<String, Object> maps = new HashMap<>();
         maps.put("name", "World");
-        IActionGenerator commandGenerator = new TemplateGenerator(new FMTemplateEngine(), "Hello, ${name}!");
+        IActionGenerator commandGenerator = new TemplateGenerator(new GroovyTemplateEngine(), "Hello, ${name}!", null);
         assertEquals(commandGenerator.generate(maps), "Hello, World!");
     }
 }

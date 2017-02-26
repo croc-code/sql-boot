@@ -1,12 +1,10 @@
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
-import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import static java.util.Collections.singletonList;
 
+import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import java.util.Arrays;
 import java.util.List;
-
-import static java.util.Collections.*;
 
 /**
  * Object type of DB schema

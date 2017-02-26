@@ -28,7 +28,7 @@ public class DBSchemaObjectCommand {
 
     @Override
     public String toString() {
-        return "DBSchemaObjectCommand{" +
+        return "dbSchemaObjectCommand{" +
                 "name='" + name + '\'' +
                 ", aliases='" + aliases + '\'' +
                 '}';

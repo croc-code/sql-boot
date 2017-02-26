@@ -24,7 +24,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropView" parent="parentTemplateGeneratorBean">
+                <bean id="dropView" parent="templateGeneratorBean">
                     <property name="template">
                         <value>
                             DROP VIEW ${schema}.${view};

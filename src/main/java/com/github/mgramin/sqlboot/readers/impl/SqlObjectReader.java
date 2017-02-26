@@ -64,7 +64,8 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
                 }
             }
 
-            String prepareSQL = templateEngine.process(data, sql);
+            templateEngine.setTemplate(sql);
+            String prepareSQL = templateEngine.process(data);
             logger.debug(prepareSQL);
 
 

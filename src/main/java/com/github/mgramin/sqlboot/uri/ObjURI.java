@@ -69,7 +69,7 @@ public class ObjURI {
     public String toJson() {
         String s = "ObjURI{" +
             "type='" + type + '\'' +
-            ", DBSchemaObjectCommand='" + action + '\'' +
+            ", dbSchemaObjectCommand='" + action + '\'' +
             ", objects=" + objects +
             ", recursive=" + recursive +
             ", params=" + params +

@@ -11,15 +11,15 @@ public abstract class AbstractActionGenerator implements IActionGenerator {
 
     protected final static Logger logger = Logger.getLogger(SQLGenerator.class);
 
-    public DBSchemaObjectCommand DBSchemaObjectCommand;
+    protected DBSchemaObjectCommand dbSchemaObjectCommand;
 
 
-    public DBSchemaObjectCommand getDBSchemaObjectCommand() {
-        return DBSchemaObjectCommand;
+    public DBSchemaObjectCommand getDbSchemaObjectCommand() {
+        return dbSchemaObjectCommand;
     }
 
-    public void setDBSchemaObjectCommand(DBSchemaObjectCommand DBSchemaObjectCommand) {
-        this.DBSchemaObjectCommand = DBSchemaObjectCommand;
+    public void setDbSchemaObjectCommand(DBSchemaObjectCommand dbSchemaObjectCommand) {
+        this.dbSchemaObjectCommand = dbSchemaObjectCommand;
     }
 
 }

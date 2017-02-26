@@ -22,8 +22,8 @@
         </property>
         <property name="commands">
             <list>
-                <bean name="create" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="CREATE" />
+                <bean name="create" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="CREATE" />
                     <property name="template" >
                         <value><![CDATA[
                             create table ${schema}.${table} (
@@ -34,8 +34,8 @@
                         </value>
                     </property>
                 </bean>
-                <bean name="dropTable" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean name="dropTable" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop table ${schema}.${table};</value>
                     </property>
@@ -63,15 +63,15 @@
         </property>
         <property name="commands">
             <list>
-                <bean id="addColumn" parent="parentTemplateGeneratorBean">
+                <bean id="addColumn" parent="templateGeneratorBean">
                     <property name="template" >
                         <value>
                             alter table ${schema}.${table} add (${@data_type});
                         </value>
                     </property>
                 </bean>
-                <bean id="dropColumn" parent="parentTemplateGeneratorBean">
-                    <property name="DBSchemaObjectCommand" ref="DROP" />
+                <bean id="dropColumn" parent="templateGeneratorBean">
+                    <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>alter table ${schema}.${table} drop column ${column};</value>
                     </property>

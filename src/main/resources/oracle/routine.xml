@@ -25,7 +25,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropProcedure" parent="parentTemplateGeneratorBean">
+                <bean id="dropProcedure" parent="templateGeneratorBean">
                     <property name="template" >
                         <value>
                             DROP PROCEDURE ${schema}.${procedure};
@@ -59,7 +59,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropFunction" parent="parentTemplateGeneratorBean">
+                <bean id="dropFunction" parent="templateGeneratorBean">
                     <property name="template" >
                         <value>
                             DROP FUNCTION ${this.schema}.${function};

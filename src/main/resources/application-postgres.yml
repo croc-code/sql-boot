@@ -1,6 +1,6 @@
 connections:
   - name:         'dev'
-    description:  'develop db'
+    description:  'developers db'
     default:      'true'
     driver:       'org.postgresql.Driver'
     url:          '${db_dev_url}'

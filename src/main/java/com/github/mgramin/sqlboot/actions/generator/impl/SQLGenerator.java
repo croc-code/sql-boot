@@ -26,7 +26,7 @@ public class SQLGenerator extends AbstractActionGenerator implements IActionGene
     public String generate(Map<String, Object> variables) throws SqlBootException {
         List<String> readySQL = new ArrayList<>();
         for (String s : sql)
-            readySQL.add(templateEngine.process(variables, s));
+            readySQL.add(templateEngine.process(variables));
         List<Map<String, String>> maps = sqlHelper.selectBatch(readySQL);
         return maps.get(0).entrySet().iterator().next().getValue();
     }

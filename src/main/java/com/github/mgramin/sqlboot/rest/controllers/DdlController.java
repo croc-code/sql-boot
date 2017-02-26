@@ -5,18 +5,14 @@ import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
-import com.github.mgramin.sqlboot.readers.impl.SqlObjectReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,7 +99,7 @@ public class DdlController {
                             .orElseGet(null)
                             .getCommands()
                             .stream()
-                            .filter(c -> c.getDBSchemaObjectCommand().name.equalsIgnoreCase(
+                            .filter(c -> c.getDbSchemaObjectCommand().name.equalsIgnoreCase(
                                 currentCommand.name))
                             .findFirst()
                             .orElse(null);
