@@ -26,6 +26,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
     <dbh2.version>1.4.187</dbh2.version>
+
+    <docker.image.prefix>mgramin</docker.image.prefix>
   </properties>
 
   <dependencies>
@@ -142,6 +144,24 @@
           <configLocation>google_checks.xml</configLocation>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.4.11</version>
+        <configuration>
+          <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+          <dockerDirectory>src/main/docker</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
