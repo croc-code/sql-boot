@@ -34,7 +34,11 @@ public class ObjURI {
 
             List<String> list = asList(pathString.split("[/]"));
             type = list.get(0);
-            objects = asList(list.get(1).split("[.]"));
+            if (list.size() == 1) {
+                objects = asList("%");
+            } else {
+                objects = asList(list.get(1).split("[.]"));
+            }
             if (list.size() == 3) action = list.get(2);
             recursive = pathString.charAt(pathString.length() - 1) == '/';
 

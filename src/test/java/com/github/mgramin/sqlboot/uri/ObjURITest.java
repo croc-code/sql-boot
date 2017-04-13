@@ -13,7 +13,13 @@ import static org.junit.Assert.assertEquals;
 public class ObjURITest {
 
     @Test
-    public void createAllTableFromSchema() throws SqlBootException {
+    public void createAllTableFromAllSchema() {
+        test("table/*", "ObjURI{type='table', dbSchemaObjectCommand='null', objects=[*], recursive=false, params={}}");
+    }
+
+    @Test
+    public void createAllTableFromSchema() {
+        test("table/hr", "ObjURI{type='table', dbSchemaObjectCommand='null', objects=[hr], recursive=false, params={}}");
         test("table/hr.*", "ObjURI{type='table', dbSchemaObjectCommand='null', objects=[hr, *], recursive=false, params={}}");
     }
 

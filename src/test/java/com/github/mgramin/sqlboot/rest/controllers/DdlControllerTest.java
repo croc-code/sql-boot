@@ -29,6 +29,9 @@ public class DdlControllerTest {
 
     @Test
     public void getTextDdl() throws Exception {
+        callRestAndValidate("t");
+        callRestAndValidate("fk");
+
         callRestAndValidate("t/hr");
         callRestAndValidate("t/hr/+");
         callRestAndValidate("t/hr/create");
