@@ -40,7 +40,7 @@ public class DdlController {
     private final static Logger logger = Logger.getLogger(DdlController.class);
 
 
-    @RequestMapping(value = "/ddl/**", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
         @RequestParam(value = "type", required = false) String aggregatorName) throws SqlBootException {
         String uriString;
