@@ -99,7 +99,7 @@ public class DdlController {
                             .orElseGet(null)
                             .getCommands()
                             .stream()
-                            .filter(c -> c.getDbSchemaObjectCommand().name.equalsIgnoreCase(
+                            .filter(c -> c.command().name.equalsIgnoreCase(
                                 currentCommand.name))
                             .findFirst()
                             .orElse(null);

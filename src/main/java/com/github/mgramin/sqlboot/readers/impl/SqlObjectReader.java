@@ -28,9 +28,9 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
     private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
 
     public ISqlHelper sqlHelper;
-    public ITemplateEngine templateEngine;
     public String sql;
-    public String prepareSql;
+    public ITemplateEngine templateEngine; // TODO move to decorator ?
+    public String prepareSql; // TODO move to decorator ?
 
     public SqlObjectReader() {
     }
@@ -67,9 +67,6 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
             templateEngine.setTemplate(sql);
             String prepareSQL = templateEngine.process(data);
             logger.debug(prepareSQL);
-
-
-            /*watch.start();*/
 
             List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {

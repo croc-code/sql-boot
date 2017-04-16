@@ -15,6 +15,14 @@
     <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DBSchemaObjectType" abstract="true" />
 
 
+
+    <!-- Readers -->
+    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader">
+        <property name="sqlHelper" ref="sqlHelper"/>
+        <property name="templateEngine" ref="templateEngine"/>
+    </bean>
+
+
     <!-- Generators -->
     <bean id="parentSQLGeneratorBean" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator">
         <property name="sqlHelper" ref="sqlHelper"/>
@@ -30,15 +38,8 @@
       class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator"
       c:templateEngine-ref='markupTemplateEngine' c:command-ref='CREATE' />
 
-    <!-- DB-object readers -->
-    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader">
-        <property name="sqlHelper" ref="sqlHelper"/>
-        <property name="templateEngine" ref="templateEngine"/>
-    </bean>
 
-
-
-    <!-- Script aggregators -->
+    <!-- Aggregators -->
     <bean name="sqlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">
         <constructor-arg name="name" value="sql"/>
         <constructor-arg name="isDefault" value="true" />

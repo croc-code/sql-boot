@@ -1,7 +1,5 @@
 package cassandra;
 
-import com.datastax.driver.core.Cluster;
-import org.cassandraunit.dataset.xml.Keyspace;
 import org.junit.Test;
 
 

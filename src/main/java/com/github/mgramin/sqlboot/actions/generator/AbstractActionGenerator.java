@@ -9,17 +9,10 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractActionGenerator implements IActionGenerator {
 
-    protected final static Logger logger = Logger.getLogger(SQLGenerator.class);
-
     protected DBSchemaObjectCommand dbSchemaObjectCommand;
 
-
-    public DBSchemaObjectCommand getDbSchemaObjectCommand() {
+    public DBSchemaObjectCommand command() {
         return dbSchemaObjectCommand;
-    }
-
-    public void setDbSchemaObjectCommand(DBSchemaObjectCommand dbSchemaObjectCommand) {
-        this.dbSchemaObjectCommand = dbSchemaObjectCommand;
     }
 
 }
