@@ -26,10 +26,14 @@ Try online:
 - [table/hr?type=html](https://sql-boot.herokuapp.com/api/table/hr?type=html) - get all tales from "hr" schema in html view 
 - [table/*/?type=zip](https://sql-boot.herokuapp.com/api/table/*/?type=zip) - get all tales from "hr" in zip file 
 
+Run with Docker:
+----------------
+docker run -t -p 8080:8080 mgramin/sql-boot
+
 Build from source:
 ------------------
 git clone https://github.com/mgramin/sql-boot  
 cd sql-boot  
-mvn package  
+mvn package 
 
 [![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
