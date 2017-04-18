@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlboot.actions.generator.impl;
+package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.AbstractActionGenerator;
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
@@ -8,6 +8,7 @@ import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
 
 import java.util.Map;
 
+@Deprecated
 public class TemplateGenerator extends AbstractActionGenerator implements IActionGenerator {
 
     public TemplateGenerator(ITemplateEngine templateEngine, String template, DBSchemaObjectCommand command) {

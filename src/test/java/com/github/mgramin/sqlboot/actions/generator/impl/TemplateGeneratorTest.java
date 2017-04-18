@@ -1,6 +1,7 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator;
 import com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine;
 import org.junit.Test;
 

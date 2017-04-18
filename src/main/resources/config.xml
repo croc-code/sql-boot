@@ -24,18 +24,18 @@
 
 
     <!-- Generators -->
-    <bean id="parentSQLGeneratorBean" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.impl.SQLGenerator">
+    <bean id="parentSQLGeneratorBean" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.wrappers.SQLGenerator">
         <property name="sqlHelper" ref="sqlHelper"/>
         <property name="templateEngine" ref="templateEngine" />
         <property name="dbSchemaObjectCommand" ref="CREATE" />
     </bean>
 
     <bean id="templateGeneratorBean" abstract="true" scope="prototype"
-      class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator"
+      class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
       c:templateEngine-ref='templateEngine' c:command-ref='CREATE' />
 
     <bean id="templateMarkupGeneratorBean" abstract="true" scope="prototype"
-      class="com.github.mgramin.sqlboot.actions.generator.impl.TemplateGenerator"
+      class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
       c:templateEngine-ref='markupTemplateEngine' c:command-ref='CREATE' />
 
 

@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlboot.actions.generator.impl;
+package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.AbstractActionGenerator;
 import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
@@ -11,6 +11,7 @@ import java.util.*;
 /**
  * Created by maksim on 05.04.16.
  */
+@Deprecated
 public class SQLGenerator extends AbstractActionGenerator implements IActionGenerator {
 
     public String prepareSql;
