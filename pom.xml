@@ -10,9 +10,7 @@
   <packaging>jar</packaging>
 
   <name>sql-boot</name>
-  <description>Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps
-    Engineers
-  </description>
+  <description>Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -135,6 +133,19 @@
         <configuration>
           <executable>true</executable>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
