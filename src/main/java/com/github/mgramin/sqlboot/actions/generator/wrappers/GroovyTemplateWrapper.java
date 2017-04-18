@@ -20,13 +20,13 @@ public class GroovyTemplateWrapper implements IActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        GroovyTemplateEngine groovyTemplateEngine = new GroovyTemplateEngine(actionGenerator.generate(variables));
-        return groovyTemplateEngine.process(variables);
+        GroovyTemplateEngine templateEngine = new GroovyTemplateEngine(actionGenerator.generate(variables));
+        return templateEngine.process(variables);
     }
 
     @Override
     public DBSchemaObjectCommand command() {
-        return null;
+        return actionGenerator.command();
     }
 
 }
