@@ -123,6 +123,14 @@
       <version>3.1.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
+      <scope>test</scope>
+    </dependency>
+
+
   </dependencies>
 
   <build>
@@ -146,9 +154,14 @@
             </goals>
           </execution>
         </executions>
+          <configuration>
+              <environmentVariables>
+                  <it-database.port>8765</it-database.port>
+              </environmentVariables>
+          </configuration>
       </plugin>
 
-      <plugin>
+      <!--<plugin>
         <groupId>com.spotify</groupId>
         <artifactId>docker-maven-plugin</artifactId>
         <version>0.4.11</version>
@@ -163,7 +176,8 @@
             </resource>
           </resources>
         </configuration>
-      </plugin>
+      </plugin>-->
+
       <!--<plugin>
         <groupId>com.qulice</groupId>
         <artifactId>qulice-maven-plugin</artifactId>
@@ -181,5 +195,73 @@
       </plugin>-->
     </plugins>
   </build>
+
+    <profiles>
+        <profile>
+            <id>postgres-docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.15.16</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-it-database</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <images>
+                                        <image>
+                                            <name>mgramin/postgres-sport</name>
+                                            <alias>it-database</alias>
+                                            <run>
+                                                <ports>
+                                                    <port>9876:5432</port>
+                                                </ports>
+                                                <wait>
+                                                    <log>database system is ready to accept connections</log>
+                                                    <!--<time>20000</time> - not work for me, use maven-antrun-plugin instead -->
+                                                </wait>
+                                            </run>
+                                        </image>
+                                    </images>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>remove-it-database</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>sleep-for-a-while</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <target>
+                                        <sleep seconds="1" />
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
