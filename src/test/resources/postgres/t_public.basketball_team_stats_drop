@@ -1,0 +1,1 @@
+drop table public.basketball_team_stats;
