@@ -162,8 +162,25 @@
                     </environmentVariables>
                 </configuration>
             </plugin>
-
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>sleep-for-a-while</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <target>
+                                <sleep seconds="1"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -191,7 +208,7 @@
             </build>
         </profile>
         <profile>
-            <id>postgres-docker</id>
+            <id>postgres</id>
             <build>
                 <plugins>
                     <plugin>
@@ -232,22 +249,47 @@
                             </execution>
                         </executions>
                     </plugin>
-
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>oracle</id>
+            <build>
+                <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.15.16</version>
                         <executions>
                             <execution>
-                                <id>sleep-for-a-while</id>
+                                <id>prepare-it-database</id>
                                 <phase>pre-integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <sleep seconds="1"/>
-                                    </target>
-                                </configuration>
                                 <goals>
-                                    <goal>run</goal>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <images>
+                                        <image>
+                                            <name>wnameless/oracle-xe-11g</name>
+                                            <alias>it-database</alias>
+                                            <run>
+                                                <ports>
+                                                    <port>9876:1521</port>
+                                                </ports>
+                                                <wait>
+                                                    <log>database system is ready to accept connections</log>
+                                                    <!--<time>20000</time> - not work for me, use maven-antrun-plugin instead -->
+                                                </wait>
+                                            </run>
+                                        </image>
+                                    </images>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>remove-it-database</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
                                 </goals>
                             </execution>
                         </executions>
