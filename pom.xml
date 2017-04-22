@@ -162,7 +162,7 @@
                     </environmentVariables>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
@@ -180,7 +180,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
@@ -233,7 +233,7 @@
                                                 </ports>
                                                 <wait>
                                                     <log>database system is ready to accept connections</log>
-                                                    <!--<time>20000</time> - not work for me, use maven-antrun-plugin instead -->
+                                                    <time>20000</time>
                                                 </wait>
                                             </run>
                                         </image>
@@ -253,14 +253,22 @@
             </build>
         </profile>
         <profile>
-            <id>oracle</id>
+            <id>cassandra</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.15.16</version>
+                        <version>0.16.8</version>
+                        <extensions>true</extensions>
                         <executions>
+                           <execution>
+                                <id>remove-it-database</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
                             <execution>
                                 <id>prepare-it-database</id>
                                 <phase>pre-integration-test</phase>
@@ -270,29 +278,20 @@
                                 <configuration>
                                     <images>
                                         <image>
-                                            <name>wnameless/oracle-xe-11g</name>
+                                            <name>cassandra</name>
                                             <alias>it-database</alias>
-                                            <run>
-                                                <ports>
-                                                    <port>9876:1521</port>
-                                                </ports>
+                                            <!--<run>
                                                 <wait>
                                                     <log>database system is ready to accept connections</log>
-                                                    <!--<time>20000</time> - not work for me, use maven-antrun-plugin instead -->
+                                                    <time>20000</time>
                                                 </wait>
-                                            </run>
+                                            </run>-->
                                         </image>
                                     </images>
                                 </configuration>
                             </execution>
-                            <execution>
-                                <id>remove-it-database</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
                         </executions>
+
                     </plugin>
                 </plugins>
             </build>
