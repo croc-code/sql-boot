@@ -1,6 +1,6 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
+import com.github.mgramin.sqlboot.model.DBResourceType;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
@@ -38,7 +38,7 @@ public class SqlObjectReaderTest {
                 "... custom-sql for select objects from db dictionary ...",
                 "... execute before custom-sql in same session ...");
 
-        DBSchemaObjectType column = new DBSchemaObjectType("column", reader);
+        DBResourceType column = new DBResourceType("column", reader);
 
         assertEquals(
                 reader.read(uri, column).keySet(),
@@ -69,8 +69,8 @@ public class SqlObjectReaderTest {
                 "... custom-sql for select index from db dictionary ...");
 
 
-        DBSchemaObjectType index = new DBSchemaObjectType("index", readerIndex);
-        DBSchemaObjectType table = new DBSchemaObjectType("table", Arrays.asList(index), readerTable);
+        DBResourceType index = new DBResourceType("index", readerIndex);
+        DBResourceType table = new DBResourceType("table", Arrays.asList(index), readerTable);
 
         assertEquals(
                 readerTable.readr(uri, table).keySet(),

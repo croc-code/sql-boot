@@ -20,7 +20,7 @@ tables: |
 
 table.sql.create: |
   create table "$schema"."$table.name" (<%srv.get('column').each {%>
-    !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
+    !{it.name.padRight(20)}!{it.headers.data_type.toLowerCase()}!{it.headers.length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
 table.sql.drop: |
@@ -33,15 +33,15 @@ table.info: |
     tr{th(class:'col-md-4', 'COLUMN')th(class:'col-md-4', 'TYPE')th(class:'col-md-1', 'SIZE')}
     columns.each{
       column=it
-      tr{td(column.name)td(column.properties.data_type)td(column.properties.length)}
+      tr{td(column.name)td(column.headers.data_type)td(column.headers.length)}
     }
   }
 
 table.migrate.create: |
   columns=srv.get('column')
   changeSet(id:'1', author:'supper_user'){
-    createTable(schemaName:schema, tableName:table.name, remarks:table.properties.comment){
-      columns.each{column(name:it.name, type:it.properties.data_type.toLowerCase()+it.properties.length)}
+    createTable(schemaName:schema, tableName:table.name, remarks:table.headers.comment){
+      columns.each{column(name:it.name, type:it.headers.data_type.toLowerCase()+it.headers.length)}
     }
   }
 
@@ -88,7 +88,7 @@ table.pk: |
        and lower(constraint_name) like '$pk')
 
 table.pk.sql.create: |
-  !{pk.properties.sql};
+  !{pk.headers.sql};
 
 table.pk.sql.drop: |
   alter table $table drop pk $pk.name;
@@ -108,7 +108,7 @@ table.fk: |
        and lower(constraint_name) like '$pk')
 
 table.fk.sql.create: |
-  !{fk.properties.sql};
+  !{fk.headers.sql};
 
 table.fk.sql.drop: |
   alter table $table drop constraint $fk.name;
@@ -129,7 +129,7 @@ table.indexes: |
        and lower(index_name) like '$index')
 
 table.index.sql.create: |
-  !{index.properties.sql};
+  !{index.headers.sql};
 
 table.index.sql.drop: |
   drop index $index.name;
@@ -149,7 +149,7 @@ table.checks: |
        and lower(constraint_name) like '$check')
 
 table.check.sql.create: |
-  !{check.properties.sql};
+  !{check.headers.sql};
 
 table.check.sql.drop: |
   drop check $check.name;
@@ -167,7 +167,7 @@ views: |
      order by t.table_name)
 
 view.sql.create: |
-  !{view.properties.sql};
+  !{view.headers.sql};
 
 view.sql.drop: |
   drop view $view.name;
@@ -187,7 +187,7 @@ mviews: |
 
 mview.sql.create: |
   create table "$schema"."$mview.name" (<%srv.get('column').each {%>
-    !{it.name.padRight(20)}!{it.properties.data_type.toLowerCase()}!{it.properties.length}<%if (it != srv.get('column').last()){%>,<%}}%>
+    !{it.name.padRight(20)}!{it.headers.data_type.toLowerCase()}!{it.headers.length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
 mview.sql.drop: |

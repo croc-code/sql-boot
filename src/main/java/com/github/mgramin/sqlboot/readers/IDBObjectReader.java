@@ -1,8 +1,8 @@
 package com.github.mgramin.sqlboot.readers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObject;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
+import com.github.mgramin.sqlboot.model.DBResource;
+import com.github.mgramin.sqlboot.model.DBResourceType;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 
 import java.util.Map;
@@ -12,9 +12,9 @@ import java.util.Map;
  */
 public interface IDBObjectReader {
 
-    Map<String, DBSchemaObject> read(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException;
+    Map<String, DBResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException;
 
     // TODO move to top ??
-    Map<String, DBSchemaObject> readr(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException;
+    Map<String, DBResource> readr(ObjURI objURI, DBResourceType type) throws SqlBootException;
 
 }

@@ -3,8 +3,8 @@ package com.github.mgramin.sqlboot.readers.impl;
 import static java.util.stream.Collectors.toMap;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObject;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectType;
+import com.github.mgramin.sqlboot.model.DBResource;
+import com.github.mgramin.sqlboot.model.DBResourceType;
 import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.log4j.Logger;
-
-import java.util.*;
 
 /**
  * Custom-SQL db object reader
@@ -49,10 +47,10 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
     }
 
     @Override
-    public Map<String, DBSchemaObject> read(ObjURI objURI, DBSchemaObjectType type) throws SqlBootException {
+    public Map<String, DBResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException {
         List<String> list = objURI.getObjects();
 
-        Map<String, DBSchemaObject> objects = new LinkedHashMap<>();
+        Map<String, DBResource> objects = new LinkedHashMap<>();
         try {
             Map<String, Object> data = new HashMap();
             int i=0;
@@ -70,7 +68,7 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
 
             List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {
-                DBSchemaObject object = new DBSchemaObject();
+                DBResource object = new DBResource();
                 object.paths = stringStringMap;
                 List<String> objectsForUri = new ArrayList<>();
                 for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
@@ -105,7 +103,7 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
             for (Entry<String, String> param : filtersParam.entrySet()) {
                 if (param.getKey().startsWith("@")) {
                     objects = objects.entrySet().stream().filter(
-                    o -> o.getValue().getProperties().getProperty(param.getKey().substring(1))
+                    o -> o.getValue().getHeaders().getProperty(param.getKey().substring(1))
                         .contains(param.getValue()))
                     .collect(toMap(o -> o.getKey(), o -> o.getValue()));
                 }

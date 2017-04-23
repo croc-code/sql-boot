@@ -29,7 +29,7 @@ import java.util.TreeMap;
 public class DdlController {
 
     @Autowired
-    private List<DBSchemaObjectType> types;
+    private List<DBResourceType> types;
 
     @Autowired
     private List<IAggregator> aggregators;
@@ -67,7 +67,7 @@ public class DdlController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    private List<DBSchemaObject> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
+    private List<DBResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
         ObjURI uri = new ObjURI(uriString);
 
         DBSchemaObjectCommand currentCommand;
@@ -78,15 +78,15 @@ public class DdlController {
             currentCommand = objectCommands.stream().filter(c -> c.isDefault).findFirst().orElse(null);
         }
 
-        DBSchemaObjectType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
+        DBResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
         if (type == null) return null;
 
         IDBObjectReader reader = type.readers.stream()
             .findFirst()
             .orElse(null);
-        Map<String, DBSchemaObject> objects = reader.readr(uri, type);
-        List<DBSchemaObject> objectsNew = new ArrayList();
-        for (DBSchemaObject object : objects.values()) {
+        Map<String, DBResource> objects = reader.readr(uri, type);
+        List<DBResource> objectsNew = new ArrayList();
+        for (DBResource object : objects.values()) {
             if (object.getType().equals(type) || uri.getRecursive()) {
                 ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
 
@@ -109,7 +109,7 @@ public class DdlController {
                             variables.put(object.getType().name, object);
                             variables.put("srv", objectService);
 
-                            object.ddl = currentGenerator.generate(variables);
+                            object.body = currentGenerator.generate(variables);
                             objectsNew.add(object);
                         }
                     }

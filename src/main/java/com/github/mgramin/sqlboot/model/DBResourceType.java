@@ -4,19 +4,19 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
-import java.util.Arrays;
+
 import java.util.List;
 
 /**
  * Object type of DB schema
  * e.g. "table", "index", "pk", "stored procedure" etc
  */
-public class DBSchemaObjectType {
+public class DBResourceType {
 
     public String name;
     public List<String> aliases;
     public String description;
-    public List<DBSchemaObjectType> child;
+    public List<DBResourceType> child;
     public List<IDBObjectReader> readers;
     public List<DBSchemaObjectTypeAggregator> aggregators;
 
@@ -24,26 +24,26 @@ public class DBSchemaObjectType {
         return null;
     }*/
 
-    public DBSchemaObjectType() {
+    public DBResourceType() {
     }
 
-    public DBSchemaObjectType(String name, List<DBSchemaObjectType> child, List<IDBObjectReader> readers) {
+    public DBResourceType(String name, List<DBResourceType> child, List<IDBObjectReader> readers) {
         this.name = name;
         this.child = child;
         this.readers = readers;
     }
 
-    public DBSchemaObjectType(String name, List<IDBObjectReader> reader) {
+    public DBResourceType(String name, List<IDBObjectReader> reader) {
         this.name = name;
         this.readers = reader;
     }
 
-    public DBSchemaObjectType(String name, IDBObjectReader reader) {
+    public DBResourceType(String name, IDBObjectReader reader) {
         this.name = name;
         this.readers = singletonList(reader);
     }
 
-    public DBSchemaObjectType(String name, List<DBSchemaObjectType> child, IDBObjectReader reader) {
+    public DBResourceType(String name, List<DBResourceType> child, IDBObjectReader reader) {
         this.name = name;
         this.child = child;
         this.readers = singletonList(reader);
@@ -58,7 +58,7 @@ public class DBSchemaObjectType {
         this.description = description;
     }
 
-    public void setChild(List<DBSchemaObjectType> child) {
+    public void setChild(List<DBResourceType> child) {
         this.child = child;
     }
 
@@ -76,7 +76,7 @@ public class DBSchemaObjectType {
 
     @Override
     public String toString() {
-        return "DBSchemaObjectType{" +
+        return "DBResourceType{" +
                 "name='" + name + '\'' +
                 ", aliases=" + aliases +
                 ", description='" + description + '\'' +

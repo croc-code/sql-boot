@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Created by mgramin on 20.12.2016.
  */
-public class DBSchemaObjectTest {
+public class DBResourceTest {
     @Test
     public void addProperty() throws Exception {
 

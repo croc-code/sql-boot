@@ -6,35 +6,36 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Object of DB schema
- * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored proc "GET_ALL_DEPARTMENTS()" etc
+ * DB Resource
+ * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
  */
-public class DBSchemaObject implements Comparable<DBSchemaObject> {
+public class DBResource implements Comparable<DBResource> {
 
     public String name;
-    public DBSchemaObjectType type;
+    public DBResourceType type;
     public ObjURI objURI;
+    public Properties headers = new Properties();
+    public String body;
+    @Deprecated
     public Map<String, String> paths;
-    public Properties properties = new Properties();
-    public String ddl;
 
     public String getProp(String key) {
-        return properties.getProperty(key);
+        return headers.getProperty(key);
     }
 
     public void addProperty(Object key, Object value){
-        this.properties.put(key, value);
+        this.headers.put(key, value);
     }
 
     @Override
     public String toString() {
-        return "DBSchemaObject{" +
+        return "DBResource{" +
                 "name='" + name + '\'' +
                 ", type=" + type +
-                ", ddl='" + ddl + '\'' +
+                ", body='" + body + '\'' +
                 ", objURI=" + objURI +
                 ", paths=" + paths +
-                ", properties=" + properties +
+                ", headers=" + headers +
                 '}';
     }
 
@@ -42,12 +43,12 @@ public class DBSchemaObject implements Comparable<DBSchemaObject> {
         return name;
     }
 
-    public DBSchemaObjectType getType() {
+    public DBResourceType getType() {
         return type;
     }
 
-    public String getDdl() {
-        return ddl;
+    public String getBody() {
+        return body;
     }
 
     public ObjURI getObjURI() {
@@ -58,12 +59,12 @@ public class DBSchemaObject implements Comparable<DBSchemaObject> {
         return paths;
     }
 
-    public Properties getProperties() {
-        return properties;
+    public Properties getHeaders() {
+        return headers;
     }
 
     @Override
-    public int compareTo(DBSchemaObject o) {
+    public int compareTo(DBResource o) {
         return (this.objURI.toString()).compareTo(o.objURI.toString());
     }
 
