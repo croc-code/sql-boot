@@ -68,6 +68,17 @@ public class DdlControllerITCase {
         callRestAndValidate("/api/mview/hr");*/
     }
 
+    @Test
+    public void getFkDdl() {
+        callRestAndValidate("fk");
+    }
+
+    @Test
+    public void getTableDdl() {
+        callRestAndValidate("table/hr");
+    }
+
+
     private void callRestAndValidate(String uri) {
         ResponseEntity<String> forEntity = client.getForEntity("/api/" + uri, String.class);
         assertEquals(forEntity.getStatusCodeValue(), 200);

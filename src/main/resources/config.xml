@@ -38,6 +38,15 @@
       class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
       c:templateEngine-ref='markupTemplateEngine' c:command-ref='CREATE' />
 
+    <bean id="plainTextGenerator" abstract="true" scope="prototype"
+          class="com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator"
+          c:command-ref='CREATE'/>
+
+    <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
+          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGeneratorWrapper"
+          c:templateEngine-ref="templateEngine"/>
+
+
 
     <!-- Aggregators -->
     <bean name="sqlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.TextAggregator">

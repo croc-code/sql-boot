@@ -118,7 +118,11 @@
                     <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${table.fk.sql.create}' />
+                            <bean parent="templateGeneratorWrapper">
+                                <constructor-arg name="baseGenerator">
+                                    <bean parent="plainTextGenerator" c:baseText='${table.fk.sql.create}'/>
+                                </constructor-arg>
+                            </bean>
                             <bean parent="templateGeneratorBean" c:template='${table.fk.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
@@ -152,6 +156,7 @@
             </list>
         </property>
     </bean>
+
 
     <bean name="check" parent="parentSchemaObjectBean">
         <property name="name" value="check" />

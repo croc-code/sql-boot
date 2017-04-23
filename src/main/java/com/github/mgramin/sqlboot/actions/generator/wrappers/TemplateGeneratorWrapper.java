@@ -10,24 +10,25 @@ import java.util.Map;
 /**
  * Created by maksim on 19.04.17.
  */
-public class TemplateWrapper implements IActionGenerator {
+public class TemplateGeneratorWrapper implements IActionGenerator {
 
-    public TemplateWrapper(IActionGenerator actionGenerator, ITemplateEngine templateEngine) {
-        this.actionGenerator = actionGenerator;
+    public TemplateGeneratorWrapper(IActionGenerator baseGenerator, ITemplateEngine templateEngine) {
+        this.baseGenerator = baseGenerator;
         this.templateEngine = templateEngine;
     }
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
+        templateEngine.setTemplate(baseGenerator.generate(variables));
         return templateEngine.process(variables);
     }
 
     @Override
     public DBSchemaObjectCommand command() {
-        return actionGenerator.command();
+        return baseGenerator.command();
     }
 
-    final private IActionGenerator actionGenerator;
+    final private IActionGenerator baseGenerator;
     final private ITemplateEngine templateEngine;
 
 }
