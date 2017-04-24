@@ -8,8 +8,8 @@ import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import java.util.List;
 
 /**
- * Object type of DB schema
- * e.g. "table", "index", "pk", "stored procedure" etc
+ * Resource type of DB
+ * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
 public class DBResourceType {
 

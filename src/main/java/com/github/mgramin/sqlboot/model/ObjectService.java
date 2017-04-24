@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * Created by maksim on 10.07.16.
  */
+@Deprecated
 public class ObjectService {
 
     Map<String, DBResource> objects;
