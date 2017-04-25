@@ -134,8 +134,14 @@
 
         <dependency>
             <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-maven</artifactId>
-            <version>1.16.16.0</version>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>1.2.1</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -150,7 +156,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <executions>
@@ -161,12 +167,7 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <environmentVariables>
-                        <it-database.port>8765</it-database.port>
-                    </environmentVariables>
-                </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
@@ -198,39 +199,18 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.15.16</version>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/postgres/*.java</include>
+                            </includes>
+                        </configuration>
                         <executions>
                             <execution>
-                                <id>prepare-it-database</id>
-                                <phase>pre-integration-test</phase>
                                 <goals>
-                                    <goal>start</goal>
-                                </goals>
-                                <configuration>
-                                    <images>
-                                        <image>
-                                            <name>mgramin/postgres-sport</name>
-                                            <alias>it-database</alias>
-                                            <run>
-                                                <ports>
-                                                    <port>9876:5432</port>
-                                                </ports>
-                                                <wait>
-                                                    <log>database system is ready to accept connections</log>
-                                                    <time>20000</time>
-                                                </wait>
-                                            </run>
-                                        </image>
-                                    </images>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>remove-it-database</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -241,45 +221,6 @@
         <profile>
             <id>cassandra</id>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.16.8</version>
-                        <extensions>true</extensions>
-                        <executions>
-                           <execution>
-                                <id>remove-it-database</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>prepare-it-database</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                                <configuration>
-                                    <images>
-                                        <image>
-                                            <name>cassandra</name>
-                                            <alias>it-database</alias>
-                                            <!--<run>
-                                                <wait>
-                                                    <log>database system is ready to accept connections</log>
-                                                    <time>20000</time>
-                                                </wait>
-                                            </run>-->
-                                        </image>
-                                    </images>
-                                </configuration>
-                            </execution>
-                        </executions>
-
-                    </plugin>
-                </plugins>
             </build>
         </profile>
     </profiles>
