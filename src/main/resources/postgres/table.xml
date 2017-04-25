@@ -34,8 +34,16 @@
                     <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${table.sql.create}' />
-                            <bean parent="templateGeneratorBean" c:template='${table.sql.drop}' c:command-ref='DROP'/>
+                            <bean parent="templateGeneratorWrapper">
+                                <constructor-arg name="baseGenerator">
+                                    <bean parent="plainTextGenerator" c:baseText='${table.sql.create}'/>
+                                </constructor-arg>
+                            </bean>
+                            <bean parent="templateGeneratorWrapper">
+                                <constructor-arg name="baseGenerator">
+                                    <bean parent="plainTextGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
+                                </constructor-arg>
+                            </bean>
                         </list>
                     </property>
                 </bean>

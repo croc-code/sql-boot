@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
 @ActiveProfiles("information_schema")
-public class DdlControllerITCase {
+public class ApiControllerITCase {
 
     @Autowired
     private TestRestTemplate client;
