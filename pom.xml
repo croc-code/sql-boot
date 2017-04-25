@@ -91,14 +91,12 @@
         </dependency>
 
 
-        <!-- embedded db for unit-tests and demo -->
-
         <!--Temp dependencies-->
-        <!--<dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc6</artifactId>
-      <version>11.2.0.3</version>
-    </dependency>-->
+<!--        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

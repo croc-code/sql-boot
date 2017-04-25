@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!--<import resource="oracle/config.xml" />
-    <import resource="cassandra/config.xml" />-->
+    <import resource="oracle/config.xml" />
+    <!--<import resource="cassandra/config.xml" />&ndash;&gt;-->
     <import resource="postgres/config.xml" />
     <import resource="information_schema/config.xml" />
 

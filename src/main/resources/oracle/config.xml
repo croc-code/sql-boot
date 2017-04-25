@@ -6,7 +6,7 @@
 
     <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
         <property name="dataSourceName" value="ds"/>
-        <property name="URL" value="jdbc:oracle:thin:@localhost:49161:xe"/>
+        <property name="URL" value="jdbc:oracle:thin:@localhost:1521:xe"/>
         <property name="user" value="hr"/>
         <property name="password" value="hr"/>
     </bean>
@@ -28,13 +28,13 @@
         </value>
     </property>-->
 
-    <import resource="schema.xml" />
+    <!--<import resource="schema.xml" />-->
     <import resource="table.xml" />
-    <import resource="aq.xml" />
-    <import resource="package.xml" />
-    <import resource="routine.xml" />
-    <import resource="sequence.xml" />
-    <import resource="type.xml" />
-    <import resource="view.xml" />
+    <!--<import resource="aq.xml" />-->
+    <!--<import resource="package.xml" />-->
+    <!--<import resource="routine.xml" />-->
+    <!--<import resource="sequence.xml" />-->
+    <!--<import resource="type.xml" />-->
+    <!--<import resource="view.xml" />-->
 
 </beans>
