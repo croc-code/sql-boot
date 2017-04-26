@@ -42,15 +42,22 @@ public class ApiControllerITCase {
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         @Override
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+
+            Integer mappedPort = oracle.getMappedPort(1521);
+
+            String xe = format("db_dev_url=jdbc:oracle:thin:@%s:%s:%s",
+                    oracle.getContainerIpAddress(), mappedPort, "XE");
+
+            System.out.println(xe);
+
             EnvironmentTestUtils.addEnvironment("testcontainers", configurableApplicationContext.getEnvironment(),
-                    format("db_dev_url= jdbc:oracle:thin:@%s:%s:%s",
-                            oracle.getContainerIpAddress(), oracle.getMappedPort(1521), "xe"));
+                    xe);
         }
     }
 
     @Test
     public void getTextDdl() throws Exception {
-        Thread.sleep(9000);
+        Thread.sleep(40000);
         callRestAndValidate("table/hr", "postgres/t_public.basketball_team_stats_drop");
 //        callRestAndValidate("t/public.basketball_team_stats/d", "postgres/t_public.basketball_team_stats_drop");
 //        callRestAndValidate("t/public.basketball_team_stats/-", "postgres/t_public.basketball_team_stats_drop");

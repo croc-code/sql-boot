@@ -6,9 +6,9 @@
 
     <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
         <property name="dataSourceName" value="ds"/>
-        <property name="URL" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-        <property name="user" value="hr"/>
-        <property name="password" value="hr"/>
+        <property name="URL" value="${db_dev_url}"/>
+        <property name="user" value="${db_dev_user}"/>
+        <property name="password" value="${db_dev_password}"/>
     </bean>
 
     <!-- TODO use for transformation -->
