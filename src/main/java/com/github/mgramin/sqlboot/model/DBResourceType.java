@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * Resource type of DB
  * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
+@ToString
 public class DBResourceType {
 
     public String name;
@@ -74,12 +76,4 @@ public class DBResourceType {
         this.aliases = asList(aliases);
     }
 
-    @Override
-    public String toString() {
-        return "DBResourceType{" +
-                "name='" + name + '\'' +
-                ", aliases=" + aliases +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

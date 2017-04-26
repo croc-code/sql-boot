@@ -28,10 +28,6 @@ public class JdbcSqlHelper implements ISqlHelper {
     public List<Map<String, String>> selectBatch(List<String> sql) throws SqlBootException {
         List<Map<String, String>> result = new ArrayList<>();
 
-        // dataSources.stream().filter(s -> s.getConnection().getClientInfo())
-
-        //dataSources.get(0).getConnection().setClientInfo();
-
         try (Connection connection = dataSources.get(0).getConnection()) {
             for (String s : sql) {
                 if (s.toLowerCase().startsWith("select")) {

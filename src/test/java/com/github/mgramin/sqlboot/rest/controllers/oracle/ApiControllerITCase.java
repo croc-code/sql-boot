@@ -36,7 +36,7 @@ public class ApiControllerITCase {
 
     @ClassRule
     public static GenericContainer oracle = new GenericContainer("sath89/oracle-xe-11g:latest")
-            .withExposedPorts(5432);
+            .withExposedPorts(1521);
 
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -50,8 +50,8 @@ public class ApiControllerITCase {
 
     @Test
     public void getTextDdl() throws Exception {
-        Thread.sleep(2000);
-//        callRestAndValidate("t/public.basketball_team_stats/drop", "postgres/t_public.basketball_team_stats_drop");
+        Thread.sleep(9000);
+        callRestAndValidate("table/hr", "postgres/t_public.basketball_team_stats_drop");
 //        callRestAndValidate("t/public.basketball_team_stats/d", "postgres/t_public.basketball_team_stats_drop");
 //        callRestAndValidate("t/public.basketball_team_stats/-", "postgres/t_public.basketball_team_stats_drop");
     }
