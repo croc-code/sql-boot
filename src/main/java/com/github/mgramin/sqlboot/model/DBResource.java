@@ -1,6 +1,7 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.uri.ObjURI;
+import lombok.ToString;
 
 import java.util.Map;
 import java.util.Properties;
@@ -9,6 +10,7 @@ import java.util.Properties;
  * DB Resource
  * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
  */
+@ToString
 public class DBResource implements Comparable<DBResource> {
 
     public String name;
@@ -25,18 +27,6 @@ public class DBResource implements Comparable<DBResource> {
 
     public void addProperty(Object key, Object value){
         this.headers.put(key, value);
-    }
-
-    @Override
-    public String toString() {
-        return "DBResource{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", body='" + body + '\'' +
-                ", objURI=" + objURI +
-                ", paths=" + paths +
-                ", headers=" + headers +
-                '}';
     }
 
     public String getName() {

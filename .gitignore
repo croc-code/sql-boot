@@ -12,3 +12,5 @@ target/
 # Idea
 .idea/
 *.iml
+
+lib/*.jar
