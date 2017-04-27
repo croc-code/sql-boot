@@ -25,18 +25,18 @@
 
     <!-- Generators -->
     <bean id="parentSQLGeneratorBean" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.wrappers.SQLGenerator">
-        <property name="sqlHelper" ref="sqlHelper"/>
-        <property name="templateEngine" ref="templateEngine" />
-        <property name="dbSchemaObjectCommand" ref="CREATE" />
+        <constructor-arg name="sqlHelper" ref="sqlHelper"/>
+        <constructor-arg name="templateEngine" ref="templateEngine" />
+        <constructor-arg name="command" ref="CREATE" />
     </bean>
 
     <bean id="templateGeneratorBean" abstract="true" scope="prototype"
-      class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
-      c:templateEngine-ref='templateEngine' c:command-ref='CREATE' />
+          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
+          c:templateEngine-ref='templateEngine' c:command-ref='CREATE' />
 
     <bean id="templateMarkupGeneratorBean" abstract="true" scope="prototype"
-      class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
-      c:templateEngine-ref='markupTemplateEngine' c:command-ref='CREATE' />
+          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
+          c:templateEngine-ref='markupTemplateEngine' c:command-ref='CREATE' />
 
     <bean id="plainTextGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator"
@@ -45,6 +45,12 @@
     <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGeneratorWrapper"
           c:templateEngine-ref="templateEngine"/>
+
+    <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
+          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
+          c:templateEngine-ref="templateEngine"
+          c:command-ref='CREATE'/>
+
 
 
 
