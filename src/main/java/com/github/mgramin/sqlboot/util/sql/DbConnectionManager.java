@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.ToString;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -13,6 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Created by MGramin on 16.02.2017.
  */
 @ConfigurationProperties()
+@ToString
 public class DbConnectionManager {
 
     private Map<String, DataSource> dataSources;
@@ -104,17 +106,6 @@ public class DbConnectionManager {
             this.password = password;
         }
 
-        @Override
-        public String toString() {
-            return "DbConnection{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", isDefault=" + isDefault +
-                ", driver='" + driver + '\'' +
-                ", url='" + url + '\'' +
-                ", user='" + user + '\'' +
-                '}';
-        }
     }
 
     public void init() {

@@ -7,8 +7,10 @@ import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
 import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 
 import java.util.Map;
+import lombok.ToString;
 
 @Deprecated
+@ToString
 public class TemplateGenerator extends AbstractActionGenerator implements IActionGenerator {
 
     public TemplateGenerator(TemplateEngine templateEngine, String template, DBSchemaObjectCommand command) {
@@ -22,14 +24,6 @@ public class TemplateGenerator extends AbstractActionGenerator implements IActio
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
         return templateEngine.process(variables);
-    }
-
-
-    @Override
-    public String toString() {
-        return "TemplateGenerator{" +
-                "template='" + templateEngine + '\'' +
-                '}';
     }
 
 }
