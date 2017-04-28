@@ -17,10 +17,12 @@ public class AbstractGroovyTemplateEngine implements TemplateEngine {
 
     protected groovy.text.TemplateEngine engine;
     protected Template template;
+    protected String templateText;
 
 
     @Override
     public void setTemplate(String template) {
+        this.templateText = template;
         try {
             this.template = engine.createTemplate(template.replace("!{", "${"));
         } catch (ClassNotFoundException | IOException e) {
@@ -34,7 +36,7 @@ public class AbstractGroovyTemplateEngine implements TemplateEngine {
     }
 
     @Override
-    public List<String> getAllProperties(String templateText) throws SqlBootException {
+    public List<String> getAllProperties() throws SqlBootException {
         List<String> result = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\$\\s*(\\w+)");
         Matcher matcher = pattern.matcher(templateText.replace("!", "$"));

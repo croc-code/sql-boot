@@ -16,11 +16,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.ToString;
 import org.apache.log4j.Logger;
 
 /**
  * Custom-SQL db object reader
  */
+@ToString
 public class SqlObjectReader extends AbstractObjectReader implements IDBObjectReader {
 
     private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
@@ -53,8 +55,9 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
         Map<String, DBResource> objects = new LinkedHashMap<>();
         try {
             Map<String, Object> data = new HashMap();
-            int i=0;
-            for (String s : templateEngine.getAllProperties(sql)) {
+            int i = 0;
+            templateEngine.setTemplate(sql);
+            for (String s : templateEngine.getAllProperties()) {
                 try {
                     data.put(s, list.get(i++));
                 } catch (Throwable t) {
@@ -127,13 +130,6 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
 
     public void setPrepareSql(String prepareSql) {
         this.prepareSql = prepareSql;
-    }
-
-    @Override
-    public String toString() {
-        return "SqlObjectReader{" +
-                "sql='" + sql + '\'' +
-                '}';
     }
 
 }

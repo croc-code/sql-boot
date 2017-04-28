@@ -20,11 +20,10 @@ public interface TemplateEngine {
     /**
      * Get all user variables from template in sequence order
      *
-     * @param templateText
      * @return
      * @throws SqlBootException
      */
-    List<String> getAllProperties(@Deprecated String templateText) throws SqlBootException;
+    List<String> getAllProperties() throws SqlBootException;
 
     /**
      * Set and prepare template text

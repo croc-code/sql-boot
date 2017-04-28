@@ -32,7 +32,7 @@ public class SqlObjectReaderTest {
                 of("schema", "public", "table", "persons", "column", "age")));
 
         TemplateEngine templateEngine = mock(TemplateEngine.class);
-        when(templateEngine.getAllProperties(any())).thenReturn(asList("@schema", "@table", "@column"));
+        when(templateEngine.getAllProperties()).thenReturn(asList("@schema", "@table", "@column"));
 
         SqlObjectReader reader = new SqlObjectReader(sqlHelper, templateEngine,
                 "... custom-sql for select objects from db dictionary ...",
@@ -53,7 +53,7 @@ public class SqlObjectReaderTest {
         when(sqlHelperTableMock.select(any())).thenReturn(asList(
                 of("schema", "public", "table", "persons")));
         TemplateEngine templateEngineTableMock = mock(TemplateEngine.class);
-        when(templateEngineTableMock.getAllProperties(any())).thenReturn(asList("@schema", "@table"));
+        when(templateEngineTableMock.getAllProperties()).thenReturn(asList("@schema", "@table"));
 
         SqlObjectReader readerTable = new SqlObjectReader(sqlHelperTableMock, templateEngineTableMock,
                 "... custom-sql for select table from db dictionary ...");
@@ -63,7 +63,7 @@ public class SqlObjectReaderTest {
         when(sqlHelperIndexMock.select(any())).thenReturn(asList(
                 of("schema", "public", "table", "persons", "index", "persons_idx")));
         TemplateEngine templateEngineIndexMock = mock(TemplateEngine.class);
-        when(templateEngineIndexMock.getAllProperties(any())).thenReturn(asList("@schema", "@table", "@index"));
+        when(templateEngineIndexMock.getAllProperties()).thenReturn(asList("@schema", "@table", "@index"));
 
         SqlObjectReader readerIndex = new SqlObjectReader(sqlHelperIndexMock, templateEngineIndexMock,
                 "... custom-sql for select index from db dictionary ...");
