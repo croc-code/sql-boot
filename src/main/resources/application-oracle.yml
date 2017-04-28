@@ -6,7 +6,7 @@ tables: |
      and lower(t.table_name) like '$table'
 
 table.sql.create: |
-  create table "$schema"."$table.name" ... ;
+  select 'create super table ... ' from dual
 
 table.sql.drop: |
   drop table "$schema"."$table.name";
