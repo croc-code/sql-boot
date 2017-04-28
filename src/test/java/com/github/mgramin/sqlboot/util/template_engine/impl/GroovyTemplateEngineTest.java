@@ -4,7 +4,7 @@ import static com.google.common.collect.ImmutableMap.of;
 import static org.junit.Assert.assertEquals;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 import java.util.Arrays;
 import java.util.Map;
 import org.junit.Test;
@@ -25,20 +25,20 @@ public class GroovyTemplateEngineTest {
             "and lower(c.column_name) like 'id'";
 
         Map<String, Object> maps = of("column", "id", "table", "persons", "schema", "public");
-        ITemplateEngine templateEngine = new GroovyTemplateEngine(txt);
+        TemplateEngine templateEngine = new GroovyTemplateEngine(txt);
         assertEquals(templateEngine.process(maps), result);
     }
 
     @Test
     public void processLoweCase() throws SqlBootException {
         Map<String, Object> maps = of("column", "id", "table", "persons", "schema", "public");
-        ITemplateEngine templateEngine = new GroovyTemplateEngine("create table !{table.toLowerCase()} ...");
+        TemplateEngine templateEngine = new GroovyTemplateEngine("create table !{table.toLowerCase()} ...");
         assertEquals(templateEngine.process(maps), "create table persons ...");
     }
 
     @Test
     public void getAllProperties() throws SqlBootException {
-        ITemplateEngine templateEngine = new GroovyTemplateEngine();
+        TemplateEngine templateEngine = new GroovyTemplateEngine();
         String txt = "... where lower(c.table_schema) like '$schema'\n" +
             "and lower(c.table_name) like '$table'\n" +
             "and lower(c.column_name) like '$column'";

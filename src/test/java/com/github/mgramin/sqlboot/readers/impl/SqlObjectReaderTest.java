@@ -3,7 +3,7 @@ package com.github.mgramin.sqlboot.readers.impl;
 import com.github.mgramin.sqlboot.model.DBResourceType;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class SqlObjectReaderTest {
                 of("schema", "public", "table", "persons", "column", "name"),
                 of("schema", "public", "table", "persons", "column", "age")));
 
-        ITemplateEngine templateEngine = mock(ITemplateEngine.class);
+        TemplateEngine templateEngine = mock(TemplateEngine.class);
         when(templateEngine.getAllProperties(any())).thenReturn(asList("@schema", "@table", "@column"));
 
         SqlObjectReader reader = new SqlObjectReader(sqlHelper, templateEngine,
@@ -52,7 +52,7 @@ public class SqlObjectReaderTest {
         ISqlHelper sqlHelperTableMock = mock(ISqlHelper.class);
         when(sqlHelperTableMock.select(any())).thenReturn(asList(
                 of("schema", "public", "table", "persons")));
-        ITemplateEngine templateEngineTableMock = mock(ITemplateEngine.class);
+        TemplateEngine templateEngineTableMock = mock(TemplateEngine.class);
         when(templateEngineTableMock.getAllProperties(any())).thenReturn(asList("@schema", "@table"));
 
         SqlObjectReader readerTable = new SqlObjectReader(sqlHelperTableMock, templateEngineTableMock,
@@ -62,7 +62,7 @@ public class SqlObjectReaderTest {
         ISqlHelper sqlHelperIndexMock = mock(ISqlHelper.class);
         when(sqlHelperIndexMock.select(any())).thenReturn(asList(
                 of("schema", "public", "table", "persons", "index", "persons_idx")));
-        ITemplateEngine templateEngineIndexMock = mock(ITemplateEngine.class);
+        TemplateEngine templateEngineIndexMock = mock(TemplateEngine.class);
         when(templateEngineIndexMock.getAllProperties(any())).thenReturn(asList("@schema", "@table", "@index"));
 
         SqlObjectReader readerIndex = new SqlObjectReader(sqlHelperIndexMock, templateEngineIndexMock,

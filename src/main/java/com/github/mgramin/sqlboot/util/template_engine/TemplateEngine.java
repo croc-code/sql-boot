@@ -1,21 +1,13 @@
 package com.github.mgramin.sqlboot.util.template_engine;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-
 import java.util.List;
 import java.util.Map;
 
 /**
  * Template engine
  */
-public interface ITemplateEngine {
-
-    /**
-     * Set and prepare template text
-     *
-     * @param template
-     */
-    void setTemplate(String template);
+public interface TemplateEngine {
 
     /**
      * Generate text from template
@@ -33,5 +25,13 @@ public interface ITemplateEngine {
      * @throws SqlBootException
      */
     List<String> getAllProperties(@Deprecated String templateText) throws SqlBootException;
+
+    /**
+     * Set and prepare template text
+     *
+     * @param template
+     */
+    @Deprecated // TODO set template in constructor
+    void setTemplate(String template);
 
 }

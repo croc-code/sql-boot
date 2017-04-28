@@ -43,7 +43,7 @@
           c:command-ref='CREATE'/>
 
     <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGeneratorWrapper"
+          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper"
           c:templateEngine-ref="templateEngine"/>
 
     <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"

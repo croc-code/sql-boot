@@ -5,7 +5,7 @@ import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Deprecated
 public class SQLGenerator extends AbstractActionGenerator implements IActionGenerator {
 
-    public SQLGenerator(List<String> sql, DBSchemaObjectCommand command, ITemplateEngine templateEngine, ISqlHelper sqlHelper) {
+    public SQLGenerator(List<String> sql, DBSchemaObjectCommand command, TemplateEngine templateEngine, ISqlHelper sqlHelper) {
         this.sql = sql;
         this.templateEngine = templateEngine;
         this.sqlHelper = sqlHelper;
@@ -39,6 +39,6 @@ public class SQLGenerator extends AbstractActionGenerator implements IActionGene
     private String prepareSql;
     private List<String> sql;
     private ISqlHelper sqlHelper;
-    @Deprecated private ITemplateEngine templateEngine;
+    @Deprecated private TemplateEngine templateEngine;
 
 }

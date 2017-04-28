@@ -1,9 +1,8 @@
 package com.github.mgramin.sqlboot.util.template_engine.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 import groovy.text.Template;
-import groovy.text.TemplateEngine;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +13,9 @@ import java.util.regex.Pattern;
 /**
  * Created by MGramin on 26.02.2017.
  */
-public class AbstractGroovyTemplateEngine implements ITemplateEngine {
+public class AbstractGroovyTemplateEngine implements TemplateEngine {
 
-    protected TemplateEngine engine;
+    protected groovy.text.TemplateEngine engine;
     protected Template template;
 
 

@@ -1,6 +1,6 @@
 package com.github.mgramin.sqlboot.util.template_engine.impl;
 
-import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 import groovy.text.markup.MarkupTemplateEngine;
 import lombok.ToString;
 
@@ -8,7 +8,8 @@ import lombok.ToString;
  * Created by mgramin on 06.01.2017.
  */
 @ToString
-public class GroovyMarkupTemplateEngine extends AbstractGroovyTemplateEngine implements ITemplateEngine {
+public class GroovyMarkupTemplateEngine extends AbstractGroovyTemplateEngine implements
+    TemplateEngine {
 
     public GroovyMarkupTemplateEngine() {
         engine = new MarkupTemplateEngine();

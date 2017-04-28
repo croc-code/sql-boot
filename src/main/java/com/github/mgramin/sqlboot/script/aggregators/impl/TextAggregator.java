@@ -4,7 +4,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
-import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +21,7 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
         this.httpHeaders = httpHeaders;
     }
 
-    public TextAggregator(String name, Map<String, String> httpHeaders, ITemplateEngine templateEngine, String template) {
+    public TextAggregator(String name, Map<String, String> httpHeaders, TemplateEngine templateEngine, String template) {
         this.name = name;
         this.httpHeaders = httpHeaders;
         this.templateEngine = templateEngine;
@@ -29,7 +29,7 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
     }
 
     private String template;
-    private ITemplateEngine templateEngine;
+    private TemplateEngine templateEngine;
 
     @Override
     public byte[] aggregate(List<DBResource> objects) throws SqlBootException {

@@ -9,7 +9,7 @@ import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.util.template_engine.ITemplateEngine;
+import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,20 +27,20 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
 
     public ISqlHelper sqlHelper;
     public String sql;
-    public ITemplateEngine templateEngine; // TODO move to decorator ?
+    public TemplateEngine templateEngine; // TODO move to decorator ?
     public String prepareSql; // TODO move to decorator ?
 
     public SqlObjectReader() {
     }
 
-    public SqlObjectReader(ISqlHelper sqlHelper, ITemplateEngine templateEngine, String sql, String prepareSql) {
+    public SqlObjectReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql, String prepareSql) {
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
         this.sql = sql;
         this.prepareSql = prepareSql;
     }
 
-    public SqlObjectReader(ISqlHelper sqlHelper, ITemplateEngine templateEngine, String sql) {
+    public SqlObjectReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
         this.sql = sql;
@@ -117,7 +117,7 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
         this.sqlHelper = sqlHelper;
     }
 
-    public void setTemplateEngine(ITemplateEngine templateEngine) {
+    public void setTemplateEngine(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 

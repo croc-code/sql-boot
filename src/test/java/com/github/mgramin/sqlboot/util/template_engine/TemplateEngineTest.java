@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Created by MGramin on 28.11.2016.
  */
-public class ITemplateEngineTest {
+public class TemplateEngineTest {
 
     @Test
     public void process() throws Exception {
