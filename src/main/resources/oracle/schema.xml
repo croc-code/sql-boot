@@ -15,10 +15,10 @@
         <property name="child">
             <list>
                 <value>#{table}</value>
-                <value>#{package}</value>
-                <value>#{procedure}</value>
-                <value>#{function}</value>
-                <value>#{view}</value>
+                <!--<value>#{package}</value>-->
+                <!--<value>#{procedure}</value>-->
+                <!--<value>#{function}</value>-->
+                <!--<value>#{view}</value>-->
                 <!--<value>#{job}</value>-->
                 <!--<value>#{type}</value>-->
                 <!--<value>#{sequence}</value>-->

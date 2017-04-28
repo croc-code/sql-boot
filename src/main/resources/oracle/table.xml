@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
@@ -19,21 +20,23 @@
             </list>
         </property>
         <property name="readers">
-            <list>
-                <bean parent="baseSqlReader">
-                    <property name="sql">
-                        <value>
-                 select t.owner as "schema"
-                     , t.table_name as "table"
-                  from all_tables t
-                 where lower(t.owner) like '$schema'
-                   and lower(t.table_name) like '$table'
-                        </value>
-                    </property>
-                </bean>
-            </list>
+            <bean parent="baseSqlReader">
+                <property name="sql" value="${tables}" />
+            </bean>
         </property>
-
+        <property name="aggregators">
+            <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                <property name="aggregatorName" value="sql"/>
+                <property name="commands">
+                    <list>
+                        <bean parent="parentSQLGeneratorBean">
+                            <constructor-arg name="sql" value="${table.sql.create}"/>
+                        </bean>
+                        <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
+                    </list>
+                </property>
+            </bean>
+        </property>
 <!--        <property name="commands">
             <list>
                 <bean name="createTable" parent="parentSQLGeneratorBean">

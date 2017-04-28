@@ -1,4 +1,4 @@
-package com.github.mgramin.sqlboot.rest.controllers;
+package com.github.mgramin.sqlboot.rest.controllers.h2;
 
 import com.github.mgramin.sqlboot.rest.RestRunner;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {"management.port=0"})
 @ActiveProfiles("information_schema")
 public class ApiControllerITCase {
 
