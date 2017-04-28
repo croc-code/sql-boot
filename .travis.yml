@@ -8,4 +8,6 @@ services:
   - docker
 
 ## Run integration tests
-script: "mvn verify -Ppostgres"
+script:
+  - mvn verify -Ph2
+  - mvn verify -Ppostgres
