@@ -11,6 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import static java.nio.charset.StandardCharsets.*;
+
 /**
  * Created by maksim on 18.04.17.
  */
@@ -25,7 +27,7 @@ public class FileBaseGenerator extends AbstractActionGenerator implements IActio
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
         try {
-            return new String(Files.readAllBytes(Paths.get(file.getFile().getName())), StandardCharsets.UTF_8);
+            return new String(Files.readAllBytes(Paths.get(file.getFile().getName())), UTF_8);
         } catch (IOException e) {
             throw new SqlBootException(e);
         }

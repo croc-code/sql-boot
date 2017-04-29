@@ -10,14 +10,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class SQLGeneratorTest {
+public class SQLWrapperTest {
 
     /*@Autowired
     ISqlHelper sqlHelper;*/
 
     @Test
     public void testGenerate() throws Exception {
-        /*SQLGenerator sqlGenerator = new SQLGenerator(sqlHelper, new GroovyTemplateEngine(), Collections.singletonList("select 'Hello, ${name}!'"));
+        /*SQLWrapper sqlGenerator = new SQLWrapper(sqlHelper, new GroovyTemplateEngine(), Collections.singletonList("select 'Hello, ${name}!'"));
         Map variables = new HashMap<String, String>();
         variables.put("name", "World");
         assertEquals(sqlGenerator.generate(variables), "Hello, World!");*/

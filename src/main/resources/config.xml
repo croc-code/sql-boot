@@ -24,12 +24,6 @@
 
 
     <!-- Generators -->
-    <bean id="parentSQLGeneratorBean" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.wrappers.SQLGenerator">
-        <constructor-arg name="sqlHelper" ref="sqlHelper"/>
-        <constructor-arg name="templateEngine" ref="templateEngine" />
-        <constructor-arg name="command" ref="CREATE" />
-    </bean>
-
     <bean id="templateGeneratorBean" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
           c:templateEngine-ref='templateEngine' c:command-ref='CREATE' />
@@ -51,7 +45,14 @@
           c:templateEngine-ref="templateEngine"
           c:command-ref='CREATE'/>
 
+    <bean id="sqlGeneratorWrapper" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.wrappers.SQLWrapper"
+          c:sqlHelper-ref="sqlHelper" />
 
+     <bean id="plainTextTemplateSqlGenerator" abstract="true" scope="prototype"
+          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateSqlGenerator"
+          c:templateEngine-ref="templateEngine"
+          c:sqlHelper-ref="sqlHelper"
+          c:command-ref='CREATE'/>
 
 
     <!-- Aggregators -->

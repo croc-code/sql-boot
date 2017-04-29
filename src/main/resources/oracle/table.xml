@@ -29,10 +29,8 @@
                 <property name="aggregatorName" value="sql"/>
                 <property name="commands">
                     <list>
-                        <bean parent="parentSQLGeneratorBean">
-                            <constructor-arg name="sql" value="${table.sql.create}"/>
-                        </bean>
-                        <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
+                        <bean parent="plainTextTemplateSqlGenerator" c:baseText="${table.sql.create}"/>
+                        <bean parent="plainTextTemplateGenerator" c:baseText="${table.sql.drop}" c:command-ref="DROP"/>
                     </list>
                 </property>
             </bean>
