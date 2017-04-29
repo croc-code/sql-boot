@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by maksim on 29.04.17.
  */
-public class CachedWrapper implements IActionGenerator {
+public class CacheWrapper implements IActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
