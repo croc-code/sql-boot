@@ -98,9 +98,9 @@ public class DdlController {
         DBSchemaObjectCommand currentCommand;
 
         if (uri.getAction() != null) {
-            currentCommand = objectCommands.stream().filter(c -> c.aliases.contains(uri.getAction())).findFirst().orElse(null);
+            currentCommand = objectCommands.stream().filter(c -> c.aliases().contains(uri.getAction())).findFirst().orElse(null);
         } else {
-            currentCommand = objectCommands.stream().filter(c -> c.isDefault).findFirst().orElse(null);
+            currentCommand = objectCommands.stream().filter(c -> c.isDefault()).findFirst().orElse(null);
         }
 
         DBResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
@@ -124,8 +124,8 @@ public class DdlController {
                             .orElseGet(null)
                             .getCommands()
                             .stream()
-                            .filter(c -> c.command().name.equalsIgnoreCase(
-                                currentCommand.name))
+                            .filter(c -> c.command().name().equalsIgnoreCase(
+                                currentCommand.name()))
                             .findFirst()
                             .orElse(null);
 

@@ -32,9 +32,11 @@ import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
 import java.util.Map;
 
 /**
- * Created by maksim on 18.04.17.
+ * Generate command from plain text
  */
 public class PlainTextGenerator extends AbstractActionGenerator implements ActionGenerator {
+
+    private final String baseText;
 
     public PlainTextGenerator(String baseText, DBSchemaObjectCommand command) {
         this.baseText = baseText;
@@ -45,7 +47,5 @@ public class PlainTextGenerator extends AbstractActionGenerator implements Actio
     public String generate(Map<String, Object> variables) throws SqlBootException {
         return baseText;
     }
-
-    private final String baseText;
 
 }

@@ -127,36 +127,13 @@
 
     <!-- DB commands -->
     <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.model.DBSchemaObjectCommand" />
-    <bean name="CREATE" parent="command" >
-        <property name="name" value="create" />
-        <property name="aliases" value="create,c,+" />
-        <property name="isDefault" value="true" />
-    </bean>
-    <bean name="DROP" parent="command" >
-        <property name="name" value="drop" />
-        <property name="aliases" value="drop,d,-" />
-    </bean>
-    <bean name="DROP_IF_EXISTS" parent="command" >
-        <property name="name" value="drop_if_exists" />
-        <property name="aliases" value="drop_if_exists,dx,_" />
-    </bean>
-    <bean name="EXISTS" parent="command" >
-        <property name="name" value="exists" />
-        <property name="aliases" value="exists,e,?" />
-    </bean>
-    <bean name="REBUILD" parent="command" >
-        <property name="name" value="rebuild" />
-        <property name="aliases" value="rebuild,r,*" />
-    </bean>
-    <bean name="GATHER" parent="command" >
-        <property name="name" value="gather_stat" />
-        <property name="aliases" value="stat,s,#" />
-    </bean>
-    <bean name="COMPILE" parent="command" >
-        <property name="name" value="compile" />
-        <property name="aliases" value="comp,cmp,^" />
-    </bean>
-
+    <bean name="CREATE" parent="command" c:aliases="create,c,+" c:isDefault="true"/>
+    <bean name="DROP" parent="command" c:aliases="drop,d,-" />
+    <bean name="DROP_IF_EXISTS" parent="command" c:aliases="drop_if_exists,dx,_" />
+    <bean name="EXISTS" parent="command" c:aliases="exists,e,?" />
+    <bean name="REBUILD" parent="command" c:aliases="rebuild,r,*" />
+    <bean name="GATHER" parent="command" c:aliases="stat,s,#" />
+    <bean name="COMPILE" parent="command" c:aliases="comp,cmp,^" />
 
 
     <!-- Template engines -->

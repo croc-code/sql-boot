@@ -23,44 +23,21 @@
  *
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.actions.generator.impl;
 
-import lombok.ToString;
+import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
+import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import static org.junit.Assert.*;
 
 /**
- * Command for db-object, e.g. "create", "drop", "exists", "rebuild", "gather"(statistics),
- * "compile"(procedure, function, package), etc
+ * Created by maksim on 01.05.17.
  */
-@ToString
-public class DBSchemaObjectCommand {
+public class PlainTextGeneratorTest {
 
-    final private List<String> aliases;
-    final private Boolean isDefault;
-
-    @Deprecated
-    public DBSchemaObjectCommand(String[] aliases) {
-        this.aliases = Arrays.asList(aliases);
-        this.isDefault = false;
-    }
-
-    public DBSchemaObjectCommand(String[] aliases, Boolean isDefault) {
-        this.aliases = Arrays.asList(aliases);
-        this.isDefault = isDefault;
-    }
-
-    public String name () {
-        return aliases.get(0);
-    }
-
-    public List<String> aliases() {
-        return aliases;
-    }
-
-    public Boolean isDefault() {
-        return isDefault;
+    @Test
+    public void generate() throws Exception {
+//        PlainTextGenerator plainTextGenerator = new PlainTextGenerator("create table", new DBSchemaObjectCommand());
     }
 
 }
