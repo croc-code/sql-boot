@@ -63,11 +63,11 @@
 
     <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper"
-          c:templateEngine-ref="templateEngine"/>
+          c:templateEngineFactory-ref="templateEngineFactory"/>
 
     <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
-          c:templateEngine-ref="templateEngine"
+          c:templateEngineFactory-ref="templateEngineFactory"
           c:command-ref='CREATE'/>
 
     <bean id="sqlGeneratorWrapper" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.wrappers.SQLWrapper"
@@ -75,7 +75,7 @@
 
      <bean id="plainTextTemplateSqlGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateSqlGenerator"
-          c:templateEngine-ref="templateEngine"
+          c:templateEngineFactory-ref="templateEngineFactory"
           c:sqlHelper-ref="sqlHelper"
           c:command-ref='CREATE'/>
 
@@ -165,6 +165,9 @@
     <!-- Template engines -->
     <bean id="templateEngine" scope="prototype" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngine" />
     <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngine" />
+
+    <bean id="templateEngineFactory" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyTemplateEngineFactory" />
+    <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.util.template_engine.impl.GroovyMarkupTemplateEngineFactory" />
 
     <!-- DB helpers -->
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper" autowire="byType" />

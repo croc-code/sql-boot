@@ -40,7 +40,7 @@ import java.util.Map;
 public class JdbcTemplateWrapper implements IActionGenerator {
 
 
-    public JdbcTemplateWrapper(IActionGenerator baseGenerator, DataSource dataSource) {
+    public JdbcTemplateWrapper(IActionGenerator baseGenerator, DataSource dataSource, Map<String, String> mapping) {
         this.baseGenerator = baseGenerator;
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }

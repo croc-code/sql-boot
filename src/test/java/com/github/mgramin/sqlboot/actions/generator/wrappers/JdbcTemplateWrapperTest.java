@@ -25,37 +25,16 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
-import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
-import com.github.mgramin.sqlboot.util.template_engine.TemplateEngineFactory;
+import org.junit.Test;
 
-import java.util.Map;
+import static org.junit.Assert.*;
 
 /**
- * Created by maksim on 19.04.17.
+ * Created by maksim on 01.05.17.
  */
-public class TemplateWrapper implements IActionGenerator {
-
-    public TemplateWrapper(IActionGenerator baseGenerator, TemplateEngineFactory templateEngineFactory) {
-        this.baseGenerator = baseGenerator;
-        this.templateEngineFactory = templateEngineFactory;
+public class JdbcTemplateWrapperTest {
+    @Test
+    public void generate() throws Exception {
     }
-
-    @Override
-    public String generate(Map<String, Object> variables) throws SqlBootException {
-        final String baseText = baseGenerator.generate(variables);
-        final TemplateEngine templateEngine = templateEngineFactory.create(baseText);
-        return templateEngine.process(variables);
-    }
-
-    @Override
-    public DBSchemaObjectCommand command() {
-        return baseGenerator.command();
-    }
-
-    final private IActionGenerator baseGenerator;
-    final private TemplateEngineFactory templateEngineFactory;
 
 }
