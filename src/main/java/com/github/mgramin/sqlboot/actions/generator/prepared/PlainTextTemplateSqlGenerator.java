@@ -25,7 +25,7 @@
 
 package com.github.mgramin.sqlboot.actions.generator.prepared;
 
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.SQLWrapper;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper;
@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * Created by maksim on 29.04.17.
  */
-public class PlainTextTemplateSqlGenerator implements IActionGenerator {
+public class PlainTextTemplateSqlGenerator implements ActionGenerator {
 
     public PlainTextTemplateSqlGenerator(String baseText, DBSchemaObjectCommand command,
                                          TemplateEngineFactory templateEngineFactory, ISqlHelper sqlHelper) {
@@ -61,6 +61,6 @@ public class PlainTextTemplateSqlGenerator implements IActionGenerator {
         return baseGenerator.command();
     }
 
-    private final IActionGenerator baseGenerator;
+    private final ActionGenerator baseGenerator;
 
 }

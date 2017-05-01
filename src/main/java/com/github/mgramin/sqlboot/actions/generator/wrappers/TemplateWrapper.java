@@ -25,7 +25,7 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
 import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
@@ -36,9 +36,9 @@ import java.util.Map;
 /**
  * Created by maksim on 19.04.17.
  */
-public class TemplateWrapper implements IActionGenerator {
+public class TemplateWrapper implements ActionGenerator {
 
-    public TemplateWrapper(IActionGenerator baseGenerator, TemplateEngineFactory templateEngineFactory) {
+    public TemplateWrapper(ActionGenerator baseGenerator, TemplateEngineFactory templateEngineFactory) {
         this.baseGenerator = baseGenerator;
         this.templateEngineFactory = templateEngineFactory;
     }
@@ -55,7 +55,7 @@ public class TemplateWrapper implements IActionGenerator {
         return baseGenerator.command();
     }
 
-    final private IActionGenerator baseGenerator;
+    final private ActionGenerator baseGenerator;
     final private TemplateEngineFactory templateEngineFactory;
 
 }

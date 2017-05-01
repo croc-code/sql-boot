@@ -27,9 +27,8 @@ package com.github.mgramin.sqlboot.model;
 
 import static java.util.Arrays.asList;
 
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ import java.util.List;
 public class DBSchemaObjectTypeAggregator {
 
     private List<String> aggregatorName;
-    private List<IActionGenerator> commands;
+    private List<ActionGenerator> commands;
 
 
     public List<String> getAggregatorName() {
@@ -49,11 +48,11 @@ public class DBSchemaObjectTypeAggregator {
         this.aggregatorName = asList(aggregatorName);
     }
 
-    public List<IActionGenerator> getCommands() {
+    public List<ActionGenerator> getCommands() {
         return commands;
     }
 
-    public void setCommands(List<IActionGenerator> commands) {
+    public void setCommands(List<ActionGenerator> commands) {
         this.commands = commands;
     }
 }

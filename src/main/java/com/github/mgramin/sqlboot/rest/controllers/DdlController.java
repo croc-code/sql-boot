@@ -26,7 +26,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.IDBObjectReader;
@@ -118,7 +118,7 @@ public class DdlController {
                 if (object.type.aggregators != null) {
                     DBSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
                     if (objectTypeAggregator != null) {
-                        IActionGenerator currentGenerator = object.type.aggregators.stream()
+                        ActionGenerator currentGenerator = object.type.aggregators.stream()
                             .filter(a -> a.getAggregatorName().contains(aggregatorName))
                             .findFirst()
                             .orElseGet(null)

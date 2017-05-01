@@ -25,7 +25,7 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
@@ -40,9 +40,9 @@ import static java.util.Collections.singletonList;
  * Created by maksim on 05.04.16.
  */
 @ToString
-public class SQLWrapper implements IActionGenerator {
+public class SQLWrapper implements ActionGenerator {
 
-    public SQLWrapper(IActionGenerator baseGenerator, ISqlHelper sqlHelper) {
+    public SQLWrapper(ActionGenerator baseGenerator, ISqlHelper sqlHelper) {
         this.baseGenerator = baseGenerator;
         this.sqlHelper = sqlHelper;
     }
@@ -58,7 +58,7 @@ public class SQLWrapper implements IActionGenerator {
         return baseGenerator.command();
     }
 
-    final private IActionGenerator baseGenerator;
+    final private ActionGenerator baseGenerator;
     final private ISqlHelper sqlHelper;
 
 }

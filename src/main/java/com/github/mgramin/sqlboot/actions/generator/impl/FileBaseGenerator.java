@@ -25,23 +25,21 @@
 
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
-import com.github.mgramin.sqlboot.actions.generator.AbstractActionGenerator;
-import com.github.mgramin.sqlboot.actions.generator.IActionGenerator;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import static java.nio.charset.StandardCharsets.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Created by maksim on 18.04.17.
  */
-public class FileBaseGenerator extends AbstractActionGenerator implements IActionGenerator {
+public class FileBaseGenerator extends AbstractActionGenerator implements ActionGenerator {
 
     public FileBaseGenerator(Resource file) {
         this.file = file;

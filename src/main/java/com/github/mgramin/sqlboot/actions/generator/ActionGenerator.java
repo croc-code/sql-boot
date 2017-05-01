@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Created by maksim on 05.04.16.
  */
-public interface IActionGenerator {
+public interface ActionGenerator {
 
     String generate(Map<String, Object> variables) throws SqlBootException;
 
