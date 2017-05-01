@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
+[![Coverage Status](https://coveralls.io/repos/github/mgramin/sql-boot/badge.svg?branch=master)](https://coveralls.io/github/mgramin/sql-boot?branch=master)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mgramin/sql-boot/blob/master/LICENSE)
+
 # Getting DB Done!
 
 Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers
@@ -36,5 +40,4 @@ git clone https://github.com/mgramin/sql-boot
 cd sql-boot  
 mvn package 
 
-[![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mgramin/sql-boot/blob/master/LICENSE)
+
