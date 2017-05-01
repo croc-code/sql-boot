@@ -47,8 +47,8 @@
                     <property name="aggregatorName" value="sql"/>
                         <property name="commands">
                             <list>
-                                <bean parent="templateGeneratorBean" c:template='${view.sql.create}' />
-                                <bean parent="templateGeneratorBean" c:template='${view.sql.drop}' c:command-ref='DROP' />
+                                <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.create}' />
+                                <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.drop}' c:command-ref='DROP' />
                             </list>
                         </property>
                 </bean>
@@ -56,7 +56,7 @@
                     <property name="aggregatorName" value="zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean">
+                            <bean parent="plainTextTemplateGenerator">
                                 <property name="template" value="${view.sql.create}" />
                             </bean>
                         </list>
@@ -88,8 +88,8 @@
                     <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${mview.sql.create}' />
-                            <bean parent="templateGeneratorBean" c:template='${mview.sql.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.create}' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>
@@ -97,7 +97,7 @@
                     <property name="aggregatorName" value="zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean">
+                            <bean parent="plainTextTemplateGenerator">
                                 <property name="template" value="${mview.sql.create}" />
                             </bean>
                         </list>

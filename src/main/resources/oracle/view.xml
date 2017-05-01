@@ -49,7 +49,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropView" parent="templateGeneratorBean">
+                <bean id="dropView" parent="plainTextTemplateGenerator">
                     <property name="template">
                         <value>
                             DROP VIEW ${schema}.${view};

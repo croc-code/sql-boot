@@ -47,7 +47,7 @@
         </property>
         <property name="commands">
             <list>
-                <bean name="create" parent="templateGeneratorBean">
+                <bean name="create" parent="plainTextTemplateGenerator">
                     <property name="dbSchemaObjectCommand" ref="CREATE" />
                     <property name="template" >
                         <value><![CDATA[
@@ -59,7 +59,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean name="dropTable" parent="templateGeneratorBean">
+                <bean name="dropTable" parent="plainTextTemplateGenerator">
                     <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop table ${schema}.${table};</value>
@@ -88,14 +88,14 @@
         </property>
         <property name="commands">
             <list>
-                <bean id="addColumn" parent="templateGeneratorBean">
+                <bean id="addColumn" parent="plainTextTemplateGenerator">
                     <property name="template" >
                         <value>
                             alter table ${schema}.${table} add (${@data_type});
                         </value>
                     </property>
                 </bean>
-                <bean id="dropColumn" parent="templateGeneratorBean">
+                <bean id="dropColumn" parent="plainTextTemplateGenerator">
                     <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>alter table ${schema}.${table} drop column ${column};</value>

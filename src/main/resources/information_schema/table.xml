@@ -54,23 +54,23 @@
                     <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${table.sql.create}' />
-                            <bean parent="templateGeneratorBean" c:template='${table.sql.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="html"/>
                     <property name="commands">
-                        <bean parent="templateMarkupGeneratorBean" c:template='${table.info}' />
+                        <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.info}' />
                     </property>
                 </bean>
                 <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="migration"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateMarkupGeneratorBean" c:template='${table.migrate.create}' />
-                            <bean parent="templateMarkupGeneratorBean" c:template='${table.migrate.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.migrate.create}' />
+                            <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.migrate.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>
@@ -95,8 +95,8 @@
                     <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${table.column.sql.create}' />
-                            <bean parent="templateGeneratorBean" c:template='${table.column.sql.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.column.sql.create}' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.column.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>
@@ -119,8 +119,8 @@
                     <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${table.pk.sql.create}' />
-                            <bean parent="templateGeneratorBean" c:template='${table.pk.sql.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.pk.sql.create}' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.pk.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>
@@ -143,12 +143,8 @@
                     <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorWrapper">
-                                <constructor-arg name="baseGenerator">
-                                    <bean parent="plainTextGenerator" c:baseText='${table.fk.sql.create}'/>
-                                </constructor-arg>
-                            </bean>
-                            <bean parent="templateGeneratorBean" c:template='${table.fk.sql.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.fk.sql.create}'/>
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.fk.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>
@@ -173,8 +169,8 @@
                     <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${table.index.sql.create}' />
-                            <bean parent="templateGeneratorBean" c:template='${table.index.sql.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.index.sql.create}' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.index.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>
@@ -199,8 +195,8 @@
                     <property name="aggregatorName" value="sql,zip"/>
                     <property name="commands">
                         <list>
-                            <bean parent="templateGeneratorBean" c:template='${table.check.sql.create}' />
-                            <bean parent="templateGeneratorBean" c:template='${table.check.sql.drop}' c:command-ref='DROP' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.check.sql.create}' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${table.check.sql.drop}' c:command-ref='DROP' />
                         </list>
                     </property>
                 </bean>

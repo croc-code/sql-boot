@@ -64,7 +64,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="dropQueue" parent="templateGeneratorBean">
+                <bean id="dropQueue" parent="plainTextTemplateGenerator">
                     <property name="filePath" value="${schema?lower_case}/AQ/${queue}/drop_queue.sql" />
                     <property name="template">
                         <value>
@@ -79,7 +79,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="startQueue" parent="templateGeneratorBean">
+                <bean id="startQueue" parent="plainTextTemplateGenerator">
                     <property name="template">
                         <value>
                             begin
@@ -88,7 +88,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="stopQueue" parent="templateGeneratorBean">
+                <bean id="stopQueue" parent="plainTextTemplateGenerator">
                     <property name="template">
                         <value>
                             begin
@@ -97,7 +97,7 @@
                         </value>
                     </property>
                 </bean>
-                <bean id="purgeQueueTable" parent="templateGeneratorBean">
+                <bean id="purgeQueueTable" parent="plainTextTemplateGenerator">
                     <property name="template">
                         <value>
                             DECLARE

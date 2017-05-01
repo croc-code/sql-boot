@@ -49,33 +49,30 @@
 
 
     <!-- Generators -->
-    <bean id="templateGeneratorBean" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
-          c:templateEngine-ref='templateEngine' c:command-ref='CREATE' />
-
-    <bean id="templateMarkupGeneratorBean" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateGenerator"
-          c:templateEngine-ref='markupTemplateEngine' c:command-ref='CREATE' />
-
     <bean id="plainTextGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator"
           c:command-ref='CREATE'/>
 
     <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper"
-          c:templateEngineFactory-ref="templateEngineFactory"/>
-
-    <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
-          c:templateEngineFactory-ref="templateEngineFactory"
-          c:command-ref='CREATE'/>
+          c:baseTextEngineFactory-ref="templateEngineFactory"/>
 
     <bean id="sqlGeneratorWrapper" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.wrappers.SQLWrapper"
           c:sqlHelper-ref="sqlHelper" />
 
+    <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
+          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
+          c:baseTextEngineFactory-ref="templateEngineFactory"
+          c:command-ref='CREATE'/>
+
+    <bean id="plainTextMarkupTemplateGenerator" abstract="true" scope="prototype"
+          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
+          c:baseTextEngineFactory-ref="markupTemplateEngineFactory"
+          c:command-ref='CREATE'/>
+
      <bean id="plainTextTemplateSqlGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateSqlGenerator"
-          c:templateEngineFactory-ref="templateEngineFactory"
+          c:baseTextEngineFactory-ref="templateEngineFactory"
           c:sqlHelper-ref="sqlHelper"
           c:command-ref='CREATE'/>
 

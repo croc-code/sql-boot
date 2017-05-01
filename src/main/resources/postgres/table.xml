@@ -76,14 +76,14 @@
         </property>-->
         <!--<property name="commands">
             <list>
-                <bean id="addColumn" parent="templateGeneratorBean">
+                <bean id="addColumn" parent="plainTextTemplateGenerator">
                     <property name="template" >
                         <value>
                             alter table !{schema}.!{table} add (!{column});
                         </value>
                     </property>
                 </bean>
-                <bean id="dropColumn" parent="templateGeneratorBean">
+                <bean id="dropColumn" parent="plainTextTemplateGenerator">
                     <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>alter table !{schema}.!{table} drop column !{column};</value>
@@ -110,13 +110,13 @@
         </property>
         <property name="commands">
             <list>
-                <bean name="create" parent="templateGeneratorBean">
+                <bean name="create" parent="plainTextTemplateGenerator">
                     <property name="filePath" value="!{schema?lower_case}/tables/!{table?lower_case}/indexes/!{index?lower_case}.sql" />
                     <property name="template" >
                         <value>!{@indexdef?lower_case};</value>
                     </property>
                 </bean>
-                <bean name="dropTable" parent="templateGeneratorBean">
+                <bean name="dropTable" parent="plainTextTemplateGenerator">
                     <property name="dbSchemaObjectCommand" ref="DROP" />
                     <property name="template" >
                         <value>drop index !{schema}.!{index};</value>
