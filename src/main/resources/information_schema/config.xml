@@ -24,6 +24,7 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="
@@ -58,11 +59,7 @@
             </list>
         </property>
         <property name="readers">
-            <list>
-                <bean parent="baseSqlReader">
-                    <property name="sql" value="${schemas}" />
-                </bean>
-            </list>
+            <bean parent="baseSqlReader" c:sql="${schemas}" />
         </property>
     </bean>
 

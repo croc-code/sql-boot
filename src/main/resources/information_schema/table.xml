@@ -44,9 +44,7 @@
             </list>
         </property>
         <property name="readers">
-            <bean parent="baseSqlReader">
-                <property name="sql" value="${tables}" />
-            </bean>
+            <bean parent="baseSqlReader" c:sql="${tables}" />
         </property>
         <property name="aggregators">
             <list>
@@ -83,11 +81,7 @@
         <property name="name" value="column" />
         <property name="aliases" value="column,clmn,c" />
         <property name="readers">
-            <list>
-                <bean name="sqlReader" parent="baseSqlReader">
-                    <property name="sql" value="${table.columns}" />
-                </bean>
-            </list>
+            <bean parent="baseSqlReader" c:sql="${table.columns}" />
         </property>
         <property name="aggregators">
             <list>
@@ -109,9 +103,7 @@
         <property name="name" value="pk" />
         <property name="aliases" value="pk,primary,primary_key" />
         <property name="readers">
-            <bean name="sqlReader" parent="baseSqlReader">
-                <property name="sql" value="${table.pk}" />
-            </bean>
+            <bean parent="baseSqlReader" c:sql="${table.pk}" />
         </property>
         <property name="aggregators">
             <list>
@@ -133,9 +125,7 @@
         <property name="name" value="fk" />
         <property name="aliases" value="fk,foreign,foreign_key" />
         <property name="readers">
-                <bean name="sqlReader" parent="baseSqlReader">
-                    <property name="sql" value="${table.fk}" />
-                </bean>
+            <bean parent="baseSqlReader" c:sql="${table.fk}" />
         </property>
         <property name="aggregators">
             <list>
@@ -157,11 +147,7 @@
         <property name="name" value="index" />
         <property name="aliases" value="index,idx" />
         <property name="readers">
-            <list>
-                <bean name="sqlReader" parent="baseSqlReader">
-                    <property name="sql" value="${table.indexes}" />
-                </bean>
-            </list>
+            <bean parent="baseSqlReader" c:sql="${table.indexes}" />
         </property>
         <property name="aggregators">
             <list>
@@ -183,11 +169,7 @@
         <property name="name" value="check" />
         <property name="aliases" value="check,chk" />
         <property name="readers">
-            <list>
-                <bean name="sqlReader" parent="baseSqlReader">
-                    <property name="sql" value="${table.checks}" />
-                </bean>
-            </list>
+            <bean parent="baseSqlReader" c:sql="${table.checks}" />
         </property>
         <property name="aggregators">
             <list>

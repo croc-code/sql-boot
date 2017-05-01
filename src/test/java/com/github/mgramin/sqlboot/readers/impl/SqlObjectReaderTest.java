@@ -35,8 +35,7 @@ public class SqlObjectReaderTest {
         when(templateEngine.getAllProperties()).thenReturn(asList("@schema", "@table", "@column"));
 
         SqlObjectReader reader = new SqlObjectReader(sqlHelper, templateEngine,
-                "... custom-sql for select objects from db dictionary ...",
-                "... execute before custom-sql in same session ...");
+                "... custom-sql for select objects from db dictionary ...");
 
         DBResourceType column = new DBResourceType("column", reader);
 

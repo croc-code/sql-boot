@@ -35,11 +35,7 @@
         <property name="name" value="view" />
         <property name="aliases" value="view,vw,v" />
         <property name="readers">
-            <list>
-                <bean parent="baseSqlReader">
-                    <property name="sql" value="${views}" />
-                </bean>
-            </list>
+            <bean parent="baseSqlReader" c:sql="${views}" />
         </property>
         <property name="aggregators">
             <list>
@@ -77,9 +73,7 @@
         </property>
         <property name="readers">
             <list>
-                <bean parent="baseSqlReader">
-                    <property name="sql" value="${mviews}" />
-                </bean>
+                <bean parent="baseSqlReader" c:sql="${mviews}" />
             </list>
         </property>
         <property name="aggregators">

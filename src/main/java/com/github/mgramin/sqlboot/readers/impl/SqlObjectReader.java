@@ -52,25 +52,16 @@ public class SqlObjectReader extends AbstractObjectReader implements DbResourceR
 
     private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
 
-    public ISqlHelper sqlHelper;
-    public String sql;
-    public TemplateEngine templateEngine; // TODO move to decorator ?
-    public String prepareSql; // TODO move to decorator ?
-
-    public SqlObjectReader() {
-    }
-
-    public SqlObjectReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql, String prepareSql) {
-        this.sqlHelper = sqlHelper;
-        this.templateEngine = templateEngine;
-        this.sql = sql;
-        this.prepareSql = prepareSql;
-    }
+    final private ISqlHelper sqlHelper;
+    final public String sql;
+    final private TemplateEngine templateEngine; // TODO move to decorator ?
+    final private String prepareSql; // TODO move to decorator ?
 
     public SqlObjectReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
         this.sql = sql;
+        prepareSql = null;
     }
 
     @Override
@@ -139,22 +130,6 @@ public class SqlObjectReader extends AbstractObjectReader implements DbResourceR
         }
 
         return objects;
-    }
-
-    public void setSqlHelper(ISqlHelper sqlHelper) {
-        this.sqlHelper = sqlHelper;
-    }
-
-    public void setTemplateEngine(TemplateEngine templateEngine) {
-        this.templateEngine = templateEngine;
-    }
-
-    public void setSql(String sql) {
-        this.sql = sql;
-    }
-
-    public void setPrepareSql(String prepareSql) {
-        this.prepareSql = prepareSql;
     }
 
 }

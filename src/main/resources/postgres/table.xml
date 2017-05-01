@@ -47,9 +47,7 @@
             </list>
         </property>
         <property name="readers">
-            <bean parent="baseSqlReader">
-                <property name="sql" value="${tables}" />
-            </bean>
+            <bean parent="baseSqlReader" c:sql="${tables}" />
         </property>
         <property name="aggregators">
             <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">

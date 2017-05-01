@@ -42,10 +42,9 @@
 
 
     <!-- Readers -->
-    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader">
-        <property name="sqlHelper" ref="sqlHelper"/>
-        <property name="templateEngine" ref="templateEngine"/>
-    </bean>
+    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader"
+        c:sqlHelper-ref="sqlHelper"
+        c:templateEngine-ref="templateEngine"/>
 
 
     <!-- Generators -->
