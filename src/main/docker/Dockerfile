@@ -1,5 +1,5 @@
 FROM frolvlad/alpine-oraclejdk8:slim
-LABEL maintainer "mgramin@gmail.com"
+MAINTAINER "mgramin@gmail.com"
 VOLUME /tmp
 COPY sql-boot-0.0.1-SNAPSHOT.jar app.jar
 RUN sh -c 'touch /app.jar'
