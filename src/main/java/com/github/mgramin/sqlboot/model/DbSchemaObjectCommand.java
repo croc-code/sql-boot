@@ -25,62 +25,42 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.uri.ObjURI;
 import lombok.ToString;
 
-import java.util.Map;
-import java.util.Properties;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * DB Resource
- * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
+ * Command for db-object, e.g. "create", "drop", "exists", "rebuild", "gather"(statistics),
+ * "compile"(procedure, function, package), etc
  */
 @ToString
-public class DBResource implements Comparable<DBResource> {
+public class DbSchemaObjectCommand {
 
-    public String name;
-    public DBResourceType type;
-    public ObjURI objURI;
-    public Properties headers = new Properties();
-    public String body;
+    final private List<String> aliases;
+    final private Boolean isDefault;
+
     @Deprecated
-    public Map<String, String> paths;
-
-    public String getProp(String key) {
-        return headers.getProperty(key);
+    public DbSchemaObjectCommand(String[] aliases) {
+        this.aliases = Arrays.asList(aliases);
+        this.isDefault = false;
     }
 
-    public void addProperty(Object key, Object value){
-        this.headers.put(key, value);
+    public DbSchemaObjectCommand(String[] aliases, Boolean isDefault) {
+        this.aliases = Arrays.asList(aliases);
+        this.isDefault = isDefault;
     }
 
-    public String getName() {
-        return name;
+    public String name () {
+        return aliases.get(0);
     }
 
-    public DBResourceType getType() {
-        return type;
+    public List<String> aliases() {
+        return aliases;
     }
 
-    public String getBody() {
-        return body;
-    }
-
-    public ObjURI getObjURI() {
-        return objURI;
-    }
-
-    public Map<String, String> getPaths() {
-        return paths;
-    }
-
-    public Properties getHeaders() {
-        return headers;
-    }
-
-    @Override
-    public int compareTo(DBResource o) {
-        return (this.objURI.toString()).compareTo(o.objURI.toString());
+    public Boolean isDefault() {
+        return isDefault;
     }
 
 }

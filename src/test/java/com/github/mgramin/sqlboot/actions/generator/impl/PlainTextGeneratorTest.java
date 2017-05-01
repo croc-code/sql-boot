@@ -25,10 +25,7 @@
 
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by maksim on 01.05.17.
@@ -37,7 +34,7 @@ public class PlainTextGeneratorTest {
 
     @Test
     public void generate() throws Exception {
-//        PlainTextGenerator plainTextGenerator = new PlainTextGenerator("create table", new DBSchemaObjectCommand());
+//        PlainTextGenerator plainTextGenerator = new PlainTextGenerator("create table", new DbSchemaObjectCommand());
     }
 
 }

@@ -28,7 +28,7 @@ package com.github.mgramin.sqlboot.model;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
-import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import lombok.ToString;
 
 import java.util.List;
@@ -44,8 +44,8 @@ public class DBResourceType {
     public List<String> aliases;
     public String description;
     public List<DBResourceType> child;
-    public List<IDBObjectReader> readers;
-    public List<DBSchemaObjectTypeAggregator> aggregators;
+    public List<DbResourceReader> readers;
+    public List<DbSchemaObjectTypeAggregator> aggregators;
 
     /*Map<String, DBSchemaObject> read(ObjURI objURI) throws SqlBootException {
         return null;
@@ -54,23 +54,23 @@ public class DBResourceType {
     public DBResourceType() {
     }
 
-    public DBResourceType(String name, List<DBResourceType> child, List<IDBObjectReader> readers) {
+    public DBResourceType(String name, List<DBResourceType> child, List<DbResourceReader> readers) {
         this.name = name;
         this.child = child;
         this.readers = readers;
     }
 
-    public DBResourceType(String name, List<IDBObjectReader> reader) {
+    public DBResourceType(String name, List<DbResourceReader> reader) {
         this.name = name;
         this.readers = reader;
     }
 
-    public DBResourceType(String name, IDBObjectReader reader) {
+    public DBResourceType(String name, DbResourceReader reader) {
         this.name = name;
         this.readers = singletonList(reader);
     }
 
-    public DBResourceType(String name, List<DBResourceType> child, IDBObjectReader reader) {
+    public DBResourceType(String name, List<DBResourceType> child, DbResourceReader reader) {
         this.name = name;
         this.child = child;
         this.readers = singletonList(reader);
@@ -89,11 +89,11 @@ public class DBResourceType {
         this.child = child;
     }
 
-    public void setReaders(List<IDBObjectReader> readers) {
+    public void setReaders(List<DbResourceReader> readers) {
         this.readers = readers;
     }
 
-    public void setAggregators(List<DBSchemaObjectTypeAggregator> aggregators) {
+    public void setAggregators(List<DbSchemaObjectTypeAggregator> aggregators) {
         this.aggregators = aggregators;
     }
 

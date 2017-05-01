@@ -23,42 +23,64 @@
  *
  */
 
-package com.github.mgramin.sqlboot.actions.generator.wrappers;
+package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
-import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.uri.ObjURI;
 import lombok.ToString;
 
-import java.util.List;
 import java.util.Map;
-
-import static java.util.Collections.singletonList;
+import java.util.Properties;
 
 /**
- * Created by maksim on 05.04.16.
+ * DB Resource
+ * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
  */
 @ToString
-public class SQLWrapper implements ActionGenerator {
+public class DbResource implements Comparable<DbResource> {
 
-    public SQLWrapper(ActionGenerator baseGenerator, ISqlHelper sqlHelper) {
-        this.baseGenerator = baseGenerator;
-        this.sqlHelper = sqlHelper;
+    public String name;
+    public DBResourceType type;
+    public ObjURI objURI;
+    public Properties headers = new Properties();
+    public String body;
+    @Deprecated
+    public Map<String, String> paths;
+
+    public String getProp(String key) {
+        return headers.getProperty(key);
+    }
+
+    public void addProperty(Object key, Object value){
+        this.headers.put(key, value);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public DBResourceType getType() {
+        return type;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public ObjURI getObjURI() {
+        return objURI;
+    }
+
+    public Map<String, String> getPaths() {
+        return paths;
+    }
+
+    public Properties getHeaders() {
+        return headers;
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SqlBootException {
-        List<Map<String, String>> maps = sqlHelper.selectBatch(singletonList(baseGenerator.generate(variables)));
-        return maps.get(0).entrySet().iterator().next().getValue();
+    public int compareTo(DbResource o) {
+        return (this.objURI.toString()).compareTo(o.objURI.toString());
     }
-
-    @Override
-    public DBSchemaObjectCommand command() {
-        return baseGenerator.command();
-    }
-
-    final private ActionGenerator baseGenerator;
-    final private ISqlHelper sqlHelper;
 
 }

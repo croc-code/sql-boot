@@ -28,10 +28,10 @@ package com.github.mgramin.sqlboot.readers.impl;
 import static java.util.stream.Collectors.toMap;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBResource;
+import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DBResourceType;
 import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
-import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
@@ -48,7 +48,7 @@ import org.apache.log4j.Logger;
  * Custom-SQL db object reader
  */
 @ToString
-public class SqlObjectReader extends AbstractObjectReader implements IDBObjectReader {
+public class SqlObjectReader extends AbstractObjectReader implements DbResourceReader {
 
     private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
 
@@ -74,10 +74,10 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
     }
 
     @Override
-    public Map<String, DBResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException {
+    public Map<String, DbResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException {
         List<String> list = objURI.getObjects();
 
-        Map<String, DBResource> objects = new LinkedHashMap<>();
+        Map<String, DbResource> objects = new LinkedHashMap<>();
         try {
             Map<String, Object> data = new HashMap();
             int i = 0;
@@ -96,7 +96,7 @@ public class SqlObjectReader extends AbstractObjectReader implements IDBObjectRe
 
             List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {
-                DBResource object = new DBResource();
+                DbResource object = new DbResource();
                 object.paths = stringStringMap;
                 List<String> objectsForUri = new ArrayList<>();
                 for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {

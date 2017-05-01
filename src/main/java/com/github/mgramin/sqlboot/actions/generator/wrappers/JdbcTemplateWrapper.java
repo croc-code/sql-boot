@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
+import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
@@ -52,7 +52,7 @@ public class JdbcTemplateWrapper implements ActionGenerator {
     }
 
     @Override
-    public DBSchemaObjectCommand command() {
+    public DbSchemaObjectCommand command() {
         return baseGenerator.command();
     }
 

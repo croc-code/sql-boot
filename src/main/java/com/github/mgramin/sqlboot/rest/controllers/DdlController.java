@@ -29,7 +29,7 @@ package com.github.mgramin.sqlboot.rest.controllers;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
-import com.github.mgramin.sqlboot.readers.IDBObjectReader;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import org.apache.log4j.Logger;
@@ -60,7 +60,7 @@ public class DdlController {
     private List<IAggregator> aggregators;
 
     @Autowired
-    private List<DBSchemaObjectCommand> objectCommands;
+    private List<DbSchemaObjectCommand> objectCommands;
 
     private final static Logger logger = Logger.getLogger(DdlController.class);
 
@@ -92,10 +92,10 @@ public class DdlController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    private List<DBResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
+    private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
         ObjURI uri = new ObjURI(uriString);
 
-        DBSchemaObjectCommand currentCommand;
+        DbSchemaObjectCommand currentCommand;
 
         if (uri.getAction() != null) {
             currentCommand = objectCommands.stream().filter(c -> c.aliases().contains(uri.getAction())).findFirst().orElse(null);
@@ -106,17 +106,17 @@ public class DdlController {
         DBResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
         if (type == null) return null;
 
-        IDBObjectReader reader = type.readers.stream()
+        DbResourceReader reader = type.readers.stream()
             .findFirst()
             .orElse(null);
-        Map<String, DBResource> objects = reader.readr(uri, type);
-        List<DBResource> objectsNew = new ArrayList();
-        for (DBResource object : objects.values()) {
+        Map<String, DbResource> objects = reader.readr(uri, type);
+        List<DbResource> objectsNew = new ArrayList();
+        for (DbResource object : objects.values()) {
             if (object.getType().equals(type) || uri.getRecursive()) {
                 ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
 
                 if (object.type.aggregators != null) {
-                    DBSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
+                    DbSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
                     if (objectTypeAggregator != null) {
                         ActionGenerator currentGenerator = object.type.aggregators.stream()
                             .filter(a -> a.getAggregatorName().contains(aggregatorName))

@@ -26,7 +26,7 @@
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBResource;
+import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 
@@ -47,9 +47,9 @@ public class ZipAggregator extends AbstractAggregator implements IAggregator {
     }
 
     @Override
-    public byte[] aggregate(List<DBResource> objects) throws SqlBootException {
+    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
         Map<String, byte[]> files = new HashMap<>();
-        for (DBResource o : objects) {
+        for (DbResource o : objects) {
             if (o.getProp("file_name") != null && !o.getProp("file_name").isEmpty())
                 files.put(o.getProp("file_name").toLowerCase(), o.body.getBytes());
         }

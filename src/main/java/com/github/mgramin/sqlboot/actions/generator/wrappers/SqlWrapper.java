@@ -23,36 +23,42 @@
  *
  */
 
-package com.github.mgramin.sqlboot.model;
-
-import static java.util.Arrays.asList;
+package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
+import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
+
+import static java.util.Collections.singletonList;
 
 /**
- * Created by MGramin on 09.01.2017.
+ * Created by maksim on 05.04.16.
  */
-public class DBSchemaObjectTypeAggregator {
+@ToString
+public class SqlWrapper implements ActionGenerator {
 
-    private List<String> aggregatorName;
-    private List<ActionGenerator> commands;
-
-
-    public List<String> getAggregatorName() {
-        return aggregatorName;
+    public SqlWrapper(ActionGenerator baseGenerator, ISqlHelper sqlHelper) {
+        this.baseGenerator = baseGenerator;
+        this.sqlHelper = sqlHelper;
     }
 
-    public void setAggregatorName(String[] aggregatorName) {
-        this.aggregatorName = asList(aggregatorName);
+    @Override
+    public String generate(Map<String, Object> variables) throws SqlBootException {
+        List<Map<String, String>> maps = sqlHelper.selectBatch(singletonList(baseGenerator.generate(variables)));
+        return maps.get(0).entrySet().iterator().next().getValue();
     }
 
-    public List<ActionGenerator> getCommands() {
-        return commands;
+    @Override
+    public DbSchemaObjectCommand command() {
+        return baseGenerator.command();
     }
 
-    public void setCommands(List<ActionGenerator> commands) {
-        this.commands = commands;
-    }
+    final private ActionGenerator baseGenerator;
+    final private ISqlHelper sqlHelper;
+
 }

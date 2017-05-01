@@ -23,13 +23,11 @@
  *
  */
 
-package com.github.mgramin.sqlboot.readers.impl;
+package com.github.mgramin.sqlboot.readers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBResource;
+import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DBResourceType;
-import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
-import com.github.mgramin.sqlboot.readers.IDBObjectReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 
 import java.util.Map;
@@ -37,11 +35,11 @@ import java.util.Map;
 /**
  * Created by mgramin on 31.10.2016.
  */
-public class FSObjectReader extends AbstractObjectReader implements IDBObjectReader {
+public interface DbResourceReader {
 
-    @Override
-    public Map<String, DBResource> read(ObjURI objURI, DBResourceType type) {
-        throw new SqlBootException("Not implemented!");
-    }
+    Map<String, DbResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException;
+
+    // TODO move to top ??
+    Map<String, DbResource> readr(ObjURI objURI, DBResourceType type) throws SqlBootException;
 
 }

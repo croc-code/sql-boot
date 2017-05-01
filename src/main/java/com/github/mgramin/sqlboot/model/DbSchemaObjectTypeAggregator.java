@@ -25,42 +25,34 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import lombok.ToString;
+import static java.util.Arrays.asList;
 
-import java.util.Arrays;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+
 import java.util.List;
 
 /**
- * Command for db-object, e.g. "create", "drop", "exists", "rebuild", "gather"(statistics),
- * "compile"(procedure, function, package), etc
+ * Created by MGramin on 09.01.2017.
  */
-@ToString
-public class DBSchemaObjectCommand {
+public class DbSchemaObjectTypeAggregator {
 
-    final private List<String> aliases;
-    final private Boolean isDefault;
+    private List<String> aggregatorName;
+    private List<ActionGenerator> commands;
 
-    @Deprecated
-    public DBSchemaObjectCommand(String[] aliases) {
-        this.aliases = Arrays.asList(aliases);
-        this.isDefault = false;
+
+    public List<String> getAggregatorName() {
+        return aggregatorName;
     }
 
-    public DBSchemaObjectCommand(String[] aliases, Boolean isDefault) {
-        this.aliases = Arrays.asList(aliases);
-        this.isDefault = isDefault;
+    public void setAggregatorName(String[] aggregatorName) {
+        this.aggregatorName = asList(aggregatorName);
     }
 
-    public String name () {
-        return aliases.get(0);
+    public List<ActionGenerator> getCommands() {
+        return commands;
     }
 
-    public List<String> aliases() {
-        return aliases;
+    public void setCommands(List<ActionGenerator> commands) {
+        this.commands = commands;
     }
-
-    public Boolean isDefault() {
-        return isDefault;
-    }
-
 }

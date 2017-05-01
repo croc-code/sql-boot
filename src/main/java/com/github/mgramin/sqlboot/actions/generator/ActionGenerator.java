@@ -26,7 +26,7 @@
 package com.github.mgramin.sqlboot.actions.generator;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
+import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
 
 import java.util.Map;
 
@@ -37,6 +37,6 @@ public interface ActionGenerator {
 
     String generate(Map<String, Object> variables) throws SqlBootException;
 
-    DBSchemaObjectCommand command();
+    DbSchemaObjectCommand command();
 
 }

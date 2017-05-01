@@ -36,17 +36,17 @@ import java.util.Map;
 @Deprecated
 public class ObjectService {
 
-    Map<String, DBResource> objects;
+    Map<String, DbResource> objects;
     private String baseURI;
 
-    public ObjectService(Map<String, DBResource> objects, String baseURI) {
+    public ObjectService(Map<String, DbResource> objects, String baseURI) {
         this.objects = objects;
         this.baseURI = baseURI;
     }
 
-    public List<DBResource> get(String type) {
-        List<DBResource> result = new ArrayList<>();
-        for (Map.Entry<String, DBResource> entry : objects.entrySet()) {
+    public List<DbResource> get(String type) {
+        List<DbResource> result = new ArrayList<>();
+        for (Map.Entry<String, DbResource> entry : objects.entrySet()) {
             if (entry.getKey().startsWith(type + "/" + baseURI + ".")) {
                 result.add(entry.getValue());
             }
@@ -55,7 +55,7 @@ public class ObjectService {
     }
 
     public Integer getMaxLength(String type, String name) {
-        DBResource column = get(type).stream()/*.filter(o -> o.paths.get("table").equalsIgnoreCase(name))*/.max(Comparator.comparing(i -> i.paths.get(type))).get();
+        DbResource column = get(type).stream()/*.filter(o -> o.paths.get("table").equalsIgnoreCase(name))*/.max(Comparator.comparing(i -> i.paths.get(type))).get();
         return column.paths.get("column").length() + 7;
     }
 

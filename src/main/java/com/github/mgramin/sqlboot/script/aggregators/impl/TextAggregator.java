@@ -26,7 +26,7 @@
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBResource;
+import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
 import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
@@ -57,11 +57,11 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
     private TemplateEngine templateEngine;
 
     @Override
-    public byte[] aggregate(List<DBResource> objects) throws SqlBootException {
+    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
         if (objects == null) return null;
         if (template == null || template.isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            for (DBResource o : objects) builder.append(o.body).append("\n");
+            for (DbResource o : objects) builder.append(o.body).append("\n");
             return builder.toString().getBytes();
         }
         else {

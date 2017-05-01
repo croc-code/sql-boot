@@ -52,7 +52,7 @@
             </bean>
         </property>
         <property name="aggregators">
-            <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+            <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                 <property name="aggregatorName" value="sql"/>
                 <property name="commands">
                     <list>

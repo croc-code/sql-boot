@@ -26,7 +26,7 @@
 package com.github.mgramin.sqlboot.script.aggregators;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBResource;
+import com.github.mgramin.sqlboot.model.DbResource;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +40,6 @@ public interface IAggregator {
     Boolean getIsDefault();
     Map<String, String> getHttpHeaders();
 
-    byte[] aggregate(List<DBResource> objects) throws SqlBootException;
+    byte[] aggregate(List<DbResource> objects) throws SqlBootException;
 
 }

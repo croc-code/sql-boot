@@ -27,10 +27,10 @@ package com.github.mgramin.sqlboot.actions.generator.prepared;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator;
-import com.github.mgramin.sqlboot.actions.generator.wrappers.SQLWrapper;
+import com.github.mgramin.sqlboot.actions.generator.wrappers.SqlWrapper;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
+import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.util.template_engine.TemplateEngineFactory;
 
@@ -41,10 +41,10 @@ import java.util.Map;
  */
 public class PlainTextTemplateSqlGenerator implements ActionGenerator {
 
-    public PlainTextTemplateSqlGenerator(String baseText, DBSchemaObjectCommand command,
+    public PlainTextTemplateSqlGenerator(String baseText, DbSchemaObjectCommand command,
                                          TemplateEngineFactory templateEngineFactory, ISqlHelper sqlHelper) {
         baseGenerator =
-                new SQLWrapper(
+                new SqlWrapper(
                     new TemplateWrapper(
                         new PlainTextGenerator(baseText, command),
                         templateEngineFactory),
@@ -57,7 +57,7 @@ public class PlainTextTemplateSqlGenerator implements ActionGenerator {
     }
 
     @Override
-    public DBSchemaObjectCommand command() {
+    public DbSchemaObjectCommand command() {
         return baseGenerator.command();
     }
 

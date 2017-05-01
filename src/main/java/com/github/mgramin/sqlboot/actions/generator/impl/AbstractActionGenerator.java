@@ -26,16 +26,16 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
+import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
 
 /**
  * Created by maksim on 23.05.16.
  */
 public abstract class AbstractActionGenerator implements ActionGenerator {
 
-    protected DBSchemaObjectCommand dbSchemaObjectCommand;
+    protected DbSchemaObjectCommand dbSchemaObjectCommand;
 
-    public DBSchemaObjectCommand command() {
+    public DbSchemaObjectCommand command() {
         return dbSchemaObjectCommand;
     }
 

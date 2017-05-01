@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBSchemaObjectCommand;
+import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
 import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
 import com.github.mgramin.sqlboot.util.template_engine.TemplateEngineFactory;
 
@@ -51,7 +51,7 @@ public class TemplateWrapper implements ActionGenerator {
     }
 
     @Override
-    public DBSchemaObjectCommand command() {
+    public DbSchemaObjectCommand command() {
         return baseGenerator.command();
     }
 

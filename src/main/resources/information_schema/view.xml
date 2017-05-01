@@ -43,7 +43,7 @@
         </property>
         <property name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql"/>
                         <property name="commands">
                             <list>
@@ -52,7 +52,7 @@
                             </list>
                         </property>
                 </bean>
-                <!--<bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                <!--<bean clacom.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregatorator">
                     <property name="aggregatorName" value="zip"/>
                     <property name="commands">
                         <list>
@@ -84,7 +84,7 @@
         </property>
         <property name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql"/>
                     <property name="commands">
                         <list>
@@ -93,7 +93,7 @@
                         </list>
                     </property>
                 </bean>
-                <!--<bean class="com.github.mgramin.sqlboot.model.DBSchemaObjectTypeAggregator">
+                <!--<bean clacom.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregatorator">
                     <property name="aggregatorName" value="zip"/>
                     <property name="commands">
                         <list>
