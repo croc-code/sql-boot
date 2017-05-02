@@ -53,7 +53,7 @@ public class SqlObjectReader extends AbstractObjectReader implements DbResourceR
     private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
 
     final private ISqlHelper sqlHelper;
-    final public String sql;
+    final public String sql; // TODO make private
     final private TemplateEngine templateEngine; // TODO move to decorator ?
     final private String prepareSql; // TODO move to decorator ?
 
