@@ -34,7 +34,7 @@ import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
+import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;

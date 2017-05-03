@@ -29,7 +29,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
-import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
+import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.List;

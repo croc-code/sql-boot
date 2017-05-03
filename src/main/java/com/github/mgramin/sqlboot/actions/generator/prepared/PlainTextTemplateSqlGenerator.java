@@ -32,7 +32,7 @@ import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.util.template_engine.TemplateEngineFactory;
+import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
 
 import java.util.Map;
 

@@ -3,7 +3,7 @@ package com.github.mgramin.sqlboot.readers.impl;
 import com.github.mgramin.sqlboot.model.DBResourceType;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.util.template_engine.TemplateEngine;
+import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
