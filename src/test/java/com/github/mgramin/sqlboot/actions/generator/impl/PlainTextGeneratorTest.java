@@ -30,7 +30,6 @@ import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 
 /**
  * Created by maksim on 01.05.17.
@@ -42,14 +41,14 @@ public class PlainTextGeneratorTest {
     @Test
     public void generate() throws Exception {
         ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}));
-        assertEquals(sql, generator.generate(any()));
+        assertEquals(sql, generator.generate(null));
         assertEquals(new DbResourceCommand(new String[] {"create"}), generator.command());
     }
 
     @Test
     public void generate2() throws Exception {
         ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}, true));
-        assertEquals(sql, generator.generate(any()));
+        assertEquals(sql, generator.generate(null));
         assertEquals(new DbResourceCommand(new String[] {"create"}, true), generator.command());
     }
 
