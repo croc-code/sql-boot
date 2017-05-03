@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DbSchemaObjectCommand;
+import com.github.mgramin.sqlboot.model.DbResourceCommand;
 
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public class LogWrapper implements ActionGenerator {
     }
 
     @Override
-    public DbSchemaObjectCommand command() {
+    public DbResourceCommand command() {
         return baseGenerator.command();
     }
 

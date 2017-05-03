@@ -101,13 +101,13 @@
                     </property>
                 </bean>
                 <bean name="drop" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="DROP" />
+                    <property nadbResourceCommandmand" ref="DROP" />
                     <property name="template" >
                         <value>drop index ${schema}.${index};</value>
                     </property>
                 </bean>
                 <bean name="drop_if_exists" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="DROP_IF_EXISTS" />
+                    <property nadbResourceCommandmand" ref="DROP_IF_EXISTS" />
                     <property name="template" >
                         <value>
                             begin
@@ -118,7 +118,7 @@
                     </property>
                 </bean>
                 <bean name="rebuild" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="REBUILD" />
+                    <property nadbResourceCommandmand" ref="REBUILD" />
                     <property name="template" >
                         <value>alter index ${schema}.${index} rebuild;</value>
                     </property>
@@ -152,7 +152,7 @@
                     </property>
                 </bean>
                 <bean id="dropTrigger" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="DROP" />
+                    <property nadbResourceCommandmand" ref="DROP" />
                     <property name="template">
                         <value>drop trigger ${schema}.${trigger};</value>
                     </property>
@@ -219,7 +219,7 @@
                     </property>
                 </bean>
                 <bean id="dropFk" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="DROP" />
+                    <property nadbResourceCommandmand" ref="DROP" />
                     <property name="template">
                         <value>alter table ${schema}.${table} drop constraint ${fk};</value>
                     </property>

@@ -25,6 +25,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Arrays;
@@ -35,18 +36,18 @@ import java.util.List;
  * "compile"(procedure, function, package), etc
  */
 @ToString
-public class DbSchemaObjectCommand {
+@EqualsAndHashCode
+public class DbResourceCommand {
 
     final private List<String> aliases;
     final private Boolean isDefault;
 
-    @Deprecated
-    public DbSchemaObjectCommand(String[] aliases) {
+    public DbResourceCommand(String[] aliases) {
         this.aliases = Arrays.asList(aliases);
         this.isDefault = false;
     }
 
-    public DbSchemaObjectCommand(String[] aliases, Boolean isDefault) {
+    public DbResourceCommand(String[] aliases, Boolean isDefault) {
         this.aliases = Arrays.asList(aliases);
         this.isDefault = isDefault;
     }

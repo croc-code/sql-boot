@@ -26,31 +26,32 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.model.DbResourceCommand;
+import org.apache.commons.io.FileUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-import static org.junit.Assert.assertEquals;
+import java.io.File;
+
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 
-/**
- * Created by maksim on 01.05.17.
- */
-public class PlainTextGeneratorTest {
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-    private final String sql = "create table $table_name (...);";
+/**
+ * Created by maksim on 04.05.17.
+ */
+public class FileBaseGeneratorTest {
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
     public void generate() throws Exception {
-        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}));
-        assertEquals(sql, generator.generate(any()));
-        assertEquals(new DbResourceCommand(new String[] {"create"}), generator.command());
-    }
-
-    @Test
-    public void generate2() throws Exception {
-        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}, true));
-        assertEquals(sql, generator.generate(any()));
-        assertEquals(new DbResourceCommand(new String[] {"create"}, true), generator.command());
+        final File tempFile = temporaryFolder.newFile("tempFile.txt");
+        FileUtils.writeStringToFile(tempFile, "hello world", UTF_8);
+        ActionGenerator generator = new FileBaseGenerator(tempFile);
+        assertEquals("hello world", generator.generate(any()));
     }
 
 }

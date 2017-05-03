@@ -23,34 +23,31 @@
  *
  */
 
-package com.github.mgramin.sqlboot.actions.generator.impl;
+package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.junit.Assert.*;
 
 /**
- * Created by maksim on 01.05.17.
+ * Created by maksim on 03.05.17.
  */
-public class PlainTextGeneratorTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/test_config.xml"})
+public class SqlWrapperTest {
 
-    private final String sql = "create table $table_name (...);";
+        /*@Autowired
+    ISqlHelper sqlHelper;*/
 
     @Test
     public void generate() throws Exception {
-        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}));
-        assertEquals(sql, generator.generate(any()));
-        assertEquals(new DbResourceCommand(new String[] {"create"}), generator.command());
-    }
-
-    @Test
-    public void generate2() throws Exception {
-        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}, true));
-        assertEquals(sql, generator.generate(any()));
-        assertEquals(new DbResourceCommand(new String[] {"create"}, true), generator.command());
+        /*SqlWrapper sqlGenerator = new SqlWrapper(sqlHelper, new GroovyTemplateEngine(), Collections.singletonList("select 'Hello, ${name}!'"));
+        Map variables = new HashMap<String, String>();
+        variables.put("name", "World");
+        assertEquals(sqlGenerator.generate(variables), "Hello, World!");*/
     }
 
 }

@@ -125,7 +125,7 @@
 
 
     <!-- DB commands -->
-    <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.model.DbSchemaObjectCommand" />
+    <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.model.DbResourceCommand" />
     <bean name="CREATE" parent="command" c:aliases="create,c,+" c:isDefault="true"/>
     <bean name="DROP" parent="command" c:aliases="drop,d,-" />
     <bean name="DROP_IF_EXISTS" parent="command" c:aliases="drop_if_exists,dx,_" />

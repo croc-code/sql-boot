@@ -27,11 +27,10 @@ package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import org.springframework.core.io.Resource;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -41,16 +40,16 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  */
 public class FileBaseGenerator extends AbstractActionGenerator implements ActionGenerator {
 
-    public FileBaseGenerator(Resource file) {
+    private final File file;
+
+    public FileBaseGenerator(File file) {
         this.file = file;
     }
-
-    private final Resource file;
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
         try {
-            return new String(Files.readAllBytes(Paths.get(file.getFile().getName())), UTF_8);
+            return FileUtils.readFileToString(file, UTF_8);
         } catch (IOException e) {
             throw new SqlBootException(e);
         }

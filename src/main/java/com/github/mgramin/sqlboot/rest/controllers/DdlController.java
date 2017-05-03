@@ -60,7 +60,7 @@ public class DdlController {
     private List<IAggregator> aggregators;
 
     @Autowired
-    private List<DbSchemaObjectCommand> objectCommands;
+    private List<DbResourceCommand> objectCommands;
 
     private final static Logger logger = Logger.getLogger(DdlController.class);
 
@@ -95,7 +95,7 @@ public class DdlController {
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
         ObjURI uri = new ObjURI(uriString);
 
-        DbSchemaObjectCommand currentCommand;
+        DbResourceCommand currentCommand;
 
         if (uri.getAction() != null) {
             currentCommand = objectCommands.stream().filter(c -> c.aliases().contains(uri.getAction())).findFirst().orElse(null);
