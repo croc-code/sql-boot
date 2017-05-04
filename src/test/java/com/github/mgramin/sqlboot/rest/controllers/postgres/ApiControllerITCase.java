@@ -34,9 +34,10 @@ public class ApiControllerITCase {
     @Autowired
     private TestRestTemplate client;
 
+    public static final int POSTGRES_PORT = 5432;
     @ClassRule
     public static GenericContainer postgres = new GenericContainer("mgramin/postgres-sport:latest")
-            .withExposedPorts(5432);
+            .withExposedPorts(POSTGRES_PORT);
 
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -44,7 +45,7 @@ public class ApiControllerITCase {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             EnvironmentTestUtils.addEnvironment("testcontainers", configurableApplicationContext.getEnvironment(),
                     format("db_dev_url=jdbc:postgresql://%s:%s/%s",
-                            postgres.getContainerIpAddress(), postgres.getMappedPort(5432), "postgres"));
+                            postgres.getContainerIpAddress(), postgres.getMappedPort(POSTGRES_PORT), "postgres"));
         }
     }
 
