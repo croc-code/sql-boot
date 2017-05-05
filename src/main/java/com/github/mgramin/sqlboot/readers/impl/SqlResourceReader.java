@@ -30,9 +30,9 @@ import static java.util.stream.Collectors.toMap;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DBResourceType;
-import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import java.util.ArrayList;
@@ -48,25 +48,29 @@ import org.apache.log4j.Logger;
  * Custom-SQL db object reader
  */
 @ToString
-public class SqlObjectReader extends AbstractObjectReader implements DbResourceReader {
+public class SqlResourceReader extends AbstractResourceReader implements DbResourceReader {
 
-    private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
+    final private static Logger logger = Logger.getLogger(SqlResourceReader.class);
 
-    final private ISqlHelper sqlHelper;
-    final public String sql; // TODO make private
-    final private TemplateEngine templateEngine; // TODO move to decorator ?
-    final private String prepareSql; // TODO move to decorator ?
+    final private String sql;
 
-    public SqlObjectReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
+    @Deprecated
+    final private ISqlHelper sqlHelper; // TODO move to decorator
+    @Deprecated
+    final private TemplateEngine templateEngine; // TODO move to decorator
+    @Deprecated
+    final private String prepareSql; // TODO move to decorator
+
+    public SqlResourceReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
+        this.sql = sql;
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
-        this.sql = sql;
         prepareSql = null;
     }
 
     @Override
-    public Map<String, DbResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException {
-        List<String> list = objURI.getObjects();
+    public Map<String, DbResource> read(ObjUri objUri, DBResourceType type) throws SqlBootException {
+        List<String> list = objUri.getObjects();
 
         Map<String, DbResource> objects = new LinkedHashMap<>();
         try {
@@ -104,18 +108,18 @@ public class SqlObjectReader extends AbstractObjectReader implements DbResourceR
                         }
                     }
                 }
-                object.objURI = new ObjURI(type.name, objectsForUri);
+                object.objUri = new ObjUri(type.name, objectsForUri);
                 object.type = type;
-                objects.put(object.objURI.toString(), object);
-                logger.debug("find object " + object.objURI.toString());
+                objects.put(object.objUri.toString(), object);
+                logger.debug("find object " + object.objUri.toString());
             }
 
         } catch (Exception e) {
             throw new SqlBootException(e);
         }
 
-        if (objURI.getParams() != null) {
-            Map<String, String> filtersParam = objURI.getParams().entrySet().stream().filter(p ->
+        if (objUri.getParams() != null) {
+            Map<String, String> filtersParam = objUri.getParams().entrySet().stream().filter(p ->
                 !p.getKey().equalsIgnoreCase("type"))
                 .collect(toMap(p -> p.getKey(), p -> p.getValue()));
 

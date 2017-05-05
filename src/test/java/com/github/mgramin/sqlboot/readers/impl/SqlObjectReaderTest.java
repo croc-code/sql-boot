@@ -1,7 +1,7 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.model.DBResourceType;
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import com.google.common.collect.Sets;
@@ -23,7 +23,7 @@ public class SqlObjectReaderTest {
 
     @Test
     public void readRecursive() throws Exception {
-        ObjURI uri = new ObjURI("column/hr.persons.*");
+        ObjUri uri = new ObjUri("column/hr.persons.*");
 
         ISqlHelper sqlHelper = mock(ISqlHelper.class);
         when(sqlHelper.select(any())).thenReturn(asList(
@@ -34,7 +34,7 @@ public class SqlObjectReaderTest {
         TemplateEngine templateEngine = mock(TemplateEngine.class);
         when(templateEngine.getAllProperties()).thenReturn(asList("@schema", "@table", "@column"));
 
-        SqlObjectReader reader = new SqlObjectReader(sqlHelper, templateEngine,
+        SqlResourceReader reader = new SqlResourceReader(sqlHelper, templateEngine,
                 "... custom-sql for select objects from db dictionary ...");
 
         DBResourceType column = new DBResourceType("column", reader);
@@ -46,7 +46,7 @@ public class SqlObjectReaderTest {
 
     @Test
     public void readRecursiveWithChildType() throws Exception {
-        ObjURI uri = new ObjURI("table/hr.*");
+        ObjUri uri = new ObjUri("table/hr.*");
 
         ISqlHelper sqlHelperTableMock = mock(ISqlHelper.class);
         when(sqlHelperTableMock.select(any())).thenReturn(asList(
@@ -54,7 +54,7 @@ public class SqlObjectReaderTest {
         TemplateEngine templateEngineTableMock = mock(TemplateEngine.class);
         when(templateEngineTableMock.getAllProperties()).thenReturn(asList("@schema", "@table"));
 
-        SqlObjectReader readerTable = new SqlObjectReader(sqlHelperTableMock, templateEngineTableMock,
+        SqlResourceReader readerTable = new SqlResourceReader(sqlHelperTableMock, templateEngineTableMock,
                 "... custom-sql for select table from db dictionary ...");
 
 
@@ -64,7 +64,7 @@ public class SqlObjectReaderTest {
         TemplateEngine templateEngineIndexMock = mock(TemplateEngine.class);
         when(templateEngineIndexMock.getAllProperties()).thenReturn(asList("@schema", "@table", "@index"));
 
-        SqlObjectReader readerIndex = new SqlObjectReader(sqlHelperIndexMock, templateEngineIndexMock,
+        SqlResourceReader readerIndex = new SqlResourceReader(sqlHelperIndexMock, templateEngineIndexMock,
                 "... custom-sql for select index from db dictionary ...");
 
 

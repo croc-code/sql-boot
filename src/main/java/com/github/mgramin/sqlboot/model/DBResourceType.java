@@ -47,7 +47,7 @@ public class DBResourceType {
     public List<DbResourceReader> readers;
     public List<DbSchemaObjectTypeAggregator> aggregators;
 
-    /*Map<String, DBSchemaObject> read(ObjURI objURI) throws SqlBootException {
+    /*Map<String, DBSchemaObject> read(ObjUri objUri) throws SqlBootException {
         return null;
     }*/
 

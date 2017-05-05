@@ -31,7 +31,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
@@ -93,7 +93,7 @@ public class DdlController {
     }
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
-        ObjURI uri = new ObjURI(uriString);
+        ObjUri uri = new ObjUri(uriString);
 
         DbResourceCommand currentCommand;
 
@@ -113,7 +113,8 @@ public class DdlController {
         List<DbResource> objectsNew = new ArrayList();
         for (DbResource object : objects.values()) {
             if (object.getType().equals(type) || uri.getRecursive()) {
-                ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
+                ObjectService objectService = new ObjectService(objects, String.join(".", object.objUri
+                    .getObjects()));
 
                 if (object.type.aggregators != null) {
                     DbSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);

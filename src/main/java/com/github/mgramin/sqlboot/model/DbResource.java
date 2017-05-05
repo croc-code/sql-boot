@@ -25,7 +25,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 import lombok.ToString;
 
 import java.util.Map;
@@ -40,11 +40,14 @@ public class DbResource implements Comparable<DbResource> {
 
     public String name;
     public DBResourceType type;
-    public ObjURI objURI;
+    public ObjUri objUri;
+
     public Properties headers = new Properties();
     public String body;
+
     @Deprecated
     public Map<String, String> paths;
+
 
     public String getProp(String key) {
         return headers.getProperty(key);
@@ -66,8 +69,8 @@ public class DbResource implements Comparable<DbResource> {
         return body;
     }
 
-    public ObjURI getObjURI() {
-        return objURI;
+    public ObjUri getObjUri() {
+        return objUri;
     }
 
     public Map<String, String> getPaths() {
@@ -80,7 +83,7 @@ public class DbResource implements Comparable<DbResource> {
 
     @Override
     public int compareTo(DbResource o) {
-        return (this.objURI.toString()).compareTo(o.objURI.toString());
+        return (this.objUri.toString()).compareTo(o.objUri.toString());
     }
 
 }
