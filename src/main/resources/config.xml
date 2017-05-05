@@ -37,7 +37,7 @@
 
 
     <!-- Base db object schema type -->
-    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DBResourceType" abstract="true" />
+    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DbResourceType" abstract="true" />
 
 
 

@@ -26,7 +26,7 @@
 package com.github.mgramin.sqlboot.readers.wrappers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DBResourceType;
+import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.uri.ObjUri;
@@ -39,12 +39,12 @@ import java.util.Map;
 public class TemplateWrapper implements DbResourceReader {
 
     @Override
-    public Map<String, DbResource> read(ObjUri objUri, DBResourceType type) throws SqlBootException {
+    public Map<String, DbResource> read(ObjUri objUri, DbResourceType type) throws SqlBootException {
         return null;
     }
 
     @Override
-    public Map<String, DbResource> readr(ObjUri objUri, DBResourceType type) throws SqlBootException {
+    public Map<String, DbResource> readr(ObjUri objUri, DbResourceType type) throws SqlBootException {
         return null;
     }
 

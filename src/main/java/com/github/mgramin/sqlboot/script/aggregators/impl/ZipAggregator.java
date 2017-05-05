@@ -50,8 +50,8 @@ public class ZipAggregator extends AbstractAggregator implements IAggregator {
     public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
         Map<String, byte[]> files = new HashMap<>();
         for (DbResource o : objects) {
-            if (o.getProp("file_name") != null && !o.getProp("file_name").isEmpty())
-                files.put(o.getProp("file_name").toLowerCase(), o.body.getBytes());
+            if (o.propertyByKey("file_name") != null && !o.propertyByKey("file_name").isEmpty())
+                files.put(o.propertyByKey("file_name").toLowerCase(), o.body.getBytes());
         }
         return compress(files);
     }

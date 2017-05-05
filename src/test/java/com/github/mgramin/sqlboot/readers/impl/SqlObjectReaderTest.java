@@ -1,6 +1,6 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.model.DBResourceType;
+import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.uri.ObjUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
@@ -37,7 +37,7 @@ public class SqlObjectReaderTest {
         SqlResourceReader reader = new SqlResourceReader(sqlHelper, templateEngine,
                 "... custom-sql for select objects from db dictionary ...");
 
-        DBResourceType column = new DBResourceType("column", reader);
+        DbResourceType column = new DbResourceType("column", reader);
 
         assertEquals(
                 reader.read(uri, column).keySet(),
@@ -68,8 +68,8 @@ public class SqlObjectReaderTest {
                 "... custom-sql for select index from db dictionary ...");
 
 
-        DBResourceType index = new DBResourceType("index", readerIndex);
-        DBResourceType table = new DBResourceType("table", Arrays.asList(index), readerTable);
+        DbResourceType index = new DbResourceType("index", readerIndex);
+        DbResourceType table = new DbResourceType("table", Arrays.asList(index), readerTable);
 
         assertEquals(
                 readerTable.readr(uri, table).keySet(),

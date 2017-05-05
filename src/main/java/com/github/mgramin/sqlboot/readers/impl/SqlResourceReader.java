@@ -29,7 +29,7 @@ import static java.util.stream.Collectors.toMap;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DBResourceType;
+import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.uri.ObjUri;
@@ -41,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 
@@ -69,7 +70,7 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
     }
 
     @Override
-    public Map<String, DbResource> read(ObjUri objUri, DBResourceType type) throws SqlBootException {
+    public Map<String, DbResource> read(ObjUri objUri, DbResourceType type) throws SqlBootException {
         List<String> list = objUri.getObjects();
 
         Map<String, DbResource> objects = new LinkedHashMap<>();
@@ -91,27 +92,28 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
 
             List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {
-                DbResource object = new DbResource();
-                object.paths = stringStringMap;
                 List<String> objectsForUri = new ArrayList<>();
+                String objectName = null;
+                Properties objectHeaders = new Properties();
                 for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
                     if (!stringStringEntry.getKey().startsWith("@")) {
                         objectsForUri.add(stringStringEntry.getValue());
-                        object.name = stringStringEntry.getValue();
-                        object.addProperty(stringStringEntry.getKey(), stringStringEntry.getValue());
+                        objectName = stringStringEntry.getValue();
+                        objectHeaders.put(stringStringEntry.getKey(), stringStringEntry.getValue());
                     } else {
                         if (stringStringEntry.getValue() != null) {
-                            object.addProperty(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());
+                            objectHeaders.put(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());
                         }
                         else {
-                            object.addProperty(stringStringEntry.getKey().substring(1), "");
+                            objectHeaders.put(stringStringEntry.getKey().substring(1), "");
                         }
                     }
                 }
-                object.objUri = new ObjUri(type.name, objectsForUri);
-                object.type = type;
-                objects.put(object.objUri.toString(), object);
-                logger.debug("find object " + object.objUri.toString());
+                DbResource object = new DbResource(objectName, type, new ObjUri(type.name, objectsForUri), objectHeaders,
+                    stringStringMap);
+
+                objects.put(object.objUri().toString(), object);
+                logger.debug("find object " + object.objUri().toString());
             }
 
         } catch (Exception e) {
@@ -126,7 +128,7 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
             for (Entry<String, String> param : filtersParam.entrySet()) {
                 if (param.getKey().startsWith("@")) {
                     objects = objects.entrySet().stream().filter(
-                    o -> o.getValue().getHeaders().getProperty(param.getKey().substring(1))
+                    o -> o.getValue().headers().getProperty(param.getKey().substring(1))
                         .contains(param.getValue()))
                     .collect(toMap(o -> o.getKey(), o -> o.getValue()));
                 }
