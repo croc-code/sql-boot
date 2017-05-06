@@ -37,12 +37,12 @@
 
 
     <!-- Base db object schema type -->
-    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DBResourceType" abstract="true" />
+    <bean id="parentSchemaObjectBean" class="com.github.mgramin.sqlboot.model.DbResourceType" abstract="true" />
 
 
 
     <!-- Readers -->
-    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlDbResourceReader"
+    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlResourceReader"
         c:sqlHelper-ref="sqlHelper"
         c:templateEngine-ref="templateEngine"/>
 

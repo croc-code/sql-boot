@@ -29,10 +29,10 @@ import static java.util.stream.Collectors.toMap;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DBResourceType;
-import com.github.mgramin.sqlboot.readers.AbstractDbResourceReader;
+import com.github.mgramin.sqlboot.model.DbResourceType;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 
@@ -48,25 +49,29 @@ import org.apache.log4j.Logger;
  * Custom-SQL db object reader
  */
 @ToString
-public class SqlDbResourceReader extends AbstractDbResourceReader implements DbResourceReader {
+public class SqlResourceReader extends AbstractResourceReader implements DbResourceReader {
 
-    private final static Logger logger = Logger.getLogger(SqlDbResourceReader.class);
+    final private static Logger logger = Logger.getLogger(SqlResourceReader.class);
 
-    final private ISqlHelper sqlHelper;
-    final public String sql; // TODO make private
-    final private TemplateEngine templateEngine; // TODO move to decorator ?
-    final private String prepareSql; // TODO move to decorator ?
+    final private String sql;
 
-    public SqlDbResourceReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
+    @Deprecated
+    final private ISqlHelper sqlHelper; // TODO move to decorator
+    @Deprecated
+    final private TemplateEngine templateEngine; // TODO move to decorator
+    @Deprecated
+    final private String prepareSql; // TODO move to decorator
+
+    public SqlResourceReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
+        this.sql = sql;
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
-        this.sql = sql;
         prepareSql = null;
     }
 
     @Override
-    public Map<String, DbResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException {
-        List<String> list = objURI.getObjects();
+    public Map<String, DbResource> read(ObjUri objUri, DbResourceType type) throws SqlBootException {
+        List<String> list = objUri.getObjects();
 
         Map<String, DbResource> objects = new LinkedHashMap<>();
         try {
@@ -87,42 +92,43 @@ public class SqlDbResourceReader extends AbstractDbResourceReader implements DbR
 
             List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {
-                DbResource object = new DbResource();
-                object.paths = stringStringMap;
                 List<String> objectsForUri = new ArrayList<>();
+                String objectName = null;
+                Properties objectHeaders = new Properties();
                 for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
                     if (!stringStringEntry.getKey().startsWith("@")) {
                         objectsForUri.add(stringStringEntry.getValue());
-                        object.name = stringStringEntry.getValue();
-                        object.addProperty(stringStringEntry.getKey(), stringStringEntry.getValue());
+                        objectName = stringStringEntry.getValue();
+                        objectHeaders.put(stringStringEntry.getKey(), stringStringEntry.getValue());
                     } else {
                         if (stringStringEntry.getValue() != null) {
-                            object.addProperty(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());
+                            objectHeaders.put(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());
                         }
                         else {
-                            object.addProperty(stringStringEntry.getKey().substring(1), "");
+                            objectHeaders.put(stringStringEntry.getKey().substring(1), "");
                         }
                     }
                 }
-                object.objURI = new ObjURI(type.name, objectsForUri);
-                object.type = type;
-                objects.put(object.objURI.toString(), object);
-                logger.debug("find object " + object.objURI.toString());
+                DbResource object = new DbResource(objectName, type, new ObjUri(type.name, objectsForUri), objectHeaders,
+                    stringStringMap);
+
+                objects.put(object.objUri().toString(), object);
+                logger.debug("find object " + object.objUri().toString());
             }
 
         } catch (Exception e) {
             throw new SqlBootException(e);
         }
 
-        if (objURI.getParams() != null) {
-            Map<String, String> filtersParam = objURI.getParams().entrySet().stream().filter(p ->
+        if (objUri.getParams() != null) {
+            Map<String, String> filtersParam = objUri.getParams().entrySet().stream().filter(p ->
                 !p.getKey().equalsIgnoreCase("type"))
                 .collect(toMap(p -> p.getKey(), p -> p.getValue()));
 
             for (Entry<String, String> param : filtersParam.entrySet()) {
                 if (param.getKey().startsWith("@")) {
                     objects = objects.entrySet().stream().filter(
-                    o -> o.getValue().getHeaders().getProperty(param.getKey().substring(1))
+                    o -> o.getValue().headers().getProperty(param.getKey().substring(1))
                         .contains(param.getValue()))
                     .collect(toMap(o -> o.getKey(), o -> o.getValue()));
                 }

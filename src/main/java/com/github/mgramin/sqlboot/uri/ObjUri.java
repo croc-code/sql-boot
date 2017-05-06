@@ -29,12 +29,15 @@ import static java.util.Arrays.asList;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import java.net.URI;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maksim on 12.06.16.
  */
-public class ObjURI {
+public class ObjUri {
 
     private String type;
     private String action;
@@ -43,15 +46,12 @@ public class ObjURI {
     private Map<String, String> params = new LinkedHashMap<>();
     private Map<String, String> filters = new HashMap<>();
 
-    public ObjURI() {
-    }
-
-    public ObjURI(String type, List<String> objects) {
+    public ObjUri(String type, List<String> objects) {
         this.type = type;
         this.objects = objects;
     }
 
-    public ObjURI(String uriString) throws SqlBootException {
+    public ObjUri(String uriString) throws SqlBootException {
         try {
             URI uri = new URI(uriString);
             String pathString = uri.getPath().replace("*", "%");
@@ -96,7 +96,7 @@ public class ObjURI {
     }
 
     public String toJson() {
-        String s = "ObjURI{" +
+        String s = "ObjUri{" +
             "type='" + type + '\'' +
             ", dbSchemaObjectCommand='" + action + '\'' +
             ", objects=" + objects +

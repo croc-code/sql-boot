@@ -42,7 +42,7 @@ public class SqlExecuteControllerITCase {
         ResponseEntity<String> forEntity = restClient.exchange("/exec", HttpMethod.POST, entity, String.class);
 
         assertEquals(forEntity.getBody(), "<List><item><ONE>1</ONE><TWO>2</TWO></item></List>");
-        //assertEquals(forEntity.getHeaders().getContentType(), MediaType.APPLICATION_XML_VALUE);
+        //assertEquals(forEntity.headers().getContentType(), MediaType.APPLICATION_XML_VALUE);
     }
 
     @Test

@@ -31,7 +31,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
@@ -54,7 +54,7 @@ import java.util.TreeMap;
 public class DdlController {
 
     @Autowired
-    private List<DBResourceType> types;
+    private List<DbResourceType> types;
 
     @Autowired
     private List<IAggregator> aggregators;
@@ -93,7 +93,7 @@ public class DdlController {
     }
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
-        ObjURI uri = new ObjURI(uriString);
+        ObjUri uri = new ObjUri(uriString);
 
         DbResourceCommand currentCommand;
 
@@ -103,7 +103,7 @@ public class DdlController {
             currentCommand = objectCommands.stream().filter(c -> c.isDefault()).findFirst().orElse(null);
         }
 
-        DBResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
+        DbResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
         if (type == null) return null;
 
         DbResourceReader reader = type.readers.stream()
@@ -112,13 +112,14 @@ public class DdlController {
         Map<String, DbResource> objects = reader.readr(uri, type);
         List<DbResource> objectsNew = new ArrayList();
         for (DbResource object : objects.values()) {
-            if (object.getType().equals(type) || uri.getRecursive()) {
-                ObjectService objectService = new ObjectService(objects, String.join(".", object.objURI.getObjects()));
+            if (object.type().equals(type) || uri.getRecursive()) {
+                ObjectService objectService = new ObjectService(objects, String.join(".", object.objUri()
+                    .getObjects()));
 
-                if (object.type.aggregators != null) {
-                    DbSchemaObjectTypeAggregator objectTypeAggregator = object.type.aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
+                if (object.type().aggregators != null) {
+                    DbSchemaObjectTypeAggregator objectTypeAggregator = object.type().aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
                     if (objectTypeAggregator != null) {
-                        ActionGenerator currentGenerator = object.type.aggregators.stream()
+                        ActionGenerator currentGenerator = object.type().aggregators.stream()
                             .filter(a -> a.getAggregatorName().contains(aggregatorName))
                             .findFirst()
                             .orElseGet(null)
@@ -130,8 +131,8 @@ public class DdlController {
                             .orElse(null);
 
                         if (currentGenerator != null) {
-                            Map<String, Object> variables = new TreeMap<>(object.paths);
-                            variables.put(object.getType().name, object);
+                            Map<String, Object> variables = new TreeMap<>(object.paths());
+                            variables.put(object.type().name, object);
                             variables.put("srv", objectService);
 
                             object.body = currentGenerator.generate(variables);

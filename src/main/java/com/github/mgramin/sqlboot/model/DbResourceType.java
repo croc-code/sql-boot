@@ -38,39 +38,43 @@ import java.util.List;
  * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
 @ToString
-public class DBResourceType {
+public class DbResourceType {
 
     public String name;
     public List<String> aliases;
     public String description;
-    public List<DBResourceType> child;
+    public List<DbResourceType> child;
     public List<DbResourceReader> readers;
     public List<DbSchemaObjectTypeAggregator> aggregators;
 
-    /*Map<String, DBSchemaObject> read(ObjURI objURI) throws SqlBootException {
+    /*Map<String, DBSchemaObject> read(ObjUri objUri) throws SqlBootException {
         return null;
     }*/
 
-    public DBResourceType() {
+    public DbResourceType() {
     }
 
-    public DBResourceType(String name, List<DBResourceType> child, List<DbResourceReader> readers) {
+    public DbResourceType(String name) {
+        this.name = name;
+    }
+
+    public DbResourceType(String name, List<DbResourceType> child, List<DbResourceReader> readers) {
         this.name = name;
         this.child = child;
         this.readers = readers;
     }
 
-    public DBResourceType(String name, List<DbResourceReader> reader) {
+    public DbResourceType(String name, List<DbResourceReader> reader) {
         this.name = name;
         this.readers = reader;
     }
 
-    public DBResourceType(String name, DbResourceReader reader) {
+    public DbResourceType(String name, DbResourceReader reader) {
         this.name = name;
         this.readers = singletonList(reader);
     }
 
-    public DBResourceType(String name, List<DBResourceType> child, DbResourceReader reader) {
+    public DbResourceType(String name, List<DbResourceType> child, DbResourceReader reader) {
         this.name = name;
         this.child = child;
         this.readers = singletonList(reader);
@@ -85,7 +89,7 @@ public class DBResourceType {
         this.description = description;
     }
 
-    public void setChild(List<DBResourceType> child) {
+    public void setChild(List<DbResourceType> child) {
         this.child = child;
     }
 

@@ -27,20 +27,20 @@ package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DBResourceType;
-import com.github.mgramin.sqlboot.readers.AbstractDbResourceReader;
+import com.github.mgramin.sqlboot.model.DbResourceType;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 
 import java.util.Map;
 
 /**
- * Created by MGramin on 24.11.2016.
+ * Created by mgramin on 31.10.2016.
  */
-public class JdbcDbResourceReader extends AbstractDbResourceReader implements DbResourceReader {
+public class FsResourceReader extends AbstractResourceReader implements DbResourceReader {
 
     @Override
-    public Map<String, DbResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException {
+    public Map<String, DbResource> read(ObjUri objUri, DbResourceType type) {
         throw new SqlBootException("Not implemented!");
     }
 

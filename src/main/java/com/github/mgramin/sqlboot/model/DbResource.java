@@ -25,7 +25,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.uri.ObjURI;
+import com.github.mgramin.sqlboot.uri.ObjUri;
 import lombok.ToString;
 
 import java.util.Map;
@@ -38,49 +38,52 @@ import java.util.Properties;
 @ToString
 public class DbResource implements Comparable<DbResource> {
 
-    public String name;
-    public DBResourceType type;
-    public ObjURI objURI;
-    public Properties headers = new Properties();
-    public String body;
+    final private String name;
+    final private DbResourceType type;
+    final private ObjUri objUri;
+    final private Properties headers;
+    public String body; // TODO make final and private
     @Deprecated
-    public Map<String, String> paths;
+    final private Map<String, String> paths;
 
-    public String getProp(String key) {
+
+    public DbResource(String name, DbResourceType type, ObjUri objUri, Properties headers,
+        Map<String, String> paths) {
+        this.name = name;
+        this.type = type;
+        this.objUri = objUri;
+        this.headers = headers;
+        this.paths = paths;
+    }
+
+    public String propertyByKey(String key) {
         return headers.getProperty(key);
     }
 
-    public void addProperty(Object key, Object value){
-        this.headers.put(key, value);
-    }
-
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public DBResourceType getType() {
+    public DbResourceType type() {
         return type;
     }
 
-    public String getBody() {
-        return body;
+    public ObjUri objUri() {
+        return objUri;
     }
 
-    public ObjURI getObjURI() {
-        return objURI;
-    }
-
-    public Map<String, String> getPaths() {
-        return paths;
-    }
-
-    public Properties getHeaders() {
+    public Properties headers() {
         return headers;
+    }
+
+    @Deprecated
+    public Map<String, String> paths() {
+        return paths;
     }
 
     @Override
     public int compareTo(DbResource o) {
-        return (this.objURI.toString()).compareTo(o.objURI.toString());
+        return (this.objUri.toString()).compareTo(o.objUri.toString());
     }
 
 }
