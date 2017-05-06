@@ -36,7 +36,7 @@ import java.util.Properties;
  * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
  */
 @ToString
-public class DbResource implements Comparable<DbResource> {
+public class DbResource {
 
     final private String name;
     final private DbResourceType type;
@@ -79,11 +79,6 @@ public class DbResource implements Comparable<DbResource> {
     @Deprecated
     public Map<String, String> paths() {
         return paths;
-    }
-
-    @Override
-    public int compareTo(DbResource o) {
-        return (this.objUri.toString()).compareTo(o.objUri.toString());
     }
 
 }

@@ -17,11 +17,4 @@ public class DbResourceTest {
             tablePersons.toString());
     }
 
-    @Test
-    public void compareTo() throws Exception {
-        DbResource tablePersons = new DbResource("persons", new DbResourceType("table"), new ObjUri("table/hr.persons"), null, null);
-        DbResource tableJobs = new DbResource("jobs", new DbResourceType("table"), new ObjUri("table/hr.jobs"), null, null);
-        assertEquals(-6, tableJobs.compareTo(tablePersons));
-    }
-
 }
