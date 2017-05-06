@@ -134,8 +134,8 @@ public class DdlController {
                             variables.put(object.type().name, object);
                             variables.put("srv", objectService);
 
-                            object.body = currentGenerator.generate(variables);
-                            objectsNew.add(object);
+                            DbResourceWithBody dbResourceWithBody = new DbResourceWithBody(object, currentGenerator.generate(variables));
+                            objectsNew.add(dbResourceWithBody);
                         }
                     }
                 }

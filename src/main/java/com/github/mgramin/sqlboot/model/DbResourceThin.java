@@ -25,39 +25,59 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.uri.DbUri;
+import lombok.ToString;
+
+import java.util.Properties;
 
 /**
- * Created by maksim on 10.07.16.
+ * DB Resource
+ * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
  */
-@Deprecated
-public class ObjectService {
+@ToString
+public class DbResourceThin implements DbResource {
 
-    Map<String, DbResource> objects;
-    private String baseURI;
+    final private String name;
+    final private DbResourceType type;
+    final private DbUri dbUri;
+    final private Properties headers;
 
-    public ObjectService(Map<String, DbResource> objects, String baseURI) {
-        this.objects = objects;
-        this.baseURI = baseURI;
+    public DbResourceThin(String name, DbResourceType type, DbUri dbUri, Properties headers) {
+        this.name = name;
+        this.type = type;
+        this.dbUri = dbUri;
+        this.headers = headers;
     }
 
-    public List<DbResource> get(String type) {
-        List<DbResource> result = new ArrayList<>();
-        for (Map.Entry<String, DbResource> entry : objects.entrySet()) {
-            if (entry.getKey().startsWith(type + "/" + baseURI + ".")) {
-                result.add(entry.getValue());
-            }
-        }
-        return result;
+    @Override
+    public String name() {
+        return name;
     }
 
-/*
-    public Integer getMaxLength(String type, String name) {
-        DbResourceThin column = get(type).stream().max(Comparator.comparing(i -> i.paths().get(type))).get();
-        return column.paths().get("column").length() + 7;
+     @Override
+     public DbResourceType type() {
+        return type;
     }
-*/
+
+    @Override
+    public DbUri objUri() {
+        return dbUri;
+    }
+
+    @Override
+    public Properties headers() {
+        return headers;
+    }
+
+    @Override
+    public String headerByKey(String key) {
+        return headers.getProperty(key);
+    }
+
+    @Override
+    public String body() {
+        throw new SqlBootException("Resource body not allow here.");
+    }
 
 }

@@ -25,18 +25,51 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import com.github.mgramin.sqlboot.uri.DbUri;
+
+import java.util.Properties;
+
 /**
  * Created by maksim on 06.05.17.
  */
-public class DbResourceWithBody {
+public class DbResourceWithBody implements DbResource {
 
-    final private DbResource origin;
+    private DbResource origin;
     private final String body;
 
-
-    public DbResourceWithBody(DbResource origin, String body) {
-        this.origin = origin;
+    public DbResourceWithBody(DbResource DbResource, String body) {
+        this.origin = DbResource;
         this.body = body;
+    }
+
+    @Override
+    public String name() {
+        return origin.name();
+    }
+
+    @Override
+    public DbResourceType type() {
+        return origin.type();
+    }
+
+    @Override
+    public DbUri objUri() {
+        return origin.objUri();
+    }
+
+    @Override
+    public Properties headers() {
+        return origin.headers();
+    }
+
+    @Override
+    public String headerByKey(String key) {
+        return origin.headerByKey(key);
+    }
+
+    @Override
+    public String body() {
+        return this.body;
     }
 
 }

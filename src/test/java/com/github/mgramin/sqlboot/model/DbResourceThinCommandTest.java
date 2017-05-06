@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Created by MGramin on 05.05.2017.
  */
-public class DbResourceCommandTest {
+public class DbResourceThinCommandTest {
 
     @Test
     public void name() throws Exception {

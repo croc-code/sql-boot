@@ -28,8 +28,9 @@ package com.github.mgramin.sqlboot.readers.impl;
 import static java.util.stream.Collectors.toMap;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
+import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.uri.DbUri;
@@ -109,7 +110,7 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
                         }
                     }
                 }
-                DbResource object = new DbResource(objectName, type, new DbUri(type.name, objectsForUri), objectHeaders);
+                DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name, objectsForUri), objectHeaders);
 
                 objects.put(object.objUri().toString(), object);
                 logger.debug("find object " + object.objUri().toString());

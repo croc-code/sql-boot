@@ -51,7 +51,7 @@ public class ZipAggregator extends AbstractAggregator implements IAggregator {
         Map<String, byte[]> files = new HashMap<>();
         for (DbResource o : objects) {
             if (o.headerByKey("file_name") != null && !o.headerByKey("file_name").isEmpty())
-                files.put(o.headerByKey("file_name").toLowerCase(), o.body.getBytes());
+                files.put(o.headerByKey("file_name").toLowerCase(), o.body().getBytes());
         }
         return compress(files);
     }

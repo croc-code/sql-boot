@@ -26,49 +26,24 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.uri.DbUri;
-import lombok.ToString;
 
 import java.util.Properties;
 
 /**
- * DB Resource
- * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
+ * Created by maksim on 06.05.17.
  */
-@ToString
-public class DbResource {
+public interface DbResource {
 
-    final private String name;
-    final private DbResourceType type;
-    final private DbUri dbUri;
-    final private Properties headers;
-    @Deprecated
-    public String body; // TODO make final and private
+    String name();
 
-    public DbResource(String name, DbResourceType type, DbUri dbUri, Properties headers) {
-        this.name = name;
-        this.type = type;
-        this.dbUri = dbUri;
-        this.headers = headers;
-    }
+    DbResourceType type();
 
-    public String name() {
-        return name;
-    }
+    DbUri objUri();
 
-     public DbResourceType type() {
-        return type;
-    }
+    Properties headers();
 
-    public DbUri objUri() {
-        return dbUri;
-    }
+    String headerByKey(String key);
 
-    public Properties headers() {
-        return headers;
-    }
-
-    public String headerByKey(String key) {
-        return headers.getProperty(key);
-    }
+    String body();
 
 }

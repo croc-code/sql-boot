@@ -61,7 +61,7 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
         if (objects == null) return null;
         if (template == null || template.isEmpty()) {
             StringBuilder builder = new StringBuilder();
-            for (DbResource o : objects) builder.append(o.body).append("\n");
+            for (DbResource o : objects) builder.append(o.body()).append("\n");
             return builder.toString().getBytes();
         }
         else {
