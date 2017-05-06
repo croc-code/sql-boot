@@ -23,25 +23,29 @@
  *
  */
 
-package com.github.mgramin.sqlboot.readers.impl;
+package com.github.mgramin.sqlboot.readers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DBResourceType;
-import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
-import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
-
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Created by MGramin on 24.11.2016.
- */
-public class JdbcObjectReader extends AbstractObjectReader implements DbResourceReader {
+public abstract class AbstractDbResourceReader implements DbResourceReader {
 
-    @Override
-    public Map<String, DbResource> read(ObjURI objURI, DBResourceType type) throws SqlBootException {
-        throw new SqlBootException("Not implemented!");
+    public Map<String, DbResource> readr(ObjURI objURI, DBResourceType type) throws SqlBootException {
+        Map<String, DbResource> objects = new LinkedHashMap<>(this.read(objURI, type));
+        if (type.child != null) {
+            for (DBResourceType childType : type.child) {
+                objURI.setParams(null);
+                childType.readers
+                    .stream()
+                    .findFirst()
+                    .ifPresent(r -> objects.putAll(r.readr(objURI, childType)));
+            }
+        }
+        return objects;
     }
 
 }

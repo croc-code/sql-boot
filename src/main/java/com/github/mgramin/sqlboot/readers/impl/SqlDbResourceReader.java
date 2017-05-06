@@ -30,7 +30,7 @@ import static java.util.stream.Collectors.toMap;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DBResourceType;
-import com.github.mgramin.sqlboot.readers.AbstractObjectReader;
+import com.github.mgramin.sqlboot.readers.AbstractDbResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.uri.ObjURI;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
@@ -48,16 +48,16 @@ import org.apache.log4j.Logger;
  * Custom-SQL db object reader
  */
 @ToString
-public class SqlObjectReader extends AbstractObjectReader implements DbResourceReader {
+public class SqlDbResourceReader extends AbstractDbResourceReader implements DbResourceReader {
 
-    private final static Logger logger = Logger.getLogger(SqlObjectReader.class);
+    private final static Logger logger = Logger.getLogger(SqlDbResourceReader.class);
 
     final private ISqlHelper sqlHelper;
     final public String sql; // TODO make private
     final private TemplateEngine templateEngine; // TODO move to decorator ?
     final private String prepareSql; // TODO move to decorator ?
 
-    public SqlObjectReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
+    public SqlDbResourceReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
         this.sql = sql;

@@ -42,7 +42,7 @@
 
 
     <!-- Readers -->
-    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlObjectReader"
+    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlDbResourceReader"
         c:sqlHelper-ref="sqlHelper"
         c:templateEngine-ref="templateEngine"/>
 

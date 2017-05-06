@@ -34,7 +34,7 @@ public class SqlObjectReaderTest {
         TemplateEngine templateEngine = mock(TemplateEngine.class);
         when(templateEngine.getAllProperties()).thenReturn(asList("@schema", "@table", "@column"));
 
-        SqlObjectReader reader = new SqlObjectReader(sqlHelper, templateEngine,
+        SqlDbResourceReader reader = new SqlDbResourceReader(sqlHelper, templateEngine,
                 "... custom-sql for select objects from db dictionary ...");
 
         DBResourceType column = new DBResourceType("column", reader);
@@ -54,7 +54,7 @@ public class SqlObjectReaderTest {
         TemplateEngine templateEngineTableMock = mock(TemplateEngine.class);
         when(templateEngineTableMock.getAllProperties()).thenReturn(asList("@schema", "@table"));
 
-        SqlObjectReader readerTable = new SqlObjectReader(sqlHelperTableMock, templateEngineTableMock,
+        SqlDbResourceReader readerTable = new SqlDbResourceReader(sqlHelperTableMock, templateEngineTableMock,
                 "... custom-sql for select table from db dictionary ...");
 
 
@@ -64,7 +64,7 @@ public class SqlObjectReaderTest {
         TemplateEngine templateEngineIndexMock = mock(TemplateEngine.class);
         when(templateEngineIndexMock.getAllProperties()).thenReturn(asList("@schema", "@table", "@index"));
 
-        SqlObjectReader readerIndex = new SqlObjectReader(sqlHelperIndexMock, templateEngineIndexMock,
+        SqlDbResourceReader readerIndex = new SqlDbResourceReader(sqlHelperIndexMock, templateEngineIndexMock,
                 "... custom-sql for select index from db dictionary ...");
 
 
