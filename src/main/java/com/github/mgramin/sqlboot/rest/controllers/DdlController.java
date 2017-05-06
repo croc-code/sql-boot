@@ -47,7 +47,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 @RestController
 @ImportResource("classpath:config.xml")
@@ -97,13 +96,13 @@ public class DdlController {
 
         DbResourceCommand currentCommand;
 
-        if (uri.getAction() != null) {
-            currentCommand = objectCommands.stream().filter(c -> c.aliases().contains(uri.getAction())).findFirst().orElse(null);
+        if (uri.action() != null) {
+            currentCommand = objectCommands.stream().filter(c -> c.aliases().contains(uri.action())).findFirst().orElse(null);
         } else {
             currentCommand = objectCommands.stream().filter(c -> c.isDefault()).findFirst().orElse(null);
         }
 
-        DbResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.getType())).findFirst().orElse(null);
+        DbResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.type())).findFirst().orElse(null);
         if (type == null) return null;
 
         DbResourceReader reader = type.readers.stream()
@@ -112,9 +111,9 @@ public class DdlController {
         Map<String, DbResource> objects = reader.readr(uri, type);
         List<DbResource> objectsNew = new ArrayList();
         for (DbResource object : objects.values()) {
-            if (object.type().equals(type) || uri.getRecursive()) {
+            if (object.type().equals(type) || uri.recursive()) {
                 ObjectService objectService = new ObjectService(objects, String.join(".", object.objUri()
-                    .getObjects()));
+                    .objects()));
 
                 if (object.type().aggregators != null) {
                     DbSchemaObjectTypeAggregator objectTypeAggregator = object.type().aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);

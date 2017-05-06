@@ -71,7 +71,7 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
 
     @Override
     public Map<String, DbResource> read(ObjUri objUri, DbResourceType type) throws SqlBootException {
-        List<String> list = objUri.getObjects();
+        List<String> list = objUri.objects();
 
         Map<String, DbResource> objects = new LinkedHashMap<>();
         try {
@@ -119,8 +119,8 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
             throw new SqlBootException(e);
         }
 
-        if (objUri.getParams() != null) {
-            Map<String, String> filtersParam = objUri.getParams().entrySet().stream().filter(p ->
+        if (objUri.params() != null) {
+            Map<String, String> filtersParam = objUri.params().entrySet().stream().filter(p ->
                 !p.getKey().equalsIgnoreCase("type"))
                 .collect(toMap(p -> p.getKey(), p -> p.getValue()));
 

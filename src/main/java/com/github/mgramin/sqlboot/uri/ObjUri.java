@@ -39,12 +39,12 @@ import java.util.Map;
  */
 public class ObjUri {
 
-    private String type;
+    private final String type;
     private String action;
-    private List<String> objects;
+    private final List<String> objects;
     private Boolean recursive;
     private Map<String, String> params = new LinkedHashMap<>();
-    private Map<String, String> filters = new HashMap<>();
+    private final Map<String, String> filters = new HashMap<>();
 
     public ObjUri(String type, List<String> objects) {
         this.type = type;
@@ -75,6 +75,32 @@ public class ObjUri {
             throw new SqlBootException(e);
         }
     }
+
+
+    public String type() {
+        return type;
+    }
+
+    public String action() {
+        return action;
+    }
+
+    public List<String> objects() {
+        return objects;
+    }
+
+    public Boolean recursive() {
+        return recursive;
+    }
+
+    public Map<String, String> params() {
+        return params;
+    }
+
+    public Map<String, String> filters() {
+        return filters;
+    }
+
 
     @Override
     public String toString() {
@@ -107,51 +133,4 @@ public class ObjUri {
         return s;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public List<String> getObjects() {
-        return objects;
-    }
-
-    public void setObjects(List<String> objects) {
-        this.objects = objects;
-    }
-
-    public Boolean getRecursive() {
-        return recursive;
-    }
-
-    public void setRecursive(Boolean recursive) {
-        this.recursive = recursive;
-    }
-
-    public Map<String, String> getParams() {
-        return params;
-    }
-
-    public void setParams(Map<String, String> params) {
-        this.params = params;
-    }
-
-    public Map<String, String> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(Map<String, String> filters) {
-        this.filters = filters;
-    }
 }

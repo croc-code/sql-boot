@@ -38,7 +38,6 @@ public abstract class AbstractResourceReader implements DbResourceReader {
         Map<String, DbResource> objects = new LinkedHashMap<>(this.read(objUri, type));
         if (type.child != null) {
             for (DbResourceType childType : type.child) {
-                objUri.setParams(null);
                 childType.readers
                     .stream()
                     .findFirst()

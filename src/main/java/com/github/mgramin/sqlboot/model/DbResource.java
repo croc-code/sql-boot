@@ -51,15 +51,11 @@ public class DbResource {
         this.headers = headers;
     }
 
-    public String propertyByKey(String key) {
-        return headers.getProperty(key);
-    }
-
     public String name() {
         return name;
     }
 
-    public DbResourceType type() {
+     public DbResourceType type() {
         return type;
     }
 
@@ -69,6 +65,10 @@ public class DbResource {
 
     public Properties headers() {
         return headers;
+    }
+
+    public String headerByKey(String key) {
+        return headers.getProperty(key);
     }
 
 }
