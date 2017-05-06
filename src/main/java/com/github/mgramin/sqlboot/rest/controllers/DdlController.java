@@ -131,7 +131,7 @@ public class DdlController {
                             .orElse(null);
 
                         if (currentGenerator != null) {
-                            Map<String, Object> variables = new TreeMap<>(object.paths());
+                            Map<String, Object> variables = (Map)object.headers();
                             variables.put(object.type().name, object);
                             variables.put("srv", objectService);
 

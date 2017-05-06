@@ -109,8 +109,7 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
                         }
                     }
                 }
-                DbResource object = new DbResource(objectName, type, new ObjUri(type.name, objectsForUri), objectHeaders,
-                    stringStringMap);
+                DbResource object = new DbResource(objectName, type, new ObjUri(type.name, objectsForUri), objectHeaders);
 
                 objects.put(object.objUri().toString(), object);
                 logger.debug("find object " + object.objUri().toString());

@@ -25,40 +25,18 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Created by maksim on 10.07.16.
+ * Created by maksim on 06.05.17.
  */
-@Deprecated
-public class ObjectService {
+public class DbResourceWithBody {
 
-    Map<String, DbResource> objects;
-    private String baseURI;
+    final private DbResource origin;
+    private final String body;
 
-    public ObjectService(Map<String, DbResource> objects, String baseURI) {
-        this.objects = objects;
-        this.baseURI = baseURI;
+
+    public DbResourceWithBody(DbResource origin, String body) {
+        this.origin = origin;
+        this.body = body;
     }
-
-    public List<DbResource> get(String type) {
-        List<DbResource> result = new ArrayList<>();
-        for (Map.Entry<String, DbResource> entry : objects.entrySet()) {
-            if (entry.getKey().startsWith(type + "/" + baseURI + ".")) {
-                result.add(entry.getValue());
-            }
-        }
-        return result;
-    }
-
-/*
-    public Integer getMaxLength(String type, String name) {
-        DbResource column = get(type).stream().max(Comparator.comparing(i -> i.paths().get(type))).get();
-        return column.paths().get("column").length() + 7;
-    }
-*/
 
 }

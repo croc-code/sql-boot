@@ -28,7 +28,6 @@ package com.github.mgramin.sqlboot.model;
 import com.github.mgramin.sqlboot.uri.ObjUri;
 import lombok.ToString;
 
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -42,18 +41,14 @@ public class DbResource {
     final private DbResourceType type;
     final private ObjUri objUri;
     final private Properties headers;
-    public String body; // TODO make final and private
     @Deprecated
-    final private Map<String, String> paths;
+    public String body; // TODO make final and private
 
-
-    public DbResource(String name, DbResourceType type, ObjUri objUri, Properties headers,
-        Map<String, String> paths) {
+    public DbResource(String name, DbResourceType type, ObjUri objUri, Properties headers) {
         this.name = name;
         this.type = type;
         this.objUri = objUri;
         this.headers = headers;
-        this.paths = paths;
     }
 
     public String propertyByKey(String key) {
@@ -74,11 +69,6 @@ public class DbResource {
 
     public Properties headers() {
         return headers;
-    }
-
-    @Deprecated
-    public Map<String, String> paths() {
-        return paths;
     }
 
 }
