@@ -32,16 +32,15 @@ import lombok.ToString;
 import java.util.Properties;
 
 /**
- * DB Resource
- * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
+ * DB resource without body
  */
 @ToString
 public class DbResourceThin implements DbResource {
 
-    final private String name;
-    final private DbResourceType type;
-    final private DbUri dbUri;
-    final private Properties headers;
+    private final String name;
+    private final DbResourceType type;
+    private final DbUri dbUri;
+    private final Properties headers;
 
     public DbResourceThin(String name, DbResourceType type, DbUri dbUri, Properties headers) {
         this.name = name;
@@ -61,18 +60,13 @@ public class DbResourceThin implements DbResource {
     }
 
     @Override
-    public DbUri objUri() {
+    public DbUri dbUri() {
         return dbUri;
     }
 
     @Override
     public Properties headers() {
         return headers;
-    }
-
-    @Override
-    public String headerByKey(String key) {
-        return headers.getProperty(key);
     }
 
     @Override

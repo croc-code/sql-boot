@@ -112,7 +112,7 @@ public class DdlController {
         List<DbResource> objectsNew = new ArrayList();
         for (DbResource object : objects.values()) {
             if (object.type().equals(type) || uri.recursive()) {
-                ObjectService objectService = new ObjectService(objects, String.join(".", object.objUri()
+                ObjectService objectService = new ObjectService(objects, String.join(".", object.dbUri()
                     .objects()));
 
                 if (object.type().aggregators != null) {
@@ -134,8 +134,8 @@ public class DdlController {
                             variables.put(object.type().name, object);
                             variables.put("srv", objectService);
 
-                            DbResourceWithBody dbResourceWithBody = new DbResourceWithBody(object, currentGenerator.generate(variables));
-                            objectsNew.add(dbResourceWithBody);
+                            DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(object, currentGenerator.generate(variables));
+                            objectsNew.add(dbResourceBodyWrapper);
                         }
                     }
                 }

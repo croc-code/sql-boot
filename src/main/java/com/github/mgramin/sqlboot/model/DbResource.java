@@ -30,20 +30,34 @@ import com.github.mgramin.sqlboot.uri.DbUri;
 import java.util.Properties;
 
 /**
- * Created by maksim on 06.05.17.
+ * DB resource
+ * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
  */
 public interface DbResource {
 
+    /**
+     * @return Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc
+     */
     String name();
 
+    /**
+     * @return Type of db resource, e.g. "table", "index", "stored function" etc
+     */
     DbResourceType type();
 
-    DbUri objUri();
+    /**
+     * @return URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc
+     */
+    DbUri dbUri();
 
+    /**
+     * @return Headers of db resource
+     */
     Properties headers();
 
-    String headerByKey(String key);
-
+    /**
+     * @return Body of db resource, e.g. ddl-code, html-representation, xml, json etc
+     */
     String body();
 
 }

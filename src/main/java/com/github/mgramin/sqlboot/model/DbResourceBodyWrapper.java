@@ -30,14 +30,14 @@ import com.github.mgramin.sqlboot.uri.DbUri;
 import java.util.Properties;
 
 /**
- * Created by maksim on 06.05.17.
+ * DB resource with body
  */
-public class DbResourceWithBody implements DbResource {
+public class DbResourceBodyWrapper implements DbResource {
 
-    private DbResource origin;
+    private final DbResource origin;
     private final String body;
 
-    public DbResourceWithBody(DbResource DbResource, String body) {
+    public DbResourceBodyWrapper(DbResource DbResource, String body) {
         this.origin = DbResource;
         this.body = body;
     }
@@ -53,18 +53,13 @@ public class DbResourceWithBody implements DbResource {
     }
 
     @Override
-    public DbUri objUri() {
-        return origin.objUri();
+    public DbUri dbUri() {
+        return origin.dbUri();
     }
 
     @Override
     public Properties headers() {
         return origin.headers();
-    }
-
-    @Override
-    public String headerByKey(String key) {
-        return origin.headerByKey(key);
     }
 
     @Override
