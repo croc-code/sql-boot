@@ -31,7 +31,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
-import com.github.mgramin.sqlboot.uri.DbUri;
+import com.github.mgramin.sqlboot.model.DbUri;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;

@@ -2,6 +2,8 @@ package com.github.mgramin.sqlboot.uri;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import java.net.URISyntaxException;
+
+import com.github.mgramin.sqlboot.model.DbUri;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

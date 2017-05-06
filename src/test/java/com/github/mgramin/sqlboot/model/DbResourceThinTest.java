@@ -1,6 +1,5 @@
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.uri.DbUri;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

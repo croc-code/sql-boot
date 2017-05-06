@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.mgramin.sqlboot.uri;
+package com.github.mgramin.sqlboot.model;
 
 import static java.util.Arrays.asList;
 

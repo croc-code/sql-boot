@@ -33,7 +33,7 @@ import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.uri.DbUri;
+import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import java.util.ArrayList;

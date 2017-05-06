@@ -1,7 +1,7 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.model.DbResourceType;
-import com.github.mgramin.sqlboot.uri.DbUri;
+import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import com.google.common.collect.Sets;

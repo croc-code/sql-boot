@@ -38,24 +38,24 @@ import java.util.Map;
  */
 public class TemplateWrapper implements ActionGenerator {
 
-    public TemplateWrapper(ActionGenerator baseGenerator, TemplateEngineFactory templateEngineFactory) {
-        this.baseGenerator = baseGenerator;
+    private final ActionGenerator origin;
+    private final TemplateEngineFactory templateEngineFactory;
+
+    public TemplateWrapper(ActionGenerator origin, TemplateEngineFactory templateEngineFactory) {
+        this.origin = origin;
         this.templateEngineFactory = templateEngineFactory;
     }
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        final String baseText = baseGenerator.generate(variables);
+        final String baseText = origin.generate(variables);
         final TemplateEngine templateEngine = templateEngineFactory.create(baseText);
         return templateEngine.process(variables);
     }
 
     @Override
     public DbResourceCommand command() {
-        return baseGenerator.command();
+        return origin.command();
     }
-
-    final private ActionGenerator baseGenerator;
-    final private TemplateEngineFactory templateEngineFactory;
 
 }

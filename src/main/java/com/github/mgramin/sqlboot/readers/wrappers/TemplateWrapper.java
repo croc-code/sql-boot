@@ -28,24 +28,31 @@ package com.github.mgramin.sqlboot.readers.wrappers;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.uri.DbUri;
+import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
+import com.github.mgramin.sqlboot.model.DbUri;
 
 import java.util.Map;
 
 /**
  * Created by maksim on 02.05.17.
  */
-public class TemplateWrapper implements DbResourceReader {
+public class TemplateWrapper extends AbstractResourceReader implements DbResourceReader {
 
-    @Override
-    public Map<String, DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        return null;
+    private final DbResourceReader origin;
+    private final TemplateEngineFactory templateEngineFactory;
+    private final String template;
+
+    public TemplateWrapper(DbResourceReader origin, TemplateEngineFactory templateEngineFactory, String template) {
+        this.origin = origin;
+        this.templateEngineFactory = templateEngineFactory;
+        this.template = template;
     }
 
     @Override
-    public Map<String, DbResource> readr(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        return null;
+    public Map<String, DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
+        return origin.read(dbUri, type);
     }
 
 }
