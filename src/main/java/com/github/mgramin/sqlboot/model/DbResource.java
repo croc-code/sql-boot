@@ -25,7 +25,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.uri.ObjUri;
+import com.github.mgramin.sqlboot.uri.DbUri;
 import lombok.ToString;
 
 import java.util.Properties;
@@ -39,15 +39,15 @@ public class DbResource {
 
     final private String name;
     final private DbResourceType type;
-    final private ObjUri objUri;
+    final private DbUri dbUri;
     final private Properties headers;
     @Deprecated
     public String body; // TODO make final and private
 
-    public DbResource(String name, DbResourceType type, ObjUri objUri, Properties headers) {
+    public DbResource(String name, DbResourceType type, DbUri dbUri, Properties headers) {
         this.name = name;
         this.type = type;
-        this.objUri = objUri;
+        this.dbUri = dbUri;
         this.headers = headers;
     }
 
@@ -59,8 +59,8 @@ public class DbResource {
         return type;
     }
 
-    public ObjUri objUri() {
-        return objUri;
+    public DbUri objUri() {
+        return dbUri;
     }
 
     public Properties headers() {

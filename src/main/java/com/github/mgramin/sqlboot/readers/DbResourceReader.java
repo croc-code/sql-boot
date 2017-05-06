@@ -28,7 +28,7 @@ package com.github.mgramin.sqlboot.readers;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
-import com.github.mgramin.sqlboot.uri.ObjUri;
+import com.github.mgramin.sqlboot.uri.DbUri;
 
 import java.util.Map;
 
@@ -37,9 +37,9 @@ import java.util.Map;
  */
 public interface DbResourceReader {
 
-    Map<String, DbResource> read(ObjUri objUri, @Deprecated DbResourceType type) throws SqlBootException;
+    Map<String, DbResource> read(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
 
     // TODO move to top ??
-    Map<String, DbResource> readr(ObjUri objUri, @Deprecated DbResourceType type) throws SqlBootException;
+    Map<String, DbResource> readr(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
 
 }

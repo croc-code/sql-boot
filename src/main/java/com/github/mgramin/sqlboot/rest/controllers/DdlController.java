@@ -31,7 +31,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
-import com.github.mgramin.sqlboot.uri.ObjUri;
+import com.github.mgramin.sqlboot.uri.DbUri;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
@@ -92,7 +92,7 @@ public class DdlController {
     }
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
-        ObjUri uri = new ObjUri(uriString);
+        DbUri uri = new DbUri(uriString);
 
         DbResourceCommand currentCommand;
 

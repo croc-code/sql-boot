@@ -28,20 +28,21 @@ package com.github.mgramin.sqlboot.readers;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
-import com.github.mgramin.sqlboot.uri.ObjUri;
+import com.github.mgramin.sqlboot.uri.DbUri;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class AbstractResourceReader implements DbResourceReader {
 
-    public Map<String, DbResource> readr(ObjUri objUri, DbResourceType type) throws SqlBootException {
-        Map<String, DbResource> objects = new LinkedHashMap<>(this.read(objUri, type));
+    public Map<String, DbResource> readr(DbUri dbUri, DbResourceType type) throws SqlBootException {
+        Map<String, DbResource> objects = new LinkedHashMap<>(this.read(dbUri, type));
         if (type.child != null) {
             for (DbResourceType childType : type.child) {
                 childType.readers
                     .stream()
                     .findFirst()
-                    .ifPresent(r -> objects.putAll(r.readr(objUri, childType)));
+                    .ifPresent(r -> objects.putAll(r.readr(dbUri, childType)));
             }
         }
         return objects;

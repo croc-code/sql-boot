@@ -30,7 +30,7 @@ import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.uri.ObjUri;
+import com.github.mgramin.sqlboot.uri.DbUri;
 
 import java.util.Map;
 
@@ -40,7 +40,7 @@ import java.util.Map;
 public class JdbcResourceReader extends AbstractResourceReader implements DbResourceReader {
 
     @Override
-    public Map<String, DbResource> read(ObjUri objUri, DbResourceType type) throws SqlBootException {
+    public Map<String, DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
         throw new SqlBootException("Not implemented!");
     }
 

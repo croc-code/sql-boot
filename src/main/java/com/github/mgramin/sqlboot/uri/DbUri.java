@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * Created by maksim on 12.06.16.
  */
-public class ObjUri {
+public class DbUri {
 
     private final String type;
     private String action;
@@ -46,12 +46,12 @@ public class ObjUri {
     private Map<String, String> params = new LinkedHashMap<>();
     private final Map<String, String> filters = new HashMap<>();
 
-    public ObjUri(String type, List<String> objects) {
+    public DbUri(String type, List<String> objects) {
         this.type = type;
         this.objects = objects;
     }
 
-    public ObjUri(String uriString) throws SqlBootException {
+    public DbUri(String uriString) throws SqlBootException {
         try {
             URI uri = new URI(uriString);
             String pathString = uri.getPath().replace("*", "%");
@@ -122,7 +122,7 @@ public class ObjUri {
     }
 
     public String toJson() {
-        String s = "ObjUri{" +
+        String s = "DbUri{" +
             "type='" + type + '\'' +
             ", dbSchemaObjectCommand='" + action + '\'' +
             ", objects=" + objects +
