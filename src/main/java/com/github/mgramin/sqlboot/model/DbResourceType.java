@@ -40,6 +40,7 @@ import java.util.List;
 @ToString
 public class DbResourceType {
 
+    @Deprecated
     public String name;
     public List<String> aliases;
     public String description;
@@ -80,6 +81,9 @@ public class DbResourceType {
         this.readers = singletonList(reader);
     }
 
+    public String name() {
+        return aliases.get(0);
+    }
 
     public void setName(String name) {
         this.name = name;

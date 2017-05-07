@@ -12,6 +12,28 @@
     <name>sql-boot</name>
     <description>Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers</description>
 
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://raw.githubusercontent.com/mgramin/sql-boot/master/LICENSE</url>
+            <distribution>site</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>1</id>
+            <name>Maksim Gramin</name>
+            <email>mgramin@gmail.com</email>
+            <organization>sql-boot</organization>
+            <organizationUrl>https://github.com/mgramin/sql-boot</organizationUrl>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+3</timezone>
+        </developer>
+    </developers>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -24,7 +46,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <dbh2.version>1.4.187</dbh2.version>
-
         <docker.image.prefix>mgramin</docker.image.prefix>
     </properties>
 
@@ -71,7 +92,6 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-templates</artifactId>
@@ -92,22 +112,24 @@
 
 
         <!--Temp dependencies-->
-<!--        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.3</version>
-        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4.1208.jre7</version>
         </dependency>
-        <!--    <dependency>
-              <groupId>com.github.adejanovski</groupId>
-              <artifactId>cassandra-jdbc-wrapper</artifactId>
-              <version>3.0.3</version>
-            </dependency>
-         -->   <!--Temp dependencies-->
+
+        <dependency>
+            <groupId>com.github.adejanovski</groupId>
+            <artifactId>cassandra-jdbc-wrapper</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.datastax.cassandra</groupId>
+            <artifactId>cassandra-driver-core</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <!--Temp dependencies-->
 
 
         <dependency>
@@ -115,13 +137,6 @@
             <artifactId>bootstrap</artifactId>
             <version>3.1.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>21.0</version>
-        </dependency>
-
 
         <dependency>
             <groupId>commons-io</groupId>
@@ -288,6 +303,27 @@
         <profile>
             <id>cassandra</id>
             <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/cassandra/*.java</include>
+                            </includes>
+                            <additionalClasspathElements>
+                            </additionalClasspathElements>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
         <profile>

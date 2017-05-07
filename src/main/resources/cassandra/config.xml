@@ -29,18 +29,13 @@
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
        profile="cassandra">
 
-    <bean id="dataSource" class="com.github.adejanovski.cassandra.jdbc.CassandraDataSource">
-        <constructor-arg name="host" value="127.0.0.1"/>
-        <constructor-arg name="port" value="9042"/>
-        <constructor-arg name="keyspace" value="testks"/>
-        <constructor-arg name="user" value=""/>
-        <constructor-arg name="password" value=""/>
-        <constructor-arg name="version" value=""/>
-        <constructor-arg name="consistency">
-            <null />
-        </constructor-arg>
+    <bean name="dev" id="dataSource" parent="templateCP" primary="true">
+        <property name="driverClassName" value="com.github.adejanovski.cassandra.jdbc.CassandraDriver" />
+        <property name="url" value="${db_dev_url}"/>
+        <!--<property name="username" value="${db_dev_user}" />-->
+        <!--<property name="password" value="${db_dev_password}" />-->
     </bean>
-s
+
     <import resource="keyspace.xml"/>
     <import resource="column_family.xml"/>
 

@@ -24,51 +24,32 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean name="table,tbl,t" parent="parentSchemaObjectBean">
         <property name="name" value="table" />
-        <property name="sql" >
-            <value>
-                select keyspace_name as "schema"
-                     , table_name as "table"
-                  from system_schema.tables
-                 where keyspace_name = '${@schemaMask}'
-                  and table_name = '${@tableMask}'
-                 allow filtering
-            </value>
+        <property name="aliases" value="table,tbl,t" />
+        <property name="readers">
+            <bean parent="baseSqlReader" c:sql="${tables}" />
         </property>
-        <property name="child">
-            <list>
-                <value>#{column}</value>
-            </list>
-        </property>
-        <property name="commands">
-            <list>
-                <bean name="create" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="CREATE" />
-                    <property name="template" >
-                        <value><![CDATA[
-                            create table ${schema}.${table} (
-                            <#list srv.get("column") as column>
-                                ${column.name?right_pad(32)} ${column.getProperty("data_type")}<#sep>,
-                            </#list>);
-                            ]]>
-                        </value>
-                    </property>
-                </bean>
-                <bean name="dropTable" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="DROP" />
-                    <property name="template" >
-                        <value>drop table ${schema}.${table};</value>
-                    </property>
-                </bean>
-            </list>
+
+        <property name="aggregators">
+            <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
+                <property name="aggregatorName" value="sql"/>
+                <property name="commands">
+                    <list>
+                        <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}'/>
+                        <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
+<!--
     <bean name="column,clmn,c" parent="parentSchemaObjectBean">
         <property name="name" value="column" />
         <property name="sql" >
@@ -104,5 +85,6 @@
             </list>
         </property>
     </bean>
+-->
 
 </beans>

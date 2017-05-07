@@ -11,4 +11,5 @@ services:
 script:
   - mvn verify -Ph2
   - mvn verify -Ppostgres
+  - mvn verify -Pcassandra
   - mvn jacoco:report coveralls:report -Pcoverall

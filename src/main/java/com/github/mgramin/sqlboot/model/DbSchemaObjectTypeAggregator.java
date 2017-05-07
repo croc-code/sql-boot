@@ -28,12 +28,13 @@ package com.github.mgramin.sqlboot.model;
 import static java.util.Arrays.asList;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import lombok.ToString;
 
 import java.util.List;
 
 /**
  * Created by MGramin on 09.01.2017.
- */
+ */@ToString
 public class DbSchemaObjectTypeAggregator {
 
     private List<String> aggregatorName;

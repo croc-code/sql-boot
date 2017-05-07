@@ -1,0 +1,14 @@
+tables: |
+  select keyspace_name as "schema"
+       , table_name as "table"
+    from system_schema.tables
+   where keyspace_name = '$schema'
+     and table_name = '$table'
+   allow filtering
+
+table.sql.create: |
+  create table "$schema".$table.name" ...;
+
+table.sql.drop: |
+  drop table $schema.$table.name;
+
