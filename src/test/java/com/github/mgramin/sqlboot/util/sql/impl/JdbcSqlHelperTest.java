@@ -1,7 +1,5 @@
 package com.github.mgramin.sqlboot.util.sql.impl;
 
-import com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +19,8 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"/test_config.xml"})
 public class JdbcSqlHelperTest {
 
-
-
     @Autowired
-    JdbcSqlHelper jdbcSqlHelper;
+    private JdbcSqlHelper jdbcSqlHelper;
 
     @Test
     public void select() throws Exception {

@@ -40,10 +40,16 @@ import java.util.Map;
  */
 public class TextAggregator extends AbstractAggregator implements IAggregator {
 
+    private final String template;
+    @Deprecated
+    private final TemplateEngine templateEngine; // TODO use template engine FACTORY
+
     public TextAggregator(String name, Boolean isDefault, Map<String, String> httpHeaders) {
         this.name = name;
         this.isDefault = isDefault;
         this.httpHeaders = httpHeaders;
+        this.templateEngine = null;
+        this.template = null;
     }
 
     public TextAggregator(String name, Map<String, String> httpHeaders, TemplateEngine templateEngine, String template) {
@@ -52,9 +58,6 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
         this.templateEngine = templateEngine;
         this.template = template;
     }
-
-    private String template;
-    private TemplateEngine templateEngine;
 
     @Override
     public byte[] aggregate(List<DbResource> objects) throws SqlBootException {

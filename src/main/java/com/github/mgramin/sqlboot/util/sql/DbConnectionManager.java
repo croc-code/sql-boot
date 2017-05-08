@@ -43,7 +43,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DbConnectionManager {
 
     private Map<String, DataSource> dataSources;
-
+    private List<DbConnection> connections = new ArrayList<>();
 
     public Map<String, DataSource> getDataSources() {
         return dataSources;
@@ -53,9 +53,6 @@ public class DbConnectionManager {
         Map<String, DataSource> dataSources) {
         this.dataSources = dataSources;
     }
-
-
-    private List<DbConnection> connections = new ArrayList<>();
 
     public List<DbConnection> getConnections() {
         return connections;

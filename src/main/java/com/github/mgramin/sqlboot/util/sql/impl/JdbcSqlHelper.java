@@ -36,13 +36,11 @@ import java.util.*;
 
 public class JdbcSqlHelper implements ISqlHelper {
 
+    private final List<DataSource> dataSources;
+
     public JdbcSqlHelper(List<DataSource> dataSources) {
         this.dataSources = dataSources;
     }
-
-    private List<DataSource> dataSources;
-
-
 
     @Override
     public List<Map<String, String>> select(String sql) throws SqlBootException {
