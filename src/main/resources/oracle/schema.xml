@@ -29,7 +29,7 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="schema" parent="parentSchemaObjectBean">
-        <property name="name" value="schema" />
+        <property name="aliases" value="schema" />
         <property name="sql" >
             <value>
                 select username as "schema"

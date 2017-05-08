@@ -102,10 +102,10 @@ public class DdlController {
             currentCommand = objectCommands.stream().filter(c -> c.isDefault()).findFirst().orElse(null);
         }
 
-        DbResourceType type = types.stream().filter(n -> n.aliases != null && n.aliases.contains(uri.type())).findFirst().orElse(null);
+        DbResourceType type = types.stream().filter(n -> n.aliases() != null && n.aliases().contains(uri.type())).findFirst().orElse(null);
         if (type == null) return null;
 
-        DbResourceReader reader = type.readers.stream()
+        DbResourceReader reader = type.readers().stream()
             .findFirst()
             .orElse(null);
         Map<String, DbResource> objects = reader.readr(uri, type);
@@ -115,10 +115,10 @@ public class DdlController {
                 ObjectService objectService = new ObjectService(objects, String.join(".", object.dbUri()
                     .objects()));
 
-                if (object.type().aggregators != null) {
-                    DbSchemaObjectTypeAggregator objectTypeAggregator = object.type().aggregators.stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
+                if (object.type().aggregators() != null) {
+                    DbSchemaObjectTypeAggregator objectTypeAggregator = object.type().aggregators().stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
                     if (objectTypeAggregator != null) {
-                        ActionGenerator currentGenerator = object.type().aggregators.stream()
+                        ActionGenerator currentGenerator = object.type().aggregators().stream()
                             .filter(a -> a.getAggregatorName().contains(aggregatorName))
                             .findFirst()
                             .orElseGet(null)
@@ -131,7 +131,7 @@ public class DdlController {
 
                         if (currentGenerator != null) {
                             Map<String, Object> variables = (Map)object.headers();
-                            variables.put(object.type().name, object);
+                            variables.put(object.type().name(), object);
                             variables.put("srv", objectService);
 
                             DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(object, currentGenerator.generate(variables));

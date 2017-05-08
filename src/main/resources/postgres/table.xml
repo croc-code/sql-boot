@@ -33,9 +33,8 @@
 
 
     <bean name="table,tbl,t" parent="parentSchemaObjectBean">
-        <property name="name" value="table" />
-        <property name="aliases" value="table,tbl,t" />
-        <property name="child">
+        <constructor-arg name="aliases" value="table,tbl,t" />
+        <constructor-arg name="child">
             <list>
                 <!--<value>#{column}</value>-->
                 <!--<value>#{index}</value>-->
@@ -45,15 +44,15 @@
                 <value>#{table_grant}</value>
                 <value>#{table_comment}</value>-->
             </list>
-        </property>
-        <property name="readers">
+        </constructor-arg>
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${tables}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                 <property name="aggregatorName" value="sql"/>
                 <property name="commands">
@@ -63,12 +62,12 @@
                     </list>
                 </property>
             </bean>
-        </property>
+        </constructor-arg>
     </bean>
 
 
-    <bean name="column,clmn,c" parent="parentSchemaObjectBean">
-        <property name="name" value="column" />
+    <!--<bean name="column,clmn,c" parent="parentSchemaObjectBean">-->
+        <!--<property name="aliases" value="column,clmn,c" />-->
         <!--<property name="readers">
             <list>
                 <bean name="sqlReader" parent="baseSqlReader">
@@ -93,7 +92,7 @@
                 </bean>
             </list>
         </property>-->
-    </bean>
+    <!--</bean>-->
 
 
     <!--<bean name="index,idx,i" parent="parentSchemaObjectBean">

@@ -37,9 +37,9 @@ public abstract class AbstractResourceReader implements DbResourceReader {
 
     public Map<String, DbResource> readr(DbUri dbUri, DbResourceType type) throws SqlBootException {
         Map<String, DbResource> objects = new LinkedHashMap<>(this.read(dbUri, type));
-        if (type.child != null) {
-            for (DbResourceType childType : type.child) {
-                childType.readers
+        if (type.child() != null) {
+            for (DbResourceType childType : type.child()) {
+                childType.readers()
                     .stream()
                     .findFirst()
                     .ifPresent(r -> objects.putAll(r.readr(dbUri, childType)));

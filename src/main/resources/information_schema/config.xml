@@ -49,25 +49,25 @@
 
 
     <bean name="schema" parent="parentSchemaObjectBean">
-        <property name="name" value="schema" />
-        <property name="aliases" value="schema,schm,s" />
-        <property name="child">
+        <constructor-arg name="aliases" value="schema,schm,s" />
+        <constructor-arg name="child">
             <list>
                 <value>#{table}</value>
                 <value>#{view}</value>
                 <value>#{mview}</value>
             </list>
-        </property>
-        <property name="readers">
+        </constructor-arg>
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${schemas}" />
                 </constructor-arg>
             </bean>
-        </property>
+        </constructor-arg>
+        <constructor-arg name="aggregators">
+            <null />
+        </constructor-arg>
     </bean>
-
-
 
 
     <import resource="table.xml"/>

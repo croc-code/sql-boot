@@ -31,6 +31,8 @@ import static java.util.Collections.singletonList;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,73 +42,47 @@ import java.util.List;
 @ToString
 public class DbResourceType {
 
-    @Deprecated
-    public String name;
-    public List<String> aliases;
-    public String description;
-    public List<DbResourceType> child;
-    public List<DbResourceReader> readers;
-    public List<DbSchemaObjectTypeAggregator> aggregators;
+    private List<String> aliases;
+    private List<DbResourceType> child;
+    private List<DbResourceReader> readers;
+    private List<DbSchemaObjectTypeAggregator> aggregators;
 
+    // TODO
     /*Map<String, DBSchemaObject> read(DbUri dbUri) throws SqlBootException {
         return null;
     }*/
 
-    public DbResourceType() {
-    }
-
-    public DbResourceType(String name) {
-        this.name = name;
-    }
-
-    public DbResourceType(String name, List<DbResourceType> child, List<DbResourceReader> readers) {
-        this.name = name;
+    public DbResourceType(String[] aliases, List<DbResourceType> child, List<DbResourceReader> readers, List<DbSchemaObjectTypeAggregator> aggregators) {
+        this.aliases = asList(aliases);
         this.child = child;
         this.readers = readers;
-    }
-
-    public DbResourceType(String name, List<DbResourceReader> reader) {
-        this.name = name;
-        this.readers = reader;
-    }
-
-    public DbResourceType(String name, DbResourceReader reader) {
-        this.name = name;
-        this.readers = singletonList(reader);
-    }
-
-    public DbResourceType(String name, List<DbResourceType> child, DbResourceReader reader) {
-        this.name = name;
-        this.child = child;
-        this.readers = singletonList(reader);
-    }
-
-    public String name() {
-        return aliases.get(0);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setChild(List<DbResourceType> child) {
-        this.child = child;
-    }
-
-    public void setReaders(List<DbResourceReader> readers) {
-        this.readers = readers;
-    }
-
-    public void setAggregators(List<DbSchemaObjectTypeAggregator> aggregators) {
         this.aggregators = aggregators;
     }
 
-    public void setAliases(String[] aliases) {
+    public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<DbSchemaObjectTypeAggregator> aggregators) {
         this.aliases = asList(aliases);
+        this.readers = readers;
+        this.aggregators = aggregators;
+    }
+
+    public String name() {
+        return this.aliases.get(0);
+    }
+
+    public List<String> aliases() {
+        return this.aliases;
+    }
+
+    public List<DbResourceType> child() {
+        return this.child;
+    }
+
+    public List<DbResourceReader> readers() {
+        return this.readers;
+    }
+
+    public List<DbSchemaObjectTypeAggregator> aggregators() {
+        return this.aggregators;
     }
 
 }

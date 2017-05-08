@@ -32,16 +32,15 @@
 
 
     <bean name="view" parent="parentSchemaObjectBean">
-        <property name="name" value="view" />
-        <property name="aliases" value="view,vw,v" />
-        <property name="readers">
+        <constructor-arg name="aliases" value="view,vw,v" />
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${views}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql"/>
@@ -63,26 +62,25 @@
                     </property>
                 </bean>-->
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 
     <bean name="mview" parent="parentSchemaObjectBean">
-        <property name="name" value="mview" />
-        <property name="aliases" value="mview,mvw,mv,materialized_view" />
-        <property name="child">
+        <constructor-arg name="aliases" value="mview,mvw,mv,materialized_view" />
+        <constructor-arg name="child">
             <list>
                 <value>#{column}</value>
             </list>
-        </property>
-        <property name="readers">
+        </constructor-arg>
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${mviews}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql"/>
@@ -104,7 +102,7 @@
                     </property>
                 </bean>-->
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 </beans>

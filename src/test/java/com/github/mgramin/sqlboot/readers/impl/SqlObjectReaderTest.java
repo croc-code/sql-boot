@@ -3,11 +3,13 @@ package com.github.mgramin.sqlboot.readers.impl;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.google.common.collect.ImmutableMap.of;
@@ -36,7 +38,7 @@ public class SqlObjectReaderTest {
         when(actionGenerator.generate(any(List.class))).thenReturn("alter table $table_name add column $column_name ...");
 
         SqlResourceReader reader = new SqlResourceReader(sqlHelper, actionGenerator);
-        DbResourceType column = new DbResourceType("column", reader);
+        DbResourceType column = new DbResourceType(new String[]{"column"}, null, asList(reader), null);
 
         assertEquals(
                 reader.read(uri, column).keySet(),
@@ -54,7 +56,7 @@ public class SqlObjectReaderTest {
         ActionGenerator actionGeneratorTableMock = mock(ActionGenerator.class);
         when(actionGeneratorTableMock.generate(any(List.class))).thenReturn("create table $table_name ...");
 
-        SqlResourceReader readerTable = new SqlResourceReader(sqlHelperTableMock, actionGeneratorTableMock);
+        DbResourceReader readerTable = new SqlResourceReader(sqlHelperTableMock, actionGeneratorTableMock);
 
 
         ISqlHelper sqlHelperIndexMock = mock(ISqlHelper.class);
@@ -67,8 +69,8 @@ public class SqlObjectReaderTest {
         SqlResourceReader readerIndex = new SqlResourceReader(sqlHelperIndexMock, actionGeneratorIndexMock);
 
 
-        DbResourceType index = new DbResourceType("index", readerIndex);
-        DbResourceType table = new DbResourceType("table", Arrays.asList(index), readerTable);
+        DbResourceType index = new DbResourceType(new String[]{"index"}, null, asList(readerIndex), null);
+        DbResourceType table = new DbResourceType(new String[]{"table"}, asList(index), asList(readerTable), null);
 
         assertEquals(
                 readerTable.readr(uri, table).keySet(),

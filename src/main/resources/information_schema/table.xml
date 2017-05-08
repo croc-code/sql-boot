@@ -32,9 +32,8 @@
 
 
     <bean name="table" parent="parentSchemaObjectBean">
-        <property name="name" value="table" />
-        <property name="aliases" value="table,tbl,t" />
-        <property name="child">
+        <constructor-arg name="aliases" value="table,tbl,t" />
+        <constructor-arg name="child">
             <list>
                 <value>#{column}</value>
                 <value>#{pk}</value>
@@ -42,15 +41,15 @@
                 <value>#{index}</value>
                 <value>#{check}</value>
             </list>
-        </property>
-        <property name="readers">
+        </constructor-arg>
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${tables}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql,zip"/>
@@ -77,21 +76,20 @@
                     </property>
                 </bean>
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 
     <bean name="column" parent="parentSchemaObjectBean">
-        <property name="name" value="column" />
-        <property name="aliases" value="column,clmn,c" />
-        <property name="readers">
+        <constructor-arg name="aliases" value="column,clmn,c" />
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${table.columns}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql"/>
@@ -103,21 +101,20 @@
                     </property>
                 </bean>
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 
     <bean name="pk" parent="parentSchemaObjectBean">
-        <property name="name" value="pk" />
-        <property name="aliases" value="pk,primary,primary_key" />
-        <property name="readers">
+        <constructor-arg name="aliases" value="pk,primary,primary_key" />
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${table.pk}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql,zip"/>
@@ -129,21 +126,20 @@
                     </property>
                 </bean>
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 
     <bean name="fk" parent="parentSchemaObjectBean">
-        <property name="name" value="fk" />
-        <property name="aliases" value="fk,foreign,foreign_key" />
-        <property name="readers">
+        <constructor-arg name="aliases" value="fk,foreign,foreign_key" />
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${table.fk}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql,zip"/>
@@ -155,21 +151,20 @@
                     </property>
                 </bean>
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 
     <bean name="index" parent="parentSchemaObjectBean">
-        <property name="name" value="index" />
-        <property name="aliases" value="index,idx" />
-        <property name="readers">
+        <constructor-arg name="aliases" value="index,idx" />
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${table.indexes}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql,zip"/>
@@ -181,21 +176,20 @@
                     </property>
                 </bean>
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 
     <bean name="check" parent="parentSchemaObjectBean">
-        <property name="name" value="check" />
-        <property name="aliases" value="check,chk" />
-        <property name="readers">
+        <constructor-arg name="aliases" value="check,chk" />
+        <constructor-arg name="readers">
             <bean parent="baseSqlReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${table.checks}" />
                 </constructor-arg>
             </bean>
-        </property>
-        <property name="aggregators">
+        </constructor-arg>
+        <constructor-arg name="aggregators">
             <list>
                 <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
                     <property name="aggregatorName" value="sql,zip"/>
@@ -207,7 +201,7 @@
                     </property>
                 </bean>
             </list>
-        </property>
+        </constructor-arg>
     </bean>
 
 </beans>
