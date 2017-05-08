@@ -40,6 +40,7 @@ import org.apache.log4j.Logger;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
 
 /**
@@ -66,22 +67,17 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
             logger.debug(prepareSQL);
 
             final List<Map<String, String>> select = sqlHelper.select(prepareSQL);
-            for (Map<String, String> stringStringMap : select) {
+            for (Map<String, String> row : select) {
                 final List<String> objectsForUri = new ArrayList<>();
                 String objectName = null;
                 final Properties objectHeaders = new Properties();
-                for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
-                    if (!stringStringEntry.getKey().startsWith("@")) {
-                        objectsForUri.add(stringStringEntry.getValue());
-                        objectName = stringStringEntry.getValue();
-                        objectHeaders.put(stringStringEntry.getKey(), stringStringEntry.getValue());
+                for (Map.Entry<String, String> column : row.entrySet()) {
+                    if (!column.getKey().startsWith("@")) {
+                        objectsForUri.add(column.getValue());
+                        objectName = column.getValue();
+                        objectHeaders.put(column.getKey(), column.getValue());
                     } else {
-                        if (stringStringEntry.getValue() != null) {
-                            objectHeaders.put(stringStringEntry.getKey().substring(1), stringStringEntry.getValue());
-                        }
-                        else {
-                            objectHeaders.put(stringStringEntry.getKey().substring(1), "");
-                        }
+                        objectHeaders.put(column.getKey().substring(1), ofNullable(column.getValue()).orElse(""));
                     }
                 }
                 final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name(), objectsForUri), objectHeaders);
