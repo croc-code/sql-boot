@@ -52,19 +52,22 @@ public class SqlWrapper implements ActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        List<Map<String, String>> maps = sqlHelper.selectBatch(singletonList(baseGenerator.generate(variables)));
-        return maps.get(0).entrySet().iterator().next().getValue();
+        return generate(baseGenerator.generate(variables));
     }
 
     @Override
     public String generate(List<Object> variables) throws SqlBootException {
-        List<Map<String, String>> maps = sqlHelper.selectBatch(singletonList(baseGenerator.generate(variables)));
-        return maps.get(0).entrySet().iterator().next().getValue();
+        return generate(baseGenerator.generate(variables));
     }
 
     @Override
     public DbResourceCommand command() {
         return baseGenerator.command();
+    }
+
+    private String generate(String sql) {
+        List<Map<String, String>> maps = sqlHelper.selectBatch(singletonList(sql));
+        return maps.get(0).entrySet().iterator().next().getValue();
     }
 
 }

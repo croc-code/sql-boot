@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class LogWrapper implements ActionGenerator {
 
-    private final static Logger logger = Logger.getLogger(LogWrapper.class);
+    final private static Logger logger = Logger.getLogger(LogWrapper.class);
     final private ActionGenerator baseGenerator;
 
     public LogWrapper(ActionGenerator baseGenerator) {
@@ -48,29 +48,35 @@ public class LogWrapper implements ActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        logger.info("Start with variables: " + variables);
+        StopWatch stopWatch = startLog(variables);
         String generate = baseGenerator.generate(variables);
-        stopWatch.stop();
-        logger.info("Time elapsed " + stopWatch.getTime()  + "ms");
+        stopLog(stopWatch);
         return generate;
     }
 
     @Override
     public String generate(List<Object> variables) throws SqlBootException {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        logger.info("Start with variables: " + variables);
+        StopWatch stopWatch = startLog(variables);
         String generate = baseGenerator.generate(variables);
-        stopWatch.stop();
-        logger.info("Time elapsed " + stopWatch.getTime()  + "ms");
+        stopLog(stopWatch);
         return generate;
     }
 
     @Override
     public DbResourceCommand command() {
         return baseGenerator.command();
+    }
+
+    private StopWatch startLog(Object variables) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        logger.info("Start with variables: " + variables);
+        return stopWatch;
+    }
+
+    private void stopLog(StopWatch stopWatch) {
+        stopWatch.stop();
+        logger.info("Time elapsed " + stopWatch.getTime()  + "ms");
     }
 
 }
