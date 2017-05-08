@@ -25,26 +25,22 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
-import static java.util.stream.Collectors.toMap;
-
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
-import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
 import lombok.ToString;
 import org.apache.log4j.Logger;
+
+import java.util.*;
+import java.util.Map.Entry;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Custom-SQL db object reader
@@ -54,45 +50,26 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
 
     final private static Logger logger = Logger.getLogger(SqlResourceReader.class);
 
-    final private String sql;
+    final private ISqlHelper sqlHelper;
+    final private ActionGenerator actionGenerator;
 
-    @Deprecated
-    final private ISqlHelper sqlHelper; // TODO move to decorator
-    @Deprecated
-    final private TemplateEngine templateEngine; // TODO move to decorator
-
-    public SqlResourceReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
-        this.sql = sql;
+    public SqlResourceReader(ISqlHelper sqlHelper, ActionGenerator actionGenerator) {
         this.sqlHelper = sqlHelper;
-        this.templateEngine = templateEngine;
+        this.actionGenerator = actionGenerator;
     }
 
     @Override
     public Map<String, DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        List<String> list = dbUri.objects();
-
         Map<String, DbResource> objects = new LinkedHashMap<>();
         try {
-            Map<String, Object> data = new HashMap();
-            int i = 0;
-            templateEngine.setTemplate(sql);
-            for (String s : templateEngine.getAllProperties()) {
-                try {
-                    data.put(s, list.get(i++));
-                } catch (Throwable t) {
-                    data.put(s, '%');
-                }
-            }
-
-            templateEngine.setTemplate(sql);
-            String prepareSQL = templateEngine.process(data);
+            final String prepareSQL = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
             logger.debug(prepareSQL);
 
-            List<Map<String, String>> select = sqlHelper.select(prepareSQL);
+            final List<Map<String, String>> select = sqlHelper.select(prepareSQL);
             for (Map<String, String> stringStringMap : select) {
-                List<String> objectsForUri = new ArrayList<>();
+                final List<String> objectsForUri = new ArrayList<>();
                 String objectName = null;
-                Properties objectHeaders = new Properties();
+                final Properties objectHeaders = new Properties();
                 for (Map.Entry<String, String> stringStringEntry : stringStringMap.entrySet()) {
                     if (!stringStringEntry.getKey().startsWith("@")) {
                         objectsForUri.add(stringStringEntry.getValue());
@@ -107,7 +84,7 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
                         }
                     }
                 }
-                DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name, objectsForUri), objectHeaders);
+                final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name, objectsForUri), objectHeaders);
 
                 objects.put(object.dbUri().toString(), object);
                 logger.debug("find object " + object.dbUri().toString());

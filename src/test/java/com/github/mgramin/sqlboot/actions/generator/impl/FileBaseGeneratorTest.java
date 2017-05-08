@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.util.HashMap;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
@@ -49,7 +50,7 @@ public class FileBaseGeneratorTest {
         final File tempFile = temporaryFolder.newFile("tempFile.txt");
         FileUtils.writeStringToFile(tempFile, "hello world", UTF_8);
         ActionGenerator generator = new FileBaseGenerator(tempFile);
-        assertEquals("hello world", generator.generate(null));
+        assertEquals("hello world", generator.generate(new HashMap<>()));
     }
 
 }

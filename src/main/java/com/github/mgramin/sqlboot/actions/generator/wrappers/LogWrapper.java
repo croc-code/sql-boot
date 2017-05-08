@@ -28,9 +28,11 @@ package com.github.mgramin.sqlboot.actions.generator.wrappers;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
-import java.util.Map;
+import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
-import org.springframework.util.StopWatch;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maksim on 29.04.17.
@@ -51,7 +53,18 @@ public class LogWrapper implements ActionGenerator {
         logger.info("Start with variables: " + variables);
         String generate = baseGenerator.generate(variables);
         stopWatch.stop();
-        logger.info("Time elapsed " + stopWatch.getTotalTimeMillis()  + "ms");
+        logger.info("Time elapsed " + stopWatch.getTime()  + "ms");
+        return generate;
+    }
+
+    @Override
+    public String generate(List<Object> variables) throws SqlBootException {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        logger.info("Start with variables: " + variables);
+        String generate = baseGenerator.generate(variables);
+        stopWatch.stop();
+        logger.info("Time elapsed " + stopWatch.getTime()  + "ms");
         return generate;
     }
 

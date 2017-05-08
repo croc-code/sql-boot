@@ -32,6 +32,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,24 +40,28 @@ import java.util.Map;
  */
 public class PlainTextTemplateGenerator implements ActionGenerator {
 
-    private final ActionGenerator baseGenerator;
+    private final ActionGenerator origin;
 
     public PlainTextTemplateGenerator(String baseText, DbResourceCommand command,
                                       TemplateEngineFactory templateEngineFactory) {
-        baseGenerator =
-                new TemplateWrapper(
-                        new PlainTextGenerator(baseText, command),
-                        templateEngineFactory);
+        origin = new TemplateWrapper(
+                    new PlainTextGenerator(baseText, command),
+                    templateEngineFactory);
     }
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        return baseGenerator.generate(variables);
+        return origin.generate(variables);
+    }
+
+    @Override
+    public String generate(List<Object> variables) throws SqlBootException {
+        return origin.generate(variables);
     }
 
     @Override
     public DbResourceCommand command() {
-        return baseGenerator.command();
+        return origin.command();
     }
 
 }

@@ -31,6 +31,8 @@ import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +54,24 @@ public class TemplateWrapper implements ActionGenerator {
         final TemplateEngine templateEngine = templateEngineFactory.create(baseText);
         return templateEngine.process(variables);
     }
+
+    @Override
+    public String generate(List<Object> variables) throws SqlBootException {
+        final String baseText = origin.generate(variables);
+        final TemplateEngine templateEngine = templateEngineFactory.create(baseText);
+        final Map<String, Object> data = new HashMap();
+        // TODO clean this code
+        int i = 0;
+        for (String prop : templateEngine.getAllProperties()) {
+            try {
+                data.put(prop, variables.get(i++));
+            } catch (Throwable t) {
+                data.put(prop, '%');
+            }
+        }
+        return templateEngine.process(data);
+    }
+
 
     @Override
     public DbResourceCommand command() {

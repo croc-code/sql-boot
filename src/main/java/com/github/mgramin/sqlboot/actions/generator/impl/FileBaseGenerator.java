@@ -31,9 +31,10 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Created by maksim on 18.04.17.
@@ -41,6 +42,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class FileBaseGenerator extends AbstractActionGenerator implements ActionGenerator {
 
     private final File file;
+    private static final Charset UTF_8 = StandardCharsets.UTF_8;
 
     public FileBaseGenerator(File file) {
         this.file = file;
@@ -48,6 +50,15 @@ public class FileBaseGenerator extends AbstractActionGenerator implements Action
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
+        return generate();
+    }
+
+    @Override
+    public String generate(List<Object> variables) throws SqlBootException {
+        return generate();
+    }
+
+    private String generate() {
         try {
             return FileUtils.readFileToString(file, UTF_8);
         } catch (IOException e) {

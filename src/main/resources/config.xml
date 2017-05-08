@@ -29,10 +29,10 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+    <import resource="information_schema/config.xml" />
     <import resource="oracle/config.xml" />
     <import resource="cassandra/config.xml" />
     <import resource="postgres/config.xml" />
-    <import resource="information_schema/config.xml" />
 
 
 
@@ -43,8 +43,7 @@
 
     <!-- Readers -->
     <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlResourceReader"
-        c:sqlHelper-ref="sqlHelper"
-        c:templateEngine-ref="templateEngine"/>
+        c:sqlHelper-ref="sqlHelper"/>
 
 
     <!-- Generators -->

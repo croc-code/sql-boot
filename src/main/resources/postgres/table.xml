@@ -47,7 +47,11 @@
             </list>
         </property>
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${tables}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${tables}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">

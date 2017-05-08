@@ -44,7 +44,11 @@
             </list>
         </property>
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${tables}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${tables}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>
@@ -81,7 +85,11 @@
         <property name="name" value="column" />
         <property name="aliases" value="column,clmn,c" />
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${table.columns}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${table.columns}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>
@@ -103,7 +111,11 @@
         <property name="name" value="pk" />
         <property name="aliases" value="pk,primary,primary_key" />
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${table.pk}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${table.pk}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>
@@ -125,7 +137,11 @@
         <property name="name" value="fk" />
         <property name="aliases" value="fk,foreign,foreign_key" />
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${table.fk}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${table.fk}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>
@@ -147,7 +163,11 @@
         <property name="name" value="index" />
         <property name="aliases" value="index,idx" />
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${table.indexes}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${table.indexes}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>
@@ -169,7 +189,11 @@
         <property name="name" value="check" />
         <property name="aliases" value="check,chk" />
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${table.checks}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${table.checks}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>

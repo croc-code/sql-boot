@@ -35,7 +35,11 @@
         <property name="name" value="view" />
         <property name="aliases" value="view,vw,v" />
         <property name="readers">
-            <bean parent="baseSqlReader" c:sql="${views}" />
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${views}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>
@@ -72,9 +76,11 @@
             </list>
         </property>
         <property name="readers">
-            <list>
-                <bean parent="baseSqlReader" c:sql="${mviews}" />
-            </list>
+            <bean parent="baseSqlReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${mviews}" />
+                </constructor-arg>
+            </bean>
         </property>
         <property name="aggregators">
             <list>

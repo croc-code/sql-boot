@@ -54,6 +54,11 @@ public class JdbcTemplateWrapper implements ActionGenerator {
     }
 
     @Override
+    public String generate(List<Object> variables) throws SqlBootException {
+        throw new SqlBootException("not implemented!");
+    }
+
+    @Override
     public DbResourceCommand command() {
         return baseGenerator.command();
     }

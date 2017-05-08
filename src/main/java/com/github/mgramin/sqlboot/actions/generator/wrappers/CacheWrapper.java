@@ -29,6 +29,7 @@ import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,6 +39,11 @@ public class CacheWrapper implements ActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
+        throw new SqlBootException("Coming soon!");
+    }
+
+    @Override
+    public String generate(List<Object> variables) throws SqlBootException {
         throw new SqlBootException("Coming soon!");
     }
 

@@ -5,6 +5,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.HashMap;
+
 /**
  * Created by MGramin on 04.05.2017.
  */
@@ -17,7 +19,7 @@ public class CacheWrapperTest {
     public void generate() throws Exception {
         exception.expect(SqlBootException.class);
         exception.expectMessage("Coming soon!");
-        new CacheWrapper().generate(null);
+        new CacheWrapper().generate(new HashMap<>());
     }
 
 }

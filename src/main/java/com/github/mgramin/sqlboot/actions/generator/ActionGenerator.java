@@ -28,6 +28,7 @@ package com.github.mgramin.sqlboot.actions.generator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +37,8 @@ import java.util.Map;
 public interface ActionGenerator {
 
     String generate(Map<String, Object> variables) throws SqlBootException;
+
+    String generate(List<Object> variables) throws SqlBootException;
 
     DbResourceCommand command();
 

@@ -1,20 +1,21 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.google.common.collect.ImmutableMap.of;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by mgramin on 31.10.2016.
@@ -31,12 +32,10 @@ public class SqlObjectReaderTest {
                 of("schema", "public", "table", "persons", "column", "name"),
                 of("schema", "public", "table", "persons", "column", "age")));
 
-        TemplateEngine templateEngine = mock(TemplateEngine.class);
-        when(templateEngine.getAllProperties()).thenReturn(asList("@schema", "@table", "@column"));
+        ActionGenerator actionGenerator = mock(ActionGenerator.class);
+        when(actionGenerator.generate(any(List.class))).thenReturn("alter table $table_name add column $column_name ...");
 
-        SqlResourceReader reader = new SqlResourceReader(sqlHelper, templateEngine,
-                "... custom-sql for select objects from db dictionary ...");
-
+        SqlResourceReader reader = new SqlResourceReader(sqlHelper, actionGenerator);
         DbResourceType column = new DbResourceType("column", reader);
 
         assertEquals(
@@ -51,21 +50,21 @@ public class SqlObjectReaderTest {
         ISqlHelper sqlHelperTableMock = mock(ISqlHelper.class);
         when(sqlHelperTableMock.select(any())).thenReturn(asList(
                 of("schema", "public", "table", "persons")));
-        TemplateEngine templateEngineTableMock = mock(TemplateEngine.class);
-        when(templateEngineTableMock.getAllProperties()).thenReturn(asList("@schema", "@table"));
 
-        SqlResourceReader readerTable = new SqlResourceReader(sqlHelperTableMock, templateEngineTableMock,
-                "... custom-sql for select table from db dictionary ...");
+        ActionGenerator actionGeneratorTableMock = mock(ActionGenerator.class);
+        when(actionGeneratorTableMock.generate(any(List.class))).thenReturn("create table $table_name ...");
+
+        SqlResourceReader readerTable = new SqlResourceReader(sqlHelperTableMock, actionGeneratorTableMock);
 
 
         ISqlHelper sqlHelperIndexMock = mock(ISqlHelper.class);
         when(sqlHelperIndexMock.select(any())).thenReturn(asList(
                 of("schema", "public", "table", "persons", "index", "persons_idx")));
-        TemplateEngine templateEngineIndexMock = mock(TemplateEngine.class);
-        when(templateEngineIndexMock.getAllProperties()).thenReturn(asList("@schema", "@table", "@index"));
 
-        SqlResourceReader readerIndex = new SqlResourceReader(sqlHelperIndexMock, templateEngineIndexMock,
-                "... custom-sql for select index from db dictionary ...");
+        ActionGenerator actionGeneratorIndexMock = mock(ActionGenerator.class);
+        when(actionGeneratorIndexMock.generate(any(List.class))).thenReturn("create index ${table_name}.${index_name} ...");
+
+        SqlResourceReader readerIndex = new SqlResourceReader(sqlHelperIndexMock, actionGeneratorIndexMock);
 
 
         DbResourceType index = new DbResourceType("index", readerIndex);
