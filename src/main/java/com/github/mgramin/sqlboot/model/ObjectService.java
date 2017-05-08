@@ -35,8 +35,8 @@ import java.util.Map;
 @Deprecated
 public class ObjectService {
 
-    Map<String, DbResource> objects;
-    private String baseURI;
+    private final Map<String, DbResource> objects;
+    private final String baseURI;
 
     public ObjectService(Map<String, DbResource> objects, String baseURI) {
         this.objects = objects;

@@ -42,6 +42,9 @@ import static java.util.Collections.singletonList;
 @ToString
 public class SqlWrapper implements ActionGenerator {
 
+    final private ActionGenerator baseGenerator;
+    final private ISqlHelper sqlHelper;
+
     public SqlWrapper(ActionGenerator baseGenerator, ISqlHelper sqlHelper) {
         this.baseGenerator = baseGenerator;
         this.sqlHelper = sqlHelper;
@@ -57,8 +60,5 @@ public class SqlWrapper implements ActionGenerator {
     public DbResourceCommand command() {
         return baseGenerator.command();
     }
-
-    final private ActionGenerator baseGenerator;
-    final private ISqlHelper sqlHelper;
 
 }

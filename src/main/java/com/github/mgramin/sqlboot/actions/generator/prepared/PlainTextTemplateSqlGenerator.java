@@ -41,6 +41,8 @@ import java.util.Map;
  */
 public class PlainTextTemplateSqlGenerator implements ActionGenerator {
 
+    private final ActionGenerator baseGenerator;
+
     public PlainTextTemplateSqlGenerator(String baseText, DbResourceCommand command,
                                          TemplateEngineFactory templateEngineFactory, ISqlHelper sqlHelper) {
         baseGenerator =
@@ -60,7 +62,5 @@ public class PlainTextTemplateSqlGenerator implements ActionGenerator {
     public DbResourceCommand command() {
         return baseGenerator.command();
     }
-
-    private final ActionGenerator baseGenerator;
 
 }

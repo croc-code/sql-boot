@@ -39,6 +39,8 @@ import java.util.Map;
  */
 public class JdbcTemplateWrapper implements ActionGenerator {
 
+    private final ActionGenerator baseGenerator;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public JdbcTemplateWrapper(ActionGenerator baseGenerator, DataSource dataSource, Map<String, String> mapping) {
         this.baseGenerator = baseGenerator;
@@ -55,8 +57,5 @@ public class JdbcTemplateWrapper implements ActionGenerator {
     public DbResourceCommand command() {
         return baseGenerator.command();
     }
-
-    private final ActionGenerator baseGenerator;
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 }

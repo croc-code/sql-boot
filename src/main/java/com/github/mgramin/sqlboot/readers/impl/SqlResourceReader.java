@@ -60,14 +60,11 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
     final private ISqlHelper sqlHelper; // TODO move to decorator
     @Deprecated
     final private TemplateEngine templateEngine; // TODO move to decorator
-    @Deprecated
-    final private String prepareSql; // TODO move to decorator
 
     public SqlResourceReader(ISqlHelper sqlHelper, TemplateEngine templateEngine, String sql) {
         this.sql = sql;
         this.sqlHelper = sqlHelper;
         this.templateEngine = templateEngine;
-        prepareSql = null;
     }
 
     @Override

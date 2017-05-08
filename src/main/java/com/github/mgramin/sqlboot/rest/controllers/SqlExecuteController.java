@@ -43,25 +43,25 @@ import java.util.Map;
 public class SqlExecuteController {
 
     @Autowired
-    ISqlHelper sqlHelper;
+    private ISqlHelper sqlHelper;
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_XML_VALUE})
-    List<Map<String, String>> execSql2Xml(@RequestParam("sql") String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2Xml(@RequestParam("sql") String sql) throws SqlBootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {MediaType.APPLICATION_XML_VALUE})
-    List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql) throws SqlBootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_JSON_VALUE})
-    List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql) throws SqlBootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql) throws SqlBootException {
         return sqlHelper.select(sql);
     }
 

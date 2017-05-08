@@ -39,6 +39,8 @@ import java.util.Map;
  */
 public class PlainTextTemplateGenerator implements ActionGenerator {
 
+    private final ActionGenerator baseGenerator;
+
     public PlainTextTemplateGenerator(String baseText, DbResourceCommand command,
                                       TemplateEngineFactory templateEngineFactory) {
         baseGenerator =
@@ -56,7 +58,5 @@ public class PlainTextTemplateGenerator implements ActionGenerator {
     public DbResourceCommand command() {
         return baseGenerator.command();
     }
-
-    private final ActionGenerator baseGenerator;
 
 }
