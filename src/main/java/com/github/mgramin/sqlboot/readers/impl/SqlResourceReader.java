@@ -38,10 +38,8 @@ import lombok.ToString;
 import org.apache.log4j.Logger;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toMap;
 
 /**
  * Custom-SQL db object reader
@@ -61,50 +59,29 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
 
     @Override
     public Map<String, DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        Map<String, DbResource> objects = new LinkedHashMap<>();
-        try {
-            final String prepareSQL = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
-            logger.debug(prepareSQL);
+        final Map<String, DbResource> objects = new LinkedHashMap<>();
+        final String sql = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
+        final List<Map<String, String>> select = sqlHelper.select(sql);
 
-            final List<Map<String, String>> select = sqlHelper.select(prepareSQL);
-            for (Map<String, String> row : select) {
-                final List<String> objectsForUri = new ArrayList<>();
-                String objectName = null;
-                final Properties objectHeaders = new Properties();
-                for (Map.Entry<String, String> column : row.entrySet()) {
-                    if (!column.getKey().startsWith("@")) {
-                        objectsForUri.add(column.getValue());
-                        objectName = column.getValue();
-                        objectHeaders.put(column.getKey(), column.getValue());
-                    } else {
-                        objectHeaders.put(column.getKey().substring(1), ofNullable(column.getValue()).orElse(""));
-                    }
-                }
-                final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name(), objectsForUri), objectHeaders);
+        logger.debug(sql);
 
-                objects.put(object.dbUri().toString(), object);
-                logger.debug("find object " + object.dbUri().toString());
-            }
-
-        } catch (Exception e) {
-            throw new SqlBootException(e);
-        }
-
-        if (dbUri.params() != null) {
-            Map<String, String> filtersParam = dbUri.params().entrySet().stream().filter(p ->
-                !p.getKey().equalsIgnoreCase("type"))
-                .collect(toMap(p -> p.getKey(), p -> p.getValue()));
-
-            for (Entry<String, String> param : filtersParam.entrySet()) {
-                if (param.getKey().startsWith("@")) {
-                    objects = objects.entrySet().stream().filter(
-                    o -> o.getValue().headers().getProperty(param.getKey().substring(1))
-                        .contains(param.getValue()))
-                    .collect(toMap(o -> o.getKey(), o -> o.getValue()));
+        for (Map<String, String> row : select) {
+            final List<String> objectsForUri = new ArrayList<>();
+            String objectName = null;
+            final Properties objectHeaders = new Properties();
+            for (Map.Entry<String, String> column : row.entrySet()) {
+                if (!column.getKey().startsWith("@")) {
+                    objectsForUri.add(column.getValue());
+                    objectName = column.getValue();
+                    objectHeaders.put(column.getKey(), column.getValue());
+                } else {
+                    objectHeaders.put(column.getKey().substring(1), ofNullable(column.getValue()).orElse(""));
                 }
             }
+            final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name(), objectsForUri), objectHeaders);
+            objects.put(object.dbUri().toString(), object);
+            logger.debug("find object " + object.dbUri().toString());
         }
-
         return objects;
     }
 
