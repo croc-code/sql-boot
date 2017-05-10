@@ -30,12 +30,14 @@ import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import java.util.List;
 import org.junit.Test;
 
 import java.util.Map;
 import java.util.Properties;
 
 import static com.google.common.collect.ImmutableMap.of;
+import static java.util.Arrays.asList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -55,12 +57,12 @@ public class FilteredResourceReaderTest {
 
         DbResourceReader reader = mock(DbResourceReader.class);
         when(reader.read(any(), any())).thenReturn(
-                of("table/hr.persons?@creator=admin", new DbResourceThin("persons", new DbResourceType(new String[]{"table"}, null, null), new DbUri("table/hr.persons?@creator=admin"), properties),
-                   "table/hr.jobs?@creator=jdoe", new DbResourceThin("jobs", new DbResourceType(new String[]{"table"}, null, null), new DbUri("table/hr.jobs?@creator=jdoe"), properties)
-                ));
+            asList(new DbResourceThin("persons", new DbResourceType(new String[]{"table"}, null, null), new DbUri("table/hr.persons?@creator=admin"), properties),
+                new DbResourceThin("jobs", new DbResourceType(new String[]{"table"}, null, null), new DbUri("table/hr.jobs?@creator=jdoe"), properties)));
 
         DbResourceReader filteredReader = new FilteredResourceReader(reader);
-        Map<String, DbResource> read = filteredReader.read(new DbUri("table/hr.*?@creator=admin"), new DbResourceType(new String[]{"table"}, null, null));
+        List<DbResource> read = filteredReader.read(new DbUri("table/hr.*?@creator=admin"),
+            new DbResourceType(new String[]{"table"}, null, null));
 
         System.out.println(read);
     }

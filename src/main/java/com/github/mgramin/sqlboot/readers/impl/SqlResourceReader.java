@@ -25,6 +25,8 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
+import static java.util.Optional.ofNullable;
+
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
@@ -34,12 +36,12 @@ import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import lombok.ToString;
 import org.apache.log4j.Logger;
-
-import java.util.*;
-
-import static java.util.Optional.ofNullable;
 
 /**
  * Custom-SQL db object reader
@@ -58,8 +60,8 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
     }
 
     @Override
-    public Map<String, DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        final Map<String, DbResource> objects = new LinkedHashMap<>();
+    public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
+        final List<DbResource> objects = new ArrayList<>();
         final String sql = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
         final List<Map<String, String>> select = sqlHelper.select(sql);
 
@@ -79,7 +81,7 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
                 }
             }
             final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name(), objectsForUri), objectHeaders);
-            objects.put(object.dbUri().toString(), object);
+            objects.add(object);
             logger.debug("find object " + object.dbUri().toString());
         }
         return objects;

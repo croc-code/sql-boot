@@ -108,9 +108,9 @@ public class DdlController {
         DbResourceReader reader = type.readers().stream()
             .findFirst()
             .orElse(null);
-        Map<String, DbResource> objects = reader.readr(uri, type);
+        List<DbResource> objects = reader.readr(uri, type);
         List<DbResource> objectsNew = new ArrayList();
-        for (DbResource object : objects.values()) {
+        for (DbResource object : objects) {
             if (object.type().equals(type) || uri.recursive()) {
                 ObjectService objectService = new ObjectService(objects, String.join(".", object.dbUri()
                     .objects()));

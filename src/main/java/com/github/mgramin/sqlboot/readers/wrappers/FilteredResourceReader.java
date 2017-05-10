@@ -32,8 +32,10 @@ import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
+import java.util.List;
 import java.util.Map;
 
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 /**
@@ -48,8 +50,8 @@ public class FilteredResourceReader extends AbstractResourceReader implements Db
     }
 
     @Override
-    public Map<String, DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        Map<String, DbResource> objects = origin.read(dbUri, type);
+    public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
+        List<DbResource> objects = origin.read(dbUri, type);
         // TODO difficult logic
 
         if (dbUri.params() != null) {
@@ -59,10 +61,10 @@ public class FilteredResourceReader extends AbstractResourceReader implements Db
 
             for (Map.Entry<String, String> param : filtersParam.entrySet()) {
                 if (param.getKey().startsWith("@")) {
-                    objects = objects.entrySet().stream().filter(
-                    o -> o.getValue().headers().getProperty(param.getKey().substring(1))
+                    objects = objects.stream().filter(
+                    o -> o.headers().getProperty(param.getKey().substring(1))
                         .contains(param.getValue()))
-                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+                    .collect(toList());
                 }
             }
         }

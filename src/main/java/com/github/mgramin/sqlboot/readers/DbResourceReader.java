@@ -26,20 +26,18 @@
 package com.github.mgramin.sqlboot.readers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
-
-import java.util.Map;
+import java.util.List;
 
 /**
- * Created by mgramin on 31.10.2016.
+ * Db resource factory (from db system dictionary, files/(control version system), REST etc)
  */
 public interface DbResourceReader {
 
-    Map<String, DbResource> read(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
+    List<DbResource> read(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
 
-    // TODO move to top ??
-    Map<String, DbResource> readr(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
+    List<DbResource> readr(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
 
 }

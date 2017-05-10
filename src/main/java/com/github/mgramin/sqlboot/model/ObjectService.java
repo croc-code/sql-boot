@@ -35,19 +35,19 @@ import java.util.Map;
 @Deprecated
 public class ObjectService {
 
-    private final Map<String, DbResource> objects;
+    private final List<DbResource> objects;
     private final String baseURI;
 
-    public ObjectService(Map<String, DbResource> objects, String baseURI) {
+    public ObjectService(List<DbResource> objects, String baseURI) {
         this.objects = objects;
         this.baseURI = baseURI;
     }
 
     public List<DbResource> get(String type) {
         List<DbResource> result = new ArrayList<>();
-        for (Map.Entry<String, DbResource> entry : objects.entrySet()) {
-            if (entry.getKey().startsWith(type + "/" + baseURI + ".")) {
-                result.add(entry.getValue());
+        for (DbResource entry : objects) {
+            if (entry.dbUri().toString().startsWith(type + "/" + baseURI + ".")) {
+                result.add(entry);
             }
         }
         return result;

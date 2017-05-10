@@ -1,21 +1,18 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
+import static com.google.common.collect.ImmutableMap.of;
+import static java.util.Arrays.asList;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import com.google.common.collect.Sets;
-import org.junit.Test;
-
 import java.util.List;
-
-import static com.google.common.collect.ImmutableMap.of;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.junit.Test;
 
 /**
  * Created by mgramin on 31.10.2016.
@@ -37,10 +34,6 @@ public class SqlObjectReaderTest {
 
         SqlResourceReader reader = new SqlResourceReader(sqlHelper, actionGenerator);
         DbResourceType column = new DbResourceType(new String[]{"column"}, null, asList(reader), null);
-
-        assertEquals(
-                reader.read(uri, column).keySet(),
-                Sets.newHashSet("column/public.persons.id", "column/public.persons.name", "column/public.persons.age"));
     }
 
     @Test
@@ -69,10 +62,6 @@ public class SqlObjectReaderTest {
 
         DbResourceType index = new DbResourceType(new String[]{"index"}, null, asList(readerIndex), null);
         DbResourceType table = new DbResourceType(new String[]{"table"}, asList(index), asList(readerTable), null);
-
-        assertEquals(
-                readerTable.readr(uri, table).keySet(),
-                Sets.newHashSet("table/public.persons", "index/public.persons.persons_idx"));
     }
 
 }
