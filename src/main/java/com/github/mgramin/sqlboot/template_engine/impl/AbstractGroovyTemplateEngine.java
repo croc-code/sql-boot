@@ -45,10 +45,9 @@ public class AbstractGroovyTemplateEngine implements TemplateEngine {
     protected String templateText;
 
 
-    @Override
-    public void setTemplate(String template) {
-        this.templateText = template;
+    protected void setTemplate(String template) {
         try {
+            this.templateText = template;
             this.template = engine.createTemplate(template.replace("!{", "${"));
         } catch (ClassNotFoundException | IOException e) {
             throw new SqlBootException(e);

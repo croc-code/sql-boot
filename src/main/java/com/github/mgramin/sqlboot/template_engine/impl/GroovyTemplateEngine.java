@@ -32,13 +32,8 @@ import lombok.ToString;
 @ToString
 public class GroovyTemplateEngine extends AbstractGroovyTemplateEngine implements TemplateEngine {
 
-    @Deprecated
-    public GroovyTemplateEngine() {
-        engine = new GStringTemplateEngine();
-    }
-
     public GroovyTemplateEngine(String template) {
-        this();
+        engine = new GStringTemplateEngine();
         setTemplate(template);
     }
 

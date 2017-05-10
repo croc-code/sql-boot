@@ -50,12 +50,4 @@ public interface TemplateEngine {
      */
     List<String> getAllProperties() throws SqlBootException;
 
-    /**
-     * Set and prepare template text
-     *
-     * @param template
-     */
-    @Deprecated // TODO set template in constructor
-    void setTemplate(String template);
-
 }

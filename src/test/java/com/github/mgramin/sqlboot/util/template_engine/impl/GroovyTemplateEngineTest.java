@@ -42,15 +42,12 @@ public class GroovyTemplateEngineTest {
     @Test
     @Ignore
     public void getAllProperties() throws SqlBootException {
-        TemplateEngine templateEngine = new GroovyTemplateEngine();
         String txt = "... where lower(c.table_schema) like '$schema'\n" +
             "and lower(c.table_name) like '$table'\n" +
             "and lower(c.column_name) like '$column'";
+        TemplateEngine templateEngine = new GroovyTemplateEngine(txt);
         assertEquals(templateEngine.getAllProperties(),
             Arrays.asList("schema", "table", "column"));
-
-        assertEquals(templateEngine.getAllProperties(),
-            Arrays.asList("schema", "table"));
     }
 
 }
