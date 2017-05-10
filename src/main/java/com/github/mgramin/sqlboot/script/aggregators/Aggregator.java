@@ -34,11 +34,13 @@ import java.util.Map;
 /**
  * Created by mgramin on 17.12.2016.
  */
-public interface IAggregator {
+public interface Aggregator {
 
-    String getName();
-    Boolean getIsDefault();
-    Map<String, String> getHttpHeaders();
+    String name();
+
+    Boolean isDefault();
+
+    Map<String, String> httpHeaders();
 
     byte[] aggregate(List<DbResource> objects) throws SqlBootException;
 

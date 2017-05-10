@@ -25,21 +25,20 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
+import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
+
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
-
+import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
-
 /**
  * Created by mgramin on 17.12.2016.
  */
-public class ZipAggregator extends AbstractAggregator implements IAggregator {
+public class ZipAggregator extends AbstractAggregator implements Aggregator {
 
     public ZipAggregator(String name, Map<String, String> httpHeaders) {
         this.name = name;

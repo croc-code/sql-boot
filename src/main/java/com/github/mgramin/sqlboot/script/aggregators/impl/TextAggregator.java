@@ -28,9 +28,9 @@ package com.github.mgramin.sqlboot.script.aggregators.impl;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
+import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
-
+import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,24 +38,23 @@ import java.util.Map;
 /**
  * Created by mgramin on 17.12.2016.
  */
-public class TextAggregator extends AbstractAggregator implements IAggregator {
+public class TextAggregator extends AbstractAggregator implements Aggregator {
 
     private final String template;
-    @Deprecated
-    private final TemplateEngine templateEngine; // TODO use template engine FACTORY
+    private final TemplateEngineFactory templateEngineFactory;
 
     public TextAggregator(String name, Boolean isDefault, Map<String, String> httpHeaders) {
         this.name = name;
         this.isDefault = isDefault;
         this.httpHeaders = httpHeaders;
-        this.templateEngine = null;
+        this.templateEngineFactory = null;
         this.template = null;
     }
 
-    public TextAggregator(String name, Map<String, String> httpHeaders, TemplateEngine templateEngine, String template) {
+    public TextAggregator(String name, Map<String, String> httpHeaders, TemplateEngineFactory templateEngineFactory, String template) {
         this.name = name;
         this.httpHeaders = httpHeaders;
-        this.templateEngine = templateEngine;
+        this.templateEngineFactory = templateEngineFactory;
         this.template = template;
     }
 
@@ -70,7 +69,7 @@ public class TextAggregator extends AbstractAggregator implements IAggregator {
         else {
             Map<String, Object> variables = new HashMap<>();
             variables.put("objects", objects);
-            templateEngine.setTemplate(template); // TODO move to constructor
+            TemplateEngine templateEngine = templateEngineFactory.create(template);
             return templateEngine.process(variables).getBytes();
         }
     }

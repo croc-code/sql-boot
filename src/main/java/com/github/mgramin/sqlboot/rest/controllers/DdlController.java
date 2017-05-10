@@ -30,7 +30,7 @@ import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.script.aggregators.IAggregator;
+import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.github.mgramin.sqlboot.model.DbUri;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class DdlController {
     private List<DbResourceType> types;
 
     @Autowired
-    private List<IAggregator> aggregators;
+    private List<Aggregator> aggregators;
 
     @Autowired
     private List<DbResourceCommand> objectCommands;
@@ -74,20 +74,20 @@ public class DdlController {
             uriString = request.getServletPath() + "?" + request.getQueryString();
         }
 
-        IAggregator aggregator = aggregators.stream()
-            .filter(c -> c.getName().equalsIgnoreCase(aggregatorName))
+        Aggregator aggregator = aggregators.stream()
+            .filter(c -> c.name().equalsIgnoreCase(aggregatorName))
             .findFirst()
             .orElse(null);
         if (aggregator == null)
             aggregator = aggregators.stream()
-                .filter(IAggregator::getIsDefault)
+                .filter(Aggregator::isDefault)
                 .findFirst()
                 .orElse(null);
 
         HttpHeaders headers = new HttpHeaders();
-        aggregator.getHttpHeaders().entrySet().forEach(h -> headers.add(h.getKey(), h.getValue()));
+        aggregator.httpHeaders().entrySet().forEach(h -> headers.add(h.getKey(), h.getValue()));
 
-        byte[] result = aggregator.aggregate(getDbSchemaObjects(uriString.substring(5), aggregator.getName()));
+        byte[] result = aggregator.aggregate(getDbSchemaObjects(uriString.substring(5), aggregator.name()));
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 

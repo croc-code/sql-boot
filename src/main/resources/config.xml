@@ -95,7 +95,7 @@
                 <entry key="Content-Disposition" value="inline"/>
             </map>
         </constructor-arg>
-        <constructor-arg name="templateEngine" ref="templateEngine" />
+        <constructor-arg name="templateEngineFactory" ref="templateEngineFactory" />
         <constructor-arg name="template" value="${htmlAggregator}" />
     </bean>
 
@@ -107,7 +107,7 @@
                 <entry key="Content-Disposition" value="inline"/>
             </map>
         </constructor-arg>
-        <constructor-arg name="templateEngine" ref="templateEngine" />
+        <constructor-arg name="templateEngineFactory" ref="templateEngineFactory" />
         <constructor-arg name="template" value="${liquibaseChangeLogAggregator}" />
     </bean>
 

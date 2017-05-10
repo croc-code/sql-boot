@@ -30,22 +30,22 @@ import java.util.Map;
 /**
  * Created by mgramin on 08.01.2017.
  */
-public abstract class AbstractAggregator implements IAggregator {
+public abstract class AbstractAggregator implements Aggregator {
 
     protected String name;
     protected Boolean isDefault;
     protected Map<String, String> httpHeaders;
 
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public Boolean getIsDefault() {
+    public Boolean isDefault() {
         return isDefault;
     }
 
-    public Map<String, String> getHttpHeaders() {
+    public Map<String, String> httpHeaders() {
         return httpHeaders;
     }
 
