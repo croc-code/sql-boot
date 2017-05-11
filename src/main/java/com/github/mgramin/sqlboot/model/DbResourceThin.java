@@ -53,8 +53,8 @@ public class DbResourceThin implements DbResource {
         return name;
     }
 
-     @Override
-     public DbResourceType type() {
+    @Override
+    public DbResourceType type() {
         return type;
     }
 

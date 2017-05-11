@@ -25,35 +25,33 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import static java.util.Arrays.asList;
-
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import lombok.ToString;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 /**
  * Created by MGramin on 09.01.2017.
- */@ToString
-public class DbSchemaObjectTypeAggregator {
+ */
+@ToString
+public class DbResourceTypeAggregator {
 
-    private List<String> aggregatorName;
-    private List<ActionGenerator> commands;
+    private final List<String> aggregatorName;
+    private final List<ActionGenerator> commands;
 
+    public DbResourceTypeAggregator(String[] aggregatorName, List<ActionGenerator> commands) {
+        this.aggregatorName = asList(aggregatorName);
+        this.commands = commands;
+    }
 
-    public List<String> getAggregatorName() {
+    public List<String> name() {
         return aggregatorName;
     }
 
-    public void setAggregatorName(String[] aggregatorName) {
-        this.aggregatorName = asList(aggregatorName);
-    }
-
-    public List<ActionGenerator> getCommands() {
+    public List<ActionGenerator> commands() {
         return commands;
     }
 
-    public void setCommands(List<ActionGenerator> commands) {
-        this.commands = commands;
-    }
 }

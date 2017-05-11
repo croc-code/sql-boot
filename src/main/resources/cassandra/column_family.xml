@@ -39,14 +39,14 @@
             </bean>
         </constructor-arg>
         <constructor-arg name="aggregators">
-            <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                <property name="aggregatorName" value="sql"/>
-                <property name="commands">
+            <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                <constructor-arg name="aggregatorName" value="sql"/>
+                <constructor-arg name="commands">
                     <list>
                         <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}'/>
                         <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
                     </list>
-                </property>
+                </constructor-arg>
             </bean>
         </constructor-arg>
     </bean>

@@ -26,13 +26,10 @@
 package com.github.mgramin.sqlboot.model;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,21 +42,21 @@ public class DbResourceType {
     private List<String> aliases;
     private List<DbResourceType> child;
     private List<DbResourceReader> readers;
-    private List<DbSchemaObjectTypeAggregator> aggregators;
+    private List<DbResourceTypeAggregator> aggregators;
 
     // TODO
     /*Map<String, DBSchemaObject> read(DbUri dbUri) throws SqlBootException {
         return null;
     }*/
 
-    public DbResourceType(String[] aliases, List<DbResourceType> child, List<DbResourceReader> readers, List<DbSchemaObjectTypeAggregator> aggregators) {
+    public DbResourceType(String[] aliases, List<DbResourceType> child, List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
         this.aliases = asList(aliases);
         this.child = child;
         this.readers = readers;
         this.aggregators = aggregators;
     }
 
-    public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<DbSchemaObjectTypeAggregator> aggregators) {
+    public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
         this.aliases = asList(aliases);
         this.readers = readers;
         this.aggregators = aggregators;
@@ -81,7 +78,7 @@ public class DbResourceType {
         return this.readers;
     }
 
-    public List<DbSchemaObjectTypeAggregator> aggregators() {
+    public List<DbResourceTypeAggregator> aggregators() {
         return this.aggregators;
     }
 

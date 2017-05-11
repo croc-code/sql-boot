@@ -51,29 +51,29 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql,zip"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql,zip"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}' />
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="html"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="html"/>
+                    <constructor-arg name="commands">
                         <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.info}' />
-                    </property>
+                    </constructor-arg>
                 </bean>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="migration"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="migration"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.migrate.create}' />
                             <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.migrate.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
             </list>
         </constructor-arg>
@@ -91,14 +91,14 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.column.sql.create}' />
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.column.sql.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
             </list>
         </constructor-arg>
@@ -116,14 +116,14 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql,zip"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql,zip"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.pk.sql.create}' />
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.pk.sql.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
             </list>
         </constructor-arg>
@@ -141,14 +141,14 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql,zip"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql,zip"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.fk.sql.create}'/>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.fk.sql.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
             </list>
         </constructor-arg>
@@ -166,14 +166,14 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql,zip"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql,zip"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.index.sql.create}' />
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.index.sql.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
             </list>
         </constructor-arg>
@@ -191,14 +191,14 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql,zip"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql,zip"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.check.sql.create}' />
                             <bean parent="plainTextTemplateGenerator" c:baseText='${table.check.sql.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
             </list>
         </constructor-arg>

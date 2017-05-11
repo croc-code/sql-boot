@@ -116,13 +116,13 @@ public class DdlController {
                     .objects()));
 
                 if (object.type().aggregators() != null) {
-                    DbSchemaObjectTypeAggregator objectTypeAggregator = object.type().aggregators().stream().filter(a -> a.getAggregatorName().contains(aggregatorName)).findFirst().orElse(null);
+                    DbResourceTypeAggregator objectTypeAggregator = object.type().aggregators().stream().filter(a -> a.name().contains(aggregatorName)).findFirst().orElse(null);
                     if (objectTypeAggregator != null) {
                         ActionGenerator currentGenerator = object.type().aggregators().stream()
-                            .filter(a -> a.getAggregatorName().contains(aggregatorName))
+                            .filter(a -> a.name().contains(aggregatorName))
                             .findFirst()
                             .orElseGet(null)
-                            .getCommands()
+                            .commands()
                             .stream()
                             .filter(c -> c.command().name().equalsIgnoreCase(
                                 currentCommand.name()))

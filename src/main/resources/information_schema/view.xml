@@ -42,14 +42,14 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
-                        <property name="commands">
-                            <list>
-                                <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.create}' />
-                                <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.drop}' c:command-ref='DROP' />
-                            </list>
-                        </property>
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql"/>
+                    <constructor-arg name="commands">
+                        <list>
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.create}' />
+                            <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.drop}' c:command-ref='DROP' />
+                        </list>
+                    </constructor-arg>
                 </bean>
                 <!--<bean clacom.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregatorator">
                     <property name="aggregatorName" value="zip"/>
@@ -82,14 +82,14 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregator">
-                    <property name="aggregatorName" value="sql"/>
-                    <property name="commands">
+                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
+                    <constructor-arg name="aggregatorName" value="sql"/>
+                    <constructor-arg name="commands">
                         <list>
                             <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.create}' />
                             <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.drop}' c:command-ref='DROP' />
                         </list>
-                    </property>
+                    </constructor-arg>
                 </bean>
                 <!--<bean clacom.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregatorator">
                     <property name="aggregatorName" value="zip"/>
