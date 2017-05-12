@@ -89,6 +89,7 @@ public class DbUri {
         return objects;
     }
 
+    @Deprecated // TODO only for Queryable uri
     public Boolean recursive() {
         return recursive;
     }

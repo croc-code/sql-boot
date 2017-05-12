@@ -38,13 +38,13 @@ import java.util.regex.Pattern;
 /**
  * Created by MGramin on 26.02.2017.
  */
-public class AbstractGroovyTemplateEngine implements TemplateEngine {
+public abstract class AbstractGroovyTemplateEngine implements TemplateEngine {
 
     protected groovy.text.TemplateEngine engine;
     protected Template template;
     protected String templateText;
 
-
+    @Deprecated
     protected void setTemplate(String template) {
         try {
             this.templateText = template;
