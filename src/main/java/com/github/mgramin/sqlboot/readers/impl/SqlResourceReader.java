@@ -26,6 +26,7 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang.StringUtils.strip;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
@@ -36,11 +37,14 @@ import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import lombok.ToString;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -69,20 +73,18 @@ public class SqlResourceReader extends AbstractResourceReader implements DbResou
 
         for (Map<String, String> row : select) {
             final List<String> objectsForUri = new ArrayList<>();
-            String objectName = null;
             final Properties objectHeaders = new Properties();
             for (Map.Entry<String, String> column : row.entrySet()) {
                 if (!column.getKey().startsWith("@")) {
                     objectsForUri.add(column.getValue());
-                    objectName = column.getValue();
-                    objectHeaders.put(column.getKey(), column.getValue());
-                } else {
-                    objectHeaders.put(column.getKey().substring(1), ofNullable(column.getValue()).orElse(""));
                 }
+                objectHeaders.put(strip(column.getKey(), "@"), ofNullable(column.getValue()).orElse(""));
             }
-            final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name(), objectsForUri), objectHeaders);
-            objects.add(object);
+            final String objectName = objectsForUri.get(objectsForUri.size() - 1);
+            final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name(), objectsForUri),
+                    objectHeaders);
             logger.debug("find object " + object.dbUri().toString());
+            objects.add(object);
         }
         return objects;
     }

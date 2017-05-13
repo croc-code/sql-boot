@@ -109,11 +109,9 @@ public class DdlController {
             .findFirst()
             .orElse(null);
         List<DbResource> objects = reader.readr(uri, type);
-        List<DbResource> objectsNew = new ArrayList();
+        List<DbResource> objectsNew = new ArrayList<>();
         for (DbResource object : objects) {
             if (object.type().equals(type) || uri.recursive()) {
-                ObjectService objectService = new ObjectService(objects, String.join(".", object.dbUri()
-                    .objects()));
 
                 if (object.type().aggregators() != null) {
                     DbResourceTypeAggregator objectTypeAggregator = object.type().aggregators().stream().filter(a -> a.name().contains(aggregatorName)).findFirst().orElse(null);
@@ -130,6 +128,8 @@ public class DdlController {
                             .orElse(null);
 
                         if (currentGenerator != null) {
+                            ObjectService objectService = new ObjectService(objects, String.join(".", object.dbUri()
+                                    .objects()));
                             Map<String, Object> variables = (Map)object.headers();
                             variables.put(object.type().name(), object);
                             variables.put("srv", objectService);
