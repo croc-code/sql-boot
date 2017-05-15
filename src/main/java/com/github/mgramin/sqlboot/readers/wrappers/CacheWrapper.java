@@ -25,48 +25,30 @@
 
 package com.github.mgramin.sqlboot.readers.wrappers;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
+
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by maksim on 09.05.17.
+ * Created by maksim on 16.05.17.
  */
-public class FilteredResourceReader implements DbResourceReader {
+public class CacheWrapper implements DbResourceReader {
 
     private final DbResourceReader origin;
 
-    public FilteredResourceReader(DbResourceReader origin) {
+    public CacheWrapper(DbResourceReader origin) {
         this.origin = origin;
     }
 
     @Override
     public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        List<DbResource> objects = origin.read(dbUri, type);
-        // TODO difficult logic
-
-        if (dbUri.params() != null) {
-            Map<String, String> filtersParam = dbUri.params().entrySet().stream().filter(p ->
-                !p.getKey().equalsIgnoreCase("type"))
-                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-            for (Map.Entry<String, String> param : filtersParam.entrySet()) {
-                if (param.getKey().startsWith("@")) {
-                    objects = objects.stream().filter(
-                    o -> o.headers().getProperty(param.getKey().substring(1))
-                        .contains(param.getValue()))
-                    .collect(toList());
-                }
-            }
-        }
-        return objects;
+        // TODO cache this
+        List<DbResource> resources = origin.read(dbUri, type);
+        return resources;
     }
 
 }

@@ -33,7 +33,6 @@ import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import java.util.List;
 import org.junit.Test;
 
-import java.util.Map;
 import java.util.Properties;
 
 import static com.google.common.collect.ImmutableMap.of;
@@ -44,7 +43,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by maksim on 09.05.17.
  */
-public class FilteredResourceReaderTest {
+public class FilterWrapperTest {
 
     @Test
     public void read() throws Exception {
@@ -60,7 +59,7 @@ public class FilteredResourceReaderTest {
             asList(new DbResourceThin("persons", new DbResourceType(new String[]{"table"}, null, null), new DbUri("table/hr.persons?@creator=admin"), properties),
                 new DbResourceThin("jobs", new DbResourceType(new String[]{"table"}, null, null), new DbUri("table/hr.jobs?@creator=jdoe"), properties)));
 
-        DbResourceReader filteredReader = new FilteredResourceReader(reader);
+        DbResourceReader filteredReader = new FilterWrapper(reader);
         List<DbResource> read = filteredReader.read(new DbUri("table/hr.*?@creator=admin"),
             new DbResourceType(new String[]{"table"}, null, null));
 

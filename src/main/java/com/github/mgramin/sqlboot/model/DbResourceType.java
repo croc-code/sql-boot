@@ -39,15 +39,15 @@ import lombok.ToString;
  * Resource type of DB
  * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
-// TODO make and use interface
 @ToString
-public class DbResourceType {
+public class DbResourceType implements IDbResourceType {
 
     private final List<String> aliases;
     private final List<DbResourceType> child;
     private final List<DbResourceReader> readers;
     private final List<DbResourceTypeAggregator> aggregators;
 
+    @Override
     public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
         throws SqlBootException {
         final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
@@ -94,6 +94,7 @@ public class DbResourceType {
         return objectsNew;
     }
 
+    @Override
     public List<DbResource> readr(DbUri dbUri, DbResourceCommand command, String aggregatorName) throws SqlBootException {
         List<DbResource> objects = this.read(dbUri, command, aggregatorName);
         if (this.child != null) {
@@ -123,10 +124,12 @@ public class DbResourceType {
         this.aggregators = aggregators;
     }
 
+    @Override
     public String name() {
         return this.aliases.get(0);
     }
 
+    @Override
     public List<String> aliases() {
         return this.aliases;
     }
