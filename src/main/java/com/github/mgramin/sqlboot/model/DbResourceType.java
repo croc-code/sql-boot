@@ -27,10 +27,13 @@ package com.github.mgramin.sqlboot.model;
 
 import static java.util.Arrays.asList;
 
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import lombok.ToString;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import lombok.ToString;
 
 /**
  * Resource type of DB
@@ -44,19 +47,60 @@ public class DbResourceType {
     private List<DbResourceReader> readers;
     private List<DbResourceTypeAggregator> aggregators;
 
-    // TODO
-    /*Map<String, DBSchemaObject> read(DbUri dbUri) throws SqlBootException {
-        return null;
-    }*/
+    public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
+        throws SqlBootException {
+        DbResourceReader reader = this.readers().stream().findFirst().orElse(null);
+        List<DbResource> objects = reader.readr(dbUri, this);
 
-    public DbResourceType(String[] aliases, List<DbResourceType> child, List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
+        List<DbResource> objectsNew = new ArrayList<>();
+        for (DbResource object : objects) {
+            if (object.type().equals(this) || dbUri.recursive()) {
+
+                if (object.type().aggregators() != null) {
+                    DbResourceTypeAggregator objectTypeAggregator = object.type().aggregators()
+                        .stream().filter(a -> a.name().contains(aggregatorName)).findFirst()
+                        .orElse(null);
+                    if (objectTypeAggregator != null) {
+                        ActionGenerator currentGenerator = object.type().aggregators().stream()
+                            .filter(a -> a.name().contains(aggregatorName))
+                            .findFirst()
+                            .orElseGet(null)
+                            .commands()
+                            .stream()
+                            .filter(c -> c.command().name().equalsIgnoreCase(
+                                command.name()))
+                            .findFirst()
+                            .orElse(null);
+
+                        if (currentGenerator != null) {
+                            ObjectService objectService = new ObjectService(objects,
+                                String.join(".", object.dbUri()
+                                    .objects()));
+                            Map<String, Object> variables = (Map) object.headers();
+                            variables.put(object.type().name(), object);
+                            variables.put("srv", objectService);
+
+                            DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
+                                object, currentGenerator.generate(variables));
+                            objectsNew.add(dbResourceBodyWrapper);
+                        }
+                    }
+                }
+            }
+        }
+        return objectsNew;
+    }
+
+    public DbResourceType(String[] aliases, List<DbResourceType> child,
+        List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
         this.aliases = asList(aliases);
         this.child = child;
         this.readers = readers;
         this.aggregators = aggregators;
     }
 
-    public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
+    public DbResourceType(String[] aliases, List<DbResourceReader> readers,
+        List<DbResourceTypeAggregator> aggregators) {
         this.aliases = asList(aliases);
         this.readers = readers;
         this.aggregators = aggregators;
