@@ -81,28 +81,29 @@ public class DdlController {
                 .findFirst()
                 .orElse(null);
 
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         aggregator.httpHeaders().entrySet().forEach(h -> headers.add(h.getKey(), h.getValue()));
 
-        byte[] result = aggregator.aggregate(getDbSchemaObjects(uriString.substring(5), aggregator.name()));
+        final byte[] result = aggregator.aggregate(getDbSchemaObjects(uriString.substring(5), aggregator.name()));
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
-        DbUri uri = new DbUri(uriString);
+        final DbUri uri = new DbUri(uriString);
 
-        DbResourceCommand currentCommand;
-
+        final DbResourceCommand currentCommand;
         if (uri.action() != null) {
             currentCommand = objectCommands.stream().filter(c -> c.aliases().contains(uri.action())).findFirst().orElse(null);
         } else {
             currentCommand = objectCommands.stream().filter(c -> c.isDefault()).findFirst().orElse(null);
         }
 
-        DbResourceType type = types.stream().filter(n -> n.aliases() != null && n.aliases().contains(uri.type())).findFirst().orElse(null);
-        if (type == null) return null;
+        final DbResourceType type = types.stream().filter(n -> n.aliases() != null && n.aliases().contains(uri.type())).findFirst().orElse(null);
+        if (type == null) {
+            return null;
+        }
 
-        List<DbResource> objects = type.read(uri, currentCommand, aggregatorName);
+        final List<DbResource> objects = type.read(uri, currentCommand, aggregatorName);
         return objects;
     }
 

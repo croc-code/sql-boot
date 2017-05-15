@@ -42,26 +42,28 @@ import lombok.ToString;
 @ToString
 public class DbResourceType {
 
-    private List<String> aliases;
-    private List<DbResourceType> child;
-    private List<DbResourceReader> readers;
-    private List<DbResourceTypeAggregator> aggregators;
+    private final List<String> aliases;
+    private final List<DbResourceType> child;
+    private final List<DbResourceReader> readers;
+    private final List<DbResourceTypeAggregator> aggregators;
 
     public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
         throws SqlBootException {
-        DbResourceReader reader = this.readers().stream().findFirst().orElse(null);
-        List<DbResource> objects = reader.readr(dbUri, this);
+        final DbResourceReader reader = this.readers().stream().findFirst().orElse(null);
+        final List<DbResource> objects = reader.readr(dbUri, this);
 
-        List<DbResource> objectsNew = new ArrayList<>();
+        final List<DbResource> objectsNew = new ArrayList<>();
         for (DbResource object : objects) {
             if (object.type().equals(this) || dbUri.recursive()) {
 
                 if (object.type().aggregators() != null) {
-                    DbResourceTypeAggregator objectTypeAggregator = object.type().aggregators()
+                    final DbResourceTypeAggregator objectTypeAggregator = object.type()
+                        .aggregators()
                         .stream().filter(a -> a.name().contains(aggregatorName)).findFirst()
                         .orElse(null);
                     if (objectTypeAggregator != null) {
-                        ActionGenerator currentGenerator = object.type().aggregators().stream()
+                        final ActionGenerator currentGenerator = object.type().aggregators()
+                            .stream()
                             .filter(a -> a.name().contains(aggregatorName))
                             .findFirst()
                             .orElseGet(null)
@@ -73,14 +75,14 @@ public class DbResourceType {
                             .orElse(null);
 
                         if (currentGenerator != null) {
-                            ObjectService objectService = new ObjectService(objects,
+                            final ObjectService objectService = new ObjectService(objects,
                                 String.join(".", object.dbUri()
                                     .objects()));
-                            Map<String, Object> variables = (Map) object.headers();
+                            final Map<String, Object> variables = (Map) object.headers();
                             variables.put(object.type().name(), object);
                             variables.put("srv", objectService);
 
-                            DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
+                            final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
                                 object, currentGenerator.generate(variables));
                             objectsNew.add(dbResourceBodyWrapper);
                         }
@@ -102,6 +104,7 @@ public class DbResourceType {
     public DbResourceType(String[] aliases, List<DbResourceReader> readers,
         List<DbResourceTypeAggregator> aggregators) {
         this.aliases = asList(aliases);
+        this.child = null;
         this.readers = readers;
         this.aggregators = aggregators;
     }
