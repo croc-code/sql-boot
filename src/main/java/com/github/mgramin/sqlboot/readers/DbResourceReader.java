@@ -38,6 +38,4 @@ public interface DbResourceReader {
 
     List<DbResource> read(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
 
-    List<DbResource> readr(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
-
 }

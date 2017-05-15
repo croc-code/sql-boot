@@ -39,6 +39,7 @@ import lombok.ToString;
  * Resource type of DB
  * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
+// TODO make and use interface
 @ToString
 public class DbResourceType {
 
@@ -49,20 +50,20 @@ public class DbResourceType {
 
     public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
         throws SqlBootException {
-        final DbResourceReader reader = this.readers().stream().findFirst().orElse(null);
-        final List<DbResource> objects = reader.readr(dbUri, this);
+        final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
+        final List<DbResource> objects = reader.read(dbUri, this);
 
         final List<DbResource> objectsNew = new ArrayList<>();
         for (DbResource object : objects) {
             if (object.type().equals(this) || dbUri.recursive()) {
 
-                if (object.type().aggregators() != null) {
+                if (object.type().aggregators != null) {
                     final DbResourceTypeAggregator objectTypeAggregator = object.type()
-                        .aggregators()
+                        .aggregators
                         .stream().filter(a -> a.name().contains(aggregatorName)).findFirst()
                         .orElse(null);
                     if (objectTypeAggregator != null) {
-                        final ActionGenerator currentGenerator = object.type().aggregators()
+                        final ActionGenerator currentGenerator = object.type().aggregators
                             .stream()
                             .filter(a -> a.name().contains(aggregatorName))
                             .findFirst()
@@ -93,6 +94,19 @@ public class DbResourceType {
         return objectsNew;
     }
 
+    public List<DbResource> readr(DbUri dbUri, DbResourceCommand command, String aggregatorName) throws SqlBootException {
+        List<DbResource> objects = this.read(dbUri, command, aggregatorName);
+        if (this.child != null) {
+            for (DbResourceType childType : this.child) {
+                childType.readers
+                    .stream()
+                    .findFirst()
+                    .ifPresent(r -> objects.addAll(childType.readr(dbUri, command, aggregatorName)));
+            }
+        }
+        return objects;
+    }
+
     public DbResourceType(String[] aliases, List<DbResourceType> child,
         List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
         this.aliases = asList(aliases);
@@ -115,18 +129,6 @@ public class DbResourceType {
 
     public List<String> aliases() {
         return this.aliases;
-    }
-
-    public List<DbResourceType> child() {
-        return this.child;
-    }
-
-    public List<DbResourceReader> readers() {
-        return this.readers;
-    }
-
-    public List<DbResourceTypeAggregator> aggregators() {
-        return this.aggregators;
     }
 
 }

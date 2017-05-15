@@ -37,6 +37,7 @@ import java.util.Map;
 /**
  * Created by maksim on 12.06.16.
  */
+// TODO make and use interface
 public class DbUri {
 
     private final String type;

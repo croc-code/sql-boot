@@ -34,24 +34,20 @@ import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
  * Custom-SQL db object reader
  */
 @ToString
-public class SqlResourceReader extends AbstractResourceReader implements DbResourceReader {
+public class SqlResourceReader implements DbResourceReader {
 
     final private static Logger logger = Logger.getLogger(SqlResourceReader.class);
 

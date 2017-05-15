@@ -25,7 +25,6 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
@@ -34,7 +33,6 @@ import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
@@ -56,10 +54,9 @@ public class DdlController {
     private List<Aggregator> aggregators;
 
     @Autowired
-    private List<DbResourceCommand> objectCommands;
+    private List<DbResourceCommand> commands;
 
-    private final static Logger logger = Logger.getLogger(DdlController.class);
-
+//    private final static Logger logger = Logger.getLogger(DdlController.class);
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
@@ -75,36 +72,41 @@ public class DdlController {
             .filter(c -> c.name().equalsIgnoreCase(aggregatorName))
             .findFirst()
             .orElse(null);
-        if (aggregator == null)
+        if (aggregator == null) {
             aggregator = aggregators.stream()
                 .filter(Aggregator::isDefault)
                 .findFirst()
                 .orElse(null);
+        }
 
         final HttpHeaders headers = new HttpHeaders();
-        aggregator.httpHeaders().entrySet().forEach(h -> headers.add(h.getKey(), h.getValue()));
+        aggregator.httpHeaders().forEach(headers::add);
 
-        final byte[] result = aggregator.aggregate(getDbSchemaObjects(uriString.substring(5), aggregator.name()));
+        final byte[] result = aggregator
+            .aggregate(getDbSchemaObjects(uriString.substring(5), aggregator.name()));
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
         final DbUri uri = new DbUri(uriString);
-
-        final DbResourceCommand currentCommand;
+        final DbResourceCommand command;
         if (uri.action() != null) {
-            currentCommand = objectCommands.stream().filter(c -> c.aliases().contains(uri.action())).findFirst().orElse(null);
+            command = commands.stream().filter(c -> c.aliases().contains(uri.action()))
+                .findFirst().orElse(null);
         } else {
-            currentCommand = objectCommands.stream().filter(c -> c.isDefault()).findFirst().orElse(null);
+            command = commands.stream().filter(DbResourceCommand::isDefault).findFirst()
+                .orElse(null);
         }
 
-        final DbResourceType type = types.stream().filter(n -> n.aliases() != null && n.aliases().contains(uri.type())).findFirst().orElse(null);
+        final DbResourceType type = types.stream()
+            .filter(n -> n.aliases() != null && n.aliases().contains(uri.type())).findFirst()
+            .orElse(null);
         if (type == null) {
+            // TODO make error message as http-response
             return null;
         }
 
-        final List<DbResource> objects = type.read(uri, currentCommand, aggregatorName);
-        return objects;
+        return type.readr(uri, command, aggregatorName);
     }
 
 }
