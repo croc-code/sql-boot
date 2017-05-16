@@ -76,39 +76,37 @@ public class DbResourceType implements IDbResourceType {
         List<DbResource> objects = read(dbUri);
         final List<DbResource> objectsNew = new ArrayList<>();
         for (DbResource dbResource : objects) {
-            if (dbResource.type().equals(this) || dbUri.recursive()) {
-                if (dbResource.type().aggregators != null) {
-                    final DbResourceTypeAggregator objectTypeAggregator = dbResource.type()
-                            .aggregators
-                            .stream().filter(a -> a.name().contains(aggregatorName)).findFirst()
+            if (dbResource.type().equals(this) || dbUri.recursive() || dbResource.type().aggregators != null) {
+                final DbResourceTypeAggregator objectTypeAggregator = dbResource.type()
+                        .aggregators
+                        .stream().filter(a -> a.name().contains(aggregatorName)).findFirst()
+                        .orElse(null);
+                if (objectTypeAggregator != null) {
+                    final ActionGenerator generator = dbResource.type().aggregators
+                            .stream()
+                            .filter(a -> a.name().contains(aggregatorName))
+                            .findFirst()
+                            .orElseGet(null)
+                            .commands()
+                            .stream()
+                            .filter(c -> c.command().name().equalsIgnoreCase(
+                                    command.name()))
+                            .findFirst()
                             .orElse(null);
-                    if (objectTypeAggregator != null) {
-                        final ActionGenerator generator = dbResource.type().aggregators
-                                .stream()
-                                .filter(a -> a.name().contains(aggregatorName))
-                                .findFirst()
-                                .orElseGet(null)
-                                .commands()
-                                .stream()
-                                .filter(c -> c.command().name().equalsIgnoreCase(
-                                        command.name()))
-                                .findFirst()
-                                .orElse(null);
 
-                        if (generator != null) {
+                    if (generator != null) {
                             /*Map<DbResourceType, List<DbResource>> objectsByType =
                                     objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
-                            final ObjectService objectService = new ObjectService(objects,
-                                    String.join(".", dbResource.dbUri()
-                                            .objects()));
-                            final Map<String, Object> variables = (Map) dbResource.headers();
-                            variables.put(dbResource.type().name(), dbResource);
-                            variables.put("srv", objectService);
+                        final ObjectService objectService = new ObjectService(objects,
+                                String.join(".", dbResource.dbUri()
+                                        .objects()));
+                        final Map<String, Object> variables = (Map) dbResource.headers();
+                        variables.put(dbResource.type().name(), dbResource);
+                        variables.put("srv", objectService);
 
-                            final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
-                                    dbResource, generator.generate(variables));
-                            objectsNew.add(dbResourceBodyWrapper);
-                        }
+                        final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
+                                dbResource, generator.generate(variables));
+                        objectsNew.add(dbResourceBodyWrapper);
                     }
                 }
             }
