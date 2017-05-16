@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -22,12 +21,12 @@ public class ApiControllerITCase {
     private TestRestTemplate client;
 
     @Test
-    public void testFilter() throws Exception {
+    public void testFilter() {
         callRestAndValidate("t/hr?table_type=system_table");
     }
 
     @Test
-    public void getTextDdl() throws Exception {
+    public void getTextDdl() {
         callRestAndValidate("t");
         callRestAndValidate("t/");
         callRestAndValidate("fk");
@@ -51,20 +50,6 @@ public class ApiControllerITCase {
         callRestAndValidate("table/hr/-");
 
         callRestAndValidate("table/hr.jobs/drop");
-
-        /*callRestAndValidate("/api/table/hr/");
-        callRestAndValidate("/api/table/hr?type=sql");
-        callRestAndValidate("/api/table/hr?type=migration");
-        callRestAndValidate("/api/table/hr/drop?type=migration");
-        callRestAndValidate("/api/table/hr?type=html");
-
-        callRestAndValidate("/api/fk/hr");
-        callRestAndValidate("/api/fk/hr/+");
-        callRestAndValidate("/api/fk/hr/-");
-        callRestAndValidate("/api/fk/hr?type=sql");
-
-        callRestAndValidate("/api/view/hr");
-        callRestAndValidate("/api/mview/hr");*/
     }
 
     @Test
@@ -79,6 +64,7 @@ public class ApiControllerITCase {
 
 
     private void callRestAndValidate(String uri) {
+        System.out.println("<<< " + uri);
         ResponseEntity<String> forEntity = client.getForEntity("/api/" + uri, String.class);
         assertEquals(forEntity.getStatusCodeValue(), 200);
         System.out.println(forEntity.getBody());

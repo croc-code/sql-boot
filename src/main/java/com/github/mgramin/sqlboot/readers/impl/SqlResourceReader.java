@@ -31,7 +31,6 @@ import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import lombok.ToString;
@@ -49,7 +48,7 @@ import static org.apache.commons.lang.StringUtils.strip;
  * Custom-SQL db object reader
  */
 @ToString
-public class SqlResourceReader extends AbstractResourceReader implements DbResourceReader {
+public class SqlResourceReader implements DbResourceReader {
 
     final private static Logger logger = Logger.getLogger(SqlResourceReader.class);
 

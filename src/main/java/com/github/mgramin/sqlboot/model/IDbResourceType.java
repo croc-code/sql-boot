@@ -26,7 +26,6 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
 import java.util.List;
 
@@ -40,11 +39,6 @@ public interface IDbResourceType {
 
     List<String> aliases();
 
-    List<DbResourceType> child();
-
-    List<DbResourceReader> readers();
-
-    List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
-            throws SqlBootException;
+    List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName) throws SqlBootException;
 
 }

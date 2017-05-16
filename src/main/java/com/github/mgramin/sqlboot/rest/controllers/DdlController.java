@@ -107,7 +107,8 @@ public class DdlController {
             return null;
         }
 
-        return type.read(uri, command, aggregatorName);
+        List<DbResource> dbResources = type.read(uri, command, aggregatorName);
+        return dbResources;
     }
 
 }

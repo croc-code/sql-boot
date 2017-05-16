@@ -25,7 +25,6 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import lombok.ToString;
 
 import java.util.Properties;
@@ -70,7 +69,8 @@ public class DbResourceThin implements DbResource {
 
     @Override
     public String body() {
-        throw new SqlBootException("Resource body not allow here.");
+        return name + " [EMPTY BODY]";
+//        throw new SqlBootException("Resource body not allow here.");
     }
 
 }
