@@ -25,29 +25,31 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
-import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang.StringUtils.strip;
-
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+import lombok.ToString;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import lombok.ToString;
-import org.apache.log4j.Logger;
+
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang.StringUtils.strip;
 
 /**
  * Custom-SQL db object reader
  */
 @ToString
-public class SqlResourceReader implements DbResourceReader {
+public class SqlResourceReader extends AbstractResourceReader implements DbResourceReader {
 
     final private static Logger logger = Logger.getLogger(SqlResourceReader.class);
 

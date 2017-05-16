@@ -27,7 +27,8 @@ package com.github.mgramin.sqlboot.util;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;

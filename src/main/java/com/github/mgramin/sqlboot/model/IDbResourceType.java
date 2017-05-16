@@ -26,6 +26,7 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
 import java.util.List;
 
@@ -35,14 +36,15 @@ import java.util.List;
 // TODO rename to DbResourceType
 public interface IDbResourceType {
 
-    List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
-            throws SqlBootException;
-
-    List<DbResource> readr(DbUri dbUri, DbResourceCommand command, String aggregatorName)
-            throws SqlBootException;
-
     String name();
 
     List<String> aliases();
+
+    List<DbResourceType> child();
+
+    List<DbResourceReader> readers();
+
+    List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
+            throws SqlBootException;
 
 }

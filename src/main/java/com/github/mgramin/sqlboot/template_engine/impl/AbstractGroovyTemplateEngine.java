@@ -28,6 +28,7 @@ package com.github.mgramin.sqlboot.template_engine.impl;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import groovy.text.Template;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,13 @@ public abstract class AbstractGroovyTemplateEngine implements TemplateEngine {
 
     @Override
     public String process(Map<String, Object> variables) {
-        return this.template.make(variables).toString();
+        try {
+            return this.template.make(variables).toString();
+        } catch (Exception e) {
+            System.out.println(templateText);
+            System.out.println(variables);
+            throw e;
+        }
     }
 
     @Override

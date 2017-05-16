@@ -27,7 +27,6 @@ package com.github.mgramin.sqlboot.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by maksim on 10.07.16.

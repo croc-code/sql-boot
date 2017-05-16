@@ -23,37 +23,28 @@
  *
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.readers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
+import com.github.mgramin.sqlboot.model.DbResourceType;
+import com.github.mgramin.sqlboot.model.DbUri;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
+public abstract class AbstractResourceReader implements DbResourceReader {
 
-/**
- * Created by mgramin on 17.12.2016.
- */
-public class ZipAggregator extends AbstractAggregator implements Aggregator {
-
-    public ZipAggregator(String name, Map<String, String> httpHeaders) {
-        this.name = name;
-        this.httpHeaders = httpHeaders;
-    }
-
-    @Override
-    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
-        Map<String, byte[]> files = new HashMap<>();
-        for (DbResource o : objects) {
-            if (o.headers().getProperty("file_name") != null && !o.headers().getProperty("file_name").isEmpty())
-                files.put(o.headers().getProperty("file_name").toLowerCase(), o.body().getBytes());
+    public List<DbResource> readr(DbUri dbUri, DbResourceType type) throws SqlBootException {
+        List<DbResource> objects = this.read(dbUri, type);
+        if (type.child() != null) {
+            for (DbResourceType childType : type.child()) {
+                childType.readers()
+                        .stream()
+                        .findFirst()
+                        .ifPresent(r -> objects.addAll(r.readr(dbUri, childType)));
+            }
         }
-        return compress(files);
+        return objects;
     }
 
 }

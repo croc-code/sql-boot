@@ -25,15 +25,17 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import static java.util.Arrays.asList;
-
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import lombok.ToString;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 /**
  * Resource type of DB
@@ -46,67 +48,6 @@ public class DbResourceType implements IDbResourceType {
     private final List<DbResourceType> child;
     private final List<DbResourceReader> readers;
     private final List<DbResourceTypeAggregator> aggregators;
-
-    @Override
-    public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
-        throws SqlBootException {
-        final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
-        final List<DbResource> objects = reader.read(dbUri, this);
-
-        final List<DbResource> objectsNew = new ArrayList<>();
-        for (DbResource object : objects) {
-            if (object.type().equals(this) || dbUri.recursive()) {
-
-                if (object.type().aggregators != null) {
-                    final DbResourceTypeAggregator objectTypeAggregator = object.type()
-                        .aggregators
-                        .stream().filter(a -> a.name().contains(aggregatorName)).findFirst()
-                        .orElse(null);
-                    if (objectTypeAggregator != null) {
-                        final ActionGenerator currentGenerator = object.type().aggregators
-                            .stream()
-                            .filter(a -> a.name().contains(aggregatorName))
-                            .findFirst()
-                            .orElseGet(null)
-                            .commands()
-                            .stream()
-                            .filter(c -> c.command().name().equalsIgnoreCase(
-                                command.name()))
-                            .findFirst()
-                            .orElse(null);
-
-                        if (currentGenerator != null) {
-                            final ObjectService objectService = new ObjectService(objects,
-                                String.join(".", object.dbUri()
-                                    .objects()));
-                            final Map<String, Object> variables = (Map) object.headers();
-                            variables.put(object.type().name(), object);
-                            variables.put("srv", objectService);
-
-                            final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
-                                object, currentGenerator.generate(variables));
-                            objectsNew.add(dbResourceBodyWrapper);
-                        }
-                    }
-                }
-            }
-        }
-        return objectsNew;
-    }
-
-    @Override
-    public List<DbResource> readr(DbUri dbUri, DbResourceCommand command, String aggregatorName) throws SqlBootException {
-        List<DbResource> objects = this.read(dbUri, command, aggregatorName);
-        if (this.child != null) {
-            for (DbResourceType childType : this.child) {
-                childType.readers
-                    .stream()
-                    .findFirst()
-                    .ifPresent(r -> objects.addAll(childType.readr(dbUri, command, aggregatorName)));
-            }
-        }
-        return objects;
-    }
 
     public DbResourceType(String[] aliases, List<DbResourceType> child,
         List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
@@ -132,6 +73,67 @@ public class DbResourceType implements IDbResourceType {
     @Override
     public List<String> aliases() {
         return this.aliases;
+    }
+
+    @Override
+    public List<DbResourceType> child() {
+        return child;
+    }
+
+    @Override
+    public List<DbResourceReader> readers() {
+        return readers;
+    }
+
+
+    @Override
+    public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName)
+        throws SqlBootException {
+        final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
+        final List<DbResource> objects = reader.readr(dbUri, this);
+
+        final List<DbResource> objectsNew = new ArrayList<>();
+        for (DbResource dbResource : objects) {
+            if (dbResource.type().equals(this) || dbUri.recursive()) {
+                if (dbResource.type().aggregators != null) {
+                    final DbResourceTypeAggregator objectTypeAggregator = dbResource.type()
+                        .aggregators
+                        .stream().filter(a -> a.name().contains(aggregatorName)).findFirst()
+                        .orElse(null);
+                    if (objectTypeAggregator != null) {
+                        final ActionGenerator generator = dbResource.type().aggregators
+                            .stream()
+                            .filter(a -> a.name().contains(aggregatorName))
+                            .findFirst()
+                            .orElseGet(null)
+                            .commands()
+                            .stream()
+                            .filter(c -> c.command().name().equalsIgnoreCase(
+                                command.name()))
+                            .findFirst()
+                            .orElse(null);
+
+                        if (generator != null) {
+
+                            Map<DbResourceType, List<DbResource>> objectsByType =
+                                    objects.stream().collect(Collectors.groupingBy(DbResource::type));
+
+                            final ObjectService objectService = new ObjectService(objects,
+                                String.join(".", dbResource.dbUri()
+                                    .objects()));
+                            final Map<String, Object> variables = (Map) dbResource.headers();
+                            variables.put(dbResource.type().name(), dbResource);
+                            variables.put("srv", objectService);
+
+                            final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
+                                dbResource, generator.generate(variables));
+                            objectsNew.add(dbResourceBodyWrapper);
+                        }
+                    }
+                }
+            }
+        }
+        return objectsNew;
     }
 
 }

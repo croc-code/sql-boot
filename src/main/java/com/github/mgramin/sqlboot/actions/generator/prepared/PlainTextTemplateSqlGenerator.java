@@ -31,8 +31,8 @@ import com.github.mgramin.sqlboot.actions.generator.wrappers.SqlWrapper;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
-import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
+import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 
 import java.util.List;
 import java.util.Map;

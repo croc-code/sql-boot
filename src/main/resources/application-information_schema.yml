@@ -19,12 +19,12 @@ tables: |
      order by t.table_name)
 
 table.sql.create: |
-  create table "$schema"."$table.name" (<%srv.get('column').each {%>
-    !{it.name.padRight(20)}!{it.headers.data_type.toLowerCase()}!{it.headers.length}<%if (it != srv.get('column').last()){%>,<%}}%>
+  create table "$schema"."$table.name()" (<%srv.get('column').each {%>
+    !{it.name().padRight(20)}!{it.headers().data_type.toLowerCase()}!{it.headers().length}<%if (it != srv.get('column').last()){%>,<%}}%>
   );
 
 table.sql.drop: |
-  drop table $schema.$table.name;
+  drop table $schema.$table.name();
 
 table.info: |
   columns=srv.get('column')
@@ -68,10 +68,10 @@ table.columns: |
 
 
 table.column.sql.create: |
-  alter table $table add column $column.name;
+  alter table $table add column $column.name();
 
 table.column.sql.drop: |
-  alter table $table drop $column.name;
+  alter table $table drop $column.name();
 
 
 table.pk: |
@@ -91,7 +91,7 @@ table.pk.sql.create: |
   !{pk.headers.sql};
 
 table.pk.sql.drop: |
-  alter table $table drop pk $pk.name;
+  alter table $table drop pk $pk.name();
 
 
 table.fk: |
@@ -111,7 +111,7 @@ table.fk.sql.create: |
   !{fk.headers.sql};
 
 table.fk.sql.drop: |
-  alter table $table drop constraint $fk.name;
+  alter table $table drop constraint $fk.name();
 
 
 
@@ -132,7 +132,7 @@ table.index.sql.create: |
   !{index.headers.sql};
 
 table.index.sql.drop: |
-  drop index $index.name;
+  drop index $index.name();
 
 
 table.checks: |
@@ -152,7 +152,7 @@ table.check.sql.create: |
   !{check.headers.sql};
 
 table.check.sql.drop: |
-  drop check $check.name;
+  drop check $check.name();
 
 
 views: |
@@ -191,4 +191,4 @@ mview.sql.create: |
   );
 
 mview.sql.drop: |
-  drop table $mview.name;
+  drop table $mview.name();

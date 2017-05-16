@@ -23,37 +23,32 @@
  *
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
+import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
+import static org.junit.Assert.*;
 
 /**
- * Created by mgramin on 17.12.2016.
+ * Created by maksim on 16.05.17.
  */
-public class ZipAggregator extends AbstractAggregator implements Aggregator {
+public class DbResourceTypeTest {
 
-    public ZipAggregator(String name, Map<String, String> httpHeaders) {
-        this.name = name;
-        this.httpHeaders = httpHeaders;
+    @Test
+    public void name() throws Exception {
     }
 
-    @Override
-    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
-        Map<String, byte[]> files = new HashMap<>();
-        for (DbResource o : objects) {
-            if (o.headers().getProperty("file_name") != null && !o.headers().getProperty("file_name").isEmpty())
-                files.put(o.headers().getProperty("file_name").toLowerCase(), o.body().getBytes());
-        }
-        return compress(files);
+    @Test
+    public void aliases() throws Exception {
+    }
+
+    @Test
+    public void read() throws Exception {
+
+    }
+
+    @Test
+    public void readr() throws Exception {
     }
 
 }

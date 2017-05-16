@@ -25,14 +25,17 @@
 
 package com.github.mgramin.sqlboot.util.sql.impl;
 
-import static java.util.Collections.singletonList;
-
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Collections.singletonList;
 
 public class JdbcSqlHelper implements ISqlHelper {
 

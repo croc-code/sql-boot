@@ -29,6 +29,7 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.List;
 /**
  * Created by maksim on 16.05.17.
  */
-public class CacheWrapper implements DbResourceReader {
+public class CacheWrapper extends AbstractResourceReader implements DbResourceReader {
 
     private final DbResourceReader origin;
 

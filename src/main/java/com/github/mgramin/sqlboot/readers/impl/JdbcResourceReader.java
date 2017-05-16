@@ -29,13 +29,15 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
+
 import java.util.List;
 
 /**
  * Created by MGramin on 24.11.2016.
  */
-public class JdbcResourceReader implements DbResourceReader {
+public class JdbcResourceReader extends AbstractResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {

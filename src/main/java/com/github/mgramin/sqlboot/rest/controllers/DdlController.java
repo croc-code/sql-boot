@@ -31,8 +31,6 @@ import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @ImportResource("classpath:config.xml")
@@ -106,7 +107,7 @@ public class DdlController {
             return null;
         }
 
-        return type.readr(uri, command, aggregatorName);
+        return type.read(uri, command, aggregatorName);
     }
 
 }

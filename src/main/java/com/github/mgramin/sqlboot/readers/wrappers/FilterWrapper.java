@@ -25,21 +25,23 @@
 
 package com.github.mgramin.sqlboot.readers.wrappers;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.readers.AbstractResourceReader;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
+
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Created by maksim on 09.05.17.
  */
-public class FilterWrapper implements DbResourceReader {
+public class FilterWrapper extends AbstractResourceReader implements DbResourceReader {
 
     private final DbResourceReader origin;
 
