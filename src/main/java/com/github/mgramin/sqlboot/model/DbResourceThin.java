@@ -25,6 +25,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import lombok.ToString;
 
 import java.util.Properties;
@@ -33,7 +34,7 @@ import java.util.Properties;
  * DB resource without body
  */
 @ToString
-public class DbResourceThin implements DbResource {
+public final class DbResourceThin implements DbResource {
 
     private final String name;
     private final DbResourceType type;
@@ -69,8 +70,7 @@ public class DbResourceThin implements DbResource {
 
     @Override
     public String body() {
-        return name + " [EMPTY BODY]";
-//        throw new SqlBootException("Resource body not allow here.");
+        throw new SqlBootException("Resource body not allow here.");
     }
 
 }

@@ -39,7 +39,7 @@ import java.util.Map;
 /**
  * Created by mgramin on 17.12.2016.
  */
-public class TextAggregator extends AbstractAggregator implements Aggregator {
+public final class TextAggregator extends AbstractAggregator implements Aggregator {
 
     private final String template;
     private final TemplateEngineFactory templateEngineFactory;

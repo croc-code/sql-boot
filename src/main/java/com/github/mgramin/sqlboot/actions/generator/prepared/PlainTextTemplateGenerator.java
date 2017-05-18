@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * Created by maksim on 27.04.17.
  */
-public class PlainTextTemplateGenerator implements ActionGenerator {
+public final class PlainTextTemplateGenerator implements ActionGenerator {
 
     private final ActionGenerator origin;
 

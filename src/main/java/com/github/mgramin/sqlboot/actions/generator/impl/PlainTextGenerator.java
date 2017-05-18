@@ -35,9 +35,10 @@ import java.util.Map;
 /**
  * Generate command from plain text
  */
-public class PlainTextGenerator extends AbstractActionGenerator implements ActionGenerator {
+public final class PlainTextGenerator implements ActionGenerator {
 
     private final String baseText;
+    private final DbResourceCommand dbResourceCommand;
 
     public PlainTextGenerator(String baseText, DbResourceCommand command) {
         this.baseText = baseText;
@@ -52,6 +53,11 @@ public class PlainTextGenerator extends AbstractActionGenerator implements Actio
     @Override
     public String generate(List<Object> variables) throws SqlBootException {
         return baseText;
+    }
+
+    @Override
+    public DbResourceCommand command() {
+        return this.dbResourceCommand;
     }
 
 }

@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by MGramin on 24.11.2016.
  */
-public class JdbcResourceReader implements DbResourceReader {
+public final class JdbcResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {

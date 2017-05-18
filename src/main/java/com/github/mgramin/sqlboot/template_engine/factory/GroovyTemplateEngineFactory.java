@@ -32,7 +32,7 @@ import com.github.mgramin.sqlboot.template_engine.impl.GroovyTemplateEngine;
 /**
  * Created by maksim on 29.04.17.
  */
-public class GroovyTemplateEngineFactory implements TemplateEngineFactory {
+public final class GroovyTemplateEngineFactory implements TemplateEngineFactory {
 
     @Override
     public TemplateEngine create(String template) {

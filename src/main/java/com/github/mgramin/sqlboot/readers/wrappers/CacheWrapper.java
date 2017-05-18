@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by maksim on 16.05.17.
  */
-public class CacheWrapper implements DbResourceReader {
+public final class CacheWrapper implements DbResourceReader {
 
     private final DbResourceReader origin;
 

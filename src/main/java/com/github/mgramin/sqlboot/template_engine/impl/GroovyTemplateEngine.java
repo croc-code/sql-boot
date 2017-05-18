@@ -30,7 +30,7 @@ import groovy.text.GStringTemplateEngine;
 import lombok.ToString;
 
 @ToString
-public class GroovyTemplateEngine extends AbstractGroovyTemplateEngine implements TemplateEngine {
+public final class GroovyTemplateEngine extends AbstractGroovyTemplateEngine implements TemplateEngine {
 
     public GroovyTemplateEngine(String template) {
         engine = new GStringTemplateEngine();

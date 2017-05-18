@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by mgramin on 31.10.2016.
  */
-public class FsResourceReader implements DbResourceReader {
+public final class FsResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(DbUri dbUri, DbResourceType type) {

@@ -43,7 +43,7 @@ import static java.util.Optional.ofNullable;
  * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
 @ToString
-public class DbResourceType implements IDbResourceType {
+public final class DbResourceType implements IDbResourceType {
 
     private final List<String> aliases;
     private final List<DbResourceType> child;

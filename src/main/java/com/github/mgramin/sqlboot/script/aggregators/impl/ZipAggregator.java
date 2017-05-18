@@ -39,7 +39,7 @@ import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
 /**
  * Created by mgramin on 17.12.2016.
  */
-public class ZipAggregator extends AbstractAggregator implements Aggregator {
+public final class ZipAggregator extends AbstractAggregator implements Aggregator {
 
     public ZipAggregator(String name, Map<String, String> httpHeaders) {
         this.name = name;

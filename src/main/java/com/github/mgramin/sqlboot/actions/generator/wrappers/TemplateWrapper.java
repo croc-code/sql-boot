@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * Created by maksim on 19.04.17.
  */
-public class TemplateWrapper implements ActionGenerator {
+public final class TemplateWrapper implements ActionGenerator {
 
     private final ActionGenerator origin;
     private final TemplateEngineFactory templateEngineFactory;

@@ -33,7 +33,7 @@ import java.util.Properties;
  * DB resource with body
  */
 @ToString
-public class DbResourceBodyWrapper implements DbResource {
+public final class DbResourceBodyWrapper implements DbResource {
 
     private final DbResource origin;
     private final String body;

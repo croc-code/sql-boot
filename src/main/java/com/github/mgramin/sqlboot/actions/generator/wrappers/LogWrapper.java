@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * Created by maksim on 29.04.17.
  */
-public class LogWrapper implements ActionGenerator {
+public final class LogWrapper implements ActionGenerator {
 
     final private static Logger logger = Logger.getLogger(LogWrapper.class);
     final private ActionGenerator baseGenerator;

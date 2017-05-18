@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * Created by maksim on 29.04.17.
  */
-public class CacheWrapper implements ActionGenerator {
+public final class CacheWrapper implements ActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {

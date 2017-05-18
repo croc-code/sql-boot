@@ -36,7 +36,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * Created by maksim on 06.07.16.
  */
-public class ZipHelper {
+public final class ZipHelper {
 
     public static byte[] compress(Map<String, byte[]> files) throws SqlBootException {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

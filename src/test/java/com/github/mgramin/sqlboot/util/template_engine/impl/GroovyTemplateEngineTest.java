@@ -1,16 +1,16 @@
 package com.github.mgramin.sqlboot.util.template_engine.impl;
 
-import static com.google.common.collect.ImmutableMap.of;
-import static org.junit.Assert.assertEquals;
-
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
-import java.util.Arrays;
-import java.util.Map;
-
 import com.github.mgramin.sqlboot.template_engine.impl.GroovyTemplateEngine;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import static com.google.common.collect.ImmutableMap.of;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by MGramin on 10.12.2016.

@@ -32,7 +32,7 @@ import java.util.List;
  * Created by maksim on 10.07.16.
  */
 @Deprecated
-public class ObjectService {
+public final class ObjectService {
 
     private final List<DbResource> objects;
     private final String baseURI;

@@ -28,8 +28,10 @@ package com.github.mgramin.sqlboot.model;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.Arrays;
 import java.util.List;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 /**
  * Command for db-object, e.g. "create", "drop", "exists", "rebuild", "gather"(statistics),
@@ -37,18 +39,25 @@ import java.util.List;
  */
 @ToString
 @EqualsAndHashCode
-public class DbResourceCommand {
+public final class DbResourceCommand {
 
     final private List<String> aliases;
     final private Boolean isDefault;
 
+    public DbResourceCommand(String name) {
+        this(singletonList(name), false);
+    }
+
     public DbResourceCommand(String[] aliases) {
-        this.aliases = Arrays.asList(aliases);
-        this.isDefault = false;
+        this(asList(aliases), false);
     }
 
     public DbResourceCommand(String[] aliases, Boolean isDefault) {
-        this.aliases = Arrays.asList(aliases);
+        this(asList(aliases), isDefault);
+    }
+
+    public DbResourceCommand(List<String> aliases, Boolean isDefault) {
+        this.aliases = aliases;
         this.isDefault = isDefault;
     }
 

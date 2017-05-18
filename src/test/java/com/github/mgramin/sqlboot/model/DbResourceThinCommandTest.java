@@ -1,9 +1,9 @@
 package com.github.mgramin.sqlboot.model;
 
+import org.junit.Test;
+
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
 
 /**
  * Created by MGramin on 05.05.2017.

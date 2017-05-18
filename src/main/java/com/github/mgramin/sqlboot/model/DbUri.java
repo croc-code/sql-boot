@@ -39,18 +39,20 @@ import static java.util.Arrays.asList;
  * Created by maksim on 12.06.16.
  */
 // TODO make and use interface
-public class DbUri {
+public final class DbUri {
 
     private final String type;
-    private String action;
+    private final String action;
     private final List<String> objects;
-    private Boolean recursive;
-    private Map<String, String> params = new LinkedHashMap<>();
+    private final Boolean recursive;
+    private final Map<String, String> params = new LinkedHashMap<>();
     private final Map<String, String> filters = new HashMap<>();
 
     public DbUri(String type, List<String> objects) {
         this.type = type;
         this.objects = objects;
+        this.action = null;
+        this.recursive = false;
     }
 
     public DbUri(String uriString) throws SqlBootException {
@@ -66,7 +68,11 @@ public class DbUri {
             } else {
                 objects = asList(list.get(1).split("[.]"));
             }
-            if (list.size() == 3) action = list.get(2);
+            if (list.size() == 3) {
+                action = list.get(2);
+            } else {
+                action = null;
+            }
             recursive = pathString.charAt(pathString.length() - 1) == '/';
 
             if (queryString != null)

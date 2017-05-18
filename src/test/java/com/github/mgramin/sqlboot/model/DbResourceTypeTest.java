@@ -27,8 +27,6 @@ package com.github.mgramin.sqlboot.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by maksim on 16.05.17.
  */

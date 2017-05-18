@@ -36,7 +36,7 @@ import static java.util.Arrays.asList;
  * Created by MGramin on 09.01.2017.
  */
 @ToString
-public class DbResourceTypeAggregator {
+public final class DbResourceTypeAggregator {
 
     private final List<String> aggregatorName;
     private final List<ActionGenerator> commands;

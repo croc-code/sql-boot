@@ -27,8 +27,6 @@ package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by maksim on 01.05.17.
  */

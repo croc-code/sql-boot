@@ -40,7 +40,7 @@ import static java.util.Collections.singletonList;
  * Created by maksim on 05.04.16.
  */
 @ToString
-public class SqlWrapper implements ActionGenerator {
+public final class SqlWrapper implements ActionGenerator {
 
     final private ActionGenerator baseGenerator;
     final private ISqlHelper sqlHelper;

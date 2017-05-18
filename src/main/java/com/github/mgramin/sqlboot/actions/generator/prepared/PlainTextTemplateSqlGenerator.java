@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * Created by maksim on 29.04.17.
  */
-public class PlainTextTemplateSqlGenerator implements ActionGenerator {
+public final class PlainTextTemplateSqlGenerator implements ActionGenerator {
 
     private final ActionGenerator origin;
 

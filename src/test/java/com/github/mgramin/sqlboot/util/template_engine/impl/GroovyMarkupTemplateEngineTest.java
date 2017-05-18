@@ -1,12 +1,12 @@
 package com.github.mgramin.sqlboot.util.template_engine.impl;
 
-import static org.junit.Assert.assertEquals;
+import com.github.mgramin.sqlboot.template_engine.impl.GroovyMarkupTemplateEngine;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.mgramin.sqlboot.template_engine.impl.GroovyMarkupTemplateEngine;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by mgramin on 06.01.2017.

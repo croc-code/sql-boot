@@ -37,7 +37,7 @@ import java.util.Map;
 
 import static java.util.Collections.singletonList;
 
-public class JdbcSqlHelper implements ISqlHelper {
+public final class JdbcSqlHelper implements ISqlHelper {
 
     private final List<DataSource> dataSources;
 

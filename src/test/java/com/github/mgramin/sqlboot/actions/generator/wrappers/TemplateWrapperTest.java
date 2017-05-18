@@ -1,7 +1,5 @@
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 /**

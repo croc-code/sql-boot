@@ -1,18 +1,19 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
-import static com.google.common.collect.ImmutableMap.of;
-import static java.util.Arrays.asList;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
-import java.util.List;
 import org.junit.Test;
+
+import java.util.List;
+
+import static com.google.common.collect.ImmutableMap.of;
+import static java.util.Arrays.asList;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by mgramin on 31.10.2016.

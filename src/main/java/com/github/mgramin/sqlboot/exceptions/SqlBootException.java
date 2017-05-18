@@ -28,7 +28,7 @@ package com.github.mgramin.sqlboot.exceptions;
 /**
  * Created by maksim on 12.06.16.
  */
-public class SqlBootException extends RuntimeException {
+public final class SqlBootException extends RuntimeException {
 
     public SqlBootException(String message) {
         super(message);

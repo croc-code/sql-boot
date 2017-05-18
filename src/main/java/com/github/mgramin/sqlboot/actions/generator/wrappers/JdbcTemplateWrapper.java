@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * Created by maksim on 29.04.17.
  */
-public class JdbcTemplateWrapper implements ActionGenerator {
+public final class JdbcTemplateWrapper implements ActionGenerator {
 
     private final ActionGenerator baseGenerator;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;

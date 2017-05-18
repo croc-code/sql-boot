@@ -40,7 +40,7 @@ import static java.util.stream.Collectors.toMap;
 /**
  * Created by maksim on 09.05.17.
  */
-public class FilterWrapper implements DbResourceReader {
+public final class FilterWrapper implements DbResourceReader {
 
     private final DbResourceReader origin;
 

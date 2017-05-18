@@ -30,12 +30,11 @@ import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import java.util.List;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Properties;
 
-import static com.google.common.collect.ImmutableMap.of;
 import static java.util.Arrays.asList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

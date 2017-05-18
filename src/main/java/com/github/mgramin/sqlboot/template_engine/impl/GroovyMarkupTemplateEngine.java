@@ -33,7 +33,7 @@ import lombok.ToString;
  * Created by mgramin on 06.01.2017.
  */
 @ToString
-public class GroovyMarkupTemplateEngine extends AbstractGroovyTemplateEngine implements TemplateEngine {
+public final class GroovyMarkupTemplateEngine extends AbstractGroovyTemplateEngine implements TemplateEngine {
 
     public GroovyMarkupTemplateEngine(String template) {
         engine = new MarkupTemplateEngine();

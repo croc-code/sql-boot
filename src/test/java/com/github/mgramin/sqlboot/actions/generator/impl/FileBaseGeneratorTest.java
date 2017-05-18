@@ -26,6 +26,7 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class FileBaseGeneratorTest {
     public void generate() throws Exception {
         final File tempFile = temporaryFolder.newFile("tempFile.txt");
         FileUtils.writeStringToFile(tempFile, "hello world", UTF_8);
-        ActionGenerator generator = new FileBaseGenerator(tempFile);
+        ActionGenerator generator = new FileBaseGenerator(tempFile, new DbResourceCommand("create"));
         assertEquals("hello world", generator.generate(new HashMap<>()));
     }
 

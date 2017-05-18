@@ -46,7 +46,7 @@ import java.util.List;
 
 @RestController
 @ImportResource("classpath:config.xml")
-public class DdlController {
+public final class DdlController {
 
     @Autowired
     private List<DbResourceType> types;
