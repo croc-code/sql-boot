@@ -40,7 +40,7 @@ import java.util.Map;
  */
 @RestController
 @ImportResource("classpath:config.xml")
-public final class SqlExecuteController {
+public final class SqlExecutorController {
 
     @Autowired
     private ISqlHelper sqlHelper;

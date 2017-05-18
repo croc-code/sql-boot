@@ -46,18 +46,19 @@ import java.util.List;
 
 @RestController
 @ImportResource("classpath:config.xml")
-public final class DdlController {
+public final class ApiController {
 
     @Autowired
     private List<DbResourceType> types;
 
+    @Deprecated
     @Autowired
     private List<Aggregator> aggregators;
 
     @Autowired
     private List<DbResourceCommand> commands;
 
-//    private final static Logger logger = Logger.getLogger(DdlController.class);
+//    private final static Logger logger = Logger.getLogger(ApiController.class);
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
