@@ -26,6 +26,16 @@ public class ApiControllerITCase {
     }
 
     @Test
+    public void getOneTable() {
+         callRestAndValidate("table/hr.jobs");
+    }
+
+    @Test
+    public void getOneTableWithChildObjects() {
+         callRestAndValidate("table/hr.jobs/");
+    }
+
+    @Test
     public void getTextDdl() {
         callRestAndValidate("t");
         callRestAndValidate("t/");

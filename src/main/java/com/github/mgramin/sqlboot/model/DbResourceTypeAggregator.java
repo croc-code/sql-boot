@@ -26,6 +26,7 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import lombok.ToString;
 
 import java.util.List;
@@ -38,15 +39,15 @@ import static java.util.Arrays.asList;
 @ToString
 public final class DbResourceTypeAggregator {
 
-    private final List<String> aggregatorName;
+    private final List<Aggregator> aggregatorName;
     private final List<ActionGenerator> commands;
 
-    public DbResourceTypeAggregator(String[] aggregatorName, List<ActionGenerator> commands) {
-        this.aggregatorName = asList(aggregatorName);
+    public DbResourceTypeAggregator(List<Aggregator> aggregatorName, List<ActionGenerator> commands) {
+        this.aggregatorName = aggregatorName;
         this.commands = commands;
     }
 
-    public List<String> name() {
+    public List<Aggregator> name() {
         return aggregatorName;
     }
 

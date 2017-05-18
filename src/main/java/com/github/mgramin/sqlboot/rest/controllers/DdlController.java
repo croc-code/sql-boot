@@ -83,12 +83,11 @@ public final class DdlController {
         final HttpHeaders headers = new HttpHeaders();
         aggregator.httpHeaders().forEach(headers::add);
 
-        final byte[] result = aggregator
-            .aggregate(getDbSchemaObjects(uriString.substring(5), aggregator.name()));
+        final byte[] result = getDbSchemaObjects(uriString.substring(5), aggregator.name());
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
+    private byte[] getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
         final DbUri uri = new DbUri(uriString);
         final DbResourceCommand command;
         if (uri.action() != null) {
@@ -106,9 +105,9 @@ public final class DdlController {
             // TODO make error message as http-response
             return null;
         }
-
         List<DbResource> dbResources = type.read(uri, command, aggregatorName);
-        return dbResources;
+
+        return type.aggregate(dbResources);
     }
 
 }
