@@ -55,7 +55,9 @@
         </constructor-arg>
         <constructor-arg name="aggregators">
             <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
-                <constructor-arg name="aggregatorName" value="sql"/>
+                <constructor-arg name="aggregatorName">
+                    <ref bean="sqlAggregator"/>
+                </constructor-arg>
                 <constructor-arg name="commands">
                     <list>
                         <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}'/>
