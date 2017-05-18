@@ -33,6 +33,7 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
@@ -75,7 +76,7 @@ public class DbResourceType implements IDbResourceType {
     public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName) throws SqlBootException {
         List<DbResource> objects = read(dbUri);
         final List<DbResource> objectsNew = new ArrayList<>();
-        for (DbResource dbResource : objects) {
+        for (final DbResource dbResource : objects) {
             if (dbResource.type().equals(this) || dbUri.recursive() || dbResource.type().aggregators != null) {
                 final DbResourceTypeAggregator objectTypeAggregator = dbResource.type()
                         .aggregators
@@ -95,14 +96,23 @@ public class DbResourceType implements IDbResourceType {
                             .orElse(null);
 
                     if (generator != null) {
-                            /*Map<DbResourceType, List<DbResource>> objectsByType =
-                                    objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
+                            Map<DbResourceType, List<DbResource>> objectsByType =
+                                    objects.stream().collect(Collectors.groupingBy(DbResource::type));
                         final ObjectService objectService = new ObjectService(objects,
                                 String.join(".", dbResource.dbUri()
                                         .objects()));
                         final Map<String, Object> variables = (Map) dbResource.headers();
                         variables.put(dbResource.type().name(), dbResource);
                         variables.put("srv", objectService);
+                        for (Map.Entry<DbResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
+                           if (!entry.getKey().name().equals(dbResource.type().name())) {
+                                   variables.put(entry.getKey().name() + "_",
+                                           entry.getValue()
+                                                   .stream()
+                                                   .filter(a -> a.dbUri().toString().startsWith(entry.getKey().name() + "/" + String.join(".", dbResource.dbUri().objects())))
+                                   );
+                           }
+                        }
 
                         final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
                                 dbResource, generator.generate(variables));
