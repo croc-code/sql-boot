@@ -23,37 +23,30 @@
  *
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.script.aggregators.impl;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.model.*;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
-import lombok.ToString;
+import org.junit.Test;
 
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.*;
 
 /**
- * Created by MGramin on 09.01.2017.
+ * Created by maksim on 20.05.17.
  */
-@Deprecated
-@ToString
-public final class DbResourceTypeAggregator {
+public class JsonAggregatorTest {
 
-    private final List<Aggregator> aggregatorName;
-    private final List<ActionGenerator> commands;
-
-    public DbResourceTypeAggregator(List<Aggregator> aggregatorName, List<ActionGenerator> commands) {
-        this.aggregatorName = aggregatorName;
-        this.commands = commands;
-    }
-
-    public List<Aggregator> name() {
-        return aggregatorName;
-    }
-
-    public List<ActionGenerator> commands() {
-        return commands;
+    @Test
+    public void aggregate() throws Exception {
+        List<DbResource> resources = asList(
+                new DbResourceThin("persons", null, new DbUri("table/hr.persons"), null),
+                new DbResourceThin("jobs", null, new DbUri("table/hr.jobs"), null),
+                new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
+        Aggregator aggregator = new JsonAggregator();
+        assertEquals(335, new String(aggregator.aggregate(resources)).length());
     }
 
 }

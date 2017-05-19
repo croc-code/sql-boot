@@ -55,6 +55,7 @@ public final class ApiController {
     @Autowired
     private List<Aggregator> aggregators;
 
+    @Deprecated
     @Autowired
     private List<DbResourceCommand> commands;
 

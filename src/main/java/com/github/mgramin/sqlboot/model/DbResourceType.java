@@ -50,6 +50,7 @@ public final class DbResourceType implements IDbResourceType {
     private final List<String> aliases;
     private final List<DbResourceType> child;
     private final List<DbResourceReader> readers;
+    @Deprecated
     private final List<DbResourceTypeAggregator> aggregators;
 
     public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
