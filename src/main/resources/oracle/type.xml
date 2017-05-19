@@ -29,7 +29,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean name="type,typ,tp" parent="parentSchemaObjectBean">
+    <bean name="type,typ,tp" parent="dbResourceType">
         <property name="name" value="type" />
         <property name="sql" >
             <value>
@@ -62,7 +62,7 @@
     </bean>
 
 
-    <bean name="type_body,typb,tb" parent="parentSchemaObjectBean">
+    <bean name="type_body,typb,tb" parent="dbResourceType">
         <property name="name" value="type_body" />
         <property name="child"><null /></property>
         <property name="sql" >

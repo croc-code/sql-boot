@@ -33,7 +33,7 @@
 
 
 
-    <bean name="table,tbl,t" parent="parentSchemaObjectBean">
+    <bean name="table,tbl,t" parent="dbResourceType">
         <constructor-arg name="aliases" value="table,tbl,t" />
         <constructor-arg name="child">
             <list>
@@ -69,7 +69,7 @@
     </bean>
 
 
-    <!--<bean name="column,clmn,c" parent="parentSchemaObjectBean">-->
+    <!--<bean name="column,clmn,c" parent="dbResourceType">-->
         <!--<property name="aliases" value="column,clmn,c" />-->
         <!--<property name="readers">
             <list>
@@ -98,7 +98,7 @@
     <!--</bean>-->
 
 
-    <!--<bean name="index,idx,i" parent="parentSchemaObjectBean">
+    <!--<bean name="index,idx,i" parent="dbResourceType">
         <property name="name" value="index" />
         <property name="sql" >
             <value>

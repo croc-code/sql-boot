@@ -29,7 +29,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean name="sequence;seq;s" parent="parentSchemaObjectBean">
+    <bean name="sequence;seq;s" parent="dbResourceType">
         <property name="name" value="sequence" />
         <property name="sql" >
             <value>

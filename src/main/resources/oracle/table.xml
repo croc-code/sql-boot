@@ -32,7 +32,7 @@
         profile="oracle">
 
 
-    <bean name="table,tbl,t" parent="parentSchemaObjectBean">
+    <bean name="table,tbl,t" parent="dbResourceType">
         <constructor-arg name="aliases" value="table,tbl,t" />
         <constructor-arg name="child">
             <list>
@@ -85,7 +85,7 @@
     </bean>
 
 
-<!--    <bean name="index,idx,i" parent="parentSchemaObjectBean">
+<!--    <bean name="index,idx,i" parent="dbResourceType">
         <property name="name" value="index" />
         <property name="sql">
             <value>
@@ -134,7 +134,7 @@
     </bean>
 
 
-    <bean name="trigger,trg,tr" parent="parentSchemaObjectBean">
+    <bean name="trigger,trg,tr" parent="dbResourceType">
         <property name="name" value="trigger" />
         <property name="sql" >
             <value>
@@ -168,7 +168,7 @@
     </bean>
 
 
-    <bean name="pk" parent="parentSchemaObjectBean">
+    <bean name="pk" parent="dbResourceType">
         <property name="name" value="pk" />
         <property name="sql" >
             <value>
@@ -198,7 +198,7 @@
     </bean>
 
 
-    <bean name="fk" parent="parentSchemaObjectBean">
+    <bean name="fk" parent="dbResourceType">
         <property name="name" value="fk" />
         <property name="sql" >
             <value>
@@ -235,7 +235,7 @@
     </bean>
 
 
-    <bean name="table_grant,tg" parent="parentSchemaObjectBean">
+    <bean name="table_grant,tg" parent="dbResourceType">
         <property name="name" value="tables grant" />
         <property name="sql">
             <value>
@@ -266,7 +266,7 @@
 
 
 
-    <bean name="table_comment,tc" parent="parentSchemaObjectBean">
+    <bean name="table_comment,tc" parent="dbResourceType">
         <property name="name" value="tables grant" />
         <property name="sql">
             <value>

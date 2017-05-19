@@ -32,7 +32,7 @@
        profile="information_schema">
 
 
-    <bean name="table" parent="parentSchemaObjectBean">
+    <bean name="table" parent="dbResourceType">
         <constructor-arg name="aliases" value="table,tbl,t" />
         <constructor-arg name="child">
             <list>
@@ -90,7 +90,7 @@
     </bean>
 
 
-    <bean name="column" parent="parentSchemaObjectBean">
+    <bean name="column" parent="dbResourceType">
         <constructor-arg name="aliases" value="column,clmn,c" />
         <constructor-arg name="readers">
             <bean parent="baseSqlReader">
@@ -117,7 +117,7 @@
     </bean>
 
 
-    <bean name="pk" parent="parentSchemaObjectBean">
+    <bean name="pk" parent="dbResourceType">
         <constructor-arg name="aliases" value="pk,primary,primary_key" />
         <constructor-arg name="readers">
             <bean parent="baseSqlReader">
@@ -147,7 +147,7 @@
     </bean>
 
 
-    <bean name="fk" parent="parentSchemaObjectBean">
+    <bean name="fk" parent="dbResourceType">
         <constructor-arg name="aliases" value="fk,foreign,foreign_key" />
         <constructor-arg name="readers">
             <bean parent="baseSqlReader">
@@ -177,7 +177,7 @@
     </bean>
 
 
-    <bean name="index" parent="parentSchemaObjectBean">
+    <bean name="index" parent="dbResourceType">
         <constructor-arg name="aliases" value="index,idx" />
         <constructor-arg name="readers">
             <bean parent="baseSqlReader">
@@ -207,7 +207,7 @@
     </bean>
 
 
-    <bean name="check" parent="parentSchemaObjectBean">
+    <bean name="check" parent="dbResourceType">
         <constructor-arg name="aliases" value="check,chk" />
         <constructor-arg name="readers">
             <bean parent="baseSqlReader">

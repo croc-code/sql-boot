@@ -45,7 +45,7 @@
 
 
 
-    <bean name="schema" parent="parentSchemaObjectBean">
+    <bean name="schema" parent="dbResourceType">
         <constructor-arg name="aliases" value="schema,schm,s" />
         <constructor-arg name="child">
             <list>

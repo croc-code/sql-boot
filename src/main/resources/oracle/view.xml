@@ -29,7 +29,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="view" name="view,vw,v" parent="parentSchemaObjectBean">
+    <bean id="view" name="view,vw,v" parent="dbResourceType">
         <property name="name" value="view" />
         <property name="sql" >
             <value>
