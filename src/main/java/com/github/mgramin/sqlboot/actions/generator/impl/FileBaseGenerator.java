@@ -44,11 +44,13 @@ public final class FileBaseGenerator implements ActionGenerator {
 
     private final File file;
     private final DbResourceCommand dbResourceCommand;
+    private final String aggregators;
     private final Charset UTF_8 = StandardCharsets.UTF_8;
 
-    public FileBaseGenerator(File file, DbResourceCommand command) {
+    public FileBaseGenerator(File file, DbResourceCommand command, String aggregators) {
         this.file = file;
         this.dbResourceCommand = command;
+        this.aggregators = aggregators;
     }
 
     @Override
@@ -64,6 +66,11 @@ public final class FileBaseGenerator implements ActionGenerator {
     @Override
     public DbResourceCommand command() {
         return this.dbResourceCommand;
+    }
+
+    @Override
+    public String aggregators() {
+        return aggregators;
     }
 
     private String generate() {

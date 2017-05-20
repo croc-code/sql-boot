@@ -52,4 +52,9 @@ public final class CacheWrapper implements ActionGenerator {
         throw new SqlBootException("Coming soon!");
     }
 
+    @Override
+    public String aggregators() {
+        throw new SqlBootException("Coming soon!");
+    }
+
 }

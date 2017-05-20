@@ -45,43 +45,18 @@
             </list>
         </constructor-arg>
         <constructor-arg name="readers">
-            <bean parent="baseSqlReader">
+            <bean parent="sqlResourceReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${tables}" />
                 </constructor-arg>
             </bean>
         </constructor-arg>
-        <constructor-arg name="aggregators">
-            <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
-                <constructor-arg name="aggregatorName">
-                    <ref bean="sqlAggregator"/>
-                </constructor-arg>
-                <constructor-arg name="commands">
-                    <list>
-                        <bean parent="plainTextTemplateSqlGenerator" c:baseText="${table.sql.create}"/>
-                        <bean parent="plainTextTemplateGenerator" c:baseText="${table.sql.drop}" c:command-ref="DROP"/>
-                    </list>
-                </constructor-arg>
-            </bean>
-        </constructor-arg>
-<!--        <property name="commands">
+        <constructor-arg name="generators">
             <list>
-                <bean name="createTable" parent="parentSQLGeneratorBean">
-                    <property name="filePath" value="${schema?lower_case}/tables/${table?lower_case}/ddl.sql" />
-                    <property name="sql">
-                        <value>
-                            select DBMS_METADATA.GET_DDL('TABLE', '${table}', '${schema}') as ddl from dual
-                        </value>
-                    </property>
-                </bean>
-                <bean name="dropTable" parent="plainTextTemplateGenerator">
-                    <property name="dbSchemaObjectCommand" ref="DROP" />
-                    <property name="template" >
-                        <value>drop table ${schema}.${table};</value>
-                    </property>
-                </bean>
+                <bean parent="plainTextTemplateSqlGenerator" c:baseText="${table.sql.create}"/>
+                <bean parent="plainTextTemplateGenerator" c:baseText="${table.sql.drop}" c:command-ref="DROP"/>
             </list>
-        </property>-->
+        </constructor-arg>
     </bean>
 
 

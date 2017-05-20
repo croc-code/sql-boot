@@ -39,17 +39,17 @@ import java.util.Map;
  */
 public final class JdbcTemplateWrapper implements ActionGenerator {
 
-    private final ActionGenerator baseGenerator;
+    private final ActionGenerator origin;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public JdbcTemplateWrapper(ActionGenerator baseGenerator, DataSource dataSource, Map<String, String> mapping) {
-        this.baseGenerator = baseGenerator;
+    public JdbcTemplateWrapper(ActionGenerator origin, DataSource dataSource, Map<String, String> mapping) {
+        this.origin = origin;
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        List<Map<String, Object>> maps = namedParameterJdbcTemplate.queryForList(baseGenerator.generate(variables), variables);
+        List<Map<String, Object>> maps = namedParameterJdbcTemplate.queryForList(origin.generate(variables), variables);
         return maps.get(1).get("result").toString();
     }
 
@@ -60,7 +60,12 @@ public final class JdbcTemplateWrapper implements ActionGenerator {
 
     @Override
     public DbResourceCommand command() {
-        return baseGenerator.command();
+        return origin.command();
+    }
+
+    @Override
+    public String aggregators() {
+        return origin.aggregators();
     }
 
 }

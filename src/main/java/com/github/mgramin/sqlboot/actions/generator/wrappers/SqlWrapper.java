@@ -42,27 +42,32 @@ import static java.util.Collections.singletonList;
 @ToString
 public final class SqlWrapper implements ActionGenerator {
 
-    final private ActionGenerator baseGenerator;
+    final private ActionGenerator origin;
     final private ISqlHelper sqlHelper;
 
-    public SqlWrapper(ActionGenerator baseGenerator, ISqlHelper sqlHelper) {
-        this.baseGenerator = baseGenerator;
+    public SqlWrapper(ActionGenerator origin, ISqlHelper sqlHelper) {
+        this.origin = origin;
         this.sqlHelper = sqlHelper;
     }
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        return generate(baseGenerator.generate(variables));
+        return generate(origin.generate(variables));
     }
 
     @Override
     public String generate(List<Object> variables) throws SqlBootException {
-        return generate(baseGenerator.generate(variables));
+        return generate(origin.generate(variables));
     }
 
     @Override
     public DbResourceCommand command() {
-        return baseGenerator.command();
+        return origin.command();
+    }
+
+    @Override
+    public String aggregators() {
+        return origin.aggregators();
     }
 
     private String generate(String sql) {

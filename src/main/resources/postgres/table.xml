@@ -47,24 +47,17 @@
             </list>
         </constructor-arg>
         <constructor-arg name="readers">
-            <bean parent="baseSqlReader">
+            <bean parent="sqlResourceReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${tables}" />
                 </constructor-arg>
             </bean>
         </constructor-arg>
-        <constructor-arg name="aggregators">
-            <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
-                <constructor-arg name="aggregatorName">
-                    <ref bean="sqlAggregator"/>
-                </constructor-arg>
-                <constructor-arg name="commands">
-                    <list>
-                        <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}'/>
-                        <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
-                    </list>
-                </constructor-arg>
-            </bean>
+        <constructor-arg name="generators">
+            <list>
+                <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}'/>
+                <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
+            </list>
         </constructor-arg>
     </bean>
 
@@ -73,7 +66,7 @@
         <!--<property name="aliases" value="column,clmn,c" />-->
         <!--<property name="readers">
             <list>
-                <bean name="sqlReader" parent="baseSqlReader">
+                <bean name="sqlReader" parent="sqlResourceReader">
                     <property name="sql" value="${table.column}" />
                 </bean>
             </list>

@@ -43,14 +43,14 @@
 
 
     <!-- Readers -->
-    <bean name="baseSqlReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlResourceReader"
+    <bean name="sqlResourceReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlResourceReader"
         c:sqlHelper-ref="sqlHelper"/>
 
 
     <!-- Generators -->
     <bean id="plainTextGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator"
-          c:command-ref='CREATE'/>
+          c:command-ref='CREATE' c:aggregators="sql"/>
 
     <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper"
@@ -62,18 +62,18 @@
     <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
           c:baseTextEngineFactory-ref="templateEngineFactory"
-          c:command-ref='CREATE'/>
+          c:command-ref='CREATE' c:aggregators="sql,xml"/>
 
     <bean id="plainTextMarkupTemplateGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
           c:baseTextEngineFactory-ref="markupTemplateEngineFactory"
-          c:command-ref='CREATE'/>
+          c:command-ref='CREATE' c:aggregators="sql,xml"/>
 
      <bean id="plainTextTemplateSqlGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateSqlGenerator"
           c:baseTextEngineFactory-ref="templateEngineFactory"
           c:sqlHelper-ref="sqlHelper"
-          c:command-ref='CREATE'/>
+          c:command-ref='CREATE' c:aggregators="sql,xml"/>
 
 
     <!-- Aggregators -->

@@ -39,10 +39,12 @@ public final class PlainTextGenerator implements ActionGenerator {
 
     private final String baseText;
     private final DbResourceCommand dbResourceCommand;
+    private final String aggregators;
 
-    public PlainTextGenerator(String baseText, DbResourceCommand command) {
+    public PlainTextGenerator(String baseText, DbResourceCommand command, String aggregators) {
         this.baseText = baseText;
         this.dbResourceCommand = command;
+        this.aggregators = aggregators;
     }
 
     @Override
@@ -58,6 +60,11 @@ public final class PlainTextGenerator implements ActionGenerator {
     @Override
     public DbResourceCommand command() {
         return this.dbResourceCommand;
+    }
+
+    @Override
+    public String aggregators() {
+        return aggregators;
     }
 
 }

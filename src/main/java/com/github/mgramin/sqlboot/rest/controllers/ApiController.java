@@ -51,7 +51,6 @@ public final class ApiController {
     @Autowired
     private List<DbResourceType> types;
 
-    @Deprecated
     @Autowired
     private List<Aggregator> aggregators;
 
@@ -85,11 +84,12 @@ public final class ApiController {
         final HttpHeaders headers = new HttpHeaders();
         aggregator.httpHeaders().forEach(headers::add);
 
-        final byte[] result = getDbSchemaObjects(uriString.substring(5), aggregator.name());
+        List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
+        byte[] result = aggregator.aggregate(dbSchemaObjects);
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    private byte[] getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
+    private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
         final DbUri uri = new DbUri(uriString);
         final DbResourceCommand command;
         if (uri.action() != null) {
@@ -109,7 +109,7 @@ public final class ApiController {
         }
         List<DbResource> dbResources = type.read(uri, command, aggregatorName);
 
-        return type.aggregate(dbResources);
+        return dbResources;
     }
 
 }

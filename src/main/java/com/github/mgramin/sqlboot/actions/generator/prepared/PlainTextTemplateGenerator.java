@@ -43,9 +43,10 @@ public final class PlainTextTemplateGenerator implements ActionGenerator {
     private final ActionGenerator origin;
 
     public PlainTextTemplateGenerator(String baseText, DbResourceCommand command,
-                                      TemplateEngineFactory templateEngineFactory) {
+                                      TemplateEngineFactory templateEngineFactory,
+                                      String aggregators) {
         origin = new TemplateWrapper(
-                    new PlainTextGenerator(baseText, command),
+                    new PlainTextGenerator(baseText, command, aggregators),
                     templateEngineFactory);
     }
 
@@ -62,6 +63,11 @@ public final class PlainTextTemplateGenerator implements ActionGenerator {
     @Override
     public DbResourceCommand command() {
         return origin.command();
+    }
+
+    @Override
+    public String aggregators() {
+        return this.aggregators();
     }
 
 }

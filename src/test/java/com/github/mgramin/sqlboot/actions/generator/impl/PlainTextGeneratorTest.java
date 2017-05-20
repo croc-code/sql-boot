@@ -42,14 +42,14 @@ public class PlainTextGeneratorTest {
 
     @Test
     public void generate() throws Exception {
-        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}));
+        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}), "sql");
         assertEquals(sql, generator.generate(new HashMap<>()));
         assertEquals(new DbResourceCommand(new String[] {"create"}), generator.command());
     }
 
     @Test
     public void generate2() throws Exception {
-        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}, true));
+        ActionGenerator generator = new PlainTextGenerator(sql, new DbResourceCommand(new String[] {"create"}, true), "sql");
         assertEquals(sql, generator.generate(new HashMap<>()));
         assertEquals(new DbResourceCommand(new String[] {"create"}, true), generator.command());
     }

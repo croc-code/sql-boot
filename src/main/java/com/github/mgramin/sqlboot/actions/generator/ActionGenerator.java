@@ -42,4 +42,6 @@ public interface ActionGenerator {
 
     DbResourceCommand command();
 
+    String aggregators();
+
 }

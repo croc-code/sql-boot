@@ -45,10 +45,11 @@ public final class PlainTextTemplateSqlGenerator implements ActionGenerator {
     private final ActionGenerator origin;
 
     public PlainTextTemplateSqlGenerator(String baseText, DbResourceCommand command,
-                                         TemplateEngineFactory templateEngineFactory, ISqlHelper sqlHelper) {
+                                         TemplateEngineFactory templateEngineFactory,
+                                         ISqlHelper sqlHelper, String aggregators) {
         origin = new SqlWrapper(
                     new TemplateWrapper(
-                        new PlainTextGenerator(baseText, command),
+                        new PlainTextGenerator(baseText, command, aggregators),
                         templateEngineFactory),
                     sqlHelper);
     }
@@ -66,6 +67,11 @@ public final class PlainTextTemplateSqlGenerator implements ActionGenerator {
     @Override
     public DbResourceCommand command() {
         return origin.command();
+    }
+
+    @Override
+    public String aggregators() {
+        return origin.aggregators();
     }
 
 }

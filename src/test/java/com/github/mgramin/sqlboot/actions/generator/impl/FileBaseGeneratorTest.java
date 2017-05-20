@@ -50,7 +50,7 @@ public class FileBaseGeneratorTest {
     public void generate() throws Exception {
         final File tempFile = temporaryFolder.newFile("tempFile.txt");
         FileUtils.writeStringToFile(tempFile, "hello world", UTF_8);
-        ActionGenerator generator = new FileBaseGenerator(tempFile, new DbResourceCommand("create"));
+        ActionGenerator generator = new FileBaseGenerator(tempFile, new DbResourceCommand("create"), "sql");
         assertEquals("hello world", generator.generate(new HashMap<>()));
     }
 

@@ -40,6 +40,4 @@ public interface IDbResourceType {
     List<String> aliases();
 
     List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName) throws SqlBootException;
-
-    byte[] aggregate(List<DbResource> objects);
 }

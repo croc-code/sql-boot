@@ -28,7 +28,6 @@ package com.github.mgramin.sqlboot.model;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
-import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 
 /**
@@ -50,19 +48,17 @@ public final class DbResourceType implements IDbResourceType {
     private final List<String> aliases;
     private final List<DbResourceType> child;
     private final List<DbResourceReader> readers;
-    @Deprecated
-    private final List<DbResourceTypeAggregator> aggregators;
+    private final List<ActionGenerator> generators;
 
-    public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
-        this(aliases, null, readers, aggregators);
+    public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<ActionGenerator> generators) {
+        this(aliases, null, readers, generators);
     }
 
-    public DbResourceType(String[] aliases, List<DbResourceType> child,
-                          List<DbResourceReader> readers, List<DbResourceTypeAggregator> aggregators) {
+    public DbResourceType(String[] aliases, List<DbResourceType> child, List<DbResourceReader> readers, List<ActionGenerator> generators) {
         this.aliases = asList(aliases);
         this.child = child;
         this.readers = readers;
-        this.aggregators = aggregators;
+        this.generators = generators;
     }
 
     @Override
@@ -82,41 +78,31 @@ public final class DbResourceType implements IDbResourceType {
         for (final DbResource dbResource : objects) {
             if (dbResource.type().equals(this) || dbUri.recursive()) {
 
+                final ActionGenerator generator = dbResource.type().generators.stream()
+                        .filter(g -> g.command().equals(command))
+                        .findFirst().get();
 
-                final ActionGenerator generator = dbResource.type().aggregators
-                        .stream()
-                        .filter(a -> a.name().stream().anyMatch(m -> m.isDefault()))
-                        .findFirst()
-                        .get()
-                        .commands()
-                        .stream()
-                        .filter(c -> c.command().name().equalsIgnoreCase(command.name()))
-                        .findFirst()
-                        .orElse(null);
-
-                if (generator != null) {
-                    Map<DbResourceType, List<DbResource>> objectsByType =
-                            objects.stream().collect(Collectors.groupingBy(DbResource::type));
-                    final ObjectService objectService = new ObjectService(objects,
-                            String.join(".", dbResource.dbUri()
-                                    .objects()));
-                    final Map<String, Object> variables = (Map) dbResource.headers();
-                    variables.put(dbResource.type().name(), dbResource);
-                    variables.put("srv", objectService);
-                    for (Map.Entry<DbResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
-                        if (!entry.getKey().name().equals(dbResource.type().name())) {
-                            variables.put(entry.getKey().name() + "_",
-                                    entry.getValue()
-                                            .stream()
-                                            .filter(a -> a.dbUri().toString().startsWith(entry.getKey().name() + "/" + String.join(".", dbResource.dbUri().objects())))
-                            );
-                        }
+                Map<DbResourceType, List<DbResource>> objectsByType =
+                        objects.stream().collect(Collectors.groupingBy(DbResource::type));
+                final ObjectService objectService = new ObjectService(objects,
+                        String.join(".", dbResource.dbUri()
+                                .objects()));
+                final Map<String, Object> variables = (Map) dbResource.headers();
+                variables.put(dbResource.type().name(), dbResource);
+                variables.put("srv", objectService);
+                for (Map.Entry<DbResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
+                    if (!entry.getKey().name().equals(dbResource.type().name())) {
+                        variables.put(entry.getKey().name() + "_",
+                                entry.getValue()
+                                        .stream()
+                                        .filter(a -> a.dbUri().toString().startsWith(entry.getKey().name() + "/" + String.join(".", dbResource.dbUri().objects())))
+                        );
                     }
-
-                    final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
-                            dbResource, generator.generate(variables));
-                    objectsNew.add(dbResourceBodyWrapper);
                 }
+
+                final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
+                        dbResource, generator.generate(variables));
+                objectsNew.add(dbResourceBodyWrapper);
             }
         }
         return objectsNew;
@@ -127,13 +113,6 @@ public final class DbResourceType implements IDbResourceType {
         final List<DbResource> objects = reader.read(dbUri, this);
         ofNullable(this.child).ifPresent(c -> c.forEach(a -> objects.addAll(a.read(dbUri))));
         return objects;
-    }
-
-    @Override
-    public byte[] aggregate(List<DbResource> objects) {
-                 Aggregator aggregator = aggregators.stream()
-                        .flatMap(v -> v.name().stream()).filter(f -> f.isDefault() != null && f.isDefault()).findFirst().orElse(null);
-        return aggregator.aggregate(objects);
     }
 
 }

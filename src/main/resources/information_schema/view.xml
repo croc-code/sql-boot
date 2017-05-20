@@ -35,35 +35,16 @@
     <bean name="view" parent="dbResourceType">
         <constructor-arg name="aliases" value="view,vw,v" />
         <constructor-arg name="readers">
-            <bean parent="baseSqlReader">
+            <bean parent="sqlResourceReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${views}" />
                 </constructor-arg>
             </bean>
         </constructor-arg>
-        <constructor-arg name="aggregators">
+        <constructor-arg name="generators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
-                    <constructor-arg name="aggregatorName">
-                        <ref bean="sqlAggregator"/>
-                    </constructor-arg>
-                    <constructor-arg name="commands">
-                        <list>
-                            <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.create}' />
-                            <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.drop}' c:command-ref='DROP' />
-                        </list>
-                    </constructor-arg>
-                </bean>
-                <!--<bean clacom.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregatorator">
-                    <property name="aggregatorName" value="zip"/>
-                    <property name="commands">
-                        <list>
-                            <bean parent="plainTextTemplateGenerator">
-                                <property name="template" value="${view.sql.create}" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>-->
+                <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.create}' />
+                <bean parent="plainTextTemplateGenerator" c:baseText='${view.sql.drop}' c:command-ref='DROP' />
             </list>
         </constructor-arg>
     </bean>
@@ -77,35 +58,16 @@
             </list>
         </constructor-arg>
         <constructor-arg name="readers">
-            <bean parent="baseSqlReader">
+            <bean parent="sqlResourceReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${mviews}" />
                 </constructor-arg>
             </bean>
         </constructor-arg>
-        <constructor-arg name="aggregators">
+        <constructor-arg name="generators">
             <list>
-                <bean class="com.github.mgramin.sqlboot.model.DbResourceTypeAggregator">
-                    <constructor-arg name="aggregatorName">
-                        <ref bean="sqlAggregator"/>
-                    </constructor-arg>
-                    <constructor-arg name="commands">
-                        <list>
-                            <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.create}' />
-                            <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.drop}' c:command-ref='DROP' />
-                        </list>
-                    </constructor-arg>
-                </bean>
-                <!--<bean clacom.github.mgramin.sqlboot.model.DbSchemaObjectTypeAggregatorator">
-                    <property name="aggregatorName" value="zip"/>
-                    <property name="commands">
-                        <list>
-                            <bean parent="plainTextTemplateGenerator">
-                                <property name="template" value="${mview.sql.create}" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>-->
+                <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.create}' />
+                <bean parent="plainTextTemplateGenerator" c:baseText='${mview.sql.drop}' c:command-ref='DROP' />
             </list>
         </constructor-arg>
     </bean>

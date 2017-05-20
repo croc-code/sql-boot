@@ -78,4 +78,9 @@ public final class TemplateWrapper implements ActionGenerator {
         return origin.command();
     }
 
+    @Override
+    public String aggregators() {
+        return origin.aggregators();
+    }
+
 }

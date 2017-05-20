@@ -40,16 +40,16 @@ import java.util.Map;
 public final class LogWrapper implements ActionGenerator {
 
     final private static Logger logger = Logger.getLogger(LogWrapper.class);
-    final private ActionGenerator baseGenerator;
+    final private ActionGenerator origin;
 
-    public LogWrapper(ActionGenerator baseGenerator) {
-        this.baseGenerator = baseGenerator;
+    public LogWrapper(ActionGenerator origin) {
+        this.origin = origin;
     }
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
         StopWatch stopWatch = startLog(variables);
-        String generate = baseGenerator.generate(variables);
+        String generate = origin.generate(variables);
         stopLog(stopWatch);
         return generate;
     }
@@ -57,14 +57,19 @@ public final class LogWrapper implements ActionGenerator {
     @Override
     public String generate(List<Object> variables) throws SqlBootException {
         StopWatch stopWatch = startLog(variables);
-        String generate = baseGenerator.generate(variables);
+        String generate = origin.generate(variables);
         stopLog(stopWatch);
         return generate;
     }
 
     @Override
     public DbResourceCommand command() {
-        return baseGenerator.command();
+        return origin.command();
+    }
+
+    @Override
+    public String aggregators() {
+        return origin.aggregators();
     }
 
     private StopWatch startLog(Object variables) {

@@ -55,17 +55,16 @@
             </list>
         </constructor-arg>
         <constructor-arg name="readers">
-            <bean parent="baseSqlReader">
+            <bean parent="sqlResourceReader">
                 <constructor-arg name="actionGenerator">
                     <bean parent="plainTextTemplateGenerator" c:baseText="${schemas}" />
                 </constructor-arg>
             </bean>
         </constructor-arg>
-        <constructor-arg name="aggregators">
+        <constructor-arg name="generators">
             <null />
         </constructor-arg>
     </bean>
-
 
     <import resource="table.xml"/>
     <import resource="view.xml"/>

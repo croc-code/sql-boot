@@ -25,14 +25,16 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
-import com.github.mgramin.sqlboot.model.*;
+import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbResourceThin;
+import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import org.junit.Test;
 
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by maksim on 20.05.17.
