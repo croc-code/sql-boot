@@ -39,7 +39,7 @@ import static java.util.Collections.singletonList;
  */
 @ToString
 @EqualsAndHashCode
-public final class DbResourceCommand {
+public final class DbResourceCommand implements IDbResourceCommand {
 
     final private List<String> aliases;
     final private Boolean isDefault;
@@ -61,14 +61,17 @@ public final class DbResourceCommand {
         this.isDefault = isDefault;
     }
 
-    public String name () {
+    @Override
+    public String name() {
         return aliases.get(0);
     }
 
+    @Override
     public List<String> aliases() {
         return aliases;
     }
 
+    @Override
     public Boolean isDefault() {
         return isDefault;
     }

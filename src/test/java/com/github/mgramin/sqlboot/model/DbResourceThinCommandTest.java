@@ -12,13 +12,13 @@ public class DbResourceThinCommandTest {
 
     @Test
     public void name() throws Exception {
-        DbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
+        IDbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
         assertEquals("create", command.name());
     }
 
     @Test
     public void aliases() throws Exception {
-        DbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
+        IDbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
         assertEquals(asList("create", "c", "+"), command.aliases());
     }
 
@@ -32,7 +32,7 @@ public class DbResourceThinCommandTest {
 
     @Test
     public void toStringTest() throws Exception {
-        DbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
+        IDbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
         assertEquals("DbResourceCommand(aliases=[create, c, +], isDefault=false)", command.toString());
     }
 

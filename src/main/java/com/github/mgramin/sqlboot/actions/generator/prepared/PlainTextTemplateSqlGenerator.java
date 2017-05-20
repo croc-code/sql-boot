@@ -30,7 +30,7 @@ import com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.SqlWrapper;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DbResourceCommand;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 
@@ -44,7 +44,7 @@ public final class PlainTextTemplateSqlGenerator implements ActionGenerator {
 
     private final ActionGenerator origin;
 
-    public PlainTextTemplateSqlGenerator(String baseText, DbResourceCommand command,
+    public PlainTextTemplateSqlGenerator(String baseText, IDbResourceCommand command,
                                          TemplateEngineFactory templateEngineFactory,
                                          ISqlHelper sqlHelper, String aggregators) {
         origin = new SqlWrapper(
@@ -65,7 +65,7 @@ public final class PlainTextTemplateSqlGenerator implements ActionGenerator {
     }
 
     @Override
-    public DbResourceCommand command() {
+    public IDbResourceCommand command() {
         return origin.command();
     }
 

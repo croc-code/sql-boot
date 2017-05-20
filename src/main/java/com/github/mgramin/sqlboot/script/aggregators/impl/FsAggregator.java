@@ -35,11 +35,11 @@ import java.util.List;
 /**
  * Created by MGramin on 27.04.2017.
  */
-public final class FileSystemAggregator extends AbstractAggregator implements Aggregator {
+public final class FsAggregator extends AbstractAggregator implements Aggregator {
 
     @Override
     public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
-        return new byte[0];
+        throw new SqlBootException("Coming soon!");
     }
 
 }

@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DbResourceCommand;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +48,7 @@ public final class CacheWrapper implements ActionGenerator {
     }
 
     @Override
-    public DbResourceCommand command() {
+    public IDbResourceCommand command() {
         throw new SqlBootException("Coming soon!");
     }
 

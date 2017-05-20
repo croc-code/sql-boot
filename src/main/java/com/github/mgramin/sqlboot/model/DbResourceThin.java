@@ -26,7 +26,6 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import lombok.ToString;
 
 import java.util.Properties;
 

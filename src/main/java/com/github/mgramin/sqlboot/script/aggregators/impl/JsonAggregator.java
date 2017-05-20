@@ -27,12 +27,10 @@ package com.github.mgramin.sqlboot.script.aggregators.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

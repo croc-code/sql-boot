@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-import com.github.mgramin.sqlboot.model.DbResourceCommand;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -43,13 +43,13 @@ import java.util.Map;
 public final class FileBaseGenerator implements ActionGenerator {
 
     private final File file;
-    private final DbResourceCommand dbResourceCommand;
+    private final IDbResourceCommand IDbResourceCommand;
     private final String aggregators;
     private final Charset UTF_8 = StandardCharsets.UTF_8;
 
-    public FileBaseGenerator(File file, DbResourceCommand command, String aggregators) {
+    public FileBaseGenerator(File file, IDbResourceCommand command, String aggregators) {
         this.file = file;
-        this.dbResourceCommand = command;
+        this.IDbResourceCommand = command;
         this.aggregators = aggregators;
     }
 
@@ -64,8 +64,8 @@ public final class FileBaseGenerator implements ActionGenerator {
     }
 
     @Override
-    public DbResourceCommand command() {
-        return this.dbResourceCommand;
+    public IDbResourceCommand command() {
+        return this.IDbResourceCommand;
     }
 
     @Override

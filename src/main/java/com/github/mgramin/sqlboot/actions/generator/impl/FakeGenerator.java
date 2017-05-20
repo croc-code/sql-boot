@@ -27,44 +27,35 @@ package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.model.FakeDbResourceCommand;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Generate command from plain text
+ * Created by maksim on 21.05.17.
  */
-public final class PlainTextGenerator implements ActionGenerator {
-
-    private final String baseText;
-    private final IDbResourceCommand IDbResourceCommand;
-    private final String aggregators;
-
-    public PlainTextGenerator(String baseText, IDbResourceCommand command, String aggregators) {
-        this.baseText = baseText;
-        this.IDbResourceCommand = command;
-        this.aggregators = aggregators;
-    }
+public class FakeGenerator implements ActionGenerator {
 
     @Override
     public String generate(Map<String, Object> variables) throws SqlBootException {
-        return baseText;
+        return null;
     }
 
     @Override
     public String generate(List<Object> variables) throws SqlBootException {
-        return baseText;
+        return null;
     }
 
     @Override
     public IDbResourceCommand command() {
-        return this.IDbResourceCommand;
+        return new FakeDbResourceCommand();
     }
 
     @Override
     public String aggregators() {
-        return this.aggregators;
+        return null;
     }
 
 }

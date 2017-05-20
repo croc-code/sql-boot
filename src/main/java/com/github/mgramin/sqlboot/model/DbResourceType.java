@@ -72,7 +72,7 @@ public final class DbResourceType implements IDbResourceType {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, DbResourceCommand command, String aggregatorName) throws SqlBootException {
+    public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SqlBootException {
         List<DbResource> objects = read(dbUri);
         final List<DbResource> objectsNew = new ArrayList<>();
         for (final DbResource dbResource : objects) {

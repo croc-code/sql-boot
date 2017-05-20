@@ -212,6 +212,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Fake*.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
 
             <plugin>

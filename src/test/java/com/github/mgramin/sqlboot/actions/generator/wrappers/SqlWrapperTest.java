@@ -42,7 +42,8 @@ public class SqlWrapperTest {
 
     @Test
     public void generate() throws Exception {
-        /*SqlWrapper sqlGenerator = new SqlWrapper(sqlHelper, new GroovyTemplateEngine(), Collections.singletonList("select 'Hello, ${name}!'"));
+/*        SqlWrapper sqlGenerator = new SqlWrapper(sqlHelper, new GroovyTemplateEngine(),
+                Collections.singletonList("select 'Hello, ${name}!'"));
         Map variables = new HashMap<String, String>();
         variables.put("name", "World");
         assertEquals(sqlGenerator.generate(variables), "Hello, World!");*/

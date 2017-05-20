@@ -27,8 +27,8 @@ package com.github.mgramin.sqlboot.rest.controllers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public final class ApiController {
 
     @Deprecated
     @Autowired
-    private List<DbResourceCommand> commands;
+    private List<IDbResourceCommand> commands;
 
 //    private final static Logger logger = Logger.getLogger(ApiController.class);
 
@@ -91,12 +91,12 @@ public final class ApiController {
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
         final DbUri uri = new DbUri(uriString);
-        final DbResourceCommand command;
+        final IDbResourceCommand command;
         if (uri.action() != null) {
             command = commands.stream().filter(c -> c.aliases().contains(uri.action()))
                 .findFirst().orElse(null);
         } else {
-            command = commands.stream().filter(DbResourceCommand::isDefault).findFirst()
+            command = commands.stream().filter(IDbResourceCommand::isDefault).findFirst()
                 .orElse(null);
         }
 

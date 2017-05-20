@@ -40,7 +40,7 @@ public final class FsResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(DbUri dbUri, DbResourceType type) {
-        throw new SqlBootException("Not implemented!");
+        throw new SqlBootException("Coming soon!");
     }
 
 }

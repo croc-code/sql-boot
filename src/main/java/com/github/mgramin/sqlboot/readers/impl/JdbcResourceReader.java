@@ -40,7 +40,7 @@ public final class JdbcResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
-        throw new SqlBootException("Not implemented!");
+        throw new SqlBootException("Coming soon!");
     }
 
 }
