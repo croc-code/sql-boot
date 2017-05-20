@@ -78,9 +78,7 @@ public final class DbResourceType implements IDbResourceType {
         for (final DbResource dbResource : objects) {
             if (dbResource.type().equals(this) || dbUri.recursive()) {
 
-                final ActionGenerator generator = dbResource.type().generators.stream()
-                        .filter(g -> g.command().equals(command) && g.aggregators().contains("sql"))
-                        .findFirst().get();
+
 
 /*                Map<DbResourceType, List<DbResource>> objectsByType =
                         objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
@@ -99,10 +97,16 @@ public final class DbResourceType implements IDbResourceType {
                         );
                     }
                 }*/
-
-                final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
-                        dbResource, generator.generate(variables));
-                objectsNew.add(dbResourceBodyWrapper);
+                final ActionGenerator generator = dbResource.type().generators.stream()
+                        .filter(g -> g.command().equals(command) && g.aggregators().contains(aggregatorName))
+                        .findFirst().orElse(null);
+                if (generator != null) {
+                    final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
+                            dbResource, generator.generate(variables));
+                    objectsNew.add(dbResourceBodyWrapper);
+                } else {
+                    objectsNew.add(dbResource);
+                }
             }
         }
         return objectsNew;
