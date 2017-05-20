@@ -70,7 +70,7 @@ public final class FileBaseGenerator implements ActionGenerator {
 
     @Override
     public String aggregators() {
-        return aggregators;
+        return this.aggregators;
     }
 
     private String generate() {

@@ -36,6 +36,16 @@ public class ApiControllerITCase {
     }
 
     @Test
+    public void getOneTableHtml() {
+         callRestAndValidate("table/hr.jobs?type=html");
+    }
+
+    @Test
+    public void getOneTableMigration() {
+         callRestAndValidate("table/hr.jobs?type=html");
+    }
+
+    @Test
     public void getTextDdl() {
         callRestAndValidate("t");
         callRestAndValidate("t/");

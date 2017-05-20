@@ -47,7 +47,7 @@ public class JsonAggregatorTest {
                 new DbResourceThin("persons", null, new DbUri("table/hr.persons"), null),
                 new DbResourceThin("jobs", null, new DbUri("table/hr.jobs"), null),
                 new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
-        Aggregator aggregator = new JsonAggregator();
+        Aggregator aggregator = new JsonAggregator("json", null);
         assertEquals(335, new String(aggregator.aggregate(resources)).length());
     }
 

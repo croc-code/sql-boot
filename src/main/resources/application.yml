@@ -21,7 +21,7 @@ htmlAggregator: |
     <!-- Begin page content -->
     <div class="container">
       <div class="mt-1">
-        <% objects.each {%>$it.ddl<%}%>
+        <% objects.each {%>$it.body<%}%>
       </div>
     </div>
     <footer class="footer">
@@ -40,5 +40,5 @@ liquibaseChangeLogAggregator: |
       <preConditions>
         <runningAs username="liquibase"/>
       </preConditions>
-      <% objects.each {%>$it.ddl<%}%>
+      <% objects.each {%>$it.body<%}%>
   </databaseChangeLog>

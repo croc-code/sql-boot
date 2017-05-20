@@ -33,7 +33,6 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
@@ -79,18 +78,18 @@ public final class DbResourceType implements IDbResourceType {
             if (dbResource.type().equals(this) || dbUri.recursive()) {
 
                 final ActionGenerator generator = dbResource.type().generators.stream()
-                        .filter(g -> g.command().equals(command))
+                        .filter(g -> g.command().equals(command) && g.aggregators().contains("sql"))
                         .findFirst().get();
 
-                Map<DbResourceType, List<DbResource>> objectsByType =
-                        objects.stream().collect(Collectors.groupingBy(DbResource::type));
+/*                Map<DbResourceType, List<DbResource>> objectsByType =
+                        objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
                 final ObjectService objectService = new ObjectService(objects,
                         String.join(".", dbResource.dbUri()
                                 .objects()));
                 final Map<String, Object> variables = (Map) dbResource.headers();
                 variables.put(dbResource.type().name(), dbResource);
                 variables.put("srv", objectService);
-                for (Map.Entry<DbResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
+                /*for (Map.Entry<DbResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
                     if (!entry.getKey().name().equals(dbResource.type().name())) {
                         variables.put(entry.getKey().name() + "_",
                                 entry.getValue()
@@ -98,7 +97,7 @@ public final class DbResourceType implements IDbResourceType {
                                         .filter(a -> a.dbUri().toString().startsWith(entry.getKey().name() + "/" + String.join(".", dbResource.dbUri().objects())))
                         );
                     }
-                }
+                }*/
 
                 final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
                         dbResource, generator.generate(variables));

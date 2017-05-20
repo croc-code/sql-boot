@@ -67,7 +67,7 @@ public final class PlainTextTemplateGenerator implements ActionGenerator {
 
     @Override
     public String aggregators() {
-        return this.aggregators();
+        return origin.aggregators();
     }
 
 }

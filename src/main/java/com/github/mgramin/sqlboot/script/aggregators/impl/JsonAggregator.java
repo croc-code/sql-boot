@@ -32,11 +32,17 @@ import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by maksim on 20.05.17.
  */
 public class JsonAggregator extends AbstractAggregator implements Aggregator {
+
+    public JsonAggregator(String name, Map<String, String> httpHeaders) {
+        this.name = name;
+        this.httpHeaders = httpHeaders;
+    }
 
     @Override
     public byte[] aggregate(List<DbResource> objects) throws SqlBootException {

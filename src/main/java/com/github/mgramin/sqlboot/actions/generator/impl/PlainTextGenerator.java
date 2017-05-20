@@ -64,7 +64,7 @@ public final class PlainTextGenerator implements ActionGenerator {
 
     @Override
     public String aggregators() {
-        return aggregators;
+        return this.aggregators;
     }
 
 }

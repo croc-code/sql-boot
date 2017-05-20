@@ -28,8 +28,8 @@ package com.github.mgramin.sqlboot.rest.controllers;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
-import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
@@ -49,7 +49,7 @@ import java.util.List;
 public final class ApiController {
 
     @Autowired
-    private List<DbResourceType> types;
+    private List<IDbResourceType> types;
 
     @Autowired
     private List<Aggregator> aggregators;
@@ -71,7 +71,7 @@ public final class ApiController {
         }
 
         Aggregator aggregator = aggregators.stream()
-            .filter(c -> c.name().equalsIgnoreCase(aggregatorName))
+            .filter(a -> a.name().equalsIgnoreCase(aggregatorName))
             .findFirst()
             .orElse(null);
         if (aggregator == null) {
@@ -100,7 +100,7 @@ public final class ApiController {
                 .orElse(null);
         }
 
-        final DbResourceType type = types.stream()
+        final IDbResourceType type = types.stream()
             .filter(n -> n.aliases() != null && n.aliases().contains(uri.type())).findFirst()
             .orElse(null);
         if (type == null) {

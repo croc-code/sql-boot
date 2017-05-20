@@ -62,18 +62,18 @@
     <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
           c:baseTextEngineFactory-ref="templateEngineFactory"
-          c:command-ref='CREATE' c:aggregators="sql,xml"/>
+          c:command-ref='CREATE' c:aggregators="sql"/>
 
     <bean id="plainTextMarkupTemplateGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
           c:baseTextEngineFactory-ref="markupTemplateEngineFactory"
-          c:command-ref='CREATE' c:aggregators="sql,xml"/>
+          c:command-ref='CREATE' c:aggregators="sql"/>
 
      <bean id="plainTextTemplateSqlGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateSqlGenerator"
           c:baseTextEngineFactory-ref="templateEngineFactory"
           c:sqlHelper-ref="sqlHelper"
-          c:command-ref='CREATE' c:aggregators="sql,xml"/>
+          c:command-ref='CREATE' c:aggregators="sql"/>
 
 
     <!-- Aggregators -->
@@ -122,6 +122,15 @@
         </constructor-arg>
     </bean>
 
+    <bean name="jsonAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.JsonAggregator">
+        <constructor-arg name="name" value="json"/>
+        <constructor-arg name="httpHeaders">
+            <map>
+                <entry key="Content-Type" value="application/json"/>
+                <entry key="Content-Disposition" value="inline"/>
+            </map>
+        </constructor-arg>
+    </bean>
 
 
     <!-- DB commands -->
