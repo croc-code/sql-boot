@@ -31,6 +31,7 @@ import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,9 +46,9 @@ import static java.util.Optional.ofNullable;
 public final class DbResourceType implements IDbResourceType {
 
     private final List<String> aliases;
-    private final List<DbResourceType> child;
-    private final List<DbResourceReader> readers;
-    private final List<ActionGenerator> generators;
+    private final transient List<DbResourceType> child;
+    private final transient List<DbResourceReader> readers;
+    private final transient List<ActionGenerator> generators;
 
     public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<ActionGenerator> generators) {
         this(aliases, null, readers, generators);
@@ -86,7 +87,7 @@ public final class DbResourceType implements IDbResourceType {
                 final ObjectService objectService = new ObjectService(objects,
                         String.join(".", dbResource.dbUri()
                                 .objects()));
-                final Map<String, Object> variables = (Map) dbResource.headers();
+                final Map<String, Object> variables = new HashMap<>((Map) dbResource.headers());
                 variables.put(dbResource.type().name(), dbResource);
                 variables.put("srv", objectService);
                 /*for (Map.Entry<DbResourceType, List<DbResource>> entry : objectsByType.entrySet()) {

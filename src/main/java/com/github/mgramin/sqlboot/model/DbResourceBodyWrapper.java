@@ -32,7 +32,7 @@ import java.util.Properties;
 /**
  * DB resource with body
  */
-@ToString
+//@ToString
 public final class DbResourceBodyWrapper implements DbResource {
 
     private final DbResource origin;

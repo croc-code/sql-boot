@@ -33,7 +33,7 @@ import java.util.Properties;
 /**
  * DB resource without body
  */
-@ToString
+//@ToString
 public final class DbResourceThin implements DbResource {
 
     private final String name;

@@ -46,6 +46,11 @@ public class ApiControllerITCase {
     }
 
     @Test
+    public void getOneTableJson() {
+         callRestAndValidate("table/hr.jobs?type=json");
+    }
+
+    @Test
     public void getTextDdl() {
         callRestAndValidate("t");
         callRestAndValidate("t/");
