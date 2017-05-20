@@ -7,7 +7,9 @@ tables: |
      and lower(t.table_name) like '$table'
 
 table.sql.create: |
-  create table "$schema".$table.name" ...;
+  create table "$schema"."$table.name" (<%srv.get('column').each {%>
+    !{it.name().padRight(20)}!{it.headers().data_type.toLowerCase()}!{it.headers().length}<%if (it != srv.get('column').last()){%>,<%}}%>
+  );
 
 table.sql.drop: |
   drop table $schema.$table.name;
@@ -29,3 +31,10 @@ table.columns: |
      and lower(c.table_name) like '$table'
      and lower(c.column_name) like '$column'
    order by c.ordinal_position asc
+
+
+table.column.sql.create: |
+  alter table $table add column $column.name;
+
+table.column.sql.drop: |
+  alter table $table drop $column.name;
