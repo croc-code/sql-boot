@@ -32,7 +32,6 @@ import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by maksim on 20.05.17.

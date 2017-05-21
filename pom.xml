@@ -214,7 +214,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>**/Fake*.java</exclude>
+                        <exclude>**/Fake*.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

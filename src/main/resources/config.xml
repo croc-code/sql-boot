@@ -103,8 +103,10 @@
     </bean>
 
 
+    <bean name="httpAggregatorWrapper" abstract="true"
+          class="com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper"/>
 
-    <bean name="sqlHttpAggregator" class="com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper">
+    <bean name="sqlHttpAggregator" parent="httpAggregatorWrapper">
         <constructor-arg name="origin" ref="sqlAggregator"/>
         <constructor-arg name="requestHeaders">
             <map><entry key="Content-Type" value="text/html"/></map>
@@ -117,7 +119,7 @@
         </constructor-arg>
     </bean>
 
-    <bean name="htmlHttpAggregator" class="com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper">
+    <bean name="htmlHttpAggregator" parent="httpAggregatorWrapper">
         <constructor-arg name="origin" ref="htmlAggregator"/>
         <constructor-arg name="requestHeaders">
             <map><entry key="Content-Type" value="text/html"/></map>
@@ -130,7 +132,7 @@
         </constructor-arg>
     </bean>
 
-    <bean name="migrationHttpAggregator" class="com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper">
+    <bean name="migrationHttpAggregator" parent="httpAggregatorWrapper">
         <constructor-arg name="origin" ref="migrationAggregator"/>
         <constructor-arg name="requestHeaders">
             <map><entry key="Content-Type" value="text/html"/></map>
@@ -143,7 +145,7 @@
         </constructor-arg>
     </bean>
 
-    <bean name="zipHttpAggregator" class="com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper">
+    <bean name="zipHttpAggregator" parent="httpAggregatorWrapper">
         <constructor-arg name="origin" ref="zipAggregator"/>
         <constructor-arg name="requestHeaders">
             <map><entry key="Content-Type" value="text/html"/></map>
@@ -156,7 +158,7 @@
         </constructor-arg>
     </bean>
 
-    <bean name="jsonHttpAggregator" class="com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper">
+    <bean name="jsonHttpAggregator" parent="httpAggregatorWrapper">
         <constructor-arg name="origin" ref="jsonAggregator"/>
         <constructor-arg name="requestHeaders">
             <map><entry key="Content-Type" value="text/html"/></map>

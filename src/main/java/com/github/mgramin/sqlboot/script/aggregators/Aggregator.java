@@ -29,7 +29,6 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by mgramin on 17.12.2016.
