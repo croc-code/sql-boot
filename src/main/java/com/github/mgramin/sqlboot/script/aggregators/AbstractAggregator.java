@@ -34,7 +34,6 @@ public abstract class AbstractAggregator implements Aggregator {
 
     protected String name;
     protected Boolean isDefault;
-    protected Map<String, String> httpHeaders;
 
 
     public String name() {
@@ -43,10 +42,6 @@ public abstract class AbstractAggregator implements Aggregator {
 
     public Boolean isDefault() {
         return isDefault;
-    }
-
-    public Map<String, String> httpHeaders() {
-        return httpHeaders;
     }
 
 }

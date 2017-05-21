@@ -23,23 +23,51 @@
  *
  */
 
-package com.github.mgramin.sqlboot.script.aggregators;
+package com.github.mgramin.sqlboot.script.aggregators.wrappers;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by mgramin on 17.12.2016.
+ * Created by maksim on 21.05.17.
  */
-public interface Aggregator {
+public class HttpAggregatorWrapper implements Aggregator{
 
-    String name();
+    private final Aggregator origin;
+    private final Map<String, String> requestHeaders;
+    private final Map<String, String> responseHeaders;
 
-    Boolean isDefault();
+    public HttpAggregatorWrapper(Aggregator origin, Map<String, String> requestHeaders, Map<String, String> responseHeaders) {
+        this.origin = origin;
+        this.requestHeaders = requestHeaders;
+        this.responseHeaders = responseHeaders;
+    }
 
-    byte[] aggregate(List<DbResource> objects) throws SqlBootException;
+    public Map<String, String> requestHeaders() {
+        return this.requestHeaders;
+    }
+
+    public Map<String, String> responseHeaders() {
+        return this.responseHeaders;
+    }
+
+    @Override
+    public String name() {
+        return this.origin.name();
+    }
+
+    @Override
+    public Boolean isDefault() {
+        return this.origin.isDefault();
+    }
+
+    @Override
+    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
+        return origin.aggregate(objects);
+    }
 
 }

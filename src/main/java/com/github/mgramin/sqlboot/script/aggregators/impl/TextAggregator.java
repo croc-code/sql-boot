@@ -44,17 +44,15 @@ public final class TextAggregator extends AbstractAggregator implements Aggregat
     private final String template;
     private final TemplateEngineFactory templateEngineFactory;
 
-    public TextAggregator(String name, Boolean isDefault, Map<String, String> httpHeaders) {
+    public TextAggregator(String name, Boolean isDefault) {
         this.name = name;
         this.isDefault = isDefault;
-        this.httpHeaders = httpHeaders;
         this.templateEngineFactory = null;
         this.template = null;
     }
 
-    public TextAggregator(String name, Map<String, String> httpHeaders, TemplateEngineFactory templateEngineFactory, String template) {
+    public TextAggregator(String name, TemplateEngineFactory templateEngineFactory, String template) {
         this.name = name;
-        this.httpHeaders = httpHeaders;
         this.templateEngineFactory = templateEngineFactory;
         this.template = template;
     }

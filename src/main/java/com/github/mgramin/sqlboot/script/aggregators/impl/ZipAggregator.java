@@ -41,9 +41,8 @@ import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
  */
 public final class ZipAggregator extends AbstractAggregator implements Aggregator {
 
-    public ZipAggregator(String name, Map<String, String> httpHeaders) {
+    public ZipAggregator(String name) {
         this.name = name;
-        this.httpHeaders = httpHeaders;
     }
 
     @Override

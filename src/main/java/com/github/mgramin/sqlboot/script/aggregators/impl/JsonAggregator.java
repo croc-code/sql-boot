@@ -39,9 +39,8 @@ import java.util.Map;
  */
 public class JsonAggregator extends AbstractAggregator implements Aggregator {
 
-    public JsonAggregator(String name, Map<String, String> httpHeaders) {
+    public JsonAggregator(String name) {
         this.name = name;
-        this.httpHeaders = httpHeaders;
     }
 
     @Override
