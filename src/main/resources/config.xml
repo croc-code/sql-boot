@@ -102,6 +102,11 @@
         <constructor-arg name="name" value="json"/>
     </bean>
 
+    <bean name="xmlAggregator" class="com.github.mgramin.sqlboot.script.aggregators.impl.XmlAggregator">
+        <constructor-arg name="name" value="xml"/>
+    </bean>
+
+
 
     <bean name="httpAggregatorWrapper" abstract="true"
           class="com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper"/>
@@ -171,6 +176,18 @@
         </constructor-arg>
     </bean>
 
+    <bean name="xmlHttpAggregator" parent="httpAggregatorWrapper">
+        <constructor-arg name="origin" ref="xmlAggregator"/>
+        <constructor-arg name="requestHeaders">
+            <map><entry key="Content-Type" value="application/xml"/></map>
+        </constructor-arg>
+        <constructor-arg name="responseHeaders">
+            <map>
+                <entry key="Content-Type" value="application/xml"/>
+                <entry key="Content-Disposition" value="inline"/>
+            </map>
+        </constructor-arg>
+    </bean>
 
 
     <!-- DB commands -->

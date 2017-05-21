@@ -23,23 +23,30 @@
  *
  */
 
-package com.github.mgramin.sqlboot.script.aggregators;
+package com.github.mgramin.sqlboot.script.aggregators.impl;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
+import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
+import com.thoughtworks.xstream.XStream;
 
 import java.util.List;
 
 /**
- * Created by mgramin on 17.12.2016.
+ * Created by maksim on 21.05.17.
  */
-public interface Aggregator {
+public class XmlAggregator extends AbstractAggregator implements Aggregator {
 
-    String name();
+    public XmlAggregator(String name) {
+        this.name = name;
+    }
 
-    Boolean isDefault();
+    @Override
+    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
+        XStream xstream = new XStream();
+        String xml = xstream.toXML(objects);
+        return xml.getBytes();
+    }
 
-    byte[] aggregate(List<DbResource> objects) throws SqlBootException;
-
-    // TODO add smart class for aggregate to string
 }

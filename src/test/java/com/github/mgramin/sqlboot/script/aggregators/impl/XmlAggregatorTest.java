@@ -23,23 +23,34 @@
  *
  */
 
-package com.github.mgramin.sqlboot.script.aggregators;
+package com.github.mgramin.sqlboot.script.aggregators.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbResourceThin;
+import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
+import org.junit.Test;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+
 /**
- * Created by mgramin on 17.12.2016.
+ * Created by maksim on 21.05.17.
  */
-public interface Aggregator {
+public class XmlAggregatorTest {
 
-    String name();
+    @Test
+    public void aggregate() throws Exception {
+        List<DbResource> resources = asList(
+                new DbResourceThin("persons", null, new DbUri("table/hr.persons"), null),
+                new DbResourceThin("jobs", null, new DbUri("table/hr.jobs"), null),
+                new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
+        Aggregator aggregator = new XmlAggregator("json");
+        System.out.println(new String(aggregator.aggregate(resources)));
 
-    Boolean isDefault();
+//        assertEquals(335, new String(aggregator.aggregate(resources)).length());
+    }
 
-    byte[] aggregate(List<DbResource> objects) throws SqlBootException;
-
-    // TODO add smart class for aggregate to string
 }

@@ -88,8 +88,13 @@ public class ApiControllerITCase {
     }
 
     @Test
-    public void getTableData() {
+    public void getTableJsonData() {
         callRestAndValidate("data/hr.users?type=json");
+    }
+
+    @Test
+    public void getTableXmlData() {
+        callRestAndValidate("data/hr.users?type=xml");
     }
 
     private void callRestAndValidate(String uri) {
