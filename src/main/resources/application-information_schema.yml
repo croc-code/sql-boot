@@ -155,6 +155,12 @@ table.check.sql.drop: |
   drop check $check.name();
 
 
+table.data:
+  select * from $schema.$table
+
+
+
+
 views: |
   select * from (
     select t.table_schema   as "schema"
@@ -192,3 +198,4 @@ mview.sql.create: |
 
 mview.sql.drop: |
   drop table $mview.name();
+

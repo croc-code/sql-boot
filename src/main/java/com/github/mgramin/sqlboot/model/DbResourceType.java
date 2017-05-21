@@ -50,6 +50,10 @@ public final class DbResourceType implements IDbResourceType {
     private final transient List<DbResourceReader> readers;
     private final transient List<ActionGenerator> generators;
 
+    public DbResourceType(String[] aliases, List<DbResourceReader> readers) {
+        this(aliases, null, readers, null);
+    }
+
     public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<ActionGenerator> generators) {
         this(aliases, null, readers, generators);
     }
@@ -97,9 +101,14 @@ public final class DbResourceType implements IDbResourceType {
                         );
                     }
                 }*/
-                final ActionGenerator generator = dbResource.type().generators.stream()
-                        .filter(g -> g.command().equals(command) && g.aggregators().contains(aggregatorName))
-                        .findFirst().orElse(null);
+                final ActionGenerator generator;
+                if (dbResource.type().generators != null) {
+                    generator = dbResource.type().generators.stream()
+                            .filter(g -> g.command().equals(command) && g.aggregators().contains(aggregatorName))
+                            .findFirst().orElse(null);
+                } else {
+                    generator = null;
+                }
                 if (generator != null) {
                     final DbResourceBodyWrapper dbResourceBodyWrapper = new DbResourceBodyWrapper(
                             dbResource, generator.generate(variables));

@@ -38,3 +38,7 @@ table.column.sql.create: |
 
 table.column.sql.drop: |
   alter table $table drop $column.name;
+
+
+table.data:
+  select * from $schema.$table

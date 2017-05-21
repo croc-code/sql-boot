@@ -41,6 +41,7 @@
                 <value>#{fk}</value>
                 <value>#{index}</value>
                 <value>#{check}</value>
+                <!--<value>#{data}</value>-->
             </list>
         </constructor-arg>
         <constructor-arg name="readers">
@@ -148,6 +149,17 @@
                 <bean parent="plainTextTemplateGenerator" c:baseText='${table.check.sql.create}' />
                 <bean parent="plainTextTemplateGenerator" c:baseText='${table.check.sql.drop}' c:command-ref='DROP' />
             </list>
+        </constructor-arg>
+    </bean>
+
+    <bean name="data" parent="dbResourceType">
+        <constructor-arg name="aliases" value="data,dat,d" />
+        <constructor-arg name="readers">
+            <bean parent="sqlResourceReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${table.data}" />
+                </constructor-arg>
+            </bean>
         </constructor-arg>
     </bean>
 

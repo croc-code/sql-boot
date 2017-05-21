@@ -87,6 +87,10 @@ public class ApiControllerITCase {
         callRestAndValidate("table/hr");
     }
 
+    @Test
+    public void getTableData() {
+        callRestAndValidate("data/hr.users?type=json");
+    }
 
     private void callRestAndValidate(String uri) {
         System.out.println("<<< " + uri);

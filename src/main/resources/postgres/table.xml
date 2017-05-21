@@ -112,4 +112,16 @@
         </property>
     </bean>-->
 
+
+    <bean name="data" parent="dbResourceType">
+        <constructor-arg name="aliases" value="data,dat,d" />
+        <constructor-arg name="readers">
+            <bean parent="sqlResourceReader">
+                <constructor-arg name="actionGenerator">
+                    <bean parent="plainTextTemplateGenerator" c:baseText="${table.data}" />
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+    </bean>
+
 </beans>
