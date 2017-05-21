@@ -161,6 +161,11 @@
                 </constructor-arg>
             </bean>
         </constructor-arg>
+        <constructor-arg name="generators">
+            <list>
+                <bean parent="plainTextTemplateGenerator" c:baseText='${table.data.sql.insert}' />
+            </list>
+        </constructor-arg>
     </bean>
 
 </beans>

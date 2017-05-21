@@ -97,6 +97,11 @@ public class ApiControllerITCase {
         callRestAndValidate("data/hr.users?type=xml");
     }
 
+    @Test
+    public void getTableSqlInsertData() {
+        callRestAndValidate("data/hr.users/create");
+    }
+
     private void callRestAndValidate(String uri) {
         System.out.println("<<< " + uri);
         ResponseEntity<String> forEntity = client.getForEntity("/api/" + uri, String.class);

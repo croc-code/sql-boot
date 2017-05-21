@@ -81,9 +81,6 @@ public final class DbResourceType implements IDbResourceType {
         final List<DbResource> objectsNew = new ArrayList<>();
         for (final DbResource dbResource : objects) {
             if (dbResource.type().equals(this) || dbUri.recursive()) {
-
-
-
 /*                Map<DbResourceType, List<DbResource>> objectsByType =
                         objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
                 final ObjectService objectService = new ObjectService(objects,
