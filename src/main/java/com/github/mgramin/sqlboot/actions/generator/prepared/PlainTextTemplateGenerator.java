@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,7 +20,6 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
 package com.github.mgramin.sqlboot.actions.generator.prepared;
@@ -36,27 +35,45 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by maksim on 27.04.17.
+ *
+ *
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version 0.1.0
+ * @since 0.1.0
  */
 public final class PlainTextTemplateGenerator implements ActionGenerator {
 
+    /**
+     * Original generator.
+     */
     private final ActionGenerator origin;
 
-    public PlainTextTemplateGenerator(String baseText, IDbResourceCommand command,
-                                      TemplateEngineFactory templateEngineFactory,
-                                      String aggregators) {
+    /**
+     * Ctor.
+     *
+     * @param baseText  base text
+     * @param command   command type
+     * @param templateEngineFactory template engine factory
+     * @param aggregators   aggregator labels
+     */
+    public PlainTextTemplateGenerator(
+            final String baseText, final IDbResourceCommand command,
+            final TemplateEngineFactory templateEngineFactory,
+            final String aggregators) {
         origin = new TemplateWrapper(
                     new PlainTextGenerator(baseText, command, aggregators),
                     templateEngineFactory);
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SqlBootException {
+    public String generate(final Map<String, Object> variables)
+            throws SqlBootException {
         return origin.generate(variables);
     }
 
     @Override
-    public String generate(List<Object> variables) throws SqlBootException {
+    public String generate(final List<Object> variables)
+            throws SqlBootException {
         return origin.generate(variables);
     }
 
