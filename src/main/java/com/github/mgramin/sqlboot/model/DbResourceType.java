@@ -76,6 +76,11 @@ public final class DbResourceType implements IDbResourceType {
     }
 
     @Override
+    public List<ActionGenerator> generators() {
+        return generators;
+    }
+
+    @Override
     public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SqlBootException {
         List<DbResource> objects = read(dbUri);
         final List<DbResource> objectsNew = new ArrayList<>();
@@ -99,8 +104,8 @@ public final class DbResourceType implements IDbResourceType {
                     }
                 }*/
                 final ActionGenerator generator;
-                if (dbResource.type().generators != null) {
-                    generator = dbResource.type().generators.stream()
+                if (dbResource.type().generators() != null) {
+                    generator = dbResource.type().generators().stream()
                             .filter(g -> g.command().equals(command) && g.aggregators().contains(aggregatorName))
                             .findFirst().orElse(null);
                 } else {

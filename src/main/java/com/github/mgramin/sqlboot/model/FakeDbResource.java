@@ -25,24 +25,36 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
-
-import java.util.List;
+import java.util.Properties;
 
 /**
- * Created by maksim on 16.05.17.
+ * Created by maksim on 22.05.17.
  */
-// TODO rename to DbResourceType
-public interface IDbResourceType {
+public class FakeDbResource implements DbResource {
 
-    String name();
+    @Override
+    public String name() {
+        return null;
+    }
 
-    List<String> aliases();
+    @Override
+    public IDbResourceType type() {
+        return new FakeDbResourceType();
+    }
 
-    @Deprecated
-    List<ActionGenerator> generators();
+    @Override
+    public DbUri dbUri() {
+        return null;
+    }
 
-    List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SqlBootException;
+    @Override
+    public Properties headers() {
+        return null;
+    }
+
+    @Override
+    public String body() {
+        return null;
+    }
 
 }

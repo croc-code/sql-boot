@@ -23,26 +23,27 @@
  *
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbResourceType;
+import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.model.FakeDbResource;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 /**
- * Created by maksim on 16.05.17.
+ * Created by maksim on 22.05.17.
  */
-// TODO rename to DbResourceType
-public interface IDbResourceType {
+public class FakeResourceReader implements DbResourceReader {
 
-    String name();
-
-    List<String> aliases();
-
-    @Deprecated
-    List<ActionGenerator> generators();
-
-    List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SqlBootException;
+    @Override
+    public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
+        return asList(new FakeDbResource());
+    }
 
 }

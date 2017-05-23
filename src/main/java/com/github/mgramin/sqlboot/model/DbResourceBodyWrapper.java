@@ -47,7 +47,7 @@ public final class DbResourceBodyWrapper implements DbResource {
     }
 
     @Override
-    public DbResourceType type() {
+    public IDbResourceType type() {
         return origin.type();
     }
 

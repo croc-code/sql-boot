@@ -30,19 +30,31 @@ import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 /**
- * Created by maksim on 16.05.17.
+ * Created by maksim on 22.05.17.
  */
-// TODO rename to DbResourceType
-public interface IDbResourceType {
+public class FakeDbResourceType implements IDbResourceType {
 
-    String name();
+    @Override
+    public String name() {
+        return "fake_resource_type";
+    }
 
-    List<String> aliases();
+    @Override
+    public List<String> aliases() {
+        return asList("fake_resource_type", "fake_type", "frt", "f");
+    }
 
-    @Deprecated
-    List<ActionGenerator> generators();
+    @Override
+    public List<ActionGenerator> generators() {
+        return null;
+    }
 
-    List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SqlBootException;
+    @Override
+    public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SqlBootException {
+        return null;
+    }
 
 }

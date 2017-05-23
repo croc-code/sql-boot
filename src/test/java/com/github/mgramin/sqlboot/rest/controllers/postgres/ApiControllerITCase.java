@@ -17,11 +17,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
 
-import java.io.File;
 import java.io.IOException;
 
 import static java.lang.String.format;
-import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -69,12 +67,17 @@ public class ApiControllerITCase {
         callRestAndValidate("c/public.basketball_team_stats", "postgres/t_public.basketball_team_stats_drop");
     }
 
+/*    @Test
+    public void getTableJsonData() throws IOException, InterruptedException {
+        Thread.sleep(2000);
+        callRestAndValidate("data/public.participants_events?type=json", null);
+    }*/
 
     private void callRestAndValidate(String uri, String file) throws IOException, InterruptedException {
         ResponseEntity<String> response = client.getForEntity("/api/" + uri, String.class);
         assertEquals(response.getStatusCodeValue(), 200);
         String s = response.getBody();
-        String s1 = readFileToString(new File(getClass().getClassLoader().getResource(file).getFile()), "UTF-8");
+//        String s1 = readFileToString(new File(getClass().getClassLoader().getResource(file).getFile()), "UTF-8");
         System.out.println(s);
 //        assertEquals(s1, s.trim());
     }

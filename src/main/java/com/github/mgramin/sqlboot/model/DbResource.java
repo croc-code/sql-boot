@@ -41,7 +41,7 @@ public interface DbResource {
     /**
      * @return Type of db resource, e.g. "table", "index", "stored function" etc
      */
-    DbResourceType type();
+    IDbResourceType type();
 
     /**
      * @return URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc
