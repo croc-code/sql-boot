@@ -1,0 +1,22 @@
+version: '3'
+services:
+
+  db:
+    image: mgramin/postgres-sport
+    ports:
+      - "5432:5432"
+    networks:
+      mynetwork:
+        aliases:
+          - db_server
+    hostname: db_server
+  sql-boot:
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      profile: postgres
+      db_dev_user: postgres
+      db_dev_password: postgres
+      db_dev_url: jdbc:postgresql://db_server:5432/postgres
