@@ -1,3 +1,5 @@
+# Getting DB Done!
+
 [![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
 [![Coverage Status](https://coveralls.io/repos/github/mgramin/sql-boot/badge.svg?branch=master)](https://coveralls.io/github/mgramin/sql-boot?branch=master)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mgramin/sql-boot/blob/master/LICENSE)
@@ -6,16 +8,14 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/mgramin/sql-boot.svg)](https://hub.docker.com/r/mgramin/sql-boot/)
 [![Main distribution](https://img.shields.io/badge/zip-download-brightgreen.svg)](https://github.com/mgramin/sql-boot/releases/latest)
 
-# Getting DB Done!
-
 Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers
 
 - Create and manage your DB source code (DDL, DML, etc)
 - DB independent (use native old SQL)
 - Multiplatform (REST/Java based)
 
-Try online:
------------
+Try online on Heroku (embedded H2):
+-----------------------------------
 
 - [table/hr](https://sql-boot.herokuapp.com/api/table/hr) - get all table from "hr" schema
 - [table/hr.jobs](https://sql-boot.herokuapp.com/api/table/hr.jobs) - get table "hr.jobs"
@@ -34,12 +34,44 @@ Try online:
 - [table/hr?type=html](https://sql-boot.herokuapp.com/api/table/hr?type=html) - get all tales from "hr" schema in html view 
 - [table/*/?type=zip](https://sql-boot.herokuapp.com/api/table/*/?type=zip) - get all tales from "hr" in zip file 
 
-Run with Docker:
-----------------
+Try online on Heroku (Postgresql):
+- [table/public](https://sql-boot-postgres.herokuapp.com/api/table/public) - get all table ddl from "public" schema
+- [table/public?type=json](https://sql-boot-postgres.herokuapp.com/api/table/public?type=json) - get all table ddl from "public" schema in json format
+----------------------------------
+
+
+Try with Docker and embedded (H2) demo db:
+------------------------------------------
+```
 docker run -t -p 8080:8080 mgramin/sql-boot
+```
+
+Try With Docker Compose and Postgresql
+--------------------------------------
+```
+wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.yml
+wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.postgres.yml
+docker-compose -f docker-compose.yml -f docker-compose.postgres.yml up
+```
+
+Try With Docker Compose and Oracle
+----------------------------------
+```
+wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.yml
+wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.oracle.yml
+docker-compose -f docker-compose.yml -f docker-compose.oracle.yml up
+```
+
+Run with Docker and existing DB (e.g. postgres)
+---------------
+```
+docker run --network="host" -d -e profile=postgres -e db_dev_user=USER -e db_dev_password=PASSWORD -e db_dev_url=jdbc:postgresql://HOST:PORT/DBNAME -p 8080:8080 mgramin/sql-boot
+```
 
 Build from source:
 ------------------
+```
 git clone https://github.com/mgramin/sql-boot  
 cd sql-boot  
 mvn package 
+```
