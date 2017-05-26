@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import org.junit.Test;
 
 /**
@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class JdbcResourceReaderTest {
 
-    @Test(expected=SqlBootException.class)
+    @Test(expected=SBootException.class)
     public void read() throws Exception {
         new JdbcResourceReader().read(null, null);
     }

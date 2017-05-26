@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.template_engine;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 
 import java.util.List;
 import java.util.Map;
@@ -40,14 +40,14 @@ public interface TemplateEngine {
      * @param variables
      * @return
      */
-    String process(Map<String, Object> variables) throws SqlBootException;
+    String process(Map<String, Object> variables) throws SBootException;
 
     /**
      * Get all user variables from template in sequence order
      *
      * @return
-     * @throws SqlBootException
+     * @throws SBootException
      */
-    List<String> getAllProperties() throws SqlBootException;
+    List<String> getAllProperties() throws SBootException;
 
 }

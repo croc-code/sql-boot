@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.actions.generator;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
 import java.util.List;
@@ -42,16 +42,16 @@ public interface ActionGenerator {
     /**
      * @param variables Map of variables
      * @return  Ready command text
-     * @throws SqlBootException If fail
+     * @throws SBootException If fail
      */
-    String generate(Map<String, Object> variables) throws SqlBootException;
+    String generate(Map<String, Object> variables) throws SBootException;
 
     /**
      * @param variables list of sequential variables
      * @return Ready command text
-     * @throws SqlBootException If fail
+     * @throws SBootException If fail
      */
-    String generate(List<Object> variables) throws SqlBootException;
+    String generate(List<Object> variables) throws SBootException;
 
     /**
      * @return Command

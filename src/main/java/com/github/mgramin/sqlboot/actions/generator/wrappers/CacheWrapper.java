@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
 import java.util.List;
@@ -41,23 +41,23 @@ import java.util.Map;
 public final class CacheWrapper implements ActionGenerator {
 
     @Override
-    public String generate(Map<String, Object> variables) throws SqlBootException {
-        throw new SqlBootException("Coming soon!");
+    public String generate(Map<String, Object> variables) throws SBootException {
+        throw new SBootException("Coming soon!");
     }
 
     @Override
-    public String generate(List<Object> variables) throws SqlBootException {
-        throw new SqlBootException("Coming soon!");
+    public String generate(List<Object> variables) throws SBootException {
+        throw new SBootException("Coming soon!");
     }
 
     @Override
     public IDbResourceCommand command() {
-        throw new SqlBootException("Coming soon!");
+        throw new SBootException("Coming soon!");
     }
 
     @Override
     public String aggregators() {
-        throw new SqlBootException("Coming soon!");
+        throw new SBootException("Coming soon!");
     }
 
 }

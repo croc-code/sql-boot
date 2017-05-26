@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * Created by MGramin on 28.11.2016.
  */
-public class ZipHelperTest {
+public class ZipFileTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -49,7 +49,7 @@ public class ZipHelperTest {
         files.put("persons.sql", "create table persons ... ;".getBytes());
         files.put("jobs.sql", "create table jobs ... ;".getBytes());
 
-        FileUtils.writeByteArrayToFile(tempFile, ZipHelper.compress(files));
+        FileUtils.writeByteArrayToFile(tempFile, new ZipFile(files).content());
     }
 
 }

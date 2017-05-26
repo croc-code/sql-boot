@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.script.aggregators;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public interface Aggregator {
 
     Boolean isDefault();
 
-    byte[] aggregate(List<DbResource> objects) throws SqlBootException;
+    byte[] aggregate(List<DbResource> objects) throws SBootException;
 
     // TODO add smart class for aggregate to string
 }

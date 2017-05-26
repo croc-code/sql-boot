@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
@@ -52,14 +52,14 @@ public final class TemplateWrapper implements ActionGenerator {
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SqlBootException {
+    public String generate(Map<String, Object> variables) throws SBootException {
         final String baseText = origin.generate(variables);
         final TemplateEngine templateEngine = templateEngineFactory.create(baseText);
         return templateEngine.process(variables);
     }
 
     @Override
-    public String generate(List<Object> variables) throws SqlBootException {
+    public String generate(List<Object> variables) throws SBootException {
         final String baseText = origin.generate(variables);
         final TemplateEngine templateEngine = templateEngineFactory.create(baseText);
         final Map<String, Object> data = new HashMap();

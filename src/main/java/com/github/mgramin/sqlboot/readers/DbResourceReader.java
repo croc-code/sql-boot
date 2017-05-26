@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.readers;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
@@ -36,6 +36,6 @@ import java.util.List;
  */
 public interface DbResourceReader {
 
-    List<DbResource> read(DbUri dbUri, @Deprecated DbResourceType type) throws SqlBootException;
+    List<DbResource> read(DbUri dbUri, @Deprecated DbResourceType type) throws SBootException;
 
 }

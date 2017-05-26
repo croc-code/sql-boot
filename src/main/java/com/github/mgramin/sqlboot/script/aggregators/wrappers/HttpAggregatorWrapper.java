@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.wrappers;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 
@@ -65,7 +65,7 @@ public class HttpAggregatorWrapper implements Aggregator{
     }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
+    public byte[] aggregate(List<DbResource> objects) throws SBootException {
         return origin.aggregate(objects);
     }
 

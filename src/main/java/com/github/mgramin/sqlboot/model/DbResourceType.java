@@ -26,7 +26,7 @@ package com.github.mgramin.sqlboot.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import lombok.ToString;
 
@@ -82,7 +82,7 @@ public final class DbResourceType implements IDbResourceType {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SqlBootException {
+    public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SBootException {
         List<DbResource> objects = read(dbUri);
         final List<DbResource> objectsNew = new ArrayList<>();
         for (final DbResource dbResource : objects) {
@@ -124,7 +124,7 @@ public final class DbResourceType implements IDbResourceType {
         return objectsNew;
     }
 
-    public List<DbResource> read(DbUri dbUri) throws SqlBootException {
+    public List<DbResource> read(DbUri dbUri) throws SBootException {
         final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
         final List<DbResource> objects = reader.read(dbUri, this);
         ofNullable(this.child).ifPresent(c -> c.forEach(a -> objects.addAll(a.read(dbUri))));

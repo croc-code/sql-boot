@@ -52,14 +52,4 @@ public class JdbcSqlHelperTest {
         assertEquals(select.toString(), "[{N=mkyong, MAIL=mkyong@gmail.com}, {N=alex, MAIL=alex@yahoo.com}, {N=joel, MAIL=joel@gmail.com}]");
     }
 
-    @Test
-    public void selectBatch() throws Exception {
-        List<Map<String, String>> select = jdbcSqlHelper.selectBatch(
-                Arrays.asList(
-                        "create table test_temp_table (id integer)",
-                        "SeLeCt * from (select name AS n, email as mail from main_schema.users)",
-                        "sElEcT * from (select name AS n, email as mail from main_schema.users)"));
-        assertEquals(select.toString(), "[{N=mkyong, MAIL=mkyong@gmail.com}, {N=alex, MAIL=alex@yahoo.com}, {N=joel, MAIL=joel@gmail.com}, {N=mkyong, MAIL=mkyong@gmail.com}, {N=alex, MAIL=alex@yahoo.com}, {N=joel, MAIL=joel@gmail.com}]");
-    }
-
 }

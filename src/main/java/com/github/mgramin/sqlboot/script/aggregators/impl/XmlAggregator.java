@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
@@ -42,7 +42,7 @@ public class XmlAggregator extends AbstractAggregator implements Aggregator {
     }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
+    public byte[] aggregate(List<DbResource> objects) throws SBootException {
         XStream xstream = new XStream();
         String xml = xstream.toXML(objects);
         return xml.getBytes();

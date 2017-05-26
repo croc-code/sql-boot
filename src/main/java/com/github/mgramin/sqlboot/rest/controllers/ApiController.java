@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
@@ -62,7 +62,7 @@ public final class ApiController {
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
-        @RequestParam(value = "type", required = false) String aggregatorName) throws SqlBootException {
+        @RequestParam(value = "type", required = false) String aggregatorName) throws SBootException {
         String uriString;
         if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
             uriString = request.getServletPath();
@@ -89,7 +89,7 @@ public final class ApiController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SqlBootException {
+    private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SBootException {
         final DbUri uri = new DbUri(uriString);
         final IDbResourceCommand command;
         if (uri.action() != null) {

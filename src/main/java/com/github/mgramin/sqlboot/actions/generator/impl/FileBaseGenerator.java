@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import org.apache.commons.io.FileUtils;
 
@@ -57,12 +57,12 @@ public final class FileBaseGenerator implements ActionGenerator {
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SqlBootException {
+    public String generate(Map<String, Object> variables) throws SBootException {
         return generate();
     }
 
     @Override
-    public String generate(List<Object> variables) throws SqlBootException {
+    public String generate(List<Object> variables) throws SBootException {
         return generate();
     }
 
@@ -80,7 +80,7 @@ public final class FileBaseGenerator implements ActionGenerator {
         try {
             return FileUtils.readFileToString(file, UTF_8);
         } catch (IOException e) {
-            throw new SqlBootException(e);
+            throw new SBootException(e);
         }
     }
 

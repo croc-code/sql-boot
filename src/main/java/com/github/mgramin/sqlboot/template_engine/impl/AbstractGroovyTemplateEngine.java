@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.template_engine.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import groovy.text.Template;
 
@@ -50,7 +50,7 @@ public abstract class AbstractGroovyTemplateEngine implements TemplateEngine {
             this.templateText = template;
             this.template = engine.createTemplate(template.replace("!{", "${"));
         } catch (ClassNotFoundException | IOException e) {
-            throw new SqlBootException(e);
+            throw new SBootException(e);
         }
     }
 
@@ -66,7 +66,7 @@ public abstract class AbstractGroovyTemplateEngine implements TemplateEngine {
     }
 
     @Override
-    public List<String> getAllProperties() throws SqlBootException {
+    public List<String> getAllProperties() throws SBootException {
         List<String> result = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\$\\s*(\\w+)");
         Matcher matcher = pattern.matcher(templateText.replace("!", "$"));

@@ -24,10 +24,8 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.google.gson.Gson;
@@ -53,7 +51,7 @@ public class JsonAggregator extends AbstractAggregator implements Aggregator {
 
     @Override
     public byte[] aggregate(final List<DbResource> objects)
-            throws SqlBootException {
+            throws SBootException {
         final List<Object> result = new ArrayList<>();
         for (final DbResource object : objects) {
             final JsonObject jsonObject = new JsonObject();

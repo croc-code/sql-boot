@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.util;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -32,44 +32,46 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Zip helper.
+ * Zip file.
  *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class ZipHelper {
+public final class ZipFile {
+
+    /**
+     * List of files.
+     */
+    private final Map<String, byte[]> files;
 
     /**
      * Ctor.
+     * @param files List of files
      */
-    private ZipHelper() {
+    public ZipFile(final Map<String, byte[]> files) {
+        this.files = files;
     }
 
     /**
      * Compress list of files.
      *
-     * @param files List of files
      * @return Zipped files in byte array
-     * @throws SqlBootException If fail
+     * @throws SBootException If fail
      */
-    public static byte[] compress(final Map<String,
-            byte[]> files) throws SqlBootException {
-        try (ByteArrayOutputStream byteArrayOutputStream =
-                     new ByteArrayOutputStream();
-             ZipOutputStream zipOutputStream =
-                     new ZipOutputStream(byteArrayOutputStream)) {
-            for (final Map.Entry<String, byte[]> strEntry : files.entrySet()) {
-                final ZipEntry entry = new ZipEntry(strEntry.getKey());
-                zipOutputStream.putNextEntry(entry);
-                zipOutputStream.write(strEntry.getValue());
-                zipOutputStream.closeEntry();
+    public byte[] content() throws SBootException {
+        try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            ZipOutputStream zip = new ZipOutputStream(bytes)) {
+            for (final Map.Entry<String, byte[]> ent : this.files.entrySet()) {
+                zip.putNextEntry(new ZipEntry(ent.getKey()));
+                zip.write(ent.getValue());
+                zip.closeEntry();
             }
-            zipOutputStream.close();
-            byteArrayOutputStream.close();
-            return byteArrayOutputStream.toByteArray();
+            zip.close();
+            bytes.close();
+            return bytes.toByteArray();
         } catch (final IOException exception) {
-            throw new SqlBootException(exception);
+            throw new SBootException(exception);
         }
     }
 

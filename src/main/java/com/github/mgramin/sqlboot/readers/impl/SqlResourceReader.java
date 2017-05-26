@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbResourceType;
@@ -57,7 +57,7 @@ public final class SqlResourceReader implements DbResourceReader {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SqlBootException {
+    public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SBootException {
         final List<DbResource> objects = new ArrayList<>();
         final String sql = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
         final List<Map<String, String>> select = sqlHelper.select(sql);

@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
@@ -37,8 +37,8 @@ import java.util.List;
 public final class FsAggregator extends AbstractAggregator implements Aggregator {
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
-        throw new SqlBootException("Coming soon!");
+    public byte[] aggregate(List<DbResource> objects) throws SBootException {
+        throw new SBootException("Coming soon!");
     }
 
 }

@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
@@ -45,22 +45,22 @@ public final class SqlExecutorController {
     private ISqlHelper sqlHelper;
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<Map<String, String>> execSql2Xml(@RequestParam("sql") String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2Xml(@RequestParam("sql") String sql) throws SBootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql) throws SBootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql) throws SBootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql) throws SqlBootException {
+    public List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql) throws SBootException {
         return sqlHelper.select(sql);
     }
 

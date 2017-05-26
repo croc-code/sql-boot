@@ -24,16 +24,15 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
+import com.github.mgramin.sqlboot.util.ZipFile;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.github.mgramin.sqlboot.util.ZipHelper.compress;
 
 /**
  * Created by mgramin on 17.12.2016.
@@ -45,7 +44,7 @@ public final class ZipAggregator extends AbstractAggregator implements Aggregato
     }
 
     @Override
-    public byte[] aggregate(final List<DbResource> objects) throws SqlBootException {
+    public byte[] aggregate(final List<DbResource> objects) throws SBootException {
         final Map<String, byte[]> files = new HashMap<>();
         for (DbResource o : objects) {
             if (o.headers().get("file_name") != null
@@ -54,7 +53,8 @@ public final class ZipAggregator extends AbstractAggregator implements Aggregato
                         o.body().getBytes());
             }
         }
-        return compress(files);
+//        return new  content(files);
+        return new ZipFile(files).content();
     }
 
 }

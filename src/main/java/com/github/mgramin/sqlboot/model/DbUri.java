@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -54,7 +54,7 @@ public final class DbUri {
         this.recursive = false;
     }
 
-    public DbUri(String uriString) throws SqlBootException {
+    public DbUri(String uriString) throws SBootException {
         try {
             URI uri = new URI(uriString);
             String pathString = uri.getPath().replace("*", "%");
@@ -79,7 +79,7 @@ public final class DbUri {
                     params.put(s.split("=")[0], s.split("=")[1]);
             }
         } catch (Exception e) {
-            throw new SqlBootException(e);
+            throw new SBootException(e);
         }
     }
 

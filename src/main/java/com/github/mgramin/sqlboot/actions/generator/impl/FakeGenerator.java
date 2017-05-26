@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.FakeDbResourceCommand;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
@@ -42,12 +42,12 @@ import java.util.Map;
 public class FakeGenerator implements ActionGenerator {
 
     @Override
-    public String generate(Map<String, Object> variables) throws SqlBootException {
+    public String generate(Map<String, Object> variables) throws SBootException {
         return null;
     }
 
     @Override
-    public String generate(List<Object> variables) throws SqlBootException {
+    public String generate(List<Object> variables) throws SBootException {
         return null;
     }
 

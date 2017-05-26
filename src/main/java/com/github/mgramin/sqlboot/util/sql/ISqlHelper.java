@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.util.sql;
 
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 
 import java.util.List;
 import java.util.Map;
@@ -34,8 +34,6 @@ import java.util.Map;
  */
 public interface ISqlHelper {
 
-    List<Map<String, String>> select(String sql) throws SqlBootException;
-
-    List<Map<String, String>> selectBatch(List<String> sql) throws SqlBootException;
+    List<Map<String, String>> select(String sql) throws SBootException;
 
 }

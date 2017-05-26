@@ -30,14 +30,14 @@ package com.github.mgramin.sqlboot.exceptions;
  * @version $Id$
  * @since 0.1
  */
-public final class SqlBootException extends RuntimeException {
+public final class SBootException extends RuntimeException {
 
     /**
      * Ctor.
      *
      * @param message Error message
      */
-    public SqlBootException(final String message) {
+    public SBootException(final String message) {
         super(message);
     }
 
@@ -47,7 +47,7 @@ public final class SqlBootException extends RuntimeException {
      * @param message Error message
      * @param cause Cause
      */
-    public SqlBootException(final String message, final Throwable cause) {
+    public SBootException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -56,7 +56,7 @@ public final class SqlBootException extends RuntimeException {
      *
      * @param cause Cause
      */
-    public SqlBootException(final Throwable cause) {
+    public SBootException(final Throwable cause) {
         super(cause);
     }
 

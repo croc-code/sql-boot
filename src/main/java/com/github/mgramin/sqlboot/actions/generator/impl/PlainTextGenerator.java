@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SqlBootException;
+import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
 import java.util.List;
@@ -72,13 +72,13 @@ public final class PlainTextGenerator implements ActionGenerator {
 
     @Override
     public String generate(final Map<String, Object> variables)
-            throws SqlBootException {
+            throws SBootException {
         return baseText;
     }
 
     @Override
     public String generate(final List<Object> variables)
-            throws SqlBootException {
+            throws SBootException {
         return baseText;
     }
 
