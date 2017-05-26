@@ -22,48 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
-
-import java.util.Map;
-import java.util.Properties;
-
 /**
- * DB resource with body
+ * Model.
+ *
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-//@ToString
-public final class DbResourceBodyWrapper implements DbResource {
-
-    private final DbResource origin;
-    private final String body;
-
-    public DbResourceBodyWrapper(DbResource DbResource, String body) {
-        this.origin = DbResource;
-        this.body = body;
-    }
-
-    @Override
-    public String name() {
-        return origin.name();
-    }
-
-    @Override
-    public IDbResourceType type() {
-        return origin.type();
-    }
-
-    @Override
-    public DbUri dbUri() {
-        return origin.dbUri();
-    }
-
-    @Override
-    public Map<String, String> headers() {
-        return origin.headers();
-    }
-
-    @Override
-    public String body() {
-        return this.body;
-    }
-
-}
+package com.github.mgramin.sqlboot.model;

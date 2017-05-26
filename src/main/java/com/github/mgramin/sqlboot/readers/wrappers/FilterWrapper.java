@@ -59,7 +59,7 @@ public final class FilterWrapper implements DbResourceReader {
             for (Map.Entry<String, String> param : filtersParam.entrySet()) {
                 if (param.getKey().startsWith("@")) {
                     objects = objects.stream().filter(
-                    o -> o.headers().getProperty(param.getKey().substring(1))
+                    o -> o.headers().get(param.getKey().substring(1))
                         .contains(param.getValue()))
                     .collect(toList());
                 }

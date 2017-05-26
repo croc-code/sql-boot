@@ -24,16 +24,21 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import java.util.Properties;
+import lombok.ToString;
+
+import java.util.Map;
+
+import static com.google.common.collect.ImmutableMap.of;
 
 /**
  * Created by maksim on 22.05.17.
  */
+@ToString
 public class FakeDbResource implements DbResource {
 
     @Override
     public String name() {
-        return null;
+        return "FAKE_DB_RESOURCE";
     }
 
     @Override
@@ -47,13 +52,13 @@ public class FakeDbResource implements DbResource {
     }
 
     @Override
-    public Properties headers() {
-        return null;
+    public Map<String, String> headers() {
+        return of("key", "value");
     }
 
     @Override
     public String body() {
-        return null;
+        return "BODY";
     }
 
 }

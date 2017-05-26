@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
@@ -42,6 +43,7 @@ import static java.util.Optional.ofNullable;
  * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
 @ToString
+@JsonSerialize(as=DbResourceType.class)
 public final class DbResourceType implements IDbResourceType {
 
     private final List<String> aliases;

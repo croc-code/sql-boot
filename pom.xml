@@ -121,10 +121,6 @@
             <artifactId>groovy-templates</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-        </dependency>
 
         <!-- embedded db for unit-tests and demo -->
         <dependency>

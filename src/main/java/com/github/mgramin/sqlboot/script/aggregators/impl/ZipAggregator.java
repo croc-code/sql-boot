@@ -45,11 +45,14 @@ public final class ZipAggregator extends AbstractAggregator implements Aggregato
     }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
-        Map<String, byte[]> files = new HashMap<>();
+    public byte[] aggregate(final List<DbResource> objects) throws SqlBootException {
+        final Map<String, byte[]> files = new HashMap<>();
         for (DbResource o : objects) {
-            if (o.headers().getProperty("file_name") != null && !o.headers().getProperty("file_name").isEmpty())
-                files.put(o.headers().getProperty("file_name").toLowerCase(), o.body().getBytes());
+            if (o.headers().get("file_name") != null
+                    && !o.headers().get("file_name").isEmpty()) {
+                files.put(o.headers().get("file_name").toLowerCase(),
+                        o.body().getBytes());
+            }
         }
         return compress(files);
     }

@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -37,9 +38,11 @@ public final class DbResourceThin implements DbResource {
     private final String name;
     private final DbResourceType type;
     private final DbUri dbUri;
-    private final Properties headers;
+    private final Map<String, String> headers;
 
-    public DbResourceThin(String name, DbResourceType type, DbUri dbUri, Properties headers) {
+    public DbResourceThin(final String name, final DbResourceType type,
+                          final DbUri dbUri,
+                          final Map<String, String> headers) {
         this.name = name;
         this.type = type;
         this.dbUri = dbUri;
@@ -62,7 +65,7 @@ public final class DbResourceThin implements DbResource {
     }
 
     @Override
-    public Properties headers() {
+    public Map<String, String> headers() {
         return headers;
     }
 

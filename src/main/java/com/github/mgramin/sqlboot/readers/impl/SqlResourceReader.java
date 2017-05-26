@@ -35,10 +35,7 @@ import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang.StringUtils.strip;
@@ -69,7 +66,7 @@ public final class SqlResourceReader implements DbResourceReader {
 
         for (Map<String, String> row : select) {
             final List<String> objectsForUri = new ArrayList<>();
-            final Properties objectHeaders = new Properties();
+            final HashMap<String, String> objectHeaders = new LinkedHashMap<>();
             for (Map.Entry<String, String> column : row.entrySet()) {
                 if (!column.getKey().startsWith("@")) {
                     objectsForUri.add(column.getValue());

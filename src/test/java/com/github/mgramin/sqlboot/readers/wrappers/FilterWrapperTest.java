@@ -31,6 +31,7 @@ import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,11 +47,11 @@ public class FilterWrapperTest {
     @Test
     public void read() throws Exception {
 
-        Properties properties = new Properties();
-        properties.setProperty("creator", "admin");
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put("creator", "admin");
 
-        Properties properties2 = new Properties();
-        properties2.setProperty("creator", "jdoe");
+        HashMap<String, String> properties2 = new HashMap<>();
+        properties2.put("creator", "jdoe");
 
         DbResourceReader reader = mock(DbResourceReader.class);
         when(reader.read(any(), any())).thenReturn(

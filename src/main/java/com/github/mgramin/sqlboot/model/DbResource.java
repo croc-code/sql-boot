@@ -24,36 +24,47 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * DB resource
- * e.g. table "PERSONS", index "PERSONS_NAME_IDX", stored function "GET_ALL_DEPARTMENTS()" etc
+ * e.g. table "PERSONS", index "PERSONS_NAME_IDX",
+ * stored function "GET_ALL_DEPARTMENTS()" etc
  */
 public interface DbResource {
 
     /**
-     * @return Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc
+     * Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc.
+     *
+     * @return Name
      */
     String name();
 
     /**
-     * @return Type of db resource, e.g. "table", "index", "stored function" etc
+     * Type of db resource, e.g. "table", "index", "stored function" etc.
+     *
+     * @return Type
      */
     IDbResourceType type();
 
     /**
-     * @return URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc
+     * URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc.
+     *
+     * @return URI
      */
     DbUri dbUri();
 
     /**
-     * @return Headers of db resource
+     * Headers of db resource.
+     *
+     * @return Headers
      */
-    Properties headers();
+    Map<String, String> headers();
 
     /**
-     * @return Body of db resource, e.g. ddl-code, html-representation, xml, json etc
+     * Body of db resource, e.g. ddl-code, html-representation, xml, json etc.
+     *
+     * @return Body
      */
     String body();
 

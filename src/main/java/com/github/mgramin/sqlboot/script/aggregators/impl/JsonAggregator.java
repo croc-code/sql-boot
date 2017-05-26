@@ -24,12 +24,17 @@
 
 package com.github.mgramin.sqlboot.script.aggregators.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mgramin.sqlboot.exceptions.SqlBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
 import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,13 +42,27 @@ import java.util.List;
  */
 public class JsonAggregator extends AbstractAggregator implements Aggregator {
 
-    public JsonAggregator(String name) {
+    /**
+     * Ctor.
+     *
+     * @param name Aggregator name.
+     */
+    public JsonAggregator(final String name) {
         this.name = name;
     }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SqlBootException {
-        return new Gson().toJson(objects).getBytes();
+    public byte[] aggregate(final List<DbResource> objects)
+            throws SqlBootException {
+        final List<Object> result = new ArrayList<>();
+        for (final DbResource object : objects) {
+            final JsonObject jsonObject = new JsonObject();
+            jsonObject.add("name", new JsonPrimitive(object.name()));
+            jsonObject.add("type", new Gson().toJsonTree(object.type()));
+            jsonObject.add("headers", new Gson().toJsonTree(object.headers()));
+            result.add(jsonObject);
+        }
+        return new Gson().toJson(result).getBytes();
     }
 
 }
