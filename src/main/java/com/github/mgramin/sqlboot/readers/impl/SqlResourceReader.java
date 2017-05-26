@@ -28,14 +28,18 @@ import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
-import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang.StringUtils.strip;
@@ -57,7 +61,7 @@ public final class SqlResourceReader implements DbResourceReader {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, DbResourceType type) throws SBootException {
+    public List<DbResource> read(DbUri dbUri, IDbResourceType type) throws SBootException {
         final List<DbResource> objects = new ArrayList<>();
         final String sql = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
         final List<Map<String, String>> select = sqlHelper.select(sql);

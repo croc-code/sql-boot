@@ -117,6 +117,11 @@ public class ApiControllerITCase {
     }
 
     @Test
+    public void getTableJsonDataWithLimit() {
+        callRestAndValidate("data/hr.users?type=json&limit=1");
+    }
+
+    @Test
     public void getTableXmlData() {
         callRestAndValidate("data/hr.users?type=xml");
     }

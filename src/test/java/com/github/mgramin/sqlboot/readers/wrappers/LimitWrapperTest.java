@@ -22,20 +22,31 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.readers;
+package com.github.mgramin.sqlboot.readers.wrappers;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.model.FakeDbResourceType;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import com.github.mgramin.sqlboot.readers.impl.FakeResourceReader;
+import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Db resource factory (from db system dictionary, files/(control version system), REST etc)
- */
-public interface DbResourceReader {
+import static org.junit.Assert.*;
 
-    List<DbResource> read(DbUri dbUri, @Deprecated IDbResourceType type) throws SBootException;
+/**
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
+ */
+public class LimitWrapperTest {
+
+    @Test
+    public void read() throws Exception {
+        DbResourceReader reader = new LimitWrapper(new FakeResourceReader());
+        List<DbResource> resources = reader.read(new DbUri("table/hr.*?limit=1"), new FakeDbResourceType());
+        assertEquals(1, resources.size());
+    }
 
 }

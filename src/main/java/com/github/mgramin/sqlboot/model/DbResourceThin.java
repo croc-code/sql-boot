@@ -35,11 +35,11 @@ import java.util.Map;
 public final class DbResourceThin implements DbResource {
 
     private final String name;
-    private final DbResourceType type;
+    private final IDbResourceType type;
     private final DbUri dbUri;
     private final Map<String, String> headers;
 
-    public DbResourceThin(final String name, final DbResourceType type,
+    public DbResourceThin(final String name, final IDbResourceType type,
                           final DbUri dbUri,
                           final Map<String, String> headers) {
         this.name = name;
@@ -54,7 +54,7 @@ public final class DbResourceThin implements DbResource {
     }
 
     @Override
-    public DbResourceType type() {
+    public IDbResourceType type() {
         return type;
     }
 
