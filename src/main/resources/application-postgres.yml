@@ -40,5 +40,23 @@ table.column.sql.drop: |
   alter table $table drop $column.name;
 
 
+table.indexes: |
+  select schemaname as "schema"
+       , table as "table"
+       , indexname as "index"
+    from pg_indexes
+   where tablename like '$schema'
+     and schemaname like '$table'
+     and indexname like '$index'
+
+table.pk: |
+  select constraint_name as "pk"
+    from information_schema.table_constraints
+   where constraint_type  = 'PRIMARY KEY'
+     and table_schema like '$schema'
+     and table_name like '$table'
+     and constraint_name like '$pk'
+
+
 table.data:
   select * from $schema.$table

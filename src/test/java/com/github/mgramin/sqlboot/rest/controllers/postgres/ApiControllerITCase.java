@@ -91,6 +91,16 @@ public class ApiControllerITCase {
         callRestAndValidate("c/public.basketball_team_stats", "postgres/t_public.basketball_team_stats_drop");
     }
 
+    @Test
+    public void getAllIndexes() throws Exception {
+        callRestAndValidate("idx/public?type=json", null);
+    }
+
+    @Test
+    public void getAllPk() throws Exception {
+        callRestAndValidate("pk/public?type=json", null);
+    }
+
 /*    @Test
     public void getTableJsonData() throws IOException, InterruptedException {
         Thread.sleep(2000);
