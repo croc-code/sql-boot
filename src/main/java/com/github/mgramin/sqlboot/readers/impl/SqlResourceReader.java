@@ -64,9 +64,11 @@ public final class SqlResourceReader implements DbResourceReader {
     public List<DbResource> read(DbUri dbUri, IDbResourceType type) throws SBootException {
         final List<DbResource> objects = new ArrayList<>();
         final String sql = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
-        final List<Map<String, String>> select = sqlHelper.select(sql);
 
         logger.debug(sql);
+
+        final List<Map<String, String>> select = sqlHelper.select(sql);
+
 
         for (Map<String, String> row : select) {
             final List<String> objectsForUri = new ArrayList<>();
