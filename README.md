@@ -35,6 +35,7 @@ Try online on Heroku (embedded H2):
 - [table/*/?type=zip](https://sql-boot.herokuapp.com/api/table/*/?type=zip) - get all tales from "hr" in zip file 
 
 Try online on Heroku (Postgresql):
+----------------------------------
 - [table/public](https://sql-boot-postgres.herokuapp.com/api/table/public) - get all table ddl from "public" schema
 - [table/public?type=json](https://sql-boot-postgres.herokuapp.com/api/table/public?type=json) - get all table ddl from "public" schema in json format
 ----------------------------------
@@ -75,3 +76,12 @@ git clone https://github.com/mgramin/sql-boot
 cd sql-boot  
 mvn package 
 ```
+
+
+Run integration tests for builtin configurations (docker required)
+-----------------------------------------------------------------
+
+- postgres
+- oracle
+- h2
+- cassandra
