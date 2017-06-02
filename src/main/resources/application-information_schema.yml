@@ -11,7 +11,7 @@ tables: |
          , t.last_modification  as "@last_date"
          , t.table_type         as "@table_type"
          -- TODO move file_name construction to file aggregator ?
-         , t.table_schema || '/tables/' || t.table_name || '/main.sql' as "@file_name"
+         , t.table_schema || '/tables/' || t.table_name || '/' || t.table_schema || '.' || t.table_name || '.sql' as "@file_name"
       from information_schema.tables t
      where lower(t.table_schema) like '$schema'
        and lower(t.table_name) like '$table'

@@ -52,8 +52,8 @@
         </constructor-arg>
         <constructor-arg name="generators">
             <list>
-                <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}' c:aggregators="sql"/>
-                <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP' c:aggregators="sql"/>
+                <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.create}'/>
+                <bean parent="plainTextTemplateGenerator" c:baseText='${table.sql.drop}' c:command-ref='DROP'/>
                 <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.info}' c:aggregators="html"/>
                 <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.migrate.create}' c:aggregators="migration"/>
                 <bean parent="plainTextMarkupTemplateGenerator" c:baseText='${table.migrate.drop}' c:command-ref='DROP' c:aggregators="migration"/>

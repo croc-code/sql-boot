@@ -131,6 +131,12 @@ public class ApiControllerITCase {
         callRestAndValidate("data/hr.users/create");
     }
 
+
+    @Test
+    public void getTableSqlInZip() {
+        callRestAndValidate("table/hr.users/create?type=zip");
+    }
+
     private void callRestAndValidate(String uri) {
         System.out.println("<<< " + uri);
         ResponseEntity<String> forEntity = client.getForEntity("/api/" + uri, String.class);

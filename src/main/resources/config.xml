@@ -49,7 +49,7 @@
     <!-- Generators -->
     <bean id="plainTextGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator"
-          c:command-ref='CREATE' c:aggregators="sql"/>
+          c:command-ref='CREATE' c:aggregators="sql,zip"/>
 
     <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper"
@@ -61,18 +61,18 @@
     <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
           c:templateEngineFactory-ref="templateEngineFactory"
-          c:command-ref='CREATE' c:aggregators="sql"/>
+          c:command-ref='CREATE' c:aggregators="sql,zip"/>
 
     <bean id="plainTextMarkupTemplateGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
           c:templateEngineFactory-ref="markupTemplateEngineFactory"
-          c:command-ref='CREATE' c:aggregators="sql"/>
+          c:command-ref='CREATE' c:aggregators="sql,zip"/>
 
      <bean id="plainTextTemplateSqlGenerator" abstract="true" scope="prototype"
           class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateSqlGenerator"
           c:templateEngineFactory-ref="templateEngineFactory"
           c:sqlHelper-ref="sqlHelper"
-          c:command-ref='CREATE' c:aggregators="sql"/>
+          c:command-ref='CREATE' c:aggregators="sql,zip"/>
 
 
     <!-- Aggregators -->
