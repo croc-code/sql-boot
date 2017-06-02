@@ -39,11 +39,11 @@ import static java.util.stream.Collectors.toMap;
 /**
  * Created by maksim on 09.05.17.
  */
-public final class FilterWrapper implements DbResourceReader {
+public final class WhereWrapper implements DbResourceReader {
 
     private final DbResourceReader origin;
 
-    public FilterWrapper(final DbResourceReader origin) {
+    public WhereWrapper(final DbResourceReader origin) {
         this.origin = origin;
     }
 

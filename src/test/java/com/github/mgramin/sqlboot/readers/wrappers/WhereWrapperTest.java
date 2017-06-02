@@ -33,7 +33,6 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 import static java.util.Arrays.asList;
 import static org.mockito.Matchers.any;
@@ -42,7 +41,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by maksim on 09.05.17.
  */
-public class FilterWrapperTest {
+public class WhereWrapperTest {
 
     @Test
     public void read() throws Exception {
@@ -58,7 +57,7 @@ public class FilterWrapperTest {
             asList(new DbResourceThin("persons", new DbResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.persons?@creator=admin"), properties),
                 new DbResourceThin("jobs", new DbResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.jobs?@creator=jdoe"), properties)));
 
-        DbResourceReader filteredReader = new FilterWrapper(reader);
+        DbResourceReader filteredReader = new WhereWrapper(reader);
         List<DbResource> read = filteredReader.read(new DbUri("table/hr.*?@creator=admin"),
             new DbResourceType(new String[]{"table"}, null, null, null));
 
