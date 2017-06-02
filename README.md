@@ -81,7 +81,7 @@ mvn package
 Run integration tests for builtin configurations (docker required)
 -----------------------------------------------------------------
 
-- postgres
-- oracle
-- h2
-- cassandra
+- mvn verify -Ph2
+- mvn verify -Ppostgres
+- mvn verify -Pcassandra
+- mvn jacoco:report coveralls:report -Pcoverall
