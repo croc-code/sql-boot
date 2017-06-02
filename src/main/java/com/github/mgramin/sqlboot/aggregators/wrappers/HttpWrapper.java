@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.wrappers;
+package com.github.mgramin.sqlboot.aggregators.wrappers;
 
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 
 import java.util.List;
 import java.util.Map;
@@ -34,13 +34,13 @@ import java.util.Map;
 /**
  * Created by maksim on 21.05.17.
  */
-public class HttpAggregatorWrapper implements Aggregator{
+public class HttpWrapper implements DbResourceAggregator {
 
-    private final Aggregator origin;
+    private final DbResourceAggregator origin;
     private final Map<String, String> requestHeaders;
     private final Map<String, String> responseHeaders;
 
-    public HttpAggregatorWrapper(Aggregator origin, Map<String, String> requestHeaders, Map<String, String> responseHeaders) {
+    public HttpWrapper(DbResourceAggregator origin, Map<String, String> requestHeaders, Map<String, String> responseHeaders) {
         this.origin = origin;
         this.requestHeaders = requestHeaders;
         this.responseHeaders = responseHeaders;

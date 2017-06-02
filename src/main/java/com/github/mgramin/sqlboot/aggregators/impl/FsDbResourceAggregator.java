@@ -22,18 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.util.sql;
+package com.github.mgramin.sqlboot.aggregators.impl;
 
+import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.model.DbResource;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by maksim on 27.07.16.
+ * Created by MGramin on 27.04.2017.
  */
-public interface ISqlHelper {
+public final class FsDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
 
-    List<Map<String, String>> select(String sql) throws SBootException;
+    @Override
+    public byte[] aggregate(List<DbResource> objects) throws SBootException {
+        throw new SBootException("Coming soon!");
+    }
 
 }

@@ -22,33 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
-
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbResourceThin;
-import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
-import org.junit.Test;
-
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+package com.github.mgramin.sqlboot.aggregators;
 
 /**
- * Created by maksim on 21.05.17.
+ * Created by mgramin on 08.01.2017.
  */
-public class XmlAggregatorTest {
+public abstract class AbstractDbResourceAggregator implements DbResourceAggregator {
 
-    @Test
-    public void aggregate() throws Exception {
-        List<DbResource> resources = asList(
-                new DbResourceThin("persons", null, new DbUri("table/hr.persons"), null),
-                new DbResourceThin("jobs", null, new DbUri("table/hr.jobs"), null),
-                new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
-        Aggregator aggregator = new XmlAggregator("json");
-        System.out.println(new String(aggregator.aggregate(resources)).length());
-        assertEquals(1566, new String(aggregator.aggregate(resources)).length());
+    protected String name;
+    protected Boolean isDefault;
+
+
+    public String name() {
+        return name;
+    }
+
+    public Boolean isDefault() {
+        return isDefault;
     }
 
 }

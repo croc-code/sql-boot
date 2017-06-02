@@ -40,7 +40,7 @@
         <jdbc:script location="classpath:db/sql/init-data.sql"/>
     </jdbc:embedded-database>
 
-    <bean id="JdbcSqlHelper" class="com.github.mgramin.sqlboot.util.sql.impl.JdbcSqlHelper">
+    <bean id="JdbcSqlHelper" class="com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper">
         <constructor-arg index="0" ref="dataSource"/>
     </bean>
 

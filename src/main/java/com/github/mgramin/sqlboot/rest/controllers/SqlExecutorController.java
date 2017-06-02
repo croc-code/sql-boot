@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.MediaType;

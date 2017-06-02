@@ -29,8 +29,8 @@ import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
-import com.github.mgramin.sqlboot.script.aggregators.wrappers.HttpAggregatorWrapper;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.wrappers.HttpWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
@@ -52,7 +52,7 @@ public final class ApiController {
     private List<IDbResourceType> types;
 
     @Autowired
-    private List<HttpAggregatorWrapper> httpAggregators;
+    private List<HttpWrapper> httpAggregators;
 
     @Deprecated
     @Autowired
@@ -70,13 +70,13 @@ public final class ApiController {
             uriString = request.getServletPath() + "?" + request.getQueryString();
         }
 
-        HttpAggregatorWrapper aggregator = httpAggregators.stream()
+        HttpWrapper aggregator = httpAggregators.stream()
             .filter(a -> a.name().equalsIgnoreCase(aggregatorName))
             .findFirst()
             .orElse(null);
         if (aggregator == null) {
             aggregator = httpAggregators.stream()
-                .filter(Aggregator::isDefault)
+                .filter(DbResourceAggregator::isDefault)
                 .findFirst()
                 .orElse(null);
         }

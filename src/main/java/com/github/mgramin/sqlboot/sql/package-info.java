@@ -22,23 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators;
-
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-
-import java.util.List;
-
 /**
- * Created by mgramin on 17.12.2016.
+ * SQL.
+ *
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public interface Aggregator {
-
-    String name();
-
-    Boolean isDefault();
-
-    byte[] aggregate(List<DbResource> objects) throws SBootException;
-
-    // TODO add smart class for aggregate to string
-}
+package com.github.mgramin.sqlboot.sql;

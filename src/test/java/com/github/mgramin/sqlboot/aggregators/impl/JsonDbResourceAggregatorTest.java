@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.aggregators.impl;
 
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.FakeDbResource;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import org.junit.Test;
 
 import java.util.List;
@@ -36,15 +36,15 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by maksim on 20.05.17.
  */
-public class JsonAggregatorTest {
+public class JsonDbResourceAggregatorTest {
 
     @Test
     public void aggregate() throws Exception {
         List<DbResource> resources = asList(new FakeDbResource(),
                 new FakeDbResource(), new FakeDbResource());
-        Aggregator aggregator = new JsonAggregator("json");
-        System.out.println(new String(aggregator.aggregate(resources)));
-        assertEquals(193, new String(aggregator.aggregate(resources)).length());
+        DbResourceAggregator dbResourceAggregator = new JsonDbResourceAggregator("json");
+        System.out.println(new String(dbResourceAggregator.aggregate(resources)));
+        assertEquals(193, new String(dbResourceAggregator.aggregate(resources)).length());
     }
 
 }

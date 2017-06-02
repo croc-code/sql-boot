@@ -51,7 +51,7 @@ public final class PlainTextGenerator implements ActionGenerator {
     private final IDbResourceCommand IDbResourceCommand;
 
     /**
-     *  Aggregator labels.
+     *  DbResourceAggregator labels.
      */
     private final String aggregators;
 

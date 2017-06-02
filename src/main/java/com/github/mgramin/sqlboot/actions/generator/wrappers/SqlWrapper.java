@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.actions.generator.wrappers;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import lombok.ToString;
 
 import java.util.List;

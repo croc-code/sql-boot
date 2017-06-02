@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.aggregators.impl;
 
+import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
 import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
 
@@ -38,19 +38,19 @@ import java.util.Map;
 /**
  * Created by mgramin on 17.12.2016.
  */
-public final class TextAggregator extends AbstractAggregator implements Aggregator {
+public final class TextDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
 
     private final String template;
     private final TemplateEngineFactory templateEngineFactory;
 
-    public TextAggregator(String name, Boolean isDefault) {
+    public TextDbResourceAggregator(String name, Boolean isDefault) {
         this.name = name;
         this.isDefault = isDefault;
         this.templateEngineFactory = null;
         this.template = null;
     }
 
-    public TextAggregator(String name, TemplateEngineFactory templateEngineFactory, String template) {
+    public TextDbResourceAggregator(String name, TemplateEngineFactory templateEngineFactory, String template) {
         this.name = name;
         this.templateEngineFactory = templateEngineFactory;
         this.template = template;

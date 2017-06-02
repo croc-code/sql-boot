@@ -22,23 +22,45 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.aggregators.impl;
 
+import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by MGramin on 27.04.2017.
+ * Created by maksim on 20.05.17.
  */
-public final class FsAggregator extends AbstractAggregator implements Aggregator {
+public class JsonDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
+
+    /**
+     * Ctor.
+     *
+     * @param name DbResourceAggregator name.
+     */
+    public JsonDbResourceAggregator(final String name) {
+        this.name = name;
+    }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SBootException {
-        throw new SBootException("Coming soon!");
+    public byte[] aggregate(final List<DbResource> objects)
+            throws SBootException {
+        final List<Object> result = new ArrayList<>();
+        for (final DbResource object : objects) {
+            final JsonObject jsonObject = new JsonObject();
+            jsonObject.add("name", new JsonPrimitive(object.name()));
+            jsonObject.add("type", new Gson().toJsonTree(object.type()));
+            jsonObject.add("headers", new Gson().toJsonTree(object.headers()));
+            result.add(jsonObject);
+        }
+        return new Gson().toJson(result).getBytes();
     }
 
 }

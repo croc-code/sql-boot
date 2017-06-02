@@ -22,57 +22,39 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.util;
+package com.github.mgramin.sqlboot.aggregators.impl;
 
+import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.SBootException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.zip.ZipFile;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
- * Zip file.
- *
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
+ * Created by mgramin on 17.12.2016.
  */
-public final class ZipFile {
+public final class ZipDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
 
-    /**
-     * List of files.
-     */
-    private final Map<String, byte[]> files;
-
-    /**
-     * Ctor.
-     * @param files List of files
-     */
-    public ZipFile(final Map<String, byte[]> files) {
-        this.files = files;
+    public ZipDbResourceAggregator(String name) {
+        this.name = name;
     }
 
-    /**
-     * Compress list of files.
-     *
-     * @return Zipped files in byte array
-     * @throws SBootException If fail
-     */
-    public byte[] content() throws SBootException {
-        try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            ZipOutputStream zip = new ZipOutputStream(bytes)) {
-            for (final Map.Entry<String, byte[]> ent : this.files.entrySet()) {
-                zip.putNextEntry(new ZipEntry(ent.getKey()));
-                zip.write(ent.getValue());
-                zip.closeEntry();
+    @Override
+    public byte[] aggregate(final List<DbResource> objects) throws SBootException {
+        final Map<String, byte[]> files = new HashMap<>();
+        for (DbResource o : objects) {
+            if (o.headers().get("file_name") != null
+                    && !o.headers().get("file_name").isEmpty()) {
+                files.put(o.headers().get("file_name").toLowerCase(),
+                        o.body().getBytes());
             }
-            zip.close();
-            bytes.close();
-            return bytes.toByteArray();
-        } catch (final IOException exception) {
-            throw new SBootException(exception);
         }
+//        return new  content(files);
+        return new ZipFile(files).content();
     }
 
 }

@@ -29,6 +29,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.Map;
+
+import com.github.mgramin.sqlboot.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;

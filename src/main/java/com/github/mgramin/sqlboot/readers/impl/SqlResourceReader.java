@@ -31,7 +31,7 @@ import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.util.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 

@@ -22,39 +22,33 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.aggregators.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
-import com.github.mgramin.sqlboot.util.ZipFile;
+import com.github.mgramin.sqlboot.model.DbResourceThin;
+import com.github.mgramin.sqlboot.model.DbUri;
+import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Created by mgramin on 17.12.2016.
+ * Created by maksim on 21.05.17.
  */
-public final class ZipAggregator extends AbstractAggregator implements Aggregator {
+public class XmlDbResourceAggregatorTest {
 
-    public ZipAggregator(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public byte[] aggregate(final List<DbResource> objects) throws SBootException {
-        final Map<String, byte[]> files = new HashMap<>();
-        for (DbResource o : objects) {
-            if (o.headers().get("file_name") != null
-                    && !o.headers().get("file_name").isEmpty()) {
-                files.put(o.headers().get("file_name").toLowerCase(),
-                        o.body().getBytes());
-            }
-        }
-//        return new  content(files);
-        return new ZipFile(files).content();
+    @Test
+    public void aggregate() throws Exception {
+        List<DbResource> resources = asList(
+                new DbResourceThin("persons", null, new DbUri("table/hr.persons"), null),
+                new DbResourceThin("jobs", null, new DbUri("table/hr.jobs"), null),
+                new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
+        DbResourceAggregator dbResourceAggregator = new XmlDbResourceAggregator("json");
+        System.out.println(new String(dbResourceAggregator.aggregate(resources)).length());
+        assertEquals(1566, new String(dbResourceAggregator.aggregate(resources)).length());
     }
 
 }

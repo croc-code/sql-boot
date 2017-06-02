@@ -22,23 +22,19 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators;
+package com.github.mgramin.sqlboot.aggregators.impl;
+
+import com.github.mgramin.sqlboot.exceptions.SBootException;
+import org.junit.Test;
 
 /**
- * Created by mgramin on 08.01.2017.
+ * Created by maksim on 21.05.17.
  */
-public abstract class AbstractAggregator implements Aggregator {
+public class FsDbResourceAggregatorTest {
 
-    protected String name;
-    protected Boolean isDefault;
-
-
-    public String name() {
-        return name;
-    }
-
-    public Boolean isDefault() {
-        return isDefault;
+    @Test(expected = SBootException.class)
+    public void aggregate() throws Exception {
+        new FsDbResourceAggregator().aggregate(null);
     }
 
 }

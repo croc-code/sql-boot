@@ -22,45 +22,57 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.zip;
 
 import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.script.aggregators.AbstractAggregator;
-import com.github.mgramin.sqlboot.script.aggregators.Aggregator;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
- * Created by maksim on 20.05.17.
+ * Zip file.
+ *
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public class JsonAggregator extends AbstractAggregator implements Aggregator {
+public final class ZipFile {
+
+    /**
+     * List of files.
+     */
+    private final Map<String, byte[]> files;
 
     /**
      * Ctor.
-     *
-     * @param name Aggregator name.
+     * @param files List of files
      */
-    public JsonAggregator(final String name) {
-        this.name = name;
+    public ZipFile(final Map<String, byte[]> files) {
+        this.files = files;
     }
 
-    @Override
-    public byte[] aggregate(final List<DbResource> objects)
-            throws SBootException {
-        final List<Object> result = new ArrayList<>();
-        for (final DbResource object : objects) {
-            final JsonObject jsonObject = new JsonObject();
-            jsonObject.add("name", new JsonPrimitive(object.name()));
-            jsonObject.add("type", new Gson().toJsonTree(object.type()));
-            jsonObject.add("headers", new Gson().toJsonTree(object.headers()));
-            result.add(jsonObject);
+    /**
+     * Compress list of files.
+     *
+     * @return Zipped files in byte array
+     * @throws SBootException If fail
+     */
+    public byte[] content() throws SBootException {
+        try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            ZipOutputStream zip = new ZipOutputStream(bytes)) {
+            for (final Map.Entry<String, byte[]> ent : this.files.entrySet()) {
+                zip.putNextEntry(new ZipEntry(ent.getKey()));
+                zip.write(ent.getValue());
+                zip.closeEntry();
+            }
+            zip.close();
+            bytes.close();
+            return bytes.toByteArray();
+        } catch (final IOException exception) {
+            throw new SBootException(exception);
         }
-        return new Gson().toJson(result).getBytes();
     }
 
 }

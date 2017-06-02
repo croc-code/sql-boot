@@ -22,19 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.script.aggregators.impl;
+package com.github.mgramin.sqlboot.aggregators;
 
 import com.github.mgramin.sqlboot.exceptions.SBootException;
-import org.junit.Test;
+import com.github.mgramin.sqlboot.model.DbResource;
+
+import java.util.List;
 
 /**
- * Created by maksim on 21.05.17.
+ * Created by mgramin on 17.12.2016.
  */
-public class FsAggregatorTest {
+public interface DbResourceAggregator {
 
-    @Test(expected = SBootException.class)
-    public void aggregate() throws Exception {
-        new FsAggregator().aggregate(null);
-    }
+    String name();
 
+    Boolean isDefault();
+
+    byte[] aggregate(List<DbResource> objects) throws SBootException;
+
+    // TODO add smart class for aggregate to string
 }
