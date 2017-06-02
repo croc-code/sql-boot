@@ -24,30 +24,28 @@
 
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
+import java.util.List;
+import java.util.Map;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
 import com.github.mgramin.sqlboot.model.FakeDbResourceCommand;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- *
+ * Fake generator.
  *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public class FakeGenerator implements ActionGenerator {
+public final class FakeGenerator implements ActionGenerator {
 
     @Override
-    public String generate(Map<String, Object> variables) throws SBootException {
+    public String generate(final Map<String, Object> variables) {
         return null;
     }
 
     @Override
-    public String generate(List<Object> variables) throws SBootException {
+    public String generate(final List<Object> variables) {
         return null;
     }
 
@@ -62,3 +60,4 @@ public class FakeGenerator implements ActionGenerator {
     }
 
 }
+

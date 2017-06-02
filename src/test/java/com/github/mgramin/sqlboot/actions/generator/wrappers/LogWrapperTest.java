@@ -24,11 +24,9 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
+import java.util.Map;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import org.junit.Test;
-
-import java.util.Map;
-
 import static com.google.common.collect.ImmutableMap.of;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

@@ -24,14 +24,13 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
+import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 /**
  *
@@ -51,14 +50,14 @@ public final class JdbcTemplateWrapper implements ActionGenerator {
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SBootException {
+    public String generate(Map<String, Object> variables) throws BootException {
         List<Map<String, Object>> maps = namedParameterJdbcTemplate.queryForList(origin.generate(variables), variables);
         return maps.get(1).get("result").toString();
     }
 
     @Override
-    public String generate(List<Object> variables) throws SBootException {
-        throw new SBootException("not implemented!");
+    public String generate(List<Object> variables) throws BootException {
+        throw new BootException("not implemented!");
     }
 
     @Override

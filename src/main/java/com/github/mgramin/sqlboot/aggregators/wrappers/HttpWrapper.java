@@ -24,12 +24,11 @@
 
 package com.github.mgramin.sqlboot.aggregators.wrappers;
 
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.DbResource;
 
 /**
  * Created by maksim on 21.05.17.
@@ -65,7 +64,7 @@ public class HttpWrapper implements DbResourceAggregator {
     }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SBootException {
+    public byte[] aggregate(List<DbResource> objects) throws BootException {
         return origin.aggregate(objects);
     }
 

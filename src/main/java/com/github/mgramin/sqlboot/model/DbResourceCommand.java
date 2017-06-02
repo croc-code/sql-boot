@@ -24,11 +24,9 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 

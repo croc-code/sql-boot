@@ -24,16 +24,15 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by maksim on 20.05.17.
@@ -51,7 +50,7 @@ public class JsonDbResourceAggregator extends AbstractDbResourceAggregator imple
 
     @Override
     public byte[] aggregate(final List<DbResource> objects)
-            throws SBootException {
+            throws BootException {
         final List<Object> result = new ArrayList<>();
         for (final DbResource object : objects) {
             final JsonObject jsonObject = new JsonObject();

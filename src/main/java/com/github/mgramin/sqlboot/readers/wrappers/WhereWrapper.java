@@ -24,15 +24,13 @@
 
 package com.github.mgramin.sqlboot.readers.wrappers;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.List;
+import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-
-import java.util.List;
-import java.util.Map;
-
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
@@ -48,7 +46,7 @@ public final class WhereWrapper implements DbResourceReader {
     }
 
     @Override
-    public List<DbResource> read(final DbUri dbUri, final IDbResourceType type) throws SBootException {
+    public List<DbResource> read(final DbUri dbUri, final IDbResourceType type) throws BootException {
         List<DbResource> objects = origin.read(dbUri, type);
         // TODO difficult logic
         if (dbUri.params() != null) {

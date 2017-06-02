@@ -24,10 +24,9 @@
 
 package com.github.mgramin.sqlboot.aggregators;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-
 import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.DbResource;
 
 /**
  * Created by mgramin on 17.12.2016.
@@ -38,7 +37,7 @@ public interface DbResourceAggregator {
 
     Boolean isDefault();
 
-    byte[] aggregate(List<DbResource> objects) throws SBootException;
+    byte[] aggregate(List<DbResource> objects) throws BootException;
 
     // TODO add smart class for aggregate to string
 }

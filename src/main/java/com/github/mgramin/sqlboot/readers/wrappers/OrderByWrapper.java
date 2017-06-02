@@ -24,13 +24,12 @@
 
 package com.github.mgramin.sqlboot.readers.wrappers;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-
-import java.util.List;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -39,7 +38,7 @@ import java.util.List;
  */
 public class OrderByWrapper implements DbResourceReader {
     @Override
-    public List<DbResource> read(DbUri dbUri, IDbResourceType type) throws SBootException {
+    public List<DbResource> read(DbUri dbUri, IDbResourceType type) throws BootException {
         return null;
     }
 }

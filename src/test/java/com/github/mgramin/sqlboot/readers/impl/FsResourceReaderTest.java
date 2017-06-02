@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import org.junit.Test;
 
 /**
@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class FsResourceReaderTest {
 
-    @Test(expected = SBootException.class)
+    @Test(expected = BootException.class)
     public void read() throws Exception {
         new FsResourceReader().read(null, null);
     }

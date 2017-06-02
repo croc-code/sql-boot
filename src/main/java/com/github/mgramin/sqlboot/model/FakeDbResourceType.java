@@ -24,12 +24,10 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import lombok.ToString;
-
 import java.util.List;
-
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import lombok.ToString;
 import static java.util.Arrays.asList;
 
 /**
@@ -56,7 +54,7 @@ public final class FakeDbResourceType implements IDbResourceType {
     @Override
     public List<DbResource> read(
             final DbUri dbUri, final IDbResourceCommand command,
-            final String aggregatorName) throws SBootException {
+            final String aggregatorName) throws BootException {
         return null;
     }
 

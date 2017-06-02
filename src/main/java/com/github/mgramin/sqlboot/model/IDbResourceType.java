@@ -24,10 +24,9 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-
 import java.util.List;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 
 /**
  * Created by maksim on 16.05.17.
@@ -42,6 +41,6 @@ public interface IDbResourceType {
     @Deprecated
     List<ActionGenerator> generators();
 
-    List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SBootException;
+    List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws BootException;
 
 }

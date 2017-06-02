@@ -24,12 +24,12 @@
 
 package com.github.mgramin.sqlboot.zip;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 
 /**
  * Zip file.
@@ -57,9 +57,9 @@ public final class ZipFile {
      * Compress list of files.
      *
      * @return Zipped files in byte array
-     * @throws SBootException If fail
+     * @throws BootException If fail
      */
-    public byte[] content() throws SBootException {
+    public byte[] content() throws BootException {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             ZipOutputStream zip = new ZipOutputStream(bytes)) {
             for (final Map.Entry<String, byte[]> ent : this.files.entrySet()) {
@@ -71,7 +71,7 @@ public final class ZipFile {
             bytes.close();
             return bytes.toByteArray();
         } catch (final IOException exception) {
-            throw new SBootException(exception);
+            throw new BootException(exception);
         }
     }
 

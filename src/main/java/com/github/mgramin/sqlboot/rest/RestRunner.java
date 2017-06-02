@@ -26,7 +26,6 @@ package com.github.mgramin.sqlboot.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import static java.lang.System.getenv;
 import static java.lang.System.setProperty;
 import static java.util.Optional.ofNullable;

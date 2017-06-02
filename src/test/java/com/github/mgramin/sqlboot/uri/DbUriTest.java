@@ -24,12 +24,10 @@
 
 package com.github.mgramin.sqlboot.uri;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.net.URISyntaxException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbUri;
 import org.junit.Test;
-
-import java.net.URISyntaxException;
-
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -49,62 +47,62 @@ public class DbUriTest {
     }
 
     @Test
-    public void createAllTableWithChildObjectsFromSchema() throws SBootException {
+    public void createAllTableWithChildObjectsFromSchema() throws BootException {
         test("table/hr.*/", "DbUri{type='table', dbSchemaObjectCommand='null', objects=[hr, *], recursive=true, params={}}");
     }
 
     @Test
-    public void dropAllTableFromSchema() throws SBootException {
+    public void dropAllTableFromSchema() throws BootException {
         test("table/hr.*/drop", "DbUri{type='table', dbSchemaObjectCommand='drop', objects=[hr, *], recursive=false, params={}}");
     }
 
 
     @Test
-    public void createColumnsForTable() throws SBootException {
+    public void createColumnsForTable() throws BootException {
         test("column/hr.persons.*name",
                 "DbUri{type='column', dbSchemaObjectCommand='null', objects=[hr, persons, *name], recursive=false, params={}}");
     }
 
     @Test
-    public void dropColumnFromTable() throws SBootException {
+    public void dropColumnFromTable() throws BootException {
         test("column/hr.persons.name/drop",
                 "DbUri{type='column', dbSchemaObjectCommand='drop', objects=[hr, persons, name], recursive=false, params={}}");
     }
 
 
     @Test
-    public void createAllFkForTable() throws SBootException {
+    public void createAllFkForTable() throws BootException {
         test("fk/hr.employees.*",
                 "DbUri{type='fk', dbSchemaObjectCommand='null', objects=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
-    public void dropAllFkFromTable() throws SBootException {
+    public void dropAllFkFromTable() throws BootException {
         test("fk/hr.employees.*/drop",
                 "DbUri{type='fk', dbSchemaObjectCommand='drop', objects=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
-    public void disableAllFkFromTable() throws SBootException {
+    public void disableAllFkFromTable() throws BootException {
         test("fk/hr.employees.*/disable",
                 "DbUri{type='fk', dbSchemaObjectCommand='disable', objects=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
-    public void disableAllFkFromSchema() throws SBootException {
+    public void disableAllFkFromSchema() throws BootException {
         test("fk/hr.*.*/disable",
                 "DbUri{type='fk', dbSchemaObjectCommand='disable', objects=[hr, *, *], recursive=false, params={}}");
     }
 
     @Test
-    public void testDefaultActionIsCreate() throws SBootException {
+    public void testDefaultActionIsCreate() throws BootException {
         test("fk/hr.*.*",
                 "DbUri{type='fk', dbSchemaObjectCommand='null', objects=[hr, *, *], recursive=false, params={}}");
     }
 
 
     @Test
-    public void testParams() throws SBootException, URISyntaxException {
+    public void testParams() throws BootException, URISyntaxException {
         test("t/hr?@table_comment=big_table",
             "DbUri{type='t', dbSchemaObjectCommand='null', objects=[hr], recursive=false, params={@table_comment=big_table}}");
         test("table/hr?@table_comment=big_table",
@@ -112,7 +110,7 @@ public class DbUriTest {
     }
 
 
-    private void test(String uriStringActual, String jsonExpected) throws SBootException {
+    private void test(String uriStringActual, String jsonExpected) throws BootException {
         DbUri uri = new DbUri(uriStringActual);
         assertEquals(uriStringActual, uri.toString());
         assertEquals(uri.toJson(), jsonExpected);

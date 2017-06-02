@@ -24,12 +24,11 @@
 
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
 /**
  *
@@ -72,13 +71,13 @@ public final class PlainTextGenerator implements ActionGenerator {
 
     @Override
     public String generate(final Map<String, Object> variables)
-            throws SBootException {
+            throws BootException {
         return baseText;
     }
 
     @Override
     public String generate(final List<Object> variables)
-            throws SBootException {
+            throws BootException {
         return baseText;
     }
 

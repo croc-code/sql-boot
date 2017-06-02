@@ -24,6 +24,8 @@
 
 package com.github.mgramin.sqlboot.rest.controllers.cassandra;
 
+import java.io.File;
+import java.io.IOException;
 import com.github.mgramin.sqlboot.rest.RestRunner;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -40,10 +42,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
-
-import java.io.File;
-import java.io.IOException;
-
 import static java.lang.String.format;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.junit.Assert.assertEquals;

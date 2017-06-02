@@ -24,10 +24,8 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import lombok.ToString;
-
 import java.util.Map;
-
+import lombok.ToString;
 import static com.google.common.collect.ImmutableMap.of;
 
 /**

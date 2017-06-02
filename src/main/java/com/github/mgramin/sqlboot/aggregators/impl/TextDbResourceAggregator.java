@@ -24,16 +24,15 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
-import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
+import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
 
 /**
  * Created by mgramin on 17.12.2016.
@@ -57,7 +56,7 @@ public final class TextDbResourceAggregator extends AbstractDbResourceAggregator
     }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SBootException {
+    public byte[] aggregate(List<DbResource> objects) throws BootException {
         if (objects == null) return null;
         if (template == null || template.isEmpty()) {
             StringBuilder builder = new StringBuilder();

@@ -24,16 +24,14 @@
 
 package com.github.mgramin.sqlboot.readers.wrappers;
 
+import java.util.List;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.FakeDbResourceType;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.readers.impl.FakeResourceReader;
 import org.junit.Test;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

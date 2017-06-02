@@ -24,12 +24,10 @@
 
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
+import java.util.HashMap;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.model.DbResourceCommand;
 import org.junit.Test;
-
-import java.util.HashMap;
-
 import static org.junit.Assert.assertEquals;
 
 /**

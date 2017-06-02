@@ -24,13 +24,15 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.wrappers.HttpWrapper;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.aggregators.wrappers.HttpWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
@@ -40,9 +42,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @ImportResource("classpath:config.xml")
@@ -62,7 +61,7 @@ public final class ApiController {
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
-        @RequestParam(value = "type", required = false) String aggregatorName) throws SBootException {
+        @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
         String uriString;
         if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
             uriString = request.getServletPath();
@@ -89,7 +88,7 @@ public final class ApiController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws SBootException {
+    private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws BootException {
         final DbUri uri = new DbUri(uriString);
         final IDbResourceCommand command;
         if (uri.action() != null) {

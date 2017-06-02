@@ -24,9 +24,8 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-
 import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 
 /**
  * DB resource without body
@@ -70,7 +69,7 @@ public final class DbResourceThin implements DbResource {
 
     @Override
     public String body() {
-        throw new SBootException("Resource body not allow here.");
+        throw new BootException("Resource body not allow here.");
     }
 
 }

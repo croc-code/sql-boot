@@ -24,13 +24,12 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
+import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.thoughtworks.xstream.XStream;
-
-import java.util.List;
 
 /**
  * Created by maksim on 21.05.17.
@@ -42,7 +41,7 @@ public class XmlDbResourceAggregator extends AbstractDbResourceAggregator implem
     }
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SBootException {
+    public byte[] aggregate(List<DbResource> objects) throws BootException {
         XStream xstream = new XStream();
         String xml = xstream.toXML(objects);
         return xml.getBytes();

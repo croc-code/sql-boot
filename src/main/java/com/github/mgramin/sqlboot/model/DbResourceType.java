@@ -24,17 +24,15 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import lombok.ToString;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import lombok.ToString;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 
@@ -82,7 +80,7 @@ public final class DbResourceType implements IDbResourceType {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws SBootException {
+    public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws BootException {
         List<DbResource> objects = read(dbUri);
         final List<DbResource> objectsNew = new ArrayList<>();
         for (final DbResource dbResource : objects) {
@@ -124,7 +122,7 @@ public final class DbResourceType implements IDbResourceType {
         return objectsNew;
     }
 
-    public List<DbResource> read(DbUri dbUri) throws SBootException {
+    public List<DbResource> read(DbUri dbUri) throws BootException {
         final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
         final List<DbResource> objects = reader.read(dbUri, this);
         ofNullable(this.child).ifPresent(c -> c.forEach(a -> objects.addAll(a.read(dbUri))));

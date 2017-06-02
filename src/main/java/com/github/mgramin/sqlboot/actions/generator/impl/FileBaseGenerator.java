@@ -24,20 +24,19 @@
 
 package com.github.mgramin.sqlboot.actions.generator.impl;
 
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
+import org.apache.commons.io.FileUtils;
 
 /**
- *
+ * Generate command from text-file.
  *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
@@ -45,30 +44,53 @@ import java.util.Map;
  */
 public final class FileBaseGenerator implements ActionGenerator {
 
+    /**
+     * File.
+     */
     private final File file;
-    private final IDbResourceCommand IDbResourceCommand;
-    private final String aggregators;
-    private final Charset UTF_8 = StandardCharsets.UTF_8;
 
-    public FileBaseGenerator(File file, IDbResourceCommand command, String aggregators) {
+    /**
+     * Command.
+     */
+    private final IDbResourceCommand command;
+
+    /**
+     * Aggregators.
+     */
+    private final String aggregators;
+
+    /**
+     * File encoding.
+     */
+    private final Charset charset = StandardCharsets.UTF_8;
+
+    /**
+     * Ctor.
+     *
+     * @param file File
+     * @param command Command
+     * @param aggregators Aggregators
+     */
+    public FileBaseGenerator(final File file, final IDbResourceCommand command,
+        final String aggregators) {
         this.file = file;
-        this.IDbResourceCommand = command;
+        this.command = command;
         this.aggregators = aggregators;
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SBootException {
-        return generate();
+    public String generate(final Map<String, Object> variables) {
+        return this.generate();
     }
 
     @Override
-    public String generate(List<Object> variables) throws SBootException {
-        return generate();
+    public String generate(final List<Object> variables) {
+        return this.generate();
     }
 
     @Override
     public IDbResourceCommand command() {
-        return this.IDbResourceCommand;
+        return this.command;
     }
 
     @Override
@@ -76,12 +98,18 @@ public final class FileBaseGenerator implements ActionGenerator {
         return this.aggregators;
     }
 
+    /**
+     * Common generate method.
+     *
+     * @return Command text
+     */
     private String generate() {
         try {
-            return FileUtils.readFileToString(file, UTF_8);
-        } catch (IOException e) {
-            throw new SBootException(e);
+            return FileUtils.readFileToString(this.file, this.charset);
+        } catch (final IOException exception) {
+            throw new BootException(exception);
         }
     }
 
 }
+

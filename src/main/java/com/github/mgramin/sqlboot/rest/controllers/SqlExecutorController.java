@@ -24,15 +24,18 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.List;
+import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by mgramin on 31.12.2016.
@@ -45,22 +48,22 @@ public final class SqlExecutorController {
     private ISqlHelper sqlHelper;
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<Map<String, String>> execSql2Xml(@RequestParam("sql") String sql) throws SBootException {
+    public List<Map<String, String>> execSql2Xml(@RequestParam("sql") String sql) throws BootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql) throws SBootException {
+    public List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql) throws BootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql) throws SBootException {
+    public List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql) throws BootException {
         return sqlHelper.select(sql);
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql) throws SBootException {
+    public List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql) throws BootException {
         return sqlHelper.select(sql);
     }
 

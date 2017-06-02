@@ -24,18 +24,17 @@
 
 package com.github.mgramin.sqlboot.readers;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
-
-import java.util.List;
 
 /**
  * Db resource factory (from db system dictionary, files/(control version system), REST etc)
  */
 public interface DbResourceReader {
 
-    List<DbResource> read(DbUri dbUri, @Deprecated IDbResourceType type) throws SBootException;
+    List<DbResource> read(DbUri dbUri, @Deprecated IDbResourceType type) throws BootException;
 
 }

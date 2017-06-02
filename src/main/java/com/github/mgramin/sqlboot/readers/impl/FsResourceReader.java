@@ -24,13 +24,12 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-
-import java.util.List;
 
 /**
  * Created by mgramin on 31.10.2016.
@@ -39,7 +38,7 @@ public final class FsResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(DbUri dbUri, IDbResourceType type) {
-        throw new SBootException("Coming soon!");
+        throw new BootException("Coming soon!");
     }
 
 }

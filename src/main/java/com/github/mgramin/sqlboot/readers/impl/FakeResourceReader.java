@@ -24,16 +24,13 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.FakeDbResource;
 import com.github.mgramin.sqlboot.model.IDbResourceType;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-
-import java.util.List;
-
 import static java.util.Arrays.asList;
 
 /**
@@ -42,7 +39,7 @@ import static java.util.Arrays.asList;
 public class FakeResourceReader implements DbResourceReader {
 
     @Override
-    public List<DbResource> read(final DbUri dbUri, final IDbResourceType type) throws SBootException {
+    public List<DbResource> read(final DbUri dbUri, final IDbResourceType type) throws BootException {
         return asList(new FakeDbResource(), new FakeDbResource(), new FakeDbResource());
     }
 

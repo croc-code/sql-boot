@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import org.junit.Test;
 
 /**
@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class FsDbResourceAggregatorTest {
 
-    @Test(expected = SBootException.class)
+    @Test(expected = BootException.class)
     public void aggregate() throws Exception {
         new FsDbResourceAggregator().aggregate(null);
     }

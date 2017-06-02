@@ -24,12 +24,11 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import java.util.HashMap;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.util.HashMap;
 
 /**
  * Created by MGramin on 04.05.2017.
@@ -41,7 +40,7 @@ public class CacheWrapperTest {
 
     @Test
     public void generate() throws Exception {
-        exception.expect(SBootException.class);
+        exception.expect(BootException.class);
         exception.expectMessage("Coming soon!");
         new CacheWrapper().generate(new HashMap<>());
     }

@@ -24,14 +24,13 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
+import java.util.List;
+import java.util.Map;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -50,7 +49,7 @@ public final class LogWrapper implements ActionGenerator {
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SBootException {
+    public String generate(Map<String, Object> variables) throws BootException {
         StopWatch stopWatch = startLog(variables);
         String generate = origin.generate(variables);
         stopLog(stopWatch);
@@ -58,7 +57,7 @@ public final class LogWrapper implements ActionGenerator {
     }
 
     @Override
-    public String generate(List<Object> variables) throws SBootException {
+    public String generate(List<Object> variables) throws BootException {
         StopWatch stopWatch = startLog(variables);
         String generate = origin.generate(variables);
         stopLog(stopWatch);

@@ -24,14 +24,13 @@
 
 package com.github.mgramin.sqlboot.actions.generator.wrappers;
 
+import java.util.List;
+import java.util.Map;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import lombok.ToString;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -52,12 +51,12 @@ public final class SqlWrapper implements ActionGenerator {
     }
 
     @Override
-    public String generate(Map<String, Object> variables) throws SBootException {
+    public String generate(Map<String, Object> variables) throws BootException {
         return generate(origin.generate(variables));
     }
 
     @Override
-    public String generate(List<Object> variables) throws SBootException {
+    public String generate(List<Object> variables) throws BootException {
         return generate(origin.generate(variables));
     }
 

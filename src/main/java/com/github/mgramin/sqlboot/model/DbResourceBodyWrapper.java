@@ -25,7 +25,6 @@
 package com.github.mgramin.sqlboot.model;
 
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * DB resource with body

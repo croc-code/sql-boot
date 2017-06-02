@@ -24,15 +24,14 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
-import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.zip.ZipFile;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
+import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.zip.ZipFile;
 
 /**
  * Created by mgramin on 17.12.2016.
@@ -44,7 +43,7 @@ public final class ZipDbResourceAggregator extends AbstractDbResourceAggregator 
     }
 
     @Override
-    public byte[] aggregate(final List<DbResource> objects) throws SBootException {
+    public byte[] aggregate(final List<DbResource> objects) throws BootException {
         final Map<String, byte[]> files = new HashMap<>();
         for (DbResource o : objects) {
             if (o.headers().get("file_name") != null

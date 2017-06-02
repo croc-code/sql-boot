@@ -24,12 +24,11 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
+import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.exceptions.SBootException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-
-import java.util.List;
 
 /**
  * Created by MGramin on 27.04.2017.
@@ -37,8 +36,8 @@ import java.util.List;
 public final class FsDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
 
     @Override
-    public byte[] aggregate(List<DbResource> objects) throws SBootException {
-        throw new SBootException("Coming soon!");
+    public byte[] aggregate(List<DbResource> objects) throws BootException {
+        throw new BootException("Coming soon!");
     }
 
 }

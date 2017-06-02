@@ -25,7 +25,6 @@
 package com.github.mgramin.sqlboot.model;
 
 import java.util.List;
-
 import static java.util.Arrays.asList;
 
 

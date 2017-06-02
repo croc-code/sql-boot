@@ -24,13 +24,11 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
+import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.FakeDbResource;
 import org.junit.Test;
-
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 /**
