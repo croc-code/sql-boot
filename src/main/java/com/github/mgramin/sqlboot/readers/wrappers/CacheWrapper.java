@@ -27,8 +27,8 @@ package com.github.mgramin.sqlboot.readers.wrappers;
 import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
 /**
@@ -43,9 +43,9 @@ public final class CacheWrapper implements DbResourceReader {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, IDbResourceType type) throws BootException {
+    public List<DbResource> read(Uri uri, ResourceType type) throws BootException {
         // TODO cache this
-        List<DbResource> resources = origin.read(dbUri, type);
+        List<DbResource> resources = origin.read(uri, type);
         return resources;
     }
 

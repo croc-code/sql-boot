@@ -46,12 +46,12 @@ public final class DbResourceBodyWrapper implements DbResource {
     }
 
     @Override
-    public IDbResourceType type() {
+    public ResourceType type() {
         return origin.type();
     }
 
     @Override
-    public DbUri dbUri() {
+    public Uri dbUri() {
         return origin.dbUri();
     }
 

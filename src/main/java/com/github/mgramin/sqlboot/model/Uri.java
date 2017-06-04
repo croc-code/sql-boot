@@ -24,41 +24,60 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import java.util.List;
 import java.util.Map;
-import lombok.ToString;
-import static com.google.common.collect.ImmutableMap.of;
 
 /**
- * Created by maksim on 22.05.17.
+ * Resource URI.
+ *
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-@ToString
-public class FakeDbResource implements DbResource {
+public interface Uri {
 
-    @Override
-    public String name() {
-        return "FAKE_DB_RESOURCE";
-    }
+    /**
+     * Type.
+     *
+     * @return Type name.
+     */
+    String type();
 
-    @Override
-    public ResourceType type() {
-        return new FakeDbResourceType();
-    }
+    /**
+     * Action.
+     *
+     * @return Action name.
+     */
+    String action();
 
-    @Override
-    public Uri dbUri() {
-        return new DbUri("table/hr.persons?file=table.hr.persons.sql");
-    }
+    /**
+     *
+     *
+     * @return
+     */
+    List<String> objects();
 
-    @Override
-    public Map<String, String> headers() {
-        return of("schema", "hr",
-                "table", "persons",
-                "file", "table.hr.persons.sql");
-    }
+    @Deprecated // TODO only for Queryable uri
+    Boolean recursive();
 
-    @Override
-    public String body() {
-        return "BODY";
-    }
+    /**
+     *
+     *
+     * @return
+     */
+    Map<String, String> params();
+
+    /**
+     *
+     * @return
+     */
+    @Deprecated // ?
+    Map<String, String> filters();
+
+    /**
+     *
+     * @return
+     */
+    String toJson();
 
 }

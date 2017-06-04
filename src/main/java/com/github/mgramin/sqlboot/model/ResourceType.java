@@ -32,7 +32,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
  * Created by maksim on 16.05.17.
  */
 // TODO rename to DbResourceType
-public interface IDbResourceType {
+public interface ResourceType {
 
     String name();
 
@@ -41,6 +41,6 @@ public interface IDbResourceType {
     @Deprecated
     List<ActionGenerator> generators();
 
-    List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws BootException;
+    List<DbResource> read(Uri uri, IDbResourceCommand command, String aggregatorName) throws BootException;
 
 }

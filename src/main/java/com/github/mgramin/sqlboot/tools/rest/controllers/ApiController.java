@@ -32,7 +32,8 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.Uri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
@@ -48,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
 public final class ApiController {
 
     @Autowired
-    private List<IDbResourceType> types;
+    private List<ResourceType> types;
 
     @Autowired
     private List<HttpWrapper> httpAggregators;
@@ -89,7 +90,7 @@ public final class ApiController {
     }
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws BootException {
-        final DbUri uri = new DbUri(uriString);
+        final Uri uri = new DbUri(uriString);
         final IDbResourceCommand command;
         if (uri.action() != null) {
             command = commands.stream().filter(c -> c.aliases().contains(uri.action()))
@@ -99,7 +100,7 @@ public final class ApiController {
                 .orElse(null);
         }
 
-        final IDbResourceType type = types.stream()
+        final ResourceType type = types.stream()
             .filter(n -> n.aliases() != null && n.aliases().contains(uri.type())).findFirst()
             .orElse(null);
         if (type == null) {

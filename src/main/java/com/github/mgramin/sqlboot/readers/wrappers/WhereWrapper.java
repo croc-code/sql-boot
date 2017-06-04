@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -46,11 +46,11 @@ public final class WhereWrapper implements DbResourceReader {
     }
 
     @Override
-    public List<DbResource> read(final DbUri dbUri, final IDbResourceType type) throws BootException {
-        List<DbResource> objects = origin.read(dbUri, type);
+    public List<DbResource> read(final Uri uri, final ResourceType type) throws BootException {
+        List<DbResource> objects = origin.read(uri, type);
         // TODO difficult logic
-        if (dbUri.params() != null) {
-            Map<String, String> filtersParam = dbUri.params().entrySet().stream().filter(p ->
+        if (uri.params() != null) {
+            Map<String, String> filtersParam = uri.params().entrySet().stream().filter(p ->
                 !p.getKey().equalsIgnoreCase("type"))
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
 

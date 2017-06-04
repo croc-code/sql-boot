@@ -34,7 +34,8 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.tools.sql.ISqlHelper;
 import lombok.ToString;
@@ -59,9 +60,9 @@ public final class SqlResourceReader implements DbResourceReader {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, IDbResourceType type) throws BootException {
+    public List<DbResource> read(Uri uri, ResourceType type) throws BootException {
         final List<DbResource> objects = new ArrayList<>();
-        final String sql = actionGenerator.generate(new ArrayList<>(dbUri.objects()));
+        final String sql = actionGenerator.generate(new ArrayList<>(uri.objects()));
 
         logger.debug(sql);
 

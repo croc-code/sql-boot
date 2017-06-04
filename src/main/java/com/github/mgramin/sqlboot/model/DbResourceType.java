@@ -42,7 +42,7 @@ import static java.util.Optional.ofNullable;
  */
 @ToString
 @JsonSerialize(as=DbResourceType.class)
-public final class DbResourceType implements IDbResourceType {
+public final class DbResourceType implements ResourceType {
 
     private final List<String> aliases;
     private final transient List<DbResourceType> child;
@@ -80,11 +80,11 @@ public final class DbResourceType implements IDbResourceType {
     }
 
     @Override
-    public List<DbResource> read(DbUri dbUri, IDbResourceCommand command, String aggregatorName) throws BootException {
-        List<DbResource> objects = read(dbUri);
+    public List<DbResource> read(Uri uri, IDbResourceCommand command, String aggregatorName) throws BootException {
+        List<DbResource> objects = read(uri);
         final List<DbResource> objectsNew = new ArrayList<>();
         for (final DbResource dbResource : objects) {
-            if (dbResource.type().equals(this) || dbUri.recursive()) {
+            if (dbResource.type().equals(this) || uri.recursive()) {
 /*                Map<DbResourceType, List<DbResource>> objectsByType =
                         objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
                 final ObjectService objectService = new ObjectService(objects,
@@ -122,10 +122,10 @@ public final class DbResourceType implements IDbResourceType {
         return objectsNew;
     }
 
-    public List<DbResource> read(DbUri dbUri) throws BootException {
+    public List<DbResource> read(Uri uri) throws BootException {
         final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
-        final List<DbResource> objects = reader.read(dbUri, this);
-        ofNullable(this.child).ifPresent(c -> c.forEach(a -> objects.addAll(a.read(dbUri))));
+        final List<DbResource> objects = reader.read(uri, this);
+        ofNullable(this.child).ifPresent(c -> c.forEach(a -> objects.addAll(a.read(uri))));
         return objects;
     }
 

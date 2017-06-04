@@ -34,16 +34,16 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 public final class DbResourceThin implements DbResource {
 
     private final String name;
-    private final IDbResourceType type;
-    private final DbUri dbUri;
+    private final ResourceType type;
+    private final Uri uri;
     private final Map<String, String> headers;
 
-    public DbResourceThin(final String name, final IDbResourceType type,
-                          final DbUri dbUri,
+    public DbResourceThin(final String name, final ResourceType type,
+                          final Uri uri,
                           final Map<String, String> headers) {
         this.name = name;
         this.type = type;
-        this.dbUri = dbUri;
+        this.uri = uri;
         this.headers = headers;
     }
 
@@ -53,13 +53,13 @@ public final class DbResourceThin implements DbResource {
     }
 
     @Override
-    public IDbResourceType type() {
+    public ResourceType type() {
         return type;
     }
 
     @Override
-    public DbUri dbUri() {
-        return dbUri;
+    public Uri dbUri() {
+        return uri;
     }
 
     @Override

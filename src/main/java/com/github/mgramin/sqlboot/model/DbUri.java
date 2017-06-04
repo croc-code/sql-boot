@@ -36,7 +36,7 @@ import static java.util.Arrays.asList;
  * Created by maksim on 12.06.16.
  */
 // TODO create and use interface
-public final class DbUri {
+public final class DbUri implements Uri {
 
     private final String type;
     private final String action;
@@ -45,14 +45,14 @@ public final class DbUri {
     private final Map<String, String> params = new LinkedHashMap<>();
     private final Map<String, String> filters = new HashMap<>();
 
-    public DbUri(String type, List<String> objects) {
+    public DbUri(final String type, final List<String> objects) {
         this.type = type;
         this.objects = objects;
         this.action = null;
         this.recursive = false;
     }
 
-    public DbUri(String uriString) throws BootException {
+    public DbUri(final String uriString) throws BootException {
         try {
             URI uri = new URI(uriString);
             String pathString = uri.getPath().replace("*", "%");
@@ -81,28 +81,33 @@ public final class DbUri {
         }
     }
 
-
+    @Override
     public String type() {
         return type;
     }
 
+    @Override
     public String action() {
         return action;
     }
 
+    @Override
     public List<String> objects() {
         return objects;
     }
 
+    @Override
     @Deprecated // TODO only for Queryable uri
     public Boolean recursive() {
         return recursive;
     }
 
+    @Override
     public Map<String, String> params() {
         return params;
     }
 
+    @Override
     @Deprecated // ?
     public Map<String, String> filters() {
         return filters;
@@ -128,6 +133,7 @@ public final class DbUri {
         return result.toString().replace("%", "*");
     }
 
+    @Override
     public String toJson() {
         String s = "DbUri{" +
             "type='" + type + '\'' +

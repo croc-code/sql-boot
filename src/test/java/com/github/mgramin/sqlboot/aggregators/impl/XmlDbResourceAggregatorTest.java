@@ -46,7 +46,7 @@ public class XmlDbResourceAggregatorTest {
                 new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
         DbResourceAggregator dbResourceAggregator = new XmlDbResourceAggregator("json");
         System.out.println(new String(dbResourceAggregator.aggregate(resources)).length());
-        assertEquals(1566, new String(dbResourceAggregator.aggregate(resources)).length());
+        assertEquals(1695, new String(dbResourceAggregator.aggregate(resources)).length());
     }
 
 }

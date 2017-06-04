@@ -25,10 +25,9 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import java.util.List;
-import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
 /**
@@ -37,13 +36,9 @@ import com.github.mgramin.sqlboot.readers.DbResourceReader;
 public final class FileResourceReader implements DbResourceReader {
 
     @Override
-    public List<DbResource> read(DbUri dbUri, IDbResourceType type) {
-
-        System.out.println(dbUri.objects());
-
+    public List<DbResource> read(final Uri uri, final ResourceType type) {
+        System.out.println(uri.objects());
         return null;
-
-//        throw new BootException("Coming soon!");
     }
 
 }

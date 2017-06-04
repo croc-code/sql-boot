@@ -34,7 +34,7 @@ import static java.util.Arrays.asList;
  * Created by maksim on 22.05.17.
  */
 @ToString
-public final class FakeDbResourceType implements IDbResourceType {
+public final class FakeDbResourceType implements ResourceType {
 
     @Override
     public String name() {
@@ -53,7 +53,7 @@ public final class FakeDbResourceType implements IDbResourceType {
 
     @Override
     public List<DbResource> read(
-            final DbUri dbUri, final IDbResourceCommand command,
+            final Uri uri, final IDbResourceCommand command,
             final String aggregatorName) throws BootException {
         return null;
     }

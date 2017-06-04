@@ -42,7 +42,7 @@ public class JsonDbResourceAggregatorTest {
                 new FakeDbResource(), new FakeDbResource());
         DbResourceAggregator dbResourceAggregator = new JsonDbResourceAggregator("json");
         System.out.println(new String(dbResourceAggregator.aggregate(resources)));
-        assertEquals(241, new String(dbResourceAggregator.aggregate(resources)).length());
+        assertEquals(337, new String(dbResourceAggregator.aggregate(resources)).length());
     }
 
 }

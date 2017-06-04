@@ -27,8 +27,8 @@ package com.github.mgramin.sqlboot.readers.wrappers;
 import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.DbUri;
-import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import static java.lang.Integer.parseInt;
 import static java.util.Optional.ofNullable;
@@ -50,9 +50,9 @@ public class LimitWrapper implements DbResourceReader {
     }
 
     @Override
-    public List<DbResource> read(final DbUri dbUri, final IDbResourceType type) throws BootException {
-        final List<DbResource> resources = origin.read(dbUri, type);
-        final String limit = dbUri.params().get("limit");
+    public List<DbResource> read(final Uri uri, final ResourceType type) throws BootException {
+        final List<DbResource> resources = origin.read(uri, type);
+        final String limit = uri.params().get("limit");
         return ofNullable(limit)
                 .map(v -> resources.subList(0, parseInt(v)))
                 .orElse(resources);

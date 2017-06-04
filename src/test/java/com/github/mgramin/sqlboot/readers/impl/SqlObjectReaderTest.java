@@ -28,6 +28,7 @@ import java.util.List;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.tools.sql.ISqlHelper;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class SqlObjectReaderTest {
 
     @Test
     public void readRecursive() throws Exception {
-        DbUri uri = new DbUri("column/hr.persons.*");
+        Uri uri = new DbUri("column/hr.persons.*");
 
         ISqlHelper sqlHelper = mock(ISqlHelper.class);
         when(sqlHelper.select(any())).thenReturn(asList(
@@ -61,7 +62,7 @@ public class SqlObjectReaderTest {
 
     @Test
     public void readRecursiveWithChildType() throws Exception {
-        DbUri uri = new DbUri("table/hr.*");
+        Uri uri = new DbUri("table/hr.*");
 
         ISqlHelper sqlHelperTableMock = mock(ISqlHelper.class);
         when(sqlHelperTableMock.select(any())).thenReturn(asList(

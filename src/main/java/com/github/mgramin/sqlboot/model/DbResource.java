@@ -45,14 +45,14 @@ public interface DbResource {
      *
      * @return Type
      */
-    IDbResourceType type();
+    ResourceType type();
 
     /**
      * URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc.
      *
      * @return URI
      */
-    DbUri dbUri();
+    Uri dbUri();
 
     /**
      * Headers of db resource.
