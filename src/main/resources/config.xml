@@ -201,11 +201,11 @@
 
 
     <!-- Template engines -->
-    <bean id="templateEngine" scope="prototype" class="com.github.mgramin.sqlboot.tools.template_engine.impl.GroovyTemplateEngine" />
-    <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.tools.template_engine.impl.GroovyMarkupTemplateEngine" />
+    <bean id="templateEngine" scope="prototype" class="com.github.mgramin.sqlboot.tools.template.engine.impl.GroovyTemplateEngine" />
+    <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.tools.template.engine.impl.GroovyMarkupTemplateEngine" />
 
-    <bean id="templateEngineFactory" class="com.github.mgramin.sqlboot.tools.template_engine.factory.GroovyTemplateEngineFactory" />
-    <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.tools.template_engine.factory.GroovyMarkupTemplateEngineFactory" />
+    <bean id="templateEngineFactory" class="com.github.mgramin.sqlboot.tools.template.engine.factory.GroovyTemplateEngineFactory" />
+    <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.tools.template.engine.factory.GroovyMarkupTemplateEngineFactory" />
 
     <!-- DB helpers -->
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.tools.sql.impl.JdbcSqlHelper" autowire="byType" />

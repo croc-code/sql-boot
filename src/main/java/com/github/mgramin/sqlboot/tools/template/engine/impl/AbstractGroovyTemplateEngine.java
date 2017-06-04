@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.template_engine.impl;
+package com.github.mgramin.sqlboot.tools.template.engine.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngine;
+import com.github.mgramin.sqlboot.tools.template.TemplateEngine;
 import groovy.text.Template;
 
 /**

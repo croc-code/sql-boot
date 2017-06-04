@@ -22,31 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.template_engine;
-
-import java.util.List;
-import java.util.Map;
-import com.github.mgramin.sqlboot.exceptions.BootException;
+package com.github.mgramin.sqlboot.tools.template;
 
 /**
- * Template engine
+ * Created by maksim on 29.04.17.
  */
-public interface TemplateEngine {
+public interface TemplateEngineFactory {
 
-    /**
-     * Generate text from template
-     *
-     * @param variables
-     * @return
-     */
-    String process(Map<String, Object> variables) throws BootException;
-
-    /**
-     * Get all user variables from template in sequence order
-     *
-     * @return
-     * @throws BootException
-     */
-    List<String> getAllProperties() throws BootException;
+    TemplateEngine create(String template);
 
 }

@@ -22,18 +22,31 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.template_engine.impl;
+package com.github.mgramin.sqlboot.tools.template;
 
-import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngine;
-import groovy.text.GStringTemplateEngine;
-import lombok.ToString;
+import java.util.List;
+import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 
-@ToString
-public final class GroovyTemplateEngine extends AbstractGroovyTemplateEngine implements TemplateEngine {
+/**
+ * Template engine
+ */
+public interface TemplateEngine {
 
-    public GroovyTemplateEngine(String template) {
-        engine = new GStringTemplateEngine();
-        setTemplate(template);
-    }
+    /**
+     * Generate text from template
+     *
+     * @param variables
+     * @return
+     */
+    String process(Map<String, Object> variables) throws BootException;
+
+    /**
+     * Get all user variables from template in sequence order
+     *
+     * @return
+     * @throws BootException
+     */
+    List<String> getAllProperties() throws BootException;
 
 }

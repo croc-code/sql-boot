@@ -22,20 +22,21 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.template_engine.factory;
+package com.github.mgramin.sqlboot.tools.template.engine.impl;
 
-import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngine;
-import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngineFactory;
-import com.github.mgramin.sqlboot.tools.template_engine.impl.GroovyTemplateEngine;
+import com.github.mgramin.sqlboot.tools.template.TemplateEngine;
+import groovy.text.markup.MarkupTemplateEngine;
+import lombok.ToString;
 
 /**
- * Created by maksim on 29.04.17.
+ * Created by mgramin on 06.01.2017.
  */
-public final class GroovyTemplateEngineFactory implements TemplateEngineFactory {
+@ToString
+public final class GroovyMarkupTemplateEngine extends AbstractGroovyTemplateEngine implements TemplateEngine {
 
-    @Override
-    public TemplateEngine create(String template) {
-        return new GroovyTemplateEngine(template);
+    public GroovyMarkupTemplateEngine(String template) {
+        engine = new MarkupTemplateEngine();
+        setTemplate(template);
     }
 
 }
