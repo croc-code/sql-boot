@@ -31,7 +31,7 @@ import com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
+import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngineFactory;
 
 /**
  *

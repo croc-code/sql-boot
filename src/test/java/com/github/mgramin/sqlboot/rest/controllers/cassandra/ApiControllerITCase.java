@@ -26,7 +26,7 @@ package com.github.mgramin.sqlboot.rest.controllers.cassandra;
 
 import java.io.File;
 import java.io.IOException;
-import com.github.mgramin.sqlboot.rest.RestRunner;
+import com.github.mgramin.sqlboot.tools.rest.RestRunner;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

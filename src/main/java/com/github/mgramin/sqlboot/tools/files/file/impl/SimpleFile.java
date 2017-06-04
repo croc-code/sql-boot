@@ -22,27 +22,41 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.aggregators.impl;
+package com.github.mgramin.sqlboot.tools.files.file.impl;
 
-import java.util.List;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.FakeDbResource;
-import org.junit.Test;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import com.github.mgramin.sqlboot.tools.files.file.File;
+
 /**
- * Created by maksim on 20.05.17.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public class JsonDbResourceAggregatorTest {
+public class SimpleFile implements File {
 
-    @Test
-    public void aggregate() throws Exception {
-        List<DbResource> resources = asList(new FakeDbResource(),
-                new FakeDbResource(), new FakeDbResource());
-        DbResourceAggregator dbResourceAggregator = new JsonDbResourceAggregator("json");
-        System.out.println(new String(dbResourceAggregator.aggregate(resources)));
-        assertEquals(241, new String(dbResourceAggregator.aggregate(resources)).length());
+    private final String name;
+    private final byte[] content;
+
+    /**
+     * Ctor.
+     *
+     * @param name
+     * @param content
+     */
+    public SimpleFile(final String name, final byte[] content) {
+        this.name = name;
+        this.content = content;
+    }
+
+
+    @Override
+    public String name() {
+        return this.name;
+    }
+
+    @Override
+    public byte[] content() {
+        return this.content;
     }
 
 }
+

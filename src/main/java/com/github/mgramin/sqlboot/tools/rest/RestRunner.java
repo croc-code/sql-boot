@@ -22,27 +22,22 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.aggregators.impl;
+package com.github.mgramin.sqlboot.tools.rest;
 
-import java.util.List;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.FakeDbResource;
-import org.junit.Test;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-/**
- * Created by maksim on 20.05.17.
- */
-public class JsonDbResourceAggregatorTest {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import static java.lang.System.getenv;
+import static java.lang.System.setProperty;
+import static java.util.Optional.ofNullable;
+import static org.springframework.core.env.AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME;
 
-    @Test
-    public void aggregate() throws Exception {
-        List<DbResource> resources = asList(new FakeDbResource(),
-                new FakeDbResource(), new FakeDbResource());
-        DbResourceAggregator dbResourceAggregator = new JsonDbResourceAggregator("json");
-        System.out.println(new String(dbResourceAggregator.aggregate(resources)));
-        assertEquals(241, new String(dbResourceAggregator.aggregate(resources)).length());
+@SpringBootApplication
+public class RestRunner {
+
+    public static void main(String[] args) {
+        String profile = ofNullable(getenv("profile")).orElse("information_schema");
+        setProperty(ACTIVE_PROFILES_PROPERTY_NAME, profile);
+        SpringApplication.run(RestRunner.class, args);
     }
 
 }

@@ -22,27 +22,31 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.aggregators.impl;
+package com.github.mgramin.sqlboot.tools.template_engine;
 
 import java.util.List;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.FakeDbResource;
-import org.junit.Test;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-/**
- * Created by maksim on 20.05.17.
- */
-public class JsonDbResourceAggregatorTest {
+import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 
-    @Test
-    public void aggregate() throws Exception {
-        List<DbResource> resources = asList(new FakeDbResource(),
-                new FakeDbResource(), new FakeDbResource());
-        DbResourceAggregator dbResourceAggregator = new JsonDbResourceAggregator("json");
-        System.out.println(new String(dbResourceAggregator.aggregate(resources)));
-        assertEquals(241, new String(dbResourceAggregator.aggregate(resources)).length());
-    }
+/**
+ * Template engine
+ */
+public interface TemplateEngine {
+
+    /**
+     * Generate text from template
+     *
+     * @param variables
+     * @return
+     */
+    String process(Map<String, Object> variables) throws BootException;
+
+    /**
+     * Get all user variables from template in sequence order
+     *
+     * @return
+     * @throws BootException
+     */
+    List<String> getAllProperties() throws BootException;
 
 }

@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers.postgres;
 
 import java.io.IOException;
-import com.github.mgramin.sqlboot.rest.RestRunner;
+import com.github.mgramin.sqlboot.tools.rest.RestRunner;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -109,7 +109,7 @@ public class ApiControllerITCase {
         ResponseEntity<String> response = client.getForEntity("/api/" + uri, String.class);
         assertEquals(response.getStatusCodeValue(), 200);
         String s = response.getBody();
-//        String s1 = readFileToString(new File(getClass().getClassLoader().getResource(file).getFile()), "UTF-8");
+//        String s1 = readFileToString(new FileSystem(getClass().getClassLoader().getResource(file).getFile()), "UTF-8");
         System.out.println(s);
 //        assertEquals(s1, s.trim());
     }

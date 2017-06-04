@@ -24,14 +24,15 @@
 
 package com.github.mgramin.sqlboot.aggregators.impl;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.zip.ZipFile;
+import com.github.mgramin.sqlboot.tools.files.file.File;
+import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile;
+import com.github.mgramin.sqlboot.tools.files.file.wrappers.ZippedFile;
 
 /**
  * Created by mgramin on 17.12.2016.
@@ -43,17 +44,16 @@ public final class ZipDbResourceAggregator extends AbstractDbResourceAggregator 
     }
 
     @Override
-    public byte[] aggregate(final List<DbResource> objects) throws BootException {
-        final Map<String, byte[]> files = new HashMap<>();
-        for (DbResource o : objects) {
-            if (o.headers().get("file_name") != null
-                    && !o.headers().get("file_name").isEmpty()) {
-                files.put(o.headers().get("file_name").toLowerCase(),
-                        o.body().getBytes());
+    public byte[] aggregate(final List<DbResource> objects) {
+        final List<File> files = new ArrayList<>();
+        for (DbResource dbResource : objects) {
+            String file = dbResource.headers().get("file");
+            if (file != null && !file.isEmpty()) {
+                files.add(new SimpleFile(file.toLowerCase(),
+                        dbResource.body().getBytes()));
             }
         }
-//        return new  content(files);
-        return new ZipFile(files).content();
+        return new ZippedFile("result.zip", files).content();
     }
 
 }

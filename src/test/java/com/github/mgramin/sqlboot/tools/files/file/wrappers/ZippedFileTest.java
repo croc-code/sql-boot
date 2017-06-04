@@ -22,27 +22,30 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.aggregators.impl;
+package com.github.mgramin.sqlboot.tools.files.file.wrappers;
 
-import java.util.List;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.FakeDbResource;
+import com.github.mgramin.sqlboot.tools.files.file.File;
+import com.github.mgramin.sqlboot.tools.files.file.impl.FakeFile;
 import org.junit.Test;
-import static java.util.Arrays.asList;
+import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 import static org.junit.Assert.assertEquals;
+
 /**
- * Created by maksim on 20.05.17.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public class JsonDbResourceAggregatorTest {
+public class ZippedFileTest {
 
     @Test
-    public void aggregate() throws Exception {
-        List<DbResource> resources = asList(new FakeDbResource(),
-                new FakeDbResource(), new FakeDbResource());
-        DbResourceAggregator dbResourceAggregator = new JsonDbResourceAggregator("json");
-        System.out.println(new String(dbResourceAggregator.aggregate(resources)));
-        assertEquals(241, new String(dbResourceAggregator.aggregate(resources)).length());
+    public void name() throws Exception {
+    }
+
+    @Test
+    public void content() throws Exception {
+        File zip = new ZippedFile("test.zip", asList(new FakeFile()));
+        assertEquals(144, zip.content().length);
     }
 
 }
+

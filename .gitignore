@@ -1,7 +1,7 @@
 *.class
 *.log
 
-# Package Files #
+# Package FileSystem #
 *.jar
 *.war
 *.ear

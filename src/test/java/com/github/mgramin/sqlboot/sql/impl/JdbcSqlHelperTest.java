@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.sql.impl;
 
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.tools.sql.impl.JdbcSqlHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

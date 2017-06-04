@@ -31,8 +31,8 @@ import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
+import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngine;
+import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngineFactory;
 
 /**
  * Created by mgramin on 17.12.2016.

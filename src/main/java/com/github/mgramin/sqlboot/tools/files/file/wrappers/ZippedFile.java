@@ -22,45 +22,58 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.actions.generator;
+package com.github.mgramin.sqlboot.tools.files.file.wrappers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.IDbResourceCommand;
+import com.github.mgramin.sqlboot.tools.files.file.File;
 
 /**
- *
- *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public interface ActionGenerator {
+public class ZippedFile implements File {
 
-    /**
-     * @param variables Map of variables
-     * @return  Ready command text
-     * @throws BootException If fail
-     */
-    String generate(Map<String, Object> variables) throws BootException;
+    private final String name;
+    private final byte[] content;
+    private final List<File> origins;
 
-    /**
-     * @param variables list of sequential variables
-     * @return Ready command text
-     * @throws BootException If fail
-     */
-    String generate(List<Object> variables) throws BootException;
+    public ZippedFile(final String name, final List<File> origins) {
+        this.name = name;
+        this.origins = origins;
+        this.content = _content();
+    }
 
-    /**
-     * @return Command
-     */
-    IDbResourceCommand command();
+    @Override
+    public String name() {
+        return this.name;
+    }
 
-    /**
-     * @return aggregator labels
-     */
-    // TODO encapsulate this
-    String aggregators();
+    @Override
+    public byte[] content() {
+        return content;
+    }
+
+    private byte[] _content() throws BootException {
+        try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+             ZipOutputStream zip = new ZipOutputStream(bytes)) {
+            for (final File ent : this.origins) {
+                zip.putNextEntry(new ZipEntry(ent.name()));
+                zip.write(ent.content());
+                zip.closeEntry();
+            }
+            zip.close();
+            bytes.close();
+            return bytes.toByteArray();
+        } catch (final IOException exception) {
+            throw new BootException(exception);
+        }
+    }
 
 }
+

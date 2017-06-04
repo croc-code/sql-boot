@@ -45,7 +45,7 @@ import org.apache.commons.io.FileUtils;
 public final class FileBaseGenerator implements ActionGenerator {
 
     /**
-     * File.
+     * FileSystem.
      */
     private final File file;
 
@@ -60,14 +60,14 @@ public final class FileBaseGenerator implements ActionGenerator {
     private final String aggregators;
 
     /**
-     * File encoding.
+     * FileSystem encoding.
      */
     private final Charset charset = StandardCharsets.UTF_8;
 
     /**
      * Ctor.
      *
-     * @param file File
+     * @param file FileSystem
      * @param command Command
      * @param aggregators Aggregators
      */

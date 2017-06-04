@@ -35,7 +35,7 @@ import static java.util.Arrays.asList;
 /**
  * Created by maksim on 12.06.16.
  */
-// TODO make and use interface
+// TODO create and use interface
 public final class DbUri {
 
     private final String type;
@@ -103,6 +103,7 @@ public final class DbUri {
         return params;
     }
 
+    @Deprecated // ?
     public Map<String, String> filters() {
         return filters;
     }

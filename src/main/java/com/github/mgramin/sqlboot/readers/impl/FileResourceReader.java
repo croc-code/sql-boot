@@ -22,27 +22,28 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.aggregators.impl;
+package com.github.mgramin.sqlboot.readers.impl;
 
 import java.util.List;
-import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.FakeDbResource;
-import org.junit.Test;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-/**
- * Created by maksim on 20.05.17.
- */
-public class JsonDbResourceAggregatorTest {
+import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.model.IDbResourceType;
+import com.github.mgramin.sqlboot.readers.DbResourceReader;
 
-    @Test
-    public void aggregate() throws Exception {
-        List<DbResource> resources = asList(new FakeDbResource(),
-                new FakeDbResource(), new FakeDbResource());
-        DbResourceAggregator dbResourceAggregator = new JsonDbResourceAggregator("json");
-        System.out.println(new String(dbResourceAggregator.aggregate(resources)));
-        assertEquals(241, new String(dbResourceAggregator.aggregate(resources)).length());
+/**
+ * Created by mgramin on 31.10.2016.
+ */
+public final class FileResourceReader implements DbResourceReader {
+
+    @Override
+    public List<DbResource> read(DbUri dbUri, IDbResourceType type) {
+
+        System.out.println(dbUri.objects());
+
+        return null;
+
+//        throw new BootException("Coming soon!");
     }
 
 }

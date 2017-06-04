@@ -46,12 +46,12 @@ public class FakeDbResource implements DbResource {
 
     @Override
     public DbUri dbUri() {
-        return null;
+        return new DbUri("table/hr.persons?file=table.hr.persons.sql");
     }
 
     @Override
     public Map<String, String> headers() {
-        return of("key", "value");
+        return of("file", "table.hr.persons.sql");
     }
 
     @Override

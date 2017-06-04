@@ -30,8 +30,8 @@ import java.util.Map;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngine;
-import com.github.mgramin.sqlboot.template_engine.TemplateEngineFactory;
+import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngine;
+import com.github.mgramin.sqlboot.tools.template_engine.TemplateEngineFactory;
 
 /**
  *
