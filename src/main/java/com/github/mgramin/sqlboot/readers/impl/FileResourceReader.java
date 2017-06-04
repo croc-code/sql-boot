@@ -25,19 +25,36 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbResourceBodyWrapper;
+import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.ResourceType;
 import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import com.github.mgramin.sqlboot.tools.files.file.File;
+import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
+import static java.util.stream.Collectors.joining;
 
 /**
  * Created by mgramin on 31.10.2016.
  */
 public final class FileResourceReader implements DbResourceReader {
 
+    private final FileSystem fileSystem;
+
+    public FileResourceReader(FileSystem fileSystem) {
+        this.fileSystem = fileSystem;
+    }
+
     @Override
     public List<DbResource> read(final Uri uri, final ResourceType type) {
-        System.out.println(uri.objects());
+        String mask = type + "." + uri.objects().stream().collect(joining("."));
+        for (File file : fileSystem.listFiles(mask)) {
+            new DbResourceBodyWrapper(
+                    new DbResourceThin(file.name(), type, null, null),
+                    new String(file.content()));
+        }
         return null;
     }
 

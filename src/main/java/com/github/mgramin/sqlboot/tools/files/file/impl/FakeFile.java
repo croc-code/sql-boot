@@ -24,11 +24,6 @@
 
 package com.github.mgramin.sqlboot.tools.files.file.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.tools.files.file.File;
 
 /**
@@ -36,7 +31,7 @@ import com.github.mgramin.sqlboot.tools.files.file.File;
  * @version $Id$
  * @since 0.1
  */
-public class FakeFile implements File {
+public final class FakeFile implements File {
 
     @Override
     public String name() {

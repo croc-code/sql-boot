@@ -31,7 +31,7 @@ import static java.util.Arrays.asList;
 /**
  * Created by maksim on 21.05.17.
  */
-public class FakeDbResourceCommand implements IDbResourceCommand {
+public final class FakeDbResourceCommand implements IDbResourceCommand {
 
     @Override
     public String name() {

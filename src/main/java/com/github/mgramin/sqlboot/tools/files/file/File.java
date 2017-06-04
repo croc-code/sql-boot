@@ -24,8 +24,6 @@
 
 package com.github.mgramin.sqlboot.tools.files.file;
 
-import java.io.OutputStream;
-
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$

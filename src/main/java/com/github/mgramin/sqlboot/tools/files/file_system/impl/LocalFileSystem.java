@@ -24,20 +24,48 @@
 
 package com.github.mgramin.sqlboot.tools.files.file_system.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.tools.files.file.File;
+import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile;
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
+import org.apache.commons.io.FileUtils;
+import org.apache.tools.ant.DirectoryScanner;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public class LocalFileSystem implements FileSystem {
+public final class LocalFileSystem implements FileSystem {
+
+    private final String basedir;
+
+    public LocalFileSystem(final String basedir) {
+        this.basedir = basedir;
+    }
 
     @Override
-    public List<File> listFiles(String mask) {
-        return null;
+    public List<File> listFiles(final String mask) {
+        try {
+            DirectoryScanner scanner = new DirectoryScanner();
+            scanner.setIncludes(new String[]{mask});
+            scanner.setBasedir(this.basedir);
+            scanner.setCaseSensitive(false);
+            scanner.scan();
+            String[] files = scanner.getIncludedFiles();
+            List<File> result = new ArrayList<>();
+            for (String file : files) {
+                result.add(
+                        new SimpleFile(file,
+                                FileUtils.readFileToByteArray(new java.io.File(basedir + "/" + file))));
+            }
+            return result;
+        } catch (IOException exception) {
+            throw new BootException(exception);
+        }
     }
 
 }

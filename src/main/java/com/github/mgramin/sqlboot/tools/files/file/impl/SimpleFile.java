@@ -31,7 +31,7 @@ import com.github.mgramin.sqlboot.tools.files.file.File;
  * @version $Id$
  * @since 0.1
  */
-public class SimpleFile implements File {
+public final class SimpleFile implements File {
 
     private final String name;
     private final byte[] content;

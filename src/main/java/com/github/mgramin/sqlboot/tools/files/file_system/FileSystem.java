@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.tools.files.file_system;
 
 import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.tools.files.file.File;
 
 /**
@@ -34,7 +35,14 @@ import com.github.mgramin.sqlboot.tools.files.file.File;
  */
 public interface FileSystem {
 
-    List<File> listFiles(String mask);
+    /**
+     * Get all files by mask.
+     *
+     * @param mask  Mask
+     * @return
+     * @throws BootException If fail
+     */
+    List<File> listFiles(String mask) throws BootException;
 
 }
 

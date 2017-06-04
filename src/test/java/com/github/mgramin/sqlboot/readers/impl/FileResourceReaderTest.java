@@ -25,7 +25,10 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.model.FakeDbResourceType;
 import com.github.mgramin.sqlboot.model.Uri;
+import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
+import com.github.mgramin.sqlboot.tools.files.file_system.impl.LocalFileSystem;
 import org.junit.Test;
 
 /**
@@ -35,9 +38,10 @@ public class FileResourceReaderTest {
 
     @Test
     public void read() throws Exception {
-        FileResourceReader fileResourceReader = new FileResourceReader();
+        FileSystem fileSystem = new LocalFileSystem(".");
+        FileResourceReader fileResourceReader = new FileResourceReader(fileSystem);
         Uri uri = new DbUri("index/hr.persons.*idx");
-        fileResourceReader.read(uri, null);
+        fileResourceReader.read(uri, new FakeDbResourceType());
     }
 
 }

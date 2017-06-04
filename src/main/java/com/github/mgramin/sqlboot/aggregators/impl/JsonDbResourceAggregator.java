@@ -37,7 +37,7 @@ import com.google.gson.JsonPrimitive;
 /**
  * Created by maksim on 20.05.17.
  */
-public class JsonDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
+public final class JsonDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
 
     /**
      * Ctor.

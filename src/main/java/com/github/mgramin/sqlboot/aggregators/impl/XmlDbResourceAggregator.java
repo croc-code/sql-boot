@@ -34,7 +34,7 @@ import com.thoughtworks.xstream.XStream;
 /**
  * Created by maksim on 21.05.17.
  */
-public class XmlDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
+public final class XmlDbResourceAggregator extends AbstractDbResourceAggregator implements DbResourceAggregator {
 
     public XmlDbResourceAggregator(String name) {
         this.name = name;

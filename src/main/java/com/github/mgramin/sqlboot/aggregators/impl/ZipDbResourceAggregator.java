@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.tools.files.file.File;
 import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile;

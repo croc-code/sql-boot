@@ -36,7 +36,7 @@ import static java.util.Arrays.asList;
 /**
  * Created by maksim on 22.05.17.
  */
-public class FakeResourceReader implements DbResourceReader {
+public final class FakeResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(final Uri uri, final ResourceType type) throws BootException {

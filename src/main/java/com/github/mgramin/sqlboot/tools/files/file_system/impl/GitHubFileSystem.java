@@ -33,7 +33,7 @@ import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
  * @version $Id$
  * @since 0.1
  */
-public class GitHubFileSystem implements FileSystem {
+public final class GitHubFileSystem implements FileSystem {
 
     @Override
     public List<File> listFiles(String mask) {

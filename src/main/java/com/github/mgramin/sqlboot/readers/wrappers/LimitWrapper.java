@@ -36,7 +36,7 @@ import static java.util.Optional.ofNullable;
 /**
  * Created by maksim on 22.05.17.
  */
-public class LimitWrapper implements DbResourceReader {
+public final class LimitWrapper implements DbResourceReader {
 
     private final DbResourceReader origin;
 

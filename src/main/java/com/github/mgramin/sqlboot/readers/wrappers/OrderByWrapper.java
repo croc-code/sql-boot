@@ -36,7 +36,7 @@ import com.github.mgramin.sqlboot.readers.DbResourceReader;
  * @version $Id$
  * @since 0.1
  */
-public class OrderByWrapper implements DbResourceReader {
+public final class OrderByWrapper implements DbResourceReader {
     @Override
     public List<DbResource> read(Uri uri, ResourceType type) throws BootException {
         return null;

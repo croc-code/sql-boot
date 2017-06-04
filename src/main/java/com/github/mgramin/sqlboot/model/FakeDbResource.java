@@ -32,7 +32,7 @@ import static com.google.common.collect.ImmutableMap.of;
  * Created by maksim on 22.05.17.
  */
 @ToString
-public class FakeDbResource implements DbResource {
+public final class FakeDbResource implements DbResource {
 
     @Override
     public String name() {

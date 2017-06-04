@@ -37,7 +37,7 @@ import com.github.mgramin.sqlboot.tools.files.file.File;
  * @version $Id$
  * @since 0.1
  */
-public class ZippedFile implements File {
+public final class ZippedFile implements File {
 
     private final String name;
     private final byte[] content;

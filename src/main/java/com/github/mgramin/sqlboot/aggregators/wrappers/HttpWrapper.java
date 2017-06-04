@@ -33,7 +33,7 @@ import com.github.mgramin.sqlboot.model.DbResource;
 /**
  * Created by maksim on 21.05.17.
  */
-public class HttpWrapper implements DbResourceAggregator {
+public final class HttpWrapper implements DbResourceAggregator {
 
     private final DbResourceAggregator origin;
     private final Map<String, String> requestHeaders;

@@ -36,7 +36,7 @@ import com.github.mgramin.sqlboot.readers.DbResourceReader;
  * @version $Id$
  * @since 0.1
  */
-public class SelectWrapper implements DbResourceReader {
+public final class SelectWrapper implements DbResourceReader {
 
     private final DbResourceReader origin;
 
