@@ -52,7 +52,7 @@ public final class LocalFileSystem implements FileSystem {
         try {
             DirectoryScanner scanner = new DirectoryScanner();
             scanner.setIncludes(new String[]{mask});
-            scanner.setBasedir(this.basedir);
+            scanner.setBasedir(this.basedir.replace("\\", "/"));
             scanner.setCaseSensitive(false);
             scanner.scan();
             String[] files = scanner.getIncludedFiles();

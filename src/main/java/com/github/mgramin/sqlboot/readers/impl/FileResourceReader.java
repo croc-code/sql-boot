@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.github.mgramin.sqlboot.model.DbResource;
@@ -34,6 +35,7 @@ import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.tools.files.file.File;
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
+
 import static java.util.stream.Collectors.joining;
 
 /**
@@ -49,13 +51,17 @@ public final class FileResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(final Uri uri, final ResourceType type) {
-        String mask = type + "." + uri.objects().stream().collect(joining("."));
+        final String mask =
+            "**/" + uri.type() + "." + uri.objects().stream().map(v -> v.replace("%", "*"))
+                .collect(joining(".")) + ".sql";
+        List<DbResource> result = new ArrayList<>();
         for (File file : fileSystem.listFiles(mask)) {
-            new DbResourceBodyWrapper(
+            result.add(
+                new DbResourceBodyWrapper(
                     new DbResourceThin(file.name(), type, null, null),
-                    new String(file.content()));
+                    new String(file.content())));
         }
-        return null;
+        return result;
     }
 
 }

@@ -56,10 +56,10 @@ public class LocalFileSystemTest {
         folder.newFile("base_test_folder/table.hr.departments.sql");
         folder.newFile("base_test_folder/table.salary.payroll.sql");
 
-        folder.newFile("base_test_folder/idx.hr.persons.pk_persons_idx.sql");
-        folder.newFile("base_test_folder/idx.hr.jobs.pk_jobs_idx.sql");
-        folder.newFile("base_test_folder/idx.hr.departments.pk_dep_idx.sql");
-        folder.newFile("base_test_folder/idx.salary.payroll.pk_payroll_idx.sql");
+        folder.newFile("base_test_folder/index.hr.persons.pk_persons_idx.sql");
+        folder.newFile("base_test_folder/index.hr.jobs.pk_jobs_idx.sql");
+        folder.newFile("base_test_folder/index.hr.departments.pk_dep_idx.sql");
+        folder.newFile("base_test_folder/index.salary.payroll.pk_payroll_idx.sql");
 
         FileSystem fileSystem = new LocalFileSystem(base_test_folder.getAbsolutePath());
         assertEquals(3, fileSystem.listFiles("**/table.hr.*.sql").size());
@@ -68,9 +68,10 @@ public class LocalFileSystemTest {
         assertEquals(1, fileSystem.listFiles("**/table.salary.*.sql").size());
         assertEquals(1, fileSystem.listFiles("**/table.salary.*.sql").size());
 
-        assertEquals(4, fileSystem.listFiles("**/idx.*.sql").size());
-        assertEquals(3, fileSystem.listFiles("**/idx.hr.*.sql").size());
-        assertEquals(1, fileSystem.listFiles("**/idx.salary.*.sql").size());
+        assertEquals(1, fileSystem.listFiles("**/index.hr.persons.*idx.sql").size());
+        assertEquals(4, fileSystem.listFiles("**/index.*.sql").size());
+        assertEquals(3, fileSystem.listFiles("**/index.hr.*.sql").size());
+        assertEquals(1, fileSystem.listFiles("**/index.salary.*.sql").size());
     }
 
 }
