@@ -45,6 +45,10 @@
     <bean name="sqlResourceReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlResourceReader"
         c:sqlHelper-ref="sqlHelper"/>
 
+    <bean name="localFileSystemReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.FileResourceReader"
+          c:fileSystem-ref="localFileSystem"/>
+
+
 
     <!-- Generators -->
     <bean id="plainTextGenerator" abstract="true" scope="prototype"
@@ -218,5 +222,9 @@
         <property name="maxIdle" value="5" />
         <property name="minIdle" value="2" />
     </bean>
+
+
+    <bean name="localFileSystem" c:basedir="/tmp/src"
+          class="com.github.mgramin.sqlboot.tools.files.file_system.impl.LocalFileSystem" />
 
 </beans>
