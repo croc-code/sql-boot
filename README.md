@@ -82,6 +82,4 @@ Run integration tests for builtin configurations (docker required)
 -----------------------------------------------------------------
 
 - mvn verify -Ph2
-- mvn verify -Ppostgres
-- mvn verify -Pcassandra
 - mvn jacoco:report coveralls:report -Pcoverall
