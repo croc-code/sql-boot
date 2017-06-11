@@ -38,6 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,6 +60,117 @@ public final class ApiController {
     private List<IDbResourceCommand> commands;
 
 //    private final static Logger logger = Logger.getLogger(ApiController.class);
+
+    @RequestMapping(value = "/api/**",
+            method = RequestMethod.GET,
+            consumes = MediaType.TEXT_HTML_VALUE,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<byte[]> getTextHtml(HttpServletRequest request,
+                                             @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
+
+        String uriString;
+        if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
+            uriString = request.getServletPath();
+        } else {
+            uriString = request.getServletPath() + "?" + request.getQueryString();
+        }
+
+        final HttpWrapper aggregator = httpAggregators.stream()
+                .filter(a -> a.name().equalsIgnoreCase("html"))
+                .findFirst()
+                .orElse(null);
+
+        final HttpHeaders headers = new HttpHeaders();
+        aggregator.responseHeaders().forEach(headers::add);
+
+        List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
+        byte[] result = aggregator.aggregate(dbSchemaObjects);
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/**",
+            method = RequestMethod.GET,
+            consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> getTextZip(HttpServletRequest request,
+                                             @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
+
+        String uriString;
+        if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
+            uriString = request.getServletPath();
+        } else {
+            uriString = request.getServletPath() + "?" + request.getQueryString();
+        }
+
+        final HttpWrapper aggregator = httpAggregators.stream()
+                .filter(a -> a.name().equalsIgnoreCase("zip"))
+                .findFirst()
+                .orElse(null);
+
+        final HttpHeaders headers = new HttpHeaders();
+        aggregator.responseHeaders().forEach(headers::add);
+
+        List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
+        byte[] result = aggregator.aggregate(dbSchemaObjects);
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/api/**",
+            method = RequestMethod.GET,
+            consumes = MediaType.APPLICATION_XML_VALUE,
+            produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<byte[]> getTextXml(HttpServletRequest request,
+                                              @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
+
+        String uriString;
+        if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
+            uriString = request.getServletPath();
+        } else {
+            uriString = request.getServletPath() + "?" + request.getQueryString();
+        }
+
+        final HttpWrapper aggregator = httpAggregators.stream()
+                .filter(a -> a.name().equalsIgnoreCase("xml"))
+                .findFirst()
+                .orElse(null);
+
+        final HttpHeaders headers = new HttpHeaders();
+        aggregator.responseHeaders().forEach(headers::add);
+
+        List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
+        byte[] result = aggregator.aggregate(dbSchemaObjects);
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/api/**",
+            method = RequestMethod.GET,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<byte[]> getTextJson(HttpServletRequest request,
+                                             @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
+
+        String uriString;
+        if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
+            uriString = request.getServletPath();
+        } else {
+            uriString = request.getServletPath() + "?" + request.getQueryString();
+        }
+
+        final HttpWrapper aggregator = httpAggregators.stream()
+                .filter(a -> a.name().equalsIgnoreCase("json"))
+                .findFirst()
+                .orElse(null);
+
+        final HttpHeaders headers = new HttpHeaders();
+        aggregator.responseHeaders().forEach(headers::add);
+
+        List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
+        byte[] result = aggregator.aggregate(dbSchemaObjects);
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
