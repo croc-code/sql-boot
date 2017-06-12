@@ -41,7 +41,7 @@ import com.github.mgramin.sqlboot.tools.sql.ISqlHelper;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang.StringUtils.strip;
+import static org.apache.commons.lang3.StringUtils.strip;
 
 /**
  * Custom-SQL db object reader

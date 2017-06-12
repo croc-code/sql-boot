@@ -34,12 +34,16 @@
     <packaging>jar</packaging>
 
     <name>sql-boot</name>
-    <description>Evolutionary, Transparent and Polyglot DB-tool for Developers, DBA and DevOps Engineers</description>
+    <description>Evolutionary, Transparent and Polyglot DB-tool for Developers,
+        DBA and DevOps Engineers
+    </description>
 
     <licenses>
         <license>
             <name>MIT</name>
-            <url>https://raw.githubusercontent.com/mgramin/sql-boot/master/LICENSE</url>
+            <url>
+                https://raw.githubusercontent.com/mgramin/sql-boot/master/LICENSE
+            </url>
             <distribution>site</distribution>
         </license>
     </licenses>
@@ -49,7 +53,8 @@
             <name>Maksim Gramin</name>
             <email>mgramin@gmail.com</email>
             <organization>sql-boot</organization>
-            <organizationUrl>https://github.com/mgramin/sql-boot</organizationUrl>
+            <organizationUrl>https://github.com/mgramin/sql-boot
+            </organizationUrl>
             <roles>
                 <role>Architect</role>
                 <role>Developer</role>
@@ -67,7 +72,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8
+        </project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <dbh2.version>1.4.187</dbh2.version>
         <docker.image.prefix>mgramin</docker.image.prefix>
@@ -121,29 +127,10 @@
             <artifactId>groovy-templates</artifactId>
         </dependency>
 
-
-        <!-- embedded db for unit-tests and demo -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-        <!-- embedded db for unit-tests and demo -->
-
-
-        <!--Temp dependencies-->
-<!--        <dependency>
-            <groupId>com.github.adejanovski</groupId>
-            <artifactId>cassandra-jdbc-wrapper</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.datastax.cassandra</groupId>
-            <artifactId>cassandra-driver-core</artifactId>
-            <version>3.2.0</version>
-        </dependency>-->
-        <!--Temp dependencies-->
-
 
         <dependency>
             <groupId>org.webjars</groupId>
@@ -160,12 +147,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>testcontainers</artifactId>
-            <version>1.3.0</version>
         </dependency>
 
         <dependency>
@@ -191,6 +172,11 @@
             <version>22.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
 
     </dependencies>
 
@@ -212,7 +198,8 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.11</version>
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <imageName>${docker.image.prefix}/${project.artifactId}
+                    </imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
@@ -251,7 +238,9 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.8.1</version>
                 <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+                    <altDeploymentRepository>
+                        internal.repo::default::file://${project.build.directory}/mvn-repo
+                    </altDeploymentRepository>
                 </configuration>
             </plugin>
             <plugin>
@@ -261,9 +250,12 @@
                 <configuration>
                     <message>Maven artifacts for ${project.version}</message>
                     <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+                    <outputDirectory>${project.build.directory}/mvn-repo
+                    </outputDirectory>
                     <branch>refs/heads/mvn-repo</branch>
-                    <includes><include>**/*</include></includes>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
                     <repositoryName>sql-boot</repositoryName>
                     <repositoryOwner>mgramin</repositoryOwner>
                 </configuration>
@@ -293,6 +285,24 @@
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/h2/*.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -335,57 +345,6 @@
                         <configuration>
                             <repoToken>${coveralls.token}</repoToken>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>h2</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/h2/*.java</include>
-                            </includes>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>oracle</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/oracle/*.java</include>
-                            </includes>
-                            <additionalClasspathElements>
-                                <additionalClasspathElement>${basedir}/lib/ojdbc6.jar</additionalClasspathElement>
-                            </additionalClasspathElements>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
