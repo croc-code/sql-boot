@@ -36,8 +36,8 @@
     <context:annotation-config/>
 
     <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:db/sql/create-db.sql"/>
-        <jdbc:script location="classpath:db/sql/init-data.sql"/>
+        <jdbc:script location="classpath:db/sql/create-test-db.sql"/>
+        <jdbc:script location="classpath:db/sql/init-test-data.sql"/>
     </jdbc:embedded-database>
 
     <bean id="JdbcSqlHelper" class="com.github.mgramin.sqlboot.tools.sql.impl.JdbcSqlHelper">

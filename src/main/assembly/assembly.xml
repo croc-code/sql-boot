@@ -33,24 +33,23 @@
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
-<!--        <fileSet>
-            <directory>target/classes/postgres</directory>
-            <outputDirectory>conf</outputDirectory>
-            <includes>
-                <include>*</include>
-            </includes>
-        </fileSet>-->
         <fileSet>
-            <directory>target/classes/postgres</directory>
-            <outputDirectory>conf</outputDirectory>
+            <directory>src/test/resources/conf/information_schema</directory>
+            <outputDirectory>conf/information_schema</outputDirectory>
         </fileSet>
     </fileSets>
     <files>
         <file>
             <source>target/sql-boot-0.0.1-SNAPSHOT.jar</source>
+            <destName>sql-boot.jar</destName>
             <fileMode>0764</fileMode>
-            <!--<destName>sql-boot.jar</destName>-->
             <!--<lineEnding>unix</lineEnding>-->
+        </file>
+        <file>
+            <source>src/test/resources/application.yml</source>
+        </file>
+        <file>
+            <source>src/test/resources/config.xml</source>
         </file>
     </files>
 </assembly>

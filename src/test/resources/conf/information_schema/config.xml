@@ -38,15 +38,15 @@
 
 
     <bean id="yamlProperties" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">
-        <property name="resources" value="classpath:information_schema/*.yml"/>
+        <property name="resources" value="classpath:conf/information_schema/*.yml"/>
     </bean>
 
     <context:property-placeholder properties-ref="yamlProperties"/>
 
 
     <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:db/sql/integration-test-create-db.sql"/>
-        <jdbc:script location="classpath:db/sql/integration-test-init-data.sql"/>
+        <jdbc:script location="classpath:**/db/sql/create-demo-db.sql"/>
+        <jdbc:script location="classpath:**/db/sql/init-demo-data.sql"/>
     </jdbc:embedded-database>
 
 <!--    <bean name="dev" id="dataSource" parent="templateCP" primary="true">
