@@ -40,7 +40,7 @@
     </fileSets>
     <files>
         <file>
-            <source>target/sql-boot-0.0.1-SNAPSHOT.jar</source>
+            <source>target/sql-boot-0.1.0-SNAPSHOT.jar</source>
             <destName>sql-boot.jar</destName>
             <fileMode>0764</fileMode>
             <!--<lineEnding>unix</lineEnding>-->

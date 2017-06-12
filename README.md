@@ -34,39 +34,12 @@ Try online on Heroku (embedded H2):
 - [table/hr?type=html](https://sql-boot.herokuapp.com/api/table/hr?type=html) - get all tales from "hr" schema in html view 
 - [table/*/?type=zip](https://sql-boot.herokuapp.com/api/table/*/?type=zip) - get all tales from "hr" in zip file 
 
-Try online on Heroku (Postgresql):
-----------------------------------
-- [table/public](https://sql-boot-postgres.herokuapp.com/api/table/public) - get all table ddl from "public" schema
-- [table/public?type=json](https://sql-boot-postgres.herokuapp.com/api/table/public?type=json) - get all table ddl from "public" schema in json format
-----------------------------------
-
 
 Try with Docker and embedded (H2) demo db:
 ------------------------------------------
+
 ```
 docker run -t -p 8080:8080 mgramin/sql-boot
-```
-
-Try With Docker Compose and Postgresql
---------------------------------------
-```
-wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.yml
-wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.postgres.yml
-docker-compose -f docker-compose.yml -f docker-compose.postgres.yml up
-```
-
-Try With Docker Compose and Oracle
-----------------------------------
-```
-wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.yml
-wget https://raw.githubusercontent.com/mgramin/sql-boot/master/docker-compose.oracle.yml
-docker-compose -f docker-compose.yml -f docker-compose.oracle.yml up
-```
-
-Run with Docker and existing DB (e.g. postgres)
----------------
-```
-docker run --network="host" -d -e profile=postgres -e db_dev_user=USER -e db_dev_password=PASSWORD -e db_dev_url=jdbc:postgresql://HOST:PORT/DBNAME -p 8080:8080 mgramin/sql-boot
 ```
 
 Build from source:
@@ -82,4 +55,3 @@ Run integration tests for builtin configurations (docker required)
 -----------------------------------------------------------------
 
 - mvn verify -Ph2
-- mvn jacoco:report coveralls:report -Pcoverall

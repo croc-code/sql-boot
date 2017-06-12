@@ -71,8 +71,6 @@ public class ApiControllerITCase {
 //        Thread.sleep(40000);
         callRest("table/hr/-");
         callRest("table/hr");
-//        callRestAndValidate("t/public.basketball_team_stats/d", "postgres/t_public.basketball_team_stats_drop");
-//        callRestAndValidate("t/public.basketball_team_stats/-", "postgres/t_public.basketball_team_stats_drop");
     }
 
 
