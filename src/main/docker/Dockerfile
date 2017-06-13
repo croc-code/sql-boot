@@ -1,7 +1,10 @@
-FROM frolvlad/alpine-oraclejdk8:slim
+FROM openjdk:8
 VOLUME /tmp
-COPY sql-boot-0.0.1-SNAPSHOT.jar app.jar
-RUN sh -c 'touch /app.jar'
+COPY sql-boot.zip sql-boot.zip
+RUN sh -c 'mkdir sql-boot'
+RUN sh -c 'unzip sql-boot.zip -d sql-boot'
+RUN sh -c 'touch /sql-boot/sql-boot.jar'
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+WORKDIR /sql-boot
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dloader.path='.' -jar ./sql-boot.jar" ]
 MAINTAINER "mgramin@gmail.com"
