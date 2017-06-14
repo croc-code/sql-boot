@@ -37,6 +37,10 @@
             <directory>src/test/resources/conf/information_schema</directory>
             <outputDirectory>conf/information_schema</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>src/main/assembly/static/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+        </fileSet>
     </fileSets>
     <files>
         <file>

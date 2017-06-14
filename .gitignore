@@ -13,4 +13,4 @@ target/
 .idea/
 *.iml
 
-lib/*.jar
+src/main/assembly/static/lib/*.jar
