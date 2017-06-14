@@ -6,5 +6,5 @@ RUN sh -c 'unzip sql-boot.zip -d sql-boot'
 RUN sh -c 'touch /sql-boot/sql-boot.jar'
 ENV JAVA_OPTS=""
 WORKDIR /sql-boot
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dloader.path='.' -Dloader.path='lib/' -jar ./sql-boot.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dloader.path='.' -jar ./sql-boot.jar" ]
 MAINTAINER "mgramin@gmail.com"
