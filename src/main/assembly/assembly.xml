@@ -34,7 +34,7 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
         <fileSet>
-            <directory>src/test/resources/conf/information_schema</directory>
+            <directory>src/main/resources/conf/information_schema</directory>
             <outputDirectory>conf/information_schema</outputDirectory>
         </fileSet>
         <fileSet>
@@ -50,10 +50,10 @@
             <!--<lineEnding>unix</lineEnding>-->
         </file>
         <file>
-            <source>src/test/resources/application.yml</source>
+            <source>src/main/resources/application.yml</source>
         </file>
         <file>
-            <source>src/test/resources/config.xml</source>
+            <source>src/main/resources/config.xml</source>
         </file>
     </files>
 </assembly>

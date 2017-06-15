@@ -60,7 +60,35 @@ public final class ApiController {
     private List<IDbResourceCommand> commands;
 
 //    private final static Logger logger = Logger.getLogger(ApiController.class);
+    @RequestMapping(value = "/api/**", method = RequestMethod.GET,
+    consumes = MediaType.ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
+        @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
+        String uriString;
+        if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
+            uriString = request.getServletPath();
+        } else {
+            uriString = request.getServletPath() + "?" + request.getQueryString();
+        }
 
+        HttpWrapper aggregator = httpAggregators.stream()
+            .filter(a -> a.name().equalsIgnoreCase(aggregatorName))
+            .findFirst()
+            .orElse(null);
+        if (aggregator == null) {
+            aggregator = httpAggregators.stream()
+                .filter(DbResourceAggregator::isDefault)
+                .findFirst()
+                .orElse(null);
+        }
+
+        final HttpHeaders headers = new HttpHeaders();
+        aggregator.responseHeaders().forEach(headers::add);
+
+        List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
+        byte[] result = aggregator.aggregate(dbSchemaObjects);
+        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+    }
     @RequestMapping(value = "/api/**",
             method = RequestMethod.GET,
             consumes = MediaType.TEXT_HTML_VALUE,
@@ -88,7 +116,7 @@ public final class ApiController {
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/**",
+/*    @RequestMapping(value = "/api*//**",
             method = RequestMethod.GET,
             consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE,
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -113,7 +141,7 @@ public final class ApiController {
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
         byte[] result = aggregator.aggregate(dbSchemaObjects);
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
-    }
+    }*/
 
 
     @RequestMapping(value = "/api/**",
@@ -172,34 +200,10 @@ public final class ApiController {
     }
 
 
-    @RequestMapping(value = "/api/**", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
-        @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
-        String uriString;
-        if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
-            uriString = request.getServletPath();
-        } else {
-            uriString = request.getServletPath() + "?" + request.getQueryString();
-        }
 
-        HttpWrapper aggregator = httpAggregators.stream()
-            .filter(a -> a.name().equalsIgnoreCase(aggregatorName))
-            .findFirst()
-            .orElse(null);
-        if (aggregator == null) {
-            aggregator = httpAggregators.stream()
-                .filter(DbResourceAggregator::isDefault)
-                .findFirst()
-                .orElse(null);
-        }
 
-        final HttpHeaders headers = new HttpHeaders();
-        aggregator.responseHeaders().forEach(headers::add);
 
-        List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
-        byte[] result = aggregator.aggregate(dbSchemaObjects);
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
-    }
+
 
     private List<DbResource> getDbSchemaObjects(String uriString, String aggregatorName) throws BootException {
         final Uri uri = new DbUri(uriString);

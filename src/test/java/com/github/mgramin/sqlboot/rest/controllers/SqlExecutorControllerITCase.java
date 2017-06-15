@@ -44,7 +44,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
-@ActiveProfiles("information_schema")
+@ActiveProfiles("conf/information_schema")
 public class SqlExecutorControllerITCase {
 
     @Autowired

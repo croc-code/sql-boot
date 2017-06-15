@@ -37,6 +37,7 @@ public class RestRunner {
     public static void main(String[] args) {
         String profile = ofNullable(getenv("profile")).orElse("information_schema");
         setProperty(ACTIVE_PROFILES_PROPERTY_NAME, profile);
+        setProperty("loader.path", ".");
         SpringApplication.run(RestRunner.class, args);
     }
 

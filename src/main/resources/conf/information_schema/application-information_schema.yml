@@ -156,7 +156,7 @@ table.check.sql.drop: |
 
 
 table.data:
-  select * from $schema.$table
+  select * from $schema.$table;
 
 table.data.sql.insert:
   insert into table (<%data.headers.each {%>$it.key, <%}%>) values (<%data.headers.each {%>$it.value, <%}%>);
