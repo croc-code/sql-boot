@@ -84,5 +84,14 @@ public final class JdbcSqlHelper implements ISqlHelper {
         return result;
     }
 
+    @Override
+    public void health() {
+        try {
+            Connection connection = datasource.get(0).getConnection();
+        } catch (SQLException e) {
+            throw new BootException(e);
+        }
+    }
+
 }
 

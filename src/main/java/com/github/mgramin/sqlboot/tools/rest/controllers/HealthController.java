@@ -22,19 +22,31 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.sql;
+package com.github.mgramin.sqlboot.tools.rest.controllers;
 
-import java.util.List;
-import java.util.Map;
-import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.tools.sql.ISqlHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by maksim on 27.07.16.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public interface ISqlHelper {
+@RestController
+@ImportResource("classpath:config.xml")
+public class HealthController {
 
-    List<Map<String, String>> select(String sql) throws BootException;
+    @Autowired
+    ISqlHelper sqlHelper;
 
-    void health() throws BootException;
+    @RequestMapping(value = "/health", method = RequestMethod.GET)
+    public String health() {
+        sqlHelper.health();
+        return "OK";
+    }
 
 }
