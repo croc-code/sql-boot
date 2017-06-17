@@ -49,9 +49,3 @@ git clone https://github.com/mgramin/sql-boot
 cd sql-boot  
 mvn package 
 ```
-
-
-Run integration tests for builtin configurations (docker required)
------------------------------------------------------------------
-
-- mvn verify -Ph2
