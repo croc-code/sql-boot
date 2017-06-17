@@ -38,7 +38,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("information_schema")
+@ActiveProfiles("h2")
 public class ApiControllerITCase {
 
     @Autowired
