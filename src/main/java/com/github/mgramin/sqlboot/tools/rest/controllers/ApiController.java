@@ -59,7 +59,9 @@ public final class ApiController {
     @Autowired
     private List<IDbResourceCommand> commands;
 
-//    private final static Logger logger = Logger.getLogger(ApiController.class);
+    //    private final static Logger logger = Logger.getLogger(ApiController.class);
+
+
     @RequestMapping(value = "/api/**", method = RequestMethod.GET,
     consumes = MediaType.ALL_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<byte[]> getTextDdl(HttpServletRequest request,
@@ -86,9 +88,14 @@ public final class ApiController {
         aggregator.responseHeaders().forEach(headers::add);
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
-        byte[] result = aggregator.aggregate(dbSchemaObjects);
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        if (dbSchemaObjects.isEmpty()) {
+            byte[] result = aggregator.aggregate(dbSchemaObjects);
+            return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        }
     }
+
     @RequestMapping(value = "/api/**",
             method = RequestMethod.GET,
             consumes = MediaType.TEXT_HTML_VALUE,
@@ -112,8 +119,12 @@ public final class ApiController {
         aggregator.responseHeaders().forEach(headers::add);
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
-        byte[] result = aggregator.aggregate(dbSchemaObjects);
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        if (dbSchemaObjects.isEmpty()) {
+            byte[] result = aggregator.aggregate(dbSchemaObjects);
+            return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        }
     }
 
 /*    @RequestMapping(value = "/api*//**",
@@ -167,8 +178,12 @@ public final class ApiController {
         aggregator.responseHeaders().forEach(headers::add);
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
-        byte[] result = aggregator.aggregate(dbSchemaObjects);
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        if (dbSchemaObjects.isEmpty()) {
+            byte[] result = aggregator.aggregate(dbSchemaObjects);
+            return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        }
     }
 
 
@@ -195,8 +210,12 @@ public final class ApiController {
         aggregator.responseHeaders().forEach(headers::add);
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
-        byte[] result = aggregator.aggregate(dbSchemaObjects);
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        if (dbSchemaObjects.isEmpty()) {
+            byte[] result = aggregator.aggregate(dbSchemaObjects);
+            return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        }
     }
 
 

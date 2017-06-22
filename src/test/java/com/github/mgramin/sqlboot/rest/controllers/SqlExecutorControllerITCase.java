@@ -44,7 +44,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
-@ActiveProfiles("conf/h2")
+@ActiveProfiles("h2")
 public class SqlExecutorControllerITCase {
 
     @Autowired
@@ -59,6 +59,7 @@ public class SqlExecutorControllerITCase {
         assertEquals(forEntity.getHeaders().getContentType(), MediaType.APPLICATION_JSON_UTF8);
     }
 
+/*
     @Test
     public void execSql2XmlPost() throws Exception {
         HttpHeaders headers = new HttpHeaders();
@@ -70,6 +71,8 @@ public class SqlExecutorControllerITCase {
         assertEquals(forEntity.getBody(), "<List><item><ONE>1</ONE><TWO>2</TWO></item></List>");
         //assertEquals(forEntity.headers().getContentType(), MediaType.APPLICATION_XML_VALUE);
     }
+*/
+
 
     @Test
     public void execSql2Json() throws Exception {
