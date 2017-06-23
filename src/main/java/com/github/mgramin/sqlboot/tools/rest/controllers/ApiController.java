@@ -89,10 +89,10 @@ public final class ApiController {
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
         if (dbSchemaObjects.isEmpty()) {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         }
     }
 
@@ -120,10 +120,10 @@ public final class ApiController {
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
         if (dbSchemaObjects.isEmpty()) {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         }
     }
 
@@ -179,10 +179,10 @@ public final class ApiController {
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
         if (dbSchemaObjects.isEmpty()) {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         }
     }
 
@@ -211,10 +211,10 @@ public final class ApiController {
 
         List<DbResource> dbSchemaObjects = getDbSchemaObjects(uriString.substring(5), aggregator.name());
         if (dbSchemaObjects.isEmpty()) {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         }
     }
 

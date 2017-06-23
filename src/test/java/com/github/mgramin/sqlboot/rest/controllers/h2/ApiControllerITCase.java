@@ -111,7 +111,7 @@ public class ApiControllerITCase {
         callRestAndValidate("table/hr");
     }
 
-/*    @Test
+    @Test
     public void getTableJsonData() {
         callRestAndValidate("data/hr.users?type=json");
     }
@@ -129,7 +129,7 @@ public class ApiControllerITCase {
     @Test
     public void getTableSqlInsertData() {
         callRestAndValidate("data/hr.users/create");
-    }*/
+    }
 
 
     @Test
@@ -137,10 +137,22 @@ public class ApiControllerITCase {
         callRestAndValidate("table/hr.users/create?type=zip");
     }
 
+    @Test
+    public void getTableNotFound() {
+        callRestAndValidate("table/foo.bar", 204);
+    }
+
     private void callRestAndValidate(String uri) {
         System.out.println("<<< " + uri);
         ResponseEntity<String> forEntity = client.getForEntity("/api/" + uri, String.class);
-//        assertEquals(forEntity.getStatusCodeValue(), 200);
+        assertEquals(200, forEntity.getStatusCodeValue());
+        System.out.println(forEntity.getBody());
+    }
+
+    private void callRestAndValidate(String uri, int code) {
+        System.out.println("<<< " + uri);
+        ResponseEntity<String> forEntity = client.getForEntity("/api/" + uri, String.class);
+        assertEquals(code, forEntity.getStatusCodeValue());
         System.out.println(forEntity.getBody());
     }
 

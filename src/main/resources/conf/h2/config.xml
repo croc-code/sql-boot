@@ -45,8 +45,8 @@
 
 
     <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:**/db/sql/create-demo-db.sql"/>
-        <jdbc:script location="classpath:**/db/sql/init-demo-data.sql"/>
+        <jdbc:script location="classpath:conf/h2/db/sql/create-demo-db.sql"/>
+        <jdbc:script location="classpath:conf/h2/db/sql/init-demo-data.sql"/>
     </jdbc:embedded-database>
 
 <!--    <bean name="dev" id="dataSource" parent="templateCP" primary="true">
