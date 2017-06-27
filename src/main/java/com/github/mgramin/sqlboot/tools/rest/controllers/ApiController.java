@@ -92,6 +92,9 @@ public final class ApiController {
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
+            if (dbSchemaObjects.size() == 1) {
+                dbSchemaObjects.get(0).headers().forEach(headers::add);
+            }
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
         }
     }
@@ -123,6 +126,9 @@ public final class ApiController {
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
+            if (dbSchemaObjects.size() == 1) {
+                dbSchemaObjects.get(0).headers().forEach(headers::add);
+            }
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
         }
     }
@@ -182,6 +188,9 @@ public final class ApiController {
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
+            if (dbSchemaObjects.size() == 1) {
+                dbSchemaObjects.get(0).headers().forEach(headers::add);
+            }
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
         }
     }
@@ -214,6 +223,9 @@ public final class ApiController {
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         } else {
             byte[] result = aggregator.aggregate(dbSchemaObjects);
+            if (dbSchemaObjects.size() == 1) {
+                dbSchemaObjects.get(0).headers().forEach(headers::add);
+            }
             return new ResponseEntity<>(result, headers, HttpStatus.OK);
         }
     }
