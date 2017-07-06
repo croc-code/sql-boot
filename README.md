@@ -50,3 +50,12 @@ git clone https://github.com/mgramin/sql-boot
 cd sql-boot  
 mvn package 
 ```
+
+Base configurations:
+--------------------
+
+https://github.com/sql-boot/postgres
+
+https://github.com/sql-boot/oracle
+
+https://github.com/sql-boot/cassandra
