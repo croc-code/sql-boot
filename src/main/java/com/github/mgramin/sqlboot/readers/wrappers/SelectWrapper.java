@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.readers.wrappers;
 import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 

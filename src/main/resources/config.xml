@@ -34,7 +34,7 @@
 
 
     <!-- Base db resource type -->
-    <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.DbResourceType" abstract="true" />
+    <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType" abstract="true" />
 
 
 

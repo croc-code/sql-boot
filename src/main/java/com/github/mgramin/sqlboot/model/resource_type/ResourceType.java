@@ -22,30 +22,27 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.model.resource_type;
 
-import org.junit.Test;
+import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
+import com.github.mgramin.sqlboot.model.Uri;
+import java.util.List;
 
 /**
  * Created by maksim on 16.05.17.
  */
-public class DbResourceTypeTest {
+public interface ResourceType {
 
-    @Test
-    public void name() throws Exception {
-    }
+    String name();
 
-    @Test
-    public void aliases() throws Exception {
-    }
+    List<String> aliases();
 
-    @Test
-    public void read() throws Exception {
+    @Deprecated
+    List<ActionGenerator> generators();
 
-    }
-
-    @Test
-    public void readr() throws Exception {
-    }
+    List<DbResource> read(Uri uri, @Deprecated IDbResourceCommand command, @Deprecated String aggregatorName) throws BootException;
 
 }

@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -36,8 +37,8 @@ public class DbResourceThinTest {
     @Test
     @Ignore
     public void toStringTest() throws Exception {
-        DbResource tablePersons = new DbResourceThin("persons", new DbResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.persons"), null);
-        assertEquals("DbResourceThin(name=persons, type=DbResourceType(aliases=[table], child=null, readers=null, aggregators=null), dbUri=table/hr.persons, headers=null)",
+        DbResource tablePersons = new DbResourceThin("persons", new ResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.persons"), null);
+        assertEquals("DbResourceThin(name=persons, type=ResourceType(aliases=[table], child=null, readers=null, aggregators=null), dbUri=table/hr.persons, headers=null)",
             tablePersons.toString());
     }
 

@@ -24,9 +24,9 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
+import com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType;
 import java.util.List;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
@@ -57,7 +57,7 @@ public class SqlObjectReaderTest {
         when(actionGenerator.generate(any(List.class))).thenReturn("alter table $table_name add column $column_name ...");
 
         SqlResourceReader reader = new SqlResourceReader(sqlHelper, actionGenerator);
-        DbResourceType column = new DbResourceType(new String[]{"column"}, null, asList(reader), null);
+        ResourceType column = new ResourceType(new String[]{"column"}, null, asList(reader), null);
     }
 
     @Test
@@ -84,8 +84,8 @@ public class SqlObjectReaderTest {
         SqlResourceReader readerIndex = new SqlResourceReader(sqlHelperIndexMock, actionGeneratorIndexMock);
 
 
-        DbResourceType index = new DbResourceType(new String[]{"index"}, null, asList(readerIndex), null);
-        DbResourceType table = new DbResourceType(new String[]{"table"}, asList(index), asList(readerTable), null);
+        ResourceType index = new ResourceType(new String[]{"index"}, null, asList(readerIndex), null);
+        ResourceType table = new ResourceType(new String[]{"table"}, asList(index), asList(readerTable), null);
     }
 
 }

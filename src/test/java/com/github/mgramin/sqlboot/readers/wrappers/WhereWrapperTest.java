@@ -24,11 +24,11 @@
 
 package com.github.mgramin.sqlboot.readers.wrappers;
 
+import com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType;
 import java.util.HashMap;
 import java.util.List;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
-import com.github.mgramin.sqlboot.model.DbResourceType;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import org.junit.Test;
@@ -52,12 +52,12 @@ public class WhereWrapperTest {
 
         DbResourceReader reader = mock(DbResourceReader.class);
         when(reader.read(any(), any())).thenReturn(
-            asList(new DbResourceThin("persons", new DbResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.persons?@creator=admin"), properties),
-                new DbResourceThin("jobs", new DbResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.jobs?@creator=jdoe"), properties)));
+            asList(new DbResourceThin("persons", new ResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.persons?@creator=admin"), properties),
+                new DbResourceThin("jobs", new ResourceType(new String[]{"table"}, null, null, null), new DbUri("table/hr.jobs?@creator=jdoe"), properties)));
 
         DbResourceReader filteredReader = new WhereWrapper(reader);
         List<DbResource> read = filteredReader.read(new DbUri("table/hr.*?@creator=admin"),
-            new DbResourceType(new String[]{"table"}, null, null, null));
+            new ResourceType(new String[]{"table"}, null, null, null));
 
         System.out.println(read);
     }

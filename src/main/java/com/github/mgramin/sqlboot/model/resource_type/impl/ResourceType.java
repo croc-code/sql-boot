@@ -22,8 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.model.resource_type.impl;
 
+import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.DbResourceBodyWrapper;
+import com.github.mgramin.sqlboot.model.IDbResourceCommand;
+import com.github.mgramin.sqlboot.model.ObjectService;
+import com.github.mgramin.sqlboot.model.Uri;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,23 +46,26 @@ import static java.util.Optional.ofNullable;
  * e.g. "table", "index", "pk", "stored procedure", "session", "block" etc
  */
 @ToString
-@JsonSerialize(as=DbResourceType.class)
-public final class DbResourceType implements ResourceType {
+@JsonSerialize(as=ResourceType.class)
+@Deprecated
+public final class ResourceType implements
+    com.github.mgramin.sqlboot.model.resource_type.ResourceType {
 
     private final List<String> aliases;
-    private final transient List<DbResourceType> child;
+    private final transient List<ResourceType> child;
+    
     private final transient List<DbResourceReader> readers;
     private final transient List<ActionGenerator> generators;
 
-    public DbResourceType(String[] aliases, List<DbResourceReader> readers) {
+    public ResourceType(String[] aliases, List<DbResourceReader> readers) {
         this(aliases, null, readers, null);
     }
 
-    public DbResourceType(String[] aliases, List<DbResourceReader> readers, List<ActionGenerator> generators) {
+    public ResourceType(String[] aliases, List<DbResourceReader> readers, List<ActionGenerator> generators) {
         this(aliases, null, readers, generators);
     }
 
-    public DbResourceType(String[] aliases, List<DbResourceType> child, List<DbResourceReader> readers, List<ActionGenerator> generators) {
+    public ResourceType(String[] aliases, List<ResourceType> child, List<DbResourceReader> readers, List<ActionGenerator> generators) {
         this.aliases = asList(aliases);
         this.child = child;
         this.readers = readers;
@@ -85,7 +93,7 @@ public final class DbResourceType implements ResourceType {
         final List<DbResource> objectsNew = new ArrayList<>();
         for (final DbResource dbResource : objects) {
             if (dbResource.type().equals(this) || uri.recursive()) {
-/*                Map<DbResourceType, List<DbResource>> objectsByType =
+/*                Map<ResourceType, List<DbResource>> objectsByType =
                         objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
                 final ObjectService objectService = new ObjectService(objects,
                         String.join(".", dbResource.dbUri()
@@ -93,7 +101,7 @@ public final class DbResourceType implements ResourceType {
                 final Map<String, Object> variables = new HashMap<>((Map) dbResource.headers());
                 variables.put(dbResource.type().name(), dbResource);
                 variables.put("srv", objectService);
-                /*for (Map.Entry<DbResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
+                /*for (Map.Entry<ResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
                     if (!entry.getKey().name().equals(dbResource.type().name())) {
                         variables.put(entry.getKey().name() + "_",
                                 entry.getValue()

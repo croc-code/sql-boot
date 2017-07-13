@@ -24,23 +24,28 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import java.util.List;
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
-import com.github.mgramin.sqlboot.exceptions.BootException;
+import org.junit.Test;
 
 /**
  * Created by maksim on 16.05.17.
  */
-// TODO rename to DbResourceType
-public interface ResourceType {
+public class ResourceTypeTest {
 
-    String name();
+    @Test
+    public void name() throws Exception {
+    }
 
-    List<String> aliases();
+    @Test
+    public void aliases() throws Exception {
+    }
 
-    @Deprecated
-    List<ActionGenerator> generators();
+    @Test
+    public void read() throws Exception {
 
-    List<DbResource> read(Uri uri, IDbResourceCommand command, String aggregatorName) throws BootException;
+    }
+
+    @Test
+    public void readr() throws Exception {
+    }
 
 }

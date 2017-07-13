@@ -27,12 +27,13 @@ package com.github.mgramin.sqlboot.readers;
 import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.Uri;
 
 /**
  * Db resource factory (from db system dictionary, files/(control version system), REST etc)
  */
+@Deprecated
 public interface DbResourceReader {
 
     List<DbResource> read(Uri uri, @Deprecated ResourceType type) throws BootException;

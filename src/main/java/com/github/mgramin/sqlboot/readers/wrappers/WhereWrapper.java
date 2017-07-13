@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import static java.util.stream.Collectors.toList;
