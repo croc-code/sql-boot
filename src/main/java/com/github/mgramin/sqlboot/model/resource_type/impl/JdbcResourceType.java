@@ -7,14 +7,13 @@ import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.tools.jdbc.Column;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.Column;
 import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
-import com.github.mgramin.sqlboot.tools.jdbc.Table;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import javax.sql.DataSource;
 
 /**

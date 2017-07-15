@@ -224,4 +224,31 @@
     <bean name="localFileSystem" c:basedir="/tmp/src"
           class="com.github.mgramin.sqlboot.tools.files.file_system.impl.LocalFileSystem" />
 
+
+
+    <bean name="jdbcResourceType" abstract="true" c:dataSource-ref="dataSource"
+      class="com.github.mgramin.sqlboot.model.resource_type.impl.JdbcResourceType" />
+
+
+
+    <!-- Default DB Structure -->
+    <bean parent="jdbcResourceType" c:aliases="schema" >
+        <constructor-arg name="child">
+            <list>
+                <bean parent="jdbcResourceType" c:aliases="table" >
+                    <constructor-arg name="child">
+                        <list>
+                            <bean parent="jdbcResourceType" c:aliases="pk" />
+                            <bean parent="jdbcResourceType" c:aliases="column" />
+                            <bean parent="jdbcResourceType" c:aliases="fk" />
+                            <bean parent="jdbcResourceType" c:aliases="index" />
+                        </list>
+                    </constructor-arg>
+                </bean>
+                <bean parent="jdbcResourceType" c:aliases="procedure" />
+                <bean parent="jdbcResourceType" c:aliases="view" />
+            </list>
+        </constructor-arg>
+    </bean>
+
 </beans>

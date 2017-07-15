@@ -1,8 +1,10 @@
-package com.github.mgramin.sqlboot.tools.jdbc;
+package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
+import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,29 +30,26 @@ public class Table implements DbObject {
 
     @Override
     public List<Map<String, String>> get(List<String> params) throws SQLException {
-        final String schema = params.get(0);
-        final String table = params.get(1);
         final List<Map<String, String>> result = new ArrayList<>();
         try (final Connection connection = dataSource.getConnection()) {
             final DatabaseMetaData metaData = connection.getMetaData();
-            final String[] tableTypes = {"TABLE"/*,"VIEW","ALIAS","SYNONYM","GLOBAL TEMPORARY",
-        "LOCAL TEMPORARY","SYSTEM TABLE"*/};
-            ResultSet tables = metaData.getTables(null, schema, table, tableTypes);
+            ResultSet tables = getDbObjectMatadata(params, metaData);
+            ResultSetMetaData tableMetaData = tables.getMetaData();
+            int columnCount = tableMetaData.getColumnCount();
             while (tables.next()) {
                 Map<String, String> map = new HashMap<>();
-                map.put("TABLE_CAT", tables.getString("TABLE_CAT"));
-                map.put("TABLE_SCHEM", tables.getString("TABLE_SCHEM"));
-                map.put("TABLE_NAME", tables.getString("TABLE_NAME"));
-                // map.put("TABLE_TYPE",tables.getString("TABLE_TYPE "));
-                map.put("TYPE_CAT", tables.getString("TYPE_CAT"));
-                map.put("TYPE_SCHEM", tables.getString("TYPE_SCHEM"));
-                map.put("TYPE_NAME", tables.getString("TYPE_NAME"));
-                map.put("SELF_REFERENCING_COL_NAME", tables.getString("SELF_REFERENCING_COL_NAME"));
-                map.put("REF_GENERATION", tables.getString("REF_GENERATION"));
+                for (int i = 1; i <= columnCount; i++) {
+                    map.put(tableMetaData.getColumnName(i), tables.getString(i));
+                }
                 result.add(map);
             }
         }
         return result;
+    }
+
+    private ResultSet getDbObjectMatadata(List<String> params, DatabaseMetaData metaData)
+        throws SQLException {
+        return metaData.getTables(null, params.get(0), params.get(1), new String[]{"TABLE"});
     }
 
 }

@@ -1,8 +1,10 @@
-package com.github.mgramin.sqlboot.tools.jdbc;
+package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
+import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,20 +30,25 @@ public class Column implements DbObject {
 
     @Override
     public List<Map<String, String>> get(List<String> params) throws SQLException {
-        final String schema = params.get(0);
-        final String table = params.get(1);
-        final String column = params.get(2);
         final List<Map<String, String>> result = new ArrayList<>();
         try (final Connection connection = dataSource.getConnection()) {
             final DatabaseMetaData metaData = connection.getMetaData();
-            final ResultSet columns = metaData.getColumns(null, schema, table, column);
-            while (columns.next()) {
-                final Map<String, String> map = new HashMap<>();
-                map.put("COLUMN_NAME", columns.getString("COLUMN_NAME"));
-                map.put("TABLE_NAME", columns.getString("TABLE_NAME"));
+            ResultSet tables = getDbObjectMatadata(params, metaData);
+            ResultSetMetaData tableMetaData = tables.getMetaData();
+            int columnCount = tableMetaData.getColumnCount();
+            while (tables.next()) {
+                Map<String, String> map = new HashMap<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    map.put(tableMetaData.getColumnName(i), tables.getString(i));
+                }
                 result.add(map);
             }
         }
         return result;
     }
+
+    private ResultSet getDbObjectMatadata(List<String> params, DatabaseMetaData metaData) throws SQLException {
+        return metaData.getColumns(null, params.get(0), params.get(1), params.get(2));
+    }
+
 }

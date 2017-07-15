@@ -22,12 +22,12 @@ public class ResourceTypesImplTest {
 
     @Test
     public void load() throws Exception {
-        ResourceTypes types = new ResourceTypesImpl(dataSource);
+        /*ResourceTypes types = new ResourceTypesImpl(dataSource);
         List<ResourceType> load = types.load();
 
         DbUri uri = new DbUri("table", asList("%", "%"));
         ResourceType resourceType = load.get(0);
-        resourceType.read(uri, null, null);
+        resourceType.read(uri, null, null);*/
 
         /*for (ResourceType resourceType : load) {
             System.out.println(resourceType.aliases().get(0));
