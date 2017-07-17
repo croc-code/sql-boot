@@ -232,21 +232,21 @@
 
 
     <!-- Default DB Structure -->
-    <bean parent="jdbcResourceType" c:aliases="schema" >
+    <bean parent="jdbcResourceType" c:aliases="schema,schm" >
         <constructor-arg name="child">
             <list>
-                <bean parent="jdbcResourceType" c:aliases="table" >
+                <bean parent="jdbcResourceType" c:aliases="table,tbl,t" >
                     <constructor-arg name="child">
                         <list>
-                            <bean parent="jdbcResourceType" c:aliases="pk" />
-                            <bean parent="jdbcResourceType" c:aliases="column" />
-                            <bean parent="jdbcResourceType" c:aliases="fk" />
-                            <bean parent="jdbcResourceType" c:aliases="index" />
+                            <bean parent="jdbcResourceType" c:aliases="pk,primary_key" />
+                            <bean parent="jdbcResourceType" c:aliases="column,clmn,c" />
+                            <bean parent="jdbcResourceType" c:aliases="fk,foreign_key" />
+                            <bean parent="jdbcResourceType" c:aliases="index,idx,i" />
                         </list>
                     </constructor-arg>
                 </bean>
-                <bean parent="jdbcResourceType" c:aliases="procedure" />
-                <bean parent="jdbcResourceType" c:aliases="view" />
+                <bean parent="jdbcResourceType" c:aliases="procedure,prc,p" />
+                <bean parent="jdbcResourceType" c:aliases="view,vw,v" />
             </list>
         </constructor-arg>
     </bean>

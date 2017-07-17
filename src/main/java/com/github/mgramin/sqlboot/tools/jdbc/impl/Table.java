@@ -1,13 +1,10 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
+import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSet;
+import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSetImpl;
 import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -17,10 +14,16 @@ import javax.sql.DataSource;
  */
 public class Table implements DbObject {
 
-    final private DataSource dataSource;
+    private final DataSource dataSource;
+    private final CustomResultSet customResultSet;
 
     public Table(final DataSource dataSource) {
+        this(dataSource, new CustomResultSetImpl());
+    }
+
+    public Table(final DataSource dataSource, CustomResultSet customResultSet) {
         this.dataSource = dataSource;
+        this.customResultSet = customResultSet;
     }
 
     @Override
@@ -29,27 +32,10 @@ public class Table implements DbObject {
     }
 
     @Override
-    public List<Map<String, String>> get(List<String> params) throws SQLException {
-        final List<Map<String, String>> result = new ArrayList<>();
-        try (final Connection connection = dataSource.getConnection()) {
-            final DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet tables = getDbObjectMatadata(params, metaData);
-            ResultSetMetaData tableMetaData = tables.getMetaData();
-            int columnCount = tableMetaData.getColumnCount();
-            while (tables.next()) {
-                Map<String, String> map = new HashMap<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    map.put(tableMetaData.getColumnName(i), tables.getString(i));
-                }
-                result.add(map);
-            }
-        }
-        return result;
-    }
-
-    private ResultSet getDbObjectMatadata(List<String> params, DatabaseMetaData metaData)
-        throws SQLException {
-        return metaData.getTables(null, params.get(0), params.get(1), new String[]{"TABLE"});
+    public List<Map<String, String>> read(List<String> params) throws SQLException {
+        ResultSet tables = dataSource.getConnection().getMetaData().
+            getTables(null, params.get(0), params.get(1), new String[]{"TABLE"});
+        return customResultSet.toMap(tables);
     }
 
 }

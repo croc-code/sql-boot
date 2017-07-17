@@ -12,30 +12,30 @@ import javax.sql.DataSource;
 /**
  * Created by MGramin on 13.07.2017.
  */
-public class Column implements DbObject {
+public class Function implements DbObject {
 
     private final DataSource dataSource;
     private final CustomResultSet customResultSet;
 
-    public Column(final DataSource dataSource) {
+    public Function(final DataSource dataSource) {
         this(dataSource, new CustomResultSetImpl());
     }
 
-    public Column(final DataSource dataSource, CustomResultSet customResultSet) {
+    public Function(final DataSource dataSource, CustomResultSet customResultSet) {
         this.dataSource = dataSource;
         this.customResultSet = customResultSet;
     }
 
     @Override
     public String name() {
-        return "column";
+        return "function";
     }
 
     @Override
     public List<Map<String, String>> read(List<String> params) throws SQLException {
-        ResultSet columns = dataSource.getConnection().getMetaData().
-            getColumns(null, params.get(0), params.get(1), params.get(2));
-        return customResultSet.toMap(columns);
+        ResultSet functions = dataSource.getConnection().getMetaData().
+            getFunctions(null, params.get(0), params.get(1));
+        return customResultSet.toMap(functions);
     }
 
 }

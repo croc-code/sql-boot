@@ -1,5 +1,6 @@
 package com.github.mgramin.sqlboot.tools.jdbc;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,6 @@ public interface DbObject {
 
     String name();
 
-    List<Map<String, String>> get(List<String> params) throws SQLException;
+    List<Map<String, String>> read(final List<String> params) throws SQLException;
 
 }
