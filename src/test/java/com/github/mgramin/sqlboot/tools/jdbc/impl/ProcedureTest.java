@@ -2,7 +2,7 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class ProcedureTest {
 
     @Test
     public void read() throws Exception {
-        DbObject procedure = new Procedure(dataSource);
+        JdbcDbObjectType procedure = new Procedure(dataSource);
         List<Map<String, String>> maps = procedure.read(Arrays.asList("%", "%"));
         System.out.println(maps);
     }

@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.JdbcResourceType;
+import com.github.mgramin.sqlboot.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.jdbc.JdbcResourceType;
 import static java.util.Collections.singletonList;
 
 /**

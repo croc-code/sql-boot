@@ -3,8 +3,7 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
-import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
-import java.util.Arrays;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -31,7 +30,7 @@ public class ColumnTest {
 
     @Test
     public void read() throws Exception {
-        DbObject column = new Column(dataSource);
+        JdbcDbObjectType column = new Column(dataSource);
         List<Map<String, String>> maps = column.read(asList("%", "%", "%"));
         System.out.println(maps);
     }

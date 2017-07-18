@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.model;
 
-import com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.ResourceType;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

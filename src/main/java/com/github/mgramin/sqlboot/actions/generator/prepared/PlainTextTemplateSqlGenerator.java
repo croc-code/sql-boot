@@ -32,8 +32,8 @@ import com.github.mgramin.sqlboot.actions.generator.wrappers.SqlWrapper;
 import com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
-import com.github.mgramin.sqlboot.tools.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.tools.template.TemplateEngineFactory;
+import com.github.mgramin.sqlboot.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.template.TemplateEngineFactory;
 
 /**
  *

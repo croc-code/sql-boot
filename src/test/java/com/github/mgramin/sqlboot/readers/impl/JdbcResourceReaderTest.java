@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.readers.impl;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.readers.impl.jdbc.JdbcResourceReader;
 import org.junit.Test;
 
 /**

@@ -3,7 +3,7 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -30,7 +30,7 @@ public class ForeignKeyTest {
 
     @Test
     public void read() throws Exception {
-        DbObject foreignKey = new ForeignKey(dataSource);
+        JdbcDbObjectType foreignKey = new ForeignKey(dataSource);
         List<Map<String, String>> maps = foreignKey.read(asList("MAIN_SCHEMA", "USERS"));
         System.out.println(maps);
     }

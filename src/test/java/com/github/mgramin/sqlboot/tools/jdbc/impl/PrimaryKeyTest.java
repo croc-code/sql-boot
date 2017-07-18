@@ -3,7 +3,7 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
-import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -30,7 +30,7 @@ public class PrimaryKeyTest {
 
     @Test
     public void read() throws Exception {
-        DbObject primaryKey = new PrimaryKey(dataSource);
+        JdbcDbObjectType primaryKey = new PrimaryKey(dataSource);
         List<Map<String, String>> maps = primaryKey.read(asList("MAIN_SCH%", "USERS"));
         System.out.println(maps);
     }

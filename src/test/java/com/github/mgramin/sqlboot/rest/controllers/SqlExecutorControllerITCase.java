@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import java.util.Arrays;
-import com.github.mgramin.sqlboot.tools.rest.RestRunner;
+import com.github.mgramin.sqlboot.rest.RestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

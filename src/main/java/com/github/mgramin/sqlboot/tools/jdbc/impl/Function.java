@@ -2,7 +2,7 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSet;
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSetImpl;
-import com.github.mgramin.sqlboot.tools.jdbc.DbObject;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 /**
  * Created by MGramin on 13.07.2017.
  */
-public class Function implements DbObject {
+public class Function implements JdbcDbObjectType {
 
     private final DataSource dataSource;
     private final CustomResultSet customResultSet;

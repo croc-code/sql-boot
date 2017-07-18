@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.readers.wrappers;
 
-import com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.ResourceType;
 import java.util.HashMap;
 import java.util.List;
 import com.github.mgramin.sqlboot.model.DbResource;

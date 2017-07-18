@@ -29,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.FakeDbResourceType;
 import com.github.mgramin.sqlboot.model.Uri;
+import com.github.mgramin.sqlboot.readers.impl.file.FileResourceReader;
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
 import com.github.mgramin.sqlboot.tools.files.file_system.impl.LocalFileSystem;
 import java.io.IOException;

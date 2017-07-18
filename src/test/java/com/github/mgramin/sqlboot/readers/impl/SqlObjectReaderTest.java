@@ -24,13 +24,14 @@
 
 package com.github.mgramin.sqlboot.readers.impl;
 
-import com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.ResourceType;
+import com.github.mgramin.sqlboot.readers.impl.sql.SqlResourceReader;
 import java.util.List;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.model.DbUri;
 import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.tools.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import org.junit.Test;
 import static com.google.common.collect.ImmutableMap.of;
 import static java.util.Arrays.asList;
