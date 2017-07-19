@@ -33,9 +33,20 @@
     <import resource="conf/*/config.xml" />
 
 
-    <!-- Base db resource type -->
+    <!-- db resource types -->
     <bean id="dbResourceType" class="com.github.mgramin.sqlboot.resource_type.impl.ResourceType" abstract="true" />
 
+    <bean name="jdbcResourceType" abstract="true"
+          class="com.github.mgramin.sqlboot.resource_type.impl.jdbc.JdbcResourceType" />
+
+    <bean name="jdbcSchema" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Schema" c:dataSource-ref="dataSource" />
+    <bean name="jdbcTable" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Table" c:dataSource-ref="dataSource" />
+    <bean name="jdbcPk" class="com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey" c:dataSource-ref="dataSource" />
+    <bean name="jdbcColumn" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Column" c:dataSource-ref="dataSource" />
+    <bean name="jdbcFk" class="com.github.mgramin.sqlboot.tools.jdbc.impl.ForeignKey" c:dataSource-ref="dataSource" />
+    <bean name="jdbcIndex" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Index" c:dataSource-ref="dataSource" />
+    <bean name="jdbcFunction" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Function" c:dataSource-ref="dataSource" />
+    <bean name="jdbcProcedure" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure" c:dataSource-ref="dataSource" />
 
 
     <!-- Readers -->
@@ -226,29 +237,27 @@
 
 
 
-    <bean name="jdbcResourceType" abstract="true" c:dataSource-ref="dataSource"
-      class="com.github.mgramin.sqlboot.resource_type.impl.jdbc.JdbcResourceType" />
-
-
-
     <!-- Default DB Structure -->
-    <bean parent="jdbcResourceType" c:aliases="schema,schm" >
+    <bean parent="jdbcResourceType" c:aliases="schema,schm" c:jdbcDbObjectType-ref="jdbcSchema">
         <constructor-arg name="child">
             <list>
-                <bean parent="jdbcResourceType" c:aliases="table,tbl,t" >
+                <bean parent="jdbcResourceType" c:aliases="table,tbl,t" c:jdbcDbObjectType-ref="jdbcTable">
                     <constructor-arg name="child">
                         <list>
-                            <bean parent="jdbcResourceType" c:aliases="pk,primary_key" />
-                            <bean parent="jdbcResourceType" c:aliases="column,clmn,c" />
-                            <bean parent="jdbcResourceType" c:aliases="fk,foreign_key" />
-                            <bean parent="jdbcResourceType" c:aliases="index,idx,i" />
+                            <bean parent="jdbcResourceType" c:aliases="pk,primary_key" c:jdbcDbObjectType-ref="jdbcPk"/>
+                            <bean parent="jdbcResourceType" c:aliases="column,clmn,c" c:jdbcDbObjectType-ref="jdbcColumn"/>
+                            <bean parent="jdbcResourceType" c:aliases="fk,foreign_key" c:jdbcDbObjectType-ref="jdbcFk"/>
+                            <bean parent="jdbcResourceType" c:aliases="index,idx,i" c:jdbcDbObjectType-ref="jdbcIndex"/>
                         </list>
                     </constructor-arg>
                 </bean>
-                <bean parent="jdbcResourceType" c:aliases="procedure,prc,p" />
-                <bean parent="jdbcResourceType" c:aliases="view,vw,v" />
+                <bean parent="jdbcResourceType" c:aliases="procedure,prc,p" c:jdbcDbObjectType-ref="jdbcProcedure"/>
+                <bean parent="jdbcResourceType" c:aliases="view,vw,v" c:jdbcDbObjectType-ref="jdbcFunction"/>
             </list>
         </constructor-arg>
     </bean>
+
+    <bean class="com.github.mgramin.sqlboot.resource_types.impl.DefaultResourceTypes" autowire="byType" />
+
 
 </beans>

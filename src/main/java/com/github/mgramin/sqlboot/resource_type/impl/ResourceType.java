@@ -93,23 +93,12 @@ public final class ResourceType implements
         final List<DbResource> objectsNew = new ArrayList<>();
         for (final DbResource dbResource : objects) {
             if (dbResource.type().equals(this) || uri.recursive()) {
-/*                Map<ResourceType, List<DbResource>> objectsByType =
-                        objects.stream().collect(Collectors.groupingBy(DbResource::type));*/
                 final ObjectService objectService = new ObjectService(objects,
                         String.join(".", dbResource.dbUri()
                                 .objects()));
                 final Map<String, Object> variables = new HashMap<>((Map) dbResource.headers());
                 variables.put(dbResource.type().name(), dbResource);
                 variables.put("srv", objectService);
-                /*for (Map.Entry<ResourceType, List<DbResource>> entry : objectsByType.entrySet()) {
-                    if (!entry.getKey().name().equals(dbResource.type().name())) {
-                        variables.put(entry.getKey().name() + "_",
-                                entry.getValue()
-                                        .stream()
-                                        .filter(a -> a.dbUri().toString().startsWith(entry.getKey().name() + "/" + String.join(".", dbResource.dbUri().objects())))
-                        );
-                    }
-                }*/
                 final ActionGenerator generator;
                 if (dbResource.type().generators() != null) {
                     generator = dbResource.type().generators().stream()

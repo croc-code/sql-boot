@@ -47,6 +47,7 @@ import static org.apache.commons.lang3.StringUtils.strip;
  * Custom-SQL db object reader
  */
 @ToString
+@Deprecated
 public final class SqlResourceReader implements DbResourceReader {
 
     final private static Logger logger = Logger.getLogger(SqlResourceReader.class);

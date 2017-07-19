@@ -40,6 +40,7 @@ import static java.util.stream.Collectors.joining;
 /**
  * Created by mgramin on 31.10.2016.
  */
+@Deprecated
 public final class FileResourceReader implements DbResourceReader {
 
     private final FileSystem fileSystem;

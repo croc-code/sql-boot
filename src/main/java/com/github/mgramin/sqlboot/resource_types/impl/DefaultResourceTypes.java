@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- *
+ * <p>
  * Copyright (c) 2016-2017 Maksim Gramin
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,24 +22,32 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.readers.impl.jdbc;
+package com.github.mgramin.sqlboot.resource_types.impl;
 
 import java.util.List;
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.Uri;
-import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import com.github.mgramin.sqlboot.resource_types.ResourceTypes;
 
 /**
- * Created by MGramin on 24.11.2016.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-@Deprecated
-public final class JdbcResourceReader implements DbResourceReader {
+public class DefaultResourceTypes implements ResourceTypes {
+
+    private final List<ResourceType> resourceTypes;
+
+    /**
+     *
+     * @param resourceTypes
+     */
+    public DefaultResourceTypes(final List<ResourceType> resourceTypes) {
+        this.resourceTypes = resourceTypes;
+    }
 
     @Override
-    public List<DbResource> read(Uri uri, ResourceType type) throws BootException {
-        throw new BootException("Coming soon!");
+    public List<ResourceType> load() {
+        return resourceTypes;
     }
 
 }

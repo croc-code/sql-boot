@@ -22,24 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.readers.impl.jdbc;
+package com.github.mgramin.sqlboot.resource_types;
 
-import java.util.List;
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.Uri;
-import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import java.util.List;
 
 /**
- * Created by MGramin on 24.11.2016.
+ * Created by MGramin on 11.07.2017.
  */
-@Deprecated
-public final class JdbcResourceReader implements DbResourceReader {
+public interface ResourceTypes {
 
-    @Override
-    public List<DbResource> read(Uri uri, ResourceType type) throws BootException {
-        throw new BootException("Coming soon!");
-    }
+    List<ResourceType> load();
 
 }
