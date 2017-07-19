@@ -47,23 +47,22 @@ public class FsResourceTypes implements ResourceTypes {
 
     @Override
     public List<ResourceType> load() {
-        List<ResourceType> walk = walk("/home/maksim/src/sql-boot/src/main/resources/conf/h2/database");
-        return walk;
+        return walk("src/main/resources/conf/common/database");
     }
 
     private List<ResourceType> walk(final String path) {
-        File[] list = new File(path).listFiles();
-        if (list == null) return null;
-        List<ResourceType> listMain = new ArrayList<>();
-        for (File f : list) {
+        File[] files = new File(path).listFiles();
+        if (files == null) return null;
+        List<ResourceType> list = new ArrayList<>();
+        for (File f : files) {
             if (f.isDirectory()) {
                 System.out.println(f);
-                List<ResourceType> walkList = walk(f.getAbsolutePath());
-                JdbcResourceType jdbcResourceType = new JdbcResourceType(singletonList(f.getName()), walkList, new Table(dataSource));
-                listMain.add(jdbcResourceType);
+                List<ResourceType> child = walk(f.getAbsolutePath());
+                ResourceType resourceType = new JdbcResourceType(singletonList(f.getName()), child, new Table(dataSource));
+                list.add(resourceType);
             }
         }
-        return listMain;
+        return list;
     }
 
 }
