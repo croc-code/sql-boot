@@ -31,6 +31,14 @@ import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.resource_type.impl.jdbc.JdbcResourceType;
 import com.github.mgramin.sqlboot.resource_types.ResourceTypes;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.Column;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.ForeignKey;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.Function;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.Index;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
+import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
 import static java.util.Collections.singletonList;
 
@@ -56,10 +64,22 @@ public class FsResourceTypes implements ResourceTypes {
         List<ResourceType> list = new ArrayList<>();
         for (File f : files) {
             if (f.isDirectory()) {
-                System.out.println(f);
                 List<ResourceType> child = walk(f.getAbsolutePath());
-                ResourceType resourceType = new JdbcResourceType(singletonList(f.getName()), child, new Table(dataSource));
-                list.add(resourceType);
+                JdbcDbObjectType jdbcDbObjectType = null;
+                switch (f.getName()) {
+                    case "schema" :  jdbcDbObjectType = new Schema(dataSource); break;
+                    case "table" : jdbcDbObjectType = new Table(dataSource); break;
+                    case "column" :  jdbcDbObjectType = new Column(dataSource); break;
+                    case "pk" :  jdbcDbObjectType = new PrimaryKey(dataSource); break;
+                    case "fk" :  jdbcDbObjectType = new ForeignKey(dataSource); break;
+                    case "index" :  jdbcDbObjectType = new Index(dataSource); break;
+                    case "procedure" :  jdbcDbObjectType = new Procedure(dataSource); break;
+                    case "function" :  jdbcDbObjectType = new Function(dataSource); break;
+                }
+                if (jdbcDbObjectType != null) {
+                    ResourceType resourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
+                    list.add(resourceType);
+                }
             }
         }
         return list;
