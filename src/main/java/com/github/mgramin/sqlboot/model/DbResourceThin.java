@@ -27,11 +27,12 @@ package com.github.mgramin.sqlboot.model;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
+import lombok.ToString;
 
 /**
  * DB resource without body
  */
-//@ToString
+@ToString
 public final class DbResourceThin implements DbResource {
 
     private final String name;

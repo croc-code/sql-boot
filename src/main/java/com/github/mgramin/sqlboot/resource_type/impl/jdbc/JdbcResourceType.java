@@ -12,10 +12,12 @@ import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.model.Uri;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
+import lombok.ToString;
 
 /**
  * Created by MGramin on 12.07.2017.
  */
+@ToString
 public class JdbcResourceType implements ResourceType {
 
     final private List<String> aliases;
@@ -54,7 +56,7 @@ public class JdbcResourceType implements ResourceType {
         try {
             List<Map<String, String>> maps = jdbcDbObjectType.read(uri.objects());
             for (Map<String, String> map : maps) {
-                dbResourceList.add(new DbResourceThin("name", this, null, map));
+                dbResourceList.add(new DbResourceThin("name", this, uri, map));
             }
         } catch (SQLException e) {
             e.printStackTrace();
