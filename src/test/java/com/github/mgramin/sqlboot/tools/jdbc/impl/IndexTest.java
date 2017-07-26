@@ -3,6 +3,7 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,8 @@ public class IndexTest {
     @Test
     public void read() throws Exception {
         JdbcDbObjectType index = new Index(dataSource);
-        List<Map<String, String>> maps = index.read(asList("MAIN_SCHEMA", "USERS"));
-        System.out.println(maps);
+        List<JdbcDbObject> list = index.read(asList("MAIN_SCHEMA", "USERS"));
+        System.out.println(list);
     }
 
 }

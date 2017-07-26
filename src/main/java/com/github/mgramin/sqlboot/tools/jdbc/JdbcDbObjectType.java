@@ -12,6 +12,6 @@ public interface JdbcDbObjectType {
 
     String name();
 
-    List<Map<String, String>> read(final List<String> params) throws SQLException;
+    List<JdbcDbObject> read(final List<String> params) throws SQLException;
 
 }

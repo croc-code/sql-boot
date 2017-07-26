@@ -1,5 +1,6 @@
 package com.github.mgramin.sqlboot.resource_type.impl.jdbc;
 
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +55,9 @@ public class JdbcResourceType implements ResourceType {
             throws BootException {
         List<DbResource> dbResourceList = new ArrayList<>();
         try {
-            List<Map<String, String>> maps = jdbcDbObjectType.read(uri.objects());
-            for (Map<String, String> map : maps) {
-                dbResourceList.add(new DbResourceThin("name", this, uri, map));
+            List<JdbcDbObject> list = jdbcDbObjectType.read(uri.objects());
+            for (JdbcDbObject l : list) {
+                dbResourceList.add(new DbResourceThin(l.name(), this, uri, l.properties()));
             }
         } catch (SQLException e) {
             e.printStackTrace();

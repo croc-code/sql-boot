@@ -2,12 +2,12 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSet;
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSetImpl;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import lombok.ToString;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import javax.sql.DataSource;
 
 /**
@@ -34,10 +34,10 @@ public class Function implements JdbcDbObjectType {
     }
 
     @Override
-    public List<Map<String, String>> read(List<String> params) throws SQLException {
+    public List<JdbcDbObject> read(List<String> params) throws SQLException {
         ResultSet functions = dataSource.getConnection().getMetaData().
             getFunctions(null, params.get(0), params.get(1));
-        return customResultSet.toMap(functions);
+        return null;
     }
 
 }

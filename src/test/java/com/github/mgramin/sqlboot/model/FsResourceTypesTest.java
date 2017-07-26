@@ -28,12 +28,11 @@ public class FsResourceTypesTest {
         List<ResourceType> load = types.load();
 
         ResourceType resourceType = load.get(0);
-        System.out.println(resourceType.aliases().get(0));
 
-        DbUri uri = new DbUri("table", asList("%", "%"));
+        DbUri uri = new DbUri("schema", asList("%", "%"));
         List<DbResource> dbResources = resourceType.read(uri, null, null);
         for (DbResource dbResource : dbResources) {
-            System.out.println(dbResource.name());
+            System.out.println(dbResource.dbUri());
         }
     }
 

@@ -3,6 +3,7 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,8 @@ public class SchemaTest {
     @Test
     public void read() throws Exception {
         JdbcDbObjectType schema = new Schema(dataSource);
-        List<Map<String, String>> maps = schema.read(asList("%"));
-        System.out.println(maps);
+        List<JdbcDbObject> list = schema.read(asList("%"));
+        System.out.println(list);
     }
 
 }
