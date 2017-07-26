@@ -28,7 +28,7 @@ import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.Uri;
+import com.github.mgramin.sqlboot.uri.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import static java.lang.Integer.parseInt;
 import static java.util.Optional.ofNullable;

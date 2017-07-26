@@ -28,7 +28,7 @@ import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
-import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.uri.impl.DbUri;
 import org.junit.Test;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
@@ -46,7 +46,7 @@ public class XmlDbResourceAggregatorTest {
                 new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
         DbResourceAggregator dbResourceAggregator = new XmlDbResourceAggregator("json");
         System.out.println(new String(dbResourceAggregator.aggregate(resources)).length());
-        assertEquals(1695, new String(dbResourceAggregator.aggregate(resources)).length());
+        assertEquals(1704, new String(dbResourceAggregator.aggregate(resources)).length());
     }
 
 }

@@ -26,6 +26,8 @@ package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import java.util.Map;
+import com.github.mgramin.sqlboot.uri.Uri;
+import com.github.mgramin.sqlboot.uri.impl.DbUri;
 import lombok.ToString;
 import static com.google.common.collect.ImmutableMap.of;
 

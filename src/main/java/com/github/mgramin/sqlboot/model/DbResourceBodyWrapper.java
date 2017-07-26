@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.uri.Uri;
 import java.util.Map;
 
 /**

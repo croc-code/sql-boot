@@ -48,6 +48,7 @@ import static java.util.Collections.singletonList;
 public class FsResourceTypes implements ResourceTypes {
 
     final private DataSource dataSource;
+    final private List<ResourceType> result = new ArrayList<>();
 
     public FsResourceTypes(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -55,7 +56,9 @@ public class FsResourceTypes implements ResourceTypes {
 
     @Override
     public List<ResourceType> load() {
-        return walk("src/main/resources/conf/common/database");
+        List<ResourceType> walk = walk("src/main/resources/conf/common/database");
+        System.out.println(result.size());
+        return result;
     }
 
     private List<ResourceType> walk(final String path) {
@@ -78,6 +81,7 @@ public class FsResourceTypes implements ResourceTypes {
                 }
                 if (jdbcDbObjectType != null) {
                     ResourceType resourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
+                    result.add(resourceType);
                     list.add(resourceType);
                 }
             }

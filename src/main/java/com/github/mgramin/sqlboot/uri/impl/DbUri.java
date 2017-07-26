@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.uri.impl;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.uri.Uri;
 import static java.util.Arrays.asList;
 
 /**

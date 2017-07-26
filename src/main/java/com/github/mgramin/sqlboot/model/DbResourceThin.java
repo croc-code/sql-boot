@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.uri.Uri;
 import lombok.ToString;
 
 /**

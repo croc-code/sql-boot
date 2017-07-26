@@ -28,7 +28,7 @@ import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceBodyWrapper;
 import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 import com.github.mgramin.sqlboot.model.ObjectService;
-import com.github.mgramin.sqlboot.model.Uri;
+import com.github.mgramin.sqlboot.uri.Uri;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -30,7 +30,7 @@ import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceBodyWrapper;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.Uri;
+import com.github.mgramin.sqlboot.uri.Uri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import com.github.mgramin.sqlboot.tools.files.file.File;
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;

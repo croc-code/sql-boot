@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.model.DbResourceThin;
-import com.github.mgramin.sqlboot.model.DbUri;
+import com.github.mgramin.sqlboot.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.readers.DbResourceReader;
 import org.junit.Test;
 import static java.util.Arrays.asList;

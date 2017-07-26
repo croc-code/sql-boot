@@ -44,7 +44,7 @@ public class Table implements JdbcDbObjectType {
             getTables(null, params.get(0), params.get(1), new String[]{"TABLE"});
         return customResultSet.toMap(columns).stream()
             .map(v -> new JdbcDbObjectImpl(v.get(COLUMN_NAME_PROPERTY),
-                asList(v.get("SCHEMA_NAME"), v.get(COLUMN_NAME_PROPERTY)),
+                asList(v.get("TABLE_SCHEMA"), v.get(COLUMN_NAME_PROPERTY)),
                 v))
             .collect(toList());
     }

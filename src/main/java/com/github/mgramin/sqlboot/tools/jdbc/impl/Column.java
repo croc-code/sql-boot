@@ -47,7 +47,7 @@ public class Column implements JdbcDbObjectType {
             getColumns(null, params.get(0), params.get(1), params.get(2));
         return customResultSet.toMap(columns).stream()
             .map(v -> new JdbcDbObjectImpl(v.get(COLUMN_NAME_PROPERTY),
-                asList(v.get("SCHEMA_NAME"), v.get("TABLE_NAME"),
+                asList(v.get("TABLE_SCHEMA"), v.get("TABLE_NAME"),
                     v.get(COLUMN_NAME_PROPERTY)), v))
             .collect(toList());
     }
