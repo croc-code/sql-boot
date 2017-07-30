@@ -40,9 +40,12 @@ public interface ResourceType {
 
     List<String> aliases();
 
+    List<DbResource> read(Uri uri) throws BootException;
+
     @Deprecated
     List<ActionGenerator> generators();
 
+    @Deprecated
     List<DbResource> read(Uri uri, @Deprecated IDbResourceCommand command, @Deprecated String aggregatorName) throws BootException;
 
 }

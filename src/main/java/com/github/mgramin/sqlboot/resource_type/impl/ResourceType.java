@@ -119,6 +119,7 @@ public final class ResourceType implements
         return objectsNew;
     }
 
+    @Override
     public List<DbResource> read(Uri uri) throws BootException {
         final DbResourceReader reader = this.readers.stream().findFirst().orElse(null);
         final List<DbResource> objects = reader.read(uri, this);

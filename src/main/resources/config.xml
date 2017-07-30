@@ -257,7 +257,4 @@
         </constructor-arg>
     </bean>
 
-    <bean class="com.github.mgramin.sqlboot.resource_types.impl.DefaultResourceTypes" autowire="byType" />
-
-
 </beans>

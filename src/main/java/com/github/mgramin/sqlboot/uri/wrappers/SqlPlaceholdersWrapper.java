@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.uri.wrappers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import com.github.mgramin.sqlboot.uri.Uri;
 
 /**
@@ -53,7 +54,9 @@ public class SqlPlaceholdersWrapper implements Uri {
 
     @Override
     public List<String> objects() {
-        return origin.objects();
+        return origin.objects().stream()
+                .map(v -> v.replace("*", "%"))
+                .collect(Collectors.toList());
     }
 
     @Override

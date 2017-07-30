@@ -56,8 +56,7 @@ public class FsResourceTypes implements ResourceTypes {
 
     @Override
     public List<ResourceType> load() {
-        List<ResourceType> walk = walk("src/main/resources/conf/common/database");
-        System.out.println(result.size());
+        walk("src/main/resources/conf/common/database");
         return result;
     }
 

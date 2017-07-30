@@ -3,9 +3,10 @@ package com.github.mgramin.sqlboot.model;
 import java.util.List;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.resource_types.ResourceTypes;
 import com.github.mgramin.sqlboot.resource_types.impl.FsResourceTypes;
+import com.github.mgramin.sqlboot.uri.Uri;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.uri.wrappers.SqlPlaceholdersWrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,20 @@ public class FsResourceTypesTest {
 
     @Test
     public void load() throws Exception {
-        ResourceTypes types = new FsResourceTypes(dataSource);
-        List<ResourceType> load = types.load();
+        List<ResourceType> types = new FsResourceTypes(dataSource).load();
 
+        ResourceType columnType = types.stream()
+                .filter(v -> v.name().equals("column"))
+                .findAny().get();
 
-        ResourceType resourceType = load.stream().filter(v -> v.name().equals("column")).findAny().get();
+        final Uri uri = new SqlPlaceholdersWrapper(
+                new DbUri(columnType.name(), asList("MAIN_SCHEMA", "CIT*", "C*")));
 
-        DbUri uri = new DbUri(resourceType.name(), asList("MAIN_SCHEMA", "CIT%", "C%"));
-//        DbUri uri = new DbUri("column/MAIN_SCHEMA.CITY.ID");
-        List<DbResource> dbResources = resourceType.read(uri, null, null);
-        for (DbResource dbResource : dbResources) {
-            System.out.println(dbResource.dbUri());
+        final List<DbResource> columns = columnType.read(uri);
+        for (final DbResource column : columns) {
+            System.out.println(column.dbUri());
         }
+
     }
 
 }

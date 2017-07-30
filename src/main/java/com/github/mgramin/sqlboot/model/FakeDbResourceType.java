@@ -60,4 +60,9 @@ public final class FakeDbResourceType implements ResourceType {
         return null;
     }
 
+    @Override
+    public List<DbResource> read(final Uri uri) throws BootException {
+        return null;
+    }
+
 }

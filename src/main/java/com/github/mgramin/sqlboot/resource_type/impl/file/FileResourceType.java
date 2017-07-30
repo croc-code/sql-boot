@@ -24,6 +24,11 @@ public class FileResourceType implements ResourceType {
     }
 
     @Override
+    public List<DbResource> read(Uri uri) throws BootException {
+        return null;
+    }
+
+    @Override
     public List<ActionGenerator> generators() {
         return null;
     }

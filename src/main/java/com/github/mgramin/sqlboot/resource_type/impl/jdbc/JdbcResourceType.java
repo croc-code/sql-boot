@@ -46,13 +46,7 @@ public class JdbcResourceType implements ResourceType {
     }
 
     @Override
-    public List<ActionGenerator> generators() {
-        return null;
-    }
-
-    @Override
-    public List<DbResource> read(Uri uri, IDbResourceCommand command, String aggregatorName)
-            throws BootException {
+    public List<DbResource> read(final Uri uri) throws BootException {
         List<DbResource> dbResourceList = new ArrayList<>();
         try {
             List<JdbcDbObject> list = jdbcDbObjectType.read(uri.objects());
@@ -63,6 +57,17 @@ public class JdbcResourceType implements ResourceType {
             e.printStackTrace();
         }
         return dbResourceList;
+    }
+
+    @Override
+    public List<ActionGenerator> generators() {
+        return null;
+    }
+
+    @Override
+    public List<DbResource> read(Uri uri, IDbResourceCommand command, String aggregatorName)
+            throws BootException {
+        return read(uri);
     }
 
 }
