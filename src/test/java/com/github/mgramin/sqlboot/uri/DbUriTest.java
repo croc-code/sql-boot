@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.uri;
 import java.net.URISyntaxException;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.uri.wrappers.JsonWrapper;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -110,10 +111,10 @@ public class DbUriTest {
     }
 
 
-    private void test(String uriStringActual, String jsonExpected) throws BootException {
-        Uri uri = new DbUri(uriStringActual);
-        assertEquals(uriStringActual, uri.toString());
-        assertEquals(uri.toJson(), jsonExpected);
+    private void test(String uriString, String jsonExpected) throws BootException {
+        Uri uri = new DbUri(uriString);
+        assertEquals(uriString, uri.toString());
+        assertEquals(new JsonWrapper(new DbUri(uriString)).toString(), jsonExpected);
     }
 
 }

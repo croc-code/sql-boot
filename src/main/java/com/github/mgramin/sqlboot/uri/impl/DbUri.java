@@ -36,7 +36,6 @@ import static java.util.Arrays.asList;
 /**
  * Created by maksim on 12.06.16.
  */
-// TODO create and use interface
 public final class DbUri implements Uri {
 
     private final String type;
@@ -132,19 +131,6 @@ public final class DbUri implements Uri {
             }
         }
         return result.toString().replace("%", "*");
-    }
-
-    @Override
-    public String toJson() {
-        String s = "DbUri{" +
-            "type='" + type + '\'' +
-            ", dbSchemaObjectCommand='" + action + '\'' +
-            ", objects=" + objects +
-            ", recursive=" + recursive +
-            ", params=" + params +
-            "}";
-        s = s.replace("%", "*");
-        return s;
     }
 
 }

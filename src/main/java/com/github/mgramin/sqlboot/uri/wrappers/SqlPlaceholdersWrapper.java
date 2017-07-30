@@ -22,56 +22,53 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.uri;
+package com.github.mgramin.sqlboot.uri.wrappers;
 
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.uri.Uri;
 
 /**
- * Resource URI.
- *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public interface Uri {
+public class SqlPlaceholdersWrapper implements Uri {
 
-    /**
-     * Type.
-     *
-     * @return Type name.
-     */
-    String type();
+    private final Uri origin;
 
-    /**
-     * Action.
-     *
-     * @return Action name.
-     */
-    String action();
+    public SqlPlaceholdersWrapper(final Uri origin) {
+        this.origin = origin;
+    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    List<String> objects();
+    @Override
+    public String type() {
+        return origin.type();
+    }
 
-    @Deprecated // TODO only for Queryable uri
-    Boolean recursive();
+    @Override
+    public String action() {
+        return origin.action();
+    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    Map<String, String> params();
+    @Override
+    public List<String> objects() {
+        return origin.objects();
+    }
 
-    /**
-     *
-     * @return
-     */
-    @Deprecated // ?
-    Map<String, String> filters();
+    @Override
+    public Boolean recursive() {
+        return origin.recursive();
+    }
+
+    @Override
+    public Map<String, String> params() {
+        return origin.params();
+    }
+
+    @Override
+    public Map<String, String> filters() {
+        return origin.filters();
+    }
 
 }
