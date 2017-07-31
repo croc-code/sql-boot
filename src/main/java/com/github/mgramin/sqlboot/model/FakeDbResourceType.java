@@ -49,18 +49,6 @@ public final class FakeDbResourceType implements ResourceType {
     }
 
     @Override
-    public List<ActionGenerator> generators() {
-        return null;
-    }
-
-    @Override
-    public List<DbResource> read(
-            final Uri uri, final IDbResourceCommand command,
-            final String aggregatorName) throws BootException {
-        return null;
-    }
-
-    @Override
     public List<DbResource> read(final Uri uri) throws BootException {
         return null;
     }

@@ -28,14 +28,4 @@ public class FileResourceType implements ResourceType {
         return null;
     }
 
-    @Override
-    public List<ActionGenerator> generators() {
-        return null;
-    }
-
-    @Override
-    public List<DbResource> read(Uri uri, IDbResourceCommand command, String aggregatorName)
-        throws BootException {
-        return null;
-    }
 }
