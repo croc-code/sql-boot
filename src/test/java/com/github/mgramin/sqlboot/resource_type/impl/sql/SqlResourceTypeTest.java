@@ -24,13 +24,18 @@
 
 package com.github.mgramin.sqlboot.resource_type.impl.sql;
 
+import java.util.List;
 import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.model.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper;
+import com.github.mgramin.sqlboot.uri.impl.DbUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 import static org.junit.Assert.*;
 
 /**
@@ -43,7 +48,7 @@ import static org.junit.Assert.*;
 public class SqlResourceTypeTest {
 
     @Autowired
-    private DataSource dataSource;
+    private JdbcSqlHelper jdbcSqlHelper;
 
     @Test
     public void name() throws Exception {
@@ -55,7 +60,12 @@ public class SqlResourceTypeTest {
 
     @Test
     public void read() throws Exception {
-        ResourceType type = SqlResourceType();
+        String sql = "select table_name as table_name from information_schema.tables";
+        ResourceType type = new SqlResourceType(jdbcSqlHelper, asList("table"), sql);
+        List<DbResource> read = type.read(new DbUri("table/main_schema"));
+        for (DbResource dbResource : read) {
+            System.out.println(dbResource.headers());
+        }
     }
 
 }

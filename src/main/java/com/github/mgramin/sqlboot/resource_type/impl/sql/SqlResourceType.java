@@ -12,6 +12,7 @@ import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.uri.Uri;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
+import lombok.ToString;
 import org.apache.log4j.Logger;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.strip;
@@ -19,11 +20,12 @@ import static org.apache.commons.lang3.StringUtils.strip;
 /**
  * Created by MGramin on 12.07.2017.
  */
+@ToString
 public class SqlResourceType implements ResourceType {
 
     private final static Logger logger = Logger.getLogger(SqlResourceType.class);
 
-    private final ISqlHelper sqlHelper;
+    private final transient ISqlHelper sqlHelper;
     private final List<String> aliases;
     private final List<ResourceType> child;
     private final String sql;
@@ -53,7 +55,6 @@ public class SqlResourceType implements ResourceType {
     public List<DbResource> read(Uri uri) throws BootException {
 
         final List<DbResource> objects = new ArrayList<>();
-        final String sql = "select 'create table'";
 
         logger.debug(sql);
 
