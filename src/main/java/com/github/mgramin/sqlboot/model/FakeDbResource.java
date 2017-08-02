@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.model;
 
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.FakeDbResourceType;
 import java.util.Map;
 import com.github.mgramin.sqlboot.uri.Uri;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
@@ -37,9 +38,15 @@ import static com.google.common.collect.ImmutableMap.of;
 @ToString
 public final class FakeDbResource implements DbResource {
 
+    private final Uri uri;
+
+    public FakeDbResource(Uri uri) {
+        this.uri = uri;
+    }
+
     @Override
     public String name() {
-        return "FAKE_DB_RESOURCE";
+        return uri.objects().get(uri.objects().size());
     }
 
     @Override
@@ -49,7 +56,7 @@ public final class FakeDbResource implements DbResource {
 
     @Override
     public Uri dbUri() {
-        return new DbUri("table/hr.persons?file=table.hr.persons.sql");
+        return uri;
     }
 
     @Override
@@ -61,7 +68,7 @@ public final class FakeDbResource implements DbResource {
 
     @Override
     public String body() {
-        return "BODY";
+        return "{body}";
     }
 
 }

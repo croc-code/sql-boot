@@ -55,10 +55,24 @@ public class FsResourceTypes implements ResourceTypes {
     }
 
     @Override
-    public List<ResourceType> load() {
+    public void init() {
         walk("src/main/resources/conf/common/database");
+    }
+
+    @Override
+    public ResourceType findByName(String name) {
+        return null;
+    }
+
+
+    @Deprecated
+    @Override
+    public List<ResourceType> load() {
+        init();
         return result;
     }
+
+
 
     private List<ResourceType> walk(final String path) {
         File[] files = new File(path).listFiles();

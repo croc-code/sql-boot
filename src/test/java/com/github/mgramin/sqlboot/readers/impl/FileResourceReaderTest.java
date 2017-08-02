@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.readers.impl;
 import static org.junit.Assert.assertEquals;
 
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
-import com.github.mgramin.sqlboot.model.FakeDbResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.FakeDbResourceType;
 import com.github.mgramin.sqlboot.uri.Uri;
 import com.github.mgramin.sqlboot.readers.impl.file.FileResourceReader;
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;

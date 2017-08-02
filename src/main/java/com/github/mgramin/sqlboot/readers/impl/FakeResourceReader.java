@@ -40,7 +40,7 @@ public final class FakeResourceReader implements DbResourceReader {
 
     @Override
     public List<DbResource> read(final Uri uri, final ResourceType type) throws BootException {
-        return asList(new FakeDbResource(), new FakeDbResource(), new FakeDbResource());
+        return asList(new FakeDbResource(uri), new FakeDbResource(uri), new FakeDbResource(uri));
     }
 
 }

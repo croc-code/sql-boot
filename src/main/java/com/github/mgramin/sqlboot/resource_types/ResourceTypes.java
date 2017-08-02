@@ -32,6 +32,11 @@ import java.util.List;
  */
 public interface ResourceTypes {
 
+    @Deprecated
     List<ResourceType> load();
+
+    default void init() {}
+
+    default ResourceType findByName(String name) {return null;}
 
 }

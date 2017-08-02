@@ -22,29 +22,41 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.readers.wrappers;
+package com.github.mgramin.sqlboot.resource_type.impl;
 
-import java.util.List;
 import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.model.FakeDbResource;
+import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
-import com.github.mgramin.sqlboot.model.FakeDbResourceType;
-import com.github.mgramin.sqlboot.readers.DbResourceReader;
-import com.github.mgramin.sqlboot.readers.impl.FakeResourceReader;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import java.util.Arrays;
+import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.uri.Uri;
+import lombok.ToString;
+import static java.util.Arrays.asList;
 
 /**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
+ * Created by maksim on 22.05.17.
  */
-public class LimitWrapperTest {
+@ToString
+public final class FakeDbResourceType implements ResourceType {
 
-    @Test
-    public void read() throws Exception {
-        DbResourceReader reader = new LimitWrapper(new FakeResourceReader());
-        List<DbResource> resources = reader.read(new DbUri("table/hr.*?limit=1"), new FakeDbResourceType());
-        assertEquals(1, resources.size());
+    @Override
+    public String name() {
+        return "fake_resource_type";
+    }
+
+    @Override
+    public List<String> aliases() {
+        return asList("fake_resource_type", "fake_type", "frt", "f");
+    }
+
+    @Override
+    public List<DbResource> read(final Uri uri) throws BootException {
+        return Arrays.asList(
+            new FakeDbResource(new DbUri("table/hr.persons")),
+            new FakeDbResource(new DbUri("table/hr.users")),
+            new FakeDbResource(new DbUri("table/hr.jobs")));
     }
 
 }

@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.resource_type.impl.sql;
 
+import com.github.mgramin.sqlboot.resource_type.wrappers.list.WhereWrapper;
 import java.util.List;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.model.DbResource;
@@ -60,12 +61,24 @@ public class SqlResourceTypeTest {
 
     @Test
     public void read() throws Exception {
-        String sql = "select table_name as table_name from information_schema.tables";
-        ResourceType type = new SqlResourceType(jdbcSqlHelper, asList("table"), sql);
-        List<DbResource> read = type.read(new DbUri("table/main_schema"));
-        for (DbResource dbResource : read) {
-            System.out.println(dbResource.headers());
-        }
+        final String sql = "select table_schema, table_name "
+            + "from information_schema.tables";
+        ResourceType type = new WhereWrapper(
+            new SqlResourceType(jdbcSqlHelper, asList("table"), sql));
+        List<DbResource> resources = type.read(new DbUri("table/m.column"));
+        System.out.println(resources);
+    }
+
+    @Test
+    public void read2() throws Exception {
+        final String sql =
+            "select table_schema, table_name, column_name "
+            + "from information_schema.columns";
+        ResourceType type = new WhereWrapper(
+            new SqlResourceType(jdbcSqlHelper, asList("column"), sql));
+        List<DbResource> resources = type.read(
+            new DbUri("column/main_schema.users"));
+        System.out.println(resources);
     }
 
 }
