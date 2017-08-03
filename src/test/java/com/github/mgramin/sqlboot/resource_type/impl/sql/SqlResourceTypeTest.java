@@ -26,8 +26,7 @@ package com.github.mgramin.sqlboot.resource_type.impl.sql;
 
 import com.github.mgramin.sqlboot.resource_type.wrappers.list.WhereWrapper;
 import java.util.List;
-import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.resource.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
@@ -37,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
-import static org.junit.Assert.*;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

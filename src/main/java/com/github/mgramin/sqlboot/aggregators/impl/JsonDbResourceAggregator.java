@@ -29,7 +29,7 @@ import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.AbstractDbResourceAggregator;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.resource.DbResource;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;

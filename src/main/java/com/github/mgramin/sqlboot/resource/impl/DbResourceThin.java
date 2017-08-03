@@ -22,52 +22,58 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.resource.impl;
 
+import com.github.mgramin.sqlboot.resource.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.uri.Uri;
 import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.uri.Uri;
+import lombok.ToString;
 
 /**
- * DB resource
- * e.g. table "PERSONS", index "PERSONS_NAME_IDX",
- * stored function "GET_ALL_DEPARTMENTS()" etc
+ * DB resource without body
  */
-public interface DbResource {
+@ToString
+public final class DbResourceThin implements DbResource {
 
-    /**
-     * Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc.
-     *
-     * @return Name
-     */
-    String name();
+    private final String name;
+    private final ResourceType type;
+    private final Uri uri;
+    private final Map<String, String> headers;
 
-    /**
-     * Type of db resource, e.g. "table", "index", "stored function" etc.
-     *
-     * @return Type
-     */
-    ResourceType type();
+    public DbResourceThin(final String name, final ResourceType type,
+                          final Uri uri,
+                          final Map<String, String> headers) {
+        this.name = name;
+        this.type = type;
+        this.uri = uri;
+        this.headers = headers;
+    }
 
-    /**
-     * URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc.
-     *
-     * @return URI
-     */
-    Uri dbUri();
+    @Override
+    public String name() {
+        return name;
+    }
 
-    /**
-     * Headers of db resource.
-     *
-     * @return Headers
-     */
-    Map<String, String> headers();
+    @Override
+    public ResourceType type() {
+        return type;
+    }
 
-    /**
-     * Body of db resource, e.g. ddl-code, html-representation, xml, json etc.
-     *
-     * @return Body
-     */
-    String body();
+    @Override
+    public Uri dbUri() {
+        return uri;
+    }
+
+    @Override
+    public Map<String, String> headers() {
+        return headers;
+    }
+
+    @Override
+    public String body() {
+        throw new BootException("Resource body not allow here.");
+    }
 
 }

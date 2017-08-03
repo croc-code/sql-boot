@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.DbResource;
+import com.github.mgramin.sqlboot.resource.DbResource;
 
 /**
  * Created by maksim on 21.05.17.

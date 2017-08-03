@@ -22,53 +22,50 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.resource.wrappers;
 
+import com.github.mgramin.sqlboot.resource.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.resource_type.impl.FakeDbResourceType;
-import java.util.Map;
 import com.github.mgramin.sqlboot.uri.Uri;
-import com.github.mgramin.sqlboot.uri.impl.DbUri;
-import lombok.ToString;
-import static com.google.common.collect.ImmutableMap.of;
+import java.util.Map;
 
 /**
- * Created by maksim on 22.05.17.
+ * DB resource with body
  */
-@ToString
-public final class FakeDbResource implements DbResource {
+//@ToString
+public final class DbResourceBodyWrapper implements DbResource {
 
-    private final Uri uri;
+    private final DbResource origin;
+    private final String body;
 
-    public FakeDbResource(Uri uri) {
-        this.uri = uri;
+    public DbResourceBodyWrapper(DbResource DbResource, String body) {
+        this.origin = DbResource;
+        this.body = body;
     }
 
     @Override
     public String name() {
-        return uri.objects().get(uri.objects().size());
+        return origin.name();
     }
 
     @Override
     public ResourceType type() {
-        return new FakeDbResourceType();
+        return origin.type();
     }
 
     @Override
     public Uri dbUri() {
-        return uri;
+        return origin.dbUri();
     }
 
     @Override
     public Map<String, String> headers() {
-        return of("schema", "hr",
-                "table", "persons",
-                "file", "table.hr.persons.sql");
+        return origin.headers();
     }
 
     @Override
     public String body() {
-        return "{body}";
+        return this.body;
     }
 
 }

@@ -2,6 +2,7 @@ package com.github.mgramin.sqlboot.model;
 
 import java.util.List;
 import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.resource.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.resource_types.impl.FsResourceTypes;
 import com.github.mgramin.sqlboot.uri.Uri;

@@ -22,42 +22,36 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.resource.impl;
 
+import com.github.mgramin.sqlboot.resource.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.FakeDbResourceType;
 import java.util.Map;
-import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.uri.Uri;
 import lombok.ToString;
+import static com.google.common.collect.ImmutableMap.of;
 
 /**
- * DB resource without body
+ * Created by maksim on 22.05.17.
  */
 @ToString
-public final class DbResourceThin implements DbResource {
+public final class FakeDbResource implements DbResource {
 
-    private final String name;
-    private final ResourceType type;
     private final Uri uri;
-    private final Map<String, String> headers;
 
-    public DbResourceThin(final String name, final ResourceType type,
-                          final Uri uri,
-                          final Map<String, String> headers) {
-        this.name = name;
-        this.type = type;
+    public FakeDbResource(Uri uri) {
         this.uri = uri;
-        this.headers = headers;
     }
 
     @Override
     public String name() {
-        return name;
+        return uri.objects().get(uri.objects().size());
     }
 
     @Override
     public ResourceType type() {
-        return type;
+        return new FakeDbResourceType();
     }
 
     @Override
@@ -67,12 +61,14 @@ public final class DbResourceThin implements DbResource {
 
     @Override
     public Map<String, String> headers() {
-        return headers;
+        return of("schema", "hr",
+                "table", "persons",
+                "file", "table.hr.persons.sql");
     }
 
     @Override
     public String body() {
-        throw new BootException("Resource body not allow here.");
+        return "{body}";
     }
 
 }

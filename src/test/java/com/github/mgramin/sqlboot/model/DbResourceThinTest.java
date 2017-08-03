@@ -24,6 +24,8 @@
 
 package com.github.mgramin.sqlboot.model;
 
+import com.github.mgramin.sqlboot.resource.DbResource;
+import com.github.mgramin.sqlboot.resource.impl.DbResourceThin;
 import com.github.mgramin.sqlboot.resource_type.impl.ResourceType;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
 import org.junit.Ignore;

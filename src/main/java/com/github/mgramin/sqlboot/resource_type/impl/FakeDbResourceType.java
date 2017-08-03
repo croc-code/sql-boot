@@ -24,8 +24,8 @@
 
 package com.github.mgramin.sqlboot.resource_type.impl;
 
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.model.FakeDbResource;
+import com.github.mgramin.sqlboot.resource.DbResource;
+import com.github.mgramin.sqlboot.resource.impl.FakeDbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.uri.impl.DbUri;
 import java.util.Arrays;

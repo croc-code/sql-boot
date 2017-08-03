@@ -22,11 +22,52 @@
  * SOFTWARE.
  */
 
+package com.github.mgramin.sqlboot.resource;
+
+import com.github.mgramin.sqlboot.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.uri.Uri;
+import java.util.Map;
+
 /**
- * Model.
- *
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
+ * DB resource
+ * e.g. table "PERSONS", index "PERSONS_NAME_IDX",
+ * stored function "GET_ALL_DEPARTMENTS()" etc
  */
-package com.github.mgramin.sqlboot.model;
+public interface DbResource {
+
+    /**
+     * Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc.
+     *
+     * @return Name
+     */
+    String name();
+
+    /**
+     * Type of db resource, e.g. "table", "index", "stored function" etc.
+     *
+     * @return Type
+     */
+    ResourceType type();
+
+    /**
+     * URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc.
+     *
+     * @return URI
+     */
+    Uri dbUri();
+
+    /**
+     * Headers of db resource.
+     *
+     * @return Headers
+     */
+    Map<String, String> headers();
+
+    /**
+     * Body of db resource, e.g. ddl-code, html-representation, xml, json etc.
+     *
+     * @return Body
+     */
+    String body();
+
+}

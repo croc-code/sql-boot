@@ -73,7 +73,6 @@ public class FsResourceTypes implements ResourceTypes {
     }
 
 
-
     private List<ResourceType> walk(final String path) {
         File[] files = new File(path).listFiles();
         if (files == null) return null;
@@ -81,7 +80,7 @@ public class FsResourceTypes implements ResourceTypes {
         for (File f : files) {
             if (f.isDirectory()) {
                 List<ResourceType> child = walk(f.getAbsolutePath());
-                JdbcDbObjectType jdbcDbObjectType = null;
+                final JdbcDbObjectType jdbcDbObjectType;
                 switch (f.getName()) {
                     case "schema" :  jdbcDbObjectType = new Schema(dataSource); break;
                     case "table" : jdbcDbObjectType = new Table(dataSource); break;
@@ -91,6 +90,7 @@ public class FsResourceTypes implements ResourceTypes {
                     case "index" :  jdbcDbObjectType = new Index(dataSource); break;
                     case "procedure" :  jdbcDbObjectType = new Procedure(dataSource); break;
                     case "function" :  jdbcDbObjectType = new Function(dataSource); break;
+                    default: jdbcDbObjectType = null;
                 }
                 if (jdbcDbObjectType != null) {
                     ResourceType resourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
