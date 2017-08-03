@@ -29,6 +29,7 @@ import java.util.List;
 /**
  * Created by maksim on 21.05.17.
  */
+@Deprecated
 public interface IDbResourceCommand {
     String name();
 

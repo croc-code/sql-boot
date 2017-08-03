@@ -34,6 +34,7 @@ import static java.util.Collections.singletonList;
  * Command for db-object, e.g. "create", "drop", "exists", "rebuild", "gather"(statistics),
  * "compile"(procedure, function, package), etc
  */
+@Deprecated
 @ToString
 @EqualsAndHashCode
 public final class DbResourceCommand implements IDbResourceCommand {

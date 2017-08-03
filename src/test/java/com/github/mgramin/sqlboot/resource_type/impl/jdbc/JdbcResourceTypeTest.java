@@ -22,33 +22,19 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.readers.wrappers;
+package com.github.mgramin.sqlboot.resource_type.impl.jdbc;
 
-import java.util.List;
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.DbResource;
-import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.uri.Uri;
-import com.github.mgramin.sqlboot.readers.DbResourceReader;
+import org.junit.Test;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class SelectWrapper implements DbResourceReader {
+public class JdbcResourceTypeTest {
+    @Test
+    public void read() throws Exception {
 
-    private final DbResourceReader origin;
-
-    public SelectWrapper(final DbResourceReader origin) {
-        this.origin = origin;
-    }
-
-    @Override
-    public List<DbResource> read(final Uri uri, final ResourceType type) throws BootException {
-        String[] selects = uri.params().get("select").split(",");
-        List<DbResource> resources = origin.read(uri, type);
-        return resources;
     }
 
 }
