@@ -25,12 +25,16 @@
 package com.github.mgramin.sqlboot.model.resource_types.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
+import com.github.mgramin.sqlboot.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Column;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.ForeignKey;
@@ -40,7 +44,9 @@ import com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
+import org.apache.commons.io.FileUtils;
 import static java.util.Collections.singletonList;
+import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 
 /**
  * Created by MGramin on 11.07.2017.
@@ -56,7 +62,7 @@ public class FsResourceTypes implements ResourceTypes {
 
     @Override
     public void init() {
-        walk("src/main/resources/conf/common/database");
+        walk("src/main/resources/conf/h2/database");
     }
 
     @Override
@@ -65,11 +71,15 @@ public class FsResourceTypes implements ResourceTypes {
     }
 
     private List<ResourceType> walk(final String path) {
+
+        ISqlHelper sqlHelper = new JdbcSqlHelper(asList(dataSource));
+
         File[] files = new File(path).listFiles();
         if (files == null) return null;
         List<ResourceType> list = new ArrayList<>();
         for (File f : files) {
             if (f.isDirectory()) {
+                File sqlFile = new File(f, "README.md");
                 List<ResourceType> child = walk(f.getAbsolutePath());
                 final JdbcDbObjectType jdbcDbObjectType;
                 switch (f.getName()) {
@@ -83,8 +93,21 @@ public class FsResourceTypes implements ResourceTypes {
                     case "function" :  jdbcDbObjectType = new Function(dataSource); break;
                     default: jdbcDbObjectType = null;
                 }
-                if (jdbcDbObjectType != null) {
-                    ResourceType resourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
+                ResourceType resourceType = null;
+                if (sqlFile.exists()) {
+                        String sql = null;
+                      System.out.println(sql);
+                      try {
+                          sql = FileUtils.readFileToString(sqlFile);
+                      } catch (IOException e) {
+                          e.printStackTrace();
+                      }
+                      sql = sql.replace("````", "").replace("sql", "");
+                      resourceType = new SqlResourceType(sqlHelper, singletonList(f.getName()), sql);
+                } else if (jdbcDbObjectType != null) {
+                    resourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
+                }
+                if (resourceType != null) {
                     result.add(resourceType);
                     list.add(resourceType);
                 }
