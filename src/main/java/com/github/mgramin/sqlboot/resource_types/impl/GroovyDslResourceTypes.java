@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.resource_types.impl;
 
-import java.util.List;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.resource_types.ResourceTypes;
 
@@ -36,8 +35,11 @@ import com.github.mgramin.sqlboot.resource_types.ResourceTypes;
 public class GroovyDslResourceTypes implements ResourceTypes {
 
     @Override
-    public List<ResourceType> load() {
-        return null;
+    public void init() {
     }
 
+    @Override
+    public ResourceType findByName(String name) {
+        return null;
+    }
 }

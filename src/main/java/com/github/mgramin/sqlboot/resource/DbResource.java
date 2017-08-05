@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.resource;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.uri.Uri;
 import java.util.Map;
@@ -40,6 +41,7 @@ public interface DbResource {
      *
      * @return Name
      */
+    @JsonProperty
     String name();
 
     /**
@@ -47,6 +49,7 @@ public interface DbResource {
      *
      * @return Type
      */
+    @JsonProperty
     ResourceType type();
 
     /**
@@ -54,6 +57,7 @@ public interface DbResource {
      *
      * @return URI
      */
+    @JsonProperty
     Uri dbUri();
 
     /**
@@ -61,6 +65,7 @@ public interface DbResource {
      *
      * @return Headers
      */
+    @JsonProperty
     Map<String, String> headers();
 
     /**

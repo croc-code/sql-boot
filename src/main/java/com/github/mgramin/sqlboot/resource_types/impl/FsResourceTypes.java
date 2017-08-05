@@ -47,10 +47,10 @@ import static java.util.Collections.singletonList;
  */
 public class FsResourceTypes implements ResourceTypes {
 
-    final private DataSource dataSource;
-    final private List<ResourceType> result = new ArrayList<>();
+    private final DataSource dataSource;
+    private final List<ResourceType> result = new ArrayList<>();
 
-    public FsResourceTypes(DataSource dataSource) {
+    public FsResourceTypes(final DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -61,17 +61,8 @@ public class FsResourceTypes implements ResourceTypes {
 
     @Override
     public ResourceType findByName(String name) {
-        return null;
+        return result.stream().filter(v -> v.name().equalsIgnoreCase(name)).findAny().get();
     }
-
-
-    @Deprecated
-    @Override
-    public List<ResourceType> load() {
-        init();
-        return result;
-    }
-
 
     private List<ResourceType> walk(final String path) {
         File[] files = new File(path).listFiles();

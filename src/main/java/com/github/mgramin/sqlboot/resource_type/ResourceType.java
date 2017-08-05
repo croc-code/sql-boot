@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.resource_type;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.resource.DbResource;
@@ -40,6 +41,7 @@ public interface ResourceType {
      *
      * @return
      */
+    @JsonProperty
     String name();
 
     /**

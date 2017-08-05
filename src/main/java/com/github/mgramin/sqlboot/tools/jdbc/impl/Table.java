@@ -41,7 +41,7 @@ public class Table implements JdbcDbObjectType {
     @Override
     public List<JdbcDbObject> read(List<String> params) throws SQLException {
         ResultSet columns = dataSource.getConnection().getMetaData().
-            getTables(null, params.get(0), params.get(1), new String[]{"TABLE"});
+            getTables(null, "%", "%", new String[]{"TABLE"});
         return customResultSet.toMap(columns).stream()
             .map(v -> new JdbcDbObjectImpl(v.get(COLUMN_NAME_PROPERTY),
                 asList(v.get("TABLE_SCHEMA"), v.get(COLUMN_NAME_PROPERTY)),

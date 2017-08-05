@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.uri;
 
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Resource URI.
@@ -41,6 +42,7 @@ public interface Uri {
      *
      * @return Type name.
      */
+    @JsonProperty
     String type();
 
     /**
@@ -55,6 +57,7 @@ public interface Uri {
      *
      * @return
      */
+    @JsonProperty
     List<String> objects();
 
     @Deprecated // TODO only for Queryable uri

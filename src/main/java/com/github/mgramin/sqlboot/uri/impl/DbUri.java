@@ -25,6 +25,8 @@
 package com.github.mgramin.sqlboot.uri.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,6 +46,13 @@ public final class DbUri implements Uri {
     private final Boolean recursive;
     private final Map<String, String> params = new LinkedHashMap<>();
     private final Map<String, String> filters = new HashMap<>();
+
+    public DbUri(final String type, String ... objects) {
+        this.type = type;
+        this.objects = Arrays.asList(objects);
+        this.action = null;
+        this.recursive = false;
+    }
 
     public DbUri(final String type, final List<String> objects) {
         this.type = type;

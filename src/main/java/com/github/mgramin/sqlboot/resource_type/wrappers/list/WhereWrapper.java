@@ -6,11 +6,13 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.resource.DbResource;
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.uri.Uri;
+import lombok.ToString;
 import java.util.List;
 
 /**
  * Created by MGramin on 18.07.2017.
  */
+@ToString
 public class WhereWrapper implements ResourceType {
 
     private final ResourceType origin;

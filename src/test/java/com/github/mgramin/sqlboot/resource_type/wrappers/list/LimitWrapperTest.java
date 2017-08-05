@@ -22,15 +22,22 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.resource_type.wrappers.list;
 
+import java.util.List;
+import com.github.mgramin.sqlboot.resource.DbResource;
+import com.github.mgramin.sqlboot.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.resource_type.impl.FakeDbResourceType;
+import com.github.mgramin.sqlboot.uri.impl.DbUri;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * Created by maksim on 16.05.17.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public class ResourceTypeTest {
-
+public class LimitWrapperTest {
     @Test
     public void name() throws Exception {
     }
@@ -41,11 +48,9 @@ public class ResourceTypeTest {
 
     @Test
     public void read() throws Exception {
-
-    }
-
-    @Test
-    public void readr() throws Exception {
+        final ResourceType type = new LimitWrapper(new FakeDbResourceType());
+        List<DbResource> read = type.read(new DbUri("table/hr.persons?limit=1"));
+        System.out.println(read);
     }
 
 }

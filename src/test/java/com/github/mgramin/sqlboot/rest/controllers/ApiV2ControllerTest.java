@@ -22,41 +22,39 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model;
+package com.github.mgramin.sqlboot.rest.controllers;
 
+import java.util.List;
+import java.util.Map;
+import com.github.mgramin.sqlboot.rest.RestRunner;
 import org.junit.Test;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.*;
 
 /**
- * Created by MGramin on 05.05.2017.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public class DbResourceThinCommandTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("h2")
+public class ApiV2ControllerTest {
+
+    @Autowired
+    private TestRestTemplate client;
 
     @Test
-    public void name() throws Exception {
-        IDbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
-        assertEquals("create", command.name());
-    }
-
-    @Test
-    public void aliases() throws Exception {
-        IDbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
-        assertEquals(asList("create", "c", "+"), command.aliases());
-    }
-
-    @Test
-    public void isDefault() throws Exception {
-        assertEquals(false,
-            new DbResourceCommand(new String[] {"create", "c", "+"}).isDefault());
-         assertEquals(true,
-            new DbResourceCommand(new String[] {"create", "c", "+"}, true).isDefault());
-    }
-
-    @Test
-    public void toStringTest() throws Exception {
-        IDbResourceCommand command = new DbResourceCommand(new String[] {"create", "c", "+"});
-        assertEquals("DbResourceCommand(aliases=[create, c, +], isDefault=false)", command.toString());
+    public void getTextDdl() throws Exception {
+        ResponseEntity<String> forEntity = client.getForEntity("/api_v2/table/bookings.a", String.class);
+        assertEquals(200, forEntity.getStatusCodeValue());
+        System.out.println(forEntity.getBody());
     }
 
 }

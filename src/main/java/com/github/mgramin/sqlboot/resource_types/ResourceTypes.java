@@ -25,18 +25,14 @@
 package com.github.mgramin.sqlboot.resource_types;
 
 import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import java.util.List;
 
 /**
  * Created by MGramin on 11.07.2017.
  */
 public interface ResourceTypes {
 
-    @Deprecated
-    List<ResourceType> load();
+    void init();
 
-    default void init() {}
-
-    default ResourceType findByName(String name) {return null;}
+    ResourceType findByName(String name);
 
 }

@@ -9,6 +9,7 @@ import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.Map;
 import javax.sql.DataSource;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class ColumnTest {
     }
 
     @Test
+    @Ignore
     public void read() throws Exception {
         final JdbcDbObjectType column = new Column(dataSource);
         final JdbcDbObject jdbcDbObject = column.read(asList("MAIN_SCHEMA", "CITY", "ID")).stream()
