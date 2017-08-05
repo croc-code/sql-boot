@@ -26,11 +26,12 @@ package com.github.mgramin.sqlboot.aggregators;
 
 import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.resource.DbResource;
+import com.github.mgramin.sqlboot.model.resource.DbResource;
 
 /**
  * Created by mgramin on 17.12.2016.
  */
+@Deprecated
 public interface DbResourceAggregator {
 
     String name();

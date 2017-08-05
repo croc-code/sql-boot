@@ -25,9 +25,10 @@
 package com.github.mgramin.sqlboot.resource_types.impl;
 
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.resource_type.wrappers.list.WhereWrapper;
-import com.github.mgramin.sqlboot.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
+import com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes;
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

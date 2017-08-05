@@ -24,9 +24,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import java.util.List;
-import java.util.Map;
-import com.github.mgramin.sqlboot.rest.RestRunner;
+import com.github.mgramin.sqlboot.rest.Runner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +41,7 @@ import static org.junit.Assert.*;
  * @since 0.1
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = Runner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("h2")
 public class ApiV2ControllerTest {
 

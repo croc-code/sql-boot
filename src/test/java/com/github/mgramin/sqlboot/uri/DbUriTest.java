@@ -26,8 +26,9 @@ package com.github.mgramin.sqlboot.uri;
 
 import java.net.URISyntaxException;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.uri.impl.DbUri;
-import com.github.mgramin.sqlboot.uri.wrappers.JsonWrapper;
+import com.github.mgramin.sqlboot.model.uri.Uri;
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.model.uri.wrappers.JsonWrapper;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 

@@ -26,7 +26,7 @@ package com.github.mgramin.sqlboot.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.github.mgramin.sqlboot.resource.DbResource;
+import com.github.mgramin.sqlboot.model.resource.DbResource;
 
 /**
  * Created by maksim on 10.07.16.

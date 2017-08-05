@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import java.util.Arrays;
-import com.github.mgramin.sqlboot.rest.RestRunner;
+import com.github.mgramin.sqlboot.rest.Runner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = RestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = Runner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
 @ActiveProfiles("h2")
 public class SqlExecutorControllerITCase {

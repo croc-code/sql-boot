@@ -32,14 +32,14 @@
 
     <import resource="conf/*/config.xml" />
 
-    <bean name="fsResourceTypes" class="com.github.mgramin.sqlboot.resource_types.impl.FsResourceTypes" c:dataSource-ref="dataSource" />
+    <bean name="fsResourceTypes" class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes" c:dataSource-ref="dataSource" />
 
 
     <!-- db resource type -->
-    <bean id="dbResourceType" class="com.github.mgramin.sqlboot.resource_type.impl.ResourceType" abstract="true" />
+    <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType" abstract="true" />
 
     <bean name="jdbcResourceType" abstract="true"
-          class="com.github.mgramin.sqlboot.resource_type.impl.jdbc.JdbcResourceType" />
+          class="com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType" />
 
     <bean name="jdbcSchema" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Schema" c:dataSource-ref="dataSource" />
     <bean name="jdbcTable" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Table" c:dataSource-ref="dataSource" />

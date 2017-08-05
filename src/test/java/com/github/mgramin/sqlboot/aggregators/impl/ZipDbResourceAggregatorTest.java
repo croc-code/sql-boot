@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.aggregators.impl;
 
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
-import com.github.mgramin.sqlboot.resource.impl.FakeDbResource;
+import com.github.mgramin.sqlboot.model.resource.impl.FakeDbResource;
 import org.junit.Ignore;
 import org.junit.Test;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
