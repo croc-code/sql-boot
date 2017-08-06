@@ -57,6 +57,8 @@ Base configurations:
 
 https://github.com/sql-boot/postgres
 
-https://github.com/sql-boot/oracle
+https://github.com/sql-boot/oracle 
+[![Build Status](https://travis-ci.org/sql-boot/oracle.svg?branch=master)](https://travis-ci.org/sql-boot/oracle)
 
-https://github.com/sql-boot/cassandra
+https://github.com/sql-boot/cassandra 
+[![Build Status](https://travis-ci.org/sql-boot/cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/cassandra)
