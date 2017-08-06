@@ -60,8 +60,8 @@ public class SqlResourceTypeTest {
 
     @Test
     public void read() throws Exception {
-        final String sql = "select table_schema, table_name "
-            + "from information_schema.tables";
+        final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\" "
+            + "from information_schema.tables)";
         ResourceType type = new WhereWrapper(
             new SqlResourceType(jdbcSqlHelper, asList("table"), sql));
         List<DbResource> resources = type.read(new DbUri("table/m.column"));
@@ -71,8 +71,8 @@ public class SqlResourceTypeTest {
     @Test
     public void read2() throws Exception {
         final String sql =
-            "select table_schema, table_name, column_name "
-            + "from information_schema.columns";
+            "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\", column_name as \"@column_name\""
+            + "from information_schema.columns)";
         ResourceType type = new WhereWrapper(
             new SqlResourceType(jdbcSqlHelper, asList("column"), sql));
         List<DbResource> resources = type.read(

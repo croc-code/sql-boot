@@ -89,7 +89,7 @@ public class SqlResourceType implements ResourceType {
             final List<String> objectsForUri = new ArrayList<>();
             final HashMap<String, String> objectHeaders = new LinkedHashMap<>();
             for (Map.Entry<String, String> column : row.entrySet()) {
-                if (!column.getKey().startsWith("@")) {
+                if (column.getKey().startsWith("@")) {
                     objectsForUri.add(column.getValue());
                 }
                 objectHeaders.put(strip(column.getKey(), "@"), ofNullable(column.getValue()).orElse(""));

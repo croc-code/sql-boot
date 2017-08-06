@@ -1,4 +1,4 @@
-# Getting DB Done!
+# Database as a Code!
 
 [![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
 [![Coverage Status](https://coveralls.io/repos/github/mgramin/sql-boot/badge.svg?branch=master)](https://coveralls.io/github/mgramin/sql-boot?branch=master)

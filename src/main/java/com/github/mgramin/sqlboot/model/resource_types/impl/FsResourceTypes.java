@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- *
+ * <p>
  * Copyright (c) 2016-2017 Maksim Gramin
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,10 +29,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
-import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
+import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 import com.github.mgramin.sqlboot.sql.ISqlHelper;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
@@ -83,27 +83,43 @@ public class FsResourceTypes implements ResourceTypes {
                 List<ResourceType> child = walk(f.getAbsolutePath());
                 final JdbcDbObjectType jdbcDbObjectType;
                 switch (f.getName()) {
-                    case "schema" :  jdbcDbObjectType = new Schema(dataSource); break;
-                    case "table" : jdbcDbObjectType = new Table(dataSource); break;
-                    case "column" :  jdbcDbObjectType = new Column(dataSource); break;
-                    case "pk" :  jdbcDbObjectType = new PrimaryKey(dataSource); break;
-                    case "fk" :  jdbcDbObjectType = new ForeignKey(dataSource); break;
-                    case "index" :  jdbcDbObjectType = new Index(dataSource); break;
-                    case "procedure" :  jdbcDbObjectType = new Procedure(dataSource); break;
-                    case "function" :  jdbcDbObjectType = new Function(dataSource); break;
-                    default: jdbcDbObjectType = null;
+                    case "schema":
+                        jdbcDbObjectType = new Schema(dataSource);
+                        break;
+                    case "table":
+                        jdbcDbObjectType = new Table(dataSource);
+                        break;
+                    case "column":
+                        jdbcDbObjectType = new Column(dataSource);
+                        break;
+                    case "pk":
+                        jdbcDbObjectType = new PrimaryKey(dataSource);
+                        break;
+                    case "fk":
+                        jdbcDbObjectType = new ForeignKey(dataSource);
+                        break;
+                    case "index":
+                        jdbcDbObjectType = new Index(dataSource);
+                        break;
+                    case "procedure":
+                        jdbcDbObjectType = new Procedure(dataSource);
+                        break;
+                    case "function":
+                        jdbcDbObjectType = new Function(dataSource);
+                        break;
+                    default:
+                        jdbcDbObjectType = null;
                 }
                 ResourceType resourceType = null;
                 if (sqlFile.exists()) {
-                        String sql = null;
-                      System.out.println(sql);
-                      try {
-                          sql = FileUtils.readFileToString(sqlFile);
-                      } catch (IOException e) {
-                          e.printStackTrace();
-                      }
-                      sql = sql.replace("````", "").replace("sql", "");
-                      resourceType = new SqlResourceType(sqlHelper, singletonList(f.getName()), sql);
+                    String sql = null;
+                    try {
+                        sql = FileUtils.readFileToString(sqlFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    sql = sql.replace("````", "").replace("sql", "");
+                    resourceType = new SqlResourceType(sqlHelper, singletonList(f.getName()), sql);
                 } else if (jdbcDbObjectType != null) {
                     resourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
                 }

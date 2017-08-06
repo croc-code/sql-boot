@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.wrappers.header;
+package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
 import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
@@ -31,15 +31,15 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 
 /**
- * Created by MGramin on 18.07.2017.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public class SelectWrapper implements ResourceType {
-
-    private static final String SELECT = "select";
+public class CacheWrapper implements ResourceType {
 
     private final ResourceType origin;
 
-    public SelectWrapper(ResourceType origin) {
+    public CacheWrapper(ResourceType origin) {
         this.origin = origin;
     }
 
@@ -54,17 +54,8 @@ public class SelectWrapper implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(final Uri uri) throws BootException {
-        final String select = uri.params().get(SELECT);
-        if (select != null) {
-            for (String s : select.split(",")) {
-
-            }
-            return null;
-        } else {
-            return origin.read(uri);
-        }
+    public List<DbResource> read(Uri uri) throws BootException {
+        return origin.read(uri);
     }
 
 }
-
