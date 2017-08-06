@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.resource.impl.DbResourceThin;
+import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
@@ -95,7 +95,7 @@ public class SqlResourceType implements ResourceType {
                 objectHeaders.put(strip(column.getKey(), "@"), ofNullable(column.getValue()).orElse(""));
             }
             final String objectName = objectsForUri.get(objectsForUri.size() - 1);
-            final DbResource object = new DbResourceThin(objectName, this, new DbUri(this.name(), objectsForUri),
+            final DbResource object = new DbResourceImpl(objectName, this, new DbUri(this.name(), objectsForUri),
                     objectHeaders);
             logger.debug("find object " + object.dbUri().toString());
             objects.add(object);

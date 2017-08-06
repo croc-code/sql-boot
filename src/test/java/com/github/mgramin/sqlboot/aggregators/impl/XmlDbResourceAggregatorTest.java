@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.aggregators.impl;
 import java.util.List;
 import com.github.mgramin.sqlboot.aggregators.DbResourceAggregator;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
-import com.github.mgramin.sqlboot.model.resource.impl.DbResourceThin;
+import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.junit.Test;
 import static java.util.Arrays.asList;
@@ -41,9 +41,9 @@ public class XmlDbResourceAggregatorTest {
     @Test
     public void aggregate() throws Exception {
         List<DbResource> resources = asList(
-                new DbResourceThin("persons", null, new DbUri("table/hr.persons"), null),
-                new DbResourceThin("jobs", null, new DbUri("table/hr.jobs"), null),
-                new DbResourceThin("salary", null, new DbUri("table/hr.salary"), null));
+                new DbResourceImpl("persons", null, new DbUri("table/hr.persons"), null),
+                new DbResourceImpl("jobs", null, new DbUri("table/hr.jobs"), null),
+                new DbResourceImpl("salary", null, new DbUri("table/hr.salary"), null));
         DbResourceAggregator dbResourceAggregator = new XmlDbResourceAggregator("json");
         System.out.println(new String(dbResourceAggregator.aggregate(resources)).length());
         assertEquals(1815, new String(dbResourceAggregator.aggregate(resources)).length());

@@ -54,7 +54,7 @@ public final class ObjectService {
 
 /*
     public Integer getMaxLength(String type, String name) {
-        DbResourceThin column = get(type).stream().max(Comparator.comparing(i -> i.paths().get(type))).get();
+        DbResourceImpl column = get(type).stream().max(Comparator.comparing(i -> i.paths().get(type))).get();
         return column.paths().get("column").length() + 7;
     }
 */

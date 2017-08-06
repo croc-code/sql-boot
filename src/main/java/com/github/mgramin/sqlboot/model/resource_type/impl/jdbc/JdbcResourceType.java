@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
-import com.github.mgramin.sqlboot.model.resource.impl.DbResourceThin;
+import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
@@ -73,7 +73,7 @@ public class JdbcResourceType implements ResourceType {
         try {
             List<JdbcDbObject> list = jdbcDbObjectType.read(uri.objects());
             for (JdbcDbObject l : list) {
-                dbResourceList.add(new DbResourceThin(l.name(), this, new DbUri(jdbcDbObjectType.name(), l.path()), l.properties()));
+                dbResourceList.add(new DbResourceImpl(l.name(), this, new DbUri(jdbcDbObjectType.name(), l.path()), l.properties()));
             }
         } catch (SQLException e) {
             e.printStackTrace();

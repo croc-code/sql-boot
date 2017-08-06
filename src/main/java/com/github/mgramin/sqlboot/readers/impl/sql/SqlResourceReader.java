@@ -32,7 +32,7 @@ import java.util.Map;
 import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
-import com.github.mgramin.sqlboot.model.resource.impl.DbResourceThin;
+import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
@@ -80,7 +80,7 @@ public final class SqlResourceReader implements DbResourceReader {
                 objectHeaders.put(strip(column.getKey(), "@"), ofNullable(column.getValue()).orElse(""));
             }
             final String objectName = objectsForUri.get(objectsForUri.size() - 1);
-            final DbResource object = new DbResourceThin(objectName, type, new DbUri(type.name(), objectsForUri),
+            final DbResource object = new DbResourceImpl(objectName, type, new DbUri(type.name(), objectsForUri),
                     objectHeaders);
             logger.debug("find object " + object.dbUri().toString());
             objects.add(object);

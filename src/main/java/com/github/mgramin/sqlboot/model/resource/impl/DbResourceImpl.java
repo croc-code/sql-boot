@@ -35,14 +35,14 @@ import lombok.ToString;
  * DB resource without body
  */
 @ToString
-public final class DbResourceThin implements DbResource {
+public final class DbResourceImpl implements DbResource {
 
     private final String name;
     private final ResourceType type;
     private final Uri uri;
     private final Map<String, String> headers;
 
-    public DbResourceThin(final String name, final ResourceType type,
+    public DbResourceImpl(final String name, final ResourceType type,
                           final Uri uri,
                           final Map<String, String> headers) {
         this.name = name;
