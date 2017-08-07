@@ -36,7 +36,6 @@ import java.util.Map;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.ISqlHelper;
-import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 
 /**
  * Jdbc Sql Helper.

@@ -1,21 +1,17 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSet;
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSetImpl;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectImpl;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 import lombok.ToString;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import javax.sql.DataSource;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by MGramin on 13.07.2017.

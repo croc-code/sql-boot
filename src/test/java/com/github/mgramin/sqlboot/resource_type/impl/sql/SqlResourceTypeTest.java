@@ -24,13 +24,13 @@
 
 package com.github.mgramin.sqlboot.resource_type.impl.sql;
 
-import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import java.util.List;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper;
+import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

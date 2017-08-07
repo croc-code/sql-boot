@@ -22,23 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.aggregators;
+package com.github.mgramin.sqlboot.rest.controllers;
 
-import java.util.List;
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.resource.DbResource;
+import com.github.mgramin.sqlboot.rest.Runner;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Created by mgramin on 17.12.2016.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-@Deprecated
-public interface DbResourceAggregator {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Runner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("h2")
+public class ApiControllerTest {
 
-    String name();
+    @Autowired
+    private TestRestTemplate client;
 
-    Boolean isDefault();
+    @Test
+    public void getTextDdl() throws Exception {
+        ResponseEntity<String> forEntity = client.getForEntity("/api_v2/table/bookings.a", String.class);
+        assertEquals(200, forEntity.getStatusCodeValue());
+        System.out.println(forEntity.getBody());
+    }
 
-    byte[] aggregate(List<DbResource> objects) throws BootException;
-
-    // TODO add smart class for aggregate to string
 }

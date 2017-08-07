@@ -24,9 +24,36 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
+import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.resource.DbResource;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.uri.Uri;
+
 /**
  * Created by MGramin on 18.07.2017.
  */
-public class OrderByWrapper {
+public class OrderByWrapper implements ResourceType {
+
+    private final ResourceType origin;
+
+    public OrderByWrapper(ResourceType origin) {
+        this.origin = origin;
+    }
+
+    @Override
+    public String name() {
+        return origin.name();
+    }
+
+    @Override
+    public List<String> aliases() {
+        return origin.aliases();
+    }
+
+    @Override
+    public List<DbResource> read(Uri uri) throws BootException {
+        return origin.read(uri);
+    }
 
 }

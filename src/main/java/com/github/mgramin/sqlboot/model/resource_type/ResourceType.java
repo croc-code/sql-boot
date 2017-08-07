@@ -26,11 +26,9 @@ package com.github.mgramin.sqlboot.model.resource_type;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.mgramin.sqlboot.actions.generator.ActionGenerator;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import com.github.mgramin.sqlboot.model.IDbResourceCommand;
 
 /**
  * Created by maksim on 16.05.17.
@@ -57,15 +55,5 @@ public interface ResourceType {
      * @throws BootException
      */
     List<DbResource> read(Uri uri) throws BootException;
-
-    @Deprecated
-    default List<ActionGenerator> generators() {
-        return null;
-    }
-
-    @Deprecated
-    default List<DbResource> read(Uri uri, @Deprecated IDbResourceCommand command, @Deprecated String aggregatorName) throws BootException {
-        return null;
-    }
 
 }

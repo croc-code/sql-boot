@@ -1,20 +1,19 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.hasEntry;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
-import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
-import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.util.Map;
 import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by MGramin on 17.07.2017.

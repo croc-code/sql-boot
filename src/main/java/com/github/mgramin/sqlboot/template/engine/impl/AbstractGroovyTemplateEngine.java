@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.template.engine.impl;
 
-import com.github.mgramin.sqlboot.template.TemplateEngine;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.template.TemplateEngine;
 import groovy.text.Template;
 
 /**

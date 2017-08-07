@@ -15,6 +15,7 @@ Evolutionary, Transparent and Polyglot DB-framework for Developers, DBA and DevO
 - Database reverse engineering
 - DB independent - native old SQL/*QL/JDBC/REST
 - Multiplatform (REST/Java based)
+- Share expert knowledge
 
 Try online on Heroku (embedded H2):
 -----------------------------------

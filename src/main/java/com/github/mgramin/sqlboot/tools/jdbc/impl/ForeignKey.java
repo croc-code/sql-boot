@@ -1,14 +1,13 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
+import java.sql.SQLException;
+import java.util.List;
+import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSet;
 import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSetImpl;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import lombok.ToString;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import javax.sql.DataSource;
 
 /**
  * Created by MGramin on 13.07.2017.

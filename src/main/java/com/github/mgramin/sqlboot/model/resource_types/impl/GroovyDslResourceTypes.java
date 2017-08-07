@@ -24,8 +24,8 @@
 
 package com.github.mgramin.sqlboot.model.resource_types.impl;
 
-import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
