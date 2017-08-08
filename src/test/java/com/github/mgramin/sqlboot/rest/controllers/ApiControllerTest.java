@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 
@@ -42,7 +41,6 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Runner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("h2")
 public class ApiControllerTest {
 
     @Autowired
@@ -50,7 +48,7 @@ public class ApiControllerTest {
 
     @Test
     public void getTextDdl() throws Exception {
-        ResponseEntity<String> forEntity = client.getForEntity("/api_v2/table/bookings.a", String.class);
+        ResponseEntity<String> forEntity = client.getForEntity("/api/table/bookings.a", String.class);
         assertEquals(200, forEntity.getStatusCodeValue());
         System.out.println(forEntity.getBody());
     }

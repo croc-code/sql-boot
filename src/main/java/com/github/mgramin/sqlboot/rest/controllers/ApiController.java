@@ -55,7 +55,7 @@ public class ApiController {
     @Autowired
     FsResourceTypes types;
 
-    @RequestMapping(value = "/api_v2/**", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<List<DbResource>> getTextDdl(HttpServletRequest request,
                                                        @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
         final Uri uri = new DbUri(parseUri(request));
@@ -74,7 +74,7 @@ public class ApiController {
         } else {
             uriString = request.getServletPath() + "?" + request.getQueryString();
         }
-        uriString = uriString.substring(8);
+        uriString = uriString.substring(5);
         return uriString;
     }
 
