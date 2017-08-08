@@ -62,7 +62,7 @@ public class FsResourceTypes implements ResourceTypes {
 
     @Override
     public void init() {
-        walk("src/main/resources/conf/h2/database");
+        walk("conf/h2/database");
     }
 
     @Override
