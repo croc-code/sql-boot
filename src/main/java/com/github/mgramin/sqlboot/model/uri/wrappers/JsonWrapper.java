@@ -52,8 +52,8 @@ public class JsonWrapper implements Uri {
     }
 
     @Override
-    public List<String> objects() {
-        return origin.objects();
+    public List<String> path() {
+        return origin.path();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class JsonWrapper implements Uri {
         String s = "DbUri{" +
             "type='" + origin.type() + '\'' +
             ", dbSchemaObjectCommand='" + origin.action() + '\'' +
-            ", objects=" + origin.objects() +
+            ", path=" + origin.path() +
             ", recursive=" + origin.recursive() +
             ", params=" + origin.params() +
             "}";

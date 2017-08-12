@@ -100,7 +100,7 @@ public final class DbUri implements Uri {
     }
 
     @Override
-    public List<String> objects() {
+    public List<String> path() {
         return objects;
     }
 

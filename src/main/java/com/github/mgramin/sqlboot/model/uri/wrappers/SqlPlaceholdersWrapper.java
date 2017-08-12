@@ -53,8 +53,8 @@ public class SqlPlaceholdersWrapper implements Uri {
     }
 
     @Override
-    public List<String> objects() {
-        return origin.objects().stream()
+    public List<String> path() {
+        return origin.path().stream()
                 .map(v -> v.replace("*", "%"))
                 .collect(Collectors.toList());
     }

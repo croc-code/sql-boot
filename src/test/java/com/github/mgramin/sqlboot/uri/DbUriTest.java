@@ -39,76 +39,76 @@ public class DbUriTest {
 
     @Test
     public void createAllTableFromAllSchema() {
-        test("table/*", "DbUri{type='table', dbSchemaObjectCommand='null', objects=[*], recursive=false, params={}}");
+        test("table/*", "DbUri{type='table', dbSchemaObjectCommand='null', path=[*], recursive=false, params={}}");
     }
 
     @Test
     public void createAllTableFromSchema() {
-        test("table/hr", "DbUri{type='table', dbSchemaObjectCommand='null', objects=[hr], recursive=false, params={}}");
-        test("table/hr.*", "DbUri{type='table', dbSchemaObjectCommand='null', objects=[hr, *], recursive=false, params={}}");
+        test("table/hr", "DbUri{type='table', dbSchemaObjectCommand='null', path=[hr], recursive=false, params={}}");
+        test("table/hr.*", "DbUri{type='table', dbSchemaObjectCommand='null', path=[hr, *], recursive=false, params={}}");
     }
 
     @Test
     public void createAllTableWithChildObjectsFromSchema() throws BootException {
-        test("table/hr.*/", "DbUri{type='table', dbSchemaObjectCommand='null', objects=[hr, *], recursive=true, params={}}");
+        test("table/hr.*/", "DbUri{type='table', dbSchemaObjectCommand='null', path=[hr, *], recursive=true, params={}}");
     }
 
     @Test
     public void dropAllTableFromSchema() throws BootException {
-        test("table/hr.*/drop", "DbUri{type='table', dbSchemaObjectCommand='drop', objects=[hr, *], recursive=false, params={}}");
+        test("table/hr.*/drop", "DbUri{type='table', dbSchemaObjectCommand='drop', path=[hr, *], recursive=false, params={}}");
     }
 
 
     @Test
     public void createColumnsForTable() throws BootException {
         test("column/hr.persons.*name",
-                "DbUri{type='column', dbSchemaObjectCommand='null', objects=[hr, persons, *name], recursive=false, params={}}");
+                "DbUri{type='column', dbSchemaObjectCommand='null', path=[hr, persons, *name], recursive=false, params={}}");
     }
 
     @Test
     public void dropColumnFromTable() throws BootException {
         test("column/hr.persons.name/drop",
-                "DbUri{type='column', dbSchemaObjectCommand='drop', objects=[hr, persons, name], recursive=false, params={}}");
+                "DbUri{type='column', dbSchemaObjectCommand='drop', path=[hr, persons, name], recursive=false, params={}}");
     }
 
 
     @Test
     public void createAllFkForTable() throws BootException {
         test("fk/hr.employees.*",
-                "DbUri{type='fk', dbSchemaObjectCommand='null', objects=[hr, employees, *], recursive=false, params={}}");
+                "DbUri{type='fk', dbSchemaObjectCommand='null', path=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
     public void dropAllFkFromTable() throws BootException {
         test("fk/hr.employees.*/drop",
-                "DbUri{type='fk', dbSchemaObjectCommand='drop', objects=[hr, employees, *], recursive=false, params={}}");
+                "DbUri{type='fk', dbSchemaObjectCommand='drop', path=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
     public void disableAllFkFromTable() throws BootException {
         test("fk/hr.employees.*/disable",
-                "DbUri{type='fk', dbSchemaObjectCommand='disable', objects=[hr, employees, *], recursive=false, params={}}");
+                "DbUri{type='fk', dbSchemaObjectCommand='disable', path=[hr, employees, *], recursive=false, params={}}");
     }
 
     @Test
     public void disableAllFkFromSchema() throws BootException {
         test("fk/hr.*.*/disable",
-                "DbUri{type='fk', dbSchemaObjectCommand='disable', objects=[hr, *, *], recursive=false, params={}}");
+                "DbUri{type='fk', dbSchemaObjectCommand='disable', path=[hr, *, *], recursive=false, params={}}");
     }
 
     @Test
     public void testDefaultActionIsCreate() throws BootException {
         test("fk/hr.*.*",
-                "DbUri{type='fk', dbSchemaObjectCommand='null', objects=[hr, *, *], recursive=false, params={}}");
+                "DbUri{type='fk', dbSchemaObjectCommand='null', path=[hr, *, *], recursive=false, params={}}");
     }
 
 
     @Test
     public void testParams() throws BootException, URISyntaxException {
         test("t/hr?@table_comment=big_table",
-            "DbUri{type='t', dbSchemaObjectCommand='null', objects=[hr], recursive=false, params={@table_comment=big_table}}");
+            "DbUri{type='t', dbSchemaObjectCommand='null', path=[hr], recursive=false, params={@table_comment=big_table}}");
         test("table/hr?@table_comment=big_table",
-            "DbUri{type='table', dbSchemaObjectCommand='null', objects=[hr], recursive=false, params={@table_comment=big_table}}");
+            "DbUri{type='table', dbSchemaObjectCommand='null', path=[hr], recursive=false, params={@table_comment=big_table}}");
     }
 
 

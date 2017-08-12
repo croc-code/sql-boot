@@ -58,7 +58,7 @@ public interface Uri {
      * @return
      */
     @JsonProperty
-    List<String> objects();
+    List<String> path();
 
     @Deprecated // TODO only for Queryable uri
     Boolean recursive();
