@@ -35,36 +35,36 @@ import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.SqlQuery;
 
 /**
- * Jdbc Sql Helper.
+ * Execute SQL-query through Jdbc.
  *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class JdbcSqlHelper implements ISqlHelper {
+public final class JdbcSqlQuery implements SqlQuery {
 
     /**
      * Data source.
      */
-    private final List<DataSource> datasource;
+    private final List<DataSource> dataSource;
 
     /**
      * Ctor.
      *
      * @param datasources Data source
      */
-    public JdbcSqlHelper(final List<DataSource> datasources) {
-        this.datasource = datasources;
+    public JdbcSqlQuery(final List<DataSource> datasources) {
+        this.dataSource = datasources;
     }
 
     @Override
     public List<Map<String, String>> select(final String sql)
     throws BootException {
         final List<Map<String, String>> result = new ArrayList<>();
-        try (Connection connection = datasource.get(0).getConnection()) {
+        try (Connection connection = dataSource.get(0).getConnection()) {
             final Statement statement = connection.createStatement();
             try (ResultSet resultSet = statement.executeQuery(sql)) {
                 final ResultSetMetaData rsMetaData = resultSet.getMetaData();
@@ -85,13 +85,12 @@ public final class JdbcSqlHelper implements ISqlHelper {
     }
 
     @Override
-    public void health() {
+    public void dbHealth() {
         try {
-            Connection connection = datasource.get(0).getConnection();
+            dataSource.get(0).getConnection();
         } catch (SQLException e) {
             throw new BootException(e);
         }
     }
 
 }
-

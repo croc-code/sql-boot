@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resource_types;
 
+import java.io.IOException;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 
 /**
@@ -31,7 +32,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
  */
 public interface ResourceTypes {
 
-    void init();
+    void init() throws IOException;
 
     ResourceType findByName(String name);
 

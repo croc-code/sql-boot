@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
 public class JdbcSqlHelperTest {
 
     @Autowired
-    private JdbcSqlHelper jdbcSqlHelper;
+    private JdbcSqlQuery jdbcSqlHelper;
 
     @Test
     public void select() throws Exception {

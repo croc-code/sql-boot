@@ -29,12 +29,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
-import com.github.mgramin.sqlboot.sql.ISqlHelper;
-import com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper;
+import com.github.mgramin.sqlboot.sql.SqlQuery;
+import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Column;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.ForeignKey;
@@ -45,6 +46,7 @@ import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.Resource;
 import static java.util.Collections.singletonList;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 
@@ -55,15 +57,21 @@ public class FsResourceTypes implements ResourceTypes {
 
     private final DataSource dataSource;
     private final List<ResourceType> result = new ArrayList<>();
+    private final Resource baseFolder;
 
-    public FsResourceTypes(final DataSource dataSource) {
+    public FsResourceTypes(final DataSource dataSource, Resource baseFolder) {
         this.dataSource = dataSource;
+        this.baseFolder = baseFolder;
     }
 
     @Override
-    public void init() {
+    public void init() throws BootException {
         result.clear();
-        walk("conf/h2/database");
+        try {
+            walk(baseFolder.getFile().getPath());
+        } catch (IOException e) {
+            throw new BootException(e);
+        }
     }
 
     @Override
@@ -73,7 +81,7 @@ public class FsResourceTypes implements ResourceTypes {
 
     private List<ResourceType> walk(final String path) {
 
-        ISqlHelper sqlHelper = new JdbcSqlHelper(asList(dataSource));
+        SqlQuery sqlHelper = new JdbcSqlQuery(asList(dataSource));
 
         File[] files = new File(path).listFiles();
         if (files == null) return null;

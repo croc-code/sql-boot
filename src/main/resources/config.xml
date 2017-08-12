@@ -26,13 +26,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:c="http://www.springframework.org/schema/c"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/jdbc
-       http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd">
+	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean name="fsResourceTypes" class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes" c:dataSource-ref="dataSource" />
+    <bean name="fsResourceTypes" class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes"
+          c:dataSource-ref="dataSource" c:baseFolder="file:conf/h2/database" />
 
     <!-- db resource type -->
     <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType" abstract="true" />
@@ -58,7 +56,7 @@
     <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.template.engine.factory.GroovyMarkupTemplateEngineFactory" />
 
     <!-- DB helpers -->
-    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper" autowire="byType"/>
+    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery" autowire="byType"/>
 
     <!-- Connection pool template -->
     <bean id="templateCP" class = "org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" abstract="true">

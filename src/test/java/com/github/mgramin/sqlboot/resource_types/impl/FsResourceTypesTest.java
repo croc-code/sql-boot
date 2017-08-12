@@ -33,6 +33,8 @@ import com.github.mgramin.sqlboot.model.uri.impl.FakeUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
@@ -52,7 +54,7 @@ public class FsResourceTypesTest {
 
     @Test
     public void load() throws Exception {
-        FsResourceTypes types = new FsResourceTypes(dataSource);
+        FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/h2/database"));
         types.init();
 
         final ResourceType tableType = types.findByName("table");
@@ -72,7 +74,7 @@ public class FsResourceTypesTest {
 
     @Test
     public void findByName() throws Exception {
-        FsResourceTypes types = new FsResourceTypes(dataSource);
+        FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/h2/database"));
         types.init();
         assertEquals("schema", types.findByName("schema").name());
         assertEquals("table", types.findByName("table").name());

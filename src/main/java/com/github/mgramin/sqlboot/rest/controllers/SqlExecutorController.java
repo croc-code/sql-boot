@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.rest.controllers;
 import java.util.List;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.SqlQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.MediaType;
@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 public final class SqlExecutorController {
 
     @Autowired
-    private ISqlHelper sqlHelper;
+    private SqlQuery sqlHelper;
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_XML_VALUE})
     public List<Map<String, String>> execSql2Xml(@RequestParam("sql") String sql) throws BootException {

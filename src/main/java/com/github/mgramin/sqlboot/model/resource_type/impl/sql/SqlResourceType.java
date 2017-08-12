@@ -35,7 +35,7 @@ import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
-import com.github.mgramin.sqlboot.sql.ISqlHelper;
+import com.github.mgramin.sqlboot.sql.SqlQuery;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 import static java.util.Optional.ofNullable;
@@ -49,16 +49,16 @@ public class SqlResourceType implements ResourceType {
 
     private final static Logger logger = Logger.getLogger(SqlResourceType.class);
 
-    private final transient ISqlHelper sqlHelper;
+    private final transient SqlQuery sqlHelper;
     private final List<String> aliases;
     private final List<ResourceType> child;
     private final String sql;
 
-    public SqlResourceType(ISqlHelper sqlHelper, List<String> aliases, String sql) {
+    public SqlResourceType(SqlQuery sqlHelper, List<String> aliases, String sql) {
         this(sqlHelper, aliases, null, sql);
     }
 
-    public SqlResourceType(ISqlHelper sqlHelper, List<String> aliases, List<ResourceType> child, String sql) {
+    public SqlResourceType(SqlQuery sqlHelper, List<String> aliases, List<ResourceType> child, String sql) {
         this.sqlHelper = sqlHelper;
         this.aliases = aliases;
         this.child = child;
