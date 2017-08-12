@@ -30,7 +30,7 @@
 	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean name="fsResourceTypes" class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes"
-          c:dataSource-ref="dataSource" c:baseFolder="file:conf/h2/database" />
+          c:dataSource-ref="dataSource" c:baseFolder="${base.config.folder}" />
 
     <!-- db resource type -->
     <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType" abstract="true" />
