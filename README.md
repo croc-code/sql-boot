@@ -1,4 +1,4 @@
-# Getting DB Done!
+# Database as a Code!
 
 [![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
 [![Coverage Status](https://coveralls.io/repos/github/mgramin/sql-boot/badge.svg?branch=master)](https://coveralls.io/github/mgramin/sql-boot?branch=master)
@@ -12,8 +12,10 @@
 Evolutionary, Transparent and Polyglot DB-framework for Developers, DBA and DevOps Engineers
 
 - Create and manage your DB source code (DDL, DML, etc)
-- DB independent (use native old SQL)
+- Database reverse engineering
+- DB independent - native old SQL/*QL/JDBC/REST
 - Multiplatform (REST/Java based)
+- Share expert knowledge
 
 Try online on Heroku (embedded H2):
 -----------------------------------
@@ -56,6 +58,8 @@ Base configurations:
 
 https://github.com/sql-boot/postgres
 
-https://github.com/sql-boot/oracle
+https://github.com/sql-boot/oracle 
+[![Build Status](https://travis-ci.org/sql-boot/oracle.svg?branch=master)](https://travis-ci.org/sql-boot/oracle)
 
-https://github.com/sql-boot/cassandra
+https://github.com/sql-boot/cassandra 
+[![Build Status](https://travis-ci.org/sql-boot/cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/cassandra)

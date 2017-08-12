@@ -24,192 +24,41 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:c="http://www.springframework.org/schema/c"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
-	    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd">
 
+    <bean name="fsResourceTypes" class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes" c:dataSource-ref="dataSource" />
 
-    <import resource="conf/*/config.xml" />
+    <!-- db resource type -->
+    <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType" abstract="true" />
 
+    <bean name="jdbcResourceType" abstract="true"
+          class="com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType" />
 
-    <!-- Base db resource type -->
-    <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.DbResourceType" abstract="true" />
-
-
-
-    <!-- Readers -->
-    <bean name="sqlResourceReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.SqlResourceReader"
-        c:sqlHelper-ref="sqlHelper"/>
-
-    <bean name="localFileSystemReader" abstract="true" class="com.github.mgramin.sqlboot.readers.impl.FileResourceReader"
-          c:fileSystem-ref="localFileSystem"/>
-
-
-
-    <!-- Generators -->
-    <bean id="plainTextGenerator" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.impl.PlainTextGenerator"
-          c:command-ref='CREATE' c:aggregators="sql,zip"/>
-
-    <bean id="templateGeneratorWrapper" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.wrappers.TemplateWrapper"
-          c:templateEngineFactory-ref="templateEngineFactory"/>
-
-    <bean id="sqlGeneratorWrapper" abstract="true" class = "com.github.mgramin.sqlboot.actions.generator.wrappers.SqlWrapper"
-          c:sqlHelper-ref="sqlHelper" />
-
-    <bean id="plainTextTemplateGenerator" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
-          c:templateEngineFactory-ref="templateEngineFactory"
-          c:command-ref='CREATE' c:aggregators="sql,zip"/>
-
-    <bean id="plainTextMarkupTemplateGenerator" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateGenerator"
-          c:templateEngineFactory-ref="markupTemplateEngineFactory"
-          c:command-ref='CREATE' c:aggregators="sql,zip"/>
-
-     <bean id="plainTextTemplateSqlGenerator" abstract="true" scope="prototype"
-          class="com.github.mgramin.sqlboot.actions.generator.prepared.PlainTextTemplateSqlGenerator"
-          c:templateEngineFactory-ref="templateEngineFactory"
-          c:sqlHelper-ref="sqlHelper"
-          c:command-ref='CREATE' c:aggregators="sql,zip"/>
-
-
-    <!-- Aggregators -->
-    <bean name="sqlAggregator" class="com.github.mgramin.sqlboot.aggregators.impl.TextDbResourceAggregator">
-        <constructor-arg name="name" value="sql"/>
-        <constructor-arg name="isDefault" value="true" />
-    </bean>
-
-    <bean name="htmlAggregator" class="com.github.mgramin.sqlboot.aggregators.impl.TextDbResourceAggregator">
-        <constructor-arg name="name" value="html"/>
-        <constructor-arg name="templateEngineFactory" ref="templateEngineFactory" />
-        <constructor-arg name="template" value="${htmlAggregator}" />
-    </bean>
-
-    <bean name="migrationAggregator" class="com.github.mgramin.sqlboot.aggregators.impl.TextDbResourceAggregator">
-        <constructor-arg name="name" value="migration"/>
-        <constructor-arg name="templateEngineFactory" ref="templateEngineFactory" />
-        <constructor-arg name="template" value="${liquibaseChangeLogAggregator}" />
-    </bean>
-
-    <bean name="zipAggregator" class="com.github.mgramin.sqlboot.aggregators.impl.ZipDbResourceAggregator">
-        <constructor-arg name="name" value="zip"/>
-    </bean>
-
-    <bean name="jsonAggregator" class="com.github.mgramin.sqlboot.aggregators.impl.JsonDbResourceAggregator">
-        <constructor-arg name="name" value="json"/>
-    </bean>
-
-    <bean name="xmlAggregator" class="com.github.mgramin.sqlboot.aggregators.impl.XmlDbResourceAggregator">
-        <constructor-arg name="name" value="xml"/>
-    </bean>
-
-
-
-    <bean name="httpAggregatorWrapper" abstract="true"
-          class="com.github.mgramin.sqlboot.aggregators.wrappers.HttpWrapper"/>
-
-    <bean name="sqlHttpAggregator" parent="httpAggregatorWrapper">
-        <constructor-arg name="origin" ref="sqlAggregator"/>
-        <constructor-arg name="requestHeaders">
-            <map><entry key="Content-Type" value="text/html"/></map>
-        </constructor-arg>
-        <constructor-arg name="responseHeaders">
-            <map>
-                <entry key="Content-Type" value="text/plain"/>
-                <entry key="Content-Disposition" value="inline"/>
-            </map>
-        </constructor-arg>
-    </bean>
-
-    <bean name="htmlHttpAggregator" parent="httpAggregatorWrapper">
-        <constructor-arg name="origin" ref="htmlAggregator"/>
-        <constructor-arg name="requestHeaders">
-            <map><entry key="Content-Type" value="text/html"/></map>
-        </constructor-arg>
-        <constructor-arg name="responseHeaders">
-            <map>
-                <entry key="Content-Type" value="text/html"/>
-                <entry key="Content-Disposition" value="inline"/>
-            </map>
-        </constructor-arg>
-    </bean>
-
-    <bean name="migrationHttpAggregator" parent="httpAggregatorWrapper">
-        <constructor-arg name="origin" ref="migrationAggregator"/>
-        <constructor-arg name="requestHeaders">
-            <map><entry key="Content-Type" value="text/html"/></map>
-        </constructor-arg>
-        <constructor-arg name="responseHeaders">
-            <map>
-                <entry key="Content-Type" value="application/xml"/>
-                <entry key="Content-Disposition" value="inline"/>
-            </map>
-        </constructor-arg>
-    </bean>
-
-    <bean name="zipHttpAggregator" parent="httpAggregatorWrapper">
-        <constructor-arg name="origin" ref="zipAggregator"/>
-        <constructor-arg name="requestHeaders">
-            <map><entry key="Content-Type" value="text/html"/></map>
-        </constructor-arg>
-        <constructor-arg name="responseHeaders">
-            <map>
-                <entry key="Content-Type" value="application/octet-stream"/>
-                <entry key="Content-Disposition" value="attachment; filename=result.zip"/>
-            </map>
-        </constructor-arg>
-    </bean>
-
-    <bean name="jsonHttpAggregator" parent="httpAggregatorWrapper">
-        <constructor-arg name="origin" ref="jsonAggregator"/>
-        <constructor-arg name="requestHeaders">
-            <map><entry key="Content-Type" value="text/html"/></map>
-        </constructor-arg>
-        <constructor-arg name="responseHeaders">
-            <map>
-                <entry key="Content-Type" value="application/json"/>
-                <entry key="Content-Disposition" value="inline"/>
-            </map>
-        </constructor-arg>
-    </bean>
-
-    <bean name="xmlHttpAggregator" parent="httpAggregatorWrapper">
-        <constructor-arg name="origin" ref="xmlAggregator"/>
-        <constructor-arg name="requestHeaders">
-            <map><entry key="Content-Type" value="application/xml"/></map>
-        </constructor-arg>
-        <constructor-arg name="responseHeaders">
-            <map>
-                <entry key="Content-Type" value="application/xml"/>
-                <entry key="Content-Disposition" value="inline"/>
-            </map>
-        </constructor-arg>
-    </bean>
-
-
-    <!-- DB commands -->
-    <bean name="command" abstract="true" class="com.github.mgramin.sqlboot.model.DbResourceCommand" />
-    <bean name="CREATE" parent="command" c:aliases="create,c,+" c:isDefault="true"/>
-    <bean name="DROP" parent="command" c:aliases="drop,d,-" />
-    <bean name="DROP_IF_EXISTS" parent="command" c:aliases="drop_if_exists,dx,_" />
-    <bean name="EXISTS" parent="command" c:aliases="exists,e,?" />
-    <bean name="REBUILD" parent="command" c:aliases="rebuild,r,*" />
-    <bean name="GATHER" parent="command" c:aliases="stat,s,#" />
-    <bean name="COMPILE" parent="command" c:aliases="comp,cmp,^" />
+    <bean name="jdbcSchema" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Schema" c:dataSource-ref="dataSource" />
+    <bean name="jdbcTable" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Table" c:dataSource-ref="dataSource" />
+    <bean name="jdbcPk" class="com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey" c:dataSource-ref="dataSource" />
+    <bean name="jdbcColumn" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Column" c:dataSource-ref="dataSource" />
+    <bean name="jdbcFk" class="com.github.mgramin.sqlboot.tools.jdbc.impl.ForeignKey" c:dataSource-ref="dataSource" />
+    <bean name="jdbcIndex" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Index" c:dataSource-ref="dataSource" />
+    <bean name="jdbcFunction" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Function" c:dataSource-ref="dataSource" />
+    <bean name="jdbcProcedure" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure" c:dataSource-ref="dataSource" />
 
 
     <!-- Template engines -->
-    <bean id="templateEngine" scope="prototype" class="com.github.mgramin.sqlboot.tools.template.engine.impl.GroovyTemplateEngine" />
-    <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.tools.template.engine.impl.GroovyMarkupTemplateEngine" />
+    <bean id="templateEngine" scope="prototype" class="com.github.mgramin.sqlboot.template.engine.impl.GroovyTemplateEngine" />
+    <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.template.engine.impl.GroovyMarkupTemplateEngine" />
 
-    <bean id="templateEngineFactory" class="com.github.mgramin.sqlboot.tools.template.engine.factory.GroovyTemplateEngineFactory" />
-    <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.tools.template.engine.factory.GroovyMarkupTemplateEngineFactory" />
+    <bean id="templateEngineFactory" class="com.github.mgramin.sqlboot.template.engine.factory.GroovyTemplateEngineFactory" />
+    <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.template.engine.factory.GroovyMarkupTemplateEngineFactory" />
 
     <!-- DB helpers -->
-    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.tools.sql.impl.JdbcSqlHelper" autowire="byType" />
+    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.sql.impl.JdbcSqlHelper" autowire="byType"/>
 
     <!-- Connection pool template -->
     <bean id="templateCP" class = "org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" abstract="true">
@@ -219,9 +68,5 @@
         <property name="maxIdle" value="5" />
         <property name="minIdle" value="2" />
     </bean>
-
-
-    <bean name="localFileSystem" c:basedir="/tmp/src"
-          class="com.github.mgramin.sqlboot.tools.files.file_system.impl.LocalFileSystem" />
 
 </beans>
