@@ -46,7 +46,7 @@ public final class FakeDbResource implements DbResource {
 
     @Override
     public String name() {
-        return uri.objects().get(uri.objects().size());
+        return uri.path().get(uri.path().size());
     }
 
     @Override

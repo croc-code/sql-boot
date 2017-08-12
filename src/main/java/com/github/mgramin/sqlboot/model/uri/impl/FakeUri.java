@@ -41,7 +41,7 @@ public class FakeUri implements Uri {
     }
 
     @Override
-    public List<String> objects() {
+    public List<String> path() {
         return null;
     }
 

@@ -71,7 +71,7 @@ public class JdbcResourceType implements ResourceType {
     public List<DbResource> read(final Uri uri) throws BootException {
         List<DbResource> dbResourceList = new ArrayList<>();
         try {
-            List<JdbcDbObject> list = jdbcDbObjectType.read(uri.objects());
+            List<JdbcDbObject> list = jdbcDbObjectType.read(uri.path());
             for (JdbcDbObject l : list) {
                 dbResourceList.add(new DbResourceImpl(l.name(), this, new DbUri(jdbcDbObjectType.name(), l.path()), l.properties()));
             }
