@@ -29,14 +29,6 @@ Try online on Heroku (embedded H2):
 - [pk/hr](https://sql-boot.herokuapp.com/api/pk/hr) - get all pk from "hr" schema
 - [fk/*](https://sql-boot.herokuapp.com/api/fk/*) - get all fk from all db schemas
 
-- [table/bookings/-](https://sql-boot.herokuapp.com/api/table/bookings/-) - drop all table from "bookings" schema 
-- [index/hr.*.*index*/-](https://sql-boot.herokuapp.com/api/index/hr.*.*index*/-) - drop all table from "bookings" schema with specific name
-
-- [table/hr?type=migration](https://sql-boot.herokuapp.com/api/table/hr?type=migration) - migration for create all tables 
-- [table/hr/-?type=migration](https://sql-boot.herokuapp.com/api/table/hr/-?type=migration) - migration for drop all tables 
-- [table/hr?type=html](https://sql-boot.herokuapp.com/api/table/hr?type=html) - get all tales from "hr" schema in html view 
-- [table/*/?type=zip](https://sql-boot.herokuapp.com/api/table/*/?type=zip) - get all tales from "hr" in zip file 
-
 
 Try with Docker and embedded (H2) demo db:
 ------------------------------------------
