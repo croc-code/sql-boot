@@ -3,8 +3,6 @@ package com.github.mgramin.sqlboot.tools.jdbc.impl;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSet;
-import com.github.mgramin.sqlboot.tools.jdbc.CustomResultSetImpl;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import lombok.ToString;
@@ -13,18 +11,12 @@ import lombok.ToString;
  * Created by MGramin on 13.07.2017.
  */
 @ToString
-public class ForeignKey implements JdbcDbObjectType {
+public class ForeignKey extends AbstractJdbcObjectType implements JdbcDbObjectType {
 
     private final DataSource dataSource;
-    private final CustomResultSet customResultSet;
 
     public ForeignKey(final DataSource dataSource) {
-        this(dataSource, new CustomResultSetImpl());
-    }
-
-    public ForeignKey(final DataSource dataSource, CustomResultSet customResultSet) {
         this.dataSource = dataSource;
-        this.customResultSet = customResultSet;
     }
 
     @Override

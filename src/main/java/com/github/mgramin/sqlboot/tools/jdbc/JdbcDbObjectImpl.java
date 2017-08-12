@@ -11,8 +11,8 @@ public class JdbcDbObjectImpl implements JdbcDbObject {
     private final List<String> path;
     private final Map<String, String> properties;
 
-    public JdbcDbObjectImpl(String name, List<String> path, Map<String, String> properties) {
-        this.name = name;
+    public JdbcDbObjectImpl(List<String> path, Map<String, String> properties) {
+        this.name = path.get(path.size()-1);
         this.path = path;
         this.properties = properties;
     }

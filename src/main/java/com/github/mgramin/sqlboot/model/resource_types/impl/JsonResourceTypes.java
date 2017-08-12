@@ -22,56 +22,24 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource;
+package com.github.mgramin.sqlboot.model.resource_types.impl;
 
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.uri.Uri;
+import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 
 /**
- * DB resource
- * e.g. table "PERSONS", index "PERSONS_NAME_IDX",
- * stored function "GET_ALL_DEPARTMENTS()" etc
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public interface DbResource {
+public class JsonResourceTypes implements ResourceTypes {
+    @Override
+    public void init() {
 
-    /**
-     * Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc.
-     *
-     * @return Name
-     */
-    @JsonProperty
-    String name();
+    }
 
-    /**
-     * Type of db resource, e.g. "table", "index", "stored function" etc.
-     *
-     * @return Type
-     */
-    @JsonProperty
-    ResourceType type();
-
-    /**
-     * URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc.
-     *
-     * @return URI
-     */
-    Uri dbUri();
-
-    /**
-     * Headers of db resource.
-     *
-     * @return Headers
-     */
-    @JsonProperty
-    Map<String, String> headers();
-
-    /**
-     * Body of db resource, e.g. ddl-code, html-representation, xml, json etc.
-     *
-     * @return Body
-     */
-    String body();
-
+    @Override
+    public ResourceType findByName(String name) {
+        return null;
+    }
 }

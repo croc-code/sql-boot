@@ -1,15 +1,13 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
-import java.util.List;
+import java.util.Set;
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
-import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -28,10 +26,10 @@ public class IndexTest {
     }
 
     @Test
+    @Ignore
     public void read() throws Exception {
-        JdbcDbObjectType index = new Index(dataSource);
-        List<JdbcDbObject> list = index.read(asList("MAIN_SCHEMA", "USERS"));
-        System.out.println(list);
+        Set<String> properties = new Index(dataSource).read().stream().findAny().get().properties().keySet();
+        System.out.println(properties);
     }
 
 }
