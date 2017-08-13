@@ -56,7 +56,7 @@
     <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.template.generator.factory.GroovyMarkupTemplateGeneratorFactory" />
 
     <!-- DB helpers -->
-    <bean id="sqlHelper" class="com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery" autowire="byType"/>
+    <bean id="sqlQuery" class="com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery" autowire="byType"/>
 
     <!-- Connection pool template -->
     <bean id="templateCP" class = "org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close" abstract="true">

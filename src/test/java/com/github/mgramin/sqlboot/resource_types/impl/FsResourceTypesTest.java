@@ -24,12 +24,10 @@
 
 package com.github.mgramin.sqlboot.resource_types.impl;
 
-import java.util.List;
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes;
-import com.github.mgramin.sqlboot.model.uri.impl.FakeUri;
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,27 +45,39 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"/test_config.xml"})
 public class FsResourceTypesTest {
 
-
     @Autowired
     private DataSource dataSource;
 
+    // TODO use parametrized tests ?
+
     @Test
-    public void load() throws Exception {
-        FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/h2/database"));
+    public void loadFromSql() throws Exception {
+        final FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/h2/database"));
         types.init();
 
-        final ResourceType tableType = types.findByName("table");
-        List<DbResource> tables = tableType.read(new FakeUri());
-        System.out.println(tables);
-
-        /*ResourceType table = new WhereWrapper(types.findByName("table"));
+        final ResourceType table = types.findByName("table");
         assertEquals(1, table.read(new DbUri(table.name(), "main_schema", "city")).size());
 
-        ResourceType tables = new WhereWrapper(types.findByName("table"));
+        final ResourceType tables = types.findByName("table");
         assertEquals(2, tables.read(new DbUri(tables.name(), "main_schema")).size());
 
-        ResourceType column = new WhereWrapper(types.findByName("column"));
-        assertEquals(3, column.read(new DbUri(column.name(), "main_schema", "city")).size());*/
+        ResourceType column = types.findByName("column");
+        assertEquals(3, column.read(new DbUri(column.name(), "main_schema", "city")).size());
+    }
+
+    @Test
+    public void loadFromJdbc() throws Exception {
+        final FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/common/database"));
+        types.init();
+
+        final ResourceType table = types.findByName("table");
+        assertEquals(1, table.read(new DbUri(table.name(), "main_schema", "city")).size());
+
+        final ResourceType tables = types.findByName("table");
+        assertEquals(2, tables.read(new DbUri(tables.name(), "main_schema")).size());
+
+        ResourceType column = types.findByName("column");
+        assertEquals(3, column.read(new DbUri(column.name(), "main_schema", "city")).size());
     }
 
 

@@ -29,20 +29,15 @@ import javax.servlet.http.HttpServletRequest;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
-import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
-import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -58,19 +53,15 @@ public class ApiController {
     FsResourceTypes types;
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
-    public ResponseEntity<List<DbResource>> getTextDdl(HttpServletRequest request,
-                                                       @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
+    public ResponseEntity<List<DbResource>> getTextDdl(final HttpServletRequest request) throws BootException {
         final Uri uri = new DbUri(parseUri(request));
         types.init();
-        final ResourceType table = new TemplateBodyWrapper(
-                new LimitWrapper(
-                        new WhereWrapper(
-                                types.findByName(uri.type()))), new GroovyTemplateGenerator("create some objects ... ;"));
+        final ResourceType table = types.findByName(uri.type());
         final List<DbResource> resources = table.read(uri);
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
-    private String parseUri(HttpServletRequest request) {
+    private String parseUri(final HttpServletRequest request) {
         String uriString;
         if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
             uriString = request.getServletPath();

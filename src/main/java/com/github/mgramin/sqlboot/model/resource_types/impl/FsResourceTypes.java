@@ -33,9 +33,13 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
+import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Column;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.ForeignKey;
@@ -45,9 +49,10 @@ import com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
-import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.Resource;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
+import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 
 /**
@@ -59,7 +64,7 @@ public class FsResourceTypes implements ResourceTypes {
     private final List<ResourceType> result = new ArrayList<>();
     private final Resource baseFolder;
 
-    public FsResourceTypes(final DataSource dataSource, Resource baseFolder) {
+    public FsResourceTypes(final DataSource dataSource, final Resource baseFolder) {
         this.dataSource = dataSource;
         this.baseFolder = baseFolder;
     }
@@ -75,7 +80,7 @@ public class FsResourceTypes implements ResourceTypes {
     }
 
     @Override
-    public ResourceType findByName(String name) {
+    public ResourceType findByName(final String name) {
         return result.stream().filter(v -> v.name().equalsIgnoreCase(name)).findAny().get();
     }
 
@@ -123,14 +128,22 @@ public class FsResourceTypes implements ResourceTypes {
                 if (sqlFile.exists()) {
                     String sql = null;
                     try {
-                        sql = FileUtils.readFileToString(sqlFile);
+                        sql = readFileToString(sqlFile, UTF_8);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     sql = sql.replace("````", "").replace("sql", "");
-                    resourceType = new SqlResourceType(sqlHelper, singletonList(f.getName()), sql);
+                    resourceType = new TemplateBodyWrapper(
+                            new LimitWrapper(
+                                    new WhereWrapper(
+                                            new SqlResourceType(sqlHelper, singletonList(f.getName()), sql))),
+                            new GroovyTemplateGenerator("create some objects ... ;"));
                 } else if (jdbcDbObjectType != null) {
-                    resourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
+                    resourceType = new TemplateBodyWrapper(
+                            new LimitWrapper(
+                                    new WhereWrapper(
+                                            new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType))),
+                            new GroovyTemplateGenerator("create some objects ... ;"));
                 }
                 if (resourceType != null) {
                     result.add(resourceType);

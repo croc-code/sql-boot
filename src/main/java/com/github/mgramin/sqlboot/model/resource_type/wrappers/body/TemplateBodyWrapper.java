@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
 
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper;
@@ -65,7 +66,7 @@ public class TemplateBodyWrapper implements ResourceType {
                 .map(v -> new DbResourceBodyWrapper(v,
                         templateGenerator.generate(
                                 v.headers().entrySet().stream()
-                                        .collect(toMap(Entry::getKey, e -> (Object) e.getValue()))
+                                        .collect(toMap(Entry::getKey, e -> Optional.ofNullable(e.getValue()).map(o -> (Object) o).orElse("")))
                         )))
                 .collect(toList());
     }
