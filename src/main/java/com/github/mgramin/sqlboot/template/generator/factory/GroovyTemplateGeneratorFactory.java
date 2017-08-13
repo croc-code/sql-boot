@@ -22,11 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
+package com.github.mgramin.sqlboot.template.generator.factory;
+
+import com.github.mgramin.sqlboot.template.TemplateGenerator;
+import com.github.mgramin.sqlboot.template.TemplateGeneratorFactory;
+import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 
 /**
- * Created by MGramin on 18.07.2017.
+ * Created by maksim on 29.04.17.
  */
-public class SqlWrapper {
+public final class GroovyTemplateGeneratorFactory implements TemplateGeneratorFactory {
+
+    @Override
+    public TemplateGenerator create(final String template) {
+        return new GroovyTemplateGenerator(template);
+    }
 
 }

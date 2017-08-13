@@ -22,14 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.util.template_engine.impl;
+package com.github.mgramin.sqlboot.template.generator.impl;
 
 import java.util.Arrays;
 import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.template.TemplateEngine;
-import com.github.mgramin.sqlboot.template.engine.impl.GroovyTemplateEngine;
-import org.junit.Ignore;
+import com.github.mgramin.sqlboot.template.TemplateGenerator;
 import org.junit.Test;
 import static com.google.common.collect.ImmutableMap.of;
 import static org.junit.Assert.assertEquals;
@@ -37,7 +35,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by MGramin on 10.12.2016.
  */
-public class GroovyTemplateEngineTest {
+public class GroovyTemplateGeneratorTest {
 
     @Test
     public void process() throws BootException {
@@ -50,25 +48,24 @@ public class GroovyTemplateEngineTest {
             "and lower(c.column_name) like 'id'";
 
         Map<String, Object> maps = of("column", "id", "table", "persons", "schema", "public");
-        TemplateEngine templateEngine = new GroovyTemplateEngine(txt);
-        assertEquals(templateEngine.process(maps), result);
+        TemplateGenerator templateGenerator = new GroovyTemplateGenerator(txt);
+        assertEquals(templateGenerator.generate(maps), result);
     }
 
     @Test
     public void processLoweCase() throws BootException {
         Map<String, Object> maps = of("column", "id", "table", "persons", "schema", "public");
-        TemplateEngine templateEngine = new GroovyTemplateEngine("create table !{table.toLowerCase()} ...");
-        assertEquals(templateEngine.process(maps), "create table persons ...");
+        TemplateGenerator templateGenerator = new GroovyTemplateGenerator("create table ${table.toLowerCase()} ...");
+        assertEquals(templateGenerator.generate(maps), "create table persons ...");
     }
 
     @Test
-    @Ignore
     public void getAllProperties() throws BootException {
         String txt = "... where lower(c.table_schema) like '$schema'\n" +
             "and lower(c.table_name) like '$table'\n" +
             "and lower(c.column_name) like '$column'";
-        TemplateEngine templateEngine = new GroovyTemplateEngine(txt);
-        assertEquals(templateEngine.getAllProperties(),
+        TemplateGenerator templateGenerator = new GroovyTemplateGenerator(txt);
+        assertEquals(templateGenerator.properties(),
             Arrays.asList("schema", "table", "column"));
     }
 

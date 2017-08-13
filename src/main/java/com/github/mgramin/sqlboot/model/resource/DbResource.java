@@ -72,6 +72,7 @@ public interface DbResource {
      *
      * @return Body
      */
+    @JsonProperty
     String body();
 
 }

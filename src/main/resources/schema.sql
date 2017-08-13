@@ -1,3 +1,4 @@
+drop schema hr if exists;
 create schema hr;
 
 create table hr.users (
@@ -62,7 +63,7 @@ create table hr.cities_2 (
 
 
 
-
+drop schema bookings if exists;
 create schema bookings;
 
 CREATE TABLE bookings.aircrafts (

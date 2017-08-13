@@ -29,11 +29,13 @@ import javax.servlet.http.HttpServletRequest;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.HttpStatus;
@@ -60,9 +62,10 @@ public class ApiController {
                                                        @RequestParam(value = "type", required = false) String aggregatorName) throws BootException {
         final Uri uri = new DbUri(parseUri(request));
         types.init();
-        final ResourceType table = new LimitWrapper(
-                new WhereWrapper(
-                        types.findByName(uri.type())));
+        final ResourceType table = new TemplateBodyWrapper(
+                new LimitWrapper(
+                        new WhereWrapper(
+                                types.findByName(uri.type()))), new GroovyTemplateGenerator("create some objects ... ;"));
         final List<DbResource> resources = table.read(uri);
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }

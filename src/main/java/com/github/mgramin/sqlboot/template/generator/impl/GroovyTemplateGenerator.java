@@ -22,11 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
+package com.github.mgramin.sqlboot.template.generator.impl;
 
-/**
- * Created by MGramin on 18.07.2017.
- */
-public class TemplateWrapper {
+import java.io.IOException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.template.TemplateGenerator;
+import groovy.text.GStringTemplateEngine;
+import lombok.ToString;
+
+@ToString
+public final class GroovyTemplateGenerator extends AbstractGroovyTemplateGenerator implements
+        TemplateGenerator {
+
+    public GroovyTemplateGenerator(final String template) {
+        try {
+            this.template = new GStringTemplateEngine().createTemplate(template);
+        } catch (ClassNotFoundException | IOException e) {
+            throw new BootException(e);
+        }
+        this.templateText = template;
+    }
 
 }

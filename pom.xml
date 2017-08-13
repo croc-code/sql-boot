@@ -314,7 +314,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>**/h2/*.java</include>
+                        <include>**/rest/controllers/*.java</include>
                     </includes>
                 </configuration>
                 <executions>

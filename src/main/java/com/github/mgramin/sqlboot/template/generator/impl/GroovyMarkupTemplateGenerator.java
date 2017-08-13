@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * <p>
+ *
  * Copyright (c) 2016-2017 Maksim Gramin
- * <p>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * <p>
+ *
  * The above copyright notice and this permission notice shall be included
  * in all copies or substantial portions of the Software.
- * <p>
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,35 +22,28 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.rest.controllers;
+package com.github.mgramin.sqlboot.template.generator.impl;
 
-import com.github.mgramin.sqlboot.rest.Runner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertEquals;
+import java.io.IOException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.template.TemplateGenerator;
+import groovy.text.markup.MarkupTemplateEngine;
+import lombok.ToString;
 
 /**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
+ * Created by mgramin on 06.01.2017.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = Runner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApiControllerTest {
+@ToString
+public final class GroovyMarkupTemplateGenerator extends AbstractGroovyTemplateGenerator implements
+        TemplateGenerator {
 
-    @Autowired
-    private TestRestTemplate client;
-
-    @Test
-    public void getTextDdl() throws Exception {
-        ResponseEntity<String> result = client.getForEntity("/api/table/bookings.airports", String.class);
-        System.out.println(result.getBody());
-        assertEquals(200, result.getStatusCodeValue());
+    public GroovyMarkupTemplateGenerator(final String template) {
+        try {
+            this.template = new MarkupTemplateEngine().createTemplate(template);
+        } catch (ClassNotFoundException | IOException e) {
+            throw new BootException(e);
+        }
+        this.templateText = template;
     }
 
 }

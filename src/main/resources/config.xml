@@ -49,11 +49,11 @@
 
 
     <!-- Template engines -->
-    <bean id="templateEngine" scope="prototype" class="com.github.mgramin.sqlboot.template.engine.impl.GroovyTemplateEngine" />
-    <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.template.engine.impl.GroovyMarkupTemplateEngine" />
+    <bean id="templateGenerator" scope="prototype" class="com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator" />
+    <bean id="markupTemplateEngine" scope="prototype" class="com.github.mgramin.sqlboot.template.generator.impl.GroovyMarkupTemplateGenerator" />
 
-    <bean id="templateEngineFactory" class="com.github.mgramin.sqlboot.template.engine.factory.GroovyTemplateEngineFactory" />
-    <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.template.engine.factory.GroovyMarkupTemplateEngineFactory" />
+    <bean id="templateEngineFactory" class="com.github.mgramin.sqlboot.template.generator.factory.GroovyTemplateGeneratorFactory" />
+    <bean id="markupTemplateEngineFactory" class="com.github.mgramin.sqlboot.template.generator.factory.GroovyMarkupTemplateGeneratorFactory" />
 
     <!-- DB helpers -->
     <bean id="sqlHelper" class="com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery" autowire="byType"/>

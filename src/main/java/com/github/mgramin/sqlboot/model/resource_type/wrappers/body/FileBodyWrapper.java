@@ -22,23 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.util.template_engine;
-
-import org.junit.Test;
+package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
 
 /**
- * Created by MGramin on 28.11.2016.
+ * Created by MGramin on 18.07.2017.
  */
-public class TemplateEngineTest {
-
-    @Test
-    public void process() throws Exception {
-
-    }
-
-    @Test
-    public void getAllProperties() throws Exception {
-
-    }
+public class FileBodyWrapper {
 
 }
