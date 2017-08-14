@@ -1,5 +1,5 @@
-INSERT INTO hr.users (id, first_name, email) VALUES (1, 'mkyong', 'mkyong@gmail.com');
-INSERT INTO hr.users (id, first_name, email) VALUES (2, 'alex', 'alex@yahoo.com');
-INSERT INTO hr.users (id, first_name, email) VALUES (3, 'joel', 'joel@gmail.com');
+insert into hr.users (id, first_name, email) values (1, 'mkyong', 'mkyong@gmail.com');
+insert into hr.users (id, first_name, email) values (2, 'alex', 'alex@yahoo.com');
+insert into hr.users (id, first_name, email) values (4, 'joel', 'joel@gmail.com');
 
-INSERT INTO hr.jobs (id, name, description) values (1, 'driver', 'driver');
+insert into hr.jobs (id, name, description) values (1, 'driver', 'driver');

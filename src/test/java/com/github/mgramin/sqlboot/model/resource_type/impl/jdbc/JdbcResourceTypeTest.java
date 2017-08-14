@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
 
 import org.junit.Test;
 

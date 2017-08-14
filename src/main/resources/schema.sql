@@ -4,7 +4,7 @@ create schema hr;
 create table hr.users (
   id            integer,
   first_name    varchar(30),
-  last_name     varchar(30),
+  last_name     varchar(31),
   email         varchar(50),
   constraint users_pk primary key (id, first_name)
 );
@@ -24,9 +24,9 @@ create table hr.jobs (
 comment on table hr.jobs is 'all jobs';
 
 create table hr.persons (
-  id        integer primary key,
-  id_job    integer,
-  id_user   integer,
+  id            integer primary key,
+  id_job        integer,
+  id_user       integer,
   constraint persons_pk primary key (id)
 );
 comment on table hr.persons is 'all persons';
@@ -66,43 +66,43 @@ create table hr.cities_2 (
 drop schema bookings if exists;
 create schema bookings;
 
-CREATE TABLE bookings.aircrafts (
-    aircraft_code character(3) NOT NULL,
-    model text NOT NULL,
-    range integer NOT NULL,
-    CONSTRAINT aircrafts_range_check CHECK ((range > 0))
+create table bookings.aircrafts (
+    aircraft_code character(3) not null,
+    model         text not null,
+    range         integer not null,
+    constraint aircrafts_range_check check ((range > 0))
 );
 
-CREATE TABLE bookings.airports (
-    airport_code character(3) NOT NULL,
-    airport_name text NOT NULL,
-    city text NOT NULL,
-    longitude double precision NOT NULL,
-    latitude double precision NOT NULL,
-    timezone text NOT NULL
+create table bookings.airports (
+    airport_code  character(3) not null,
+    airport_name  text not null,
+    city          text not null,
+    longitude     double precision not null,
+    latitude      double precision not null,
+    timezone text not null
 );
 
-CREATE TABLE bookings.boarding_passes (
-    ticket_no character(13) NOT NULL,
-    flight_id integer NOT NULL,
-    boarding_no integer NOT NULL,
-    seat_no character varying(4) NOT NULL
+create table bookings.boarding_passes (
+    ticket_no     character(13) not null,
+    flight_id     integer not null,
+    boarding_no   integer not null,
+    seat_no       character varying(4) not null
 );
 
-CREATE TABLE bookings.bookings (
-    book_ref character(6) NOT NULL,
-    book_date timestamp NOT NULL,
-    total_amount numeric(10,2) NOT NULL
+create table bookings.bookings (
+    book_ref      character(6) not null,
+    book_date     timestamp not null,
+    total_amount  numeric(10,2) not null
 );
 
-CREATE TABLE bookings.flights (
-    flight_id integer NOT NULL,
-    flight_no character(6) NOT NULL,
-    scheduled_departure timestamp NOT NULL,
-    scheduled_arrival timestamp NOT NULL,
-    departure_airport character(3) NOT NULL,
-    arrival_airport character(3) NOT NULL,
-    status character varying(20) NOT NULL,
-    aircraft_code character(3) NOT NULL,
-    actual_departure timestamp ,
-    actual_arrival timestamp);
+create table bookings.flights (
+    flight_id           integer not null,
+    flight_no           character(6) not null,
+    scheduled_departure timestamp not null,
+    scheduled_arrival   timestamp not null,
+    departure_airport   character(3) not null,
+    arrival_airport     character(3) not null,
+    status              character varying(20) not null,
+    aircraft_code       character(3) not null,
+    actual_departure    timestamp ,
+    actual_arrival      timestamp);

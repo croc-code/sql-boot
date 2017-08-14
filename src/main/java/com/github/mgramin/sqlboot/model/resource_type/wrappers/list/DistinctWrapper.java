@@ -24,9 +24,36 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.resource.DbResource;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.uri.Uri;
+import java.util.List;
+
 /**
  * Created by MGramin on 18.07.2017.
  */
-public class DistinctWrapper {
+public class DistinctWrapper implements ResourceType {
+
+    private final ResourceType origin;
+
+    public DistinctWrapper(final ResourceType origin) {
+        this.origin = origin;
+    }
+
+    @Override
+    public String name() {
+        return null;
+    }
+
+    @Override
+    public List<String> aliases() {
+        return null;
+    }
+
+    @Override
+    public List<DbResource> read(final Uri uri) throws BootException {
+        return null;
+    }
 
 }

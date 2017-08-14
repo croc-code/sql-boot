@@ -37,7 +37,7 @@ public class OrderByWrapper implements ResourceType {
 
     private final ResourceType origin;
 
-    public OrderByWrapper(ResourceType origin) {
+    public OrderByWrapper(final ResourceType origin) {
         this.origin = origin;
     }
 
@@ -52,7 +52,7 @@ public class OrderByWrapper implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(Uri uri) throws BootException {
+    public List<DbResource> read(final Uri uri) throws BootException {
         return origin.read(uri);
     }
 

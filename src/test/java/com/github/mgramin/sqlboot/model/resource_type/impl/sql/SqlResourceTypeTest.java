@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.resource_type.impl.sql;
+package com.github.mgramin.sqlboot.model.resource_type.impl.sql;
 
 import java.util.List;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
