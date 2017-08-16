@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
@@ -39,6 +40,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import static java.util.stream.Collectors.*;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -54,11 +56,20 @@ public class ApiController {
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<List<DbResource>> getTextDdl(final HttpServletRequest request) throws BootException {
-        final Uri uri = new DbUri(parseUri(request));
+        final Uri uri = new DbUri(parseUri(request).substring(5));
         types.init();
         final ResourceType table = types.findByName(uri.type());
         final List<DbResource> resources = table.read(uri);
         return new ResponseEntity<>(resources, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/body/**", method = RequestMethod.GET)
+    public ResponseEntity<List<String>> getResourcesBody(final HttpServletRequest request) throws BootException {
+        final Uri uri = new DbUri(parseUri(request).substring(10));
+        types.init();
+        final ResourceType table = types.findByName(uri.type());
+        List<String> collect = table.read(uri).stream().map(DbResource::body).collect(toList());
+        return new ResponseEntity<>(collect, HttpStatus.OK);
     }
 
     private String parseUri(final HttpServletRequest request) {
@@ -68,7 +79,6 @@ public class ApiController {
         } else {
             uriString = request.getServletPath() + "?" + request.getQueryString();
         }
-        uriString = uriString.substring(5);
         return uriString;
     }
 

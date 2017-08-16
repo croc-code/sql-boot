@@ -35,9 +35,7 @@ import static org.springframework.core.env.AbstractEnvironment.ACTIVE_PROFILES_P
 public class Runner {
 
     public static void main(String[] args) {
-        String profile = ofNullable(getenv("profile")).orElse("h2");
-        setProperty(ACTIVE_PROFILES_PROPERTY_NAME, profile);
-        setProperty("loader.path", ".");
+//        setProperty("loader.path", ".");
         SpringApplication.run(Runner.class, args);
     }
 

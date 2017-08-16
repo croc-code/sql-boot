@@ -53,4 +53,11 @@ public class ApiControllerITCase {
         assertEquals(200, result.getStatusCodeValue());
     }
 
+    @Test
+    public void getResourcesBody() throws Exception {
+        ResponseEntity<String> result = client.getForEntity("/api/body/table/bookings.airports", String.class);
+        System.out.println(result.getBody());
+        assertEquals(200, result.getStatusCodeValue());
+    }
+
 }

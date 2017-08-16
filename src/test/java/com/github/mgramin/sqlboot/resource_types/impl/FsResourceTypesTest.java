@@ -67,7 +67,6 @@ public class FsResourceTypesTest {
     }
 
     @Test
-    @Ignore
     public void loadFromJdbc() throws Exception {
         final FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/common/database"));
         types.init();
