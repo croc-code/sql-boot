@@ -34,6 +34,12 @@ public interface ResourceTypes {
 
     void init() throws IOException;
 
-    ResourceType findByName(String name);
+    /**
+     * Get resource type by name
+     *
+     * @param name resource type name
+     * @return  resource type
+     */
+    ResourceType type(String name);
 
 }

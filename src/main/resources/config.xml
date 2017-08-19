@@ -29,24 +29,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean name="fsResourceTypes" class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes"
-          c:dataSource-ref="dataSource" c:baseFolder="${base.config.folder}" />
+    <bean class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes"
+          c:dataSource-ref="dataSource" c:baseFolder="${base.config.folder:file:conf/h2/database}" />
 
-    <!-- db resource type -->
-    <bean id="dbResourceType" class="com.github.mgramin.sqlboot.model.resource_type.impl.ResourceType" abstract="true" />
-
-    <bean name="jdbcResourceType" abstract="true"
-          class="com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType" />
-
-    <bean name="jdbcSchema" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Schema" c:dataSource-ref="dataSource" />
-    <bean name="jdbcTable" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Table" c:dataSource-ref="dataSource" />
-    <bean name="jdbcPk" class="com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey" c:dataSource-ref="dataSource" />
-    <bean name="jdbcColumn" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Column" c:dataSource-ref="dataSource" />
-    <bean name="jdbcFk" class="com.github.mgramin.sqlboot.tools.jdbc.impl.ForeignKey" c:dataSource-ref="dataSource" />
-    <bean name="jdbcIndex" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Index" c:dataSource-ref="dataSource" />
-    <bean name="jdbcFunction" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Function" c:dataSource-ref="dataSource" />
-    <bean name="jdbcProcedure" class="com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure" c:dataSource-ref="dataSource" />
-
+    <!--<bean class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes"
+          c:dataSource-ref="postgresDataSource" c:baseFolder="${base.config.folder:file:conf/h2/database}" />
+-->
 
     <!-- Template engines -->
     <bean id="templateGenerator" scope="prototype" class="com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator" />
@@ -66,5 +54,11 @@
         <property name="maxIdle" value="5" />
         <property name="minIdle" value="2" />
     </bean>
+
+    <!--<bean id="postgresDataSource" parent="templateCP">
+        <property name="url" value="jdbc:postgresql://localhost:5432/demo"/>
+        <property name="username" value="postgres" />
+        <property name="password" value="postgres" />
+    </bean>-->
 
 </beans>

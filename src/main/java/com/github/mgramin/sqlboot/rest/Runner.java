@@ -35,7 +35,7 @@ import static org.springframework.core.env.AbstractEnvironment.ACTIVE_PROFILES_P
 public class Runner {
 
     public static void main(String[] args) {
-//        setProperty("loader.path", ".");
+        setProperty("loader.path", ".");
         SpringApplication.run(Runner.class, args);
     }
 

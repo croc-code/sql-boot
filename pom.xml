@@ -198,6 +198,9 @@
                 <configuration>
                     <excludes>
                         <exclude>conf/*</exclude>
+                        <exclude>src/main/resources/config.xml</exclude>
+                        <exclude>src/main/resources/schema.sql</exclude>
+                        <exclude>src/main/resources/data.sql</exclude>
                     </excludes>
                 </configuration>
             </plugin>

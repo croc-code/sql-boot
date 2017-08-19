@@ -39,7 +39,7 @@ public class JsonResourceTypes implements ResourceTypes {
     }
 
     @Override
-    public ResourceType findByName(String name) {
+    public ResourceType type(String name) {
         return null;
     }
 }

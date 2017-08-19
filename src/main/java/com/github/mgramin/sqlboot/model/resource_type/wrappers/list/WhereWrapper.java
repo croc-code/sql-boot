@@ -60,8 +60,9 @@ public class WhereWrapper implements ResourceType {
         return resources.stream()
             .filter(resource -> {
                 for (int i = 0; i < uri.path().size(); i++) {
-                    boolean contains = resource.dbUri().path().get(i).toLowerCase()
-                        .contains(uri.path().get(i).toLowerCase());
+                    boolean contains = resource.dbUri().path().get(i)
+                            .toLowerCase().contains(uri.path().get(i)
+                                    .toLowerCase());
                     if (!contains)
                         return false;
                 }

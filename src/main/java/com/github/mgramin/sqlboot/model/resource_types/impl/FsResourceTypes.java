@@ -53,7 +53,7 @@ import org.springframework.core.io.Resource;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.codehaus.groovy.runtime.InvokerHelper.asList;
+import static org.apache.commons.lang3.StringUtils.substringBetween;
 
 /**
  * Created by MGramin on 11.07.2017.
@@ -63,10 +63,30 @@ public class FsResourceTypes implements ResourceTypes {
     private final DataSource dataSource;
     private final List<ResourceType> result = new ArrayList<>();
     private final Resource baseFolder;
+    private final SqlQuery sqlHelper;
 
+    /**
+     * Ctor.
+     *
+     * @param dataSource
+     * @param baseFolder
+     */
     public FsResourceTypes(final DataSource dataSource, final Resource baseFolder) {
+        this(dataSource, baseFolder,
+                new JdbcSqlQuery(dataSource));
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param dataSource
+     * @param baseFolder
+     * @param sqlHelper
+     */
+    public FsResourceTypes(final DataSource dataSource, final Resource baseFolder, final SqlQuery sqlHelper) {
         this.dataSource = dataSource;
         this.baseFolder = baseFolder;
+        this.sqlHelper = sqlHelper;
     }
 
     @Override
@@ -80,14 +100,11 @@ public class FsResourceTypes implements ResourceTypes {
     }
 
     @Override
-    public ResourceType findByName(final String name) {
+    public ResourceType type(final String name) {
         return result.stream().filter(v -> v.name().equalsIgnoreCase(name)).findAny().get();
     }
 
     private List<ResourceType> walk(final String path) {
-
-        SqlQuery sqlHelper = new JdbcSqlQuery(asList(dataSource));
-
         File[] files = new File(path).listFiles();
         if (files == null) return null;
         List<ResourceType> list = new ArrayList<>();
@@ -126,13 +143,13 @@ public class FsResourceTypes implements ResourceTypes {
                 }
                 ResourceType resourceType = null;
                 if (sqlFile.exists()) {
-                    String sql = null;
+                    final String sql;
                     try {
-                        sql = readFileToString(sqlFile, UTF_8);
+                        sql = substringBetween(readFileToString(sqlFile, UTF_8), "````sql", "````");
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        throw new BootException(e);
                     }
-                    sql = sql.replace("````", "").replace("sql", "");
+
                     resourceType = new TemplateBodyWrapper(
                             new LimitWrapper(
                                     new WhereWrapper(

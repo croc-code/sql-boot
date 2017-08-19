@@ -49,22 +49,22 @@ public final class JdbcSqlQuery implements SqlQuery {
     /**
      * Data source.
      */
-    private final List<DataSource> dataSource;
+    private final DataSource dataSource;
 
     /**
      * Ctor.
      *
-     * @param datasources Data source
+     * @param datasource Data source
      */
-    public JdbcSqlQuery(final List<DataSource> datasources) {
-        this.dataSource = datasources;
+    public JdbcSqlQuery(final DataSource datasource) {
+        this.dataSource = datasource;
     }
 
     @Override
     public List<Map<String, String>> select(final String sql)
     throws BootException {
         final List<Map<String, String>> result = new ArrayList<>();
-        try (Connection connection = dataSource.get(0).getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             final Statement statement = connection.createStatement();
             try (ResultSet resultSet = statement.executeQuery(sql)) {
                 final ResultSetMetaData rsMetaData = resultSet.getMetaData();
@@ -87,7 +87,7 @@ public final class JdbcSqlQuery implements SqlQuery {
     @Override
     public void dbHealth() {
         try {
-            dataSource.get(0).getConnection();
+            dataSource.getConnection();
         } catch (SQLException e) {
             throw new BootException(e);
         }
