@@ -30,7 +30,7 @@
 	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes"
-          c:dataSource-ref="dataSource" c:baseFolder="${base.config.folder:file:conf/h2/database}" />
+          c:baseFolder="${base.config.folder:file:conf/h2/database}" />
 
     <!--<bean class="com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes"
           c:dataSource-ref="postgresDataSource" c:baseFolder="${base.config.folder:file:conf/h2/database}" />

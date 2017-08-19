@@ -24,7 +24,9 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
+import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
+import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,11 +43,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 
     @Autowired
-    SqlQuery sqlHelper;
+    DataSource dataSource;
 
     @RequestMapping(value = "/db/health", method = RequestMethod.GET)
     public String dbHealth() {
-        sqlHelper.dbHealth();
+        new JdbcSqlQuery(dataSource).dbHealth();
         return "OK";
     }
 

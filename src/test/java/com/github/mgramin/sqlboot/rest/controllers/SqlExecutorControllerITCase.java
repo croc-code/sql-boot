@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.rest.controllers;
 
 import java.util.Arrays;
 import com.github.mgramin.sqlboot.rest.Runner;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class SqlExecutorControllerITCase {
     private TestRestTemplate restClient;
 
     @Test
+    @Ignore
     public void execSql2Xml() throws Exception {
         ResponseEntity<String> forEntity = this.restClient.exchange(
                 "/exec?sql=select 1 as one, 2 as two", HttpMethod.GET, null, String.class);
@@ -58,6 +60,7 @@ public class SqlExecutorControllerITCase {
     }
 
     @Test
+    @Ignore
     public void execSql2Json() throws Exception {
         ResponseEntity<String> forEntity = this.restClient.exchange(
                 "/exec?sql=select 1 as one, 2 as two", HttpMethod.GET, null, String.class);
@@ -67,6 +70,7 @@ public class SqlExecutorControllerITCase {
     }
 
     @Test
+    @Ignore
     public void execSql2JsonPost() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

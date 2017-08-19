@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
@@ -49,6 +48,7 @@ import com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.core.io.Resource;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
@@ -65,28 +65,30 @@ public class FsResourceTypes implements ResourceTypes {
     private final Resource baseFolder;
     private final SqlQuery sqlHelper;
 
-    /**
-     * Ctor.
-     *
-     * @param dataSource
-     * @param baseFolder
-     */
-    public FsResourceTypes(final DataSource dataSource, final Resource baseFolder) {
-        this(dataSource, baseFolder,
-                new JdbcSqlQuery(dataSource));
+    public FsResourceTypes(final Resource baseFolder) {
+        final DataSource dataSource = new DataSource();
+        dataSource.setUrl("jdbc:h2:mem:;"
+                + "INIT=RUNSCRIPT FROM 'classpath:schema.sql'\\;"
+                + "RUNSCRIPT FROM 'classpath:data.sql'");
+        dataSource.setDriverClassName("org.h2.Driver");
+        this.dataSource = dataSource;
+        this.baseFolder = baseFolder;
+        this.sqlHelper = new JdbcSqlQuery(dataSource);
     }
 
     /**
      * Ctor.
      *
-     * @param dataSource
      * @param baseFolder
-     * @param sqlHelper
      */
-    public FsResourceTypes(final DataSource dataSource, final Resource baseFolder, final SqlQuery sqlHelper) {
+    public FsResourceTypes(final Resource baseFolder, String url, String user, String password) {
+        final DataSource dataSource = new DataSource();
+        dataSource.setUrl(url);
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
         this.dataSource = dataSource;
         this.baseFolder = baseFolder;
-        this.sqlHelper = sqlHelper;
+        this.sqlHelper = new JdbcSqlQuery(dataSource);
     }
 
     @Override

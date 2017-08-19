@@ -45,45 +45,36 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"/test_config.xml"})
 public class FsResourceTypesTest {
 
-    @Autowired
-    private DataSource dataSource;
-
     // TODO use parametrized tests ?
 
     @Test
     public void loadFromSql() throws Exception {
-        final FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/h2/database"));
+        final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/h2/database"));
         types.init();
 
         final ResourceType table = types.type("table");
-        assertEquals(1, table.read(new DbUri(table.name(), "main_schema", "city")).size());
+        assertEquals(1, table.read(new DbUri(table.name(), "bookings", "airports")).size());
 
         final ResourceType tables = types.type("table");
-        assertEquals(2, tables.read(new DbUri(tables.name(), "main_schema")).size());
-
-        ResourceType column = types.type("column");
-        assertEquals(3, column.read(new DbUri(column.name(), "main_schema", "city")).size());
+        assertEquals(5, tables.read(new DbUri(tables.name(), "bookings")).size());
     }
 
     @Test
     public void loadFromJdbc() throws Exception {
-        final FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/common/database"));
+        final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/common/database"));
         types.init();
 
         final ResourceType table = types.type("table");
-        assertEquals(1, table.read(new DbUri(table.name(), "main_schema", "city")).size());
+        assertEquals(1, table.read(new DbUri(table.name(), "bookings", "airports")).size());
 
         final ResourceType tables = types.type("table");
-        assertEquals(2, tables.read(new DbUri(tables.name(), "main_schema")).size());
-
-        ResourceType column = types.type("column");
-        assertEquals(3, column.read(new DbUri(column.name(), "main_schema", "city")).size());
+        assertEquals(5, tables.read(new DbUri(tables.name(), "bookings")).size());
     }
 
 
     @Test
     public void findByName() throws Exception {
-        FsResourceTypes types = new FsResourceTypes(dataSource, new FileSystemResource("conf/h2/database"));
+        FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/h2/database"));
         types.init();
         assertEquals("schema", types.type("schema").name());
         assertEquals("table", types.type("table").name());
