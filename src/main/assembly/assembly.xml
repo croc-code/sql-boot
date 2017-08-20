@@ -52,8 +52,5 @@
         <file>
             <source>src/main/resources/application.yml</source>
         </file>
-        <file>
-            <source>src/main/resources/config.xml</source>
-        </file>
     </files>
 </assembly>

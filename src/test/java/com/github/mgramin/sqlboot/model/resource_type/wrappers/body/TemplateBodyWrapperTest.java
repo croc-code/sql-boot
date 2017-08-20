@@ -1,7 +1,5 @@
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class TemplateBodyWrapperTest {

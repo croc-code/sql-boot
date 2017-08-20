@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
@@ -49,7 +50,10 @@ import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.io.FileUtils.readFileToString;
@@ -58,12 +62,22 @@ import static org.apache.commons.lang3.StringUtils.substringBetween;
 /**
  * Created by MGramin on 11.07.2017.
  */
+@Service
+@Configuration
+@ConfigurationProperties(prefix = "conf")
 public class FsResourceTypes implements ResourceTypes {
 
-    private final DataSource dataSource;
-    private final List<ResourceType> result = new ArrayList<>();
-    private final Resource baseFolder;
-    private final SqlQuery sqlHelper;
+    private DataSource dataSource;
+    private List<ResourceType> result = new ArrayList<>();
+    private Resource baseFolder;
+    private SqlQuery sqlHelper;
+
+    public FsResourceTypes() {
+    }
+
+    public void setBaseFolder(Resource baseFolder) {
+        this.baseFolder = baseFolder;
+    }
 
     public FsResourceTypes(final Resource baseFolder) {
         final DataSource dataSource = new DataSource();
@@ -92,7 +106,16 @@ public class FsResourceTypes implements ResourceTypes {
     }
 
     @Override
+    @PostConstruct
     public void init() throws BootException {
+        final DataSource dataSource = new DataSource();
+        dataSource.setUrl("jdbc:h2:mem:;"
+                + "INIT=RUNSCRIPT FROM 'classpath:schema.sql'\\;"
+                + "RUNSCRIPT FROM 'classpath:data.sql'");
+        dataSource.setDriverClassName("org.h2.Driver");
+        this.dataSource = dataSource;
+        this.sqlHelper = new JdbcSqlQuery(dataSource);
+
         result.clear();
         try {
             walk(baseFolder.getFile().getPath());

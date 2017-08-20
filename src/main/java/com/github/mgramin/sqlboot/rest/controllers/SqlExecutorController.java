@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.SqlQuery;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +43,8 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by mgramin on 31.12.2016.
  */
 @RestController
-@ImportResource("classpath:config.xml")
+@ComponentScan(basePackages = "com.github.mgramin.sqlboot")
+@EnableAutoConfiguration
 public final class SqlExecutorController {
 
     @Autowired

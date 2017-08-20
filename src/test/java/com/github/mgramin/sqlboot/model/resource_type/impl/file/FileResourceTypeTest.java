@@ -1,7 +1,5 @@
 package com.github.mgramin.sqlboot.model.resource_type.impl.file;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class FileResourceTypeTest {

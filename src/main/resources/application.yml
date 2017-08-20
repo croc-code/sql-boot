@@ -1,1 +1,4 @@
 #base.config.folder: file:conf/h2/database
+
+conf:
+  baseFolder: file:conf/h2/database

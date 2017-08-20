@@ -25,10 +25,10 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.sql.SqlQuery;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 0.1
  */
 @RestController
-@ImportResource("classpath:config.xml")
+@ComponentScan(basePackages = "com.github.mgramin.sqlboot")
+@EnableAutoConfiguration
 public class HealthController {
 
     @Autowired
