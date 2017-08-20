@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
@@ -71,6 +72,9 @@ public class FsResourceTypes implements ResourceTypes {
     private List<ResourceType> result = new ArrayList<>();
     private Resource baseFolder;
     private SqlQuery sqlHelper;
+    private String url;
+    private String user;
+    private String password;
 
     public FsResourceTypes() {
     }
@@ -79,15 +83,21 @@ public class FsResourceTypes implements ResourceTypes {
         this.baseFolder = baseFolder;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public FsResourceTypes(final Resource baseFolder) {
-        final DataSource dataSource = new DataSource();
-        dataSource.setUrl("jdbc:h2:mem:;"
-                + "INIT=RUNSCRIPT FROM 'classpath:schema.sql'\\;"
-                + "RUNSCRIPT FROM 'classpath:data.sql'");
-        dataSource.setDriverClassName("org.h2.Driver");
-        this.dataSource = dataSource;
         this.baseFolder = baseFolder;
-        this.sqlHelper = new JdbcSqlQuery(dataSource);
+        init();
     }
 
     /**
@@ -109,10 +119,9 @@ public class FsResourceTypes implements ResourceTypes {
     @PostConstruct
     public void init() throws BootException {
         final DataSource dataSource = new DataSource();
-        dataSource.setUrl("jdbc:h2:mem:;"
-                + "INIT=RUNSCRIPT FROM 'classpath:schema.sql'\\;"
-                + "RUNSCRIPT FROM 'classpath:data.sql'");
-        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl(url);
+        Optional.ofNullable(user).ifPresent(dataSource::setUsername);
+        Optional.ofNullable(password).ifPresent(dataSource::setPassword);
         this.dataSource = dataSource;
         this.sqlHelper = new JdbcSqlQuery(dataSource);
 

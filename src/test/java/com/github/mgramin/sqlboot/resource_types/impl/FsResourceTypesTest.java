@@ -48,6 +48,7 @@ public class FsResourceTypesTest {
     @Test
     public void loadFromSql() throws Exception {
         final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/h2/database"));
+        types.setUrl("jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';");
         types.init();
 
         final ResourceType table = types.type("table");
@@ -60,6 +61,7 @@ public class FsResourceTypesTest {
     @Test
     public void loadFromJdbc() throws Exception {
         final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/common/database"));
+        types.setUrl("jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';");
         types.init();
 
         final ResourceType table = types.type("table");
