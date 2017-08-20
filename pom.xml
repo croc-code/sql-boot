@@ -192,25 +192,11 @@
         <plugins>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <excludes>
-                        <exclude>conf/*</exclude>
-                        <exclude>src/main/resources/config.xml</exclude>
-                        <exclude>src/main/resources/schema.sql</exclude>
-                        <exclude>src/main/resources/data.sql</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <executable>true</executable>
-                    <layout>ZIP</layout> <!-- to use PropertiesLauncher -->
+                    <layout>ZIP</layout>
                 </configuration>
             </plugin>
 
@@ -226,7 +212,6 @@
                         <resource>
                             <targetPath>/</targetPath>
                             <directory>${project.build.directory}</directory>
-                            <!--<include>${project.build.finalName}.jar</include>-->
                             <include>*.*</include>
                         </resource>
                     </resources>
@@ -254,41 +239,6 @@
                         <exclude>**/Fake*.*</exclude>
                     </excludes>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.1</version>
-                <configuration>
-                    <altDeploymentRepository>
-                        internal.repo::default::file://${project.build.directory}/mvn-repo
-                    </altDeploymentRepository>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>${github.maven-plugin}</version>
-                <configuration>
-                    <message>Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <outputDirectory>${project.build.directory}/mvn-repo
-                    </outputDirectory>
-                    <branch>refs/heads/mvn-repo</branch>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <repositoryName>sql-boot</repositoryName>
-                    <repositoryOwner>mgramin</repositoryOwner>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
