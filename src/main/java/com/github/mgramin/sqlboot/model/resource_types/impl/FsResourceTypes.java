@@ -176,13 +176,13 @@ public class FsResourceTypes implements ResourceTypes {
                         jdbcDbObjectType = null;
                 }
                 ResourceType resourceType = null;
-                if (sqlFile.exists()) {
-                    final String sql;
-                    try {
-                        sql = substringBetween(readFileToString(sqlFile, UTF_8), "````sql", "````");
-                    } catch (IOException e) {
-                        throw new BootException(e);
-                    }
+
+                String sql = null;
+                try {
+                    sql = substringBetween(readFileToString(sqlFile, UTF_8), "````sql", "````");
+                } catch (IOException e) {
+                }
+                if (sqlFile.exists() && sql != null) {
 
                     resourceType = new TemplateBodyWrapper(
                             new LimitWrapper(
