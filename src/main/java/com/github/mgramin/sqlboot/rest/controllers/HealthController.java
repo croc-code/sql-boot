@@ -24,8 +24,8 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

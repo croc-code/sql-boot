@@ -24,10 +24,10 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl;
 
-import java.io.IOException;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.template.TemplateGenerator;
 import groovy.text.markup.MarkupTemplateEngine;
+import java.io.IOException;
 import lombok.ToString;
 
 /**

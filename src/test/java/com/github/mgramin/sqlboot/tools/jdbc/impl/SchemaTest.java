@@ -1,16 +1,17 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
-import java.util.List;
-import javax.sql.DataSource;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
+import java.util.List;
+import javax.sql.DataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by MGramin on 17.07.2017.

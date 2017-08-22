@@ -24,6 +24,8 @@
 
 package com.github.mgramin.sqlboot.sql.impl;
 
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.sql.SqlQuery;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -34,8 +36,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.SqlQuery;
 
 /**
  * Execute SQL-query through Jdbc.

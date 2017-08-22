@@ -24,11 +24,12 @@
 
 package com.github.mgramin.sqlboot.tools.files.file.wrappers;
 
+import static org.codehaus.groovy.runtime.InvokerHelper.asList;
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.tools.files.file.File;
 import com.github.mgramin.sqlboot.tools.files.file.impl.FakeFile;
 import org.junit.Test;
-import static org.codehaus.groovy.runtime.InvokerHelper.asList;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

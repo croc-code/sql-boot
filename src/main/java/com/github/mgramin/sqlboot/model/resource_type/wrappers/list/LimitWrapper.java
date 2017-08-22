@@ -24,14 +24,15 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
-import java.util.List;
+import static java.lang.Long.parseLong;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
+
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import static java.lang.Long.parseLong;
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
+import java.util.List;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

@@ -1,5 +1,7 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Set;
 import javax.sql.DataSource;
 import org.junit.Ignore;
@@ -8,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by MGramin on 17.07.2017.

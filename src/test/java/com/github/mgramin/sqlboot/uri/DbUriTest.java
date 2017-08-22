@@ -24,13 +24,14 @@
 
 package com.github.mgramin.sqlboot.uri;
 
-import java.net.URISyntaxException;
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.model.uri.wrappers.JsonWrapper;
+import java.net.URISyntaxException;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by maksim on 12.06.16.

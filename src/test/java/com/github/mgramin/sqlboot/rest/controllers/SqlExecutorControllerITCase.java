@@ -24,8 +24,10 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import java.util.Arrays;
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.rest.Runner;
+import java.util.Arrays;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +41,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Runner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

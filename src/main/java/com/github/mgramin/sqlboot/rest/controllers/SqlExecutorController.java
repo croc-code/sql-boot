@@ -24,11 +24,11 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

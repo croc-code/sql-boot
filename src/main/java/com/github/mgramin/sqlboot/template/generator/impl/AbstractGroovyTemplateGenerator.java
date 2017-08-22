@@ -24,13 +24,13 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl;
 
+import com.github.mgramin.sqlboot.template.TemplateGenerator;
+import groovy.text.Template;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.github.mgramin.sqlboot.template.TemplateGenerator;
-import groovy.text.Template;
 
 /**
  * Created by MGramin on 26.02.2017.

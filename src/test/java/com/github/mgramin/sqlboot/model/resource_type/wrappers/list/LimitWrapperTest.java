@@ -24,11 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
-import java.util.List;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import java.util.List;
 import org.junit.Test;
 
 /**

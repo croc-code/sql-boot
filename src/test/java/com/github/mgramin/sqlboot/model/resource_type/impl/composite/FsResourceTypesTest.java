@@ -22,17 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.resource_types.impl;
+package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.resource_types.impl.FsResourceTypes;
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -50,12 +49,8 @@ public class FsResourceTypesTest {
         final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/h2/database"));
         types.setUrl("jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';");
         types.init();
-
-        final ResourceType table = types.type("table");
-        assertEquals(1, table.read(new DbUri(table.name(), "bookings", "airports")).size());
-
-        final ResourceType tables = types.type("table");
-        assertEquals(5, tables.read(new DbUri(tables.name(), "bookings")).size());
+        assertEquals(1, types.read(new DbUri("table/bookings.airports")).size());
+        assertEquals(5, types.read(new DbUri("table/bookings")).size());
     }
 
     @Test
@@ -63,25 +58,8 @@ public class FsResourceTypesTest {
         final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/common/database"));
         types.setUrl("jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';");
         types.init();
-
-        final ResourceType table = types.type("table");
-        assertEquals(1, table.read(new DbUri(table.name(), "bookings", "airports")).size());
-
-        final ResourceType tables = types.type("table");
-        assertEquals(5, tables.read(new DbUri(tables.name(), "bookings")).size());
-    }
-
-
-    @Test
-    public void findByName() throws Exception {
-        FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/h2/database"));
-        types.init();
-        assertEquals("schema", types.type("schema").name());
-        assertEquals("table", types.type("table").name());
-        assertEquals("column", types.type("column").name());
-        assertEquals("pk", types.type("pk").name());
-//        assertEquals("fk", types.type("fk").name());
-//        assertEquals("index", types.type("index").name());
+        assertEquals(1, types.read(new DbUri("table/bookings.airports")).size());
+        assertEquals(5, types.read(new DbUri("table/bookings")).size());
     }
 
 }

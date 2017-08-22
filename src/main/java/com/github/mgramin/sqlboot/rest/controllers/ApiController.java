@@ -24,15 +24,16 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import java.io.IOException;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import static java.util.stream.Collectors.toList;
+
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -41,7 +42,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -54,23 +54,23 @@ import static java.util.stream.Collectors.toList;
 public class ApiController {
 
     @Autowired
-    ResourceTypes types;
+    ResourceType types;
 
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<List<DbResource>> getTextDdl(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(5));
-        ResourceTypes fsResourceTypes = types;
-        final ResourceType table = fsResourceTypes.type(uri.type());
-        final List<DbResource> resources = table.read(uri);
+//        ResourceType fsResourceTypes = types;
+//        final ResourceType table = fsResourceTypes.type(uri.type());
+        final List<DbResource> resources = types.read(uri);
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/body/**", method = RequestMethod.GET)
     public ResponseEntity<List<String>> getResourcesBody(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
-        ResourceTypes fsResourceTypes = types;
-        final ResourceType table = fsResourceTypes.type(uri.type());
-        List<String> collect = table.read(uri).stream().map(DbResource::body).collect(toList());
+//        ResourceType fsResourceTypes = types;
+//        final ResourceType table = fsResourceTypes.type(uri.type());
+        List<String> collect = types.read(uri).stream().map(DbResource::body).collect(toList());
         return new ResponseEntity<>(collect, HttpStatus.OK);
     }
 

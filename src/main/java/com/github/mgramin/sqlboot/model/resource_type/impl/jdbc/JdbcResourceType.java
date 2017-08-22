@@ -24,9 +24,6 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
@@ -35,6 +32,9 @@ import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.ToString;
 
 /**

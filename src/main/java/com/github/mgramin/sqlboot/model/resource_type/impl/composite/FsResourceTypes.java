@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_types.impl;
+package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.PostConstruct;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Collections.singletonList;
+import static org.apache.commons.io.FileUtils.readFileToString;
+import static org.apache.commons.lang3.StringUtils.substringBetween;
+
 import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
-import com.github.mgramin.sqlboot.model.resource_types.ResourceTypes;
+import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
@@ -50,15 +50,17 @@ import com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.annotation.PostConstruct;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Collections.singletonList;
-import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.apache.commons.lang3.StringUtils.substringBetween;
 
 /**
  * Created by MGramin on 11.07.2017.
@@ -66,7 +68,7 @@ import static org.apache.commons.lang3.StringUtils.substringBetween;
 @Service
 @Configuration
 @ConfigurationProperties(prefix = "conf")
-public class FsResourceTypes implements ResourceTypes {
+public class FsResourceTypes implements ResourceType {
 
     private DataSource dataSource;
     private List<ResourceType> result = new ArrayList<>();
@@ -115,7 +117,6 @@ public class FsResourceTypes implements ResourceTypes {
         this.sqlHelper = new JdbcSqlQuery(dataSource);
     }
 
-    @Override
     @PostConstruct
     public void init() throws BootException {
         final DataSource dataSource = new DataSource();
@@ -133,8 +134,7 @@ public class FsResourceTypes implements ResourceTypes {
         }
     }
 
-    @Override
-    public ResourceType type(final String name) {
+    private ResourceType type(final String name) {
         return result.stream().filter(v -> v.name().equalsIgnoreCase(name)).findAny().get();
     }
 
@@ -203,6 +203,22 @@ public class FsResourceTypes implements ResourceTypes {
             }
         }
         return list;
+    }
+
+    @Override
+    public String name() {
+        return null;
+    }
+
+    @Override
+    public List<String> aliases() {
+        return null;
+    }
+
+    @Override
+    public List<DbResource> read(Uri uri) throws BootException {
+        ResourceType type = type(uri.type());
+        return type.read(uri);
     }
 
 }

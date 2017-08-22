@@ -24,6 +24,8 @@
 
 package com.github.mgramin.sqlboot.sql.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -32,7 +34,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

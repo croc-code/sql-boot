@@ -24,10 +24,11 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by mgramin on 06.01.2017.
