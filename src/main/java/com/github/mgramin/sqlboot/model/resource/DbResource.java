@@ -57,6 +57,7 @@ public interface DbResource {
      *
      * @return URI
      */
+    @Deprecated
     Uri dbUri();
 
     /**

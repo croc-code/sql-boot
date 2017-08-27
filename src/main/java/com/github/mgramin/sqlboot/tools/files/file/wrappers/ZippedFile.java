@@ -46,7 +46,7 @@ public final class ZippedFile implements File {
     public ZippedFile(final String name, final List<File> origins) {
         this.name = name;
         this.origins = origins;
-        this.content = _content();
+        this.content = unzip();
     }
 
     @Override
@@ -59,7 +59,7 @@ public final class ZippedFile implements File {
         return content;
     }
 
-    private byte[] _content() throws BootException {
+    private byte[] unzip() throws BootException {
         try (ByteArrayOutputStream bytes = new ByteArrayOutputStream();
              ZipOutputStream zip = new ZipOutputStream(bytes)) {
             for (final File ent : this.origins) {

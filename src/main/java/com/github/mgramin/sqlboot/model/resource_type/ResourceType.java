@@ -31,11 +31,12 @@ import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
 
 /**
- * Created by maksim on 16.05.17.
+ *  Resource type
  */
 public interface ResourceType {
 
     /**
+     * Name of resource type, e.g "table", "index", "stored prcedure" etc
      *
      * @return
      */
@@ -43,12 +44,14 @@ public interface ResourceType {
     String name();
 
     /**
+     * Aliases of resource type, e.g. "table", "tbl", "t"
      *
      * @return
      */
     List<String> aliases();
 
     /**
+     * Read resources by uri
      *
      * @param uri
      * @return

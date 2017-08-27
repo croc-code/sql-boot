@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 0.1
  */
 @RestController
-@ComponentScan(basePackages = "com.github.mgramin.sqlboot")
+@ComponentScan(basePackages = "com.github.mgramin.sqlboot.model.resource_type")
 @EnableAutoConfiguration
 public class ApiController {
 
@@ -59,8 +59,6 @@ public class ApiController {
     @RequestMapping(value = "/api/**", method = RequestMethod.GET)
     public ResponseEntity<List<DbResource>> getTextDdl(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(5));
-//        ResourceType fsResourceTypes = types;
-//        final ResourceType table = fsResourceTypes.type(uri.type());
         final List<DbResource> resources = types.read(uri);
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
@@ -68,8 +66,6 @@ public class ApiController {
     @RequestMapping(value = "/api/body/**", method = RequestMethod.GET)
     public ResponseEntity<List<String>> getResourcesBody(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
-//        ResourceType fsResourceTypes = types;
-//        final ResourceType table = fsResourceTypes.type(uri.type());
         List<String> collect = types.read(uri).stream().map(DbResource::body).collect(toList());
         return new ResponseEntity<>(collect, HttpStatus.OK);
     }
@@ -85,3 +81,4 @@ public class ApiController {
     }
 
 }
+
