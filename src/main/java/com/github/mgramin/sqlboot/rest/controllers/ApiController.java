@@ -33,6 +33,7 @@ import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -66,8 +67,16 @@ public class ApiController {
     @RequestMapping(value = "/api/body/**", method = RequestMethod.GET)
     public ResponseEntity<List<String>> getResourcesBody(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
-        List<String> collect = types.read(uri).stream().map(DbResource::body).collect(toList());
-        return new ResponseEntity<>(collect, HttpStatus.OK);
+        final List<String> bodyList = types.read(uri).stream().map(DbResource::body).collect(toList());
+        return new ResponseEntity<>(bodyList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/headers/**", method = RequestMethod.GET)
+    public ResponseEntity<List<Map<String, String>>> getResourcesHeaders(final HttpServletRequest request) throws BootException, IOException {
+        final Uri uri = new DbUri(parseUri(request).substring(13));
+        final List<Map<String, String>> headers = types.read(uri).stream().map(DbResource::headers)
+            .collect(toList());
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
     private String parseUri(final HttpServletRequest request) {

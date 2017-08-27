@@ -61,4 +61,11 @@ public class ApiControllerITCase {
         assertEquals(200, result.getStatusCodeValue());
     }
 
+    @Test
+    public void getResourcesHeaders() throws Exception {
+        ResponseEntity<String> result = client.getForEntity("/api/headers/table/bookings.airports", String.class);
+        System.out.println(result.getBody());
+        assertEquals(200, result.getStatusCodeValue());
+    }
+
 }
