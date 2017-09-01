@@ -24,10 +24,10 @@
 
 package com.github.mgramin.sqlboot.model.resource;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.Map;
 
 /**
  * DB resource

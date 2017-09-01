@@ -24,17 +24,16 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl;
 
-import static java.util.Arrays.asList;
-
+import java.util.Arrays;
+import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource.impl.FakeDbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
-import java.util.Arrays;
-import java.util.List;
 import lombok.ToString;
+import static java.util.Arrays.asList;
 
 /**
  * Created by maksim on 22.05.17.

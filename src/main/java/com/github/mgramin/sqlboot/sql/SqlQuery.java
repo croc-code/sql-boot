@@ -24,9 +24,9 @@
 
 package com.github.mgramin.sqlboot.sql;
 
-import com.github.mgramin.sqlboot.exceptions.BootException;
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException;
 
 /**
  * SQL-query

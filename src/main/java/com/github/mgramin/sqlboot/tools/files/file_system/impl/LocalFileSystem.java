@@ -24,13 +24,13 @@
 
 package com.github.mgramin.sqlboot.tools.files.file_system.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.tools.files.file.File;
 import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile;
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.DirectoryScanner;
 

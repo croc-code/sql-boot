@@ -24,9 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.sql;
 
-import static java.util.Optional.ofNullable;
-import static org.apache.commons.lang3.StringUtils.strip;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
@@ -34,13 +36,10 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.ToString;
 import org.apache.log4j.Logger;
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.strip;
 
 /**
  * Created by MGramin on 12.07.2017.

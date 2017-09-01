@@ -24,11 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.resource.impl;
 
+import java.util.Map;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.Map;
 import lombok.ToString;
 
 /**

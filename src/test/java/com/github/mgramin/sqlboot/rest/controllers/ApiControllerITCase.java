@@ -24,8 +24,6 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import static org.junit.Assert.assertEquals;
-
 import com.github.mgramin.sqlboot.rest.Runner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -50,22 +49,28 @@ public class ApiControllerITCase {
     @Test
     public void getTextDdl() throws Exception {
         ResponseEntity<String> result = client.getForEntity("/api/table/bookings.airports", String.class);
-        System.out.println(result.getBody());
+        System.out.println(result);
+        assertEquals(200, result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getTextDdlWithParams() throws Exception {
+        ResponseEntity<String> result = client.getForEntity("/api/table/bookings.airports?select=remarks", String.class);
+        System.out.println(result);
         assertEquals(200, result.getStatusCodeValue());
     }
 
     @Test
     public void getResourcesBody() throws Exception {
         ResponseEntity<String> result = client.getForEntity("/api/body/table/bookings.airports", String.class);
-        System.out.println(result.getBody());
         assertEquals(200, result.getStatusCodeValue());
     }
 
     @Test
     public void getResourcesHeaders() throws Exception {
         ResponseEntity<String> result = client.getForEntity("/api/headers/table/bookings.airports", String.class);
-        System.out.println(result.getBody());
         assertEquals(200, result.getStatusCodeValue());
     }
 
 }
+

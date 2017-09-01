@@ -1,9 +1,8 @@
 package com.github.mgramin.sqlboot.tools.jdbc;
 
-import static java.util.Arrays.asList;
-
 import java.sql.SQLException;
 import java.util.List;
+import static java.util.Arrays.asList;
 
 /**
  * Created by MGramin on 13.07.2017.

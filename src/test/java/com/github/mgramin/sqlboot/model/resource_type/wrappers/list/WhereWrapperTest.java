@@ -1,11 +1,10 @@
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
-import static org.junit.Assert.assertEquals;
-
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class WhereWrapperTest {
 

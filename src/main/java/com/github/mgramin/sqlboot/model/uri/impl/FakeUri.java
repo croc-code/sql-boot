@@ -24,11 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.uri.impl;
 
-import static java.util.Collections.singletonList;
-
-import com.github.mgramin.sqlboot.model.uri.Uri;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.github.mgramin.sqlboot.model.uri.Uri;
+import static java.util.Collections.singletonList;
 
 public class FakeUri implements Uri {
 
@@ -54,7 +54,7 @@ public class FakeUri implements Uri {
 
     @Override
     public Map<String, String> params() {
-        return null;
+        return new HashMap<>();
     }
 
     @Override

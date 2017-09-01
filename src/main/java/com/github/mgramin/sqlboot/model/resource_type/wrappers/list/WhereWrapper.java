@@ -24,14 +24,13 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
-import static java.util.stream.Collectors.toList;
-
+import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.List;
 import lombok.ToString;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by MGramin on 18.07.2017.

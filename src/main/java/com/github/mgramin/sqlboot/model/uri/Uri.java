@@ -24,9 +24,9 @@
 
 package com.github.mgramin.sqlboot.model.uri;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Resource URI.

@@ -24,10 +24,10 @@
 
 package com.github.mgramin.sqlboot.model.uri.wrappers;
 
-import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import com.github.mgramin.sqlboot.model.uri.Uri;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

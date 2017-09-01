@@ -24,17 +24,19 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Collections.singletonList;
-import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.apache.commons.lang3.StringUtils.substringBetween;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.annotation.PostConstruct;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.uri.Uri;
@@ -50,17 +52,15 @@ import com.github.mgramin.sqlboot.tools.jdbc.impl.PrimaryKey;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Procedure;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Schema;
 import com.github.mgramin.sqlboot.tools.jdbc.impl.Table;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.PostConstruct;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Collections.singletonList;
+import static org.apache.commons.io.FileUtils.readFileToString;
+import static org.apache.commons.lang3.StringUtils.substringBetween;
 
 /**
  * Created by MGramin on 11.07.2017.
@@ -184,17 +184,17 @@ public class FsResourceTypes implements ResourceType {
                 }
                 if (sqlFile.exists() && sql != null) {
 
-                    resourceType = new TemplateBodyWrapper(
-                            new LimitWrapper(
-                                    new WhereWrapper(
-                                            new SqlResourceType(sqlHelper, singletonList(f.getName()), sql))),
-                            new GroovyTemplateGenerator("create some objects ... ;"));
+                    resourceType = new SelectWrapper(new TemplateBodyWrapper(
+                                    new LimitWrapper(
+                                            new WhereWrapper(
+                                                    new SqlResourceType(sqlHelper, singletonList(f.getName()), sql))),
+                            new GroovyTemplateGenerator("create some objects ... ;")));
                 } else if (jdbcDbObjectType != null) {
-                    resourceType = new TemplateBodyWrapper(
-                            new LimitWrapper(
-                                    new WhereWrapper(
-                                            new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType))),
-                            new GroovyTemplateGenerator("create some objects ... ;"));
+                    resourceType = new SelectWrapper(new TemplateBodyWrapper(
+                                    new LimitWrapper(
+                                            new WhereWrapper(
+                                                    new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType))),
+                            new GroovyTemplateGenerator("create some objects ... ;")));
                 }
                 if (resourceType != null) {
                     result.add(resourceType);

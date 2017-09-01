@@ -24,18 +24,17 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Optional;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.template.TemplateGenerator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Optional;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Created by MGramin on 18.07.2017.

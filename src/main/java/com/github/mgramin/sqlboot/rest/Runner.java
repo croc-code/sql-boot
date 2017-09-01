@@ -24,10 +24,9 @@
 
 package com.github.mgramin.sqlboot.rest;
 
-import static java.lang.System.setProperty;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import static java.lang.System.setProperty;
 
 @SpringBootApplication
 public class Runner {
