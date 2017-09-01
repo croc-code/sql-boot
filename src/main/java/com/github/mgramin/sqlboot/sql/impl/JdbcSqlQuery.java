@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
@@ -60,7 +61,7 @@ public final class JdbcSqlQuery implements SqlQuery {
         throws BootException {
         return new JdbcTemplate(dataSource).queryForList(sql).stream()
             .map(map -> map.entrySet().stream()
-                .collect(toMap(Entry::getKey, v -> v.getValue().toString(), (a, b) -> a,
+                .collect(toMap(Entry::getKey, v -> Optional.ofNullable(v.getValue()).map(Object::toString).orElse("[NULL]"), (a, b) -> a,
                 LinkedHashMap::new)))
             .collect(toList());
     }
