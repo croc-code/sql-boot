@@ -37,21 +37,23 @@ Try with Docker and embedded (H2) demo db:
 docker run -t -p 8080:8080 mgramin/sql-boot
 ```
 
-Build from source:
-------------------
-```
-git clone https://github.com/mgramin/sql-boot  
-cd sql-boot  
-mvn package 
-```
-
 Base configurations:
 --------------------
 
-https://github.com/sql-boot/postgres
+https://github.com/sql-boot/sql-boot-postgresql
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgresql.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgresql)
 
-https://github.com/sql-boot/oracle 
-[![Build Status](https://travis-ci.org/sql-boot/oracle.svg?branch=master)](https://travis-ci.org/sql-boot/oracle)
+https://github.com/sql-boot/sql-boot-oracle
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-oracle.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-oracle)
 
-https://github.com/sql-boot/cassandra 
-[![Build Status](https://travis-ci.org/sql-boot/cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/cassandra)
+https://github.com/sql-boot/sql-boot-cassandra
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-cassandra)
+
+Build from source:
+------------------
+```
+git clone https://github.com/mgramin/sql-boot
+cd sql-boot
+mvn package
+```
+
