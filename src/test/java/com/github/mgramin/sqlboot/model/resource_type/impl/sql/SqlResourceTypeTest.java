@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -52,32 +53,37 @@ public class SqlResourceTypeTest {
 
     @Test
     public void name() throws Exception {
+        final SqlResourceType table = new SqlResourceType(new JdbcSqlQuery(dataSource),
+            asList("table"), "sql query ...");
+        assertEquals("table", table.name());
     }
 
     @Test
     public void aliases() throws Exception {
+        final SqlResourceType table = new SqlResourceType(new JdbcSqlQuery(dataSource),
+            asList("table"), "sql query ...");
+        assertEquals("[table]", table.aliases().toString());
     }
 
     @Test
     public void read() throws Exception {
         final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\" "
                 + "from information_schema.tables)";
-        ResourceType type = new WhereWrapper(
+        final ResourceType type = new WhereWrapper(
                 new SqlResourceType(new JdbcSqlQuery(dataSource), asList("table"), sql));
         List<DbResource> resources = type.read(new DbUri("table/m.column"));
-        System.out.println(resources);
+        assertEquals(3, resources.size());
     }
 
     @Test
     public void read2() throws Exception {
-        final String sql =
-                "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\", column_name as \"@column_name\""
+        final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\", column_name as \"@column_name\""
                         + "from information_schema.columns)";
         ResourceType type = new WhereWrapper(
                 new SqlResourceType(new JdbcSqlQuery(dataSource), asList("column"), sql));
         List<DbResource> resources = type.read(
                 new DbUri("column/main_schema.users"));
-        System.out.println(resources);
+        assertEquals(4, resources.size());
     }
 
 }

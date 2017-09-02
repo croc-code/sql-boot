@@ -50,6 +50,7 @@ public interface Uri {
      *
      * @return Action name.
      */
+    @Deprecated // ?
     String action();
 
     /**
