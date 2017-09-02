@@ -1,6 +1,7 @@
 # Database as a Code!
 
 [![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
+[![Build status](https://ci.appveyor.com/api/projects/status/h72if6ir8ehp1vwv?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot)
 [![Coverage Status](https://coveralls.io/repos/github/mgramin/sql-boot/badge.svg?branch=master)](https://coveralls.io/github/mgramin/sql-boot?branch=master)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mgramin/sql-boot/blob/master/LICENSE)
 [![codebeat badge](https://codebeat.co/badges/5f90d946-b2a2-46fe-8951-99f354b3a8e9)](https://codebeat.co/projects/github-com-mgramin-sql-boot-master)
