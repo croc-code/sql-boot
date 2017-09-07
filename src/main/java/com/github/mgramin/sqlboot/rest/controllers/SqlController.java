@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @EnableAutoConfiguration
-public final class SqlExecutorController {
+public final class SqlController {
 
     @Autowired
     DataSource dataSource;

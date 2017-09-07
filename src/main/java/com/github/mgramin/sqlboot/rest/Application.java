@@ -22,13 +22,18 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.template;
+package com.github.mgramin.sqlboot.rest;
 
-/**
- * Created by maksim on 29.04.17.
- */
-public interface TemplateGeneratorFactory {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import static java.lang.System.setProperty;
 
-    TemplateGenerator create(String template);
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        setProperty("loader.path", ".");
+        SpringApplication.run(Application.class, args);
+    }
 
 }

@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.github.mgramin.sqlboot.template.TemplateGenerator;
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import groovy.text.Template;
 
 /**

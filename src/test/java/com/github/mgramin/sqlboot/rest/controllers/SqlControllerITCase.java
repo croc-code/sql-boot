@@ -21,7 +21,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import com.github.mgramin.sqlboot.rest.Runner;
+import com.github.mgramin.sqlboot.rest.Application;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,9 +38,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Runner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
-public class SqlExecutorControllerITCase {
+public class SqlControllerITCase {
 
     @Autowired
     private TestRestTemplate restClient;

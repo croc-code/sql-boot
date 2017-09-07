@@ -24,8 +24,8 @@
 
 package com.github.mgramin.sqlboot.template.generator.factory;
 
-import com.github.mgramin.sqlboot.template.TemplateGenerator;
-import com.github.mgramin.sqlboot.template.TemplateGeneratorFactory;
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
+import com.github.mgramin.sqlboot.template.generator.TemplateGeneratorFactory;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyMarkupTemplateGenerator;
 
 /**
