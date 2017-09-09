@@ -36,12 +36,16 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -56,21 +60,26 @@ public class ApiController {
     @Autowired
     ResourceType types;
 
-    @RequestMapping(value = "/api/**", method = RequestMethod.GET)
+    @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
+    public Resource apiDocs() {
+        return new ClassPathResource("swagger.json");
+    }
+
+    @RequestMapping(value = "/api/**", method = GET)
     public ResponseEntity<List<DbResource>> getTextDdl(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(5));
         final List<DbResource> resources = types.read(uri);
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/body/**", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/body/**", method = GET)
     public ResponseEntity<List<String>> getResourcesBody(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
         final List<String> bodyList = types.read(uri).stream().map(DbResource::body).collect(toList());
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/headers/**", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/headers/**", method = GET)
     public ResponseEntity<List<Map<String, String>>> getResourcesHeaders(final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         final List<Map<String, String>> headers = types.read(uri).stream().map(DbResource::headers)
