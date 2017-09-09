@@ -24,13 +24,14 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl;
 
-import java.util.Arrays;
-import java.util.Map;
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
-import org.junit.Test;
 import static com.google.common.collect.ImmutableMap.of;
 import static org.junit.Assert.assertEquals;
+
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
+import java.util.Arrays;
+import java.util.Map;
+import org.junit.Test;
 
 /**
  * Created by MGramin on 10.12.2016.

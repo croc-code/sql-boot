@@ -24,13 +24,14 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

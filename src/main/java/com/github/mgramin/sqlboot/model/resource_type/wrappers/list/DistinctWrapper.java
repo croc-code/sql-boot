@@ -24,11 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
-import java.util.List;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
+import java.util.List;
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -43,17 +43,18 @@ public class DistinctWrapper implements ResourceType {
 
     @Override
     public String name() {
-        return null;
+        return origin.name();
     }
 
     @Override
     public List<String> aliases() {
-        return null;
+        return origin.aliases();
     }
 
     @Override
     public List<DbResource> read(final Uri uri) throws BootException {
-        return null;
+        // TODO
+        return origin.read(uri);
     }
 
 }

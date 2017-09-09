@@ -24,12 +24,13 @@
 
 package com.github.mgramin.sqlboot.tools.files.file_system.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

@@ -24,11 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.resource_type;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.uri.Uri;
+import java.util.List;
 
 /**
  *  Resource type
