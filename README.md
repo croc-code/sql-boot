@@ -12,15 +12,14 @@
 
 Evolutionary, Transparent and Polyglot DB-framework for Developers, DBA and DevOps Engineers
 
-- Create and manage your DB source code (DDL, DML, etc)
-- Database reverse engineering
-- DB independent - native old SQL/*QL/JDBC/REST
-- Share expert knowledge
-- Multiplatform (REST/Java based)
+- Create and manage your DB source code (DDL, DML, etc);
+- Database reverse engineering;
+- DB independent - native old SQL/*QL/JDBC/REST;
+- Share expert knowledge;
+- Multiplatform (REST/Java based).
 
-Try online on Heroku (embedded H2):
------------------------------------
-
+Try online (on Heroku):
+-----------------------
 - [table/hr](https://sql-boot.herokuapp.com/api/table/hr) - get all table from "hr" schema
 - [table/hr.jobs](https://sql-boot.herokuapp.com/api/table/hr.jobs) - get table "hr.jobs"
 - [table/hr.users/](https://sql-boot.herokuapp.com/api/table/hr.users/) - get table "hr.users" with child objects (pk, fk, indexes etc)
@@ -29,6 +28,11 @@ Try online on Heroku (embedded H2):
 - [index/hr.p*](https://sql-boot.herokuapp.com/api/index/hr.p*) - get all indexes from "hr" schema and starting with "p"
 - [pk/hr](https://sql-boot.herokuapp.com/api/pk/hr) - get all pk from "hr" schema
 - [fk/*](https://sql-boot.herokuapp.com/api/fk/*) - get all fk from all db schemas
+
+
+Try online (on SwaggerHub):
+---------------------------
+https://app.swaggerhub.com/apis/mgramin/commons-sql_boot_configuration/v1
 
 
 Try with Docker and embedded (H2) demo db:

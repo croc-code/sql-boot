@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Base commons sql-boot JDBC configuration",
+    "title": "Commons sql-boot configuration",
     "version": "v1"
   },
   "schemes": [
@@ -14,6 +14,7 @@
         "parameters": [
           {"name": "schema_name", "in": "path", "description": "Schema name",
             "required": true, "type": "string"}],
+        "responses":  {"200" : {"description": "OK"}},
         "produces": ["application/json"]
       }
     },
@@ -25,6 +26,7 @@
             "required": true, "type": "string"},
           {"name": "table_name", "in": "path", "description": "Table name",
             "required": true, "type": "string"}],
+        "responses":  {"200" : {"description": "OK"}},
         "produces": ["application/json"]
       }
     },
@@ -34,9 +36,8 @@
         "parameters": [
           {"name": "schema_name", "in": "path", "description": "Schema name",
             "required": true, "type": "string"}],
-        "produces": [
-          "application/json"
-        ]
+        "responses":  {"200" : {"description": "OK"}},
+        "produces": ["application/json"]
       }
     },
     "/api/column/{schema_name}.{table_name}": {
@@ -47,9 +48,8 @@
             "required": true, "type": "string"},
           {"name": "table_name", "in": "path", "description": "Table name",
             "required": true, "type": "string"}],
-        "produces": [
-          "application/json"
-        ]
+        "responses":  {"200" : {"description": "OK"}},
+        "produces": ["application/json"]
       }
     },
     "/api/column/{schema_name}.{table_name}.{column_name}": {
@@ -62,9 +62,8 @@
             "required": true, "type": "string"},
           {"name": "column_name", "in": "path", "description": "Column name",
             "required": true, "type": "string"}],
-        "produces": [
-          "application/json"
-        ]
+        "responses":  {"200" : {"description": "OK"}},
+        "produces": ["application/json"]
       }
     }
   },
