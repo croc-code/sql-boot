@@ -55,6 +55,7 @@ public class CacheWrapper implements ResourceType {
 
     @Override
     public List<DbResource> read(Uri uri) throws BootException {
+        // TODO use "uri.params().get("skip_cache")"
         return origin.read(uri);
     }
 
