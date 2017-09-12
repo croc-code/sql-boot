@@ -15,7 +15,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -25,8 +25,8 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceT
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -56,35 +56,44 @@ public class ApiController {
         return new ClassPathResource("swagger.json");
     }
 
+    // TODO set consume/produce "application/json" only
     @RequestMapping(value = "/api/**", method = GET)
-    public ResponseEntity<List<DbResource>> getTextDdl(final HttpServletRequest request)
+    public ResponseEntity<Map<String, DbResource>> getTextDdl(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(5));
         types.init();
-        final List<DbResource> resources = types.read(uri);
+        final Map<String, DbResource> resources = types.read(uri).stream()
+            .collect(Collectors.toMap(DbResource::name, v -> v));
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
+    // TODO set consume/produce "application/json" only
     @RequestMapping(value = "/api/body/**", method = GET)
-    public ResponseEntity<List<String>> getResourcesBody(final HttpServletRequest request)
+    public ResponseEntity<Map<String, String>> getResourcesBody(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
         types.init();
-        final List<String> bodyList = types.read(uri).stream().map(DbResource::body)
-            .collect(toList());
+        final Map<String, String> bodyList = types.read(uri).stream()
+            .collect(toMap(DbResource::name, DbResource::body));
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
     }
 
+    // TODO set consume/produce "application/json" only
     @RequestMapping(value = "/api/headers/**", method = GET)
-    public ResponseEntity<List<Map<String, String>>> getResourcesHeaders(
+    public ResponseEntity<Map<String, Map<String, String>>> getResourcesHeaders(
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         types.init();
-        final List<Map<String, String>> headers = types.read(uri).stream().map(DbResource::headers)
-            .collect(toList());
+        final Map<String, Map<String, String>> headers = types.read(uri).stream()/*.map(DbResource::headers)*/
+            .collect(Collectors.toMap(DbResource::name, DbResource::headers));
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
+    // TODO create other handlers, e.g. "plain/text" etc
+
+    /**
+     * parse URI
+     */
     private String parseUri(final HttpServletRequest request) {
         String uriString;
         if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
