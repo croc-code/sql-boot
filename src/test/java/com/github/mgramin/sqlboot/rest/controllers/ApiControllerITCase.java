@@ -24,14 +24,23 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
+import static java.util.Collections.*;
 import static org.junit.Assert.assertEquals;
 
 import com.github.mgramin.sqlboot.rest.Application;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -48,8 +57,27 @@ public class ApiControllerITCase {
     private TestRestTemplate client;
 
     @Test
-    public void getTextDdl() throws Exception {
-        ResponseEntity<String> result = client.getForEntity("/api/table/bookings.airports", String.class);
+    public void getJson() throws Exception {
+        final HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+        ResponseEntity<String> result = client.exchange("/api/table/bookings.airports", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        System.out.println(result);
+        assertEquals(200, result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getText() throws Exception {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        ResponseEntity<String> result = client.exchange("/api/table/bookings.airports", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        System.out.println(result);
+        assertEquals(200, result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getTextDdl2() throws Exception {
+        ResponseEntity<String> result = client.getForEntity("/api/table", String.class);
         System.out.println(result);
         assertEquals(200, result.getStatusCodeValue());
     }
@@ -69,7 +97,9 @@ public class ApiControllerITCase {
 
     @Test
     public void getResourcesHeaders() throws Exception {
-        ResponseEntity<String> result = client.getForEntity("/api/headers/table/bookings.airports", String.class);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        ResponseEntity<String> result = client.exchange("/api/headers/table/bookings", HttpMethod.GET, new HttpEntity<>(headers), String.class);
         System.out.println(result);
         assertEquals(200, result.getStatusCodeValue());
     }

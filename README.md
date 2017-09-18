@@ -32,6 +32,7 @@ Try online (on Heroku):
 
 Try online (on SwaggerHub):
 ---------------------------
+![swagger validator](http://online.swagger.io/validator?url=https://raw.githubusercontent.com/mgramin/sql-boot/master/src/main/resources/swagger.json)
 https://app.swaggerhub.com/apis/mgramin/commons-sql_boot_configuration/v1
 
 
@@ -62,4 +63,3 @@ https://github.com/sql-boot/sql-boot-oracle
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot-cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-cassandra)
 https://github.com/sql-boot/sql-boot-cassandra
-

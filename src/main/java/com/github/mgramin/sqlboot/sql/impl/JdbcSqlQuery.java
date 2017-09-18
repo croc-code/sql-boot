@@ -21,6 +21,7 @@
 
 package com.github.mgramin.sqlboot.sql.impl;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
@@ -30,7 +31,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -62,7 +62,7 @@ public final class JdbcSqlQuery implements SqlQuery {
         throws BootException {
         return new JdbcTemplate(dataSource).queryForList(sql).stream()
             .map(map -> map.entrySet().stream()
-                .collect(toMap(Entry::getKey, v -> Optional.ofNullable(v.getValue()).map(Object::toString).orElse("[NULL]"), (a, b) -> a,
+                .collect(toMap(Entry::getKey, v -> ofNullable(v.getValue()).map(Object::toString).orElse("[NULL]"), (a, b) -> a,
                 LinkedHashMap::new)))
             .collect(toList());
     }

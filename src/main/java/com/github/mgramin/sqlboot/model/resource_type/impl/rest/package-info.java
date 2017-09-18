@@ -22,20 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.template.generator.factory;
-
-import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
-import com.github.mgramin.sqlboot.template.generator.TemplateGeneratorFactory;
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
-
 /**
- * Created by maksim on 29.04.17.
+ * Rest.
+ *
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id$
+ * @since 0.1
  */
-public final class GroovyTemplateGeneratorFactory implements TemplateGeneratorFactory {
-
-    @Override
-    public TemplateGenerator create(final String template) {
-        return new GroovyTemplateGenerator(template);
-    }
-
-}
+package com.github.mgramin.sqlboot.model.resource_type.impl.rest;
