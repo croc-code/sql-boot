@@ -30,7 +30,6 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.net.URI;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,6 @@ public final class DbUri implements Uri {
     private final List<String> objects;
     private final Boolean recursive;
     private final Map<String, String> params = new LinkedHashMap<>();
-    private final Map<String, String> filters = new HashMap<>();
 
     public DbUri(final String type, String ... objects) {
         this.type = type;
@@ -96,11 +94,6 @@ public final class DbUri implements Uri {
     }
 
     @Override
-    public String action() {
-        return action;
-    }
-
-    @Override
     public List<String> path() {
         return objects;
     }
@@ -115,13 +108,6 @@ public final class DbUri implements Uri {
     public Map<String, String> params() {
         return params;
     }
-
-    @Override
-    @Deprecated // ?
-    public Map<String, String> filters() {
-        return filters;
-    }
-
 
     @Override
     public String toString() {

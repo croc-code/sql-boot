@@ -48,11 +48,6 @@ public class SqlPlaceholdersWrapper implements Uri {
     }
 
     @Override
-    public String action() {
-        return origin.action();
-    }
-
-    @Override
     public List<String> path() {
         return origin.path().stream()
                 .map(v -> v.replace("*", "%"))
@@ -67,11 +62,6 @@ public class SqlPlaceholdersWrapper implements Uri {
     @Override
     public Map<String, String> params() {
         return origin.params();
-    }
-
-    @Override
-    public Map<String, String> filters() {
-        return origin.filters();
     }
 
 }

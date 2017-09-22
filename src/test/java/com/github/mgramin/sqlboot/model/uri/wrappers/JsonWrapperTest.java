@@ -19,11 +19,6 @@ public class JsonWrapperTest {
     }
 
     @Test
-    public void action() throws Exception {
-        assertNull(uri.action());
-    }
-
-    @Test
     public void path() throws Exception {
         assertEquals("%persons%", uri.path().get(1));
     }
@@ -39,13 +34,8 @@ public class JsonWrapperTest {
     }
 
     @Test
-    public void filters() throws Exception {
-        assertEquals(0, uri.filters().size());
-    }
-
-    @Test
     public void toStringTest() throws Exception {
-        assertEquals("DbUri{type='table', dbSchemaObjectCommand='null', path=[hr, *persons*], recursive=true, params={}}",
+        assertEquals("DbUri{type='table', path=[hr, *persons*], recursive=true, params={}}",
             uri.toString());
     }
 

@@ -46,14 +46,6 @@ public interface Uri {
     String type();
 
     /**
-     * Action.
-     *
-     * @return Action name.
-     */
-    @Deprecated // ?
-    String action();
-
-    /**
      *
      *
      * @return
@@ -61,7 +53,6 @@ public interface Uri {
     @JsonProperty
     List<String> path();
 
-    @Deprecated // TODO only for Queryable uri
     Boolean recursive();
 
     /**
@@ -70,12 +61,5 @@ public interface Uri {
      * @return
      */
     Map<String, String> params();
-
-    /**
-     *
-     * @return
-     */
-    @Deprecated // ?
-    Map<String, String> filters();
 
 }

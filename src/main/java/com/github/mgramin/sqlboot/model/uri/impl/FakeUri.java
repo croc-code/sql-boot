@@ -39,11 +39,6 @@ public class FakeUri implements Uri {
     }
 
     @Override
-    public String action() {
-        return null;
-    }
-
-    @Override
     public List<String> path() {
         return singletonList("FAKE_TBL");
     }
@@ -56,11 +51,6 @@ public class FakeUri implements Uri {
     @Override
     public Map<String, String> params() {
         return new HashMap<>();
-    }
-
-    @Override
-    public Map<String, String> filters() {
-        return null;
     }
 
 }

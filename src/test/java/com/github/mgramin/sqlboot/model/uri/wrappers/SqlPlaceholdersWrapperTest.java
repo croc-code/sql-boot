@@ -19,11 +19,6 @@ public class SqlPlaceholdersWrapperTest {
     }
 
     @Test
-    public void action() throws Exception {
-        assertNull(uri.action());
-    }
-
-    @Test
     public void path() throws Exception {
         assertEquals("%persons%", uri.path().get(1));
     }
@@ -36,11 +31,6 @@ public class SqlPlaceholdersWrapperTest {
     @Test
     public void params() throws Exception {
         assertEquals(0, uri.params().size());
-    }
-
-    @Test
-    public void filters() throws Exception {
-        assertEquals(0, uri.filters().size());
     }
 
 }
