@@ -54,6 +54,7 @@ mvn package
 Base configurations:
 --------------------
 
+https://github.com/sql-boot/sql-boot-conf
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgresql.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgresql)
 https://github.com/sql-boot/sql-boot-postgresql
@@ -63,3 +64,5 @@ https://github.com/sql-boot/sql-boot-oracle
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot-cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-cassandra)
 https://github.com/sql-boot/sql-boot-cassandra
+
+https://github.com/sql-boot/sql-boot-clickhouse
