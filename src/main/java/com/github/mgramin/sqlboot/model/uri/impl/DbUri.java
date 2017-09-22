@@ -99,7 +99,6 @@ public final class DbUri implements Uri {
     }
 
     @Override
-    @Deprecated // TODO only for Queryable uri
     public Boolean recursive() {
         return recursive;
     }
