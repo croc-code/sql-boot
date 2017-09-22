@@ -56,7 +56,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -118,7 +117,6 @@ public class FsResourceTypes implements ResourceType {
         this.sqlHelper = new JdbcSqlQuery(dataSource);
     }
 
-    @PostConstruct
     public void init() throws BootException {
         final DataSource dataSource = new DataSource();
         dataSource.setUrl(url);
@@ -176,28 +174,27 @@ public class FsResourceTypes implements ResourceType {
                     default:
                         jdbcDbObjectType = null;
                 }
-                ResourceType resourceType = null;
 
                 String sql = null;
                 try {
                     sql = substringBetween(readFileToString(sqlFile, UTF_8), "````sql", "````");
                 } catch (IOException e) {
+                    // TODO process this exception
                 }
+                final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
-
-                    resourceType = new SelectWrapper(new TemplateBodyWrapper(
-                                    new LimitWrapper(
-                                            new WhereWrapper(
-                                                    new SqlResourceType(sqlHelper, singletonList(f.getName()), sql))),
-                            new GroovyTemplateGenerator("create some objects ... ;")));
+                    baseResourceType = new SqlResourceType(sqlHelper, singletonList(f.getName()), sql);
                 } else if (jdbcDbObjectType != null) {
-                    resourceType = new SelectWrapper(new TemplateBodyWrapper(
-                                    new LimitWrapper(
-                                            new WhereWrapper(
-                                                    new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType))),
-                            new GroovyTemplateGenerator("create some objects ... ;")));
+                    baseResourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
+                } else {
+                    baseResourceType = null;
                 }
-                if (resourceType != null) {
+                final ResourceType resourceType = new SelectWrapper(
+                    new TemplateBodyWrapper(
+                        new LimitWrapper(
+                            new WhereWrapper(baseResourceType)),
+                        new GroovyTemplateGenerator("create objects ... ;")));
+                if (baseResourceType != null) {
                     result.add(resourceType);
                     list.add(resourceType);
                 }

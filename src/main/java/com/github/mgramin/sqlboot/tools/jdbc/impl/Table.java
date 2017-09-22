@@ -32,9 +32,9 @@ public class Table extends AbstractJdbcObjectType implements JdbcDbObjectType {
 
     @Override
     public List<JdbcDbObject> read(List<String> params) throws SQLException {
-        ResultSet columns = dataSource.getConnection().getMetaData().
+        ResultSet tables = dataSource.getConnection().getMetaData().
                 getTables(null, "%", "%", new String[]{"TABLE"});
-        return toMap(columns).stream()
+        return toMap(tables).stream()
                 .map(v -> new JdbcDbObjectImpl(
                         asList(v.get("TABLE_SCHEMA"), v.get(COLUMN_NAME_PROPERTY)),
                         v))

@@ -37,10 +37,6 @@
             <directory>conf</directory>
             <outputDirectory>conf</outputDirectory>
         </fileSet>
-        <fileSet>
-            <directory>src/main/assembly/static/lib</directory>
-            <outputDirectory>lib</outputDirectory>
-        </fileSet>
     </fileSets>
     <files>
         <file>

@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
 import static org.junit.Assert.assertEquals;
 
+import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,12 @@ public class FsResourceTypesTest {
         types.init();
         assertEquals(1, types.read(new DbUri("table/bookings.airports")).size());
         assertEquals(5, types.read(new DbUri("table/bookings")).size());
+
+        for (DbResource dbResource : types.read(new DbUri("table/bookings.airports"))) {
+            System.out.println(dbResource.headers());
+            System.out.println(dbResource.body());
+        }
+
     }
 
     @Test
@@ -60,6 +67,11 @@ public class FsResourceTypesTest {
         types.init();
         assertEquals(1, types.read(new DbUri("table/bookings.airports")).size());
         assertEquals(5, types.read(new DbUri("table/bookings")).size());
+
+        for (DbResource dbResource : types.read(new DbUri("table/bookings.airports"))) {
+            System.out.println(dbResource.headers());
+            System.out.println(dbResource.body());
+        }
     }
 
 }

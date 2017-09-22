@@ -58,7 +58,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/api/**")
-    public ResponseEntity<Map<String, DbResource>> getJson(final HttpServletRequest request)
+    public ResponseEntity<Map<String, DbResource>> getResourcesEntireJson(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(5));
         types.init();
@@ -68,7 +68,17 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/api/body/**", method = GET)
-    public ResponseEntity<Map<String, String>> getResourcesBody(final HttpServletRequest request)
+    public ResponseEntity<Map<String, String>> getResourcesBodyJson(final HttpServletRequest request)
+        throws BootException, IOException {
+        final Uri uri = new DbUri(parseUri(request).substring(10));
+        types.init();
+        final Map<String, String> bodyList = types.read(uri).stream()
+            .collect(toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::body));
+        return new ResponseEntity<>(bodyList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/body/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
+    public ResponseEntity<Map<String, String>> getResourcesBodyTextPlain(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
         types.init();
@@ -78,7 +88,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/api/headers/**", method = GET)
-    public ResponseEntity<Map<String, Map<String, String>>> getResourcesHeaders(
+    public ResponseEntity<Map<String, Map<String, String>>> getResourcesHeadersJson(
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         types.init();
@@ -89,7 +99,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/api/headers/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> getResourcesHeadersText(
+    public ResponseEntity<String> getResourcesHeadersTextPlain(
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         types.init();
