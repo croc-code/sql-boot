@@ -54,6 +54,7 @@ mvn package
 Base configurations:
 --------------------
 
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-conf.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-conf)
 https://github.com/sql-boot/sql-boot-conf
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgresql.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgresql)
