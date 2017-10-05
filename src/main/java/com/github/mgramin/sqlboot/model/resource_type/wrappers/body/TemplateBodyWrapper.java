@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
@@ -64,10 +65,14 @@ public class TemplateBodyWrapper implements ResourceType {
     public List<DbResource> read(final Uri uri) throws BootException {
         List<DbResource> resources = origin.read(uri);
         return resources.stream()
-                .map(v -> new DbResourceBodyWrapper(v,
+                .map(origin -> new DbResourceBodyWrapper(origin,
                         templateGenerator.generate(
-                                v.headers().entrySet().stream()
-                                        .collect(toMap(Entry::getKey, e -> Optional.ofNullable(e.getValue()).map(o -> (Object) o).orElse("")))
+                                origin.headers().entrySet().stream()
+                                        .collect(
+                                            toMap(Entry::getKey,
+                                            e -> ofNullable(e.getValue())
+                                                .map(o -> (Object) o)
+                                                .orElse("")))
                         )))
                 .collect(toList());
     }

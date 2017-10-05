@@ -57,15 +57,18 @@ public class ApiController {
         return new ClassPathResource("swagger.json");
     }
 
+
+
     @RequestMapping(value = "/api/**")
-    public ResponseEntity<Map<String, DbResource>> getResourcesEntireJson(final HttpServletRequest request)
-        throws BootException, IOException {
+    public ResponseEntity<Map<String, DbResource>> getResourcesEntireJson(final HttpServletRequest request) {
         final Uri uri = new DbUri(parseUri(request).substring(5));
         types.init();
         final Map<String, DbResource> resources = types.read(uri).stream()
             .collect(toMap(v -> v.dbUri().toString().toLowerCase(), v -> v));
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
+
+
 
     @RequestMapping(value = "/api/body/**", method = GET)
     public ResponseEntity<Map<String, String>> getResourcesBodyJson(final HttpServletRequest request)
@@ -86,6 +89,8 @@ public class ApiController {
             .collect(toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::body));
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
     }
+
+
 
     @RequestMapping(value = "/api/headers/**", method = GET)
     public ResponseEntity<Map<String, Map<String, String>>> getResourcesHeadersJson(
@@ -108,6 +113,9 @@ public class ApiController {
         return new ResponseEntity<>(collect, HttpStatus.OK);
     }
 
+
+
+
     /**
      * parse URI
      */
@@ -122,4 +130,3 @@ public class ApiController {
     }
 
 }
-

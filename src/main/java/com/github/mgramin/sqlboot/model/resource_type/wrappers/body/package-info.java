@@ -23,7 +23,7 @@
  */
 
 /**
- * Wrappers for db objects body
+ * Generate body for db resources
  *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
