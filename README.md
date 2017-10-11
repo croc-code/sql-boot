@@ -10,7 +10,7 @@
 [![Main distribution](https://img.shields.io/badge/zip-download-brightgreen.svg)](https://github.com/mgramin/sql-boot/releases/latest)
 [![Join the chat at https://gitter.im/sqlboot/Lobby](https://badges.gitter.im/sqlboot/Lobby.svg)](https://gitter.im/sqlboot/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Evolutionary, Transparent and Polyglot DB-framework for Developers, DBA and DevOps Engineers
+Evolutionary, Transparent and Polyglot DB-management framework for Developers, DBA and DevOps Engineers
 
 - Create and manage your DB source code (DDL, DML, etc);
 - Database reverse engineering;
