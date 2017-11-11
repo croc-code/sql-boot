@@ -1,4 +1,4 @@
-# Database as a Code _
+# Database as a Code_
 
 [![Build Status](https://travis-ci.org/mgramin/sql-boot.svg?branch=master)](https://travis-ci.org/mgramin/sql-boot)
 [![Build status](https://ci.appveyor.com/api/projects/status/h72if6ir8ehp1vwv?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot)
