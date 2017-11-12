@@ -76,7 +76,7 @@ public final class JdbcSqlQuery implements SqlQuery {
             public Map<String, String> next() {
                 return stream(rowSet.getMetaData().getColumnNames())
                     .map(v -> new SimpleEntry<>(v, rowSet.getString(v)))
-                    .collect(toMap(Entry::getKey, v -> ofNullable(v.getValue())
+                    .collect(toMap(k -> k.getKey().toLowerCase(), v -> ofNullable(v.getValue())
                         .map(Object::toString)
                         .orElse("[NULL]"), (a, b) -> a, LinkedHashMap::new));
             }

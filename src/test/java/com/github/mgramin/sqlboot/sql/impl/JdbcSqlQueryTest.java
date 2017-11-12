@@ -53,7 +53,7 @@ public class JdbcSqlQueryTest {
         List<Map<String, String>> select = new JdbcSqlQuery(dataSource)
                 .select("select * from (select name AS n, email as mail from main_schema.users)").collect(toList());
         assertEquals(select.toString(),
-                "[{N=mkyong, MAIL=mkyong@gmail.com}, {N=alex, MAIL=alex@yahoo.com}, {N=joel, MAIL=joel@gmail.com}]");
+                "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]");
     }
 
     @Test
