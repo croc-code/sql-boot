@@ -24,7 +24,7 @@ public class CacheWrapperTest {
 
     @Test
     public void read() throws Exception {
-        assertEquals(3, type.read(new DbUri("table/hr.persons")).size());
+        assertEquals(3, type.read(new DbUri("table/hr.persons")).count());
     }
 
 }

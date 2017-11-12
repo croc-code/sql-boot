@@ -29,6 +29,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  *  Resource type
@@ -57,10 +58,10 @@ public interface ResourceType {
      * @return
      * @throws BootException
      */
-    List<DbResource> read(Uri uri) throws BootException;
+    Stream<DbResource> read(Uri uri) throws BootException;
 
-    default Iterable<DbResource> read2(Uri uri) throws BootException {
-        return null;
-    }
+//    default Stream<DbResource> read2(Uri uri) throws BootException {
+//        return null;
+//    }
 
 }

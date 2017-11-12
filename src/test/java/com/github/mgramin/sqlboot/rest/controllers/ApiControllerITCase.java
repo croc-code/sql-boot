@@ -24,14 +24,9 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import static java.util.Collections.*;
 import static org.junit.Assert.assertEquals;
 
 import com.github.mgramin.sqlboot.rest.Application;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

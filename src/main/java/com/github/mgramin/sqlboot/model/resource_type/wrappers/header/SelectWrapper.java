@@ -22,7 +22,6 @@
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.header;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
@@ -33,6 +32,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -58,16 +58,16 @@ public class SelectWrapper implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(final Uri uri) throws BootException {
+    public Stream<DbResource> read(final Uri uri) throws BootException {
         final String select = uri.params().get(SELECT);
-        final List<DbResource> resources = origin.read(uri);
+        final Stream<DbResource> resources = origin.read(uri);
         if (select != null) {
-            return resources.stream()
-                .map(v -> new DbResourceBodyWrapper(new DbResourceImpl(v.name(), v.type(), v.dbUri(),
-                    v.headers().entrySet().stream()
-                        .filter(h -> asList(select.split(",")).contains(h.getKey()))
-                        .collect(toMap(Entry::getKey, Entry::getValue))), v.body()))
-                .collect(toList());
+            return resources
+                .map(
+                    v -> new DbResourceBodyWrapper(new DbResourceImpl(v.name(), v.type(), v.dbUri(),
+                        v.headers().entrySet().stream()
+                            .filter(h -> asList(select.split(",")).contains(h.getKey()))
+                            .collect(toMap(Entry::getKey, Entry::getValue))), v.body()));
         } else {
             return resources;
         }

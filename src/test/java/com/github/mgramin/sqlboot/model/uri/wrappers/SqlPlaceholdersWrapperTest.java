@@ -1,7 +1,6 @@
 package com.github.mgramin.sqlboot.model.uri.wrappers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.github.mgramin.sqlboot.model.uri.Uri;

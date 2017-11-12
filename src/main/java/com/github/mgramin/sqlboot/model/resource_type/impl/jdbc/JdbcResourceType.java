@@ -35,6 +35,7 @@ import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import lombok.ToString;
 
 /**
@@ -68,9 +69,10 @@ public class JdbcResourceType implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(final Uri uri) throws BootException {
+    public Stream<DbResource> read(final Uri uri) throws BootException {
         List<DbResource> dbResourceList = new ArrayList<>();
         try {
+            // TODO use stream
             List<JdbcDbObject> list = jdbcDbObjectType.read(uri.path());
             for (JdbcDbObject l : list) {
                 dbResourceList.add(new DbResourceImpl(l.name(), this, new DbUri(jdbcDbObjectType.name(), l.path()), l.properties()));
@@ -78,7 +80,7 @@ public class JdbcResourceType implements ResourceType {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return dbResourceList;
+        return dbResourceList.stream();
     }
 
 }

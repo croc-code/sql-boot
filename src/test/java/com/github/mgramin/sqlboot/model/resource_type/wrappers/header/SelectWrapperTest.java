@@ -7,6 +7,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.Test;
 
 public class SelectWrapperTest {
@@ -26,7 +27,8 @@ public class SelectWrapperTest {
 
     @Test
     public void read() throws Exception {
-        final List<DbResource> resources = type.read(new DbUri("table/hr.persons?select=schema"));
+        final List<DbResource> resources = type.read(new DbUri("table/hr.persons?select=schema")).collect(
+            Collectors.toList());
         for (DbResource resource : resources) {
             assertEquals(1, resource.headers().size());
         }

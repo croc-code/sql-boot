@@ -29,6 +29,7 @@ import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -54,7 +55,7 @@ public class CacheWrapper implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(Uri uri) throws BootException {
+    public Stream<DbResource> read(Uri uri) throws BootException {
         // TODO use "uri.params().get("skip_cache")"
         return origin.read(uri);
     }
