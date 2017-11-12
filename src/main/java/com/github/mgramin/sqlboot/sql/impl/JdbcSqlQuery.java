@@ -21,18 +21,36 @@
 
 package com.github.mgramin.sqlboot.sql.impl;
 
+import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
+import static java.util.Spliterator.ORDERED;
+import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.StreamSupport.stream;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.ResultSetWrappingSqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
  * Execute SQL-query through plain old Jdbc.
@@ -58,13 +76,24 @@ public final class JdbcSqlQuery implements SqlQuery {
     }
 
     @Override
-    public List<Map<String, String>> select(final String sql)
-        throws BootException {
-        return new JdbcTemplate(dataSource).queryForList(sql).stream()
-            .map(map -> map.entrySet().stream()
-                .collect(toMap(Entry::getKey, v -> ofNullable(v.getValue()).map(Object::toString).orElse("[NULL]"), (a, b) -> a,
-                LinkedHashMap::new)))
-            .collect(toList());
+    public Stream<Map<String, String>> select(String sql) throws BootException {
+        final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sql);
+        Iterator<Map<String, String>> iterator = new Iterator<Map<String, String>>() {
+            @Override
+            public boolean hasNext() {
+                return rowSet.next();
+            }
+
+            @Override
+            public Map<String, String> next() {
+                return stream(rowSet.getMetaData().getColumnNames())
+                    .map(v -> new SimpleEntry<>(v, rowSet.getString(v)))
+                    .collect(toMap(Entry::getKey, v -> ofNullable(v.getValue())
+                        .map(Object::toString)
+                        .orElse("[NULL]"), (a, b) -> a, LinkedHashMap::new));
+            }
+        };
+        return stream(spliteratorUnknownSize(iterator, ORDERED), false);
     }
 
     @Override

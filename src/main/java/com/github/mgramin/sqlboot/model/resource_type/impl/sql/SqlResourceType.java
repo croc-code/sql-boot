@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.ToString;
 import org.apache.log4j.Logger;
 
@@ -83,7 +84,7 @@ public class SqlResourceType implements ResourceType {
 
         logger.debug(sql);
 
-        final List<Map<String, String>> select = sqlHelper.select(sql);
+        final List<Map<String, String>> select = sqlHelper.select(sql).collect(Collectors.toList());
 
 
         for (Map<String, String> row : select) {

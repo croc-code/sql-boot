@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.sql.impl;
 
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class JdbcSqlQueryTest {
     @Test
     public void select() throws Exception {
         List<Map<String, String>> select = new JdbcSqlQuery(dataSource)
-                .select("select * from (select name AS n, email as mail from main_schema.users)");
+                .select("select * from (select name AS n, email as mail from main_schema.users)").collect(toList());
         assertEquals(select.toString(),
                 "[{N=mkyong, MAIL=mkyong@gmail.com}, {N=alex, MAIL=alex@yahoo.com}, {N=joel, MAIL=joel@gmail.com}]");
     }

@@ -59,4 +59,8 @@ public interface ResourceType {
      */
     List<DbResource> read(Uri uri) throws BootException;
 
+    default Iterable<DbResource> read2(Uri uri) throws BootException {
+        return null;
+    }
+
 }

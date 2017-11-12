@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.sql;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * SQL-query
@@ -44,7 +45,10 @@ public interface SqlQuery {
      * @return result of query
      * @throws BootException SQL exception
      */
-    List<Map<String, String>> select(String sql) throws BootException;
+
+    default Stream<Map<String, String>> select(String sql) throws BootException {
+        return null;
+    }
 
     /**
      * Check db health

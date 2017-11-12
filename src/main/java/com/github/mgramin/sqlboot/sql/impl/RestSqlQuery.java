@@ -8,11 +8,6 @@ import java.util.Map;
 public class RestSqlQuery implements SqlQuery {
 
     @Override
-    public List<Map<String, String>> select(String sql) throws BootException {
-        return null;
-    }
-
-    @Override
     public void dbHealth() throws BootException {
 
     }

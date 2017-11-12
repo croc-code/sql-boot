@@ -25,6 +25,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -48,27 +49,27 @@ public final class SqlController {
     @RequestMapping(value = "sql", produces = {MediaType.APPLICATION_XML_VALUE})
     public List<Map<String, String>> execSql2Xml(@RequestBody String sql)
         throws BootException {
-        return new JdbcSqlQuery(dataSource).select(sql);
+        return new JdbcSqlQuery(dataSource).select(sql).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {
         MediaType.APPLICATION_XML_VALUE})
     public List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql)
         throws BootException {
-        return new JdbcSqlQuery(dataSource).select(sql);
+        return new JdbcSqlQuery(dataSource).select(sql).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql)
         throws BootException {
-        return new JdbcSqlQuery(dataSource).select(sql);
+        return new JdbcSqlQuery(dataSource).select(sql).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {
         MediaType.APPLICATION_JSON_VALUE})
     public List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql)
         throws BootException {
-        return new JdbcSqlQuery(dataSource).select(sql);
+        return new JdbcSqlQuery(dataSource).select(sql).collect(Collectors.toList());
     }
 
 }
