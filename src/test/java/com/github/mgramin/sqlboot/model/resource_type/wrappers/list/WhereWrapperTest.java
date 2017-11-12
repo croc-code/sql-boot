@@ -24,8 +24,8 @@ public class WhereWrapperTest {
 
     @Test
     public void read() throws Exception {
-        assertEquals(1, type.read(new DbUri("table/hr.persons")).size());
-        assertEquals(3, type.read(new DbUri("table/hr.s")).size());
+        assertEquals(1, type.read(new DbUri("table/hr.persons")).count());
+        assertEquals(3, type.read(new DbUri("table/hr.s")).count());
     }
 
 }

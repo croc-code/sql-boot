@@ -44,10 +44,10 @@ public class LimitWrapperTest {
 
     @Test
     public void read() throws Exception {
-        assertEquals(3, type.read(new DbUri("table/hr.persons")).size());
-        assertEquals(3, type.read(new DbUri("table/hr.persons?limit=3")).size());
-        assertEquals(2, type.read(new DbUri("table/hr.persons?limit=2")).size());
-        assertEquals(1, type.read(new DbUri("table/hr.persons?limit=1")).size());
+        assertEquals(3, type.read(new DbUri("table/hr.persons")).count());
+        assertEquals(3, type.read(new DbUri("table/hr.persons?limit=3")).count());
+        assertEquals(2, type.read(new DbUri("table/hr.persons?limit=2")).count());
+        assertEquals(1, type.read(new DbUri("table/hr.persons?limit=1")).count());
     }
 
 }

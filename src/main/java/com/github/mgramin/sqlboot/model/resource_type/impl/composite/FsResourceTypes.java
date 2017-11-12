@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -214,7 +215,7 @@ public class FsResourceTypes implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(Uri uri) throws BootException {
+    public Stream<DbResource> read(Uri uri) throws BootException {
         ResourceType type = type(uri.type());
         return type.read(uri);
     }

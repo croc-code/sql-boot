@@ -63,7 +63,7 @@ public class ApiController {
     public ResponseEntity<Map<String, DbResource>> getResourcesEntireJson(final HttpServletRequest request) {
         final Uri uri = new DbUri(parseUri(request).substring(5));
         types.init();
-        final Map<String, DbResource> resources = types.read(uri).stream()
+        final Map<String, DbResource> resources = types.read(uri)
             .collect(toMap(v -> v.dbUri().toString().toLowerCase(), v -> v));
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
@@ -75,7 +75,7 @@ public class ApiController {
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
         types.init();
-        final Map<String, String> bodyList = types.read(uri).stream()
+        final Map<String, String> bodyList = types.read(uri)
             .collect(toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::body));
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
     }
@@ -85,7 +85,7 @@ public class ApiController {
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
         types.init();
-        final Map<String, String> bodyList = types.read(uri).stream()
+        final Map<String, String> bodyList = types.read(uri)
             .collect(toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::body));
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
     }
@@ -97,7 +97,7 @@ public class ApiController {
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         types.init();
-        final Map<String, Map<String, String>> headers = types.read(uri).stream()
+        final Map<String, Map<String, String>> headers = types.read(uri)
             .collect(
                 toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::headers));
         return new ResponseEntity<>(headers, HttpStatus.OK);
@@ -108,7 +108,7 @@ public class ApiController {
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         types.init();
-        String collect = types.read(uri).stream()
+        String collect = types.read(uri)
             .map(v -> v.headers().values().stream().collect(joining(","))).collect(joining("\n"));
         return new ResponseEntity<>(collect, HttpStatus.OK);
     }

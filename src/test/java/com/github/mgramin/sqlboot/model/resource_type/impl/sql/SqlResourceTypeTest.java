@@ -27,12 +27,10 @@ package com.github.mgramin.sqlboot.model.resource_type.impl.sql;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 import static org.junit.Assert.assertEquals;
 
-import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
-import java.util.List;
 import javax.sql.DataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,8 +70,7 @@ public class SqlResourceTypeTest {
                 + "from information_schema.tables)";
         final ResourceType type = new WhereWrapper(
                 new SqlResourceType(new JdbcSqlQuery(dataSource), asList("table"), sql));
-        List<DbResource> resources = type.read(new DbUri("table/m.column"));
-        assertEquals(3, resources.size());
+        assertEquals(3, type.read(new DbUri("table/m.column")).count());
     }
 
     @Test
@@ -82,9 +79,7 @@ public class SqlResourceTypeTest {
                         + "from information_schema.columns)";
         ResourceType type = new WhereWrapper(
                 new SqlResourceType(new JdbcSqlQuery(dataSource), asList("column"), sql));
-        List<DbResource> resources = type.read(
-                new DbUri("column/main_schema.users"));
-        assertEquals(4, resources.size());
+        assertEquals(4, type.read(new DbUri("column/main_schema.users")).count());
     }
 
 }

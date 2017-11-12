@@ -24,13 +24,12 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
-import static java.util.stream.Collectors.toList;
-
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
+import java.util.stream.Stream;
 import lombok.ToString;
 
 /**
@@ -56,9 +55,9 @@ public class WhereWrapper implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(Uri uri) throws BootException {
-        final List<DbResource> resources = origin.read(uri);
-        return resources.stream()
+    public Stream<DbResource> read(Uri uri) throws BootException {
+        final Stream<DbResource> resources = origin.read(uri);
+        return resources
             .filter(resource -> {
                 for (int i = 0; i < uri.path().size(); i++) {
                     boolean contains = resource.dbUri().path().get(i)
@@ -68,8 +67,7 @@ public class WhereWrapper implements ResourceType {
                         return false;
                 }
                 return true;
-            })
-            .collect(toList());
+            });
     }
 
 }

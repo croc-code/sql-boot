@@ -17,13 +17,13 @@ package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
 import static java.lang.Long.parseLong;
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -51,15 +51,14 @@ public class LimitWrapper implements ResourceType {
     }
 
     @Override
-    public List<DbResource> read(final Uri uri) throws BootException {
+    public Stream<DbResource> read(final Uri uri) throws BootException {
         final String limit = ofNullable(uri.params())
             .map(v -> v.get(LIMIT)).orElse(null);
         if (limit == null) {
             return origin.read(uri);
         }
-        return origin.read(uri).stream()
-            .limit(parseLong(limit))
-            .collect(toList());
+        return origin.read(uri)
+            .limit(parseLong(limit));
     }
 
 }
