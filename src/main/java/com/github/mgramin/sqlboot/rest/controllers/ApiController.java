@@ -16,6 +16,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
@@ -27,15 +28,21 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceT
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import java.io.IOException;
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,6 +54,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ComponentScan(basePackages = "com.github.mgramin.sqlboot.model.resource_type")
 @EnableAutoConfiguration
+@CrossOrigin
 public class ApiController {
 
     @Autowired
@@ -60,23 +68,24 @@ public class ApiController {
 
 
     @RequestMapping(value = "/api/**")
-    public ResponseEntity<Map<String, DbResource>> getResourcesEntireJson(final HttpServletRequest request) {
+    public ResponseEntity<List<DbResource>> getResourcesEntireJson(final HttpServletRequest request) {
         final Uri uri = new DbUri(parseUri(request).substring(5));
         types.init();
-        final Map<String, DbResource> resources = types.read(uri)
-            .collect(toMap(v -> v.dbUri().toString().toLowerCase(), v -> v));
-        return new ResponseEntity<>(resources, HttpStatus.OK);
+        final List<DbResource> collect = types.read(uri)
+            .collect(Collectors.toList());
+        return new ResponseEntity<List<DbResource>>(collect, HttpStatus.OK);
     }
 
 
 
     @RequestMapping(value = "/api/body/**", method = GET)
-    public ResponseEntity<Map<String, String>> getResourcesBodyJson(final HttpServletRequest request)
+    public ResponseEntity<List<SimpleEntry>> getResourcesBodyJson(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
         types.init();
-        final Map<String, String> bodyList = types.read(uri)
-            .collect(toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::body));
+        final List<SimpleEntry> bodyList = types.read(uri)
+            .map(v -> new SimpleEntry(v.dbUri().toString().toLowerCase(), v.body()))
+            .collect(toList());
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
     }
 
@@ -91,15 +100,15 @@ public class ApiController {
     }
 
 
-
     @RequestMapping(value = "/api/headers/**", method = GET)
-    public ResponseEntity<Map<String, Map<String, String>>> getResourcesHeadersJson(
+    public ResponseEntity<List<Map<String, String>>> getResourcesHeadersJson(
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         types.init();
-        final Map<String, Map<String, String>> headers = types.read(uri)
-            .collect(
-                toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::headers));
+        final List<Map<String, String>> headers = types
+            .read(uri)
+            .map(DbResource::headers)
+            .collect(toList());
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
