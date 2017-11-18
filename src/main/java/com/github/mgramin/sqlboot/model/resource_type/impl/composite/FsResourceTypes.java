@@ -77,6 +77,7 @@ public class FsResourceTypes implements ResourceType {
     private String url;
     private String user;
     private String password;
+    private String driverClassName;
 
     public FsResourceTypes() {
     }
@@ -102,6 +103,10 @@ public class FsResourceTypes implements ResourceType {
         init();
     }
 
+    public void setDriverClassName(String driverClassName) {
+        this.driverClassName = driverClassName;
+    }
+
     /**
      * Ctor.
      *
@@ -118,7 +123,7 @@ public class FsResourceTypes implements ResourceType {
 
     public void init() throws BootException {
         final DataSource dataSource = new DataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
+        Optional.ofNullable(driverClassName).ifPresent(dataSource::setDriverClassName);
         dataSource.setUrl(url);
         Optional.ofNullable(user).ifPresent(dataSource::setUsername);
         Optional.ofNullable(password).ifPresent(dataSource::setPassword);
