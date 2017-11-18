@@ -29,6 +29,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -60,8 +61,11 @@ public interface ResourceType {
      */
     Stream<DbResource> read(Uri uri) throws BootException;
 
-//    default Stream<DbResource> read2(Uri uri) throws BootException {
-//        return null;
-//    }
+    /**
+     * Retrieves a map that contains information about the columns: "name" -> "type"
+     *
+     * @return
+     */
+    Map<String, String> medataData();
 
 }

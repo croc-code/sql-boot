@@ -34,6 +34,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
@@ -73,6 +74,11 @@ public class TemplateBodyWrapper implements ResourceType {
                                                 .map(o -> (Object) o)
                                                 .orElse("")))
                         )));
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        return origin.medataData();
     }
 
 }

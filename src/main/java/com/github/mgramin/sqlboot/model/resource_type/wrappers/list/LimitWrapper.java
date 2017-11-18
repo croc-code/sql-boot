@@ -23,6 +23,7 @@ import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -59,6 +60,11 @@ public class LimitWrapper implements ResourceType {
         }
         return origin.read(uri)
             .limit(parseLong(limit));
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        return origin.medataData();
     }
 
 }

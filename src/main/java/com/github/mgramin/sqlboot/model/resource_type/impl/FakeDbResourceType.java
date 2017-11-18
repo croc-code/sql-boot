@@ -30,6 +30,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import lombok.ToString;
 
@@ -55,6 +56,12 @@ public final class FakeDbResourceType implements ResourceType {
             new FakeDbResource(new DbUri("table/hr.persons")),
             new FakeDbResource(new DbUri("table/hr.users")),
             new FakeDbResource(new DbUri("table/hr.jobs")));
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        // TODO
+        return null;
     }
 
 }

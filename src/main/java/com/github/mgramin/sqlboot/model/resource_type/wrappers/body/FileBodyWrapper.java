@@ -29,6 +29,7 @@ import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -55,6 +56,11 @@ public class FileBodyWrapper implements ResourceType {
     @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         return null;
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        return origin.medataData();
     }
 
 }

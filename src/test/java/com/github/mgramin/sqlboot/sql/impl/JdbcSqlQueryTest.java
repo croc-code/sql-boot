@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.sql.impl;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
+import com.github.mgramin.sqlboot.sql.SqlQuery;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -50,15 +51,26 @@ public class JdbcSqlQueryTest {
 
     @Test
     public void select() throws Exception {
-        List<Map<String, String>> select = new JdbcSqlQuery(dataSource)
-                .select("select * from (select name AS n, email as mail from main_schema.users)").collect(toList());
+        final List<Map<String, String>> select = new JdbcSqlQuery(dataSource,
+            "select * from (select name AS n, email as mail from main_schema.users)")
+            .select().collect(toList());
         assertEquals(select.toString(),
                 "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]");
     }
 
     @Test
+    public void medataData() throws Exception {
+        SqlQuery sqlQuery = new JdbcSqlQuery(dataSource,
+            "select * from (select name AS n, email as mail from main_schema.users)");
+        final Map<String, String> metadata = sqlQuery.medataData();
+        System.out.println(metadata);
+        assertEquals("12", metadata.get("mail"));
+        assertEquals("12", metadata.get("n"));
+    }
+
+    @Test
     public void dbHealth() throws Exception {
-        new JdbcSqlQuery(dataSource).dbHealth();
+        new JdbcSqlQuery(dataSource, "").dbHealth();
     }
 
 }

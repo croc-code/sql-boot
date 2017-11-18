@@ -50,7 +50,7 @@ public class HealthController {
 
     @RequestMapping(value = "/db/health", method = RequestMethod.GET)
     public String dbHealth() {
-        new JdbcSqlQuery(dataSource).dbHealth();
+        new JdbcSqlQuery(dataSource, "").dbHealth();
         return "OK";
     }
 

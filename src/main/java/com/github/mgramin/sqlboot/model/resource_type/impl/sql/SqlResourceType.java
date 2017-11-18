@@ -22,6 +22,8 @@
 package com.github.mgramin.sqlboot.model.resource_type.impl.sql;
 
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.strip;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
@@ -31,14 +33,12 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Stream;
 import lombok.ToString;
-import org.apache.log4j.Logger;
 
 /**
  * Created by MGramin on 12.07.2017.
@@ -46,23 +46,19 @@ import org.apache.log4j.Logger;
 @ToString
 public class SqlResourceType implements ResourceType {
 
-    private final static Logger logger = Logger.getLogger(SqlResourceType.class);
 
-    private final transient SqlQuery sqlHelper;
+    private final transient SqlQuery sqlQuery;
     private final List<String> aliases;
     private final List<ResourceType> child;
-    private final String sql;
 
-    public SqlResourceType(SqlQuery sqlHelper, List<String> aliases, String sql) {
-        this(sqlHelper, aliases, null, sql);
+    public SqlResourceType(SqlQuery sqlQuery, List<String> aliases) {
+        this(sqlQuery, aliases, null);
     }
 
-    public SqlResourceType(SqlQuery sqlHelper, List<String> aliases, List<ResourceType> child,
-        String sql) {
-        this.sqlHelper = sqlHelper;
+    public SqlResourceType(SqlQuery sqlQuery, List<String> aliases, List<ResourceType> child) {
+        this.sqlQuery = sqlQuery;
         this.aliases = aliases;
         this.child = child;
-        this.sql = sql;
     }
 
     @Override
@@ -76,26 +72,32 @@ public class SqlResourceType implements ResourceType {
     }
 
     @Override
-    public Stream<DbResource> read(Uri uri) throws BootException {
-        logger.debug(sql);
-        Stream<Map<String, String>> selectStream = sqlHelper.select(sql);
-        return selectStream
-            .map(v -> {
-                final List<String> objectsForUri = new ArrayList<>();
-                final HashMap<String, String> objectHeaders = new LinkedHashMap<>();
-                for (Map.Entry<String, String> column : v.entrySet()) {
-                    if (column.getKey().startsWith("@")) {
-                        objectsForUri.add(column.getValue());
-                    }
-                    objectHeaders
-                        .put(strip(column.getKey(), "@"), ofNullable(column.getValue()).orElse(""));
-                }
-                final String objectName = objectsForUri.get(objectsForUri.size() - 1);
-                return new DbResourceImpl(objectName, this,
-                    new DbUri(this.name(), objectsForUri),
-                    objectHeaders);
-            });
+    public Stream<DbResource> read(final Uri uri) throws BootException {
+        return sqlQuery.select()
+            .map(o -> {
+                final List<String> path = o.entrySet().stream()
+                    .filter(v -> v.getKey().startsWith("@"))
+                    .map(Entry::getValue)
+                    .collect(toList());
 
+                final String name = path.get(path.size() - 1);
+
+                final Map<String, String> headers = o.entrySet().stream()
+                    .collect(toMap(
+                        k -> strip(k.getKey(), "@"),
+                        v -> ofNullable(v.getValue()).orElse(""),
+                        (a, b) -> a,
+                        LinkedHashMap::new));
+
+                return new DbResourceImpl(name, this,
+                    new DbUri(this.name(), path),
+                    headers);
+            });
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        return sqlQuery.medataData();
     }
 
 }

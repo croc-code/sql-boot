@@ -27,16 +27,22 @@ import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.StreamSupport.stream;
+import static org.apache.commons.lang3.StringUtils.strip;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -49,22 +55,47 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
  */
 public final class JdbcSqlQuery implements SqlQuery {
 
+    private final static Logger logger = Logger.getLogger(JdbcSqlQuery.class);
+
     /**
      * Data source.
      */
     private final DataSource dataSource;
 
     /**
+     * Sql query text.
+     */
+    private final String sql;
+
+    /**
+     * Text alias for DB NULL value
+     */
+    private final String nullAlias;
+
+    /**
      * Ctor.
      *
      * @param datasource Data source
      */
-    public JdbcSqlQuery(final DataSource datasource) {
-        this.dataSource = datasource;
+    public JdbcSqlQuery(final DataSource datasource, final String sql) {
+        this(datasource, sql,"[NULL]");
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param dataSource
+     * @param nullAlias
+     */
+    public JdbcSqlQuery(final DataSource dataSource, final String sql, final String nullAlias) {
+        this.dataSource = dataSource;
+        this.sql = sql;
+        this.nullAlias = nullAlias;
     }
 
     @Override
-    public Stream<Map<String, String>> select(String sql) throws BootException {
+    public Stream<Map<String, String>> select() throws BootException {
+        logger.info(sql);
         final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sql);
         Iterator<Map<String, String>> iterator = new Iterator<Map<String, String>>() {
             @Override
@@ -78,10 +109,29 @@ public final class JdbcSqlQuery implements SqlQuery {
                     .map(v -> new SimpleEntry<>(v, rowSet.getString(v)))
                     .collect(toMap(k -> k.getKey().toLowerCase(), v -> ofNullable(v.getValue())
                         .map(Object::toString)
-                        .orElse("[NULL]"), (a, b) -> a, LinkedHashMap::new));
+                        .orElse(nullAlias), (a, b) -> a, LinkedHashMap::new));
             }
         };
         return stream(spliteratorUnknownSize(iterator, ORDERED), false);
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        try {
+            Map<String, String> result = new HashMap<>();
+            final Connection connection = dataSource.getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            final ResultSetMetaData metaData = preparedStatement.getMetaData();
+            final int columnCount = metaData.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                result.put(
+                    strip(metaData.getColumnName(i).toLowerCase(), "@"),
+                    String.valueOf(metaData.getColumnType(i)));
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new BootException(e);
+        }
     }
 
     @Override

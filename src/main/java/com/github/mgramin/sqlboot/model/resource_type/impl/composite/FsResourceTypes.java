@@ -39,7 +39,6 @@ import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrap
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import com.github.mgramin.sqlboot.sql.SqlQuery;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
@@ -55,11 +54,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -75,7 +74,6 @@ public class FsResourceTypes implements ResourceType {
     private DataSource dataSource;
     private List<ResourceType> result = new ArrayList<>();
     private Resource baseFolder;
-    private SqlQuery sqlHelper;
     private String url;
     private String user;
     private String password;
@@ -116,16 +114,15 @@ public class FsResourceTypes implements ResourceType {
         dataSource.setPassword(password);
         this.dataSource = dataSource;
         this.baseFolder = baseFolder;
-        this.sqlHelper = new JdbcSqlQuery(dataSource);
     }
 
     public void init() throws BootException {
         final DataSource dataSource = new DataSource();
+        dataSource.setDriverClassName("org.h2.Driver");
         dataSource.setUrl(url);
         Optional.ofNullable(user).ifPresent(dataSource::setUsername);
         Optional.ofNullable(password).ifPresent(dataSource::setPassword);
         this.dataSource = dataSource;
-        this.sqlHelper = new JdbcSqlQuery(dataSource);
 
         result.clear();
         try {
@@ -135,7 +132,8 @@ public class FsResourceTypes implements ResourceType {
         }
     }
 
-    private ResourceType type(final String name) {
+    @Deprecated
+    public ResourceType type(final String name) {
         return result.stream().filter(v -> v.name().equalsIgnoreCase(name)).findAny().get();
     }
 
@@ -185,7 +183,7 @@ public class FsResourceTypes implements ResourceType {
                 }
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
-                    baseResourceType = new SqlResourceType(sqlHelper, singletonList(f.getName()), sql);
+                    baseResourceType = new SqlResourceType(new JdbcSqlQuery(dataSource, sql), singletonList(f.getName()));
                 } else if (jdbcDbObjectType != null) {
                     baseResourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
                 } else {
@@ -219,6 +217,11 @@ public class FsResourceTypes implements ResourceType {
     public Stream<DbResource> read(Uri uri) throws BootException {
         ResourceType type = type(uri.type());
         return type.read(uri);
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        throw new BootException("Not implemented!");
     }
 
 }

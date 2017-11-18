@@ -24,11 +24,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import java.io.IOException;
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -123,6 +122,15 @@ public class ApiController {
     }
 
 
+
+    @RequestMapping(value = "/api/type/**", method = GET)
+    public Map<String, String> getTypeMetadata(
+        final HttpServletRequest request) throws BootException, IOException {
+        final Uri uri = new DbUri(parseUri(request).substring(10));
+        types.init();
+        final ResourceType type = types.type(uri.type());
+        return type.medataData();
+    }
 
 
     /**

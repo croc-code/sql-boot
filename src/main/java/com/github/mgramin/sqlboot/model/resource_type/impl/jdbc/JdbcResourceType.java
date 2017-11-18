@@ -35,6 +35,7 @@ import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import lombok.ToString;
 
@@ -81,6 +82,11 @@ public class JdbcResourceType implements ResourceType {
             e.printStackTrace();
         }
         return dbResourceList.stream();
+    }
+
+    @Override
+    public Map<String, String> medataData() {
+        return jdbcDbObjectType.medataData();
     }
 
 }

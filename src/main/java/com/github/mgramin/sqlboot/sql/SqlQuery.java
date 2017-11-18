@@ -40,12 +40,17 @@ public interface SqlQuery {
     /**
      * Select SQL-query
      *
-     * @param sql   SQL-query
      * @return result of query
      * @throws BootException SQL exception
      */
 
-    default Stream<Map<String, String>> select(String sql) throws BootException {
+    Stream<Map<String, String>> select() throws BootException;
+
+    /**
+     *
+     * @return
+     */
+    default Map<String, String> medataData() {
         return null;
     }
 
@@ -54,6 +59,7 @@ public interface SqlQuery {
      *
      * @throws BootException SQL exception
      */
+    @Deprecated
     void dbHealth() throws BootException;
 
 }

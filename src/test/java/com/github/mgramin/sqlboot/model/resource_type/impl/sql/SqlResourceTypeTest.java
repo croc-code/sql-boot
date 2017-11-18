@@ -52,15 +52,15 @@ public class SqlResourceTypeTest {
 
     @Test
     public void name() throws Exception {
-        final SqlResourceType table = new SqlResourceType(new JdbcSqlQuery(dataSource),
-            asList("table"), "sql query ...");
+        final SqlResourceType table = new SqlResourceType(new JdbcSqlQuery(dataSource, "sql query ..."),
+            asList("table"));
         assertEquals("table", table.name());
     }
 
     @Test
     public void aliases() throws Exception {
-        final SqlResourceType table = new SqlResourceType(new JdbcSqlQuery(dataSource),
-            asList("table"), "sql query ...");
+        final SqlResourceType table = new SqlResourceType(new JdbcSqlQuery(dataSource, "sql query ..."),
+            asList("table"));
         assertEquals("[table]", table.aliases().toString());
     }
 
@@ -69,7 +69,7 @@ public class SqlResourceTypeTest {
         final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\" "
                 + "from information_schema.tables)";
         final ResourceType type = new WhereWrapper(
-                new SqlResourceType(new JdbcSqlQuery(dataSource), asList("table"), sql));
+                new SqlResourceType(new JdbcSqlQuery(dataSource, sql), asList("table")));
         assertEquals(3, type.read(new DbUri("table/m.column")).count());
     }
 
@@ -78,7 +78,7 @@ public class SqlResourceTypeTest {
         final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\", column_name as \"@column_name\""
                         + "from information_schema.columns)";
         ResourceType type = new WhereWrapper(
-                new SqlResourceType(new JdbcSqlQuery(dataSource), asList("column"), sql));
+                new SqlResourceType(new JdbcSqlQuery(dataSource, sql), asList("column")));
         assertEquals(4, type.read(new DbUri("column/main_schema.users")).count());
     }
 
