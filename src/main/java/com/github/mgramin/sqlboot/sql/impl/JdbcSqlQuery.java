@@ -118,7 +118,7 @@ public final class JdbcSqlQuery implements SqlQuery {
     @Override
     public Map<String, String> medataData() {
         try {
-            Map<String, String> result = new HashMap<>();
+            Map<String, String> result = new LinkedHashMap<>();
             final Connection connection = dataSource.getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement(sql);
             final ResultSetMetaData metaData = preparedStatement.getMetaData();

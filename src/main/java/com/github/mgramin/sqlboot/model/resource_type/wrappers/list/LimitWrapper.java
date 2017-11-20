@@ -54,12 +54,12 @@ public class LimitWrapper implements ResourceType {
     @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         final String limit = ofNullable(uri.params())
-            .map(v -> v.get(LIMIT)).orElse(null);
+            .map(v -> v.get(LIMIT))
+            .orElse(null);
         if (limit == null) {
             return origin.read(uri);
         }
-        return origin.read(uri)
-            .limit(parseLong(limit));
+        return origin.read(uri).limit(parseLong(limit));
     }
 
     @Override

@@ -15,6 +15,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -22,23 +23,35 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import io.swagger.models.Info;
+import io.swagger.models.ModelImpl;
+import io.swagger.models.Operation;
+import io.swagger.models.Path;
+import io.swagger.models.Response;
+import io.swagger.models.Scheme;
+import io.swagger.models.Swagger;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
+import io.swagger.util.Json;
+import io.swagger.util.Yaml;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -57,11 +70,43 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
 
     @Autowired
-    FsResourceTypes types;
+    FsResourceTypes fsResourceTypes;
 
     @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
-    public Resource apiDocs() {
-        return new ClassPathResource("swagger.json");
+    public String apiDocs() throws JsonProcessingException {
+        fsResourceTypes.init();
+        final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
+        Swagger swagger = new Swagger();
+
+        swagger.consumes("application/json");
+        swagger.host("sql-boot.herokuapp.com");
+        swagger.basePath("/");
+
+        swagger.setInfo(new Info().version("v1").title("API specification"));
+        swagger.setSchemes(asList(Scheme.HTTP, Scheme.HTTPS));
+
+        for (ResourceType resourceType : resourceTypes) {
+            swagger.path("/api/" + resourceType.name(),
+                new Path().get(
+                    new Operation()
+                        .response(200, new Response().description("Ok").schema(new RefProperty(resourceType.name())))
+                        .produces("application/json")));
+        }
+
+        for (ResourceType resourceType : resourceTypes) {
+            ModelImpl model = new ModelImpl();
+            Map<String, String> stringStringMap = resourceType.medataData();
+            if (stringStringMap != null) {
+                Set<Entry<String, String>> entries = stringStringMap.entrySet();
+                for (Entry<String, String> stringStringEntry : entries) {
+                    model.property(stringStringEntry.getKey(), new StringProperty().description("Description here ..."));
+                }
+            }
+            swagger.model(resourceType.name(), model);
+        }
+
+//        return Json.pretty().writeValueAsString(swagger);
+        return Yaml.pretty().writeValueAsString(swagger);
     }
 
 
@@ -69,8 +114,8 @@ public class ApiController {
     @RequestMapping(value = "/api/**")
     public ResponseEntity<List<DbResource>> getResourcesEntireJson(final HttpServletRequest request) {
         final Uri uri = new DbUri(parseUri(request).substring(5));
-        types.init();
-        final List<DbResource> collect = types.read(uri)
+        fsResourceTypes.init();
+        final List<DbResource> collect = fsResourceTypes.read(uri)
             .collect(Collectors.toList());
         return new ResponseEntity<List<DbResource>>(collect, HttpStatus.OK);
     }
@@ -81,8 +126,8 @@ public class ApiController {
     public ResponseEntity<List<SimpleEntry>> getResourcesBodyJson(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
-        types.init();
-        final List<SimpleEntry> bodyList = types.read(uri)
+        fsResourceTypes.init();
+        final List<SimpleEntry> bodyList = fsResourceTypes.read(uri)
             .map(v -> new SimpleEntry(v.dbUri().toString().toLowerCase(), v.body()))
             .collect(toList());
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
@@ -92,8 +137,8 @@ public class ApiController {
     public ResponseEntity<Map<String, String>> getResourcesBodyTextPlain(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
-        types.init();
-        final Map<String, String> bodyList = types.read(uri)
+        fsResourceTypes.init();
+        final Map<String, String> bodyList = fsResourceTypes.read(uri)
             .collect(toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::body));
         return new ResponseEntity<>(bodyList, HttpStatus.OK);
     }
@@ -103,8 +148,8 @@ public class ApiController {
     public ResponseEntity<List<Map<String, String>>> getResourcesHeadersJson(
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
-        types.init();
-        final List<Map<String, String>> headers = types
+        fsResourceTypes.init();
+        final List<Map<String, String>> headers = fsResourceTypes
             .read(uri)
             .map(DbResource::headers)
             .collect(toList());
@@ -115,8 +160,8 @@ public class ApiController {
     public ResponseEntity<String> getResourcesHeadersTextPlain(
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
-        types.init();
-        String collect = types.read(uri)
+        fsResourceTypes.init();
+        String collect = fsResourceTypes.read(uri)
             .map(v -> v.headers().values().stream().collect(joining(","))).collect(joining("\n"));
         return new ResponseEntity<>(collect, HttpStatus.OK);
     }
@@ -124,11 +169,12 @@ public class ApiController {
 
 
     @RequestMapping(value = "/api/type/**", method = GET)
-    public Map<String, String> getTypeMetadata(
-        final HttpServletRequest request) throws BootException, IOException {
+    @Deprecated
+    public Map<String, String> getTypeMetadata(final HttpServletRequest request)
+        throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
-        types.init();
-        final ResourceType type = types.type(uri.type());
+        fsResourceTypes.init();
+        final ResourceType type = fsResourceTypes.type(uri.type());
         return type.medataData();
     }
 

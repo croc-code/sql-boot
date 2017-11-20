@@ -72,7 +72,8 @@ import org.springframework.stereotype.Service;
 public class FsResourceTypes implements ResourceType {
 
     private DataSource dataSource;
-    private List<ResourceType> result = new ArrayList<>();
+
+    private List<ResourceType> resourceTypes = new ArrayList<>();
     private Resource baseFolder;
     private String url;
     private String user;
@@ -129,7 +130,7 @@ public class FsResourceTypes implements ResourceType {
         Optional.ofNullable(password).ifPresent(dataSource::setPassword);
         this.dataSource = dataSource;
 
-        result.clear();
+        resourceTypes.clear();
         try {
             walk(baseFolder.getFile().getPath());
         } catch (IOException e) {
@@ -139,7 +140,12 @@ public class FsResourceTypes implements ResourceType {
 
     @Deprecated
     public ResourceType type(final String name) {
-        return result.stream().filter(v -> v.name().equalsIgnoreCase(name)).findAny().get();
+        return resourceTypes.stream().filter(v -> v.name().equalsIgnoreCase(name)).findAny().get();
+    }
+
+    @Deprecated
+    public List<ResourceType> resourceTypes() {
+        return resourceTypes;
     }
 
     private List<ResourceType> walk(final String path) {
@@ -200,7 +206,7 @@ public class FsResourceTypes implements ResourceType {
                             new WhereWrapper(baseResourceType)),
                         new GroovyTemplateGenerator("create objects ... ;")));
                 if (baseResourceType != null) {
-                    result.add(resourceType);
+                    resourceTypes.add(resourceType);
                     list.add(resourceType);
                 }
             }
