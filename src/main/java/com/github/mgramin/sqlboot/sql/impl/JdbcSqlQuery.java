@@ -78,14 +78,11 @@ public final class JdbcSqlQuery implements SqlQuery {
      * @param datasource Data source
      */
     public JdbcSqlQuery(final DataSource datasource, final String sql) {
-        this(datasource, sql,"[NULL]");
+        this(datasource, sql, "[NULL]");
     }
 
     /**
      * Ctor.
-     *
-     * @param dataSource
-     * @param nullAlias
      */
     public JdbcSqlQuery(final DataSource dataSource, final String sql, final String nullAlias) {
         this.dataSource = dataSource;
@@ -118,15 +115,17 @@ public final class JdbcSqlQuery implements SqlQuery {
     @Override
     public Map<String, String> medataData() {
         try {
-            Map<String, String> result = new LinkedHashMap<>();
-            final Connection connection = dataSource.getConnection();
-            final PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            final ResultSetMetaData metaData = preparedStatement.getMetaData();
-            final int columnCount = metaData.getColumnCount();
-            for (int i = 1; i <= columnCount; i++) {
-                result.put(
-                    strip(metaData.getColumnName(i).toLowerCase(), "@"),
-                    String.valueOf(metaData.getColumnType(i)));
+            final Map<String, String> result = new LinkedHashMap<>();
+            try (final Connection connection = dataSource.getConnection();
+                final PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ) {
+                final ResultSetMetaData metaData = preparedStatement.getMetaData();
+                final int columnCount = metaData.getColumnCount();
+                for (int i = 1; i <= columnCount; i++) {
+                    result.put(
+                        strip(metaData.getColumnName(i).toLowerCase(), "@"),
+                        String.valueOf(metaData.getColumnType(i)));
+                }
             }
             return result;
         } catch (SQLException e) {
