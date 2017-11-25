@@ -88,7 +88,7 @@ public class ApiController {
         swagger.setSchemes(asList(Scheme.HTTP, Scheme.HTTPS));
 
         for (ResourceType resourceType : resourceTypes) {
-            swagger.path(resourceType.name(),
+            swagger.path("/" + resourceType.name(),
                 new Path().get(
                     new Operation()
                         .response(200, new Response().description("Ok").schema(new RefProperty(resourceType.name())))
