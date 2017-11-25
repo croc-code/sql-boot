@@ -74,20 +74,21 @@ public class ApiController {
     FsResourceTypes fsResourceTypes;
 
     @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
-    public String apiDocs(@RequestParam(required = false) final String host) throws JsonProcessingException {
+    public String apiDocs(final HttpServletRequest request,
+        @RequestParam(required = false) final String host) throws JsonProcessingException {
         fsResourceTypes.init();
         final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
         Swagger swagger = new Swagger();
 
         swagger.consumes("application/json");
-        swagger.host(ofNullable(host).orElse("sql-boot.herokuapp.com"));
+        swagger.host(ofNullable(host).orElse(request.getRequestURL().toString()));
         swagger.basePath("/");
 
         swagger.setInfo(new Info().version("v1").title("API specification"));
         swagger.setSchemes(asList(Scheme.HTTP, Scheme.HTTPS));
 
         for (ResourceType resourceType : resourceTypes) {
-            swagger.path("/api/" + resourceType.name(),
+            swagger.path(resourceType.name(),
                 new Path().get(
                     new Operation()
                         .response(200, new Response().description("Ok").schema(new RefProperty(resourceType.name())))
