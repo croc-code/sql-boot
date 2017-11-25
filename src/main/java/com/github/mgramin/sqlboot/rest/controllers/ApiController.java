@@ -82,11 +82,14 @@ public class ApiController {
         Swagger swagger = new Swagger();
 
         swagger.consumes("application/json");
-        swagger.host(ofNullable(host).orElse(strip(request.getRequestURL().toString(), request.getScheme()+"://")));
+        swagger.host(ofNullable(host).orElse(
+            strip(
+            strip(request.getRequestURL().toString(), request.getScheme()+"://"), "/api")));
         swagger.basePath("/");
 
         swagger.setInfo(new Info().version("v1").title("API specification"));
         swagger.setSchemes(asList(Scheme.HTTP, Scheme.HTTPS));
+        swagger.basePath("/api");
 
         for (ResourceType resourceType : resourceTypes) {
             swagger.path("/" + resourceType.name(),
