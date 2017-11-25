@@ -16,6 +16,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import static java.util.Arrays.asList;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -39,7 +40,6 @@ import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
-import io.swagger.util.Json;
 import io.swagger.util.Yaml;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
@@ -56,6 +56,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -73,13 +74,13 @@ public class ApiController {
     FsResourceTypes fsResourceTypes;
 
     @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
-    public String apiDocs() throws JsonProcessingException {
+    public String apiDocs(@RequestParam(required = false) final String host) throws JsonProcessingException {
         fsResourceTypes.init();
         final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
         Swagger swagger = new Swagger();
 
         swagger.consumes("application/json");
-        swagger.host("sql-boot.herokuapp.com");
+        swagger.host(ofNullable(host).orElse("sql-boot.herokuapp.com"));
         swagger.basePath("/");
 
         swagger.setInfo(new Info().version("v1").title("API specification"));
