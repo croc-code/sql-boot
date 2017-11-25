@@ -20,6 +20,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static org.apache.commons.lang3.StringUtils.strip;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -81,7 +82,7 @@ public class ApiController {
         Swagger swagger = new Swagger();
 
         swagger.consumes("application/json");
-        swagger.host(ofNullable(host).orElse(request.getRequestURL().toString()));
+        swagger.host(ofNullable(host).orElse(strip(request.getRequestURL().toString(), request.getScheme()+"://")));
         swagger.basePath("/");
 
         swagger.setInfo(new Info().version("v1").title("API specification"));
