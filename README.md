@@ -40,7 +40,7 @@ Try with Docker and embedded (H2) demo db:
 ------------------------------------------
 
 ```
-docker run -t -p 8080:8080 mgramin/sql-boot
+docker run -t -p 8007:8007 mgramin/sql-boot
 ```
 
 Build from source:
