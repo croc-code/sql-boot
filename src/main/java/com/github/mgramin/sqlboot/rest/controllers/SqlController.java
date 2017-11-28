@@ -50,25 +50,25 @@ public final class SqlController {
     DataSource dataSource;
 
     @RequestMapping(value = "sql", produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<Map<String, String>> execSql2Xml(@RequestBody String sql) throws BootException {
+    public List<Map<String, Object>> execSql2Xml(@RequestBody String sql) throws BootException {
         return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST,
         produces = {MediaType.APPLICATION_XML_VALUE})
-    public List<Map<String, String>> execSql2XmlPost(@RequestBody() String sql)
+    public List<Map<String, Object>> execSql2XmlPost(@RequestBody() String sql)
         throws BootException {
         return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
     }
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Map<String, String>> execSql2Json(@RequestParam("sql") String sql) throws BootException {
+    public List<Map<String, Object>> execSql2Json(@RequestParam("sql") String sql) throws BootException {
         return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {
         MediaType.APPLICATION_JSON_VALUE})
-    public List<Map<String, String>> execSql2JsonPost(@RequestBody() String sql)
+    public List<Map<String, Object>> execSql2JsonPost(@RequestBody() String sql)
         throws BootException {
         return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
     }

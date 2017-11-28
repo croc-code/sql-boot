@@ -36,7 +36,7 @@ public class Schema extends AbstractJdbcObjectType implements JdbcDbObjectType {
                 getSchemas(null, params.get(0));
         return toMap(schemas).stream()
                 .map(v -> new JdbcDbObjectImpl(
-                        singletonList(v.get(COLUMN_NAME_PROPERTY)), v))
+                        singletonList(v.get(COLUMN_NAME_PROPERTY).toString()), v))
                 .collect(toList());
     }
 

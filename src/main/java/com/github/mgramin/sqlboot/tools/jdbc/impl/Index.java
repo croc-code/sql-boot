@@ -35,8 +35,8 @@ public class Index extends AbstractJdbcObjectType implements JdbcDbObjectType {
                 getIndexInfo(null, "%", "%", false, false);
         return toMap(indexes).stream()
                 .map(v -> new JdbcDbObjectImpl(
-                        asList(v.get("TABLE_SCHEMA"), v.get("TABLE_NAME"),
-                                v.get("INDEX_NAME")), v))
+                        asList(v.get("TABLE_SCHEMA").toString(), v.get("TABLE_NAME").toString(),
+                                v.get("INDEX_NAME").toString()), v))
                 .collect(Collectors.toList());
     }
 

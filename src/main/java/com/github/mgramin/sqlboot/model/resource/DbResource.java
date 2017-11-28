@@ -66,7 +66,7 @@ public interface DbResource {
      * @return Headers
      */
     @JsonProperty
-    Map<String, String> headers();
+    Map<String, Object> headers();
 
     /**
      * Body of db resource, e.g. ddl-code, html-representation, xml, json etc.

@@ -35,8 +35,8 @@ public class Column extends AbstractJdbcObjectType implements JdbcDbObjectType {
         ResultSet columns = dataSource.getConnection().getMetaData()
                 .getColumns(null, "%", "%", "%");
         return toMap(columns).stream()
-            .map(v -> new JdbcDbObjectImpl(asList(v.get("TABLE_SCHEMA"), v.get("TABLE_NAME"),
-                    v.get(COLUMN_NAME_PROPERTY)), v))
+            .map(v -> new JdbcDbObjectImpl(asList(v.get("TABLE_SCHEMA").toString(), v.get("TABLE_NAME").toString(),
+                    v.get(COLUMN_NAME_PROPERTY).toString()), v))
             .collect(toList());
     }
 

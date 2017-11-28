@@ -51,7 +51,7 @@ public class JdbcSqlQueryTest {
 
     @Test
     public void select() throws Exception {
-        final List<Map<String, String>> select = new JdbcSqlQuery(dataSource,
+        final List<Map<String, Object>> select = new JdbcSqlQuery(dataSource,
             "select * from (select name AS n, email as mail from main_schema.users)")
             .select().collect(toList());
         assertEquals(select.toString(),

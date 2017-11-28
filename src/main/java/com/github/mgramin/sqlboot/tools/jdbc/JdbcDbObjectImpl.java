@@ -9,9 +9,9 @@ public class JdbcDbObjectImpl implements JdbcDbObject {
 
     private final String name;
     private final List<String> path;
-    private final Map<String, String> properties;
+    private final Map<String, Object> properties;
 
-    public JdbcDbObjectImpl(List<String> path, Map<String, String> properties) {
+    public JdbcDbObjectImpl(List<String> path, Map<String, Object> properties) {
         this.name = path.get(path.size()-1);
         this.path = path;
         this.properties = properties;
@@ -28,7 +28,7 @@ public class JdbcDbObjectImpl implements JdbcDbObject {
     }
 
     @Override
-    public Map<String, String> properties() {
+    public Map<String, Object> properties() {
         return properties;
     }
 

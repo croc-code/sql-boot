@@ -59,7 +59,7 @@ public final class DbResourceBodyWrapper implements DbResource {
     }
 
     @Override
-    public Map<String, String> headers() {
+    public Map<String, Object> headers() {
         return origin.headers();
     }
 

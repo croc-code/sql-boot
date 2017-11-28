@@ -17,7 +17,6 @@ package com.github.mgramin.sqlboot.rest.controllers;
 
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.strip;
@@ -94,7 +93,7 @@ public class ApiController {
         for (ResourceType resourceType : resourceTypes) {
             swagger.path("/" + resourceType.name(),
                 new Path().get(
-                    new Operation()
+                    new Operation().tag(resourceType.name())
                         .response(200, new Response().description("Ok").schema(new RefProperty(resourceType.name())))
                         .produces("application/json")));
         }
@@ -151,38 +150,26 @@ public class ApiController {
 
 
     @RequestMapping(value = "/api/headers/**", method = GET)
-    public ResponseEntity<List<Map<String, String>>> getResourcesHeadersJson(
+    public ResponseEntity<List<Map<String, Object>>> getResourcesHeadersJson(
         final HttpServletRequest request) throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(13));
         fsResourceTypes.init();
-        final List<Map<String, String>> headers = fsResourceTypes
+        final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
             .map(DbResource::headers)
             .collect(toList());
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/headers/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> getResourcesHeadersTextPlain(
-        final HttpServletRequest request) throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri(request).substring(13));
-        fsResourceTypes.init();
-        String collect = fsResourceTypes.read(uri)
-            .map(v -> v.headers().values().stream().collect(joining(","))).collect(joining("\n"));
-        return new ResponseEntity<>(collect, HttpStatus.OK);
-    }
-
-
-
-    @RequestMapping(value = "/api/type/**", method = GET)
-    @Deprecated
-    public Map<String, String> getTypeMetadata(final HttpServletRequest request)
-        throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri(request).substring(10));
-        fsResourceTypes.init();
-        final ResourceType type = fsResourceTypes.type(uri.type());
-        return type.medataData();
-    }
+//    @RequestMapping(value = "/api/headers/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
+//    public ResponseEntity<String> getResourcesHeadersTextPlain(
+//        final HttpServletRequest request) throws BootException, IOException {
+//        final Uri uri = new DbUri(parseUri(request).substring(13));
+//        fsResourceTypes.init();
+//        String collect = fsResourceTypes.read(uri)
+//            .map(v -> v.headers().values().stream().collect(joining(","))).collect(joining("\n"));
+//        return new ResponseEntity<>(collect, HttpStatus.OK);
+//    }
 
 
     /**

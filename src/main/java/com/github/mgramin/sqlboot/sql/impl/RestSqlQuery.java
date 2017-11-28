@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class RestSqlQuery implements SqlQuery {
 
     @Override
-    public Stream<Map<String, String>> select() throws BootException {
+    public Stream<Map<String, Object>> select() throws BootException {
         return null;
     }
 

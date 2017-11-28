@@ -40,12 +40,12 @@ import java.util.Map;
  */
 public abstract class AbstractJdbcObjectType implements JdbcDbObjectType {
 
-    protected List<Map<String, String>> toMap(ResultSet resultSet) throws SQLException {
-        final List<Map<String, String>> result = new ArrayList<>();
+    protected List<Map<String, Object>> toMap(ResultSet resultSet) throws SQLException {
+        final List<Map<String, Object>> result = new ArrayList<>();
         final ResultSetMetaData tableMetaData = resultSet.getMetaData();
         final int columnCount = tableMetaData.getColumnCount();
         while (resultSet.next()) {
-            final Map<String, String> map = new HashMap<>();
+            final Map<String, Object> map = new HashMap<>();
             for (int i = 1; i <= columnCount; i++) {
                 map.put(tableMetaData.getColumnName(i), resultSet.getString(i));
             }

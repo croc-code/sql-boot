@@ -44,7 +44,7 @@ public interface SqlQuery {
      * @throws BootException SQL exception
      */
 
-    Stream<Map<String, String>> select() throws BootException;
+    Stream<Map<String, Object>> select() throws BootException;
 
     /**
      *

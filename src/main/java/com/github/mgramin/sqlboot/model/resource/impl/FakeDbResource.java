@@ -61,7 +61,7 @@ public final class FakeDbResource implements DbResource {
     }
 
     @Override
-    public Map<String, String> headers() {
+    public Map<String, Object> headers() {
         return of("schema", "hr",
                 "table", "persons",
                 "file", "table.hr.persons.sql");

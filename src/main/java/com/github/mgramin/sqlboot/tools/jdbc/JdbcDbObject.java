@@ -9,6 +9,6 @@ public interface JdbcDbObject {
 
     List<String> path();
 
-    Map<String, String> properties();
+    Map<String, Object> properties();
 
 }

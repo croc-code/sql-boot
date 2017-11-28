@@ -36,7 +36,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -83,6 +82,7 @@ public final class JdbcSqlQuery implements SqlQuery {
 
     /**
      * Ctor.
+     *
      */
     public JdbcSqlQuery(final DataSource dataSource, final String sql, final String nullAlias) {
         this.dataSource = dataSource;
@@ -91,22 +91,24 @@ public final class JdbcSqlQuery implements SqlQuery {
     }
 
     @Override
-    public Stream<Map<String, String>> select() throws BootException {
+    public Stream<Map<String, Object>> select() throws BootException {
         logger.info(sql);
         final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sql);
-        Iterator<Map<String, String>> iterator = new Iterator<Map<String, String>>() {
+        Iterator<Map<String, Object>> iterator = new Iterator<Map<String, Object>>() {
             @Override
             public boolean hasNext() {
                 return rowSet.next();
             }
 
             @Override
-            public Map<String, String> next() {
+            public Map<String, Object> next() {
                 return stream(rowSet.getMetaData().getColumnNames())
-                    .map(v -> new SimpleEntry<>(v, rowSet.getString(v)))
-                    .collect(toMap(k -> k.getKey().toLowerCase(), v -> ofNullable(v.getValue())
-                        .map(Object::toString)
-                        .orElse(nullAlias), (a, b) -> a, LinkedHashMap::new));
+                    .map(v -> new SimpleEntry<>(v, rowSet.getObject(v)))
+                    .collect(toMap(
+                        k -> k.getKey().toLowerCase(),
+                        v -> ofNullable(v.getValue()).orElse(nullAlias),
+                        (a, b) -> a,
+                        LinkedHashMap::new));
             }
         };
         return stream(spliteratorUnknownSize(iterator, ORDERED), false);

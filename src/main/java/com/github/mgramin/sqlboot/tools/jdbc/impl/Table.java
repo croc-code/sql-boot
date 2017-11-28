@@ -91,7 +91,7 @@ public class Table extends AbstractJdbcObjectType implements JdbcDbObjectType {
                 getTables(null, "%", "%", new String[]{"TABLE"});
         return toMap(tables).stream()
                 .map(v -> new JdbcDbObjectImpl(
-                        asList(v.get("TABLE_SCHEMA"), v.get(COLUMN_NAME_PROPERTY)),
+                        asList(v.get("TABLE_SCHEMA").toString(), v.get(COLUMN_NAME_PROPERTY).toString()),
                         v))
                 .collect(toList());
     }

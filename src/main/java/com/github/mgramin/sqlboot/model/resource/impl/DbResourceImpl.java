@@ -40,11 +40,11 @@ public final class DbResourceImpl implements DbResource {
     private final String name;
     private final ResourceType type;
     private final Uri uri;
-    private final Map<String, String> headers;
+    private final Map<String, Object> headers;
 
     public DbResourceImpl(final String name, final ResourceType type,
                           final Uri uri,
-                          final Map<String, String> headers) {
+                          final Map<String, Object> headers) {
         this.name = name;
         this.type = type;
         this.uri = uri;
@@ -67,7 +67,7 @@ public final class DbResourceImpl implements DbResource {
     }
 
     @Override
-    public Map<String, String> headers() {
+    public Map<String, Object> headers() {
         return headers;
     }
 

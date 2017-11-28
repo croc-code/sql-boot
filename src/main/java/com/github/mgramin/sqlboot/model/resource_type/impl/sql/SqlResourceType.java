@@ -75,14 +75,14 @@ public class SqlResourceType implements ResourceType {
     public Stream<DbResource> read(final Uri uri) throws BootException {
         return sqlQuery.select()
             .map(o -> {
-                final List<String> path = o.entrySet().stream()
+                final List<Object> path = o.entrySet().stream()
                     .filter(v -> v.getKey().startsWith("@"))
                     .map(Entry::getValue)
                     .collect(toList());
 
-                final String name = path.get(path.size() - 1);
+                final String name = path.get(path.size() - 1).toString();
 
-                final Map<String, String> headers = o.entrySet().stream()
+                final Map<String, Object> headers = o.entrySet().stream()
                     .collect(toMap(
                         k -> strip(k.getKey(), "@"),
                         v -> ofNullable(v.getValue()).orElse(""),
@@ -90,7 +90,7 @@ public class SqlResourceType implements ResourceType {
                         LinkedHashMap::new));
 
                 return new DbResourceImpl(name, this,
-                    new DbUri(this.name(), path),
+                    new DbUri(this.name(), path.stream().map(v -> v.toString()).collect(toList())),
                     headers);
             });
     }
