@@ -190,7 +190,7 @@ public class FsResourceTypes implements ResourceType {
                 try {
                     sql = substringBetween(readFileToString(sqlFile, UTF_8), "````sql", "````");
                 } catch (IOException e) {
-                    // TODO process this exception
+                    // TODO catch process this exception
                 }
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
@@ -201,7 +201,7 @@ public class FsResourceTypes implements ResourceType {
                     baseResourceType = null;
                 }
                 final ResourceType resourceType = new SelectWrapper(
-                    new TemplateBodyWrapper(
+                    new TemplateBodyWrapper( // TODO move TemplateBodyWrapper on top
                         new LimitWrapper(
                             new WhereWrapper(baseResourceType)),
                         new GroovyTemplateGenerator("create objects ... ;")));

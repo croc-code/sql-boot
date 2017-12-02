@@ -65,15 +65,13 @@ public class TemplateBodyWrapper implements ResourceType {
     public Stream<DbResource> read(final Uri uri) throws BootException {
         Stream<DbResource> resources = origin.read(uri);
         return resources
-                .map(origin -> new DbResourceBodyWrapper(origin,
-                        templateGenerator.generate(
-                                origin.headers().entrySet().stream()
-                                        .collect(
-                                            toMap(Entry::getKey,
-                                            e -> ofNullable(e.getValue())
-                                                .map(o -> (Object) o)
-                                                .orElse("")))
-                        )));
+            .map(origin -> new DbResourceBodyWrapper(origin,
+                templateGenerator.generate(
+                    origin.headers().entrySet().stream()
+                        .collect(
+                            toMap(Entry::getKey,
+                                e -> ofNullable(e.getValue())
+                                    .orElse(""))))));
     }
 
     @Override

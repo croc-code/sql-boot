@@ -161,17 +161,6 @@ public class ApiController {
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/api/headers/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
-//    public ResponseEntity<String> getResourcesHeadersTextPlain(
-//        final HttpServletRequest request) throws BootException, IOException {
-//        final Uri uri = new DbUri(parseUri(request).substring(13));
-//        fsResourceTypes.init();
-//        String collect = fsResourceTypes.read(uri)
-//            .map(v -> v.headers().values().stream().collect(joining(","))).collect(joining("\n"));
-//        return new ResponseEntity<>(collect, HttpStatus.OK);
-//    }
-
-
     /**
      * parse URI
      */
