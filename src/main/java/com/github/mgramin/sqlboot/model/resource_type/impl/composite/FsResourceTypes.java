@@ -34,6 +34,7 @@ import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.JdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.SqlBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
@@ -192,6 +193,17 @@ public class FsResourceTypes implements ResourceType {
                 } catch (IOException e) {
                     // TODO catch process this exception
                 }
+
+                String ddlSql = null;
+                try {
+                    ddlSql = substringBetween(readFileToString(sqlFile, UTF_8), "```sql-template", "```");
+                } catch (IOException e) {
+                    // TODO catch process this exception
+                }
+                if (ddlSql == null) {
+                    ddlSql = "";
+                }
+
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
                     baseResourceType = new SqlResourceType(new JdbcSqlQuery(dataSource, sql), singletonList(f.getName()));
@@ -201,10 +213,12 @@ public class FsResourceTypes implements ResourceType {
                     baseResourceType = null;
                 }
                 final ResourceType resourceType = new SelectWrapper(
-                    new TemplateBodyWrapper( // TODO move TemplateBodyWrapper on top
-                        new LimitWrapper(
-                            new WhereWrapper(baseResourceType)),
-                        new GroovyTemplateGenerator("create objects ... ;")));
+                    new SqlBodyWrapper(
+                        new TemplateBodyWrapper(
+                            new LimitWrapper(
+                                new WhereWrapper(baseResourceType)),
+                            new GroovyTemplateGenerator(ddlSql)),
+                        dataSource));
                 if (baseResourceType != null) {
                     resourceTypes.add(resourceType);
                     list.add(resourceType);

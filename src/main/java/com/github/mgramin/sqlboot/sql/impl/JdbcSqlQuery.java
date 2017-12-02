@@ -41,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
+import javax.sql.rowset.serial.SerialClob;
+import javax.sql.rowset.serial.SerialException;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -92,7 +94,7 @@ public final class JdbcSqlQuery implements SqlQuery {
 
     @Override
     public Stream<Map<String, Object>> select() throws BootException {
-        logger.info(sql);
+//        logger.info(sql);
         final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sql);
         Iterator<Map<String, Object>> iterator = new Iterator<Map<String, Object>>() {
             @Override
@@ -103,7 +105,18 @@ public final class JdbcSqlQuery implements SqlQuery {
             @Override
             public Map<String, Object> next() {
                 return stream(rowSet.getMetaData().getColumnNames())
-                    .map(v -> new SimpleEntry<>(v, rowSet.getObject(v)))
+                    .map(v -> {
+                        Object object = rowSet.getObject(v);
+                        if (object instanceof javax.sql.rowset.serial.SerialClob) {
+                            try {
+                                return new SimpleEntry<>(v, (Object)((SerialClob) object).getSubString(1,
+                                    (int) ((SerialClob) object).length()));
+                            } catch (SerialException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return new SimpleEntry<>(v, object);}
+                    )
                     .collect(toMap(
                         k -> k.getKey().toLowerCase(),
                         v -> ofNullable(v.getValue()).orElse(nullAlias),

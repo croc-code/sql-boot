@@ -139,13 +139,14 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/api/body/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
-    public ResponseEntity<Map<String, String>> getResourcesBodyTextPlain(final HttpServletRequest request)
+    public ResponseEntity<String> getResourcesBodyTextPlain(final HttpServletRequest request)
         throws BootException, IOException {
         final Uri uri = new DbUri(parseUri(request).substring(10));
         fsResourceTypes.init();
-        final Map<String, String> bodyList = fsResourceTypes.read(uri)
-            .collect(toMap(v -> v.dbUri().toString().toLowerCase(), DbResource::body));
-        return new ResponseEntity<>(bodyList, HttpStatus.OK);
+        final String collect = fsResourceTypes.read(uri)
+            .map(DbResource::body)
+            .collect(Collectors.joining("\n"));
+        return new ResponseEntity<>(collect, HttpStatus.OK);
     }
 
 

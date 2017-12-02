@@ -26,7 +26,9 @@ package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
 import static org.junit.Assert.assertEquals;
 
+import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.io.FileSystemResource;
@@ -49,7 +51,13 @@ public class FsResourceTypesTest {
         final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/h2/database"));
         types.setUrl("jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';");
         types.init();
-        assertEquals(1, types.read(new DbUri("table/bookings.airports")).count());
+        final Stream<DbResource> dbResourceStream = types.read(new DbUri("table/bookings.airports"));
+
+        final DbResource dbResource = dbResourceStream.findFirst().get();
+        System.out.println(dbResource.name());
+        System.out.println(dbResource.body());
+//        assertEquals(1, dbResourceStream.count());
+
         assertEquals(5, types.read(new DbUri("table/bookings")).count());
     }
 
