@@ -56,7 +56,7 @@ public class ApiControllerITCase {
         final HttpHeaders headers = new HttpHeaders();
 //        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 
-        ResponseEntity<String> result = client.exchange("/api/table/bookings.airports", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        ResponseEntity<String> result = client.exchange("/api/h2/table/bookings.airports", HttpMethod.GET, new HttpEntity<>(headers), String.class);
         System.out.println(result);
         assertEquals(200, result.getStatusCodeValue());
     }
@@ -65,37 +65,44 @@ public class ApiControllerITCase {
     public void getText() throws Exception {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
-        ResponseEntity<String> result = client.exchange("/api/table/bookings.airports", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        ResponseEntity<String> result = client.exchange("/api/h2/table/bookings.airports", HttpMethod.GET, new HttpEntity<>(headers), String.class);
         System.out.println(result);
         assertEquals(200, result.getStatusCodeValue());
     }
 
     @Test
     public void getTextDdl2() throws Exception {
-        ResponseEntity<String> result = client.getForEntity("/api/table", String.class);
+        ResponseEntity<String> result = client.getForEntity("/api/h2/table", String.class);
         System.out.println(result);
         assertEquals(200, result.getStatusCodeValue());
     }
 
     @Test
     public void getTextDdlWithParams() throws Exception {
-        ResponseEntity<String> result = client.getForEntity("/api/table/bookings.airports?select=remarks", String.class);
+        ResponseEntity<String> result = client.getForEntity("/api/h2/table/bookings.airports?select=remarks", String.class);
         System.out.println(result);
         assertEquals(200, result.getStatusCodeValue());
     }
 
-    @Test
-    public void getResourcesBody() throws Exception {
-        ResponseEntity<String> result = client.getForEntity("/api/body/table/bookings.airports", String.class);
-        assertEquals(200, result.getStatusCodeValue());
-    }
+//    @Test
+//    public void getResourcesBody() throws Exception {
+//        ResponseEntity<String> result = client.getForEntity("/api/body/table/bookings.airports", String.class);
+//        assertEquals(200, result.getStatusCodeValue());
+//    }
 
     @Test
     public void getResourcesHeaders() throws Exception {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
-        ResponseEntity<String> result = client.exchange("/api/headers/table/bookings", HttpMethod.GET, new HttpEntity<>(headers), String.class);
-        System.out.println(result);
+        ResponseEntity<String> result = client.exchange("/api/h2/headers/table/bookings", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        assertEquals(200, result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getResourcesHeaders2() throws Exception {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        ResponseEntity<String> result = client.exchange("/api/h2/headers/table", HttpMethod.GET, new HttpEntity<>(headers), String.class);
         assertEquals(200, result.getStatusCodeValue());
     }
 

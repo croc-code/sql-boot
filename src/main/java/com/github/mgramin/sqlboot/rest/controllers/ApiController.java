@@ -20,7 +20,6 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.strip;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,7 +40,6 @@ import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Yaml;
 import java.io.IOException;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -127,8 +125,20 @@ public class ApiController {
     }
 
 
-    @RequestMapping(value = "/api/{connectionName}/{type}/{path:.+}")
+    @RequestMapping(value = "/api/{connectionName}/{type}")
     public ResponseEntity<List<DbResource>> getResourcesEntireJson(final HttpServletRequest request,
+        @PathVariable String connectionName,
+        @PathVariable String type) {
+        final Uri uri = new DbUri(parseUri2(type, request));
+        fsResourceTypes.init(connectionName);
+        final List<DbResource> collect = fsResourceTypes.read(uri)
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(collect, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/api/{connectionName}/{type}/{path:.+}")
+    public ResponseEntity<List<DbResource>> getResourcesEntireJson2(final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type,
         @PathVariable String path) {
@@ -141,34 +151,51 @@ public class ApiController {
 
 
 
-    @RequestMapping(value = "/api/body/**", method = GET)
-    public ResponseEntity<List<SimpleEntry>> getResourcesBodyJson(final HttpServletRequest request)
-        throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri(request).substring(10));
-        fsResourceTypes.init(null);
-        final List<SimpleEntry> bodyList = fsResourceTypes.read(uri)
-            .map(v -> new SimpleEntry(v.dbUri().toString().toLowerCase(), v.body()))
-            .collect(toList());
-        return new ResponseEntity<>(bodyList, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/api/body/**", method = GET)
+//    public ResponseEntity<List<SimpleEntry>> getResourcesBodyJson(final HttpServletRequest request)
+//        throws BootException, IOException {
+//        final Uri uri = new DbUri(parseUri(request).substring(10));
+//        fsResourceTypes.init(null);
+//        final List<SimpleEntry> bodyList = fsResourceTypes.read(uri)
+//            .map(v -> new SimpleEntry(v.dbUri().toString().toLowerCase(), v.body()))
+//            .collect(toList());
+//        return new ResponseEntity<>(bodyList, HttpStatus.OK);
+//    }
+//
+//    @RequestMapping(value = "/api/body/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
+//    public ResponseEntity<String> getResourcesBodyTextPlain(final HttpServletRequest request)
+//        throws BootException, IOException {
+//        final Uri uri = new DbUri(parseUri(request).substring(10));
+//        fsResourceTypes.init(null);
+//        final String collect = fsResourceTypes.read(uri)
+//            .map(DbResource::body)
+//            .collect(Collectors.joining("\n"));
+//        return new ResponseEntity<>(collect, HttpStatus.OK);
+//    }
 
-    @RequestMapping(value = "/api/body/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> getResourcesBodyTextPlain(final HttpServletRequest request)
-        throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri(request).substring(10));
-        fsResourceTypes.init(null);
-        final String collect = fsResourceTypes.read(uri)
-            .map(DbResource::body)
-            .collect(Collectors.joining("\n"));
-        return new ResponseEntity<>(collect, HttpStatus.OK);
-    }
 
-
-    @RequestMapping(value = "/api/headers/**", method = GET)
+    @RequestMapping(value = "/api/{connectionName}/headers/{type}/{path:.+}", method = GET)
     public ResponseEntity<List<Map<String, Object>>> getResourcesHeadersJson(
-        final HttpServletRequest request) throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri(request).substring(13));
-        fsResourceTypes.init(null);
+        final HttpServletRequest request,
+        @PathVariable String connectionName,
+        @PathVariable String type,
+        @PathVariable String path) throws BootException, IOException {
+        final Uri uri = new DbUri(parseUri2(type + "/" + path, request));
+        fsResourceTypes.init(connectionName);
+        final List<Map<String, Object>> headers = fsResourceTypes
+            .read(uri)
+            .map(DbResource::headers)
+            .collect(toList());
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/{connectionName}/headers/{type}", method = GET)
+    public ResponseEntity<List<Map<String, Object>>> getResourcesHeadersJson2(
+        final HttpServletRequest request,
+        @PathVariable String connectionName,
+        @PathVariable String type) throws BootException, IOException {
+        final Uri uri = new DbUri(parseUri2(type, request));
+        fsResourceTypes.init(connectionName);
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
             .map(DbResource::headers)
