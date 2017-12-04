@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.apache.commons.lang3.StringUtils.substringBetween;
 
@@ -56,7 +57,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Stream;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -72,68 +72,129 @@ import org.springframework.stereotype.Service;
 @ConfigurationProperties(prefix = "conf")
 public class FsResourceTypes implements ResourceType {
 
-    private DataSource dataSource;
-
+    private List<DbConnection> connections = new ArrayList<>();
     private List<ResourceType> resourceTypes = new ArrayList<>();
-    private Resource baseFolder;
-    private String url;
-    private String user;
-    private String password;
-    private String driverClassName;
+
+    private DbConnection getConnectionByName(String name) {
+        return connections.stream()
+            .filter(v -> v.name.equalsIgnoreCase(name))
+            .findFirst()
+            .orElse(null);
+    }
+
+    private DbConnection getDefaultConnection() {
+        return connections.stream()
+            .findFirst()
+            .orElse(null);
+    }
+
+    public List<DbConnection> getConnections() {
+        return connections;
+    }
+
+    public void setConnections(
+        List<DbConnection> connections) {
+        this.connections = connections;
+    }
+
+    public static class DbConnection {
+
+        private String name;
+        private Resource baseFolder;
+        private String url;
+        private String user;
+        private String password;
+        private String driverClassName;
+
+        private DataSource dataSource;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Resource getBaseFolder() {
+            return baseFolder;
+        }
+
+        public void setBaseFolder(Resource baseFolder) {
+            this.baseFolder = baseFolder;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getDriverClassName() {
+            return driverClassName;
+        }
+
+        public void setDriverClassName(String driverClassName) {
+            this.driverClassName = driverClassName;
+        }
+
+        public DataSource getDataSource() {
+            return dataSource;
+        }
+
+        public void setDataSource(DataSource dataSource) {
+            this.dataSource = dataSource;
+        }
+    }
 
     public FsResourceTypes() {
     }
 
-    public void setBaseFolder(Resource baseFolder) {
-        this.baseFolder = baseFolder;
-    }
+//    public FsResourceTypes(final Resource baseFolder) {
+//        this.baseFolder = baseFolder;
+//        init();
+//    }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+    public void init(String connectionName) throws BootException {
+        this.connections.forEach(v -> {
+            final DataSource ds = new DataSource();
+            ofNullable(v.getDriverClassName()).ifPresent(ds::setDriverClassName);
+            ofNullable(v.getUrl()).ifPresent(ds::setUrl);
+            ofNullable(v.getUser()).ifPresent(ds::setUsername);
+            ofNullable(v.getPassword()).ifPresent(ds::setPassword);
+            v.setDataSource(ds);
+        });
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public FsResourceTypes(final Resource baseFolder) {
-        this.baseFolder = baseFolder;
-        init();
-    }
-
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
-    }
-
-    /**
-     * Ctor.
-     *
-     * @param baseFolder
-     */
-    public FsResourceTypes(final Resource baseFolder, String url, String user, String password) {
-        final DataSource dataSource = new DataSource();
-        dataSource.setUrl(url);
-        dataSource.setUsername(user);
-        dataSource.setPassword(password);
-        this.dataSource = dataSource;
-        this.baseFolder = baseFolder;
-    }
-
-    public void init() throws BootException {
-        final DataSource dataSource = new DataSource();
-        Optional.ofNullable(driverClassName).ifPresent(dataSource::setDriverClassName);
-        dataSource.setUrl(url);
-        Optional.ofNullable(user).ifPresent(dataSource::setUsername);
-        Optional.ofNullable(password).ifPresent(dataSource::setPassword);
-        this.dataSource = dataSource;
+        final DbConnection dbConnection;
+        if (connectionName == null) {
+            dbConnection = getDefaultConnection();
+        } else {
+            dbConnection = getConnectionByName(connectionName);
+        }
 
         resourceTypes.clear();
         try {
-            walk(baseFolder.getFile().getPath());
+            final String baseFolder = dbConnection.getBaseFolder().getFile().getPath();
+            final DataSource dataSource = dbConnection.getDataSource();
+            walk(baseFolder, dataSource);
         } catch (IOException e) {
             throw new BootException(e);
         }
@@ -149,14 +210,14 @@ public class FsResourceTypes implements ResourceType {
         return resourceTypes;
     }
 
-    private List<ResourceType> walk(final String path) {
+    private List<ResourceType> walk(final String path, final DataSource dataSource) {
         File[] files = new File(path).listFiles();
         if (files == null) return null;
         List<ResourceType> list = new ArrayList<>();
         for (File f : files) {
             if (f.isDirectory()) {
                 File sqlFile = new File(f, "README.md");
-                List<ResourceType> child = walk(f.getAbsolutePath());
+                List<ResourceType> child = walk(f.getAbsolutePath(), dataSource);
                 final JdbcDbObjectType jdbcDbObjectType;
                 switch (f.getName()) {
                     case "schema":
@@ -216,7 +277,8 @@ public class FsResourceTypes implements ResourceType {
                     new SqlBodyWrapper(
                         new TemplateBodyWrapper(
                             new LimitWrapper(
-                                new WhereWrapper(baseResourceType)),
+                                new WhereWrapper(
+                                    baseResourceType)),
                             new GroovyTemplateGenerator(ddlSql)),
                         dataSource));
                 if (baseResourceType != null) {

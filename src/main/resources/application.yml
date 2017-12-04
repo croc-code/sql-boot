@@ -1,7 +1,25 @@
 conf:
-  baseFolder: file:conf/h2/database
-  url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
-  driverClassName: org.h2.Driver
+  connections:
+    - name: h2
+      baseFolder: file:conf/h2/database
+      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
+      driverClassName: org.h2.Driver
+    - name: common
+      baseFolder: file:conf/common/database
+      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
+      driverClassName: org.h2.Driver
+    - name: oracle
+      baseFolder: file:conf/sql-boot-oracle/database
+      url: jdbc:oracle:thin:@192.168.0.103:1521:XE
+      driverClassName: oracle.jdbc.OracleDriver
+      user: system
+      password: oracle
+    - name: common_oracle
+      baseFolder: file:conf/common/database
+      url: jdbc:oracle:thin:@192.168.0.103:1521:XE
+      driverClassName: oracle.jdbc.OracleDriver
+      user: system
+      password: oracle
 
 server:
      port: 8007
