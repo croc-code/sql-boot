@@ -10,16 +10,15 @@ conf:
       driverClassName: org.h2.Driver
     - name: oracle
       baseFolder: file:conf/sql-boot-oracle/database
-      url: jdbc:oracle:thin:@192.168.0.103:1521:XE
+      url: jdbc:oracle:thin:@192.168.0.101:1521:XE
       driverClassName: oracle.jdbc.OracleDriver
       user: system
       password: oracle
-    - name: common_oracle
-      baseFolder: file:conf/common/database
-      url: jdbc:oracle:thin:@192.168.0.103:1521:XE
-      driverClassName: oracle.jdbc.OracleDriver
-      user: system
-      password: oracle
+    - name: postgres
+      baseFolder: file:conf/sql-boot-postgresql/database
+      url: jdbc:postgresql://192.168.0.101:5432/demo
+      user: postgres
+      password: postgres
 
 server:
      port: 8007
