@@ -31,6 +31,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.WhereWrapper;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
+import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 import javax.sql.DataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,7 +70,7 @@ public class SqlResourceTypeTest {
         final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\" "
                 + "from information_schema.tables)";
         final ResourceType type = new WhereWrapper(
-                new SqlResourceType(new JdbcSqlQuery(dataSource, sql), asList("table")));
+                new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), asList("table")));
         assertEquals(3, type.read(new DbUri("table/m.column")).count());
     }
 
@@ -78,7 +79,7 @@ public class SqlResourceTypeTest {
         final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\", column_name as \"@column_name\""
                         + "from information_schema.columns)";
         ResourceType type = new WhereWrapper(
-                new SqlResourceType(new JdbcSqlQuery(dataSource, sql), asList("column")));
+                new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), asList("column")));
         assertEquals(4, type.read(new DbUri("column/main_schema.users")).count());
     }
 

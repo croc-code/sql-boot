@@ -43,8 +43,17 @@ public interface SqlQuery {
      * @return result of query
      * @throws BootException SQL exception
      */
-
     Stream<Map<String, Object>> select() throws BootException;
+
+    /**
+     * Select SQL-query with parameters
+     *
+     * @return result of query
+     * @throws BootException SQL exception
+     */
+    default Stream<Map<String, Object>> select(Map<String, Object> variables) throws BootException {
+        return select();
+    }
 
     /**
      *

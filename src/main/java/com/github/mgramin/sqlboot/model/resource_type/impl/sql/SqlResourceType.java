@@ -33,6 +33,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,9 @@ public class SqlResourceType implements ResourceType {
 
     @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
-        return sqlQuery.select()
+        final Map<String, Object> variables = new HashMap<>();
+        variables.put("uri", uri);
+        return sqlQuery.select(variables)
             .map(o -> {
                 final List<Object> path = o.entrySet().stream()
                     .filter(v -> v.getKey().startsWith("@"))
@@ -90,7 +93,7 @@ public class SqlResourceType implements ResourceType {
                         LinkedHashMap::new));
 
                 return new DbResourceImpl(name, this,
-                    new DbUri(this.name(), path.stream().map(v -> v.toString()).collect(toList())),
+                    new DbUri(this.name(), path.stream().map(Object::toString).collect(toList())),
                     headers);
             });
     }

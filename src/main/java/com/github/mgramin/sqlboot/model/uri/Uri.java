@@ -53,6 +53,10 @@ public interface Uri {
     @JsonProperty
     List<String> path();
 
+    default String path(Integer index) {
+        return null;
+    };
+
     Boolean recursive();
 
     /**

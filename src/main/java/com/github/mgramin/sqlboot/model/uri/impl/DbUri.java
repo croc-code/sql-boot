@@ -99,6 +99,15 @@ public final class DbUri implements Uri {
     }
 
     @Override
+    public String path(Integer index) {
+        if (index > objects.size()-1) {
+            return "%";
+        } else {
+            return objects.get(index);
+        }
+    }
+
+    @Override
     public Boolean recursive() {
         return recursive;
     }

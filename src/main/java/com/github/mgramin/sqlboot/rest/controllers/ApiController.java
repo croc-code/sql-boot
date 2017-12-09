@@ -16,7 +16,6 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import static java.util.Arrays.asList;
-import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;

@@ -168,11 +168,6 @@ public class FsResourceTypes implements ResourceType {
     public FsResourceTypes() {
     }
 
-//    public FsResourceTypes(final Resource baseFolder) {
-//        this.baseFolder = baseFolder;
-//        init();
-//    }
-
     public void init(String connectionName) throws BootException {
         this.connections.forEach(v -> {
             final DataSource ds = new DataSource();
@@ -267,7 +262,7 @@ public class FsResourceTypes implements ResourceType {
 
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
-                    baseResourceType = new SqlResourceType(new JdbcSqlQuery(dataSource, sql), singletonList(f.getName()));
+                    baseResourceType = new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), singletonList(f.getName()));
                 } else if (jdbcDbObjectType != null) {
                     baseResourceType = new JdbcResourceType(singletonList(f.getName()), child, jdbcDbObjectType);
                 } else {

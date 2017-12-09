@@ -31,6 +31,7 @@ import static org.apache.commons.lang3.StringUtils.strip;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
@@ -74,28 +75,54 @@ public final class JdbcSqlQuery implements SqlQuery {
     private final String nullAlias;
 
     /**
-     * Ctor.
      *
-     * @param datasource Data source
      */
-    public JdbcSqlQuery(final DataSource datasource, final String sql) {
-        this(datasource, sql, "[NULL]");
+    private final TemplateGenerator templateGenerator;
+
+    /**
+     *
+     * @param datasource
+     * @param templateGenerator
+     */
+    public JdbcSqlQuery(final DataSource datasource, final TemplateGenerator templateGenerator) {
+        this(datasource, null, "[NULL]", templateGenerator);
     }
 
     /**
      * Ctor.
      *
+     * @param datasource Data source
      */
-    public JdbcSqlQuery(final DataSource dataSource, final String sql, final String nullAlias) {
+    public JdbcSqlQuery(final DataSource datasource, final String sql) {
+        this(datasource, sql, "[NULL]", null);
+    }
+
+
+    /**
+     * Ctor.
+     *
+     */
+    public JdbcSqlQuery(final DataSource dataSource, final String sql, final String nullAlias, final TemplateGenerator templateGenerator) {
         this.dataSource = dataSource;
         this.sql = sql;
         this.nullAlias = nullAlias;
+        this.templateGenerator = templateGenerator;
     }
 
     @Override
     public Stream<Map<String, Object>> select() throws BootException {
-        logger.info(sql);
-        final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sql);
+        return getMapStream(sql);
+    }
+
+    @Override
+    public Stream<Map<String, Object>> select(Map<String, Object> variables) throws BootException {
+        final String generateSql = templateGenerator.generate(variables);
+        return getMapStream(generateSql);
+    }
+
+    private Stream<Map<String, Object>> getMapStream(String sqlText) {
+        logger.info(sqlText);
+        final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sqlText);
         Iterator<Map<String, Object>> iterator = new Iterator<Map<String, Object>>() {
             @Override
             public boolean hasNext() {
@@ -107,7 +134,7 @@ public final class JdbcSqlQuery implements SqlQuery {
                 return stream(rowSet.getMetaData().getColumnNames())
                     .map(v -> {
                         Object object = rowSet.getObject(v);
-                        if (object instanceof javax.sql.rowset.serial.SerialClob) {
+                        if (object instanceof SerialClob) {
                             try {
                                 return new SimpleEntry<>(v, (Object)((SerialClob) object).getSubString(1,
                                     (int) ((SerialClob) object).length()));
