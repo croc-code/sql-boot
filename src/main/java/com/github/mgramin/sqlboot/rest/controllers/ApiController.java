@@ -18,7 +18,6 @@ package com.github.mgramin.sqlboot.rest.controllers;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.strip;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -38,6 +37,7 @@ import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
+import io.swagger.util.Json;
 import io.swagger.util.Yaml;
 import java.io.IOException;
 import java.util.List;
@@ -74,31 +74,27 @@ public class ApiController {
     @RequestMapping(method = GET, path = "/api/{connectionName}", produces = APPLICATION_JSON_VALUE)
     public String apiDocs(final HttpServletRequest request,
         @PathVariable String connectionName,
-        @RequestParam(required = false) final String host) throws JsonProcessingException {
-        return getSwaggerDescription(request, host, connectionName);
+        @RequestParam(required = false) final String format) throws JsonProcessingException {
+        final Swagger swaggerDescription = getSwaggerDescription(request, connectionName);
+        if (format != null && format.equals("yaml")) {
+            return Yaml.pretty().writeValueAsString(swaggerDescription);
+        } else {
+            return Json.pretty().writeValueAsString(swaggerDescription);
+        }
     }
 
-    @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
-    public String apiDocsDefaultConnection(final HttpServletRequest request,
-        @RequestParam(required = false) final String host) throws JsonProcessingException {
-        return getSwaggerDescription(request, host, null);
-    }
-
-    private String getSwaggerDescription(HttpServletRequest request,
-        @RequestParam(required = false) String host, String connectionName) throws JsonProcessingException {
+    private Swagger getSwaggerDescription(HttpServletRequest request,
+        String connectionName) throws JsonProcessingException {
         fsResourceTypes.init(connectionName);
         final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
         Swagger swagger = new Swagger();
 
         swagger.consumes("application/json");
-        swagger.host(ofNullable(host).orElse(
-            strip(
-            strip(request.getRequestURL().toString(), request.getScheme()+"://"), "/api")));
-        swagger.basePath("/");
+        swagger.host(request.getServerName() + ":" + request.getServerPort());
 
         swagger.setInfo(new Info().version("v1").title("API specification"));
         swagger.setSchemes(asList(Scheme.HTTP, Scheme.HTTPS));
-        swagger.basePath("/api");
+        swagger.basePath("/api/" + connectionName);
 
         for (ResourceType resourceType : resourceTypes) {
             swagger.path("/" + resourceType.name(),
@@ -120,8 +116,7 @@ public class ApiController {
             swagger.model(resourceType.name(), model);
         }
 
-//        return Json.pretty().writeValueAsString(swagger);
-        return Yaml.pretty().writeValueAsString(swagger);
+        return swagger;
     }
 
 
@@ -129,7 +124,7 @@ public class ApiController {
     public ResponseEntity<List<DbResource>> getResourcesEntireJson(final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type) {
-        final Uri uri = new DbUri(parseUri2(type, request));
+        final Uri uri = new DbUri(parseUri(type, request));
         fsResourceTypes.init(connectionName);
         final List<DbResource> collect = fsResourceTypes.read(uri)
             .collect(Collectors.toList());
@@ -142,7 +137,7 @@ public class ApiController {
         @PathVariable String connectionName,
         @PathVariable String type,
         @PathVariable String path) {
-        final Uri uri = new DbUri(parseUri2(type + "/" + path, request));
+        final Uri uri = new DbUri(parseUri(type + "/" + path, request));
         fsResourceTypes.init(connectionName);
         final List<DbResource> collect = fsResourceTypes.read(uri)
             .collect(Collectors.toList());
@@ -180,7 +175,7 @@ public class ApiController {
         @PathVariable String connectionName,
         @PathVariable String type,
         @PathVariable String path) throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri2(type + "/" + path, request));
+        final Uri uri = new DbUri(parseUri(type + "/" + path, request));
         fsResourceTypes.init(connectionName);
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
@@ -194,7 +189,7 @@ public class ApiController {
         final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type) throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri2(type, request));
+        final Uri uri = new DbUri(parseUri(type, request));
         fsResourceTypes.init(connectionName);
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
@@ -203,20 +198,7 @@ public class ApiController {
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
-    /**
-     * parse URI
-     */
-    private String parseUri(final HttpServletRequest request) {
-        String uriString;
-        if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
-            uriString = request.getServletPath();
-        } else {
-            uriString = request.getServletPath() + "?" + request.getQueryString();
-        }
-        return uriString;
-    }
-
-    private String parseUri2(String path, final HttpServletRequest request) {
+    private String parseUri(String path, final HttpServletRequest request) {
         final String uriString;
         if (request.getQueryString() == null || request.getQueryString().isEmpty()) {
             uriString = path;

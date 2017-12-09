@@ -94,7 +94,7 @@ public final class JdbcSqlQuery implements SqlQuery {
 
     @Override
     public Stream<Map<String, Object>> select() throws BootException {
-//        logger.info(sql);
+        logger.info(sql);
         final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sql);
         Iterator<Map<String, Object>> iterator = new Iterator<Map<String, Object>>() {
             @Override
