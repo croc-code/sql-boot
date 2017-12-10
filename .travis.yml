@@ -19,3 +19,11 @@ script:
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push mgramin/sql-boot
+
+deploy:
+  provider: releases
+  api_key: "${github.token}"
+  file: target/sql-boot.zip
+  skip_cleanup: true
+  on:
+    tags: true
