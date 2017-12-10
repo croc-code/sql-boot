@@ -26,5 +26,4 @@ deploy:
   file: target/sql-boot.zip
   skip_cleanup: true
   on:
-#    tags: true
     all_branches: true
