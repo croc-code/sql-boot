@@ -25,5 +25,6 @@ deploy:
   api_key: $GITHUB_TOKEN
   file: target/sql-boot.zip
   skip_cleanup: true
+  name: v0.2.0
   on:
     all_branches: true
