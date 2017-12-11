@@ -37,6 +37,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -156,6 +157,9 @@ public final class JdbcSqlQuery implements SqlQuery {
 
     @Override
     public Map<String, String> medataData() {
+        if (sql == null || sql.isEmpty()) {
+            return new HashMap<>();
+        }
         try {
             final Map<String, String> result = new LinkedHashMap<>();
             try (final Connection connection = dataSource.getConnection();
