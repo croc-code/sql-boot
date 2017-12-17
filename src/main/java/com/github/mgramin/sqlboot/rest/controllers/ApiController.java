@@ -109,7 +109,7 @@ public class ApiController {
             if (stringStringMap != null) {
                 Set<Entry<String, String>> entries = stringStringMap.entrySet();
                 for (Entry<String, String> stringStringEntry : entries) {
-                    model.property(stringStringEntry.getKey(), new StringProperty().description(stringStringEntry.getKey()));
+                    model.property(stringStringEntry.getKey(), new StringProperty().description(stringStringEntry.getValue()));
                 }
             }
             swagger.model(resourceType.name(), model);

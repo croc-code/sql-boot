@@ -47,4 +47,10 @@ public interface TemplateGenerator {
      */
     List<String> properties();
 
+    /**
+     *
+     * @return
+     */
+    String template();
+
 }

@@ -1,8 +1,10 @@
 ````sql
-  select * from (
-    select c.table_schema       as "@schema"
-         , c.table_name         as "@table"
-         , c.constraint_name    as "@pk"
-      from information_schema.constraints c
-     where constraint_type  = 'PRIMARY KEY')
+  select @schema /* table schema */
+       , @table /* table name */
+       , @pk /* primary key name */
+    from (select c.table_schema       as "@schema"
+               , c.table_name         as "@table"
+               , c.constraint_name    as "@pk"
+            from information_schema.constraints c
+           where constraint_type  = 'PRIMARY KEY')
 ````

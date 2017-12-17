@@ -14,3 +14,5 @@ target/
 *.iml
 
 src/main/assembly/static/lib/*.jar
+
+src/main/generated-sources

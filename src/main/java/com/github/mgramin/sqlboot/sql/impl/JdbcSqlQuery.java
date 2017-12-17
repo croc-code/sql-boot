@@ -27,17 +27,13 @@ import static java.util.Spliterator.ORDERED;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.StreamSupport.stream;
-import static org.apache.commons.lang3.StringUtils.strip;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.SqlQuery;
+import com.github.mgramin.sqlboot.sql.parser.SelectStatement;
+import com.github.mgramin.sqlboot.sql.parser.SelectStatementParser;
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -156,27 +152,9 @@ public final class JdbcSqlQuery implements SqlQuery {
     }
 
     @Override
-    public Map<String, String> medataData() {
-        if (sql == null || sql.isEmpty()) {
-            return new HashMap<>();
-        }
-        try {
-            final Map<String, String> result = new LinkedHashMap<>();
-            try (final Connection connection = dataSource.getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ) {
-                final ResultSetMetaData metaData = preparedStatement.getMetaData();
-                final int columnCount = metaData.getColumnCount();
-                for (int i = 1; i <= columnCount; i++) {
-                    result.put(
-                        strip(metaData.getColumnName(i).toLowerCase(), "@"),
-                        String.valueOf(metaData.getColumnType(i)));
-                }
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new BootException(e);
-        }
+    public Map<String, String> metaData() {
+        final SelectStatement selectStatement = new SelectStatementParser(templateGenerator.template()).parse();
+        return selectStatement.columns();
     }
 
     @Override

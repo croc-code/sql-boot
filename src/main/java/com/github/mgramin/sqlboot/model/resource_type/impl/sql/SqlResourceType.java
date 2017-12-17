@@ -100,7 +100,7 @@ public class SqlResourceType implements ResourceType {
 
     @Override
     public Map<String, String> medataData() {
-        return sqlQuery.medataData();
+        return sqlQuery.metaData();
     }
 
 }

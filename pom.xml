@@ -72,15 +72,20 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8
-        </project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <dbh2.version>1.4.187</dbh2.version>
         <docker.image.prefix>mgramin</docker.image.prefix>
 
         <github.global.server>github</github.global.server>
         <github.maven-plugin>0.12</github.maven-plugin>
+
+        <antlr4.visitor>true</antlr4.visitor>
+        <antlr4.listener>true</antlr4.listener>
     </properties>
+
+
+
 
     <dependencies>
 
@@ -191,6 +196,13 @@
             <version>1.0.31</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -281,6 +293,24 @@
                         <goals>
                             <goal>integration-test</goal>
                             <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.1</version>
+                <configuration>
+                    <sourceDirectory>src/main/java</sourceDirectory>
+                    <outputDirectory>src/main/generated-sources</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
                         </goals>
                     </execution>
                 </executions>

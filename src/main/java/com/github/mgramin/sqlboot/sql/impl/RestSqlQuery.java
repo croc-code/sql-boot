@@ -13,6 +13,11 @@ public class RestSqlQuery implements SqlQuery {
     }
 
     @Override
+    public Map<String, String> metaData() {
+        return null;
+    }
+
+    @Override
     public void dbHealth() throws BootException {
 
     }

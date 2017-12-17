@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
 import com.github.mgramin.sqlboot.sql.SqlQuery;
+import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -61,11 +62,11 @@ public class JdbcSqlQueryTest {
     @Test
     public void medataData() throws Exception {
         SqlQuery sqlQuery = new JdbcSqlQuery(dataSource,
-            "select * from (select name AS n, email as mail from main_schema.users)");
-        final Map<String, String> metadata = sqlQuery.medataData();
+            new GroovyTemplateGenerator("select name /* name */, email /* email */ from main_schema.users"));
+        final Map<String, String> metadata = sqlQuery.metaData();
         System.out.println(metadata);
-        assertEquals("12", metadata.get("mail"));
-        assertEquals("12", metadata.get("n"));
+        assertEquals("email", metadata.get("email"));
+        assertEquals("name", metadata.get("name"));
     }
 
     @Test

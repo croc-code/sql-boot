@@ -62,4 +62,9 @@ public abstract class AbstractGroovyTemplateGenerator implements TemplateGenerat
         return result;
     }
 
+    @Override
+    public String template() {
+        return templateText;
+    }
+
 }

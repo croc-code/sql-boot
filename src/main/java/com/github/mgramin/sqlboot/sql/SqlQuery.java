@@ -59,9 +59,7 @@ public interface SqlQuery {
      *
      * @return
      */
-    default Map<String, String> medataData() {
-        return null;
-    }
+    Map<String, String> metaData();
 
     /**
      * Check db health
