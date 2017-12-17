@@ -13,7 +13,7 @@ services:
 ## Run integration tests
 script:
   - mvn verify
-  - mvn jacoco:report coveralls:report -Pcoverall
+  - mvn compile jacoco:report coveralls:report -Pcoverall
   - mvn docker:build
 
 after_success:
