@@ -21,18 +21,6 @@
 
 package com.github.mgramin.sqlboot.sql.impl;
 
-import static java.util.Arrays.stream;
-import static java.util.Optional.ofNullable;
-import static java.util.Spliterator.ORDERED;
-import static java.util.Spliterators.spliteratorUnknownSize;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.StreamSupport.stream;
-
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.SqlQuery;
-import com.github.mgramin.sqlboot.sql.parser.SelectStatement;
-import com.github.mgramin.sqlboot.sql.parser.SelectStatementParser;
-import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -41,9 +29,19 @@ import java.util.stream.Stream;
 import javax.sql.DataSource;
 import javax.sql.rowset.serial.SerialClob;
 import javax.sql.rowset.serial.SerialException;
+import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.sql.SqlQuery;
+import com.github.mgramin.sqlboot.sql.parser.SelectStatementParser;
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
+import static java.util.Spliterator.ORDERED;
+import static java.util.Spliterators.spliteratorUnknownSize;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.StreamSupport.stream;
 
 /**
  * Execute SQL-query through plain old Jdbc.
@@ -112,12 +110,11 @@ public final class JdbcSqlQuery implements SqlQuery {
     }
 
     @Override
-    public Stream<Map<String, Object>> select(Map<String, Object> variables) throws BootException {
-        final String generateSql = templateGenerator.generate(variables);
-        return getMapStream(generateSql);
+    public Stream<Map<String, Object>> select(final Map<String, Object> variables) throws BootException {
+        return getMapStream(templateGenerator.generate(variables));
     }
 
-    private Stream<Map<String, Object>> getMapStream(String sqlText) {
+    private Stream<Map<String, Object>> getMapStream(final String sqlText) {
         logger.info(sqlText);
         final SqlRowSet rowSet = new JdbcTemplate(dataSource).queryForRowSet(sqlText);
         Iterator<Map<String, Object>> iterator = new Iterator<Map<String, Object>>() {
@@ -139,8 +136,8 @@ public final class JdbcSqlQuery implements SqlQuery {
                                 e.printStackTrace();
                             }
                         }
-                        return new SimpleEntry<>(v, object);}
-                    )
+                        return new SimpleEntry<>(v, object);
+                    })
                     .collect(toMap(
                         k -> k.getKey().toLowerCase(),
                         v -> ofNullable(v.getValue()).orElse(nullAlias),
@@ -153,8 +150,9 @@ public final class JdbcSqlQuery implements SqlQuery {
 
     @Override
     public Map<String, String> metaData() {
-        final SelectStatement selectStatement = new SelectStatementParser(templateGenerator.template()).parse();
-        return selectStatement.columns();
+        return new SelectStatementParser(templateGenerator.template())
+                .parse()
+                .columns();
     }
 
     @Override

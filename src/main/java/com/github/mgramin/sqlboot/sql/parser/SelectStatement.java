@@ -19,4 +19,5 @@ public class SelectStatement {
     public Map<String, String> columns() {
         return columns;
     }
+
 }

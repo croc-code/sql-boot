@@ -4,13 +4,14 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
 
 import com.github.mgramin.sqlboot.sql.parser.SELECTParser.Select_statementContext;
+import org.antlr.v4.runtime.RuleContext;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SelectVisitorCustom extends SELECTBaseVisitor {
 
     @Override
-    public Object visitSelect_statement(Select_statementContext ctx) {
+    public Object visitSelect_statement(final Select_statementContext ctx) {
         final Map<String, String> columns = ctx.select_row().stream().collect(
             toMap(v -> ofNullable(v.column_alias()).map(a -> a.ID().getText())
                     .orElse(v.column_name().ID().getText()),
@@ -22,7 +23,7 @@ public class SelectVisitorCustom extends SELECTBaseVisitor {
                 (a, b) -> a,
                 LinkedHashMap::new));
 
-        return new SelectStatement(ofNullable(ctx.table_name()).map(v -> v.getText()).orElse("TABLE NOT DEFINE"), columns);
+        return new SelectStatement(ofNullable(ctx.table_name()).map(RuleContext::getText).orElse("TABLE NOT DEFINE"), columns);
     }
 
 }

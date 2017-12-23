@@ -13,5 +13,5 @@
               , c.character_maximum_length
               , c.nullable
               , c.column_default
-           from information_schema.columns c)
+           from information_schema.columns c);
 ````
