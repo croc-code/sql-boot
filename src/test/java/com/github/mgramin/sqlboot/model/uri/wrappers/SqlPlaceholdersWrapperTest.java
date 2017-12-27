@@ -9,8 +9,7 @@ import org.junit.Test;
 
 public class SqlPlaceholdersWrapperTest {
 
-    final Uri uri = new SqlPlaceholdersWrapper(
-        new DbUri("table/hr.*persons*/"));
+    final Uri uri = new SqlPlaceholdersWrapper(new DbUri("table/hr.*persons*/"));
 
     @Test
     public void type() throws Exception {
@@ -19,6 +18,7 @@ public class SqlPlaceholdersWrapperTest {
 
     @Test
     public void path() throws Exception {
+        assertEquals("hr", uri.path().get(0));
         assertEquals("%persons%", uri.path().get(1));
     }
 
