@@ -27,6 +27,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper;
 import io.swagger.models.Info;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.Operation;
@@ -123,7 +124,7 @@ public class ApiController {
     public ResponseEntity<List<DbResource>> getResourcesEntireJson(final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type) {
-        final Uri uri = new DbUri(parseUri(type, request));
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
         fsResourceTypes.init(connectionName);
         final List<DbResource> collect = fsResourceTypes.read(uri)
             .collect(Collectors.toList());
@@ -136,7 +137,7 @@ public class ApiController {
         @PathVariable String connectionName,
         @PathVariable String type,
         @PathVariable String path) {
-        final Uri uri = new DbUri(parseUri(type + "/" + path, request));
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path, request)));
         fsResourceTypes.init(connectionName);
         final List<DbResource> collect = fsResourceTypes.read(uri)
             .collect(Collectors.toList());
@@ -174,7 +175,7 @@ public class ApiController {
         @PathVariable String connectionName,
         @PathVariable String type,
         @PathVariable String path) throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri(type + "/" + path, request));
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path, request)));
         fsResourceTypes.init(connectionName);
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
@@ -188,7 +189,7 @@ public class ApiController {
         final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type) throws BootException, IOException {
-        final Uri uri = new DbUri(parseUri(type, request));
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
         fsResourceTypes.init(connectionName);
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
