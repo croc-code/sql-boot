@@ -79,7 +79,7 @@ public class SqlResourceType implements ResourceType {
         return sqlQuery.select(variables)
             .map(o -> {
                 final List<Object> path = o.entrySet().stream()
-                    .filter(v -> v.getKey().startsWith("@"))
+                    .filter(v -> (v.getKey().startsWith("@") || v.getKey().startsWith("_")))
                     .map(Entry::getValue)
                     .collect(toList());
 
@@ -87,7 +87,7 @@ public class SqlResourceType implements ResourceType {
 
                 final Map<String, Object> headers = o.entrySet().stream()
                     .collect(toMap(
-                        k -> strip(k.getKey(), "@"),
+                        k -> strip(strip(k.getKey(), "@"), "_"),
                         v -> ofNullable(v.getValue()).orElse(""),
                         (a, b) -> a,
                         LinkedHashMap::new));

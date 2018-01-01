@@ -55,6 +55,11 @@ public class SqlPlaceholdersWrapper implements Uri {
     }
 
     @Override
+    public String path(Integer index) {
+        return origin.path(index);
+    }
+
+    @Override
     public Boolean recursive() {
         return origin.recursive();
     }

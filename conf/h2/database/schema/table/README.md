@@ -1,11 +1,11 @@
 ````sql
-select @schema              /* table schema */
-     , @table               /* table name */
+select _schema              /* table schema */
+     , _table               /* table name */
      , remarks              /* explanatory comment on the table */
      , last_modification    /* last modification */
      , table_type           /* table type. Typical types are "TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY", "LOCAL TEMPORARY", "ALIAS", "SYNONYM"*/
-  from (select t.table_schema as "@schema"
-             , t.table_name as "@table"
+  from (select t.table_schema as _schema
+             , t.table_name as _table
              , t.remarks
              , t.last_modification
              , t.table_type

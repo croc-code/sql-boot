@@ -35,6 +35,7 @@ import io.swagger.models.Path;
 import io.swagger.models.Response;
 import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
+import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
@@ -100,7 +101,9 @@ public class ApiController {
             swagger.path("/" + resourceType.name(),
                 new Path().get(
                     new Operation().tag(resourceType.name())
-                        .response(200, new Response().description("Ok").schema(new RefProperty(resourceType.name())))
+                        .response(200, new Response()
+                                .description("Ok")
+                                .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
                         .produces("application/json")));
         }
 
