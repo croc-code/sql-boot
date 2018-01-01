@@ -27,4 +27,4 @@ deploy:
   skip_cleanup: true
   name: v0.2.0
   on:
-    tags: true
+    all_branches: true
