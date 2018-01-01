@@ -41,21 +41,16 @@ public abstract class AbstractGroovyTemplateGenerator implements TemplateGenerat
     protected String templateText;
 
     @Override
-    public String generate(Map<String, Object> variables) {
-        try {
-            return this.template.make(variables).toString();
-        } catch (Exception e) {
-            System.out.println(templateText);
-            System.out.println(variables);
-            throw e;
-        }
+    public String generate(final Map<String, Object> variables) {
+        return this.template.make(variables).toString();
     }
 
     @Override
+    @Deprecated
     public List<String> properties() {
-        List<String> result = new ArrayList<>();
-        Pattern pattern = Pattern.compile("\\$\\s*(\\w+)");
-        Matcher matcher = pattern.matcher(templateText);
+        final List<String> result = new ArrayList<>();
+        final Matcher matcher = Pattern.compile("\\$\\s*(\\w+)")
+                .matcher(templateText);
         while (matcher.find()) {
             result.add(matcher.group(1));
         }

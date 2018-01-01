@@ -45,6 +45,7 @@ public interface TemplateGenerator {
      *
      * @return all properties(variables) from template
      */
+    @Deprecated
     List<String> properties();
 
     /**

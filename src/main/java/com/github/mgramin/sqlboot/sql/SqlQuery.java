@@ -43,6 +43,7 @@ public interface SqlQuery {
      * @return result of query
      * @throws BootException SQL exception
      */
+    @Deprecated
     Stream<Map<String, Object>> select() throws BootException;
 
     /**

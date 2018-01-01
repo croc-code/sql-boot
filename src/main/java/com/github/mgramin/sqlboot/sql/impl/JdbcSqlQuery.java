@@ -65,6 +65,8 @@ public final class JdbcSqlQuery implements SqlQuery {
     private final String sql;
 
     /**
+     * Ctor.
+     *
      * Text alias for DB NULL value
      */
     private final String nullAlias;
@@ -75,6 +77,7 @@ public final class JdbcSqlQuery implements SqlQuery {
     private final TemplateGenerator templateGenerator;
 
     /**
+     * Ctor.
      *
      * @param datasource
      * @param templateGenerator
@@ -91,7 +94,6 @@ public final class JdbcSqlQuery implements SqlQuery {
     public JdbcSqlQuery(final DataSource datasource, final String sql) {
         this(datasource, sql, "[NULL]", null);
     }
-
 
     /**
      * Ctor.
