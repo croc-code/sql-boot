@@ -70,6 +70,7 @@ public class ApiControllerITCase {
         assertEquals(200, result.getStatusCodeValue());
     }
 
+
     @Test
     public void getTextDdl2() throws Exception {
         ResponseEntity<String> result = client.getForEntity("/api/h2/table", String.class);
