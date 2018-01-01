@@ -44,6 +44,11 @@ public class FakeUri implements Uri {
     }
 
     @Override
+    public String path(Integer index) {
+        return "FAKE_TBL";
+    }
+
+    @Override
     public Boolean recursive() {
         return null;
     }
