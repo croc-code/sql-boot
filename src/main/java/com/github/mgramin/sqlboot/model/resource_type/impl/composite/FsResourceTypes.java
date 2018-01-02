@@ -33,6 +33,8 @@ import java.util.stream.Stream;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.ColumnJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.SchemaJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.TableJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.SqlBodyWrapper;
@@ -205,8 +207,14 @@ public class FsResourceTypes implements ResourceType {
 
                 final ResourceType jdbcResourceType;
                 switch (f.getName()) {
+                    case "schema":
+                        jdbcResourceType = new SchemaJdbcResourceType(dataSource);
+                        break;
                     case "table":
                         jdbcResourceType = new TableJdbcResourceType(dataSource);
+                        break;
+                    case "column":
+                        jdbcResourceType = new ColumnJdbcResourceType(dataSource);
                         break;
                     default:
                         jdbcResourceType = null;

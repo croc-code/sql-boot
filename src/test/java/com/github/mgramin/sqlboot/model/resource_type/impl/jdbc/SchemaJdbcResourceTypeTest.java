@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -45,18 +45,30 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class TableJdbcResourceTypeTest {
+public class SchemaJdbcResourceTypeTest {
 
     @Autowired
     private DataSource dataSource;
 
     @Test
+    public void name() {
+    }
+
+    @Test
+    public void aliases() {
+    }
+
+    @Test
     public void read() {
-        final ResourceType table = new TableJdbcResourceType(dataSource);
-        final Stream<DbResource> tables = table.read(
+        final ResourceType schema = new SchemaJdbcResourceType(dataSource);
+        final Stream<DbResource> schemas = schema.read(
                 new SqlPlaceholdersWrapper(
-                        new DbUri("table", asList("*"))));
-        assertEquals(2, tables.count());
+                        new DbUri("schema", asList("*"))));
+        assertEquals(3, schemas.count());
+    }
+
+    @Test
+    public void medataData() {
     }
 
 }

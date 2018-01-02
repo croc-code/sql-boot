@@ -46,7 +46,7 @@ import static java.util.Arrays.asList;
  * @version $Id$
  * @since 0.1
  */
-public class TableJdbcResourceType implements ResourceType {
+public class SchemaJdbcResourceType implements ResourceType {
 
     /**
      *
@@ -54,52 +54,42 @@ public class TableJdbcResourceType implements ResourceType {
     private final DataSource dataSource;
 
     /**
-     * Ctor.
      *
      * @param dataSource
      */
-    public TableJdbcResourceType(final DataSource dataSource) {
+    public SchemaJdbcResourceType(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
     public String name() {
-        return "table";
+        return "schema";
     }
 
     @Override
     public List<String> aliases() {
-        return asList("table", "tbl", "t");
+        return asList("schema", "schm", "s");
     }
 
     @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
-        try {
+         try {
             final List<DbResource> result = new ArrayList<>();
-            final ResultSet tables = dataSource.getConnection().getMetaData()
-                    .getTables(null, uri.path(0), uri.path(1), new String[]{"TABLE"});
+            final ResultSet columns = dataSource.getConnection().getMetaData()
+                    .getSchemas(null, uri.path(0));
 
-            final ResultSetMetaData tableMetaData = tables.getMetaData();
+            final ResultSetMetaData tableMetaData = columns.getMetaData();
             final int columnsCount = tableMetaData.getColumnCount();
-            while (tables.next()) {
-                final String tableSchem = columnsCount >= 2 ? tables.getString(2) : null;
-                final String tableName = columnsCount >= 3 ? tables.getString(3) : null;
+            while (columns.next()) {
+                final String schemaName = columnsCount >= 1 ? columns.getString(1) : null;
 
                 final Map<String, Object> properties = new LinkedHashMap<>();
 
-                properties.put("TABLE_CAT", columnsCount >= 1 ? tables.getString(1) : null);
-                properties.put("TABLE_SCHEM", columnsCount >= 2 ? tables.getString(2) : null);
-                properties.put("TABLE_NAME", columnsCount >= 3 ? tables.getString(3) : null);
-                properties.put("TABLE_TYPE", columnsCount >= 4 ? tables.getString(4) : null);
-                properties.put("REMARKS", columnsCount >= 5 ? tables.getString(5) : null);
-                properties.put("TYPE_CAT", columnsCount >= 6 ? tables.getString(6) : null);
-                properties.put("TYPE_SCHEM", columnsCount >= 7 ? tables.getString(7) : null);
-                properties.put("TYPE_NAME", columnsCount >= 8 ? tables.getString(8) : null);
-                properties.put("SELF_REFERENCING_COL_NAME", columnsCount >= 9 ? tables.getString(9) : null);
-                properties.put("REF_GENERATION", columnsCount >= 10 ? tables.getString(10) : null);
+                properties.put("TABLE_SCHEM", columnsCount >= 1 ? columns.getString(1) : null);
+                properties.put("TABLE_CATALOG", columnsCount >= 2 ? columns.getString(2) : null);
 
-                result.add(new DbResourceImpl(tableName, this,
-                                new DbUri(name(), asList(tableSchem, tableName)),
+                result.add(new DbResourceImpl(schemaName, this,
+                                new DbUri(name(), asList(schemaName)),
                                 properties));
             }
             return result.stream();
@@ -110,18 +100,10 @@ public class TableJdbcResourceType implements ResourceType {
 
     @Override
     public Map<String, String> medataData() {
-        final Map<String, String> properties = new LinkedHashMap<>();
+         final Map<String, String> properties = new LinkedHashMap<>();
 
-        properties.put("TABLE_CAT", "table catalog (may be null)");
         properties.put("TABLE_SCHEM", "table schema (may be null)");
-        properties.put("TABLE_NAME", "table name");
-        properties.put("TABLE_TYPE", "table type. Typical types are \"TABLE\", \"VIEW\", \"SYSTEM TABLE\", \"GLOBAL TEMPORARY\", \"LOCAL TEMPORARY\", \"ALIAS\", \"SYNONYM\".");
-        properties.put("REMARKS", "explanatory comment on the table");
-        properties.put("TYPE_CAT", "the types catalog (may be null)");
-        properties.put("TYPE_SCHEM", "the types schema (may be null)");
-        properties.put("TYPE_NAME", "type name (may be null)");
-        properties.put("SELF_REFERENCING_COL_NAME", "name of the designated \"identifier\" column of a typed table (may be null)");
-        properties.put("REF_GENERATION", "specifies how values in SELF_REFERENCING_COL_NAME are created. Values are \"SYSTEM\", \"USER\", \"DERIVED\". (may be null)");
+        properties.put("TABLE_CATALOG", "table catalog (may be null)");
 
         return properties;
     }
