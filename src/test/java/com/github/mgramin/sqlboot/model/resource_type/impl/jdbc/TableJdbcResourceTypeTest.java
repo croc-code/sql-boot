@@ -24,17 +24,38 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
 
+import java.util.stream.Stream;
+import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.model.resource.DbResource;
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public class JdbcResourceTypeTest {
-    @Test
-    public void read() throws Exception {
+@RunWith(SpringRunner.class)
+@ContextConfiguration(locations = {"/test_config.xml"})
+public class TableJdbcResourceTypeTest {
 
+    @Autowired
+    private DataSource dataSource;
+
+    @Test
+    public void read() {
+        final TableJdbcResourceType table = new TableJdbcResourceType(dataSource);
+        final Stream<DbResource> tables = table.read(
+                new SqlPlaceholdersWrapper(
+                        new DbUri("table", asList("*"))));
+        assertEquals(2, tables.count());
     }
 
 }

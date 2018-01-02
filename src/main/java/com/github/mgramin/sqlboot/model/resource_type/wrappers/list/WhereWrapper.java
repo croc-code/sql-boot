@@ -56,7 +56,7 @@ public class WhereWrapper implements ResourceType {
     }
 
     @Override
-    public Stream<DbResource> read(Uri uri) throws BootException {
+    public Stream<DbResource> read(final Uri uri) throws BootException {
         final Stream<DbResource> resources = origin.read(uri);
         return resources
             .filter(resource -> {

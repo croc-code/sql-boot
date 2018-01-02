@@ -42,6 +42,13 @@ public final class DbResourceImpl implements DbResource {
     private final Uri uri;
     private final Map<String, Object> headers;
 
+    /**
+     *
+     * @param name
+     * @param type
+     * @param uri
+     * @param headers
+     */
     public DbResourceImpl(final String name, final ResourceType type,
                           final Uri uri,
                           final Map<String, Object> headers) {

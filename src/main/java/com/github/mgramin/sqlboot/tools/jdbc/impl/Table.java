@@ -1,83 +1,88 @@
 package com.github.mgramin.sqlboot.tools.jdbc.impl;
 
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
-
-import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
-import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectImpl;
-import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObject;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectImpl;
+import com.github.mgramin.sqlboot.tools.jdbc.JdbcDbObjectType;
 import lombok.ToString;
+import static java.util.Arrays.asList;
 
 /**
  * Created by MGramin on 13.07.2017.
+ *
+ * https://docs.oracle.com/javase/8/docs/api/java/sql/DatabaseMetaData.html#getTables-java.lang.String-java.lang.String-java.lang.String-java.lang.String:A-
+ *
  */
 @ToString
 public class Table extends AbstractJdbcObjectType implements JdbcDbObjectType {
 
-    private static final String COLUMN_NAME_PROPERTY = "TABLE_NAME";
     private final DataSource dataSource;
 
-    public Table(DataSource dataSource) {
+    public Table(final DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     /**
-     * table catalog (may be null)
+     * "TABLE_CAT" - table catalog (may be null)
      */
-    String tableCat;
+    private String tableCat;
 
     /**
-     * table schema (may be null)
+     * "TABLE_SCHEM" - table schema (may be null)
      */
-    String tableSchem;
+    private String tableSchem;
 
     /**
-     * table name
+     * "TABLE_NAME" - table name
      */
-    String tableName;
+    private String tableName;
 
     /**
-     * table type.
-     * Typical types are "TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY" "ALIAS", "SYNONYM".
+     * "TABLE_TYPE" - table type.
+     * Typical types are "TABLE", "VIEW", "SYSTEM TABLE", "GLOBAL TEMPORARY",
+     * "ALIAS", "SYNONYM".
      */
-    String tableType;
+    private String tableType;
 
     /**
-     * explanatory comment on the table
+     * "REMARKS" - explanatory comment on the table
      */
-    String remarks;
+    private String remarks;
 
     /**
-     * the types catalog (may be null)
+     * "TYPE_CAT" - the types catalog (may be null)
      */
-    String typeCat;
+    private String typeCat;
 
     /**
-     * the types schema (may be null)
+     * "TYPE_SCHEM" - the types schema (may be null)
      */
-    String typeSchem;
+    private String typeSchem;
 
     /**
-     * type name (may be null)
+     * "TYPE_NAME" - type name (may be null)
      */
-    String typeName;
+    private String typeName;
 
     /**
-     * name of the designated "identifier" column of a typed table (may be null)
+     * "SELF_REFERENCING_COL_NAME" - name of the designated "identifier"
+     * column of a typed table (may be null)
      */
-    String selfReferencingColName;
+    private String selfReferencingColName;
 
     /**
-     * specifies how values in SELF_REFERENCING_COL_NAME are created.
-     * Values are "SYSTEM", "USER", "DERIVED". (may be null)
+     * "REF_GENERATION" - specifies how values in SELF_REFERENCING_COL_NAME
+     * are created. Values are "SYSTEM", "USER", "DERIVED". (may be null)
      */
-    String refGeneration;
+    private String refGeneration;
 
 
     @Override
@@ -86,14 +91,34 @@ public class Table extends AbstractJdbcObjectType implements JdbcDbObjectType {
     }
 
     @Override
-    public List<JdbcDbObject> read(List<String> params) throws SQLException {
-        ResultSet tables = dataSource.getConnection().getMetaData().
-                getTables(null, "%", "%", new String[]{"TABLE"});
-        return toMap(tables).stream()
-                .map(v -> new JdbcDbObjectImpl(
-                        asList(v.get("TABLE_SCHEMA").toString(), v.get(COLUMN_NAME_PROPERTY).toString()),
-                        v))
-                .collect(toList());
+    public List<JdbcDbObject> read(final List<String> params) throws SQLException {
+        final List<JdbcDbObject> result = new ArrayList<>();
+
+        final ResultSet tables = dataSource.getConnection().getMetaData()
+                .getTables(null, params.get(0), "%", new String[]{"TABLE"});
+
+        final ResultSetMetaData tableMetaData = tables.getMetaData();
+        final int columnsCount = tableMetaData.getColumnCount();
+        while (tables.next()) {
+            tableCat = columnsCount >= 1 ? tables.getString(1) : null;
+            tableSchem = columnsCount >= 2 ? tables.getString(2) : null;
+            tableName = columnsCount >= 3 ? tables.getString(3) : null;
+            tableType = columnsCount >= 4 ? tables.getString(4) : null;
+            remarks = columnsCount >= 5 ? tables.getString(5) : null;
+            typeCat = columnsCount >= 6 ? tables.getString(6) : null;
+            typeSchem = columnsCount >= 7 ? tables.getString(7) : null;
+            typeName = columnsCount >= 8 ? tables.getString(8) : null;
+            selfReferencingColName = columnsCount >= 9 ? tables.getString(9) : null;
+            refGeneration = columnsCount >= 10 ? tables.getString(10) : null;
+
+
+            final Map<String, Object> map = new HashMap<>();
+            for (int i = 1; i <= columnsCount; i++) {
+                map.put(tableMetaData.getColumnName(i), tables.getString(i));
+            }
+            result.add(new JdbcDbObjectImpl(asList(tableSchem, tableName), map));
+        }
+        return result;
     }
 
     @Override
