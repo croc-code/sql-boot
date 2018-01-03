@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
@@ -107,6 +108,8 @@ public class FsResourceTypes implements ResourceType {
             this.name = name;
         }
 
+
+        @JsonIgnore
         public Resource getBaseFolder() {
             return baseFolder;
         }
@@ -131,6 +134,7 @@ public class FsResourceTypes implements ResourceType {
             this.user = user;
         }
 
+        @JsonIgnore
         public String getPassword() {
             return password;
         }
@@ -147,6 +151,7 @@ public class FsResourceTypes implements ResourceType {
             this.driverClassName = driverClassName;
         }
 
+        @JsonIgnore
         public DataSource getDataSource() {
             return dataSource;
         }

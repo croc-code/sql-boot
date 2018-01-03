@@ -16,6 +16,11 @@ conf:
       driverClassName: org.postgresql.Driver
       user: postgres
       password: postgres
+    - name: clickhouse
+      baseFolder: file:conf/common/database
+      url: jdbc:clickhouse://localhost:8123/default
+      driverClassName: ru.yandex.clickhouse.ClickHouseDriver
+
 
 server:
      port: 8007
