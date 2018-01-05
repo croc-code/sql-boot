@@ -74,7 +74,7 @@ public class ApiController {
     FsResourceTypes fsResourceTypes;
 
     @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
-    public String apiDocsDEfault(final HttpServletRequest request,
+    public String apiDocsDefault(final HttpServletRequest request,
                           @RequestParam(required = false) final String format) throws JsonProcessingException {
         final String connectionName = "h2";
         final Swagger swaggerDescription = getSwaggerDescription(request, connectionName);
@@ -98,7 +98,7 @@ public class ApiController {
     }
 
     private Swagger getSwaggerDescription(HttpServletRequest request,
-        String connectionName) throws JsonProcessingException {
+        String connectionName) {
         fsResourceTypes.init(connectionName);
         final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
         Swagger swagger = new Swagger();
@@ -127,16 +127,31 @@ public class ApiController {
 
         // paths
         for (ResourceType resourceType : resourceTypes) {
-            PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
-            parameter.setDefaultValue(connectionName);
-            swagger.path("/api/{connection_name}/" + resourceType.name(),
-                new Path().get(
-                    new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter)
-                        .response(200, new Response()
-                                .description("Ok")
-                                .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
-                        .produces("application/json")));
-        }
+            {
+                PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
+                parameter.setDefaultValue(connectionName);
+                swagger.path("/api/{connection_name}/" + resourceType.name(),
+                        new Path().get(
+                                new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter)
+                                        .response(200, new Response()
+                                                .description("Ok")
+                                                .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
+                                        .produces("application/json")));
+            }
+            {
+                PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
+                parameter.setDefaultValue(connectionName);
+                PathParameter parameterSchema = new PathParameter().required(true).type("string").name("schema");
+                parameterSchema.setDefaultValue("HR");
+                swagger.path("/api/{connection_name}/" + resourceType.name() + "/{schema}",
+                        new Path().get(
+                                new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter).parameter(parameterSchema)
+                                        .response(200, new Response()
+                                                .description("Ok")
+                                                .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
+                                        .produces("application/json")));
+            }
+       }
 
         // definitions
         for (ResourceType resourceType : resourceTypes) {
