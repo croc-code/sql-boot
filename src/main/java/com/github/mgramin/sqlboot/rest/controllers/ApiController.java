@@ -35,6 +35,7 @@ import io.swagger.models.Path;
 import io.swagger.models.Response;
 import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
@@ -72,6 +73,18 @@ public class ApiController {
     @Autowired
     FsResourceTypes fsResourceTypes;
 
+    @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
+    public String apiDocsDEfault(final HttpServletRequest request,
+                          @RequestParam(required = false) final String format) throws JsonProcessingException {
+        final String connectionName = "h2";
+        final Swagger swaggerDescription = getSwaggerDescription(request, connectionName);
+        if (format != null && format.equals("yaml")) {
+            return Yaml.pretty().writeValueAsString(swaggerDescription);
+        } else {
+            return Json.pretty().writeValueAsString(swaggerDescription);
+        }
+    }
+
     @RequestMapping(method = GET, path = "/api/{connectionName}", produces = APPLICATION_JSON_VALUE)
     public String apiDocs(final HttpServletRequest request,
         @PathVariable String connectionName,
@@ -95,18 +108,37 @@ public class ApiController {
 
         swagger.setInfo(new Info().version("v1").title("API specification"));
         swagger.setSchemes(asList(Scheme.HTTP, Scheme.HTTPS));
-        swagger.basePath("/api/" + connectionName);
 
+        swagger.path("/connections",
+                new Path().get(new Operation()
+                        .tag("connections")
+                        .response(200,
+                                new Response()
+                                        .description("Ok")
+                                        .schema(new ArrayProperty(new RefProperty("connection"))))
+                        .produces("application/json")));
+        swagger.model("connection", new ModelImpl()
+                .property("name", new StringProperty().description("name"))
+                .property("url", new StringProperty().description("url"))
+                .property("user", new StringProperty().description("user"))
+                .property("driverClassName", new StringProperty().description("driverClassName"))
+                .property("configurationFolder", new StringProperty().description("configurationFolder"))
+        );
+
+        // paths
         for (ResourceType resourceType : resourceTypes) {
-            swagger.path("/" + resourceType.name(),
+            PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
+            parameter.setDefaultValue(connectionName);
+            swagger.path("/api/{connection_name}/" + resourceType.name(),
                 new Path().get(
-                    new Operation().tag(resourceType.name())
+                    new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter)
                         .response(200, new Response()
                                 .description("Ok")
                                 .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
                         .produces("application/json")));
         }
 
+        // definitions
         for (ResourceType resourceType : resourceTypes) {
             ModelImpl model = new ModelImpl();
             Map<String, String> stringStringMap = resourceType.medataData();

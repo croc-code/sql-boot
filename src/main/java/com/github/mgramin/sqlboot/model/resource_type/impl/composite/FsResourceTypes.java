@@ -108,10 +108,13 @@ public class FsResourceTypes implements ResourceType {
             this.name = name;
         }
 
-
         @JsonIgnore
         public Resource getBaseFolder() {
             return baseFolder;
+        }
+
+        public String getConfigurationFolder() throws IOException {
+            return baseFolder.getFile().getPath();
         }
 
         public void setBaseFolder(Resource baseFolder) {
