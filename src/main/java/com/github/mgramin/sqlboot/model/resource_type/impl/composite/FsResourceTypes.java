@@ -281,6 +281,11 @@ public class FsResourceTypes implements ResourceType {
     }
 
     @Override
+    public List<String> path() {
+        return null;
+    }
+
+    @Override
     public Stream<DbResource> read(Uri uri) throws BootException {
         ResourceType type = type(uri.type());
         return type.read(uri);

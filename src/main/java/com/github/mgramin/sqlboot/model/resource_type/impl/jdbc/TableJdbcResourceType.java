@@ -86,6 +86,11 @@ public class TableJdbcResourceType implements ResourceType {
     }
 
     @Override
+    public List<String> path() {
+        return asList("schema", "table");
+    }
+
+    @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         try {
             final List<DbResource> result = new ArrayList<>();

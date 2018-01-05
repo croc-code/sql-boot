@@ -48,6 +48,11 @@ public class FileResourceType implements ResourceType {
     }
 
     @Override
+    public List<String> path() {
+        return null;
+    }
+
+    @Override
     public Stream<DbResource> read(Uri uri) throws BootException {
         return null;
     }

@@ -54,6 +54,11 @@ public class DistinctWrapper implements ResourceType {
     }
 
     @Override
+    public List<String> path() {
+        return origin.path();
+    }
+
+    @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         // TODO
         return origin.read(uri);

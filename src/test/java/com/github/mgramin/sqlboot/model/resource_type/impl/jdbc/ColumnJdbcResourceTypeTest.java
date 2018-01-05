@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
 
+import java.util.List;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
@@ -69,6 +70,15 @@ public class ColumnJdbcResourceTypeTest {
 
     @Test
     public void medataData() {
+    }
+
+    @Test
+    public void path() {
+        final ResourceType column = new ColumnJdbcResourceType(dataSource);
+        assertEquals(3, column.path().size());
+        assertEquals("schema", column.path().get(0));
+        assertEquals("table", column.path().get(1));
+        assertEquals("column", column.path().get(2));
     }
 
 }

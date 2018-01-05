@@ -72,6 +72,11 @@ public class SchemaJdbcResourceType implements ResourceType {
     }
 
     @Override
+    public List<String> path() {
+        return asList("schema");
+    }
+
+    @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
          try {
             final List<DbResource> result = new ArrayList<>();

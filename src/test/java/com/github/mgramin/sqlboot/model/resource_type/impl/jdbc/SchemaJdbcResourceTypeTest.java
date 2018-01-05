@@ -71,4 +71,11 @@ public class SchemaJdbcResourceTypeTest {
     public void medataData() {
     }
 
+    @Test
+    public void path() {
+        final ResourceType schema = new SchemaJdbcResourceType(dataSource);
+        assertEquals(1, schema.path().size());
+        assertEquals("schema", schema.path().get(0));
+    }
+
 }

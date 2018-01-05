@@ -53,6 +53,22 @@ public interface ResourceType {
     List<String> aliases();
 
     /**
+     * Path of resource
+     * e.g. "schema -> table -> column"
+     * or "schema -> table -> index -> index_column"
+     * @return
+     */
+    List<String> path();
+
+    /**
+     * Retrieves a map that contains information about the resource properties
+     * "name" -> "type"
+     *
+     * @return
+     */
+    Map<String, String> metaData();
+
+    /**
      * Read resources by uri
      *
      * @param uri
@@ -60,12 +76,5 @@ public interface ResourceType {
      * @throws BootException
      */
     Stream<DbResource> read(Uri uri) throws BootException;
-
-    /**
-     * Retrieves a map that contains information about the columns: "name" -> "type"
-     *
-     * @return
-     */
-    Map<String, String> metaData();
 
 }

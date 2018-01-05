@@ -51,6 +51,11 @@ public final class FakeDbResourceType implements ResourceType {
     }
 
     @Override
+    public List<String> path() {
+        return null;
+    }
+
+    @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         return Stream.of(
             new FakeDbResource(new DbUri("table/hr.persons")),

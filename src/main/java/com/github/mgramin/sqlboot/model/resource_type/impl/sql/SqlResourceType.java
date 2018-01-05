@@ -73,6 +73,14 @@ public class SqlResourceType implements ResourceType {
     }
 
     @Override
+    public List<String> path() {
+        return sqlQuery.metaData().keySet().stream()
+                .filter(v -> v.startsWith("@") || v.startsWith("_"))
+                .map(v -> strip(strip(v, "@"), "_"))
+                .collect(toList());
+    }
+
+    @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         final Map<String, Object> variables = new HashMap<>();
         variables.put("uri", uri);

@@ -59,4 +59,12 @@ public class TableJdbcResourceTypeTest {
         assertEquals(2, tables.count());
     }
 
+    @Test
+    public void path() {
+        final ResourceType table = new TableJdbcResourceType(dataSource);
+        assertEquals(2, table.path().size());
+        assertEquals("schema", table.path().get(0));
+        assertEquals("table", table.path().get(1));
+    }
+
 }

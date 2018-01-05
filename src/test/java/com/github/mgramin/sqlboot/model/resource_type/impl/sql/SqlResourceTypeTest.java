@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.sql;
 
+import java.util.List;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 import static org.junit.Assert.assertEquals;
 
@@ -75,12 +76,23 @@ public class SqlResourceTypeTest {
     }
 
     @Test
-    public void read2() throws Exception {
+    public void read2() {
         final String sql = "select * from (select table_schema as \"@table_schema\", table_name as \"@table_name\", column_name as \"@column_name\""
                         + "from information_schema.columns)";
         ResourceType type = new WhereWrapper(
                 new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), asList("column")));
         assertEquals(4, type.read(new DbUri("column/main_schema.users")).count());
+    }
+
+    @Test
+    public void path() {
+        final String sql = "select _schema, _table, _column from (select table_schema as \"_schema\", table_name as \"_table\", column_name as \"_column\""
+                        + "from information_schema.columns)";
+        final ResourceType type = new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), asList("column"));
+        final List<String> path = type.path();
+        assertEquals("schema", path.get(0));
+        assertEquals("table", path.get(1));
+        assertEquals("column", path.get(2));
     }
 
 }
