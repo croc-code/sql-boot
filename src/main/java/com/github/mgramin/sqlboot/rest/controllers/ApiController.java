@@ -177,8 +177,12 @@ public class ApiController {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
         fsResourceTypes.init(connectionName);
         final List<DbResource> collect = fsResourceTypes.read(uri)
-            .collect(Collectors.toList());
-        return new ResponseEntity<>(collect, HttpStatus.OK);
+            .collect(toList());
+        if (collect.isEmpty()) {
+            return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(collect, HttpStatus.OK);
+        }
     }
 
 
@@ -189,9 +193,12 @@ public class ApiController {
         @PathVariable String path) {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path, request)));
         fsResourceTypes.init(connectionName);
-        final List<DbResource> collect = fsResourceTypes.read(uri)
-            .collect(Collectors.toList());
-        return new ResponseEntity<>(collect, HttpStatus.OK);
+        final List<DbResource> collect = fsResourceTypes.read(uri).collect(toList());
+        if (collect.isEmpty()) {
+            return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(collect, HttpStatus.OK);
+        }
     }
 
 
@@ -231,7 +238,11 @@ public class ApiController {
             .read(uri)
             .map(DbResource::headers)
             .collect(toList());
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        if (headers.isEmpty()) {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = "/api/{connectionName}/headers/{type}", method = GET)
@@ -245,7 +256,11 @@ public class ApiController {
             .read(uri)
             .map(DbResource::headers)
             .collect(toList());
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        if (headers.isEmpty()) {
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        }
     }
 
     private String parseUri(String path, final HttpServletRequest request) {
