@@ -26,7 +26,7 @@ public class DbStoredFuncBodyWrapper implements ResourceType {
     }
 
     @Override
-    public Map<String, String> medataData() {
+    public Map<String, String> metaData() {
         return null;
     }
 

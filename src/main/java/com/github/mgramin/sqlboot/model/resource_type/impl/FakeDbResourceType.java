@@ -59,7 +59,7 @@ public final class FakeDbResourceType implements ResourceType {
     }
 
     @Override
-    public Map<String, String> medataData() {
+    public Map<String, String> metaData() {
         // TODO
         return null;
     }

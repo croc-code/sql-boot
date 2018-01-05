@@ -66,6 +66,6 @@ public interface ResourceType {
      *
      * @return
      */
-    Map<String, String> medataData();
+    Map<String, String> metaData();
 
 }

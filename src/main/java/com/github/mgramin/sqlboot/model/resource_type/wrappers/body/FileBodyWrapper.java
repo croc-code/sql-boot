@@ -59,8 +59,8 @@ public class FileBodyWrapper implements ResourceType {
     }
 
     @Override
-    public Map<String, String> medataData() {
-        return origin.medataData();
+    public Map<String, String> metaData() {
+        return origin.metaData();
     }
 
 }

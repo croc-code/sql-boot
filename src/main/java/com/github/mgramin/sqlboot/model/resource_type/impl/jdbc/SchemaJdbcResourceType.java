@@ -99,7 +99,7 @@ public class SchemaJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public Map<String, String> medataData() {
+    public Map<String, String> metaData() {
          final Map<String, String> properties = new LinkedHashMap<>();
 
         properties.put("TABLE_SCHEM", "table schema (may be null)");

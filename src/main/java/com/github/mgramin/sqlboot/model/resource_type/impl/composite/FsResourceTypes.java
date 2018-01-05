@@ -287,7 +287,7 @@ public class FsResourceTypes implements ResourceType {
     }
 
     @Override
-    public Map<String, String> medataData() {
+    public Map<String, String> metaData() {
         throw new BootException("Not implemented!");
     }
 

@@ -156,7 +156,7 @@ public class ApiController {
         // definitions
         for (ResourceType resourceType : resourceTypes) {
             ModelImpl model = new ModelImpl();
-            Map<String, String> stringStringMap = resourceType.medataData();
+            Map<String, String> stringStringMap = resourceType.metaData();
             if (stringStringMap != null) {
                 Set<Entry<String, String>> entries = stringStringMap.entrySet();
                 for (Entry<String, String> stringStringEntry : entries) {
