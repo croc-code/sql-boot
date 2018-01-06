@@ -37,6 +37,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.ColumnJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.SchemaJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.TableJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.ViewJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.SqlBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
@@ -220,6 +221,9 @@ public class FsResourceTypes implements ResourceType {
                         break;
                     case "table":
                         jdbcResourceType = new TableJdbcResourceType(dataSource);
+                        break;
+                    case "view":
+                        jdbcResourceType = new ViewJdbcResourceType(dataSource);
                         break;
                     case "column":
                         jdbcResourceType = new ColumnJdbcResourceType(dataSource);

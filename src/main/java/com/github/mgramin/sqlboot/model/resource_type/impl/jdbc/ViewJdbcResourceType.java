@@ -46,16 +46,13 @@ import static java.util.Arrays.asList;
  * @version $Id$
  * @since 0.1
  */
-public class TableJdbcResourceType implements ResourceType {
+public class ViewJdbcResourceType implements ResourceType {
 
     /**
      *
      */
     private final DataSource dataSource;
 
-    /**
-     *
-     */
     private final Map<String, String> properties;
 
     /**
@@ -63,7 +60,7 @@ public class TableJdbcResourceType implements ResourceType {
      *
      * @param dataSource
      */
-    public TableJdbcResourceType(final DataSource dataSource) {
+    public ViewJdbcResourceType(final DataSource dataSource) {
         properties = new LinkedHashMap<>();
         properties.put("TABLE_CAT", "table catalog (may be null)");
         properties.put("TABLE_SCHEM", "table schema (may be null)");
@@ -80,17 +77,17 @@ public class TableJdbcResourceType implements ResourceType {
 
     @Override
     public String name() {
-        return "table";
+        return "view";
     }
 
     @Override
     public List<String> aliases() {
-        return asList("table", "tbl", "t");
+        return asList("view", "vw", "v");
     }
 
     @Override
     public List<String> path() {
-        return asList("schema", "table");
+        return asList("schema", "view");
     }
 
     @Override
@@ -98,7 +95,7 @@ public class TableJdbcResourceType implements ResourceType {
         try {
             final List<DbResource> result = new ArrayList<>();
             final ResultSet tables = dataSource.getConnection().getMetaData()
-                    .getTables(null, uri.path(0), uri.path(1), new String[]{"TABLE"});
+                    .getTables(null, uri.path(0), uri.path(1), new String[]{"VIEW"});
 
             final ResultSetMetaData tableMetaData = tables.getMetaData();
             final int columnsCount = tableMetaData.getColumnCount();
@@ -107,13 +104,21 @@ public class TableJdbcResourceType implements ResourceType {
                 final String tableName = columnsCount >= 3 ? tables.getString(3) : null;
 
                 final Map<String, Object> props = new LinkedHashMap<>();
-                int i = 1;
-                for (String s : properties.keySet()) {
-                    props.put(s, columnsCount >= i ? tables.getString(i++) : null);
-                }
 
-                result.add(new DbResourceImpl(tableName, this, new DbUri(name(),
-                        asList(tableSchem, tableName)), props));
+                props.put("TABLE_CAT", columnsCount >= 1 ? tables.getString(1) : null);
+                props.put("TABLE_SCHEM", columnsCount >= 2 ? tables.getString(2) : null);
+                props.put("TABLE_NAME", columnsCount >= 3 ? tables.getString(3) : null);
+                props.put("TABLE_TYPE", columnsCount >= 4 ? tables.getString(4) : null);
+                props.put("REMARKS", columnsCount >= 5 ? tables.getString(5) : null);
+                props.put("TYPE_CAT", columnsCount >= 6 ? tables.getString(6) : null);
+                props.put("TYPE_SCHEM", columnsCount >= 7 ? tables.getString(7) : null);
+                props.put("TYPE_NAME", columnsCount >= 8 ? tables.getString(8) : null);
+                props.put("SELF_REFERENCING_COL_NAME", columnsCount >= 9 ? tables.getString(9) : null);
+                props.put("REF_GENERATION", columnsCount >= 10 ? tables.getString(10) : null);
+
+                result.add(new DbResourceImpl(tableName, this,
+                                new DbUri(name(), asList(tableSchem, tableName)),
+                                props));
             }
             return result.stream();
         } catch (SQLException e) {

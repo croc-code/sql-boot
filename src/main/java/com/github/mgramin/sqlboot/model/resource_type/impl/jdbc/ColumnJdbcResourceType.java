@@ -54,10 +54,41 @@ public class ColumnJdbcResourceType implements ResourceType {
     private final DataSource dataSource;
 
     /**
+     *
+     */
+    private final Map<String, String> properties;
+
+    /**
      * 
      * @param dataSource
      */
     public ColumnJdbcResourceType(DataSource dataSource) {
+        properties = new LinkedHashMap<>();
+        properties.put("TABLE_CAT", "table catalog (may be null)");
+        properties.put("TABLE_SCHEM", "table schema (may be null)");
+        properties.put("TABLE_NAME", "table name");
+        properties.put("COLUMN_NAME", "column name");
+        properties.put("DATA_TYPE", "SQL type from java.sql.Types");
+        properties.put("TYPE_NAME", "Data source dependent type name, for a UDT the type name is fully qualified");
+        properties.put("COLUMN_SIZE", "column size.");
+        properties.put("BUFFER_LENGTH", "is not used.");
+        properties.put("DECIMAL_DIGITS", "the number of fractional digits. Null is returned for data types where DECIMAL_DIGITS is not applicable.");
+        properties.put("NUM_PREC_RADIX", "Radix (typically either 10 or 2)");
+        properties.put("NULLABLE", "is NULL allowed. columnNoNulls - might not allow NULL values; columnNullable - definitely allows NULL values; columnNullableUnknown - nullability unknown");
+        properties.put("REMARKS", "comment describing column (may be null)");
+        properties.put("COLUMN_DEF", "default value for the column, which should be interpreted as a string when the value is enclosed in single quotes (may be null)");
+        properties.put("SQL_DATA_TYPE", "unused");
+        properties.put("SQL_DATETIME_SUB", "unused");
+        properties.put("CHAR_OCTET_LENGTH", "for char types the maximum number of bytes in the column");
+        properties.put("ORDINAL_POSITION", "index of column in table (starting at 1)");
+        properties.put("IS_NULLABLE", "ISO rules are used to determine the nullability for a column. YES --- if the column can include NULLs; NO --- if the column cannot include NULLs; empty string --- if the nullability for the column is unknown");
+        properties.put("SCOPE_CATALOG", "catalog of table that is the scope of a reference attribute (null if DATA_TYPE isn't REF)");
+        properties.put("SCOPE_SCHEMA", "schema of table that is the scope of a reference attribute (null if the DATA_TYPE isn't REF)");
+        properties.put("SCOPE_TABLE", "table name that this the scope of a reference attribute (null if the DATA_TYPE isn't REF)");
+        properties.put("SOURCE_DATA_TYPE", "source type of a distinct type or user-generated Ref type, SQL type from java.sql.Types (null if DATA_TYPE isn't DISTINCT or user-generated REF)");
+        properties.put("IS_AUTOINCREMENT", "Indicates whether this column is auto incremented. YES --- if the column is auto incremented; NO --- if the column is not auto incremented; empty string --- if it cannot be determined whether the column is auto incremented");
+        properties.put("IS_GENERATEDCOLUMN", "Indicates whether this is a generated column. YES --- if this a generated column; NO --- if this not a generated column; empty string --- if it cannot be determined whether this is a generated column");
+
         this.dataSource = dataSource;
     }
 
@@ -90,25 +121,16 @@ public class ColumnJdbcResourceType implements ResourceType {
                 final String tableName = columnsCount >= 3 ? columns.getString(3) : null;
                 final String columnName = columnsCount >= 4 ? columns.getString(4) : null;
 
-                final Map<String, Object> properties = new LinkedHashMap<>();
+                final Map<String, Object> props = new LinkedHashMap<>();
+                int i = 1;
+                for (String s : properties.keySet()) {
+                    props.put(s, columnsCount >= i ? columns.getString(i++) : null);
+                }
 
-                properties.put("TABLE_CAT", columnsCount >= 1 ? columns.getString(1) : null);
-                properties.put("TABLE_SCHEM", columnsCount >= 2 ? columns.getString(2) : null);
-                properties.put("TABLE_NAME", columnsCount >= 3 ? columns.getString(3) : null);
-                properties.put("COLUMN_NAME", columnsCount >= 4 ? columns.getString(4) : null);
-                properties.put("DATA_TYPE", columnsCount >= 5 ? columns.getString(5) : null);
-
-                /*properties.put("TYPE_CAT", columnsCount >= 6 ? columns.getString(6) : null);
-                properties.put("TYPE_SCHEM", columnsCount >= 7 ? columns.getString(7) : null);
-                properties.put("TYPE_NAME", columnsCount >= 8 ? columns.getString(8) : null);
-                properties.put("SELF_REFERENCING_COL_NAME", columnsCount >= 9 ? columns.getString(9) : null);
-                properties.put("REF_GENERATION", columnsCount >= 10 ? columns.getString(10) : null);*/
-
-                result.add(new DbResourceImpl(columnName, this,
-                                new DbUri(name(), asList(schemaName, tableName, columnName)),
-                                properties));
+                result.add(new DbResourceImpl(columnName, this, new DbUri(name(),
+                        asList(schemaName, tableName, columnName)), props));
             }
-            return result.stream();           
+            return result.stream();
         } catch (SQLException e) {
             throw new BootException(e);
         }
@@ -116,6 +138,6 @@ public class ColumnJdbcResourceType implements ResourceType {
 
     @Override
     public Map<String, String> metaData() {
-        return null;
+        return properties;
     }
 }

@@ -20,3 +20,7 @@ create index main_schema.users_email_idx on main_schema.users(email);
 alter table main_schema.users
 add constraint main_schema.users_city_fk
 foreign key (id_city) references main_schema.city(id);
+
+
+create view main_schema.city_vw as select * from main_schema.city;
+create view main_schema.users_vw as select * from main_schema.users;

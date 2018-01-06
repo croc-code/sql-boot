@@ -130,7 +130,7 @@ public class ApiController {
             {
                 PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
                 parameter.setDefaultValue(connectionName);
-                swagger.path("/api/{connection_name}/" + resourceType.name(),
+                swagger.path("/api/{connection_name}/headers/" + resourceType.name(),
                         new Path().get(
                                 new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter)
                                         .response(200, new Response()
@@ -143,7 +143,7 @@ public class ApiController {
                 parameter.setDefaultValue(connectionName);
                 PathParameter parameterSchema = new PathParameter().required(true).type("string").name("schema");
                 parameterSchema.setDefaultValue("HR");
-                swagger.path("/api/{connection_name}/" + resourceType.name() + "/{schema}",
+                swagger.path("/api/{connection_name}/headers/" + resourceType.name() + "/{schema}",
                         new Path().get(
                                 new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter).parameter(parameterSchema)
                                         .response(200, new Response()
