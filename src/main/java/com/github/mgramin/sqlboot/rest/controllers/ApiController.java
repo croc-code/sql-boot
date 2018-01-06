@@ -131,19 +131,15 @@ public class ApiController {
         // paths
         for (ResourceType resourceType : resourceTypes) {
 
-
-
-            {
-                PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
-                parameter.setDefaultValue(connectionName);
-                swagger.path("/api/{connection_name}/headers/" + resourceType.name(),
-                        new Path().get(
-                                new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter)
-                                        .response(200, new Response()
-                                                .description("Ok")
-                                                .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
-                                        .produces("application/json")));
-            }
+            PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
+            parameter.setDefaultValue(connectionName);
+            swagger.path("/api/{connection_name}/headers/" + resourceType.name(),
+                    new Path().get(
+                            new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter)
+                                    .response(200, new Response()
+                                            .description("Ok")
+                                            .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
+                                    .produces("application/json")));
 
             final List<String> path = resourceType.path();
             final List<String> newPath = new ArrayList<>();
@@ -158,7 +154,7 @@ public class ApiController {
                 }
                 Operation operation = new Operation();
                 operation.setParameters(parameterList);
-                swagger.path("/api/{connection_name}/headers/" + resourceType.name() + "/" + newPath.stream().map(v -> "{" + v + "}").collect(joining("/")),
+                swagger.path("/api/{connection_name}/headers/" + resourceType.name() + "/" + newPath.stream().map(v -> "{" + v + "}").collect(joining(".")),
                         new Path().get(
                                 operation.description(resourceType.name()).tag("db_objects")
                                         .response(200, new Response()
@@ -166,20 +162,6 @@ public class ApiController {
                                                 .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
                                         .produces("application/json")));
             }
-
-            /*{
-                PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
-                parameter.setDefaultValue(connectionName);
-                PathParameter parameterSchema = new PathParameter().required(true).type("string").name("schema");
-                parameterSchema.setDefaultValue("HR");
-                swagger.path("/api/{connection_name}/headers/" + resourceType.name() + "/{schema}",
-                        new Path().get(
-                                new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter).parameter(parameterSchema)
-                                        .response(200, new Response()
-                                                .description("Ok")
-                                                .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
-                                        .produces("application/json")));
-            }*/
        }
 
         // definitions
