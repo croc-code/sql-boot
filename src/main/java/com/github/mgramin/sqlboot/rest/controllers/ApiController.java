@@ -16,6 +16,7 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -35,6 +36,7 @@ import io.swagger.models.Path;
 import io.swagger.models.Response;
 import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.RefProperty;
@@ -42,6 +44,7 @@ import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
 import io.swagger.util.Yaml;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -127,6 +130,9 @@ public class ApiController {
 
         // paths
         for (ResourceType resourceType : resourceTypes) {
+
+
+
             {
                 PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
                 parameter.setDefaultValue(connectionName);
@@ -138,7 +144,30 @@ public class ApiController {
                                                 .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
                                         .produces("application/json")));
             }
-            {
+
+            final List<String> path = resourceType.path();
+            final List<String> newPath = new ArrayList<>();
+            for (String s : path) {
+                newPath.add(s);
+                List<Parameter> parameterList = new ArrayList<>();
+                PathParameter parameterConnection = new PathParameter().required(true).type("string").name("connection_name");
+                parameterConnection.setDefaultValue(connectionName);
+                parameterList.add(parameterConnection);
+                for (String s1 : newPath) {
+                    parameterList.add(new PathParameter().required(true).type("string").name(s1));
+                }
+                Operation operation = new Operation();
+                operation.setParameters(parameterList);
+                swagger.path("/api/{connection_name}/headers/" + resourceType.name() + "/" + newPath.stream().map(v -> "{" + v + "}").collect(joining("/")),
+                        new Path().get(
+                                operation.description(resourceType.name()).tag("db_objects")
+                                        .response(200, new Response()
+                                                .description("Ok")
+                                                .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
+                                        .produces("application/json")));
+            }
+
+            /*{
                 PathParameter parameter = new PathParameter().required(true).type("string").name("connection_name");
                 parameter.setDefaultValue(connectionName);
                 PathParameter parameterSchema = new PathParameter().required(true).type("string").name("schema");
@@ -150,7 +179,7 @@ public class ApiController {
                                                 .description("Ok")
                                                 .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
                                         .produces("application/json")));
-            }
+            }*/
        }
 
         // definitions
