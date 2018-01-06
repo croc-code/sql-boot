@@ -81,7 +81,7 @@ public class SqlResourceTypeTest {
                         + "from information_schema.columns)";
         ResourceType type = new WhereWrapper(
                 new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), asList("column")));
-        assertEquals(4, type.read(new DbUri("column/main_schema.users")).count());
+        assertEquals(8, type.read(new DbUri("column/main_schema.users")).count());
     }
 
     @Test
