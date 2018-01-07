@@ -35,6 +35,11 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.ColumnJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.FkJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.FunctionJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.IndexJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.PkJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.ProcedureJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.SchemaJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.TableJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.ViewJdbcResourceType;
@@ -222,11 +227,26 @@ public class FsResourceTypes implements ResourceType {
                     case "table":
                         jdbcResourceType = new TableJdbcResourceType(dataSource);
                         break;
+                    case "pk":
+                        jdbcResourceType = new PkJdbcResourceType(dataSource);
+                        break;
+                    case "index":
+                        jdbcResourceType = new IndexJdbcResourceType(dataSource);
+                        break;
+                    case "fk":
+                        jdbcResourceType = new FkJdbcResourceType(dataSource);
+                        break;
                     case "view":
                         jdbcResourceType = new ViewJdbcResourceType(dataSource);
                         break;
                     case "column":
                         jdbcResourceType = new ColumnJdbcResourceType(dataSource);
+                        break;
+                    case "function":
+                        jdbcResourceType = new FunctionJdbcResourceType(dataSource);
+                        break;
+                    case "procedure":
+                        jdbcResourceType = new ProcedureJdbcResourceType(dataSource);
                         break;
                     default:
                         jdbcResourceType = null;

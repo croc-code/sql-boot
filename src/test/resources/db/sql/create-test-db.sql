@@ -24,3 +24,6 @@ foreign key (id_city) references main_schema.city(id);
 
 create view main_schema.city_vw as select * from main_schema.city;
 create view main_schema.users_vw as select * from main_schema.users;
+
+
+CREATE ALIAS getVersion FOR "org.h2.engine.Constants.getVersion";
