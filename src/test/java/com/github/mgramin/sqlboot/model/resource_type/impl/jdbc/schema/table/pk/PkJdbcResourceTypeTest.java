@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.pk;
 
 import java.util.stream.Stream;
 import javax.sql.DataSource;
@@ -45,7 +45,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class SchemaJdbcResourceTypeTest {
+public class PkJdbcResourceTypeTest {
 
     @Autowired
     private DataSource dataSource;
@@ -59,23 +59,20 @@ public class SchemaJdbcResourceTypeTest {
     }
 
     @Test
-    public void read() {
-        final ResourceType schema = new SchemaJdbcResourceType(dataSource);
-        final Stream<DbResource> schemas = schema.read(
-                new SqlPlaceholdersWrapper(
-                        new DbUri("schema", asList("*"))));
-        assertEquals(3, schemas.count());
-    }
-
-    @Test
-    public void medataData() {
-    }
-
-    @Test
     public void path() {
-        final ResourceType schema = new SchemaJdbcResourceType(dataSource);
-        assertEquals(1, schema.path().size());
-        assertEquals("schema", schema.path().get(0));
+    }
+
+    @Test
+    public void read() {
+        final ResourceType pk = new PkJdbcResourceType(dataSource);
+        final Stream<DbResource> primaryKeys = pk.read(
+                new SqlPlaceholdersWrapper(
+                        new DbUri("pk", asList("*"))));
+        assertEquals(2, primaryKeys.count());
+    }
+
+    @Test
+    public void metaData() {
     }
 
 }

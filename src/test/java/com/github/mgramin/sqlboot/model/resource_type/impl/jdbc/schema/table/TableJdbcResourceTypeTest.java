@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table;
 
 import java.util.stream.Stream;
 import javax.sql.DataSource;
@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -45,33 +45,26 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class IndexJdbcResourceTypeTest {
+public class TableJdbcResourceTypeTest {
 
     @Autowired
     private DataSource dataSource;
 
     @Test
-    public void name() {
-    }
-
-    @Test
-    public void aliases() {
+    public void read() {
+        final ResourceType table = new TableJdbcResourceType(dataSource);
+        final Stream<DbResource> tables = table.read(
+                new SqlPlaceholdersWrapper(
+                        new DbUri("table", asList("*"))));
+        assertEquals(2, tables.count());
     }
 
     @Test
     public void path() {
+        final ResourceType table = new TableJdbcResourceType(dataSource);
+        assertEquals(2, table.path().size());
+        assertEquals("schema", table.path().get(0));
+        assertEquals("table", table.path().get(1));
     }
 
-    @Test
-    public void read() {
-        final ResourceType index = new IndexJdbcResourceType(dataSource);
-        final Stream<DbResource> indexes = index.read(
-                new SqlPlaceholdersWrapper(
-                        new DbUri("index", asList("*"))));
-        assertEquals(5, indexes.count());
-    }
-
-    @Test
-    public void metaData() {
-    }
 }

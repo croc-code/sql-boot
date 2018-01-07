@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.function;
 
 import java.util.stream.Stream;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.procedure.ProcedureJdbcResourceType;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper;
 import org.junit.Test;
@@ -45,7 +46,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class ProcedureJdbcResourceTypeTest {
+public class FunctionJdbcResourceTypeTest {
 
     @Autowired
     private DataSource dataSource;
@@ -64,11 +65,11 @@ public class ProcedureJdbcResourceTypeTest {
 
     @Test
     public void read() {
-        final ResourceType procedure = new ProcedureJdbcResourceType(dataSource);
-        final Stream<DbResource> procedures = procedure.read(
+        final ResourceType function = new ProcedureJdbcResourceType(dataSource);
+        final Stream<DbResource> functions = function.read(
                 new SqlPlaceholdersWrapper(
-                        new DbUri("procedure", asList("*"))));
-        assertEquals(1, procedures.count());
+                        new DbUri("function", asList("*"))));
+        assertEquals(1, functions.count());
     }
 
     @Test

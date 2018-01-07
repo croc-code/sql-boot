@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.index;
 
 import java.util.stream.Stream;
 import javax.sql.DataSource;
@@ -45,7 +45,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class PkJdbcResourceTypeTest {
+public class IndexJdbcResourceTypeTest {
 
     @Autowired
     private DataSource dataSource;
@@ -64,15 +64,14 @@ public class PkJdbcResourceTypeTest {
 
     @Test
     public void read() {
-        final ResourceType pk = new PkJdbcResourceType(dataSource);
-        final Stream<DbResource> primaryKeys = pk.read(
+        final ResourceType index = new IndexJdbcResourceType(dataSource);
+        final Stream<DbResource> indexes = index.read(
                 new SqlPlaceholdersWrapper(
-                        new DbUri("pk", asList("*"))));
-        assertEquals(2, primaryKeys.count());
+                        new DbUri("index", asList("*"))));
+        assertEquals(5, indexes.count());
     }
 
     @Test
     public void metaData() {
     }
-
 }

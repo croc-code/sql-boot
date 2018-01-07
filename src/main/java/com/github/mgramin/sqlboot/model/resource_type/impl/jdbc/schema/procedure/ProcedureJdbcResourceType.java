@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.procedure;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -46,7 +46,7 @@ import static java.util.Arrays.asList;
  * @version $Id$
  * @since 0.1
  */
-public class SchemaJdbcResourceType implements ResourceType {
+public class ProcedureJdbcResourceType implements ResourceType {
 
     /**
      *
@@ -55,47 +55,68 @@ public class SchemaJdbcResourceType implements ResourceType {
 
     /**
      *
+     */
+    private final Map<String, String> properties;
+
+    /**
+     * Ctor.
+     *
      * @param dataSource
      */
-    public SchemaJdbcResourceType(DataSource dataSource) {
+    public ProcedureJdbcResourceType(final DataSource dataSource) {
+        properties = new LinkedHashMap<>();
+        properties.put("PROCEDURE_CAT", "procedure catalog (may be null)");
+        properties.put("PROCEDURE_SCHEM", "procedure schema (may be null)");
+        properties.put("PROCEDURE_NAME", "procedure name");
+        properties.put("not_implemented_property_4", "reserved for future use");
+        properties.put("not_implemented_property_4", "reserved for future use");
+        properties.put("not_implemented_property_4", "reserved for future use");
+        properties.put("REMARKS", "explanatory comment on the procedure");
+        properties.put("PROCEDURE_TYPE", "kind of procedure:\n" +
+                "procedureResultUnknown - Cannot determine if a return value will be returned\n" +
+                "procedureNoResult - Does not return a return value\n" +
+                "procedureReturnsResult - Returns a return value");
+        properties.put("SPECIFIC_NAME", "The name which uniquely identifies this procedure within its schema.");
+
         this.dataSource = dataSource;
     }
 
     @Override
     public String name() {
-        return "schema";
+        return "procedure";
     }
 
     @Override
     public List<String> aliases() {
-        return asList("schema", "schm", "s");
+        return asList("procedure", "prc", "p");
     }
 
     @Override
     public List<String> path() {
-        return asList("schema");
+        return asList("schema", "procedure");
     }
 
     @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
-         try {
+        try {
             final List<DbResource> result = new ArrayList<>();
-            final ResultSet columns = dataSource.getConnection().getMetaData()
-                    .getSchemas(null, uri.path(0));
+            final ResultSet tables = dataSource.getConnection().getMetaData()
+                    .getProcedures(null, uri.path(0), uri.path(1));
 
-            final ResultSetMetaData tableMetaData = columns.getMetaData();
+            final ResultSetMetaData tableMetaData = tables.getMetaData();
             final int columnsCount = tableMetaData.getColumnCount();
-            while (columns.next()) {
-                final String schemaName = columnsCount >= 1 ? columns.getString(1) : null;
+            while (tables.next()) {
+                final String tableSchem = columnsCount >= 2 ? tables.getString(2) : null;
+                final String procedureName = columnsCount >= 3 ? tables.getString(3) : null;
 
-                final Map<String, Object> properties = new LinkedHashMap<>();
+                final Map<String, Object> props = new LinkedHashMap<>();
+                int i = 1;
+                for (String s : properties.keySet()) {
+                    props.put(s, columnsCount >= i ? tables.getString(i++) : null);
+                }
 
-                properties.put("TABLE_SCHEM", columnsCount >= 1 ? columns.getString(1) : null);
-                properties.put("TABLE_CATALOG", columnsCount >= 2 ? columns.getString(2) : null);
-
-                result.add(new DbResourceImpl(schemaName, this,
-                                new DbUri(name(), asList(schemaName)),
-                                properties));
+                result.add(new DbResourceImpl(procedureName, this, new DbUri(name(),
+                        asList(tableSchem, procedureName)), props));
             }
             return result.stream();
         } catch (SQLException e) {
@@ -105,11 +126,6 @@ public class SchemaJdbcResourceType implements ResourceType {
 
     @Override
     public Map<String, String> metaData() {
-         final Map<String, String> properties = new LinkedHashMap<>();
-
-        properties.put("TABLE_SCHEM", "table schema (may be null)");
-        properties.put("TABLE_CATALOG", "table catalog (may be null)");
-
         return properties;
     }
 

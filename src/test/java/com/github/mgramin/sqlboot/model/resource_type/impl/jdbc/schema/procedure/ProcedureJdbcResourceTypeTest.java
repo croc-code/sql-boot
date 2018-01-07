@@ -22,9 +22,8 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.procedure;
 
-import java.util.List;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
@@ -46,7 +45,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class ColumnJdbcResourceTypeTest {
+public class ProcedureJdbcResourceTypeTest {
 
     @Autowired
     private DataSource dataSource;
@@ -60,25 +59,20 @@ public class ColumnJdbcResourceTypeTest {
     }
 
     @Test
-    public void read() {
-        final ResourceType table = new ColumnJdbcResourceType(dataSource);
-        final Stream<DbResource> tables = table.read(
-                new SqlPlaceholdersWrapper(
-                        new DbUri("table", asList("MAIN_SCHEMA", "CITY"))));
-        tables.forEach(v -> System.out.println(v.name()));
-    }
-
-    @Test
-    public void medataData() {
-    }
-
-    @Test
     public void path() {
-        final ResourceType column = new ColumnJdbcResourceType(dataSource);
-        assertEquals(3, column.path().size());
-        assertEquals("schema", column.path().get(0));
-        assertEquals("table", column.path().get(1));
-        assertEquals("column", column.path().get(2));
+    }
+
+    @Test
+    public void read() {
+        final ResourceType procedure = new ProcedureJdbcResourceType(dataSource);
+        final Stream<DbResource> procedures = procedure.read(
+                new SqlPlaceholdersWrapper(
+                        new DbUri("procedure", asList("*"))));
+        assertEquals(1, procedures.count());
+    }
+
+    @Test
+    public void metaData() {
     }
 
 }

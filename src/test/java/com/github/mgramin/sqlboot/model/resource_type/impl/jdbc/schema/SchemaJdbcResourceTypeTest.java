@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc;
+package com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema;
 
 import java.util.stream.Stream;
 import javax.sql.DataSource;
@@ -45,7 +45,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class FkJdbcResourceTypeTest {
+public class SchemaJdbcResourceTypeTest {
 
     @Autowired
     private DataSource dataSource;
@@ -59,19 +59,23 @@ public class FkJdbcResourceTypeTest {
     }
 
     @Test
-    public void path() {
-    }
-
-    @Test
     public void read() {
-        final ResourceType fk = new FkJdbcResourceType(dataSource);
-        final Stream<DbResource> foreignKeys = fk.read(
+        final ResourceType schema = new SchemaJdbcResourceType(dataSource);
+        final Stream<DbResource> schemas = schema.read(
                 new SqlPlaceholdersWrapper(
-                        new DbUri("fk", asList("*"))));
-        assertEquals(1, foreignKeys.count());
+                        new DbUri("schema", asList("*"))));
+        assertEquals(3, schemas.count());
     }
 
     @Test
-    public void metaData() {
+    public void medataData() {
     }
+
+    @Test
+    public void path() {
+        final ResourceType schema = new SchemaJdbcResourceType(dataSource);
+        assertEquals(1, schema.path().size());
+        assertEquals("schema", schema.path().get(0));
+    }
+
 }
