@@ -83,17 +83,17 @@ public class ProcedureJdbcResourceType implements ResourceType {
 
     @Override
     public String name() {
-        return "procedure";
+        return "proc";
     }
 
     @Override
     public List<String> aliases() {
-        return asList("procedure", "prc", "p");
+        return asList("procedure", "proc", "prc", "p");
     }
 
     @Override
     public List<String> path() {
-        return asList("schema", "procedure");
+        return asList("schema", "proc");
     }
 
     @Override
