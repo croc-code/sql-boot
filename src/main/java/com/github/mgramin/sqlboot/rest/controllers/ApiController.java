@@ -38,6 +38,7 @@ import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.PathParameter;
+import io.swagger.models.parameters.QueryParameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
@@ -135,7 +136,14 @@ public class ApiController {
             parameter.setDefaultValue(connectionName);
             swagger.path("/api/{connection_name}/headers/" + resourceType.name(),
                     new Path().get(
-                            new Operation().description(resourceType.name()).tag("db_objects").parameter(parameter)
+                            new Operation().description(resourceType.name()).tag("db_objects")
+                                    .parameter(parameter)
+                                    .parameter(new QueryParameter().name("select").type("string"))
+                                    .parameter(new QueryParameter().name("distinct").type("boolean"))
+                                    .parameter(new QueryParameter().name("where").type("string"))
+                                    .parameter(new QueryParameter().name("limit").type("integer"))
+                                    .parameter(new QueryParameter().name("orderby").type("string"))
+                                    .parameter(new QueryParameter().name("cache").type("boolean"))
                                     .response(200, new Response()
                                             .description("Ok")
                                             .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
@@ -154,6 +162,12 @@ public class ApiController {
                 }
                 Operation operation = new Operation();
                 operation.setParameters(parameterList);
+                operation.parameter(new QueryParameter().name("select").type("string"));
+                operation.parameter(new QueryParameter().name("distinct").type("boolean"));
+                operation.parameter(new QueryParameter().name("where").type("string"));
+                operation.parameter(new QueryParameter().name("limit").type("integer"));
+                operation.parameter(new QueryParameter().name("orderby").type("string"));
+                operation.parameter(new QueryParameter().name("cache").type("boolean"));
                 swagger.path("/api/{connection_name}/headers/" + resourceType.name() + "/" + newPath.stream().map(v -> "{" + v + "}").collect(joining(".")),
                         new Path().get(
                                 operation.description(resourceType.name()).tag("db_objects")
