@@ -141,6 +141,7 @@ public class ApiController {
                                     .parameter(new QueryParameter().name("select").type("string"))
                                     .parameter(new QueryParameter().name("distinct").type("boolean"))
                                     .parameter(new QueryParameter().name("where").type("string"))
+                                    .parameter(new QueryParameter().name("page").type("string").description("get page by mask [page_count:page_size]"))
                                     .parameter(new QueryParameter().name("limit").type("integer"))
                                     .parameter(new QueryParameter().name("orderby").type("string"))
                                     .parameter(new QueryParameter().name("cache").type("boolean"))
@@ -165,6 +166,7 @@ public class ApiController {
                 operation.parameter(new QueryParameter().name("select").type("string"));
                 operation.parameter(new QueryParameter().name("distinct").type("boolean"));
                 operation.parameter(new QueryParameter().name("where").type("string"));
+                operation.parameter(new QueryParameter().name("page").type("string").description("get page by mask [page_count:page_size]"));
                 operation.parameter(new QueryParameter().name("limit").type("integer"));
                 operation.parameter(new QueryParameter().name("orderby").type("string"));
                 operation.parameter(new QueryParameter().name("cache").type("boolean"));

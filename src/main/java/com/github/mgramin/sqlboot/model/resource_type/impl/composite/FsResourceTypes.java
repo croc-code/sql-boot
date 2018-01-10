@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.PageWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -281,8 +282,10 @@ public class FsResourceTypes implements ResourceType {
                     new SqlBodyWrapper(
                         new TemplateBodyWrapper(
                             new LimitWrapper(
+                                new PageWrapper(
 //                                new WhereWrapper(
-                                    baseResourceType),
+                                    baseResourceType)
+                                ),
                             new GroovyTemplateGenerator(ddlSql)),
                         dataSource));
                 if (baseResourceType != null) {
