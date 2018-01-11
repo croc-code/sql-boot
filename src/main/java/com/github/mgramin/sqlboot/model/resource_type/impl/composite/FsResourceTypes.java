@@ -281,8 +281,8 @@ public class FsResourceTypes implements ResourceType {
                 final ResourceType resourceType = new SelectWrapper(
                     new SqlBodyWrapper(
                         new TemplateBodyWrapper(
-                            new LimitWrapper(
-                                new PageWrapper(
+                            new PageWrapper(
+                                new LimitWrapper(
 //                                new WhereWrapper(
                                     baseResourceType)
                                 ),

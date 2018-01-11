@@ -11,10 +11,11 @@ import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.StringUtils;
 
 public class PageWrapper implements ResourceType {
 
+    public static final int DEFAULT_PAGE_SIZE = 10;
+    public static final String PAGE = "page";
     private final ResourceType origin;
 
     public PageWrapper(ResourceType origin) {
@@ -43,10 +44,15 @@ public class PageWrapper implements ResourceType {
 
     @Override
     public Stream<DbResource> read(Uri uri) throws BootException {
-        final String pageParameter = uri.params().get("page");
+        final String pageParameter = uri.params().get(PAGE);
         if (pageParameter != null) {
             final Integer pageNumber = valueOf(substringBefore(pageParameter, ":"));
-            final Integer pageSize = valueOf(substringAfter(pageParameter, ":"));
+            final Integer pageSize;
+            if (substringAfter(pageParameter, ":").equals("")) {
+                pageSize = DEFAULT_PAGE_SIZE;
+            } else {
+                pageSize = valueOf(substringAfter(pageParameter, ":"));
+            }
             return origin.read(uri).skip((pageNumber - 1) * pageSize).limit(pageSize);
         } else {
             return origin.read(uri);

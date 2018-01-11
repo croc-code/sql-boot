@@ -37,6 +37,8 @@ public class PageWrapperTest {
         assertEquals(1, type.read(new DbUri("table/hr?page=1:1")).count());
         assertEquals(2, type.read(new DbUri("table/hr?page=1:2")).count());
         assertEquals(3, type.read(new DbUri("table/hr?page=1:3")).count());
+        assertEquals(3, type.read(new DbUri("table/hr?page=1")).count());
+        assertEquals(0, type.read(new DbUri("table/hr?page=2")).count());
     }
 
 }
