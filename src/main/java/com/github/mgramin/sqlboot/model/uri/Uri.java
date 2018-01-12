@@ -73,4 +73,12 @@ public interface Uri {
      */
     Map<String, String> params();
 
+    /**
+     *
+     * @return
+     */
+    default String action() {
+        return null;
+    }
+
 }

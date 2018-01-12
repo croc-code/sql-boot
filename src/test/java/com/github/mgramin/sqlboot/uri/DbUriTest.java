@@ -112,6 +112,12 @@ public class DbUriTest {
             "DbUri{type='table', path=[hr], recursive=false, params={@table_comment=big_table}}");
     }
 
+    @Test
+    public void testAction() {
+        DbUri dbUri = new DbUri("table/hr.p*/count?limit=10");
+        System.out.println(dbUri.action());
+    }
+
 
     private void test(String uriString, String jsonExpected) throws BootException {
         Uri uri = new DbUri(uriString);

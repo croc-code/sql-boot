@@ -117,6 +117,10 @@ public final class DbUri implements Uri {
         return params;
     }
 
+    public String action() {
+        return this.action;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder(type + "/" + String.join(".", objects));
