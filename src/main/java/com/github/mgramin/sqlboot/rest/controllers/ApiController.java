@@ -68,7 +68,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  * @since 0.1
  */
 @RestController
-@ComponentScan(basePackages = "com.github.mgramin.sqlboot.model.resource_type")
+@ComponentScan(basePackages = "com.github.mgramin.sqlboot")
 @EnableAutoConfiguration
 @CrossOrigin
 public class ApiController {

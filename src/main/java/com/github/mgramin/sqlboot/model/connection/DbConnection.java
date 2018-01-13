@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.model.connection;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.core.io.Resource;
 import static java.util.Optional.ofNullable;
@@ -77,6 +78,27 @@ public class DbConnection {
 
     public void setDriverClassName(String driverClassName) {
         this.driverClassName = driverClassName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getDriverClassName() {
+        return driverClassName;
+    }
+
+    public String getHealth() {
+        try {
+            new JdbcSqlQuery(getDataSource(), "").dbHealth();
+            return "OK";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @JsonIgnore

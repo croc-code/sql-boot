@@ -21,6 +21,8 @@
 
 package com.github.mgramin.sqlboot.sql.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -159,7 +161,11 @@ public final class JdbcSqlQuery implements SqlQuery {
 
     @Override
     public void dbHealth() {
-        new JdbcTemplate(dataSource);
+        try {
+            Connection connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new BootException(e);
+        }
     }
 
 }
