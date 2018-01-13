@@ -15,14 +15,16 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.mgramin.sqlboot.exceptions.BootException;
+import com.github.mgramin.sqlboot.model.connection.DbConnectionList;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
@@ -44,14 +46,6 @@ import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
 import io.swagger.util.Yaml;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -62,6 +56,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -75,7 +74,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
 
     @Autowired
-    FsResourceTypes fsResourceTypes;
+    private DbConnectionList dbConnectionList;
 
     @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
     public String apiDocsDefault(final HttpServletRequest request,
@@ -101,9 +100,8 @@ public class ApiController {
         }
     }
 
-    private Swagger getSwaggerDescription(HttpServletRequest request,
-        String connectionName) {
-        fsResourceTypes.init(connectionName);
+    private Swagger getSwaggerDescription(HttpServletRequest request, String connectionName) {
+        FsResourceTypes fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
         final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
         Swagger swagger = new Swagger();
 
@@ -202,7 +200,7 @@ public class ApiController {
         @PathVariable String connectionName,
         @PathVariable String type) {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
-        fsResourceTypes.init(connectionName);
+        ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
         final List<DbResource> collect = fsResourceTypes.read(uri)
             .collect(toList());
         if (collect.isEmpty()) {
@@ -219,7 +217,7 @@ public class ApiController {
         @PathVariable String type,
         @PathVariable String path) {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path, request)));
-        fsResourceTypes.init(connectionName);
+        ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
         final List<DbResource> collect = fsResourceTypes.read(uri).collect(toList());
         if (collect.isEmpty()) {
             return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
@@ -260,7 +258,7 @@ public class ApiController {
         @PathVariable String type,
         @PathVariable String path) throws BootException, IOException {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path, request)));
-        fsResourceTypes.init(connectionName);
+        ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
             .map(DbResource::headers)
@@ -278,7 +276,7 @@ public class ApiController {
         @PathVariable String connectionName,
         @PathVariable String type) throws BootException, IOException {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
-        fsResourceTypes.init(connectionName);
+        ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
             .map(DbResource::headers)

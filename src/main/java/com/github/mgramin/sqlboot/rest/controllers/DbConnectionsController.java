@@ -25,6 +25,8 @@
 package com.github.mgramin.sqlboot.rest.controllers;
 
 import java.util.List;
+import com.github.mgramin.sqlboot.model.connection.DbConnection;
+import com.github.mgramin.sqlboot.model.connection.DbConnectionList;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -45,11 +47,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class DbConnectionsController {
 
     @Autowired
-    FsResourceTypes fsResourceTypes;
+    private DbConnectionList dbConnectionList;
 
     @RequestMapping(value = "/connections")
-    public List<FsResourceTypes.DbConnection> getAllDbConnections() {
-        return fsResourceTypes.getConnections();
+    public List<DbConnection> getAllDbConnections() {
+        return dbConnectionList.getConnections();
     }
 
 }

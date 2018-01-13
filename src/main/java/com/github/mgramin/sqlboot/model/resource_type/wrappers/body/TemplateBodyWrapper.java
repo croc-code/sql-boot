@@ -24,19 +24,15 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
 
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toMap;
-
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Stream;
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -69,13 +65,8 @@ public class TemplateBodyWrapper implements ResourceType {
     @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         return origin.read(uri)
-            .map(origin -> new DbResourceBodyWrapper(origin,
-                templateGenerator.generate(
-                    origin.headers().entrySet().stream()
-                        .collect(
-                            toMap(Entry::getKey,
-                                e -> ofNullable(e.getValue())
-                                    .orElse(""))))));
+            .map(r -> new DbResourceBodyWrapper(
+                    r, templateGenerator.generate(r.headers())));
     }
 
     @Override
