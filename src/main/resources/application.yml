@@ -20,7 +20,10 @@ conf:
       baseFolder: file:conf/common/database
       url: jdbc:clickhouse://localhost:8123/default
       driverClassName: ru.yandex.clickhouse.ClickHouseDriver
-
+    - name: cassandra
+      baseFolder: file:conf/common/database
+      url: jdbc:c*://localhost:9042/system
+      driverClassName: com.github.cassandra.jdbc.CassandraDriver
 
 server:
      port: 8007
