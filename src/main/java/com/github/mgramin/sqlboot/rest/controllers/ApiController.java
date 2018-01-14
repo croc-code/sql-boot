@@ -151,7 +151,7 @@ public class ApiController {
             final List<String> path = resourceType.path();
             final List<String> newPath = new ArrayList<>();
             for (String s : path) {
-                newPath.add(s);
+                newPath.add(s + "_name");
                 List<Parameter> parameterList = new ArrayList<>();
                 PathParameter parameterConnection = new PathParameter().required(true).type("string").name("connection_name");
                 parameterConnection.setDefaultValue(connectionName);

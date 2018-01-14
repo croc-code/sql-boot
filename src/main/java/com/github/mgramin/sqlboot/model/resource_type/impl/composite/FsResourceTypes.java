@@ -66,13 +66,24 @@ public class FsResourceTypes implements ResourceType {
     /**
      *
      */
+    private final DataSource dataSource;
+
+    /**
+     *
+     */
     private final List<ResourceType> resourceTypes;
 
+    /**
+     * Ctor.
+     *
+     * @param dbConnection
+     * @throws BootException
+     */
     public FsResourceTypes(final DbConnection dbConnection) throws BootException {
+        dataSource = dbConnection.getDataSource();
         try {
             final String baseFolder = dbConnection.getBaseFolder().getFile().getPath();
-            final DataSource dataSource = dbConnection.getDataSource();
-            resourceTypes = walk(baseFolder, dataSource);
+            resourceTypes = walk(baseFolder);
         } catch (IOException e) {
             throw new BootException(e);
         }
@@ -86,17 +97,16 @@ public class FsResourceTypes implements ResourceType {
     /**
      *
      * @param path
-     * @param dataSource
      * @return
      */
-    private List<ResourceType> walk(final String path, final DataSource dataSource) {
+    private List<ResourceType> walk(final String path) {
         File[] files = new File(path).listFiles();
         if (files == null) return null;
         List<ResourceType> list = new ArrayList<>();
         for (File f : files) {
             if (f.isDirectory()) {
                 File sqlFile = new File(f, "README.md");
-                list.addAll(walk(f.getAbsolutePath(), dataSource));
+                list.addAll(walk(f.getAbsolutePath()));
 
                 final ResourceType jdbcResourceType;
                 switch (f.getName()) {
