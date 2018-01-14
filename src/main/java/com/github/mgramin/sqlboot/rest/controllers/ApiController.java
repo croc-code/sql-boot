@@ -157,7 +157,9 @@ public class ApiController {
                 parameterConnection.setDefaultValue(connectionName);
                 parameterList.add(parameterConnection);
                 for (String s1 : newPath) {
-                    parameterList.add(new PathParameter().required(true).type("string").name(s1));
+                    final PathParameter pathParameter = new PathParameter().required(true).type("string").name(s1);
+                    pathParameter.setDefaultValue("*");
+                    parameterList.add(pathParameter);
                 }
                 Operation operation = new Operation();
                 operation.setParameters(parameterList);
