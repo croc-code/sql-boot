@@ -20,20 +20,15 @@ Evolutionary, Transparent and Polyglot DB-management framework for Developers, D
 
 Try online (on Heroku):
 -----------------------
-- [table/hr](https://sql-boot.herokuapp.com/api/table/hr) - get all table from "hr" schema
-- [table/hr.jobs](https://sql-boot.herokuapp.com/api/table/hr.jobs) - get table "hr.jobs"
-- [table/hr.users/](https://sql-boot.herokuapp.com/api/table/hr.users/) - get table "hr.users" with child objects (pk, fk, indexes etc)
-- [index/hr.users](https://sql-boot.herokuapp.com/api/index/hr.users) - get all indexes for table "hr.users"
-- [index/hr](https://sql-boot.herokuapp.com/api/index/hr) - get all indexes from "hr" schema
-- [index/hr.p*](https://sql-boot.herokuapp.com/api/index/hr.p*) - get all indexes from "hr" schema and starting with "p"
-- [pk/hr](https://sql-boot.herokuapp.com/api/pk/hr) - get all pk from "hr" schema
-- [fk/*](https://sql-boot.herokuapp.com/api/fk/*) - get all fk from all db schemas
+- [table/hr](https://sql-boot.herokuapp.com/api/h2/table/hr) - get all table from "hr" schema
+- [table/hr.jobs](https://sql-boot.herokuapp.com/api/h2/table/hr.jobs) - get table "hr.jobs"
+- [table/hr.users/](https://sql-boot.herokuapp.com/api/h2/table/hr.users/) - get table "hr.users" with child objects (pk, fk, indexes etc)
+- [index/hr.users](https://sql-boot.herokuapp.com/api/h2/index/hr.users) - get all indexes for table "hr.users"
+- [index/hr](https://sql-boot.herokuapp.com/api/h2/index/hr) - get all indexes from "hr" schema
+- [index/hr.p*](https://sql-boot.herokuapp.com/api/h2/index/hr.p*) - get all indexes from "hr" schema and starting with "p"
+- [pk/hr](https://sql-boot.herokuapp.com/api/h2/pk/hr) - get all pk from "hr" schema
+- [fk/*](https://sql-boot.herokuapp.com/api/h2/fk/*) - get all fk from all db schemas
 
-
-Try online (on SwaggerHub):
----------------------------
-![swagger validator](http://online.swagger.io/validator?url=https://raw.githubusercontent.com/mgramin/sql-boot/master/src/main/resources/swagger.json)
-https://app.swaggerhub.com/apis/mgramin/commons-sql_boot_configuration/v1
 
 
 Try with Docker and embedded (H2) demo db:
