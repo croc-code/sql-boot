@@ -26,4 +26,14 @@ conf:
       driverClassName: com.github.cassandra.jdbc.CassandraDriver
 
 server:
-     port: 8007
+  port: 8007
+
+spring:
+  security:
+    enabled: false
+management:
+  security:
+    enabled: false
+security:
+  basic:
+    enabled: false
