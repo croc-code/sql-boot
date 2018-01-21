@@ -21,7 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList;
@@ -56,6 +59,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -78,7 +82,7 @@ public class ApiController {
 
     @RequestMapping(method = GET, path = "/api", produces = APPLICATION_JSON_VALUE)
     public String apiDocsDefault(final HttpServletRequest request,
-                          @RequestParam(required = false) final String format) throws JsonProcessingException {
+                                 @RequestParam(required = false) final String format) throws JsonProcessingException {
         final String connectionName = "h2";
         final Swagger swaggerDescription = getSwaggerDescription(request, connectionName);
         if (format != null && format.equals("yaml")) {
@@ -90,8 +94,8 @@ public class ApiController {
 
     @RequestMapping(method = GET, path = "/api/{connectionName}", produces = APPLICATION_JSON_VALUE)
     public String apiDocs(final HttpServletRequest request,
-        @PathVariable String connectionName,
-        @RequestParam(required = false) final String format) throws JsonProcessingException {
+                          @PathVariable String connectionName,
+                          @RequestParam(required = false) final String format) throws JsonProcessingException {
         final Swagger swaggerDescription = getSwaggerDescription(request, connectionName);
         if (format != null && format.equals("yaml")) {
             return Yaml.pretty().writeValueAsString(swaggerDescription);
@@ -178,7 +182,7 @@ public class ApiController {
                                                 .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
                                         .produces("application/json")));
             }
-       }
+        }
 
         // definitions
         for (ResourceType resourceType : resourceTypes) {
@@ -198,34 +202,35 @@ public class ApiController {
 
 
     @RequestMapping(value = "/api/{connectionName}/{type}")
-    public ResponseEntity<List<DbResource>> getResourcesEntireJson(final HttpServletRequest request,
-        @PathVariable String connectionName,
-        @PathVariable String type) {
-        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
-        ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
-        final List<DbResource> collect = fsResourceTypes.read(uri)
-            .collect(toList());
-        if (collect.isEmpty()) {
-            return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(collect, HttpStatus.OK);
-        }
+    public ResponseEntity<List<DbResource>> getResourcesEntireJson(
+            final HttpServletRequest request,
+            @PathVariable final String connectionName,
+            @PathVariable final String type) {
+        return getListResponseEntity(request, connectionName, type, m -> m);
     }
 
+    @RequestMapping(value = "/api/default/{type}")
+    public ResponseEntity<List<DbResource>> getResourcesEntireJsonDefaultConnection(
+            final HttpServletRequest request,
+            @PathVariable final String type) {
+        return getListResponseEntity(request, null, type, m -> m);
+    }
 
     @RequestMapping(value = "/api/{connectionName}/{type}/{path:.+}")
-    public ResponseEntity<List<DbResource>> getResourcesEntireJson2(final HttpServletRequest request,
-        @PathVariable String connectionName,
-        @PathVariable String type,
-        @PathVariable String path) {
-        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path, request)));
-        ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
-        final List<DbResource> collect = fsResourceTypes.read(uri).collect(toList());
-        if (collect.isEmpty()) {
-            return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(collect, HttpStatus.OK);
-        }
+    public ResponseEntity<List<DbResource>> getResourcesEntireJson2(
+            final HttpServletRequest request,
+            @PathVariable final String connectionName,
+            @PathVariable final String type,
+            @PathVariable final String path) {
+        return getListResponseEntity(request, connectionName, type + "/" + path, m -> m);
+    }
+
+    @RequestMapping(value = "/api/default/{type}/{path:.+}")
+    public ResponseEntity<List<DbResource>> getResourcesEntireJson2DefaultConnection(
+            final HttpServletRequest request,
+            @PathVariable final String type,
+            @PathVariable final String path) {
+        return getListResponseEntity(request, null, type + "/" + path, m -> m);
     }
 
 
@@ -255,34 +260,47 @@ public class ApiController {
 
     @RequestMapping(value = "/api/{connectionName}/headers/{type}/{path:.+}", method = GET)
     public ResponseEntity<List<Map<String, Object>>> getResourcesHeadersJson(
-        final HttpServletRequest request,
-        @PathVariable String connectionName,
-        @PathVariable String type,
-        @PathVariable String path) throws BootException, IOException {
-        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path, request)));
-        ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
-        final List<Map<String, Object>> headers = fsResourceTypes
-            .read(uri)
-            .map(DbResource::headers)
-            .collect(toList());
-        if (headers.isEmpty()) {
-            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(headers, HttpStatus.OK);
-        }
+            final HttpServletRequest request,
+            @PathVariable String connectionName,
+            @PathVariable String type,
+            @PathVariable String path) {
+        return getListResponseEntityHeaders(request, connectionName, type + "/" + path);
     }
 
     @RequestMapping(value = "/api/{connectionName}/headers/{type}", method = GET)
     public ResponseEntity<List<Map<String, Object>>> getResourcesHeadersJson2(
-        final HttpServletRequest request,
-        @PathVariable String connectionName,
-        @PathVariable String type) throws BootException, IOException {
+            final HttpServletRequest request,
+            @PathVariable String connectionName,
+            @PathVariable String type) {
+        return getListResponseEntityHeaders(request, connectionName, type);
+    }
+
+    private ResponseEntity<List<DbResource>> getListResponseEntity(
+            final HttpServletRequest request,
+            final String connectionName,
+            final String type,
+            final StreamModifier streamModifier) {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
+        final ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
+        final List<DbResource> collect = streamModifier.modify(fsResourceTypes.read(uri))
+                .collect(toList());
+        if (collect.isEmpty()) {
+            return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(collect, HttpStatus.OK);
+        }
+    }
+
+    private ResponseEntity<List<Map<String, Object>>> getListResponseEntityHeaders(
+            final HttpServletRequest request,
+            final String connectionName,
+            final String path) {
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(path, request)));
         ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
         final List<Map<String, Object>> headers = fsResourceTypes
-            .read(uri)
-            .map(DbResource::headers)
-            .collect(toList());
+                .read(uri)
+                .map(DbResource::headers)
+                .collect(toList());
         if (headers.isEmpty()) {
             return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         } else {
@@ -298,6 +316,12 @@ public class ApiController {
             uriString = path + "?" + request.getQueryString();
         }
         return uriString;
+    }
+
+
+    @FunctionalInterface
+    interface StreamModifier {
+        Stream<DbResource> modify(Stream<DbResource> s);
     }
 
 }
