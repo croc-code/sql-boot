@@ -42,6 +42,8 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.col
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.fk.FkJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.index.IndexJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.pk.PkJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.relation.ChildTableJdbcResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.relation.ParentTableJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.view.ViewJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.SqlBodyWrapper;
@@ -115,6 +117,12 @@ public class FsResourceTypes implements ResourceType {
                         break;
                     case "table":
                         jdbcResourceType = new TableJdbcResourceType(dataSource);
+                        break;
+                    case "child":
+                        jdbcResourceType = new ChildTableJdbcResourceType(dataSource);
+                        break;
+                    case "parent":
+                        jdbcResourceType = new ParentTableJdbcResourceType(dataSource);
                         break;
                     case "pk":
                         jdbcResourceType = new PkJdbcResourceType(dataSource);

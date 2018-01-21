@@ -206,14 +206,14 @@ public class ApiController {
             final HttpServletRequest request,
             @PathVariable final String connectionName,
             @PathVariable final String type) {
-        return getListResponseEntity(request, connectionName, type, m -> m);
+        return getListResponseEntity(request, connectionName, type);
     }
 
     @RequestMapping(value = "/api/default/{type}")
     public ResponseEntity<List<DbResource>> getResourcesEntireJsonDefaultConnection(
             final HttpServletRequest request,
             @PathVariable final String type) {
-        return getListResponseEntity(request, null, type, m -> m);
+        return getListResponseEntity(request, null, type);
     }
 
     @RequestMapping(value = "/api/{connectionName}/{type}/{path:.+}")
@@ -222,7 +222,7 @@ public class ApiController {
             @PathVariable final String connectionName,
             @PathVariable final String type,
             @PathVariable final String path) {
-        return getListResponseEntity(request, connectionName, type + "/" + path, m -> m);
+        return getListResponseEntity(request, connectionName, type + "/" + path);
     }
 
     @RequestMapping(value = "/api/default/{type}/{path:.+}")
@@ -230,7 +230,7 @@ public class ApiController {
             final HttpServletRequest request,
             @PathVariable final String type,
             @PathVariable final String path) {
-        return getListResponseEntity(request, null, type + "/" + path, m -> m);
+        return getListResponseEntity(request, null, type + "/" + path);
     }
 
 
@@ -278,12 +278,10 @@ public class ApiController {
     private ResponseEntity<List<DbResource>> getListResponseEntity(
             final HttpServletRequest request,
             final String connectionName,
-            final String type,
-            final StreamModifier streamModifier) {
+            final String type) {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
         final ResourceType fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
-        final List<DbResource> collect = streamModifier.modify(fsResourceTypes.read(uri))
-                .collect(toList());
+        final List<DbResource> collect = fsResourceTypes.read(uri).collect(toList());
         if (collect.isEmpty()) {
             return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
         } else {
@@ -316,12 +314,6 @@ public class ApiController {
             uriString = path + "?" + request.getQueryString();
         }
         return uriString;
-    }
-
-
-    @FunctionalInterface
-    interface StreamModifier {
-        Stream<DbResource> modify(Stream<DbResource> s);
     }
 
 }
