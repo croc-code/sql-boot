@@ -24,24 +24,25 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md;
 
-/**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
- */
-// TODO implement com.github.mgramin.sqlboot.tools.files.file.File ?
-public class MarkdownFile {
+import org.apache.commons.io.FileUtils;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.junit.Test;
 
-    private final String text;
+import java.io.File;
+import java.io.IOException;
 
-    public MarkdownFile(final String text) {
-        this.text = text;
+public class MarkdownFileTest {
+
+    @Test
+    public void parse() throws IOException {
+        String text = FileUtils.readFileToString(new File("test.md"));
+
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(text);
+
+        CustomVisitor visitor = new CustomVisitor();
+        document.accept(visitor);
     }
-
-    public void parse() {
-
-    }
-
-
 
 }
