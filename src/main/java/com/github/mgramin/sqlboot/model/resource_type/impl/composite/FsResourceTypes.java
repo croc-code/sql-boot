@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -34,6 +35,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.connection.DbConnection;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.impl.composite.md.MarkdownFile;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.SchemaJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.function.FunctionJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.procedure.ProcedureJdbcResourceType;
@@ -143,20 +145,16 @@ public class FsResourceTypes implements ResourceType {
 
                 String sql = null;
                 try {
-                    sql = substringBetween(readFileToString(sqlFile, UTF_8), "````sql", "````");
+                    MarkdownFile markdownFile = new MarkdownFile(readFileToString(sqlFile, UTF_8));
+                    Map<String, String> parse = markdownFile.parse();
+                    Iterator<Map.Entry<String, String>> iterator = parse.entrySet().iterator();
+                    if (iterator.hasNext()) {
+                        sql = iterator.next().getValue();
+                    }
                 } catch (IOException e) {
                     // TODO catch and process this exception
                 }
 
-                String ddlSql = null;
-                try {
-                    ddlSql = substringBetween(readFileToString(sqlFile, UTF_8), "```sql-template", "```");
-                } catch (IOException e) {
-                    // TODO catch and process this exception
-                }
-                if (ddlSql == null) {
-                    ddlSql = "";
-                }
 
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
@@ -167,15 +165,16 @@ public class FsResourceTypes implements ResourceType {
                     baseResourceType = null;
                 }
                 final ResourceType resourceType = new SelectWrapper(
-                    new SqlBodyWrapper(
+//                    new SqlBodyWrapper(
                         new TemplateBodyWrapper(
                             new PageWrapper(
                                 new LimitWrapper(
 //                                new WhereWrapper(
                                     baseResourceType)
                                 ),
-                            new GroovyTemplateGenerator(ddlSql)),
-                        dataSource));
+                            new GroovyTemplateGenerator("EMPTY BODY ..."))
+//                        dataSource)
+                );
                 if (baseResourceType != null) {
                     list.add(resourceType);
                 }

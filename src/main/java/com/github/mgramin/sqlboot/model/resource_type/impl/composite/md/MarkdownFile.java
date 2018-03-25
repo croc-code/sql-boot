@@ -24,6 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+
+import java.util.Map;
+
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
@@ -38,10 +43,12 @@ public class MarkdownFile {
         this.text = text;
     }
 
-    public void parse() {
-
+    public Map<String, String> parse() {
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(text);
+        CustomVisitor visitor = new CustomVisitor();
+        document.accept(visitor);
+        return visitor.getMap();
     }
-
-
 
 }

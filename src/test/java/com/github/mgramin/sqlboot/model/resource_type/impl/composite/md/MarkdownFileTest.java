@@ -25,24 +25,23 @@
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md;
 
 import org.apache.commons.io.FileUtils;
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 public class MarkdownFileTest {
+
+    private Map<String, String> map;
 
     @Test
     public void parse() throws IOException {
         String text = FileUtils.readFileToString(new File("test.md"));
 
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse(text);
-
-        CustomVisitor visitor = new CustomVisitor();
-        document.accept(visitor);
+        MarkdownFile markdownFile = new MarkdownFile(text);
+        Map<String, String> parse = markdownFile.parse();
+        System.out.println(parse);
     }
 
 }

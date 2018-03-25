@@ -24,43 +24,35 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md;
 
-import org.commonmark.node.*;
+import org.commonmark.node.AbstractVisitor;
+import org.commonmark.node.FencedCodeBlock;
+import org.commonmark.node.Heading;
+import org.commonmark.node.Text;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class CustomVisitor extends AbstractVisitor {
 
-    String currentTag;
+    private String currentTag;
+    private Map<String, String> map = new LinkedHashMap<>();
 
     @Override
     public void visit(Text text) {
-        if (((Heading)text.getParent()).getLevel()>=3) {
+        if (text.getParent() instanceof Heading && ((Heading)text.getParent()).getLevel()>=3) {
             currentTag = text.getLiteral();
         }
     }
 
     @Override
     public void visit(FencedCodeBlock fencedCodeBlock) {
-        System.out.println(currentTag);
-        System.out.println(fencedCodeBlock.getLiteral());
-        System.out.println();
-        System.out.println();
+        if (fencedCodeBlock.getFenceLength() == 4) {
+            map.put(currentTag, fencedCodeBlock.getLiteral());
+        }
     }
 
-    @Override
-    public void visit(HtmlBlock htmlBlock) {
-        /*if (!htmlBlock.getLiteral().startsWith("</")) {
-            System.out.println("*********");
-            Node next = htmlBlock;
-            while (!((next  = next.getNext()) instanceof HtmlBlock
-                    && ((HtmlBlock)next).getLiteral().startsWith("</"))) {
-                if (next instanceof FencedCodeBlock) {
-                    FencedCodeBlock fencedCodeBlock = (FencedCodeBlock) next;
-                    System.out.println(fencedCodeBlock.getFenceLength());
-                    System.out.println(fencedCodeBlock.getLiteral());
-                }
-            }
-            System.out.println("*********");
-        }*/
-        visitChildren(htmlBlock);
+    public Map<String, String> getMap() {
+        return map;
     }
 
 }
