@@ -143,7 +143,7 @@ public final class JdbcSqlQuery implements SqlQuery {
                         return new SimpleEntry<>(v, object);
                     })
                     .collect(toMap(
-                        k -> k.getKey().toLowerCase(),
+                        k -> k.getKey()/*.toLowerCase()*/,
                         v -> ofNullable(v.getValue()).orElse(nullAlias),
                         (a, b) -> a,
                         LinkedHashMap::new));

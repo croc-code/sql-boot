@@ -51,9 +51,9 @@ public class JdbcSqlQueryTest {
     DataSource dataSource;
 
     @Test
-    public void select() throws Exception {
+    public void select() {
         final List<Map<String, Object>> select = new JdbcSqlQuery(dataSource,
-            "select * from (select name AS n, email as mail from main_schema.users)")
+            "select * from (select name AS \"n\", email as \"mail\" from main_schema.users)")
             .select().collect(toList());
         assertEquals(select.toString(),
                 "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]");
