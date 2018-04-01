@@ -10,13 +10,21 @@
 [![Main distribution](https://img.shields.io/badge/zip-download-brightgreen.svg)](https://github.com/sql-boot/sql-boot/releases/latest)
 [![Join the chat at https://gitter.im/sqlboot/Lobby](https://badges.gitter.im/sqlboot/Lobby.svg)](https://gitter.im/sqlboot/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Evolutionary, Transparent and Polyglot DB-management framework for Developers, DBA and DevOps Engineers
+SQL-driven DB-management framework for Developers, DBA and DevOps
 
-- Create and manage your DB source code (DDL, DML, etc);
-- Database reverse engineering;
-- DB independent - native old SQL/*QL/JDBC/REST;
-- Share expert knowledge;
-- Multiplatform (REST/Java based).
+- Evolutionary 
+- Transparent (DB independent - native old SQL/*QL/JDBC/REST) 
+- Polyglot
+
+- Create and manage your DB source code (DDL, DML, etc)
+- Get DB metrics
+- Database reverse engineering
+- Share expert knowledge
+- Multiplatform (REST/Java based)
+
+Concepts
+--------
+
 
 Try online (on Heroku):
 -----------------------
