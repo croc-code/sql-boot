@@ -16,6 +16,9 @@ SQL-driven DB-management framework for Developers, DBA and DevOps
 - Transparent (DB independent - native old SQL/*QL/JDBC/REST) 
 - Polyglot
 
+
+Destinations
+------------
 - Create and manage your DB source code (DDL, DML, etc)
 - Get DB metrics
 - Database reverse engineering
