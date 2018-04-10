@@ -19,8 +19,9 @@ conf:
       user: system
       password: oracle
     - name: postgres
-      baseFolder: file:conf/common/database
-      url: jdbc:postgresql://localhost:9876/postgres
+#      baseFolder: file:conf/common/database
+      baseFolder: file:conf/sql-boot-postgresql/database
+      url: jdbc:postgresql://localhost:54321/postgres
       driverClassName: org.postgresql.Driver
       user: postgres
       password: postgres
@@ -34,7 +35,7 @@ conf:
       driverClassName: com.github.cassandra.jdbc.CassandraDriver
 
 server:
-  port: 8007
+  port: 8008
 
 spring:
   security:
