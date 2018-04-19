@@ -21,7 +21,7 @@ conf:
     - name: postgres
 #      baseFolder: file:conf/common/database
       baseFolder: file:conf/sql-boot-postgresql/database
-      url: jdbc:postgresql://localhost:54321/postgres
+      url: jdbc:postgresql://localhost:54321/demo
       driverClassName: org.postgresql.Driver
       user: postgres
       password: postgres
@@ -46,3 +46,6 @@ management:
 security:
   basic:
     enabled: false
+
+
+

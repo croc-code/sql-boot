@@ -126,16 +126,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
-
 
 
         <dependency>
@@ -172,7 +166,6 @@
         </dependency>
 
         <dependency>
-            <!--deprecated-->
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>4.5</version>
@@ -189,7 +182,6 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>
-            <version>9.0.7</version>
         </dependency>
 
 

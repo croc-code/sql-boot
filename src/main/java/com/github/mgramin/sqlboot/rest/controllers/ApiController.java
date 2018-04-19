@@ -15,18 +15,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.servlet.http.HttpServletRequest;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
@@ -34,13 +23,7 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceT
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper;
-import io.swagger.models.Info;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Response;
-import io.swagger.models.Scheme;
-import io.swagger.models.Swagger;
+import io.swagger.models.*;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.parameters.PathParameter;
 import io.swagger.models.parameters.QueryParameter;
@@ -54,11 +37,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;

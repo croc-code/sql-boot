@@ -24,13 +24,6 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.connection.DbConnection;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
@@ -48,7 +41,6 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.rel
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.relation.ParentTableJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.view.ViewJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.SqlBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
@@ -56,11 +48,19 @@ import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.PageWrapper;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
-import org.apache.tomcat.jdbc.pool.DataSource;
+
+import javax.sql.DataSource;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.apache.commons.lang3.StringUtils.substringBetween;
 
 /**
  * Created by MGramin on 11.07.2017.
