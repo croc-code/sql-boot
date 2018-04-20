@@ -124,7 +124,7 @@ public class ApiController {
             parameter.setDefaultValue(connectionName);
             swagger.path("/api/{connection_name}/headers/" + resourceType.name(),
                     new Path().get(
-                            new Operation().description(resourceType.name()).tag("db_objects")
+                            new Operation().description(resourceType.name()).tag(resourceType.name())
                                     .parameter(parameter)
                                     .parameter(new QueryParameter().name("select").type("string"))
                                     .parameter(new QueryParameter().name("distinct").type("boolean"))
@@ -162,7 +162,7 @@ public class ApiController {
                 operation.parameter(new QueryParameter().name("cache").type("boolean"));
                 swagger.path("/api/{connection_name}/headers/" + resourceType.name() + "/" + newPath.stream().map(v -> "{" + v + "}").collect(joining(".")),
                         new Path().get(
-                                operation.description(resourceType.name()).tag("db_objects")
+                                operation.description(resourceType.name()).tag(resourceType.name())
                                         .response(200, new Response()
                                                 .description("Ok")
                                                 .schema(new ArrayProperty(new RefProperty(resourceType.name()))))

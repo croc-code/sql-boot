@@ -18,7 +18,7 @@ conf:
       driverClassName: oracle.jdbc.OracleDriver
       user: system
       password: oracle
-    - name: postgres
+    - name: demodb
 #      baseFolder: file:conf/common/database
       baseFolder: file:conf/sql-boot-postgresql/database
       url: jdbc:postgresql://localhost:54321/demo
@@ -35,7 +35,7 @@ conf:
       driverClassName: com.github.cassandra.jdbc.CassandraDriver
 
 server:
-  port: 8008
+  port: 8007
 
 spring:
   security:
