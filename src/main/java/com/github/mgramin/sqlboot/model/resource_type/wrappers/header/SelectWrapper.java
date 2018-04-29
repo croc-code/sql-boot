@@ -30,6 +30,7 @@ import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl;
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -73,7 +74,7 @@ public class SelectWrapper implements ResourceType {
                     v -> new DbResourceBodyWrapper(new DbResourceImpl(v.name(), v.type(), v.dbUri(),
                         v.headers().entrySet().stream()
                             .filter(h -> asList(select.split(",")).contains(h.getKey()))
-                            .collect(toMap(Entry::getKey, Entry::getValue))), v.body()));
+                            .collect(toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))), v.body()));
         } else {
             return resources;
         }

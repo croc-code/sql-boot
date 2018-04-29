@@ -45,6 +45,12 @@ MULTIPLE_LINE_COMMENT
    : '/*' .*? '*/'
    ;
 
+CASE_EXPRESSION
+  : 'case' .*? 'end'
+  ;
+
+
+
 
 
 select_statement
@@ -67,6 +73,8 @@ as
   : 'as' | 'AS'
   ;
 
+
+
 schema_name
    : ID
    ;
@@ -76,12 +84,17 @@ table_name
    ;
 
 select_row
-   : column_name (column_alias)? (column_comment)?
+   : (column_case | column_name) (column_alias)? (column_comment)?
    ;
 
 column_name
    : (table_alias DOT)? (DOUBLE_QUOTE)? ID (DOUBLE_QUOTE)?
    ;
+
+column_case
+  : CASE_EXPRESSION
+  ;
+
 
 table_alias
   : (DOUBLE_QUOTE)? ID (DOUBLE_QUOTE)?
@@ -90,6 +103,8 @@ table_alias
 column_alias
   : (as)? (DOUBLE_QUOTE)? ID (DOUBLE_QUOTE)?
   ;
+
+
 
 column_comment
   : MULTIPLE_LINE_COMMENT

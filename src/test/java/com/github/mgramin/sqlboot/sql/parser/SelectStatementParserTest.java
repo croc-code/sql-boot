@@ -14,7 +14,8 @@ public class SelectStatementParserTest {
         final SelectStatementParser selectStatementParser = new SelectStatementParser(
             "select \"name\" as \"persons_name\" /* name of person */"
              + "      , p.age as persons_age /* age of person */"
-             + "      , address /* address of person */"
+             + "      , address as \"address\" /* address of person */"
+             + "      , case when 1=1 then 1 else 0 end as \"case_expression_value\" /* case column */"
              + " from persons p where 1=1");
         final SelectStatement selectStatement = selectStatementParser.parse();
 
@@ -33,6 +34,11 @@ public class SelectStatementParserTest {
         final Entry<String, String> columnAddress = iterator.next();
         assertEquals("address", columnAddress.getKey());
         assertEquals("address of person", columnAddress.getValue());
+
+        final Entry<String, String> caseExp = iterator.next();
+//        assertEquals("address", caseExp.getKey());
+//        assertEquals("case_expression_value", caseExp.getValue());
+        System.out.println(caseExp);
     }
 
 }

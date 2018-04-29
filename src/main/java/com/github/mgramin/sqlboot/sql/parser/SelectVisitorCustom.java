@@ -14,7 +14,7 @@ public class SelectVisitorCustom extends SELECTBaseVisitor {
     public Object visitSelect_statement(final Select_statementContext ctx) {
         final Map<String, String> columns = ctx.select_row().stream().collect(
             toMap(v -> ofNullable(v.column_alias()).map(a -> a.ID().getText())
-                    .orElse(v.column_name().ID().getText()),
+                    .orElse(/*v.column_name().ID().getText()*/"NULL"),
                 v -> ofNullable(v.column_comment())
                     .map(v1 -> v1.MULTIPLE_LINE_COMMENT().getText()
                         .replace("/*", "")

@@ -43,6 +43,7 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.view.View
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrapper;
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.CacheWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.PageWrapper;
 import com.github.mgramin.sqlboot.model.uri.Uri;
@@ -172,7 +173,8 @@ public class FsResourceTypes implements ResourceType {
                 } else {
                     baseResourceType = null;
                 }
-                final ResourceType resourceType = new SelectWrapper(
+                final ResourceType resourceType = new CacheWrapper(
+                    new SelectWrapper(
 //                    new SqlBodyWrapper(
                         new TemplateBodyWrapper(
                             new PageWrapper(
@@ -182,7 +184,7 @@ public class FsResourceTypes implements ResourceType {
                                 ),
                             new GroovyTemplateGenerator("EMPTY BODY ..."))
 //                        dataSource)
-                );
+                ));
                 if (baseResourceType != null) {
                     list.add(resourceType);
                 }

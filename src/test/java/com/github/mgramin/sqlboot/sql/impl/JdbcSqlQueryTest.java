@@ -62,7 +62,7 @@ public class JdbcSqlQueryTest {
     @Test
     public void medataData() throws Exception {
         SqlQuery sqlQuery = new JdbcSqlQuery(dataSource,
-            new GroovyTemplateGenerator("select name /* name */, email /* email */ from main_schema.users"));
+            new GroovyTemplateGenerator("select name as name /* name */, email as email /* email */ from main_schema.users"));
         final Map<String, String> metadata = sqlQuery.metaData();
         System.out.println(metadata);
         assertEquals("email", metadata.get("email"));

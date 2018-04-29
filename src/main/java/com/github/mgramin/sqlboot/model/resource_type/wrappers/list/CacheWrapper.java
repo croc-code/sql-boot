@@ -24,13 +24,21 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list;
 
+import static java.util.Optional.ofNullable;
+
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.spi.CachingProvider;
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -41,7 +49,21 @@ public class CacheWrapper implements ResourceType {
 
     private final ResourceType origin;
 
+    private final CachingProvider cachingProvider;
+    private final CacheManager cacheManager;
+    private final MutableConfiguration<String, List<DbResource>> config;
+    private /*final*/ Cache<String, List<DbResource>> cache;
+
     public CacheWrapper(ResourceType origin) {
+        cachingProvider = Caching.getCachingProvider();
+        cacheManager = cachingProvider.getCacheManager();
+        config = new MutableConfiguration<>();
+
+        cache = cacheManager.getCache("simpleCache");
+        if (cache == null) {
+            cache = cacheManager.createCache("simpleCache", config);
+        }
+
         this.origin = origin;
     }
 
@@ -63,7 +85,16 @@ public class CacheWrapper implements ResourceType {
     @Override
     public Stream<DbResource> read(Uri uri) throws BootException {
         // TODO use "uri.params().get("skip_cache")"
-        return origin.read(uri);
+        final String cache = ofNullable(uri.params().get("cache")).orElse("true");
+
+        List<DbResource> cachedResources = this.cache.get(uri.toString());
+
+        if (cachedResources == null || cache.equalsIgnoreCase("false")) {
+            cachedResources = origin.read(uri).collect(Collectors.toList());
+            this.cache.put(uri.toString(), cachedResources);
+        }
+
+        return cachedResources.stream();
     }
 
     @Override

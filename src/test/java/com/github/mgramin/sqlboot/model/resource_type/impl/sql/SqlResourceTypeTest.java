@@ -86,7 +86,7 @@ public class SqlResourceTypeTest {
 
     @Test
     public void path() {
-        final String sql = "select _schema, _table, _column from (select table_schema as \"_schema\", table_name as \"_table\", column_name as \"_column\""
+        final String sql = "select _schema @schema, _table @table, _column @column from (select table_schema as \"_schema\", table_name as \"_table\", column_name as \"_column\""
                         + "from information_schema.columns)";
         final ResourceType type = new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), asList("column"));
         final List<String> path = type.path();

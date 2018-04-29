@@ -69,4 +69,9 @@ public class SqlPlaceholdersWrapper implements Uri {
         return origin.params();
     }
 
+    @Override
+    public String toString() {
+        return origin.toString();
+    }
+
 }

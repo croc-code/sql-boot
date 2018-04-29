@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -34,7 +35,7 @@ import java.util.Map;
  * e.g. table "PERSONS", index "PERSONS_NAME_IDX",
  * stored function "GET_ALL_DEPARTMENTS()" etc
  */
-public interface DbResource {
+public interface DbResource extends Serializable {
 
     /**
      * Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc.

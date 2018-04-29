@@ -32,7 +32,6 @@ import java.util.Map;
 /**
  * DB resource with body
  */
-//@ToString
 public final class DbResourceBodyWrapper implements DbResource {
 
     private final DbResource origin;

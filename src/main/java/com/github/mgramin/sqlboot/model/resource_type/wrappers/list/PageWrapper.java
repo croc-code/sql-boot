@@ -14,11 +14,17 @@ import java.util.stream.Stream;
 
 public class PageWrapper implements ResourceType {
 
-    public static final int DEFAULT_PAGE_SIZE = 10;
-    public static final String PAGE = "page";
     private final ResourceType origin;
+    private final String page;
+    private final int page_size;
 
     public PageWrapper(ResourceType origin) {
+        this(origin, "page", 10);
+    }
+
+    public PageWrapper(ResourceType origin, String page, int page_size) {
+        this.page_size = page_size;
+        this.page = page;
         this.origin = origin;
     }
 
@@ -44,12 +50,12 @@ public class PageWrapper implements ResourceType {
 
     @Override
     public Stream<DbResource> read(Uri uri) throws BootException {
-        final String pageParameter = uri.params().get(PAGE);
+        final String pageParameter = uri.params().get(page);
         if (pageParameter != null) {
             final Integer pageNumber = valueOf(substringBefore(pageParameter, ":"));
             final Integer pageSize;
             if (substringAfter(pageParameter, ":").equals("")) {
-                pageSize = DEFAULT_PAGE_SIZE;
+                pageSize = page_size;
             } else {
                 pageSize = valueOf(substringAfter(pageParameter, ":"));
             }
