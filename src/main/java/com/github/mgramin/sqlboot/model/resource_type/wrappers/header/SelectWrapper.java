@@ -85,5 +85,17 @@ public class SelectWrapper implements ResourceType {
         return origin.metaData();
     }
 
+    @Override
+    public Map<String, String> metaData(Uri uri) {
+        final String select = uri.params().get(SELECT);
+        if (select != null) {
+            return origin.metaData().entrySet().stream()
+                .filter(e -> asList(select.split(",")).contains(e.getKey()))
+                .collect(toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new));
+        } else {
+            return origin.metaData();
+        }
+    }
+
 }
 

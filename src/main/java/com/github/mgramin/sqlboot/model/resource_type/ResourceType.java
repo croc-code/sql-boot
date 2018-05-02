@@ -61,12 +61,21 @@ public interface ResourceType {
     List<String> path();
 
     /**
-     * Retrieves a map that contains information about the resource properties
+     * Retrieves a map that contains information about the resource metadata (properties)
      * "name" -> "type"
      *
      * @return
      */
     Map<String, String> metaData();
+
+    /**
+     *
+     * @param uri
+     * @return
+     */
+    default Map<String, String> metaData(Uri uri) {
+        return metaData();
+    }
 
     /**
      * Read resources by uri

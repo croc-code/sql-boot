@@ -173,7 +173,7 @@ public class FsResourceTypes implements ResourceType {
                 } else {
                     baseResourceType = null;
                 }
-                final ResourceType resourceType = new CacheWrapper(
+                final ResourceType resourceType = //new CacheWrapper(
                     new SelectWrapper(
 //                    new SqlBodyWrapper(
                         new TemplateBodyWrapper(
@@ -184,7 +184,7 @@ public class FsResourceTypes implements ResourceType {
                                 ),
                             new GroovyTemplateGenerator("EMPTY BODY ..."))
 //                        dataSource)
-                ));
+                );
                 if (baseResourceType != null) {
                     list.add(resourceType);
                 }

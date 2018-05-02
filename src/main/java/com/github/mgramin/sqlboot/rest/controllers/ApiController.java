@@ -32,6 +32,8 @@ import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.util.Json;
 import io.swagger.util.Yaml;
+import java.util.HashMap;
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -221,29 +223,6 @@ public class ApiController {
 
 
 
-//    @RequestMapping(value = "/api/body/**", method = GET)
-//    public ResponseEntity<List<SimpleEntry>> getResourcesBodyJson(final HttpServletRequest request)
-//        throws BootException, IOException {
-//        final Uri uri = new DbUri(parseUri(request).substring(10));
-//        fsResourceTypes.init(null);
-//        final List<SimpleEntry> bodyList = fsResourceTypes.read(uri)
-//            .map(v -> new SimpleEntry(v.dbUri().toString().toLowerCase(), v.body()))
-//            .collect(toList());
-//        return new ResponseEntity<>(bodyList, HttpStatus.OK);
-//    }
-//
-//    @RequestMapping(value = "/api/body/**", method = GET, consumes = TEXT_PLAIN_VALUE, produces = TEXT_PLAIN_VALUE)
-//    public ResponseEntity<String> getResourcesBodyTextPlain(final HttpServletRequest request)
-//        throws BootException, IOException {
-//        final Uri uri = new DbUri(parseUri(request).substring(10));
-//        fsResourceTypes.init(null);
-//        final String collect = fsResourceTypes.read(uri)
-//            .map(DbResource::body)
-//            .collect(Collectors.joining("\n"));
-//        return new ResponseEntity<>(collect, HttpStatus.OK);
-//    }
-
-
     @RequestMapping(value = "/api/{connectionName}/headers/{type}/{path:.+}", method = GET)
     public ResponseEntity<List<Map<String, Object>>> getResourcesHeadersJson(
             final HttpServletRequest request,
@@ -260,6 +239,52 @@ public class ApiController {
             @PathVariable String type) {
         return getListResponseEntityHeaders(request, connectionName, type);
     }
+
+
+
+
+    @RequestMapping(value = "/api/{connectionName}/meta/{type}", method = GET)
+    public ResponseEntity<Map<String, String>> getResourceMetadata(
+        final HttpServletRequest request,
+        @PathVariable String connectionName,
+        @PathVariable String type) {
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
+        final FsResourceTypes fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
+        final ResourceType resourceType = fsResourceTypes
+            .resourceTypes()
+            .stream()
+            .filter(v -> v.name().equalsIgnoreCase(type))
+            .findAny()
+            .orElse(null);
+        if (resourceType == null) {
+            return new ResponseEntity<>(new HashMap<>(), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(resourceType.metaData(uri), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/{connectionName}/meta/{type}/{path:.+}", method = GET)
+    public ResponseEntity<Map<String, String>> getResourceMetadata2(
+        final HttpServletRequest request,
+        @PathVariable String connectionName,
+        @PathVariable String type,
+        @PathVariable String path) {
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(path, request)));
+        final FsResourceTypes fsResourceTypes = new FsResourceTypes(dbConnectionList.getConnectionByName(connectionName));
+        final ResourceType resourceType = fsResourceTypes
+            .resourceTypes()
+            .stream()
+            .filter(v -> v.name().equalsIgnoreCase(type))
+            .findAny()
+            .orElse(null);
+        if (resourceType == null) {
+            return new ResponseEntity<>(new HashMap<>(), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(resourceType.metaData(uri), HttpStatus.OK);
+    }
+
+
+
+
 
     private ResponseEntity<List<DbResource>> getListResponseEntity(
             final HttpServletRequest request,

@@ -58,12 +58,10 @@ public class CacheWrapper implements ResourceType {
         cachingProvider = Caching.getCachingProvider();
         cacheManager = cachingProvider.getCacheManager();
         config = new MutableConfiguration<>();
-
         cache = cacheManager.getCache("simpleCache");
         if (cache == null) {
             cache = cacheManager.createCache("simpleCache", config);
         }
-
         this.origin = origin;
     }
 
@@ -84,16 +82,12 @@ public class CacheWrapper implements ResourceType {
 
     @Override
     public Stream<DbResource> read(Uri uri) throws BootException {
-        // TODO use "uri.params().get("skip_cache")"
         final String cache = ofNullable(uri.params().get("cache")).orElse("true");
-
         List<DbResource> cachedResources = this.cache.get(uri.toString());
-
         if (cachedResources == null || cache.equalsIgnoreCase("false")) {
             cachedResources = origin.read(uri).collect(Collectors.toList());
             this.cache.put(uri.toString(), cachedResources);
         }
-
         return cachedResources.stream();
     }
 
