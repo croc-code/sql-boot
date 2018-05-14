@@ -34,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -74,7 +75,8 @@ public class SelectWrapper implements ResourceType {
                     v -> new DbResourceBodyWrapper(new DbResourceImpl(v.name(), v.type(), v.dbUri(),
                         v.headers().entrySet().stream()
                             .filter(h -> asList(select.split(",")).contains(h.getKey()))
-                            .collect(toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))), v.body()));
+                            .collect(toMap(Entry::getKey, Entry::getValue, (a, b) -> a,
+                                LinkedHashMap::new))), v.body()));
         } else {
             return resources;
         }
@@ -94,6 +96,17 @@ public class SelectWrapper implements ResourceType {
                 .collect(toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new));
         } else {
             return origin.metaData();
+        }
+    }
+
+    public List<Metadata> metaData2(Uri uri) {
+        final String select = uri.params().get(SELECT);
+        if (select != null) {
+            return origin.metaData2(uri).stream()
+                .filter(e -> asList(select.split(",")).contains(e.name()))
+                .collect(Collectors.toList());
+        } else {
+            return origin.metaData2(uri);
         }
     }
 

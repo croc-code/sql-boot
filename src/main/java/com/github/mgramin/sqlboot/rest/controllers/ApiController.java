@@ -244,7 +244,7 @@ public class ApiController {
 
 
     @RequestMapping(value = "/api/{connectionName}/meta/{type}", method = GET)
-    public ResponseEntity<Map<String, String>> getResourceMetadata(
+    public ResponseEntity<List<ResourceType.Metadata>> getResourceMetadata(
         final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type) {
@@ -257,13 +257,13 @@ public class ApiController {
             .findAny()
             .orElse(null);
         if (resourceType == null) {
-            return new ResponseEntity<>(new HashMap<>(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(resourceType.metaData(uri), HttpStatus.OK);
+        return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/{connectionName}/meta/{type}/{path:.+}", method = GET)
-    public ResponseEntity<Map<String, String>> getResourceMetadata2(
+    public ResponseEntity<List<ResourceType.Metadata>> getResourceMetadata2(
         final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type,
@@ -277,9 +277,9 @@ public class ApiController {
             .findAny()
             .orElse(null);
         if (resourceType == null) {
-            return new ResponseEntity<>(new HashMap<>(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(resourceType.metaData(uri), HttpStatus.OK);
+        return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
     }
 
 

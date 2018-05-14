@@ -27,7 +27,8 @@ package com.github.mgramin.sqlboot.sql.impl;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 
-import com.github.mgramin.sqlboot.sql.SqlQuery;
+import com.github.mgramin.sqlboot.sql.select.SelectQuery;
+import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 import java.util.List;
 import java.util.Map;
@@ -45,14 +46,14 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(locations = {"/test_config.xml"})
-public class JdbcSqlQueryTest {
+public class JdbcSelectQueryTest {
 
     @Autowired
     DataSource dataSource;
 
     @Test
     public void select() {
-        final List<Map<String, Object>> select = new JdbcSqlQuery(dataSource,
+        final List<Map<String, Object>> select = new JdbcSelectQuery(dataSource,
             "select * from (select name AS \"n\", email as \"mail\" from main_schema.users)")
             .select().collect(toList());
         assertEquals(select.toString(),
@@ -61,9 +62,9 @@ public class JdbcSqlQueryTest {
 
     @Test
     public void medataData() throws Exception {
-        SqlQuery sqlQuery = new JdbcSqlQuery(dataSource,
+        SelectQuery selectQuery = new JdbcSelectQuery(dataSource,
             new GroovyTemplateGenerator("select name as name /* name */, email as email /* email */ from main_schema.users"));
-        final Map<String, String> metadata = sqlQuery.metaData();
+        final Map<String, String> metadata = selectQuery.metaData();
         System.out.println(metadata);
         assertEquals("email", metadata.get("email"));
         assertEquals("name", metadata.get("name"));
@@ -71,7 +72,7 @@ public class JdbcSqlQueryTest {
 
     @Test
     public void dbHealth() throws Exception {
-        new JdbcSqlQuery(dataSource, "").dbHealth();
+        new JdbcSelectQuery(dataSource, "").dbHealth();
     }
 
 }

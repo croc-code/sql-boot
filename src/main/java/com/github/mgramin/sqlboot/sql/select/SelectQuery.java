@@ -22,34 +22,34 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql;
+package com.github.mgramin.sqlboot.sql.select;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * SQL-query
+ * Simple select SQL-query
  *
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public interface SqlQuery {
+public interface SelectQuery {
 
     /**
-     * Select SQL-query
+     * Execute select query
      *
-     * @return result of query
+     * @return query result
      * @throws BootException SQL exception
      */
     @Deprecated
     Stream<Map<String, Object>> select() throws BootException;
 
     /**
-     * Select SQL-query with parameters
+     * Execute select query with parameters
      *
-     * @return result of query
+     * @return query result
      * @throws BootException SQL exception
      */
     default Stream<Map<String, Object>> select(Map<String, Object> variables) throws BootException {

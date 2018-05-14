@@ -24,7 +24,7 @@ package com.github.mgramin.sqlboot.rest.controllers;
 import static java.util.stream.Collectors.toList;
 
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
+import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -51,26 +51,26 @@ public final class SqlController {
 
     @RequestMapping(value = "sql", produces = {MediaType.APPLICATION_XML_VALUE})
     public List<Map<String, Object>> execSql2Xml(@RequestBody String sql) throws BootException {
-        return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
+        return new JdbcSelectQuery(dataSource, sql).select().collect(toList());
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST,
         produces = {MediaType.APPLICATION_XML_VALUE})
     public List<Map<String, Object>> execSql2XmlPost(@RequestBody() String sql)
         throws BootException {
-        return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
+        return new JdbcSelectQuery(dataSource, sql).select().collect(toList());
     }
 
     @RequestMapping(value = "exec", produces = {MediaType.APPLICATION_JSON_VALUE})
     public List<Map<String, Object>> execSql2Json(@RequestParam("sql") String sql) throws BootException {
-        return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
+        return new JdbcSelectQuery(dataSource, sql).select().collect(toList());
     }
 
     @RequestMapping(value = "exec", method = RequestMethod.POST, produces = {
         MediaType.APPLICATION_JSON_VALUE})
     public List<Map<String, Object>> execSql2JsonPost(@RequestBody() String sql)
         throws BootException {
-        return new JdbcSqlQuery(dataSource, sql).select().collect(toList());
+        return new JdbcSelectQuery(dataSource, sql).select().collect(toList());
     }
 
 }

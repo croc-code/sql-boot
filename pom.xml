@@ -82,6 +82,7 @@
 
         <antlr4.visitor>true</antlr4.visitor>
         <antlr4.listener>true</antlr4.listener>
+      <kotlin.version>1.0.0</kotlin.version>
     </properties>
 
 
@@ -197,7 +198,6 @@
         </dependency>
 
 
-
         <!-- TMP dependency -->
         <dependency>
             <!--deprecated-->
@@ -205,6 +205,20 @@
             <artifactId>clickhouse-jdbc</artifactId>
             <version>0.1.34</version>
         </dependency>
+
+
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-stdlib</artifactId>
+        <version>${kotlin.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-test</artifactId>
+        <version>${kotlin.version}</version>
+        <scope>test</scope>
+      </dependency>
 
 
     </dependencies>
@@ -319,6 +333,53 @@
                     </execution>
                 </executions>
             </plugin>
+          <plugin>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-plugin</artifactId>
+            <version>${kotlin.version}</version>
+            <executions>
+              <execution>
+                <id>compile</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+                <configuration>
+                  <sourceDirs>
+                    <source>src/main/java</source>
+                    <source>src/main/generated-sources</source>
+                  </sourceDirs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>test-compile</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>test-compile</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>compile</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>testCompile</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>testCompile</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
 
         </plugins>
     </build>

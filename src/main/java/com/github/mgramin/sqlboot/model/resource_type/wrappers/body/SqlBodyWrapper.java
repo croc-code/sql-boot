@@ -26,7 +26,7 @@ import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
+import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -66,7 +66,7 @@ public class SqlBodyWrapper implements ResourceType {
             .map(
                 origin -> {
                     if (origin.body() != null && !origin.body().isEmpty()) {
-                        final JdbcSqlQuery jdbcSqlQuery = new JdbcSqlQuery(dataSource,
+                        final JdbcSelectQuery jdbcSqlQuery = new JdbcSelectQuery(dataSource,
                             origin.body());
                         final Map<String, Object> stringObjectMap = jdbcSqlQuery.select()
                             .findFirst().get();

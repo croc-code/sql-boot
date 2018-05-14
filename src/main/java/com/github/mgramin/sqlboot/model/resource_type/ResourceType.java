@@ -24,6 +24,10 @@
 
 package com.github.mgramin.sqlboot.model.resource_type;
 
+import static java.util.stream.Collectors.toList;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
@@ -33,38 +37,32 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- *  Resource type
+ * Resource type
+ * e.g. Table, Index, Stored function etc
  */
 public interface ResourceType {
 
     /**
-     * Name of resource type, e.g "table", "index", "stored prcedure" etc
-     *
-     * @return
+     * Name of resource type, e.g "table", "index", "stored procedure" etc
      */
     @JsonProperty
     String name();
 
     /**
-     * Aliases of resource type, e.g. "table", "tbl", "t"
-     *
-     * @return
+     * Aliases of resource type, e.g. ["table", "tbl", "t"]
      */
     List<String> aliases();
 
     /**
      * Path of resource
-     * e.g. "schema -> table -> column"
-     * or "schema -> table -> index -> index_column"
-     * @return
+     * e.g. ["schema", "table", "column"]
+     * or ["schema", "table", "index", "index_column"]
      */
     List<String> path();
 
     /**
      * Retrieves a map that contains information about the resource metadata (properties)
      * "name" -> "type"
-     *
-     * @return
      */
     Map<String, String> metaData();
 
@@ -77,13 +75,48 @@ public interface ResourceType {
         return metaData();
     }
 
+    default List<Metadata> metaData2(Uri uri) {
+        return metaData().entrySet().stream()
+            .map(e -> new ResourceType.Metadata(e.getKey(), e.getValue()))
+            .collect(toList());
+    }
+
     /**
      * Read resources by uri
-     *
-     * @param uri
-     * @return
-     * @throws BootException
      */
     Stream<DbResource> read(Uri uri) throws BootException;
+
+
+    @JsonAutoDetect(fieldVisibility = Visibility.ANY)
+    class Metadata {
+
+        private final String name;
+        private final String description;
+        private final Map<String, Object> properties;
+
+        public Metadata(String name, String description) {
+            this(name, description, null);
+        }
+
+        public Metadata(String name, String description,
+            Map<String, Object> properties) {
+            this.name = name;
+            this.description = description;
+            this.properties = properties;
+        }
+
+        public String name() {
+            return name;
+        }
+
+        public String description() {
+            return description;
+        }
+
+        public Map<String, Object> properties() {
+            return properties;
+        }
+
+    }
 
 }

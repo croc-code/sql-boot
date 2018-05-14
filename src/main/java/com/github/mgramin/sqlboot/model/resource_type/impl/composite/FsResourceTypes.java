@@ -43,11 +43,10 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.view.View
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrapper;
-import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.CacheWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.PageWrapper;
 import com.github.mgramin.sqlboot.model.uri.Uri;
-import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
+import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 
 import javax.sql.DataSource;
@@ -167,7 +166,7 @@ public class FsResourceTypes implements ResourceType {
 
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
-                    baseResourceType = new SqlResourceType(new JdbcSqlQuery(dataSource, new GroovyTemplateGenerator(sql)), singletonList(f.getName()));
+                    baseResourceType = new SqlResourceType(new JdbcSelectQuery(dataSource, new GroovyTemplateGenerator(sql)), singletonList(f.getName()));
                 } else if (jdbcResourceType != null) {
                     baseResourceType = jdbcResourceType;
                 } else {

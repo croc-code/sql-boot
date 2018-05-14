@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.model.connection;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.mgramin.sqlboot.sql.impl.JdbcSqlQuery;
+import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.core.io.Resource;
 
@@ -95,7 +95,7 @@ public class DbConnection {
 
     public String getHealth() {
         try {
-            new JdbcSqlQuery(getDataSource(), "").dbHealth();
+            new JdbcSelectQuery(getDataSource(), "").dbHealth();
             return "OK";
         } catch (Exception e) {
             return e.getMessage();

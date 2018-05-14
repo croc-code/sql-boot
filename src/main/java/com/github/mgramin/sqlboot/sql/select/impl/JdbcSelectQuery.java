@@ -19,21 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.impl;
+package com.github.mgramin.sqlboot.sql.select.impl;
 
+import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatement.Column;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
 import javax.sql.rowset.serial.SerialClob;
 import javax.sql.rowset.serial.SerialException;
 import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.sql.SqlQuery;
-import com.github.mgramin.sqlboot.sql.parser.SelectStatementParser;
+import com.github.mgramin.sqlboot.sql.select.SelectQuery;
+import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatementParser;
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -52,9 +55,9 @@ import static java.util.stream.StreamSupport.stream;
  * @version $Id$
  * @since 0.1
  */
-public final class JdbcSqlQuery implements SqlQuery {
+public final class JdbcSelectQuery implements SelectQuery {
 
-    private final static Logger logger = Logger.getLogger(JdbcSqlQuery.class);
+    private final static Logger logger = Logger.getLogger(JdbcSelectQuery.class);
 
     /**
      * Data source.
@@ -84,7 +87,7 @@ public final class JdbcSqlQuery implements SqlQuery {
      * @param datasource
      * @param templateGenerator
      */
-    public JdbcSqlQuery(final DataSource datasource, final TemplateGenerator templateGenerator) {
+    public JdbcSelectQuery(final DataSource datasource, final TemplateGenerator templateGenerator) {
         this(datasource, null, "[NULL]", templateGenerator);
     }
 
@@ -93,7 +96,7 @@ public final class JdbcSqlQuery implements SqlQuery {
      *
      * @param datasource Data source
      */
-    public JdbcSqlQuery(final DataSource datasource, final String sql) {
+    public JdbcSelectQuery(final DataSource datasource, final String sql) {
         this(datasource, sql, "[NULL]", null);
     }
 
@@ -101,7 +104,7 @@ public final class JdbcSqlQuery implements SqlQuery {
      * Ctor.
      *
      */
-    public JdbcSqlQuery(final DataSource dataSource, final String sql, final String nullAlias, final TemplateGenerator templateGenerator) {
+    public JdbcSelectQuery(final DataSource dataSource, final String sql, final String nullAlias, final TemplateGenerator templateGenerator) {
         this.dataSource = dataSource;
         this.sql = sql;
         this.nullAlias = nullAlias;
@@ -143,7 +146,7 @@ public final class JdbcSqlQuery implements SqlQuery {
                         return new SimpleEntry<>(v, object);
                     })
                     .collect(toMap(
-                        k -> k.getKey()/*.toLowerCase()*/,
+                        SimpleEntry::getKey,
                         v -> ofNullable(v.getValue()).orElse(nullAlias),
                         (a, b) -> a,
                         LinkedHashMap::new));
@@ -156,7 +159,8 @@ public final class JdbcSqlQuery implements SqlQuery {
     public Map<String, String> metaData() {
         return new SelectStatementParser(templateGenerator.template())
                 .parse()
-                .columns();
+                .columns().stream().collect(
+                toMap(Column::name, Column::comment, (a, b) -> a, LinkedHashMap::new));
     }
 
     @Override
