@@ -9,12 +9,13 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/mgramin/sql-boot.svg)](https://hub.docker.com/r/mgramin/sql-boot/)
 [![Main distribution](https://img.shields.io/badge/zip-download-brightgreen.svg)](https://github.com/sql-boot/sql-boot/releases/latest)
 [![Join the chat at https://gitter.im/sqlboot/Lobby](https://badges.gitter.im/sqlboot/Lobby.svg)](https://gitter.im/sqlboot/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![EO badge](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org/)
 
 SQL-driven* DB-management framework for Developers, DBA and DevOps (*actually, not only SQL)
 
 
-- Evolutionary 
-- Transparent (DB independent - native old SQL/*QL/JDBC/REST) 
+- Evolutionary
+- Transparent (DB independent - native old SQL/*QL/JDBC/REST)
 - Polyglot
 
 
