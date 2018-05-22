@@ -29,6 +29,10 @@ Destinations
 Concepts
 --------
 
+How to pronounce
+----------------
+It is pronounced "sequelboot" - https://translate.google.com/?source=osdd#en/en/sequelboot
+
 
 Try online (on Heroku):
 -----------------------
