@@ -308,6 +308,27 @@ public class ApiController {
         return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/api/{connectionName}/meta/{type}/{path:.+}/{action}", method = GET)
+    public ResponseEntity<List<ResourceType.Metadata>> getResourceMetadata3(
+        final HttpServletRequest request,
+        @PathVariable String connectionName,
+        @PathVariable String type,
+        @PathVariable String path,
+        @PathVariable String action) {
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path + "/" + action, request)));
+        final FsResourceTypes fsResourceTypes = new FsResourceTypes(
+            dbConnectionList.getConnectionByName(connectionName), uri);
+        final ResourceType resourceType = fsResourceTypes
+            .resourceTypes()
+            .stream()
+            .filter(v -> v.name().equalsIgnoreCase(type))
+            .findAny()
+            .orElse(null);
+        if (resourceType == null) {
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
+    }
 
     private ResponseEntity<List<DbResource>> getListResponseEntity(
         final HttpServletRequest request,

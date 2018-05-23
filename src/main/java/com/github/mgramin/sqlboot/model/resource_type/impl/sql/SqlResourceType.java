@@ -21,6 +21,7 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.sql;
 
+import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
@@ -48,15 +49,20 @@ import lombok.ToString;
 public class SqlResourceType implements ResourceType {
 
 
-    private final transient SelectQuery selectQuery;
+    private final transient List<SelectQuery> selectQuery;
     private final List<String> aliases;
     private final List<ResourceType> child;
 
-    public SqlResourceType(SelectQuery selectQuery, List<String> aliases) {
+    public SqlResourceType(List<SelectQuery> selectQuery, List<String> aliases) {
         this(selectQuery, aliases, null);
     }
 
-    public SqlResourceType(SelectQuery selectQuery, List<String> aliases, List<ResourceType> child) {
+    @Deprecated
+    public SqlResourceType(SelectQuery selectQuery, List<String> aliases) {
+        this(asList(selectQuery), aliases, null);
+    }
+
+    public SqlResourceType(List<SelectQuery> selectQuery, List<String> aliases, List<ResourceType> child) {
         this.selectQuery = selectQuery;
         this.aliases = aliases;
         this.child = child;
@@ -74,7 +80,7 @@ public class SqlResourceType implements ResourceType {
 
     @Override
     public List<String> path() {
-        return selectQuery.metaData().keySet().stream()
+        return selectQuery.get(0).metaData().keySet().stream()
             .filter(v -> v.startsWith("@"))
             .map(v -> strip(v, "@"))
             .collect(toList());
@@ -84,7 +90,7 @@ public class SqlResourceType implements ResourceType {
     public Stream<DbResource> read(final Uri uri) throws BootException {
         final Map<String, Object> variables = new HashMap<>();
         variables.put("uri", uri);
-        return selectQuery.select(variables)
+        return selectQuery.get(0).select(variables)
             .map(o -> {
                 final List<Object> path = o.entrySet().stream()
                     .filter(v -> (v.getKey().startsWith("@")))
@@ -108,11 +114,11 @@ public class SqlResourceType implements ResourceType {
 
     @Override
     public Map<String, String> metaData() {
-        return selectQuery.metaData();
+        return selectQuery.get(0).metaData();
     }
 
     public List<ResourceType.Metadata> metaData2(Uri uri) {
-        return selectQuery.metaData().entrySet().stream()
+        return selectQuery.get(0).metaData().entrySet().stream()
             .map(e -> new ResourceType.Metadata(e.getKey(), e.getValue()))
             .collect(toList());
     }
