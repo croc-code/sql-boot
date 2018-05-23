@@ -58,4 +58,9 @@ public class FakeUri implements Uri {
         return new HashMap<>();
     }
 
+    @Override
+    public String action() {
+        return null;
+    }
+
 }

@@ -83,11 +83,11 @@ public class FsResourceTypes implements ResourceType {
      * @param dbConnection
      * @throws BootException
      */
-    public FsResourceTypes(final DbConnection dbConnection) throws BootException {
+    public FsResourceTypes(final DbConnection dbConnection, final Uri uri) throws BootException {
         dataSource = dbConnection.getDataSource();
         try {
             final String baseFolder = dbConnection.getBaseFolder().getFile().getPath();
-            resourceTypes = walk(baseFolder);
+            resourceTypes = walk(baseFolder, uri);
         } catch (IOException e) {
             throw new BootException(e);
         }
@@ -101,16 +101,17 @@ public class FsResourceTypes implements ResourceType {
     /**
      *
      * @param path
+     * @param uri
      * @return
      */
-    private List<ResourceType> walk(final String path) {
+    private List<ResourceType> walk(final String path, Uri uri) {
         File[] files = new File(path).listFiles();
         if (files == null) return null;
         List<ResourceType> list = new ArrayList<>();
         for (File f : files) {
             if (f.isDirectory()) {
                 File sqlFile = new File(f, "README.md");
-                list.addAll(walk(f.getAbsolutePath()));
+                list.addAll(walk(f.getAbsolutePath(), uri));
 
                 final ResourceType jdbcResourceType;
                 switch (f.getName()) {
@@ -153,12 +154,26 @@ public class FsResourceTypes implements ResourceType {
 
                 String sql = null;
                 try {
-                    MarkdownFile markdownFile = new MarkdownFile(readFileToString(sqlFile, UTF_8));
-                    Map<String, String> parse = markdownFile.parse();
-                    Iterator<Map.Entry<String, String>> iterator = parse.entrySet().iterator();
-                    if (iterator.hasNext()) {
-                        sql = iterator.next().getValue();
+                    final MarkdownFile markdownFile = new MarkdownFile(readFileToString(sqlFile, UTF_8));
+                    final Map<String, String> parse = markdownFile.parse();
+
+                    if (uri != null && uri.action() != null) {
+                        String s = parse.get(uri.action());
+                        if (s != null) {
+                            sql = s;
+                        } else {
+                            final Iterator<Map.Entry<String, String>> iterator = parse.entrySet().iterator();
+                            if (iterator.hasNext()) {
+                                sql = iterator.next().getValue();
+                            }
+                        }
+                    } else {
+                        final Iterator<Map.Entry<String, String>> iterator = parse.entrySet().iterator();
+                        if (iterator.hasNext()) {
+                            sql = iterator.next().getValue();
+                        }
                     }
+
                 } catch (IOException e) {
                     // TODO catch and process this exception
                 }

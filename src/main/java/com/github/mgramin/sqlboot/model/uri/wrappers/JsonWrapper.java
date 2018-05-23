@@ -67,6 +67,11 @@ public class JsonWrapper implements Uri {
     }
 
     @Override
+    public String action() {
+        return origin.action();
+    }
+
+    @Override
     public String toString() {
         String s = "DbUri{" +
             "type='" + origin.type() + '\'' +

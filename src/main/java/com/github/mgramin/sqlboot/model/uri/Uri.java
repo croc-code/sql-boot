@@ -77,8 +77,6 @@ public interface Uri {
      *
      * @return
      */
-    default String action() {
-        return null;
-    }
+    String action();
 
 }

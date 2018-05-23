@@ -70,6 +70,11 @@ public class SqlPlaceholdersWrapper implements Uri {
     }
 
     @Override
+    public String action() {
+        return origin.action();
+    }
+
+    @Override
     public String toString() {
         return origin.toString();
     }

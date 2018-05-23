@@ -115,7 +115,7 @@ public class DbUriTest {
     @Test
     public void testAction() {
         DbUri dbUri = new DbUri("table/hr.p*/count?limit=10");
-        System.out.println(dbUri.action());
+        assertEquals("count", dbUri.action());
     }
 
 
