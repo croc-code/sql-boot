@@ -266,6 +266,15 @@ public class ApiController {
         return getListResponseEntityHeaders(request, connectionName, type);
     }
 
+    @RequestMapping(value = "/api/{connectionName}/headers/{type}/{path:.+}/{action}", method = GET)
+    public ResponseEntity<List<Map<String, Object>>> getResourcesHeadersJson3(
+        final HttpServletRequest request,
+        @PathVariable String connectionName,
+        @PathVariable String type,
+        @PathVariable String path,
+        @PathVariable String action) {
+        return getListResponseEntityHeaders(request, connectionName, type + "/" + path + "/" + action);
+    }
 
     @RequestMapping(value = "/api/{connectionName}/meta/{type}", method = GET)
     public ResponseEntity<List<ResourceType.Metadata>> getResourceMetadata(

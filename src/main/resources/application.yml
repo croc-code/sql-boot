@@ -25,6 +25,12 @@ conf:
       driverClassName: org.postgresql.Driver
       user: postgres
       password: postgres
+    - name: demodb
+      baseFolder: file:conf/sql-boot-postgresql/database
+      url: jdbc:postgresql://192.168.0.14:54321/demo
+      driverClassName: org.postgresql.Driver
+      user: postgres
+      password: postgres
     - name: clickhouse
       baseFolder: file:conf/common/database
       url: jdbc:clickhouse://localhost:8123/default
