@@ -138,17 +138,24 @@ public class ApiController {
                 new Path().get(
                     new Operation().description(resourceType.name()).tag(resourceType.name())
                         .parameter(parameter)
-                        .parameter(new QueryParameter().name("select").type("string"))
-                        .parameter(new QueryParameter().name("distinct").type("boolean"))
-                        .parameter(new QueryParameter().name("where").type("string"))
+                        .parameter(new QueryParameter().name("select").type("string")
+                            .description("Select specific columns"))
+                        .parameter(new QueryParameter().name("distinct").type("boolean")
+                            .description("Select unique rows"))
+                        .parameter(new QueryParameter().name("where").type("string")
+                            .description("Apply filter"))
                         .parameter(new QueryParameter().name("page").type("string")
-                            .description("get page by mask [page_count:page_size]"))
-                        .parameter(new QueryParameter().name("limit").type("integer"))
-                        .parameter(new QueryParameter().name("orderby").type("string"))
-                        .parameter(new QueryParameter().name("cache").type("boolean"))
+                            .description("Page number by mask [page_number:page_size]"))
+                        .parameter(new QueryParameter().name("limit").type("integer")
+                            .description("Limit the number of rows"))
+                        .parameter(new QueryParameter().name("orderby").type("string")
+                            .description("Sort rows"))
+                        .parameter(new QueryParameter().name("cache").type("boolean")
+                            .description("Cache result"))
                         .response(200, new Response()
                             .description("Ok")
                             .schema(new ArrayProperty(new RefProperty(resourceType.name()))))
+                        .response(204, new Response().description("Objects not found ..."))
                         .produces("application/json")));
 
             final List<String> path = resourceType.path();
@@ -168,14 +175,20 @@ public class ApiController {
                 }
                 Operation operation = new Operation();
                 operation.setParameters(parameterList);
-                operation.parameter(new QueryParameter().name("select").type("string"));
-                operation.parameter(new QueryParameter().name("distinct").type("boolean"));
-                operation.parameter(new QueryParameter().name("where").type("string"));
+                operation.parameter(new QueryParameter().name("select").type("string")
+                            .description("Select specific columns"));
+                operation.parameter(new QueryParameter().name("distinct").type("boolean")
+                            .description("Select unique rows"));
+                operation.parameter(new QueryParameter().name("where").type("string")
+                            .description("Apply filter"));
                 operation.parameter(new QueryParameter().name("page").type("string")
                     .description("get page by mask [page_count:page_size]"));
-                operation.parameter(new QueryParameter().name("limit").type("integer"));
-                operation.parameter(new QueryParameter().name("orderby").type("string"));
-                operation.parameter(new QueryParameter().name("cache").type("boolean"));
+                operation.parameter(new QueryParameter().name("limit").type("integer")
+                            .description("Limit the number of rows"));
+                operation.parameter(new QueryParameter().name("orderby").type("string")
+                            .description("Sort rows"));
+                operation.parameter(new QueryParameter().name("cache").type("boolean")
+                            .description("Cache result"));
                 swagger.path(
                     "/api/{connection_name}/headers/" + resourceType.name() + "/" + newPath.stream()
                         .map(v -> "{" + v + "}").collect(joining(".")),

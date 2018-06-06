@@ -29,6 +29,12 @@ Destinations
 
 Concepts
 --------
+TODO
+
+Self-documentation
+------------------
+sql-boot uses the [OpenAPI](https://github.com/OAI/OpenAPI-Specification) standard to generate up-to-date documentation for APIs based your SQL-queries metadata.
+You can use a tool like [Swagger-UI](https://github.com/swagger-api/swagger-ui) or [Swagger-Editor](https://github.com/swagger-api/swagger-editor) to render interactive documentation (for demo requests) or [generate client API](https://github.com/swagger-api/swagger-codegen) against the live API server.
 
 How to pronounce
 ----------------

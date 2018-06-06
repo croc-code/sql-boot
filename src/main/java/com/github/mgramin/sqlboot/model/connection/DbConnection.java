@@ -39,7 +39,7 @@ import static java.util.Optional.ofNullable;
 public class DbConnection {
 
     private String name;
-    @JsonIgnore
+    @JsonIgnore // TODO fix json serialization for Resource class
     private Resource baseFolder;
     private String url;
     private String user;
