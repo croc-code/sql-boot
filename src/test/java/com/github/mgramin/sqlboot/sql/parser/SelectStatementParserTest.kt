@@ -12,7 +12,7 @@ class SelectStatementParserTest {
             select "name"    as "persons_name"   /* name of person {key:value, key2:value2} */
                  , p.age     as persons_age      /* age of person */
                  , address   as "address"        /* address of person */
-                 , case when 1=1 then 1 else 0 end as "case_expression_value" /* case column */
+                 , test_column
               from persons p where 1=1""").parse()
 
         assertEquals("persons", selectStatement.tableName())
@@ -30,6 +30,9 @@ class SelectStatementParserTest {
         val columnAddress = iterator.next()
         assertEquals("address", columnAddress.name())
         assertEquals("address of person", columnAddress.comment())
+
+        val testColumn = iterator.next()
+        assertEquals("test_column", testColumn.name())
     }
 
 }

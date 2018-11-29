@@ -16,7 +16,7 @@ public class SelectVisitorCustom extends SELECTBaseVisitor {
         final List<Column> columns = ctx.select_row().stream()
             .map(v -> new SelectStatement.Column(
                 ofNullable(v.column_alias()).map(a -> a.ID().getText())
-                    .orElse(/*v.column_name().ID().getText()*/"NULL"),
+                    .orElse(ofNullable(v.column_name()).map(a -> a.ID().getText()).orElse("NULL")),
                 ofNullable(v.column_comment())
                     .map(v1 -> v1.MULTIPLE_LINE_COMMENT().getText()
                         .replace("/*", "")

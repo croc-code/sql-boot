@@ -181,7 +181,9 @@ public class FsResourceTypes implements ResourceType {
 
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
-                    baseResourceType = new SqlResourceType(new JdbcSelectQuery(dataSource, new GroovyTemplateGenerator(sql)), singletonList(f.getName()));
+                    baseResourceType = new SqlResourceType(
+                        new JdbcSelectQuery(
+                            dataSource, new GroovyTemplateGenerator(sql)), singletonList(f.getName()));
                 } else if (jdbcResourceType != null) {
                     baseResourceType = jdbcResourceType;
                 } else {

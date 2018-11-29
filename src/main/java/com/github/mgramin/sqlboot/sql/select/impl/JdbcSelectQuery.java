@@ -146,7 +146,7 @@ public final class JdbcSelectQuery implements SelectQuery {
                         return new SimpleEntry<>(v, object);
                     })
                     .collect(toMap(
-                        SimpleEntry::getKey,
+                        k->k.getKey().toLowerCase(),
                         v -> ofNullable(v.getValue()).orElse(nullAlias),
                         (a, b) -> a,
                         LinkedHashMap::new));

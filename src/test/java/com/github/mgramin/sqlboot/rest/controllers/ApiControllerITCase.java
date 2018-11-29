@@ -55,7 +55,11 @@ public class ApiControllerITCase {
     public void getText() {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.TEXT_PLAIN);
-        ResponseEntity<String> result = client.exchange("/api/h2/table/BOOKINGS.AIRPORTS", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        ResponseEntity<String> result = client.exchange(
+            "/api/h2/table/BOOKINGS.AIRCRAFTS",
+            HttpMethod.GET,
+            new HttpEntity<>(headers),
+            String.class);
         assertEquals(200, result.getStatusCodeValue());
     }
 

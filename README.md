@@ -11,6 +11,29 @@
 [![Join the chat at https://gitter.im/sqlboot/Lobby](https://badges.gitter.im/sqlboot/Lobby.svg)](https://gitter.im/sqlboot/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![EO badge](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org/)
 
+sql-boot is a database management tool for developers, DBA and DevOps use to manage both relational and non-relational databases using simple REST. Take a proactive approach to database management.
+
+Write own queries or use existen (list)
+
+For SQL database - simple REST-wrapper for your own sql-queries.
+
+
+Example:
+- simply write query
+- put to folder structure
+- call and get data from URI - prod_db/hr.persons?select=name,address&page=2&orderby=name+desc
+
+Generate migration scripts:
+- createTable
+- dropTable
+- alterTable
+- createRole
+- dropRole
+- createQueue
+- dropQueue
+- stopQueue
+- startQueue
+
 SQL-driven* DB-management framework for Developers, DBA and DevOps (*actually, not only SQL)
 
 

@@ -22,9 +22,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.mgramin.sqlboot.model.connection.DbConnection;
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType.Metadata;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
@@ -176,19 +178,19 @@ public class ApiController {
                 Operation operation = new Operation();
                 operation.setParameters(parameterList);
                 operation.parameter(new QueryParameter().name("select").type("string")
-                            .description("Select specific columns"));
+                    .description("Select specific columns"));
                 operation.parameter(new QueryParameter().name("distinct").type("boolean")
-                            .description("Select unique rows"));
+                    .description("Select unique rows"));
                 operation.parameter(new QueryParameter().name("where").type("string")
-                            .description("Apply filter"));
+                    .description("Apply filter"));
                 operation.parameter(new QueryParameter().name("page").type("string")
                     .description("get page by mask [page_count:page_size]"));
                 operation.parameter(new QueryParameter().name("limit").type("integer")
-                            .description("Limit the number of rows"));
+                    .description("Limit the number of rows"));
                 operation.parameter(new QueryParameter().name("orderby").type("string")
-                            .description("Sort rows"));
+                    .description("Sort rows"));
                 operation.parameter(new QueryParameter().name("cache").type("boolean")
-                            .description("Cache result"));
+                    .description("Cache result"));
                 swagger.path(
                     "/api/{connection_name}/headers/" + resourceType.name() + "/" + newPath.stream()
                         .map(v -> "{" + v + "}").collect(joining(".")),
@@ -218,6 +220,16 @@ public class ApiController {
         return swagger;
     }
 
+    @RequestMapping(value = "/api/{connectionName}/types")
+    public List<ResourceType> test(
+        final HttpServletRequest request,
+        @PathVariable final String connectionName
+    ) {
+        FsResourceTypes fsResourceTypes = new FsResourceTypes(
+            dbConnectionList.getConnectionByName(connectionName), null);
+        final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
+        return resourceTypes;
+    }
 
     @RequestMapping(value = "/api/{connectionName}/{type}")
     public ResponseEntity<List<DbResource>> getResourcesEntireJson(
@@ -286,11 +298,12 @@ public class ApiController {
         @PathVariable String type,
         @PathVariable String path,
         @PathVariable String action) {
-        return getListResponseEntityHeaders(request, connectionName, type + "/" + path + "/" + action);
+        return getListResponseEntityHeaders(request, connectionName,
+            type + "/" + path + "/" + action);
     }
 
     @RequestMapping(value = "/api/{connectionName}/meta/{type}", method = GET)
-    public ResponseEntity<List<ResourceType.Metadata>> getResourceMetadata(
+    public ResponseEntity<List<Map<String, Object>>> getResourceMetadata(
         final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type) {
@@ -306,11 +319,41 @@ public class ApiController {
         if (resourceType == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
+        List<Metadata> metadata = resourceType.metaData2(uri);
+        final List<Map<String, Object>> collect = metadata.stream().map(Metadata::properties)
+            .collect(toList());
+        return new ResponseEntity<>(collect, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/{connectionName}/meta/{type}/{path:.+}", method = GET)
-    public ResponseEntity<List<ResourceType.Metadata>> getResourceMetadata2(
+    public ResponseEntity<List<Map<String, Object>>> getResourceMetadata2(
+        final HttpServletRequest request,
+        final @PathVariable String connectionName,
+        final @PathVariable String type,
+        final @PathVariable String path
+    ) {
+        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(path, request)));
+        final FsResourceTypes fsResourceTypes = new FsResourceTypes(
+            dbConnectionList.getConnectionByName(connectionName), uri);
+        final ResourceType resourceType = fsResourceTypes
+            .resourceTypes()
+            .stream()
+            .filter(v -> v.name().equalsIgnoreCase(type))
+            .findAny()
+            .orElse(null);
+        if (resourceType == null) {
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
+        }
+        List<Metadata> metadata = resourceType.metaData2(uri);
+        final List<Map<String, Object>> collect = metadata.stream()
+//            .filter(v -> v.properties() != null)
+            .map(Metadata::properties)
+            .collect(toList());
+        return new ResponseEntity<>(collect, HttpStatus.OK);
+    }
+
+/*    @RequestMapping(value = "/api/{connectionName}/meta/{type}/{path:.+}", method = GET)
+    public ResponseEntity<List<Map<String, Object>>> getResourceMetadata21(
         final HttpServletRequest request,
         @PathVariable String connectionName,
         @PathVariable String type,
@@ -328,7 +371,8 @@ public class ApiController {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
-    }
+    }*/
+
 
     @RequestMapping(value = "/api/{connectionName}/meta/{type}/{path:.+}/{action}", method = GET)
     public ResponseEntity<List<ResourceType.Metadata>> getResourceMetadata3(
@@ -337,7 +381,8 @@ public class ApiController {
         @PathVariable String type,
         @PathVariable String path,
         @PathVariable String action) {
-        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type + "/" + path + "/" + action, request)));
+        final Uri uri = new SqlPlaceholdersWrapper(
+            new DbUri(parseUri(type + "/" + path + "/" + action, request)));
         final FsResourceTypes fsResourceTypes = new FsResourceTypes(
             dbConnectionList.getConnectionByName(connectionName), uri);
         final ResourceType resourceType = fsResourceTypes
@@ -355,24 +400,32 @@ public class ApiController {
     private ResponseEntity<List<DbResource>> getListResponseEntity(
         final HttpServletRequest request,
         final String connectionName,
-        final String type) {
+        final String type
+    ) {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(type, request)));
-        final ResourceType fsResourceTypes = new FsResourceTypes(
-            dbConnectionList.getConnectionByName(connectionName), uri);
-        final List<DbResource> collect = fsResourceTypes.read(uri).collect(toList());
-        if (collect.isEmpty()) {
-            return new ResponseEntity<>(collect, HttpStatus.NO_CONTENT);
+        final List<DbConnection> connections = dbConnectionList
+            .getConnectionsByMask(connectionName);
+        List<DbResource> result = new ArrayList<>();
+        for (final DbConnection connection : connections) {
+            final ResourceType fsResourceTypes = new FsResourceTypes(connection, uri);
+            final List<DbResource> collect = fsResourceTypes.read(uri).collect(toList());
+            result.addAll(collect);
+        }
+
+        if (result.isEmpty()) {
+            return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(collect, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
 
     private ResponseEntity<List<Map<String, Object>>> getListResponseEntityHeaders(
         final HttpServletRequest request,
         final String connectionName,
-        final String path) {
+        final String path
+    ) {
         final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(path, request)));
-        ResourceType fsResourceTypes = new FsResourceTypes(
+        final ResourceType fsResourceTypes = new FsResourceTypes(
             dbConnectionList.getConnectionByName(connectionName), uri);
         final List<Map<String, Object>> headers = fsResourceTypes
             .read(uri)
