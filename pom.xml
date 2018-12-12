@@ -278,6 +278,12 @@
                 <configuration>
                     <excludes>
                         <exclude>**/Fake*.*</exclude>
+                        <exclude>**/SELECTBaseListener.*</exclude>
+                        <exclude>**/SELECTBaseVisitor.*</exclude>
+                        <exclude>**/SELECTLexer.*</exclude>
+                        <exclude>**/SELECTListener.*</exclude>
+                        <exclude>**/SELECTParser.*</exclude>
+                        <exclude>**/SELECTVisitor.*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
