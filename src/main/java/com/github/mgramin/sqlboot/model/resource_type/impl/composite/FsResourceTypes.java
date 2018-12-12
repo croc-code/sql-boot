@@ -49,6 +49,7 @@ import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
 
+import java.util.Arrays;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;

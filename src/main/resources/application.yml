@@ -1,46 +1,10 @@
 conf:
   connections:
     - name: h2
-      baseFolder: file:conf/common/database
+      baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
-    - name: sbx17
-      baseFolder: file:conf/sql-boot-oracle/database
-      url: jdbc:oracle:thin:@10.177.88.65:1521:SBX
-      driverClassName: oracle.jdbc.OracleDriver
-      user: system
-      password: sys
-    - name: test1_1
-      baseFolder: file:conf/sql-boot-oracle/database
-      url: jdbc:oracle:thin:@10.177.88.234:1521:DEV
-      driverClassName: oracle.jdbc.OracleDriver
-      user: system
-      password: sys
-    - name: test1_2
-      baseFolder: file:conf/sql-boot-oracle/database
-      url: jdbc:oracle:thin:@10.177.88.235:1521:DEV
-      driverClassName: oracle.jdbc.OracleDriver
-      user: system
-      password: sys
-#    - name: oracle
-#      baseFolder: file:conf/sql-boot-oracle/database
-#      baseFolder: file:conf/common/database
-#      url: jdbc:oracle:thin:@localhost:1521:XE
-#      driverClassName: oracle.jdbc.OracleDriver
-#      user: system
-#      password: oracle
-#    - name: postgres-sport
-#      baseFolder: file:conf/sql-boot-postgresql/database
-#      url: jdbc:postgresql://192.168.0.12:9876/postgres
-#      driverClassName: org.postgresql.Driver
-#      user: postgres
-#      password: postgres
-#    - name: demodb
-#      baseFolder: file:conf/sql-boot-postgresql/database
-#      url: jdbc:postgresql://192.168.0.12:54321/demo
-#      driverClassName: org.postgresql.Driver
-#      user: postgres
-#      password: postgres
+
 
 server:
   port: 8007

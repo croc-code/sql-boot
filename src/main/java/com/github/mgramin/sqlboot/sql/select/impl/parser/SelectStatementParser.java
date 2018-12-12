@@ -1,7 +1,5 @@
 package com.github.mgramin.sqlboot.sql.select.impl.parser;
 
-import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTLexer;
-import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 

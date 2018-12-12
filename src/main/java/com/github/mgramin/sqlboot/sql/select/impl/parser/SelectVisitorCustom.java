@@ -2,7 +2,6 @@ package com.github.mgramin.sqlboot.sql.select.impl.parser;
 
 import static java.util.Optional.ofNullable;
 
-import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTBaseVisitor;
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTParser.Select_statementContext;
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatement.Column;
 import java.util.List;

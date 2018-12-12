@@ -13,6 +13,7 @@ class SelectStatementParserTest {
                  , p.age     as persons_age      /* age of person */
                  , address   as "address"        /* address of person */
                  , test_column
+                 , to_char(s.logon_time,'dd.mm.yyyy hh24:mi:ss') as logon_time /* logon_time comment */
               from persons p where 1=1""").parse()
 
         assertEquals("persons", selectStatement.tableName())
@@ -33,6 +34,9 @@ class SelectStatementParserTest {
 
         val testColumn = iterator.next()
         assertEquals("test_column", testColumn.name())
+
+        val toCharColumn = iterator.next()
+        assertEquals("logon_time", toCharColumn.name())
     }
 
 }

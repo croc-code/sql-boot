@@ -49,6 +49,10 @@ CASE_EXPRESSION
   : 'case' .*? 'end'
   ;
 
+FUNCTION_EXPRESSION
+  : ID '(' .*? ')'
+  ;
+
 
 
 
@@ -84,17 +88,20 @@ table_name
    ;
 
 select_row
-   : (column_case | column_name) (column_alias)? (column_comment)?
+   : (column_name | column_case_expression | column_function_expression) (column_alias)? (column_comment)?
    ;
 
 column_name
    : (table_alias DOT)? (DOUBLE_QUOTE)? ID (DOUBLE_QUOTE)?
    ;
 
-column_case
+column_case_expression
   : CASE_EXPRESSION
   ;
 
+column_function_expression
+  : FUNCTION_EXPRESSION
+  ;
 
 table_alias
   : (DOUBLE_QUOTE)? ID (DOUBLE_QUOTE)?
