@@ -5,25 +5,40 @@ conf:
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
-        { "visible": false }
+        {
+          "visible": false,
+          "description": "Embedded db for unit tests only"
+        }
     - name: dev
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
-        { "color": "green" }
+        {
+          "color": "green",
+          "description": "Develop demo db",
+          "css_class": "fas fa-fw fa-tools"
+        }
     - name: test
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
-        { "color": "green" }
+        {
+          "color": "orange",
+          "description": "Testing demo db",
+          "css_class": "fas fa-fw fa-bug"
+        }
     - name: prod
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
-        { "color": "red" }
+        {
+          "color": "red",
+          "description": "Production demo db",
+          "css_class": "fas fa-fw fa-bicycle"
+        }
 
 
 server:
