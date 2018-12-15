@@ -4,6 +4,26 @@ conf:
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
+      properties: >
+        { "visible": false }
+    - name: dev
+      baseFolder: file:conf/h2/database
+      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
+      driverClassName: org.h2.Driver
+      properties: >
+        { "color": "green" }
+    - name: test
+      baseFolder: file:conf/h2/database
+      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
+      driverClassName: org.h2.Driver
+      properties: >
+        { "color": "green" }
+    - name: prod
+      baseFolder: file:conf/h2/database
+      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
+      driverClassName: org.h2.Driver
+      properties: >
+        { "color": "red" }
 
 
 server:
