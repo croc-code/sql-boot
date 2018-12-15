@@ -28,6 +28,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.core.io.Resource;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 
@@ -46,6 +49,7 @@ public class DbConnection {
     @JsonIgnore
     private String password;
     private String driverClassName;
+    private String properties;
 
     private DataSource dataSource;
 
@@ -91,6 +95,14 @@ public class DbConnection {
 
     public String getDriverClassName() {
         return driverClassName;
+    }
+
+    public Map<String, Object> getProperties() {
+        return new JSONObject(properties).toMap();
+    }
+
+    public void setProperties(String properties) {
+        this.properties = properties;
     }
 
     public String getHealth() {
