@@ -17,7 +17,7 @@ conf:
         {
           "color": "green",
           "description": "Develop demo db",
-          "css_class": "fas fa-fw fa-tools"
+          "css_class": "fas fa-fw fa-2x fa-tools"
         }
     - name: test
       baseFolder: file:conf/h2/database
@@ -27,7 +27,7 @@ conf:
         {
           "color": "orange",
           "description": "Testing demo db",
-          "css_class": "fas fa-fw fa-bug"
+          "css_class": "fas fa-fw fa-2x fa-bug"
         }
     - name: prod
       baseFolder: file:conf/h2/database
@@ -37,7 +37,7 @@ conf:
         {
           "color": "red",
           "description": "Production demo db",
-          "css_class": "fas fa-fw fa-bicycle"
+          "css_class": "fas fa-fw fa-2x fa-bicycle"
         }
 
 
