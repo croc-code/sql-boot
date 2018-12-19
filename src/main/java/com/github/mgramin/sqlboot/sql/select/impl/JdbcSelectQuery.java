@@ -156,7 +156,7 @@ public final class JdbcSelectQuery implements SelectQuery {
     }
 
     @Override
-    public Map<String, String> metaData() {
+    public Map<String, String> columns() {
         return new SelectStatementParser(templateGenerator.template())
                 .parse()
                 .columns()

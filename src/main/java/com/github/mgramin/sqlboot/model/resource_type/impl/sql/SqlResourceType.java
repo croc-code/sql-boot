@@ -63,7 +63,7 @@ public class SqlResourceType implements ResourceType {
 
     @Override
     public List<String> path() {
-        return selectQuery.metaData().keySet().stream()
+        return selectQuery.columns().keySet().stream()
             .filter(v -> v.startsWith("@"))
             .map(v -> strip(v, "@"))
             .collect(toList());
@@ -97,7 +97,7 @@ public class SqlResourceType implements ResourceType {
 
     @Override
     public Map<String, String> metaData() {
-        return selectQuery.metaData();
+        return selectQuery.columns();
     }
 
 }

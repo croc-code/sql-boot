@@ -370,7 +370,7 @@ public class ApiController {
         if (resourceType == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(resourceType.metaData(uri), HttpStatus.OK);
+        return new ResponseEntity<>(resourceType.columns(uri), HttpStatus.OK);
     }*/
 
 

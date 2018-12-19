@@ -72,9 +72,9 @@ class SqlResourceTypeTest {
     @Throws(Exception::class)
     fun read() {
         val sql = """select *
-            |           from (select table_schema   as "@schema"
-            |                      , table_name     as "@table"
-            |                   from information_schema.tables)""".trimMargin()
+            |          from (select table_schema   as "@schema"
+            |                     , table_name     as "@table"
+            |                  from information_schema.tables)""".trimMargin()
         val type = WhereWrapper(SqlResourceType(JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)), asList("table")))
         assertEquals(4, type.read(DbUri("table/m.column")).count())
     }
@@ -102,9 +102,7 @@ class SqlResourceTypeTest {
             |                  from information_schema.columns)""".trimMargin()
         val type = SqlResourceType(JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)), asList("column"))
         val path = type.path()
-        assertEquals("schema", path[0])
-        assertEquals("table", path[1])
-        assertEquals("column", path[2])
+        assertEquals("[schema, table, column]", path.toString())
     }
 
 }

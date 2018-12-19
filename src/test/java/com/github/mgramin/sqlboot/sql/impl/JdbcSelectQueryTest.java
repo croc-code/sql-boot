@@ -64,7 +64,7 @@ public class JdbcSelectQueryTest {
     public void medataData() throws Exception {
         SelectQuery selectQuery = new JdbcSelectQuery(dataSource,
             new GroovyTemplateGenerator("select name as name /* name */, email as email /* email */ from main_schema.users"));
-        final Map<String, String> metadata = selectQuery.metaData();
+        final Map<String, String> metadata = selectQuery.columns();
         System.out.println(metadata);
         assertEquals("email", metadata.get("email"));
         assertEquals("name", metadata.get("name"));
