@@ -48,7 +48,7 @@ public interface ResourceType {
     String name();
 
     /**
-     * Aliases of resource type, e.g. ["table", "tbl", "t"]
+     * Aliases of resource type, e.g. ["table", "tbl", "t", "tablo"]
      */
     @JsonProperty
     List<String> aliases();
@@ -67,16 +67,7 @@ public interface ResourceType {
     @JsonProperty
     Map<String, String> metaData();
 
-    /**
-     *
-     * @param uri
-     * @return
-     */
-    default Map<String, String> metaData(Uri uri) {
-        return metaData();
-    }
-
-    default List<Metadata> metaData2(Uri uri) {
+    default List<Metadata> metaData(Uri uri) {
         return metaData().entrySet().stream()
             .map(e -> new ResourceType.Metadata(e.getKey(), e.getValue()))
             .collect(toList());

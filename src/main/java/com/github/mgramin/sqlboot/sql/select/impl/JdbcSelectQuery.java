@@ -159,8 +159,9 @@ public final class JdbcSelectQuery implements SelectQuery {
     public Map<String, String> metaData() {
         return new SelectStatementParser(templateGenerator.template())
                 .parse()
-                .columns().stream().collect(
-                toMap(Column::name, Column::comment, (a, b) -> a, LinkedHashMap::new));
+                .columns()
+                .stream()
+                .collect(toMap(Column::name, Column::comment, (a, b) -> a, LinkedHashMap::new));
     }
 
     @Override

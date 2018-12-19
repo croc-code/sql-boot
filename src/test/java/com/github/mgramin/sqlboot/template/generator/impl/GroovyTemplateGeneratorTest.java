@@ -60,14 +60,4 @@ public class GroovyTemplateGeneratorTest {
         assertEquals(templateGenerator.generate(maps), "create table persons ...");
     }
 
-    @Test
-    public void getAllProperties() throws BootException {
-        String txt = "... where lower(c.table_schema) like '$schema'\n" +
-            "and lower(c.table_name) like '$table'\n" +
-            "and lower(c.column_name) like '$column'";
-        TemplateGenerator templateGenerator = new GroovyTemplateGenerator(txt);
-        assertEquals(templateGenerator.properties(),
-            Arrays.asList("schema", "table", "column"));
-    }
-
 }

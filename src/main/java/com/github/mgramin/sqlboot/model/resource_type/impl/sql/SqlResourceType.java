@@ -48,14 +48,9 @@ import lombok.ToString;
 @ToString
 public class SqlResourceType implements ResourceType {
 
-
     private final transient List<SelectQuery> selectQuery;
     private final List<String> aliases;
     private final List<ResourceType> child;
-
-    public SqlResourceType(List<SelectQuery> selectQuery, List<String> aliases) {
-        this(selectQuery, aliases, null);
-    }
 
     @Deprecated
     public SqlResourceType(SelectQuery selectQuery, List<String> aliases) {
@@ -117,7 +112,7 @@ public class SqlResourceType implements ResourceType {
         return selectQuery.get(0).metaData();
     }
 
-    public List<ResourceType.Metadata> metaData2(Uri uri) {
+    public List<ResourceType.Metadata> metaData(Uri uri) {
         return selectQuery.get(0).metaData().entrySet().stream()
             .map(e -> new ResourceType.Metadata(e.getKey(), e.getValue()))
             .collect(toList());
