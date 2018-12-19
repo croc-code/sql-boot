@@ -211,11 +211,6 @@ public class FsResourceTypes implements ResourceType {
     }
 
     @Override
-    public String name() {
-        throw new BootException("Not implemented!");
-    }
-
-    @Override
     public List<String> aliases() {
         throw new BootException("Not implemented!");
     }

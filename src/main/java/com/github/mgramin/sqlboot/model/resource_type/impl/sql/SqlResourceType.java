@@ -57,11 +57,6 @@ public class SqlResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return aliases.get(0);
-    }
-
-    @Override
     public List<String> aliases() {
         return aliases;
     }

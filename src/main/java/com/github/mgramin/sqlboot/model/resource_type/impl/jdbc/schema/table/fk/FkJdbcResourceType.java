@@ -98,11 +98,6 @@ public class FkJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "fk";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("foreign_key", "fk");
     }

@@ -62,11 +62,6 @@ public class SchemaJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "schema";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("schema", "schm", "s");
     }

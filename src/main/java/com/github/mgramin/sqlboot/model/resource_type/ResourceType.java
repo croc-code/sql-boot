@@ -46,7 +46,9 @@ public interface ResourceType {
      * Name of resource type, e.g "table", "index", "stored procedure" etc
      */
     @JsonProperty
-    String name();
+    default String name() {
+        return aliases().get(0);
+    }
 
     /**
      * Aliases of resource type, e.g. ["table", "tbl", "t", "tablo"]

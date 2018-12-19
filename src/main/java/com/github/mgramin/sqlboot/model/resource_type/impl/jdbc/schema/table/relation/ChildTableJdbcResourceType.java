@@ -102,11 +102,6 @@ public class ChildTableJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "child_table";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("child_table", "child", "chld");
     }

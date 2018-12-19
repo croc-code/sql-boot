@@ -102,11 +102,6 @@ public class ParentTableJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "parent_table";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("parent_table", "parent", "prnt");
     }

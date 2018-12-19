@@ -11,11 +11,6 @@ import java.util.stream.Stream;
 public class DbStoredFuncBodyWrapper implements ResourceType {
 
     @Override
-    public String name() {
-        return null;
-    }
-
-    @Override
     public List<String> aliases() {
         return null;
     }

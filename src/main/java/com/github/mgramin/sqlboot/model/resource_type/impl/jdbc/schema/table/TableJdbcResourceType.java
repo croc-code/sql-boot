@@ -79,11 +79,6 @@ public class TableJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "table";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("table", "tbl", "t");
     }

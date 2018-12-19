@@ -77,11 +77,6 @@ public class PkJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "pk";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("primary_key", "pk");
     }

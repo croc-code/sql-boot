@@ -66,11 +66,6 @@ public class CacheWrapper implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return origin.name();
-    }
-
-    @Override
     public List<String> aliases() {
         return origin.aliases();
     }

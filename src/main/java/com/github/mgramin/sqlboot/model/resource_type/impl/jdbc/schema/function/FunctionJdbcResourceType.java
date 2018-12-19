@@ -79,11 +79,6 @@ public class FunctionJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "func";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("function", "func", "fnc", "f");
     }

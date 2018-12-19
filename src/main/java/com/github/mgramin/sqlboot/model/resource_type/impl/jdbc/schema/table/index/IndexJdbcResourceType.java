@@ -88,11 +88,6 @@ public class IndexJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "index";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("index", "idx", "i");
     }

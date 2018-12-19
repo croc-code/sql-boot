@@ -93,11 +93,6 @@ public class ColumnJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "column";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("column", "clmn", "c");
     }

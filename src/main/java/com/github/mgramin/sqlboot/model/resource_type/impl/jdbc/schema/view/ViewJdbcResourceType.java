@@ -76,11 +76,6 @@ public class ViewJdbcResourceType implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return "view";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("view", "vw", "v");
     }
