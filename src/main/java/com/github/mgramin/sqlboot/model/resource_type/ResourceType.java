@@ -21,20 +21,21 @@
 
 package com.github.mgramin.sqlboot.model.resource_type;
 
-import static java.util.stream.Collectors.toList;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.uri.Uri;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Resource type e.g. Table, Index, Stored function etc
@@ -85,22 +86,24 @@ public interface ResourceType {
         private final String name;
         private final String type;
         private final String description;
-        private /*final*/ Map<String, Object> properties;
+        private final Map<String, Object> properties;
 
         public Metadata(String name, String description) {
             this(name, "String", description, null);
         }
 
         public Metadata(String name, String type, String description, Map<String, Object> properties) {
+            this.properties = new HashMap<>();
             try {
-                this.properties = new JSONObject(description).toMap();
+                this.properties.putAll(new JSONObject(description).toMap());
                 this.properties.put("key", name.replace("@", ""));
             } catch (JSONException ignored) {
+                this.properties.clear();
                 final HashMap<String, Object> prop = new HashMap<>();
                 prop.put("key", name.replace("@", ""));
                 prop.put("label", name.replace("@", ""));
                 prop.put("description", description);
-                this.properties = prop;
+                this.properties.putAll(prop);
             }
             this.name = name;
             this.type = type;
