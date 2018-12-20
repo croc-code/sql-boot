@@ -70,8 +70,6 @@ public interface SelectQuery {
     @Deprecated
     void dbHealth() throws BootException;
 
-    default String getQuery() {
-        return null;
-    }
+    String getQuery();
 
 }

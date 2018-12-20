@@ -22,4 +22,9 @@ public class RestSelectQuery implements SelectQuery {
 
     }
 
+    @Override
+    public String getQuery() {
+        return null;
+    }
+
 }
