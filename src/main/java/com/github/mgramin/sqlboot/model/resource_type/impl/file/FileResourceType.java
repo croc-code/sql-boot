@@ -38,11 +38,6 @@ import java.util.stream.Stream;
 public class FileResourceType implements ResourceType {
 
     @Override
-    public String name() {
-        return null;
-    }
-
-    @Override
     public List<String> aliases() {
         return null;
     }

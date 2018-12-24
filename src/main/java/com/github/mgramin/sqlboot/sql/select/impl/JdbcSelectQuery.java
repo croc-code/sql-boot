@@ -87,7 +87,8 @@ public final class JdbcSelectQuery implements SelectQuery {
      * @param datasource
      * @param templateGenerator
      */
-    public JdbcSelectQuery(final DataSource datasource, final TemplateGenerator templateGenerator) {
+    public JdbcSelectQuery(final DataSource datasource, 
+                           final TemplateGenerator templateGenerator) {
         this(datasource, null, "[NULL]", templateGenerator);
     }
 
@@ -96,7 +97,8 @@ public final class JdbcSelectQuery implements SelectQuery {
      *
      * @param datasource Data source
      */
-    public JdbcSelectQuery(final DataSource datasource, final String sql) {
+    public JdbcSelectQuery(final DataSource datasource, 
+                           final String sql) {
         this(datasource, sql, "[NULL]", null);
     }
 
@@ -104,7 +106,10 @@ public final class JdbcSelectQuery implements SelectQuery {
      * Ctor.
      *
      */
-    public JdbcSelectQuery(final DataSource dataSource, final String sql, final String nullAlias, final TemplateGenerator templateGenerator) {
+    public JdbcSelectQuery(final DataSource dataSource, 
+                           final String sql, 
+                           final String nullAlias, 
+                           final TemplateGenerator templateGenerator) {
         this.dataSource = dataSource;
         this.sql = sql;
         this.nullAlias = nullAlias;
@@ -156,11 +161,12 @@ public final class JdbcSelectQuery implements SelectQuery {
     }
 
     @Override
-    public Map<String, String> metaData() {
+    public Map<String, String> columns() {
         return new SelectStatementParser(templateGenerator.template())
                 .parse()
-                .columns().stream().collect(
-                toMap(Column::name, Column::comment, (a, b) -> a, LinkedHashMap::new));
+                .columns()
+                .stream()
+                .collect(toMap(Column::name, Column::comment, (a, b) -> a, LinkedHashMap::new));
     }
 
     @Override
@@ -170,6 +176,11 @@ public final class JdbcSelectQuery implements SelectQuery {
         } catch (SQLException e) {
             throw new BootException(e);
         }
+    }
+
+    @Override
+    public String getQuery() {
+        return sql;
     }
 
 }

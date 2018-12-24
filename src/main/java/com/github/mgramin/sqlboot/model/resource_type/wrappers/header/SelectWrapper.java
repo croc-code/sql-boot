@@ -51,11 +51,6 @@ public class SelectWrapper implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return origin.name();
-    }
-
-    @Override
     public List<String> aliases() {
         return origin.aliases();
     }
@@ -87,26 +82,14 @@ public class SelectWrapper implements ResourceType {
         return origin.metaData();
     }
 
-    @Override
-    public Map<String, String> metaData(Uri uri) {
+    public List<Metadata> metaData(Uri uri) {
         final String select = uri.params().get(SELECT);
         if (select != null) {
-            return origin.metaData().entrySet().stream()
-                .filter(e -> asList(select.split(",")).contains(e.getKey()))
-                .collect(toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new));
-        } else {
-            return origin.metaData();
-        }
-    }
-
-    public List<Metadata> metaData2(Uri uri) {
-        final String select = uri.params().get(SELECT);
-        if (select != null) {
-            return origin.metaData2(uri).stream()
+            return origin.metaData(uri).stream()
                 .filter(e -> asList(select.split(",")).contains(e.name()))
                 .collect(Collectors.toList());
         } else {
-            return origin.metaData2(uri);
+            return origin.metaData(uri);
         }
     }
 

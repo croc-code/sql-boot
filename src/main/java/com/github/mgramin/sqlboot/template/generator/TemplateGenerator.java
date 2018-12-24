@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.template.generator;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,17 +40,10 @@ public interface TemplateGenerator {
     String generate(Map<String, Object> variables);
 
     /**
-     * Get all user variables from template in sequence order
-     *
-     * @return all properties(variables) from template
-     */
-    @Deprecated
-    List<String> properties();
-
-    /**
      *
      * @return
      */
+    @Deprecated
     String template();
 
 }

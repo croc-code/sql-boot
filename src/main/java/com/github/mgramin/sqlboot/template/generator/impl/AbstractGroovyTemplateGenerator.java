@@ -46,18 +46,6 @@ public abstract class AbstractGroovyTemplateGenerator implements TemplateGenerat
     }
 
     @Override
-    @Deprecated
-    public List<String> properties() {
-        final List<String> result = new ArrayList<>();
-        final Matcher matcher = Pattern.compile("\\$\\s*(\\w+)")
-                .matcher(templateText);
-        while (matcher.find()) {
-            result.add(matcher.group(1));
-        }
-        return result;
-    }
-
-    @Override
     public String template() {
         return templateText;
     }

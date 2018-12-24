@@ -29,17 +29,6 @@ import com.github.mgramin.sqlboot.model.connection.DbConnection;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.md.MarkdownFile;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.SchemaJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.function.FunctionJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.procedure.ProcedureJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.TableJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.column.ColumnJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.fk.FkJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.index.IndexJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.pk.PkJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.relation.ChildTableJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.table.relation.ParentTableJdbcResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.jdbc.schema.view.ViewJdbcResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper;
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrapper;
@@ -114,45 +103,6 @@ public class FsResourceTypes implements ResourceType {
                 File sqlFile = new File(f, "README.md");
                 list.addAll(walk(f.getAbsolutePath(), uri));
 
-                final ResourceType jdbcResourceType;
-                switch (f.getName()) {
-                    case "schema":
-                        jdbcResourceType = new SchemaJdbcResourceType(dataSource);
-                        break;
-                    case "table":
-                        jdbcResourceType = new TableJdbcResourceType(dataSource);
-                        break;
-                    case "child":
-                        jdbcResourceType = new ChildTableJdbcResourceType(dataSource);
-                        break;
-                    case "parent":
-                        jdbcResourceType = new ParentTableJdbcResourceType(dataSource);
-                        break;
-                    case "pk":
-                        jdbcResourceType = new PkJdbcResourceType(dataSource);
-                        break;
-                    case "index":
-                        jdbcResourceType = new IndexJdbcResourceType(dataSource);
-                        break;
-                    case "fk":
-                        jdbcResourceType = new FkJdbcResourceType(dataSource);
-                        break;
-                    case "view":
-                        jdbcResourceType = new ViewJdbcResourceType(dataSource);
-                        break;
-                    case "column":
-                        jdbcResourceType = new ColumnJdbcResourceType(dataSource);
-                        break;
-                    case "function":
-                        jdbcResourceType = new FunctionJdbcResourceType(dataSource);
-                        break;
-                    case "procedure":
-                        jdbcResourceType = new ProcedureJdbcResourceType(dataSource);
-                        break;
-                    default:
-                        jdbcResourceType = null;
-                }
-
                 String sql = null;
                 try {
                     final MarkdownFile markdownFile = new MarkdownFile(readFileToString(sqlFile, UTF_8));
@@ -185,8 +135,6 @@ public class FsResourceTypes implements ResourceType {
                     baseResourceType = new SqlResourceType(
                         new JdbcSelectQuery(
                             dataSource, new GroovyTemplateGenerator(sql)), singletonList(f.getName()));
-                } else if (jdbcResourceType != null) {
-                    baseResourceType = jdbcResourceType;
                 } else {
                     baseResourceType = null;
                 }
@@ -208,11 +156,6 @@ public class FsResourceTypes implements ResourceType {
             }
         }
         return list;
-    }
-
-    @Override
-    public String name() {
-        throw new BootException("Not implemented!");
     }
 
     @Override

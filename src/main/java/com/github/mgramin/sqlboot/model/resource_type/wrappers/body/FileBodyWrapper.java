@@ -44,11 +44,6 @@ public class FileBodyWrapper implements ResourceType {
     }
 
     @Override
-    public String name() {
-        return null;
-    }
-
-    @Override
     public List<String> aliases() {
         return null;
     }

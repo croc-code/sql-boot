@@ -319,7 +319,7 @@ public class ApiController {
         if (resourceType == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        List<Metadata> metadata = resourceType.metaData2(uri);
+        List<Metadata> metadata = resourceType.metaData(uri);
         final List<Map<String, Object>> collect = metadata.stream().map(Metadata::properties)
             .collect(toList());
         return new ResponseEntity<>(collect, HttpStatus.OK);
@@ -344,7 +344,7 @@ public class ApiController {
         if (resourceType == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        List<Metadata> metadata = resourceType.metaData2(uri);
+        List<Metadata> metadata = resourceType.metaData(uri);
         final List<Map<String, Object>> collect = metadata.stream()
 //            .filter(v -> v.properties() != null)
             .map(Metadata::properties)
@@ -370,7 +370,7 @@ public class ApiController {
         if (resourceType == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
+        return new ResponseEntity<>(resourceType.columns(uri), HttpStatus.OK);
     }*/
 
 
@@ -394,7 +394,7 @@ public class ApiController {
         if (resourceType == null) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(resourceType.metaData2(uri), HttpStatus.OK);
+        return new ResponseEntity<>(resourceType.metaData(uri), HttpStatus.OK);
     }
 
     private ResponseEntity<List<DbResource>> getListResponseEntity(

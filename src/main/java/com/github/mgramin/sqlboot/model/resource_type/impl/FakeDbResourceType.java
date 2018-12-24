@@ -41,11 +41,6 @@ import lombok.ToString;
 public final class FakeDbResourceType implements ResourceType {
 
     @Override
-    public String name() {
-        return "fake_resource_type";
-    }
-
-    @Override
     public List<String> aliases() {
         return asList("fake_resource_type", "fake_type", "frt", "f");
     }

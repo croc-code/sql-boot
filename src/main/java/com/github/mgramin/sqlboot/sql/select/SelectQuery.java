@@ -60,7 +60,7 @@ public interface SelectQuery {
      *
      * @return
      */
-    Map<String, String> metaData();
+    Map<String, String> columns();
 
     /**
      * Check db health
@@ -69,5 +69,7 @@ public interface SelectQuery {
      */
     @Deprecated
     void dbHealth() throws BootException;
+
+    String getQuery();
 
 }
