@@ -10,6 +10,7 @@
 [![Main distribution](https://img.shields.io/badge/zip-download-brightgreen.svg)](https://github.com/sql-boot/sql-boot/releases/latest)
 [![Join the chat at https://gitter.im/sqlboot/Lobby](https://badges.gitter.im/sqlboot/Lobby.svg)](https://gitter.im/sqlboot/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![EO badge](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org/)
+[![DevOps By Rultor.com](http://www.rultor.com/p/sql-boot/sql-boot)](http://www.rultor.com/p/sql-boot/sql-boot)
 
 sql-boot is a database management tool for developers, DBA and DevOps use to manage both relational and non-relational databases using simple REST. Take a proactive approach to database management.
 
