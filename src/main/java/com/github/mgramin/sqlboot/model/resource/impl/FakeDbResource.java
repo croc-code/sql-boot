@@ -31,12 +31,10 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.Map;
-import lombok.ToString;
 
 /**
  * Created by maksim on 22.05.17.
  */
-@ToString
 public final class FakeDbResource implements DbResource {
 
     private final Uri uri;

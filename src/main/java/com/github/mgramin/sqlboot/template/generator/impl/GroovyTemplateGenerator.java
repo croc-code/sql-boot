@@ -28,9 +28,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import groovy.text.GStringTemplateEngine;
 import java.io.IOException;
-import lombok.ToString;
 
-@ToString
 public final class GroovyTemplateGenerator extends AbstractGroovyTemplateGenerator implements
         TemplateGenerator {
 

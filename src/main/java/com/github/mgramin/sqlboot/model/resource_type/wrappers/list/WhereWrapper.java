@@ -31,12 +31,10 @@ import com.github.mgramin.sqlboot.model.uri.Uri;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import lombok.ToString;
 
 /**
  * Created by MGramin on 18.07.2017.
  */
-@ToString
 public class WhereWrapper implements ResourceType {
 
     private final ResourceType origin;

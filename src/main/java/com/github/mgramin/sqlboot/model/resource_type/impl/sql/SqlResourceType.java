@@ -28,7 +28,6 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import com.github.mgramin.sqlboot.sql.select.SelectQuery;
-import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -45,7 +44,6 @@ import static org.apache.commons.lang3.StringUtils.strip;
 /**
  * Created by MGramin on 12.07.2017.
  */
-@ToString
 public class SqlResourceType implements ResourceType {
 
     private final transient SelectQuery selectQuery;

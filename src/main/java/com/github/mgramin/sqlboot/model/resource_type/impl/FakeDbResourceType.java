@@ -32,12 +32,10 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import lombok.ToString;
 
 /**
  * Created by maksim on 22.05.17.
  */
-@ToString
 public final class FakeDbResourceType implements ResourceType {
 
     @Override

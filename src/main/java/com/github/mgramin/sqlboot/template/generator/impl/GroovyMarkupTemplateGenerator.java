@@ -28,12 +28,10 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import groovy.text.markup.MarkupTemplateEngine;
 import java.io.IOException;
-import lombok.ToString;
 
 /**
  * Created by mgramin on 06.01.2017.
  */
-@ToString
 public final class GroovyMarkupTemplateGenerator extends AbstractGroovyTemplateGenerator implements
         TemplateGenerator {
 
