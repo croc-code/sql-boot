@@ -28,27 +28,24 @@
 
 package com.github.mgramin.sqlboot.sql.impl
 
-import java.util.stream.Collectors.toList
-import org.junit.Assert.assertEquals
-
-import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
-import javax.sql.DataSource
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.stream.Collectors
+import javax.sql.DataSource
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id: 550c861e4b0f97eb68e0b0d6bb0d0b99e2af1e83 $
  * @since 0.1
  */
-@RunWith(SpringRunner::class)
-@ContextConfiguration(locations = arrayOf("/test_config.xml"))
+@ExtendWith(SpringExtension::class)
+@ContextConfiguration(locations = ["/test_config.xml"])
 class JdbcSelectQueryTest {
 
     @Autowired
