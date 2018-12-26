@@ -22,26 +22,42 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md;
+package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md
 
-import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test
+import java.io.IOException
+import kotlin.test.assertEquals
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
-public class MarkdownFileTest {
-
-    private Map<String, String> map;
+class MarkdownFileTest {
 
     @Test
-    public void parse() throws IOException {
-        String text = FileUtils.readFileToString(new File("test.md"));
+    @Throws(IOException::class)
+    fun parse() {
+        val text = """
+            |# Schema
+            |### get_all_tables
+            |````sql
+            |select u.username     as "@schema"
+            |     , u.user_id      as "user_id"
+            |     , u.created      as "created"
+            |  from all_users u
+            | order by u.username
+            |````
+            |
+            |```sql
+            |select DBMS_DDL.get_metadata(...)
+            |  from dual
+            |```
+            |### row_count
+            |
+            |````sql
+            |select count(1)
+            |  from all_users u
+            | order by u.username
+            |````
+            |""".trimMargin()
 
-        MarkdownFile markdownFile = new MarkdownFile(text);
-        Map<String, String> parse = markdownFile.parse();
-        System.out.println(parse);
+        assertEquals(2, MarkdownFile(text).parse().size)
     }
 
 }
