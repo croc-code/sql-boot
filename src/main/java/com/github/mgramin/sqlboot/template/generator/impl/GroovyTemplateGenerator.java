@@ -27,10 +27,15 @@ package com.github.mgramin.sqlboot.template.generator.impl;
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
 import groovy.text.GStringTemplateEngine;
+import groovy.text.Template;
 import java.io.IOException;
+import java.util.Map;
 
-public final class GroovyTemplateGenerator extends AbstractGroovyTemplateGenerator implements
-        TemplateGenerator {
+public final class GroovyTemplateGenerator implements TemplateGenerator {
+
+    protected Template template;
+    protected String templateText;
+
 
     public GroovyTemplateGenerator(final String template) {
         try {
@@ -39,6 +44,16 @@ public final class GroovyTemplateGenerator extends AbstractGroovyTemplateGenerat
             throw new BootException(e);
         }
         this.templateText = template;
+    }
+
+    @Override
+    public String generate(final Map<String, Object> variables) {
+        return this.template.make(variables).toString();
+    }
+
+    @Override
+    public String template() {
+        return templateText;
     }
 
 }

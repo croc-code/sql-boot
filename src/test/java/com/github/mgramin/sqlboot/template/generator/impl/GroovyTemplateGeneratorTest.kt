@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.google.common.collect.ImmutableMap.of
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -35,9 +34,7 @@ import org.junit.jupiter.api.Test
 class GroovyTemplateGeneratorTest {
 
     @Test
-    @Throws(BootException::class)
     fun process() {
-
         val txt = """... where lower(c.table_schema) like '${'$'}schema'
                     |      and lower(c.table_name) like '${'$'}table'
                     |      and lower(c.column_name) like '${'$'}column'""".trimMargin()
@@ -52,7 +49,6 @@ class GroovyTemplateGeneratorTest {
     }
 
     @Test
-    @Throws(BootException::class)
     fun processLoweCase() {
         val maps = of<String, Any>("column", "id", "table", "persons", "schema", "public")
         val templateGenerator = GroovyTemplateGenerator("create table \${table.toLowerCase()} ...")
