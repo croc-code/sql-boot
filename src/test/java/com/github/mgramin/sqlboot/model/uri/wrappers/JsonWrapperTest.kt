@@ -22,44 +22,47 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.wrappers;
+package com.github.mgramin.sqlboot.model.uri.wrappers
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import com.github.mgramin.sqlboot.model.uri.Uri
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
 
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
-import org.junit.Test;
+class JsonWrapperTest {
 
-public class JsonWrapperTest {
-
-    final Uri uri = new JsonWrapper(
-        new DbUri("table/hr.*persons*/"));
+    internal val uri: Uri = JsonWrapper(DbUri("table/hr.*persons*/"))
 
     @Test
-    public void type() throws Exception {
-        assertEquals("table", uri.type());
+    @Throws(Exception::class)
+    fun type() {
+        assertEquals("table", uri.type())
     }
 
     @Test
-    public void path() throws Exception {
-        assertEquals("%persons%", uri.path().get(1));
+    @Throws(Exception::class)
+    fun path() {
+        assertEquals("%persons%", uri.path()[1])
     }
 
     @Test
-    public void recursive() throws Exception {
-        assertTrue(uri.recursive());
+    @Throws(Exception::class)
+    fun recursive() {
+        assertTrue(uri.recursive()!!)
     }
 
     @Test
-    public void params() throws Exception {
-        assertEquals(0, uri.params().size());
+    @Throws(Exception::class)
+    fun params() {
+        assertEquals(0, uri.params().size.toLong())
     }
 
     @Test
-    public void toStringTest() throws Exception {
+    @Throws(Exception::class)
+    fun toStringTest() {
         assertEquals("DbUri{type='table', path=[hr, *persons*], recursive=true, params={}}",
-            uri.toString());
+                uri.toString())
     }
 
 }
