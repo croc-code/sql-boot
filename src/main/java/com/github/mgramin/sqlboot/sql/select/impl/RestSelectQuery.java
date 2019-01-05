@@ -28,13 +28,9 @@ import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.sql.select.SelectQuery;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.jetbrains.annotations.NotNull;
 
 public class RestSelectQuery implements SelectQuery {
-
-    @Override
-    public Stream<Map<String, Object>> select() throws BootException {
-        return null;
-    }
 
     @Override
     public Map<String, String> columns() {
@@ -46,8 +42,16 @@ public class RestSelectQuery implements SelectQuery {
 
     }
 
+    @NotNull
     @Override
-    public String getQuery() {
+    public Stream<Map<String, Object>> select(@NotNull Map<String, ?> variables)
+        throws BootException {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Stream<Map<String, Object>> select() throws BootException {
         return null;
     }
 

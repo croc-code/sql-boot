@@ -42,26 +42,21 @@ class PageWrapper
 ) : SelectQuery {
 
     val sql = """select *
-                |  from (${origin.query})""".trimMargin()
+                |  from ()""".trimMargin()
 
     @Throws(BootException::class)
-    override fun select(): Stream<Map<String, Any>>? {
-        val sqlQuery = origin.query
+    override fun select(): Stream<Map<String, Any>> {
         println(sql)
-        return null
+        return Stream.empty()
     }
 
-    override fun columns(): Map<String, String>? {
+    override fun columns(): Map<String, String> {
         return origin.columns()
     }
 
     @Throws(BootException::class)
     override fun dbHealth() {
         origin.dbHealth()
-    }
-
-    override fun getQuery(): String {
-        return sql
     }
 
 }

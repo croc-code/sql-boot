@@ -27,12 +27,10 @@ package com.github.mgramin.sqlboot.sql.select.impl;
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatement.Column;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
 import javax.sql.rowset.serial.SerialClob;
@@ -125,7 +123,7 @@ public final class JdbcSelectQuery implements SelectQuery {
     }
 
     @Override
-    public Stream<Map<String, Object>> select(final Map<String, Object> variables) throws BootException {
+    public Stream<Map<String, Object>> select(final Map<String, ?> variables) throws BootException {
         return getMapStream(templateGenerator.generate(variables));
     }
 
@@ -179,11 +177,6 @@ public final class JdbcSelectQuery implements SelectQuery {
         } catch (SQLException e) {
             throw new BootException(e);
         }
-    }
-
-    @Override
-    public String getQuery() {
-        return sql;
     }
 
 }

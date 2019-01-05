@@ -22,20 +22,19 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select;
+package com.github.mgramin.sqlboot.sql.select
 
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import java.util.Map;
-import java.util.stream.Stream;
+import com.github.mgramin.sqlboot.exceptions.BootException
+import java.util.stream.Stream
 
 /**
  * Simple select SQL-query
  *
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: 3a4e282eda365f55a3031fef68fec51109ca784d $
  * @since 0.1
  */
-public interface SelectQuery {
+interface SelectQuery {
 
     /**
      * Execute select query
@@ -43,8 +42,9 @@ public interface SelectQuery {
      * @return query result
      * @throws BootException SQL exception
      */
-    @Deprecated
-    Stream<Map<String, Object>> select() throws BootException;
+    @Deprecated("")
+    @Throws(BootException::class)
+    fun select(): Stream<Map<String, Any>>
 
     /**
      * Execute select query with parameters
@@ -52,24 +52,24 @@ public interface SelectQuery {
      * @return query result
      * @throws BootException SQL exception
      */
-    default Stream<Map<String, Object>> select(Map<String, Object> variables) throws BootException {
-        return select();
+    @Throws(BootException::class)
+    open fun select(variables: Map<String, Any>): Stream<Map<String, Any>> {
+        return select()
     }
 
     /**
      *
      * @return
      */
-    Map<String, String> columns();
+    fun columns(): Map<String, String>
 
     /**
      * Check db health
      *
      * @throws BootException SQL exception
      */
-    @Deprecated
-    void dbHealth() throws BootException;
-
-    String getQuery();
+    @Deprecated("")
+    @Throws(BootException::class)
+    fun dbHealth()
 
 }
