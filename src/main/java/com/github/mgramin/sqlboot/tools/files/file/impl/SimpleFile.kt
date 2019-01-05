@@ -22,40 +22,24 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.files.file.impl;
+package com.github.mgramin.sqlboot.tools.files.file.impl
 
-import com.github.mgramin.sqlboot.tools.files.file.File;
+import com.github.mgramin.sqlboot.tools.files.file.File
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: ca8d9443a621b3f5aefe64a96cb907da1218910c $
  * @since 0.1
  */
-public final class SimpleFile implements File {
+class SimpleFile(private val name: String, private val content: ByteArray) : File {
 
-    private final String name;
-    private final byte[] content;
 
-    /**
-     * Ctor.
-     *
-     * @param name
-     * @param content
-     */
-    public SimpleFile(final String name, final byte[] content) {
-        this.name = name;
-        this.content = content;
+    override fun name(): String {
+        return this.name
     }
 
-
-    @Override
-    public String name() {
-        return this.name;
-    }
-
-    @Override
-    public byte[] content() {
-        return this.content;
+    override fun content(): ByteArray {
+        return this.content
     }
 
 }

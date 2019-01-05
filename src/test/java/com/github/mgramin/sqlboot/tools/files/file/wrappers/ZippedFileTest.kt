@@ -22,18 +22,28 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.files.file;
+package com.github.mgramin.sqlboot.tools.files.file.wrappers
+
+import com.github.mgramin.sqlboot.tools.files.file.impl.FakeFile
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: cc6af71a08bd33aa73cb84e94d8acbd90bdeec25 $
  * @since 0.1
  */
-public interface File {
+class ZippedFileTest {
 
-    String name();
+    @Test
+    fun name() {
+    }
 
-    byte[] content();
+    @Test
+    fun content() {
+        val zip = ZippedFile("test.zip", arrayListOf(FakeFile()))
+        assertEquals(144, zip.content().size.toLong())
+    }
 
 }
 

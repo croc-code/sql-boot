@@ -22,30 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.files.file.wrappers;
+package com.github.mgramin.sqlboot.tools.files.file.impl
 
-import static org.codehaus.groovy.runtime.InvokerHelper.asList;
-import static org.junit.Assert.assertEquals;
-
-import com.github.mgramin.sqlboot.tools.files.file.File;
-import com.github.mgramin.sqlboot.tools.files.file.impl.FakeFile;
-import org.junit.Test;
+import com.github.mgramin.sqlboot.tools.files.file.File
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: a441a1099a495572a2a9a6442b8db152b1199524 $
  * @since 0.1
  */
-public class ZippedFileTest {
+class FakeFile : File {
 
-    @Test
-    public void name() throws Exception {
+    override fun name(): String {
+        return "test.txt"
     }
 
-    @Test
-    public void content() throws Exception {
-        File zip = new ZippedFile("test.zip", asList(new FakeFile()));
-        assertEquals(144, zip.content().length);
+    override fun content(): ByteArray {
+        return "Hello World!".toByteArray()
     }
 
 }

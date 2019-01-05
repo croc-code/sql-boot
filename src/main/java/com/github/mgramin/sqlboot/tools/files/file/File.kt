@@ -22,26 +22,18 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.files.file.impl;
-
-import com.github.mgramin.sqlboot.tools.files.file.File;
+package com.github.mgramin.sqlboot.tools.files.file
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: 0a9698caba4acc5d0ee8ce7bff4696bab5506bb0 $
  * @since 0.1
  */
-public final class FakeFile implements File {
+interface File {
 
-    @Override
-    public String name() {
-        return "test.txt";
-    }
+    fun name(): String
 
-    @Override
-    public byte[] content() {
-        return "Hello World!".getBytes();
-    }
+    fun content(): ByteArray
 
 }
 
