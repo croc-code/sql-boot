@@ -22,49 +22,35 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource.wrappers;
+package com.github.mgramin.sqlboot.model.resource.wrappers
 
-import com.github.mgramin.sqlboot.model.resource.DbResource;
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.Map;
+import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.uri.Uri
 
 /**
  * DB resource with body
  */
-public final class DbResourceBodyWrapper implements DbResource {
+class DbResourceBodyWrapper(private val origin: DbResource, private val body: String) : DbResource {
 
-    private final DbResource origin;
-    private final String body;
-
-    public DbResourceBodyWrapper(DbResource DbResource, String body) {
-        this.origin = DbResource;
-        this.body = body;
+    override fun name(): String {
+        return origin.name()
     }
 
-    @Override
-    public String name() {
-        return origin.name();
+    override fun type(): ResourceType {
+        return origin.type()
     }
 
-    @Override
-    public ResourceType type() {
-        return origin.type();
+    override fun dbUri(): Uri {
+        return origin.dbUri()
     }
 
-    @Override
-    public Uri dbUri() {
-        return origin.dbUri();
+    override fun headers(): Map<String, Any> {
+        return origin.headers()
     }
 
-    @Override
-    public Map<String, Object> headers() {
-        return origin.headers();
-    }
-
-    @Override
-    public String body() {
-        return this.body;
+    override fun body(): String {
+        return this.body
     }
 
 }

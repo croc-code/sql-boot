@@ -22,20 +22,19 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource;
+package com.github.mgramin.sqlboot.model.resource
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.io.Serializable;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.uri.Uri
+import java.io.Serializable
 
 /**
  * DB resource
  * e.g. table "PERSONS", index "PERSONS_NAME_IDX",
  * stored function "GET_ALL_DEPARTMENTS()" etc
  */
-public interface DbResource extends Serializable {
+interface DbResource : Serializable {
 
     /**
      * Name of db resource, e.g. "PERSONS", "JOBS", "GET_ALL_SALARY" etc.
@@ -43,7 +42,7 @@ public interface DbResource extends Serializable {
      * @return Name
      */
     @JsonProperty
-    String name();
+    fun name(): String
 
     /**
      * Type of db resource, e.g. "table", "index", "stored function" etc.
@@ -51,15 +50,15 @@ public interface DbResource extends Serializable {
      * @return Type
      */
     @JsonProperty
-    ResourceType type();
+    fun type(): ResourceType
 
     /**
      * URI of db resource, e.g. table/hr.persons, idx/hr.jobs_pk_idx/drop etc.
      *
      * @return URI
      */
-    @Deprecated //#32
-    Uri dbUri();
+    @Deprecated("") //#32
+    fun dbUri(): Uri
 
     /**
      * Headers of db resource.
@@ -67,7 +66,7 @@ public interface DbResource extends Serializable {
      * @return Headers
      */
     @JsonProperty
-    Map<String, Object> headers();
+    fun headers(): Map<String, Any>
 
     /**
      * Body of db resource, e.g. ddl-code, html-representation, xml, json etc.
@@ -75,6 +74,6 @@ public interface DbResource extends Serializable {
      * @return Body
      */
     @JsonProperty
-    String body();
+    fun body(): String
 
 }

@@ -22,52 +22,46 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource.impl;
+package com.github.mgramin.sqlboot.model.resource.impl
 
-import static com.google.common.collect.ImmutableMap.of;
-
-import com.github.mgramin.sqlboot.model.resource.DbResource;
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType;
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.uri.Uri
 
 /**
- * Created by maksim on 22.05.17.
+ * DB resource without body
  */
-public final class FakeDbResource implements DbResource {
+class DbResourceImpl
+/**
+ *
+ * @param name
+ * @param type
+ * @param uri
+ * @param headers
+ */
+(private val name: String, @field:Transient private val type: ResourceType,
+ @field:Transient private val uri: Uri,
+ private val headers: Map<String, Any>) : DbResource {
 
-    private final Uri uri;
-
-    public FakeDbResource(Uri uri) {
-        this.uri = uri;
+    override fun name(): String {
+        return name
     }
 
-    @Override
-    public String name() {
-        return uri.path().get(uri.path().size()-1);
+    override fun type(): ResourceType {
+        return type
     }
 
-    @Override
-    public ResourceType type() {
-        return new FakeDbResourceType();
+    override fun dbUri(): Uri {
+        return uri
     }
 
-    @Override
-    public Uri dbUri() {
-        return uri;
+    override fun headers(): Map<String, Any> {
+        return headers
     }
 
-    @Override
-    public Map<String, Object> headers() {
-        return of("schema", "hr",
-                "table", "persons",
-                "file", "table.hr.persons.sql");
-    }
-
-    @Override
-    public String body() {
-        return "{body}";
+    override fun body(): String {
+        throw BootException("Resource body not allow here.")
     }
 
 }
