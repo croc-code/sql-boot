@@ -22,14 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.template.generator;
-
-import java.util.Map;
+package com.github.mgramin.sqlboot.template.generator
 
 /**
  * Template generator
  */
-public interface TemplateGenerator {
+interface TemplateGenerator {
 
     /**
      * Generate text from template
@@ -37,13 +35,12 @@ public interface TemplateGenerator {
      * @param variables template variables
      * @return text
      */
-    String generate(Map<String, Object> variables);
+    fun generate(variables: Map<String, Any>): String
 
     /**
      *
      * @return
      */
-    @Deprecated
-    String template();
+    fun template(): String
 
 }

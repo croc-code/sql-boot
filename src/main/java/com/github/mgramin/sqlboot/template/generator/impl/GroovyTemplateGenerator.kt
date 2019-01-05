@@ -22,38 +22,22 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.template.generator.impl;
+package com.github.mgramin.sqlboot.template.generator.impl
 
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.template.generator.TemplateGenerator;
-import groovy.text.GStringTemplateEngine;
-import groovy.text.Template;
-import java.io.IOException;
-import java.util.Map;
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
+import groovy.text.GStringTemplateEngine
+import groovy.text.Template
 
-public final class GroovyTemplateGenerator implements TemplateGenerator {
+class GroovyTemplateGenerator(private val templateText: String) : TemplateGenerator {
 
-    protected Template template;
-    protected String templateText;
+    private val template: Template = GStringTemplateEngine().createTemplate(templateText)
 
-
-    public GroovyTemplateGenerator(final String template) {
-        try {
-            this.template = new GStringTemplateEngine().createTemplate(template);
-        } catch (ClassNotFoundException | IOException e) {
-            throw new BootException(e);
-        }
-        this.templateText = template;
+    override fun generate(variables: Map<String, Any>): String {
+        return this.template.make(variables).toString()
     }
 
-    @Override
-    public String generate(final Map<String, Object> variables) {
-        return this.template.make(variables).toString();
-    }
-
-    @Override
-    public String template() {
-        return templateText;
+    override fun template(): String {
+        return templateText
     }
 
 }
