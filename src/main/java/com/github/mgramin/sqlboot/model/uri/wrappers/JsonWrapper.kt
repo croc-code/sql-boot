@@ -41,7 +41,7 @@ class JsonWrapper(private val origin: Uri) : Uri {
         return origin.path()
     }
 
-    override fun path(index: Int?): String {
+    override fun path(index: Int): String {
         return origin.path(index)
     }
 

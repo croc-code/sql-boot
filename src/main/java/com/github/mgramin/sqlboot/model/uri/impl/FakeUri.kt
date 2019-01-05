@@ -24,10 +24,8 @@
 
 package com.github.mgramin.sqlboot.model.uri.impl
 
-import java.util.Collections.singletonList
-
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.util.HashMap
+import java.util.*
 
 class FakeUri : Uri {
 
@@ -39,7 +37,7 @@ class FakeUri : Uri {
         return listOf("FAKE_TBL")
     }
 
-    override fun path(index: Int?): String {
+    override fun path(index: Int): String {
         return "FAKE_TBL"
     }
 

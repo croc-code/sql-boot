@@ -39,7 +39,7 @@ class HttpParserWrapper : Uri {
         return arrayListOf()
     }
 
-    override fun path(index: Int?): String {
+    override fun path(index: Int): String {
         return ""
     }
 

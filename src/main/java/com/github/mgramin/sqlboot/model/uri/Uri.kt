@@ -56,7 +56,7 @@ interface Uri {
      * @param index
      * @return
      */
-    fun path(index: Int?): String
+    fun path(index: Int): String
 
     /**
      *

@@ -43,7 +43,7 @@ class SqlPlaceholdersWrapper(private val origin: Uri) : Uri {
                 .toList()
     }
 
-    override fun path(index: Int?): String {
+    override fun path(index: Int): String {
         return origin.path(index).replace("*", "%")
     }
 
