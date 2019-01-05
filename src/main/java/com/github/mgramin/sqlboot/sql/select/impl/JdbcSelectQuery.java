@@ -88,7 +88,7 @@ public final class JdbcSelectQuery implements SelectQuery {
      * @param datasource
      * @param templateGenerator
      */
-    public JdbcSelectQuery(final DataSource datasource, 
+    public JdbcSelectQuery(final DataSource datasource,
                            final TemplateGenerator templateGenerator) {
         this(datasource, null, "[NULL]", templateGenerator);
     }
@@ -98,7 +98,7 @@ public final class JdbcSelectQuery implements SelectQuery {
      *
      * @param datasource Data source
      */
-    public JdbcSelectQuery(final DataSource datasource, 
+    public JdbcSelectQuery(final DataSource datasource,
                            final String sql) {
         this(datasource, sql, "[NULL]", null);
     }
@@ -107,9 +107,9 @@ public final class JdbcSelectQuery implements SelectQuery {
      * Ctor.
      *
      */
-    public JdbcSelectQuery(final DataSource dataSource, 
-                           final String sql, 
-                           final String nullAlias, 
+    public JdbcSelectQuery(final DataSource dataSource,
+                           final String sql,
+                           final String nullAlias,
                            final TemplateGenerator templateGenerator) {
         this.dataSource = dataSource;
         this.sql = sql;
