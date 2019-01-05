@@ -22,22 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.files.file_system.impl;
+package com.github.mgramin.sqlboot.tools.files.file_system.impl
 
-import com.github.mgramin.sqlboot.tools.files.file.File;
-import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem;
-import java.util.List;
+import com.github.mgramin.sqlboot.tools.files.file.File
+import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: a7333484aa6806167dbb1be5a9b610693a37dafd $
  * @since 0.1
  */
-public final class FakeFileSystem implements FileSystem {
+class FakeFileSystem : FileSystem {
 
-    @Override
-    public List<File> listFiles(String mask) {
-        return null;
+    override fun listFiles(mask: String): List<File> {
+        return ArrayList()
     }
 
 }

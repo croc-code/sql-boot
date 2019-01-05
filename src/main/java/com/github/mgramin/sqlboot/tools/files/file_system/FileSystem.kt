@@ -22,18 +22,17 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.files.file_system;
+package com.github.mgramin.sqlboot.tools.files.file_system
 
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.tools.files.file.File;
-import java.util.List;
+import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.tools.files.file.File
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: 2359d39ff030970628e6a8ec6d5e9bd1cd4728aa $
  * @since 0.1
  */
-public interface FileSystem {
+interface FileSystem {
 
     /**
      * Get all files by mask.
@@ -42,7 +41,8 @@ public interface FileSystem {
      * @return
      * @throws BootException If fail
      */
-    List<File> listFiles(String mask) throws BootException;
+    @Throws(BootException::class)
+    fun listFiles(mask: String): List<File>
 
 }
 

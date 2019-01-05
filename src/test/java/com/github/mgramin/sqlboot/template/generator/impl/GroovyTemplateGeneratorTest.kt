@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl
 
-import com.google.common.collect.ImmutableMap.of
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -43,14 +42,14 @@ class GroovyTemplateGeneratorTest {
                        |      and lower(c.table_name) like 'persons'
                        |      and lower(c.column_name) like 'id'""".trimMargin()
 
-        val maps = of<String, Any>("column", "id", "table", "persons", "schema", "public")
+        val maps = hashMapOf("column" to "id", "table" to "persons", "schema" to "public")
         val templateGenerator = GroovyTemplateGenerator(txt)
         assertEquals(templateGenerator.generate(maps), result)
     }
 
     @Test
     fun processLoweCase() {
-        val maps = of<String, Any>("column", "id", "table", "persons", "schema", "public")
+        val maps = hashMapOf("column" to "id", "table" to "persons", "schema" to "public")
         val templateGenerator = GroovyTemplateGenerator("create table \${table.toLowerCase()} ...")
         assertEquals(templateGenerator.generate(maps), "create table persons ...")
     }
