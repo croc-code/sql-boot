@@ -22,66 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.wrappers;
+package com.github.mgramin.sqlboot.model.uri.impl
 
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.List;
-import java.util.Map;
+import java.util.Collections.singletonList
 
-/**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
- */
-public class JsonWrapper implements Uri {
+import com.github.mgramin.sqlboot.model.uri.Uri
+import java.util.HashMap
 
-    private final Uri origin;
+class FakeUri : Uri {
 
-    public JsonWrapper(Uri origin) {
-        this.origin = origin;
+    override fun type(): String {
+        return ""
     }
 
-    @Override
-    public String type() {
-        return origin.type();
+    override fun path(): List<String> {
+        return listOf("FAKE_TBL")
     }
 
-    @Override
-    public List<String> path() {
-        return origin.path();
+    override fun path(index: Int?): String {
+        return "FAKE_TBL"
     }
 
-    @Override
-    public String path(Integer index) {
-        return origin.path(index);
+    override fun recursive(): Boolean? {
+        return null
     }
 
-    @Override
-    public Boolean recursive() {
-        return origin.recursive();
+    override fun params(): Map<String, String> {
+        return HashMap()
     }
 
-    @Override
-    public Map<String, String> params() {
-        return origin.params();
+    override fun action(): String {
+        return ""
     }
-
-    @Override
-    public String action() {
-        return origin.action();
-    }
-
-    @Override
-    public String toString() {
-        String s = "DbUri{" +
-            "type='" + origin.type() + '\'' +
-            ", path=" + origin.path() +
-            ", recursive=" + origin.recursive() +
-            ", params=" + origin.params() +
-            "}";
-        s = s.replace("%", "*");
-        return s;
-    }
-
 
 }

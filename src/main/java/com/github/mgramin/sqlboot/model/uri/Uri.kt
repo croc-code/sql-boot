@@ -22,45 +22,59 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.impl;
+package com.github.mgramin.sqlboot.model.uri
 
-import static java.util.Collections.singletonList;
+import com.fasterxml.jackson.annotation.JsonProperty
 
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+/**
+ * Resource URI.
+ *
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id: d86c819560d694fecf8e1ca3c9e80e1d666d8f93 $
+ * @since 0.1
+ */
+interface Uri {
 
-public class FakeUri implements Uri {
+    /**
+     * Type.
+     *
+     * @return Type name.
+     */
+    @JsonProperty
+    fun type(): String
 
-    @Override
-    public String type() {
-        return null;
-    }
+    /**
+     *
+     *
+     * @return
+     */
+    @JsonProperty
+    fun path(): List<String>
 
-    @Override
-    public List<String> path() {
-        return singletonList("FAKE_TBL");
-    }
+    /**
+     *
+     * @param index
+     * @return
+     */
+    fun path(index: Int?): String
 
-    @Override
-    public String path(Integer index) {
-        return "FAKE_TBL";
-    }
+    /**
+     *
+     * @return
+     */
+    fun recursive(): Boolean?
 
-    @Override
-    public Boolean recursive() {
-        return null;
-    }
+    /**
+     *
+     *
+     * @return
+     */
+    fun params(): Map<String, String>
 
-    @Override
-    public Map<String, String> params() {
-        return new HashMap<>();
-    }
-
-    @Override
-    public String action() {
-        return null;
-    }
+    /**
+     *
+     * @return
+     */
+    fun action(): String
 
 }

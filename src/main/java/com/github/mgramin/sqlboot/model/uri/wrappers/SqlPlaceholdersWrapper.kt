@@ -22,45 +22,45 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.wrappers;
+package com.github.mgramin.sqlboot.model.uri.wrappers
 
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.List;
-import java.util.Map;
+import com.github.mgramin.sqlboot.model.uri.Uri
 
 /**
- * Parse object uri from full http-request
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id: bce1e45321cd26b04727a56fc64fbc4ff54bd82c $
+ * @since 0.1
  */
-public class HttpParserWrapper implements Uri {
+class SqlPlaceholdersWrapper(private val origin: Uri) : Uri {
 
-    @Override
-    public String type() {
-        return null;
+    override fun type(): String {
+        return origin.type()
     }
 
-    @Override
-    public List<String> path() {
-        return null;
+    override fun path(): List<String> {
+        return origin.path().asSequence()
+                .map { v -> v.replace("*", "%") }
+                .toList()
     }
 
-    @Override
-    public String path(Integer index) {
-        return null;
+    override fun path(index: Int?): String {
+        return origin.path(index).replace("*", "%")
     }
 
-    @Override
-    public Boolean recursive() {
-        return null;
+    override fun recursive(): Boolean? {
+        return origin.recursive()
     }
 
-    @Override
-    public Map<String, String> params() {
-        return null;
+    override fun params(): Map<String, String> {
+        return origin.params()
     }
 
-    @Override
-    public String action() {
-        return null;
+    override fun action(): String {
+        return origin.action()
+    }
+
+    override fun toString(): String {
+        return origin.toString()
     }
 
 }

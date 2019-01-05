@@ -22,61 +22,51 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.wrappers;
+package com.github.mgramin.sqlboot.model.uri.wrappers
 
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.github.mgramin.sqlboot.model.uri.Uri
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: c225f8da4e169e4c72a64aeca1d201cbb46fffa0 $
  * @since 0.1
  */
-public class SqlPlaceholdersWrapper implements Uri {
+class JsonWrapper(private val origin: Uri) : Uri {
 
-    private final Uri origin;
-
-    public SqlPlaceholdersWrapper(final Uri origin) {
-        this.origin = origin;
+    override fun type(): String {
+        return origin.type()
     }
 
-    @Override
-    public String type() {
-        return origin.type();
+    override fun path(): List<String> {
+        return origin.path()
     }
 
-    @Override
-    public List<String> path() {
-        return origin.path().stream()
-                .map(v -> v.replace("*", "%"))
-                .collect(Collectors.toList());
+    override fun path(index: Int?): String {
+        return origin.path(index)
     }
 
-    @Override
-    public String path(Integer index) {
-        return origin.path(index).replace("*", "%");
+    override fun recursive(): Boolean? {
+        return origin.recursive()
     }
 
-    @Override
-    public Boolean recursive() {
-        return origin.recursive();
+    override fun params(): Map<String, String> {
+        return origin.params()
     }
 
-    @Override
-    public Map<String, String> params() {
-        return origin.params();
+    override fun action(): String {
+        return origin.action()
     }
 
-    @Override
-    public String action() {
-        return origin.action();
+    override fun toString(): String {
+        var s = "DbUri{" +
+                "type='" + origin.type() + '\''.toString() +
+                ", path=" + origin.path() +
+                ", recursive=" + origin.recursive() +
+                ", params=" + origin.params() +
+                "}"
+        s = s.replace("%", "*")
+        return s
     }
 
-    @Override
-    public String toString() {
-        return origin.toString();
-    }
 
 }

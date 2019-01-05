@@ -22,61 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.uri;
+package com.github.mgramin.sqlboot.model.uri.wrappers
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
-import java.util.Map;
+import com.github.mgramin.sqlboot.model.uri.Uri
 
 /**
- * Resource URI.
- *
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
+ * Parse object uri from full http-request
  */
-public interface Uri {
+class HttpParserWrapper : Uri {
 
-    /**
-     * Type.
-     *
-     * @return Type name.
-     */
-    @JsonProperty
-    String type();
+    override fun type(): String {
+        return ""
+    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    @JsonProperty
-    List<String> path();
+    override fun path(): List<String> {
+        return arrayListOf()
+    }
 
-    /**
-     *
-     * @param index
-     * @return
-     */
-    String path(Integer index);
+    override fun path(index: Int?): String {
+        return ""
+    }
 
-    /**
-     *
-     * @return
-     */
-    Boolean recursive();
+    override fun recursive(): Boolean? {
+        return null
+    }
 
-    /**
-     *
-     *
-     * @return
-     */
-    Map<String, String> params();
+    override fun params(): Map<String, String> {
+        return hashMapOf()
+    }
 
-    /**
-     *
-     * @return
-     */
-    String action();
+    override fun action(): String {
+        return ""
+    }
 
 }
