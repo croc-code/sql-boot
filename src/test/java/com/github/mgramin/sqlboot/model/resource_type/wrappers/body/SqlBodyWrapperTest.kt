@@ -22,22 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
+package com.github.mgramin.sqlboot.model.resource_type.wrappers.body
 
-import org.junit.Test;
+import org.junit.Test
 
-public class FileBodyWrapperTest {
+class SqlBodyWrapperTest {
 
     @Test
-    public void name() throws Exception {
+    @Throws(Exception::class)
+    fun name() {
     }
 
     @Test
-    public void aliases() throws Exception {
+    @Throws(Exception::class)
+    fun aliases() {
     }
 
     @Test
-    public void read() throws Exception {
+    @Throws(Exception::class)
+    fun read() {
     }
 
 }

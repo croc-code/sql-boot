@@ -22,22 +22,42 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.file;
+package com.github.mgramin.sqlboot.model.uri.wrappers
 
-import org.junit.Test;
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 
-public class FileResourceTypeTest {
+import com.github.mgramin.sqlboot.model.uri.Uri
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import org.junit.Test
+
+class SqlPlaceholdersWrapperTest {
+
+    internal val uri: Uri = SqlPlaceholdersWrapper(DbUri("table/hr.*persons*/"))
 
     @Test
-    public void name() throws Exception {
+    @Throws(Exception::class)
+    fun type() {
+        assertEquals("table", uri.type())
     }
 
     @Test
-    public void aliases() throws Exception {
+    @Throws(Exception::class)
+    fun path() {
+        assertEquals("hr", uri.path()[0])
+        assertEquals("%persons%", uri.path()[1])
     }
 
     @Test
-    public void read() throws Exception {
+    @Throws(Exception::class)
+    fun recursive() {
+        assertTrue(uri.recursive()!!)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun params() {
+        assertEquals(0, uri.params().size.toLong())
     }
 
 }

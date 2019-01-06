@@ -22,38 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.wrappers;
+package com.github.mgramin.sqlboot.model.resource_type.wrappers.body
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test
 
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
-import org.junit.Test;
-
-public class SqlPlaceholdersWrapperTest {
-
-    final Uri uri = new SqlPlaceholdersWrapper(new DbUri("table/hr.*persons*/"));
+class TemplateBodyWrapperTest {
 
     @Test
-    public void type() throws Exception {
-        assertEquals("table", uri.type());
+    @Throws(Exception::class)
+    fun name() {
     }
 
     @Test
-    public void path() throws Exception {
-        assertEquals("hr", uri.path().get(0));
-        assertEquals("%persons%", uri.path().get(1));
+    @Throws(Exception::class)
+    fun aliases() {
     }
 
     @Test
-    public void recursive() throws Exception {
-        assertTrue(uri.recursive());
-    }
-
-    @Test
-    public void params() throws Exception {
-        assertEquals(0, uri.params().size());
+    @Throws(Exception::class)
+    fun read() {
     }
 
 }

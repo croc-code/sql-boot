@@ -22,32 +22,32 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
+package com.github.mgramin.sqlboot.model.resource_type.impl.composite
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert.assertEquals
 
-import com.github.mgramin.sqlboot.model.resource.DbResource;
-import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
-import java.util.stream.Stream;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import java.util.stream.Stream
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.core.io.FileSystemResource
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.SpringRunner
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: 5231745cc5b9b08cedd762394593203cd13cbd25 $
  * @since 0.1
  */
-@RunWith(SpringRunner.class)
-@ContextConfiguration(locations = {"/test_config.xml"})
-public class FsResourceTypesTest {
+@RunWith(SpringRunner::class)
+@ContextConfiguration(locations = arrayOf("/test_config.xml"))
+class FsResourceTypesTest {
 
     // TODO use parametrized tests ?
 
     @Test
-    public void test() {
+    fun test() {
 
     }
 

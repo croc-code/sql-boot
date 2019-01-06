@@ -22,22 +22,39 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
+package com.github.mgramin.sqlboot.model.resource_type.wrappers.header
 
-import org.junit.Test;
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-public class TemplateBodyWrapperTest {
+class SelectWrapperTest {
+
+    private val fakeType: ResourceType = SelectWrapper(FakeDbResourceType())
 
     @Test
-    public void name() throws Exception {
+    @Throws(Exception::class)
+    fun name() {
+        assertEquals("fake_resource_type", fakeType.name())
     }
 
     @Test
-    public void aliases() throws Exception {
+    @Throws(Exception::class)
+    fun aliases() {
+        assertEquals("[fake_resource_type, fake_type, frt, f]",
+                fakeType.aliases().toString())
     }
 
     @Test
-    public void read() throws Exception {
+    @Throws(Exception::class)
+    fun read() {
+        val resources = fakeType.read(DbUri("table/hr.persons?select=schema")).iterator().asSequence().toList()
+        for (resource in resources) {
+            assertEquals(1, resource.headers().size.toLong())
+        }
+        assertEquals(3, resources.size)
     }
 
 }
