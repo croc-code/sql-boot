@@ -22,36 +22,30 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.rest.controllers;
+package com.github.mgramin.sqlboot.rest.controllers
 
-import java.util.List;
-import com.github.mgramin.sqlboot.model.connection.DbConnection;
-import com.github.mgramin.sqlboot.model.connection.DbConnectionList;
-import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.DbConnectionList
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: a6d2d498c7e5c3b03e04f40cf775dc5248064da8 $
  * @since 0.1
  */
 @RestController
-@ComponentScan(basePackages = "com.github.mgramin.sqlboot.model.resource_type")
+@ComponentScan(basePackages = ["com.github.mgramin.sqlboot.model.resource_type"])
 @EnableAutoConfiguration
 @CrossOrigin
-public class DbConnectionsController {
+class DbConnectionsController @Autowired constructor(private val dbConnectionList: DbConnectionList) {
 
-    @Autowired
-    private DbConnectionList dbConnectionList;
-
-    @RequestMapping(value = "/connections")
-    public List<DbConnection> getAllDbConnections() {
-        return dbConnectionList.getConnections();
-    }
+    val allDbConnections: List<DbConnection>
+        @RequestMapping(value = ["/connections"])
+        get() = dbConnectionList.connections
 
 }
