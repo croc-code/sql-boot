@@ -22,37 +22,24 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md;
+package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md
 
-import org.commonmark.node.AbstractVisitor;
-import org.commonmark.node.FencedCodeBlock;
-import org.commonmark.node.Heading;
-import org.commonmark.node.Text;
+import org.commonmark.parser.Parser
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+/**
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id: d5d9fbccca9519bf74e3b6add53e46104ffa5931 $
+ * @since 0.1
+ */
+// TODO implement com.github.mgramin.sqlboot.tools.files.file.File ?
+class MarkdownFile(private val text: String) {
 
-public class CustomVisitor extends AbstractVisitor {
-
-    private String currentTag;
-    private Map<String, String> map = new LinkedHashMap<>();
-
-    @Override
-    public void visit(Text text) {
-        if (text.getParent() instanceof Heading && ((Heading)text.getParent()).getLevel()>=3) {
-            currentTag = text.getLiteral();
-        }
-    }
-
-    @Override
-    public void visit(FencedCodeBlock fencedCodeBlock) {
-        if (fencedCodeBlock.getFenceLength() == 4) {
-            map.put(currentTag, fencedCodeBlock.getLiteral());
-        }
-    }
-
-    public Map<String, String> getMap() {
-        return map;
+    fun parse(): Map<String, String> {
+        val parser = Parser.builder().build()
+        val document = parser.parse(text)
+        val visitor = CustomVisitor()
+        document.accept(visitor)
+        return visitor.map
     }
 
 }

@@ -22,33 +22,42 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl.composite.md;
+package com.github.mgramin.sqlboot.model.resource_type.impl
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
+import java.util.Arrays.asList
 
-import java.util.Map;
+import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resource.impl.FakeDbResource
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.uri.Uri
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import java.util.stream.Stream
 
 /**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
- * @since 0.1
+ * Created by maksim on 22.05.17.
  */
-// TODO implement com.github.mgramin.sqlboot.tools.files.file.File ?
-public class MarkdownFile {
+class FakeDbResourceType : ResourceType {
 
-    private final String text;
-
-    public MarkdownFile(final String text) {
-        this.text = text;
+    override fun aliases(): List<String> {
+        return asList("fake_resource_type", "fake_type", "frt", "f")
     }
 
-    public Map<String, String> parse() {
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse(text);
-        CustomVisitor visitor = new CustomVisitor();
-        document.accept(visitor);
-        return visitor.getMap();
+    override fun path(): List<String> {
+        return arrayListOf()
+    }
+
+    @Throws(BootException::class)
+    override fun read(uri: Uri): Stream<DbResource> {
+        return Stream.of(
+                FakeDbResource(DbUri("table/hr.persons")),
+                FakeDbResource(DbUri("table/hr.users")),
+                FakeDbResource(DbUri("table/hr.jobs")))
+    }
+
+    override fun metaData(): Map<String, String> {
+        // TODO
+        return hashMapOf()
     }
 
 }
