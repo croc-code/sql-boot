@@ -39,6 +39,7 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType.Metadata;
 import com.github.mgramin.sqlboot.model.resource_type.impl.composite.FsResourceTypes;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri;
+import com.github.mgramin.sqlboot.model.uri.impl.FakeUri;
 import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper;
 import io.swagger.models.Info;
 import io.swagger.models.ModelImpl;
@@ -235,9 +236,8 @@ public class ApiController {
         @PathVariable final String connectionName
     ) {
         FsResourceTypes fsResourceTypes = new FsResourceTypes(
-            dbConnectionList.getConnectionByName(connectionName), null);
-        final List<ResourceType> resourceTypes = fsResourceTypes.resourceTypes();
-        return resourceTypes;
+            dbConnectionList.getConnectionByName(connectionName), new FakeUri());
+        return fsResourceTypes.resourceTypes();
     }
 
     @RequestMapping(value = "/api/{connectionName}/{type}")
