@@ -24,6 +24,10 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Collections.singletonList;
+import static org.apache.commons.io.FileUtils.readFileToString;
+
 import com.github.mgramin.sqlboot.exceptions.BootException;
 import com.github.mgramin.sqlboot.model.connection.DbConnection;
 import com.github.mgramin.sqlboot.model.resource.DbResource;
@@ -37,9 +41,6 @@ import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.PageWrapper;
 import com.github.mgramin.sqlboot.model.uri.Uri;
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery;
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator;
-
-import java.util.Arrays;
-import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,10 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Collections.singletonList;
-import static org.apache.commons.io.FileUtils.readFileToString;
+import javax.sql.DataSource;
 
 /**
  * Created by MGramin on 11.07.2017.
@@ -69,9 +67,6 @@ public class FsResourceTypes implements ResourceType {
 
     /**
      * Ctor.
-     *
-     * @param dbConnection
-     * @throws BootException
      */
     public FsResourceTypes(final DbConnection dbConnection, final Uri uri) throws BootException {
         dataSource = dbConnection.getDataSource();
@@ -90,13 +85,12 @@ public class FsResourceTypes implements ResourceType {
 
     /**
      *
-     * @param path
-     * @param uri
-     * @return
      */
     private List<ResourceType> walk(final String path, Uri uri) {
         File[] files = new File(path).listFiles();
-        if (files == null) return null;
+        if (files == null) {
+            return null;
+        }
         List<ResourceType> list = new ArrayList<>();
         for (File f : files) {
             if (f.isDirectory()) {
@@ -105,21 +99,24 @@ public class FsResourceTypes implements ResourceType {
 
                 String sql = null;
                 try {
-                    final MarkdownFile markdownFile = new MarkdownFile(readFileToString(sqlFile, UTF_8));
+                    final MarkdownFile markdownFile = new MarkdownFile(
+                        readFileToString(sqlFile, UTF_8));
                     final Map<String, String> parse = markdownFile.parse();
 
-                    if (uri != null && uri.action() != null) {
+                    if (uri != null) {
                         String s = parse.get(uri.action());
                         if (s != null) {
                             sql = s;
                         } else {
-                            final Iterator<Map.Entry<String, String>> iterator = parse.entrySet().iterator();
+                            final Iterator<Map.Entry<String, String>> iterator = parse.entrySet()
+                                .iterator();
                             if (iterator.hasNext()) {
                                 sql = iterator.next().getValue();
                             }
                         }
                     } else {
-                        final Iterator<Map.Entry<String, String>> iterator = parse.entrySet().iterator();
+                        final Iterator<Map.Entry<String, String>> iterator = parse.entrySet()
+                            .iterator();
                         if (iterator.hasNext()) {
                             sql = iterator.next().getValue();
                         }
@@ -129,28 +126,29 @@ public class FsResourceTypes implements ResourceType {
                     // TODO catch and process this exception
                 }
 
-
                 final ResourceType baseResourceType;
                 if (sqlFile.exists() && sql != null) {
                     baseResourceType = new SqlResourceType(
                         new JdbcSelectQuery(
-                            dataSource, new GroovyTemplateGenerator(sql)), singletonList(f.getName()));
+                            dataSource, new GroovyTemplateGenerator(sql)),
+                        singletonList(f.getName()));
                 } else {
                     baseResourceType = null;
                 }
-                final ResourceType resourceType = //new CacheWrapper(
-                    new SelectWrapper(
-//                    new SqlBodyWrapper(
-                        new TemplateBodyWrapper(
-                            new PageWrapper(
-                                new LimitWrapper(
-//                                new WhereWrapper(
-                                    baseResourceType)
-                                ),
-                            new GroovyTemplateGenerator("EMPTY BODY ..."))
-//                        dataSource)
-                );
+
                 if (baseResourceType != null) {
+                    final ResourceType resourceType = //new CacheWrapper(
+                        new SelectWrapper(
+//                    new SqlBodyWrapper(
+                            new TemplateBodyWrapper(
+                                new PageWrapper(
+                                    new LimitWrapper(
+//                                new WhereWrapper(
+                                        baseResourceType)
+                                ),
+                                new GroovyTemplateGenerator("EMPTY BODY ..."))
+//                        dataSource)
+                        );
                     list.add(resourceType);
                 }
             }
@@ -171,10 +169,10 @@ public class FsResourceTypes implements ResourceType {
     @Override
     public Stream<DbResource> read(final Uri uri) throws BootException {
         return resourceTypes.stream()
-                .filter(v -> v.name().equalsIgnoreCase(uri.type()))
-                .findAny()
-                .get()
-                .read(uri);
+            .filter(v -> v.name().equalsIgnoreCase(uri.type()))
+            .findAny()
+            .get()
+            .read(uri);
     }
 
     @Override

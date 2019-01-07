@@ -24,23 +24,38 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.body
 
-import org.junit.Test
+import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.uri.Uri
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
+import java.util.stream.Stream
 
-class SqlBodyWrapperTest {
+/**
+ * Created by MGramin on 18.07.2017.
+ */
+class TemplateBodyWrapper(private val origin: ResourceType, private val templateGenerator: TemplateGenerator) : ResourceType {
 
-    @Test
-    @Throws(Exception::class)
-    fun name() {
+    override fun aliases(): List<String> {
+        return origin.aliases()
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun aliases() {
+    override fun path(): List<String> {
+        return origin.path()
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun read() {
+    @Throws(BootException::class)
+    override fun read(uri: Uri): Stream<DbResource> {
+        return origin.read(uri)
+                .map { r ->
+                    DbResourceBodyWrapper(
+                            r, templateGenerator.generate(r.headers()))
+                }
+    }
+
+    override fun metaData(): Map<String, String> {
+        return origin.metaData()
     }
 
 }

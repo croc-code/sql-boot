@@ -22,45 +22,46 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.wrappers.body;
+package com.github.mgramin.sqlboot.model.resource_type.wrappers.list
 
-import com.github.mgramin.sqlboot.exceptions.BootException;
-import com.github.mgramin.sqlboot.model.resource.DbResource;
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType;
-import com.github.mgramin.sqlboot.model.uri.Uri;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
+import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.uri.Uri
+import java.lang.Long.parseLong
+import java.util.Optional.ofNullable
+import java.util.stream.Stream
 
 /**
- * Created by MGramin on 18.07.2017.
+ * @author Maksim Gramin (mgramin@gmail.com)
+ * @version $Id: 8035d736a6da6f6496cb9c0ebbe4e89d6ddd7b9f $
+ * @since 0.1
  */
-public class FileBodyWrapper implements ResourceType {
+class LimitWrapper(private val origin: ResourceType) : ResourceType {
 
-    private final ResourceType origin;
-
-    public FileBodyWrapper(final ResourceType origin) {
-        this.origin = origin;
+    override fun aliases(): List<String> {
+        return origin.aliases()
     }
 
-    @Override
-    public List<String> aliases() {
-        return null;
+    override fun path(): List<String> {
+        return origin.path()
     }
 
-    @Override
-    public List<String> path() {
-        return origin.path();
+    @Throws(BootException::class)
+    override fun read(uri: Uri): Stream<DbResource> {
+        val limit = ofNullable(uri.params())
+                .map<String> { v -> v[LIMIT] }
+                .orElse(null) ?: return origin.read(uri)
+        return origin.read(uri).limit(parseLong(limit))
     }
 
-    @Override
-    public Stream<DbResource> read(final Uri uri) throws BootException {
-        return null;
+    override fun metaData(): Map<String, String> {
+        return origin.metaData()
     }
 
-    @Override
-    public Map<String, String> metaData() {
-        return origin.metaData();
+    companion object {
+
+        private val LIMIT = "limit"
     }
 
 }
