@@ -35,20 +35,17 @@ class SelectWrapperTest {
     private val fakeType: ResourceType = SelectWrapper(FakeDbResourceType())
 
     @Test
-    @Throws(Exception::class)
     fun name() {
         assertEquals("fake_resource_type", fakeType.name())
     }
 
     @Test
-    @Throws(Exception::class)
     fun aliases() {
         assertEquals("[fake_resource_type, fake_type, frt, f]",
                 fakeType.aliases().toString())
     }
 
     @Test
-    @Throws(Exception::class)
     fun read() {
         val resources = fakeType.read(DbUri("table/hr.persons?select=schema")).iterator().asSequence().toList()
         for (resource in resources) {

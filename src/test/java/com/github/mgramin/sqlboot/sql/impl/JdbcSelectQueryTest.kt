@@ -24,11 +24,8 @@
 
 package com.github.mgramin.sqlboot.sql.impl
 
-import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.collection.IsMapContaining.hasEntry
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -58,7 +55,6 @@ class JdbcSelectQueryTest {
                   |             , email as "mail"
                   |          from main_schema.users)""".trimMargin())
                 .select().collect(Collectors.toList())
-        TODO()
         println(select[0])
 //        assertThat(select[0], hasEntry("labrador", "buzz"));
 //        assertEquals(select.toString(),
