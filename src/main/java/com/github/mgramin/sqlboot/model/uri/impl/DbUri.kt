@@ -43,12 +43,14 @@ class DbUri : Uri {
     private val recursive: Boolean?
     private val params = LinkedHashMap<String, String>()
 
+/*
     constructor(type: String, vararg objects: String) {
         this.type = type
         this.objects = Arrays.asList(*objects)
         this.action = ""
         this.recursive = false
     }
+*/
 
     constructor(type: String, objects: List<String>) {
         this.type = type

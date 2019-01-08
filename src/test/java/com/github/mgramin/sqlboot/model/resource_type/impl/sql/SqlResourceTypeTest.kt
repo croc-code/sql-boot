@@ -43,21 +43,19 @@ import javax.sql.DataSource
  * @since 0.1
  */
 @RunWith(SpringRunner::class)
-@ContextConfiguration(locations = arrayOf("/test_config.xml"))
+@ContextConfiguration(locations = ["/test_config.xml"])
 class SqlResourceTypeTest {
 
     @Autowired
     internal var dataSource: DataSource? = null
 
     @Test
-    @Throws(Exception::class)
     fun name() {
         val table = SqlResourceType(JdbcSelectQuery(dataSource, "sql query ..."), asList("table"))
         assertEquals("table", table.name())
     }
 
     @Test
-    @Throws(Exception::class)
     fun aliases() {
         val table = SqlResourceType(JdbcSelectQuery(dataSource, "sql query ..."), asList("table"))
         assertEquals(1, table.aliases().size)
@@ -65,7 +63,6 @@ class SqlResourceTypeTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun read() {
         val sql = """select *
             |          from (select table_schema   as "@schema"
