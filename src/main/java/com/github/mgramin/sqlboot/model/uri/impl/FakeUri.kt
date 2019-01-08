@@ -53,4 +53,8 @@ class FakeUri : Uri {
         return ""
     }
 
+    override fun toString(): String {
+        return "FAKE_TBL"
+    }
+
 }

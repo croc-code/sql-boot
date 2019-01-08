@@ -57,7 +57,7 @@ interface DbResource : Serializable {
      *
      * @return URI
      */
-    @Deprecated("") //#32
+    @Deprecated("#32")
     fun dbUri(): Uri
 
     /**

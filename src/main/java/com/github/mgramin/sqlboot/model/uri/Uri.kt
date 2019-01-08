@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.model.uri
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
 /**
  * Resource URI.
@@ -33,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @version $Id: d86c819560d694fecf8e1ca3c9e80e1d666d8f93 $
  * @since 0.1
  */
-interface Uri {
+interface Uri : Serializable {
 
     /**
      * Type.

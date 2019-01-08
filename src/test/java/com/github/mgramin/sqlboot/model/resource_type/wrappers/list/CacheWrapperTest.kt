@@ -22,39 +22,44 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resource_type.impl
+package com.github.mgramin.sqlboot.model.resource_type.wrappers.list
 
-import com.github.mgramin.sqlboot.model.resource.DbResource
-import com.github.mgramin.sqlboot.model.resource.impl.FakeDbResource
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
-import com.github.mgramin.sqlboot.model.uri.Uri
-import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import java.util.Arrays.asList
+import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
+import com.nhaarman.mockitokotlin2.*
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.jupiter.api.assertAll
 import java.util.stream.Stream
+import java.util.stream.Stream.of
 
-/**
- * Created by maksim on 22.05.17.
- */
-class FakeDbResourceType : ResourceType {
 
-    override fun aliases(): List<String> {
-        return asList("fake_resource_type", "fake_type", "frt", "f")
+class CacheWrapperTest {
+
+    private val originType = mock<ResourceType> {
+        on { aliases() } doReturn arrayListOf("fake_resource_type", "fake_type", "frt", "f")
+        on { read(any()) } doReturn of(mock {}, mock {}, mock {})
+    }
+    private val cachedType = CacheWrapper(originType)
+
+    @Test
+    fun name() {
+        assertEquals("fake_resource_type", cachedType.name())
     }
 
-    override fun path(): List<String> {
-        return arrayListOf()
+    @Test
+    fun aliases() {
+        assertEquals(arrayListOf("fake_resource_type", "fake_type", "frt", "f"), cachedType.aliases())
     }
 
-    override fun read(uri: Uri): Stream<DbResource> {
-        return Stream.of(
-                FakeDbResource(DbUri("table/hr.persons")),
-                FakeDbResource(DbUri("table/hr.users")),
-                FakeDbResource(DbUri("table/hr.jobs")))
-    }
-
-    override fun metaData(): Map<String, String> {
-        // TODO
-        return hashMapOf()
+    @Test
+    fun read() {
+        assertAll("Should return same objects",
+                { assertEquals(3, cachedType.read(FakeUri()).count()) },
+                { assertEquals(3, cachedType.read(FakeUri()).count()) },
+                { assertEquals(3, cachedType.read(FakeUri()).count()) }
+        )
+        verify(originType, times(1)).read(any())
     }
 
 }

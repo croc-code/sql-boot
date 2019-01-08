@@ -44,13 +44,12 @@ import javax.cache.spi.CachingProvider
  */
 class CacheWrapper(private val origin: ResourceType) : ResourceType {
 
-    private val cachingProvider: CachingProvider
+    private val cachingProvider: CachingProvider = Caching.getCachingProvider()
     private val cacheManager: CacheManager
     private val config: MutableConfiguration<String, List<DbResource>>
-    private /*final*/ var cache: Cache<String, List<DbResource>>? = null
+    private var cache: Cache<String, List<DbResource>>? = null
 
     init {
-        cachingProvider = Caching.getCachingProvider()
         cacheManager = cachingProvider.cacheManager
         config = MutableConfiguration()
         cache = cacheManager.getCache("simpleCache")
