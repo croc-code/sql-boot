@@ -32,6 +32,7 @@ import com.github.mgramin.sqlboot.model.resource_type.impl.composite.md.Markdown
 import com.github.mgramin.sqlboot.model.resource_type.impl.sql.SqlResourceType
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.body.TemplateBodyWrapper
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.header.SelectWrapper
+import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.CacheWrapper
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.LimitWrapper
 import com.github.mgramin.sqlboot.model.resource_type.wrappers.list.PageWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
@@ -132,7 +133,7 @@ constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
                 }
 
                 if (baseResourceType != null) {
-                    val resourceType = //new CacheWrapper(
+                    val resourceType = CacheWrapper(
                             SelectWrapper(
                                     //                    new SqlBodyWrapper(
                                     TemplateBodyWrapper(
@@ -143,7 +144,7 @@ constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
                                             ),
                                             GroovyTemplateGenerator("EMPTY BODY ..."))
                                     //                        dataSource)
-                            )
+                            ))
                     list.add(resourceType)
                 }
             }
