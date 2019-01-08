@@ -51,13 +51,13 @@ class SqlResourceTypeTest {
 
     @Test
     fun name() {
-        val table = SqlResourceType(JdbcSelectQuery(dataSource, "sql query ..."), asList("table"))
+        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, "sql query ..."), asList("table"))
         assertEquals("table", table.name())
     }
 
     @Test
     fun aliases() {
-        val table = SqlResourceType(JdbcSelectQuery(dataSource, "sql query ..."), asList("table"))
+        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, "sql query ..."), asList("table"))
         assertEquals(1, table.aliases().size)
         assertEquals("table", table.aliases()[0])
     }
@@ -68,7 +68,7 @@ class SqlResourceTypeTest {
             |          from (select table_schema   as "@schema"
             |                     , table_name     as "@table"
             |                  from information_schema.tables)""".trimMargin()
-        val type = WhereWrapper(SqlResourceType(JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)), asList("table")))
+        val type = WhereWrapper(SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("table")))
         assertEquals(4, type.read(DbUri("table/m.column")).count())
     }
 
@@ -80,7 +80,7 @@ class SqlResourceTypeTest {
             |                     , column_name     as "@column"
             |                  from information_schema.columns)""".trimMargin()
         val type = WhereWrapper(
-                SqlResourceType(JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)), asList("column")))
+                SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("column")))
         assertEquals(8, type.read(DbUri("column/main_schema.users")).count())
     }
 
@@ -93,7 +93,7 @@ class SqlResourceTypeTest {
             |                     , table_name      as "@table"
             |                     , column_name     as "@column"
             |                  from information_schema.columns)""".trimMargin()
-        val type = SqlResourceType(JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)), asList("column"))
+        val type = SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("column"))
         val path = type.path()
         assertEquals("[schema, table, column]", path.toString())
     }

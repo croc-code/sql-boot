@@ -39,10 +39,7 @@ import javax.sql.DataSource
 @RestController
 @EnableAutoConfiguration
 @CrossOrigin
-class SqlController {
-
-    @Autowired
-    internal var dataSource: DataSource? = null
+class SqlController(@field:Autowired private val dataSource: DataSource) {
 
     @RequestMapping(value = ["sql"], produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
     @Throws(BootException::class)

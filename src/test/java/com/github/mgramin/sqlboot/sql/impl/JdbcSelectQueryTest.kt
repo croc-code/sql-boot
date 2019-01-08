@@ -24,8 +24,11 @@
 
 package com.github.mgramin.sqlboot.sql.impl
 
+import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.collection.IsMapContaining.hasEntry
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -49,18 +52,25 @@ class JdbcSelectQueryTest {
 
     @Test
     fun select() {
-        val select = JdbcSelectQuery(dataSource,
-                "select * from (select name AS \"n\", email as \"mail\" from main_schema.users)")
+        val select = JdbcSelectQuery(this.dataSource!!,
+                """select *
+                  |  from (select name as   "n"
+                  |             , email as "mail"
+                  |          from main_schema.users)""".trimMargin())
                 .select().collect(Collectors.toList())
-        assertEquals(select.toString(),
-                "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]")
+        TODO()
+        println(select[0])
+//        assertThat(select[0], hasEntry("labrador", "buzz"));
+//        assertEquals(select.toString(),
+//                "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]")
     }
 
     @Test
-    @Throws(Exception::class)
     fun medataData() {
-        val selectQuery = JdbcSelectQuery(dataSource,
-                GroovyTemplateGenerator("select name as name /* name */, email as email /* email */ from main_schema.users"))
+        val selectQuery = JdbcSelectQuery(this.dataSource!!,
+                GroovyTemplateGenerator("""select name  as name     /* name */
+                                          |     , email as email    /* email */
+                                          |  from main_schema.users""".trimMargin()))
         val metadata = selectQuery.columns()
         println(metadata)
         assertEquals("email", metadata["email"])
@@ -68,9 +78,8 @@ class JdbcSelectQueryTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun dbHealth() {
-        JdbcSelectQuery(dataSource, "").dbHealth()
+        JdbcSelectQuery(this.dataSource!!, "").dbHealth()
     }
 
 }
