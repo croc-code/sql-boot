@@ -297,6 +297,7 @@
                 </executions>
                 <configuration>
                     <excludes>
+                        <exclude>**/SqlResourceType*.*</exclude>
                         <exclude>**/DbUri*.*</exclude>
                         <exclude>**/Fake*.*</exclude>
                         <exclude>**/SELECTBaseListener.*</exclude>
