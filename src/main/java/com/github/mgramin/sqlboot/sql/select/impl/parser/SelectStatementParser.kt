@@ -22,26 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select.impl.parser;
+package com.github.mgramin.sqlboot.sql.select.impl.parser
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ANTLRInputStream
+import org.antlr.v4.runtime.CommonTokenStream
 
-public class SelectStatementParser {
+class SelectStatementParser(private val sql: String) {
 
-    private final String sql;
-
-    public SelectStatementParser(final String sql) {
-        this.sql = sql;
-    }
-
-    public SelectStatement parse() {
-        final SELECTParser parser = new SELECTParser(
-            new CommonTokenStream(
-                new SELECTLexer(
-                    new ANTLRInputStream(sql))));
-        final Object visit = new SelectVisitorCustom().visit(parser.select_statement());
-        return (SelectStatement) visit;
+    fun parse(): SelectStatement {
+        val parser = SELECTParser(
+                CommonTokenStream(
+                        SELECTLexer(
+                                ANTLRInputStream(sql))))
+        val visit = SelectVisitorCustom().visit(parser.select_statement())
+        return visit as SelectStatement
     }
 
 }

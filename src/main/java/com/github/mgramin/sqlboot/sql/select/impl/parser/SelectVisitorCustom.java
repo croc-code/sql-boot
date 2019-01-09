@@ -28,6 +28,7 @@ import static java.util.Optional.ofNullable;
 
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTParser.Select_statementContext;
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatement.Column;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.antlr.v4.runtime.RuleContext;
@@ -44,7 +45,7 @@ public class SelectVisitorCustom extends SELECTBaseVisitor {
                     .map(v1 -> v1.MULTIPLE_LINE_COMMENT().getText()
                         .replace("/*", "")
                         .replace("*/", "").trim())
-                    .orElse(""), null))
+                    .orElse(""), new HashMap<>()))
             .collect(Collectors.toList());
         return new SelectStatement(
             ofNullable(ctx.table_name()).map(RuleContext::getText).orElse("TABLE NOT DEFINE"),

@@ -22,58 +22,38 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select.impl.parser;
+package com.github.mgramin.sqlboot.sql.select.impl.parser
 
-import java.util.List;
-import java.util.Map;
+class SelectStatement(
+        /**
+         * Table name in select
+         */
+        private val fromTable: String,
+        /**
+         * Columns name in select
+         */
+        private val columns: List<Column>) {
 
-public class SelectStatement {
-
-    /**
-     * Table name in select
-     */
-    private final String fromTable;
-
-    /**
-     * Columns name in select
-     */
-    private final List<Column> columns;
-
-    public SelectStatement(String fromTable, List<Column> columns) {
-        this.fromTable = fromTable;
-        this.columns = columns;
+    fun tableName(): String {
+        return fromTable
     }
 
-    public String tableName() {
-        return fromTable;
+    fun columns(): List<Column> {
+        return columns
     }
 
-    public List<Column> columns() {
-        return columns;
-    }
+    class Column(private val name: String, private val comment: String, private val properties: Map<String, String>) {
 
-    public static class Column {
-
-        private String name;
-        private String comment;
-        private Map<String, String> properties;
-
-        public Column(String name, String comment, Map<String, String> properties) {
-            this.name = name;
-            this.comment = comment;
-            this.properties = properties;
+        fun name(): String {
+            return name
         }
 
-        public String name() {
-            return name;
+        fun comment(): String {
+            return comment
         }
 
-        public String comment() {
-            return comment;
-        }
-
-        public Map<String, String> properties() {
-            return properties;
+        fun properties(): Map<String, String> {
+            return properties
         }
 
     }
