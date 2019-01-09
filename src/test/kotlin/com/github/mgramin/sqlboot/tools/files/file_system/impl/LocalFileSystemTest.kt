@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.tools.files.file_system.impl
 
 import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import java.io.File
@@ -36,6 +37,7 @@ import java.io.File
  */
 class LocalFileSystemTest {
 
+    @Disabled
     @ParameterizedTest
     @CsvSource( "3,**/table.hr.*.sql",
             "1,**/table.hr.p*.sql",

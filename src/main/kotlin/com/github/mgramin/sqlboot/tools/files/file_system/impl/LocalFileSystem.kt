@@ -25,11 +25,7 @@
 package com.github.mgramin.sqlboot.tools.files.file_system.impl
 
 import com.github.mgramin.sqlboot.tools.files.file.File
-import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import com.github.mgramin.sqlboot.tools.files.file_system.FileSystem
-import org.apache.commons.io.FileUtils
-import org.apache.tools.ant.DirectoryScanner
-import java.util.*
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -39,19 +35,6 @@ import java.util.*
 class LocalFileSystem(private val basedir: String) : FileSystem {
 
     override fun listFiles(mask: String): List<File> {
-        val scanner = DirectoryScanner()
-        scanner.setIncludes(arrayOf(mask))
-        scanner.setBasedir(this.basedir.replace("\\", "/"))
-        scanner.isCaseSensitive = false
-        scanner.scan()
-        val files = scanner.includedFiles
-        val result = ArrayList<File>()
-        for (file in files) {
-            result.add(
-                    SimpleFile(file,
-                            FileUtils.readFileToByteArray(java.io.File("$basedir/$file"))))
-        }
-        return result
+        return arrayListOf()
     }
-
 }
