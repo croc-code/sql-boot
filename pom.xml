@@ -297,6 +297,7 @@
                 </executions>
                 <configuration>
                     <excludes>
+                        <exclude>**/DbResourceBodyWrapper*.*</exclude>
                         <exclude>**/SelectWrapper*.*</exclude>
                         <exclude>**/SqlResourceType*.*</exclude>
                         <exclude>**/DbUri*.*</exclude>
