@@ -67,9 +67,9 @@ constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
     private val resourceTypes: List<ResourceType>?
 
     init {
-        dataSource = dbConnection.dataSource
+        dataSource = dbConnection.getDataSource()
         try {
-            val baseFolder = dbConnection.baseFolder.file.path
+            val baseFolder = dbConnection.baseFolder!!.file.path
             resourceTypes = walk(baseFolder, uri)
         } catch (e: IOException) {
             throw BootException(e)

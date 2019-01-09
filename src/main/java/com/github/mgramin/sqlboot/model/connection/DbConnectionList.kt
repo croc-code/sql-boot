@@ -66,7 +66,7 @@ open class DbConnectionList {
         return if (name == null) {
             listOf(defaultConnection)
         } else connections.stream()
-                .filter { v -> v.name.matches(name.toRegex()) }
+                .filter { v -> v.name!!.matches(name.toRegex()) }
                 .collect(Collectors.toList())
     }
 

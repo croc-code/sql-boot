@@ -21,25 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.mgramin.sqlboot.exceptions;
+package com.github.mgramin.sqlboot.exceptions
 
 /**
  * Main Exception.
  *
  * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id$
+ * @version $Id: 66b0af3c8cef6c09594114ff734491cec57c859e $
  * @since 0.1
  */
-public final class BootException extends RuntimeException {
+class BootException : RuntimeException {
 
     /**
      * Ctor.
      *
      * @param message Error message
      */
-    public BootException(final String message) {
-        super(message);
-    }
+    constructor(message: String) : super(message) {}
 
     /**
      * Ctor.
@@ -47,18 +45,14 @@ public final class BootException extends RuntimeException {
      * @param message Error message
      * @param cause Cause
      */
-    public BootException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
+    constructor(message: String, cause: Throwable) : super(message, cause) {}
 
     /**
      * Ctor.
      *
      * @param cause Cause
      */
-    public BootException(final Throwable cause) {
-        super(cause);
-    }
+    constructor(cause: Throwable) : super(cause) {}
 
 }
 
