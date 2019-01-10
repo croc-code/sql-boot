@@ -290,8 +290,8 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>**/DbResourceBodyWrapper*.*</exclude>
-                        <exclude>**/SelectWrapper*.*</exclude>
+                        <!--<exclude>**/DbResourceBodyWrapper*.*</exclude>-->
+                        <!--<exclude>**/SelectWrapper*.*</exclude>-->
                         <exclude>**/SqlResourceType*.*</exclude>
                         <exclude>**/DbUri*.*</exclude>
                         <exclude>**/Fake*.*</exclude>
@@ -458,6 +458,9 @@
                         <version>4.3.0</version>
                         <configuration>
                             <repoToken>${coveralls.token}</repoToken>
+                            <sourceDirectories>
+                                <sourceDirectory>${basedir}/src/main/kotlin</sourceDirectory>
+                            </sourceDirectories>
                         </configuration>
                     </plugin>
                 </plugins>
