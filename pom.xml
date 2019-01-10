@@ -290,8 +290,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <!--<exclude>**/DbResourceBodyWrapper*.*</exclude>-->
-                        <!--<exclude>**/SelectWrapper*.*</exclude>-->
+                        <exclude>**/SelectVisitorCustom*.*</exclude>
                         <exclude>**/SqlResourceType*.*</exclude>
                         <exclude>**/DbUri*.*</exclude>
                         <exclude>**/Fake*.*</exclude>
