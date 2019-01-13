@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.wrappers.list
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
@@ -33,7 +32,12 @@ import org.apache.commons.lang3.StringUtils.substringBefore
 import java.lang.Integer.valueOf
 import java.util.stream.Stream
 
-class PageWrapper @JvmOverloads constructor(private val origin: ResourceType, private val page: String = "page", private val page_size: Int = 10) : ResourceType {
+class PageWrapper constructor(
+    private val origin: ResourceType,
+    private val page: String = "page",
+    private val pageSize: Int = 10,
+    private val delimiter: String = ","
+) : ResourceType {
 
     override fun aliases(): List<String> {
         return origin.aliases()
@@ -47,21 +51,19 @@ class PageWrapper @JvmOverloads constructor(private val origin: ResourceType, pr
         return origin.metaData()
     }
 
-    @Throws(BootException::class)
     override fun read(uri: Uri): Stream<DbResource> {
         val pageParameter = uri.params()[page]
         if (pageParameter != null) {
-            val pageNumber = valueOf(substringBefore(pageParameter, ":"))
-            val pageSize: Int?
-            if (substringAfter(pageParameter, ":") == "") {
-                pageSize = page_size
+            val pageNumber = valueOf(substringBefore(pageParameter, delimiter))
+            val pageSize: Int
+            if (substringAfter(pageParameter, delimiter).isEmpty()) {
+                pageSize = this.pageSize
             } else {
-                pageSize = valueOf(substringAfter(pageParameter, ":"))
+                pageSize = valueOf(substringAfter(pageParameter, delimiter))
             }
-            return origin.read(uri).skip(((pageNumber - 1) * pageSize!!).toLong()).limit(pageSize.toLong())
+            return origin.read(uri).skip(((pageNumber - 1) * pageSize).toLong()).limit(pageSize.toLong())
         } else {
             return origin.read(uri)
         }
     }
-
 }

@@ -24,13 +24,9 @@
 
 package com.github.mgramin.sqlboot.model.connection
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Service
-import java.lang.String.format
-import java.util.*
-import java.util.stream.Collectors
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -40,34 +36,13 @@ import java.util.stream.Collectors
 @Service
 @Configuration
 @ConfigurationProperties(prefix = "conf")
-open class DbConnectionList {
+open class DbConnectionList(val connections: List<DbConnection>) {
 
-    var connections: List<DbConnection> = ArrayList()
-
-    val defaultConnection: DbConnection
-        get() = connections.stream()
-                .findFirst()
-                .orElseThrow { BootException("Default connection not found.") }
-
-    fun getConnectionByName(name: String?): DbConnection {
-        return if (name == null) {
-            defaultConnection
-        } else connections.stream()
-                .filter { v -> v.name.equals(name, ignoreCase = true) }
-                .findFirst()
-                .orElseThrow {
-                    BootException(
-                            format("Connection with name <<%s>> not found.", name))
-                }
+    fun getConnectionByName(name: String): DbConnection {
+        return connections.first { v -> v.name.equals(name, ignoreCase = true) }
     }
 
-
-    fun getConnectionsByMask(name: String?): List<DbConnection> {
-        return if (name == null) {
-            listOf(defaultConnection)
-        } else connections.stream()
-                .filter { v -> v.name!!.matches(name.toRegex()) }
-                .collect(Collectors.toList())
+    fun getConnectionsByMask(name: String): List<DbConnection> {
+        return connections.filter { v -> v.name!!.matches(name.toRegex()) }
     }
-
 }
