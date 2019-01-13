@@ -290,6 +290,7 @@
                 </executions>
                 <configuration>
                     <excludes>
+                        <exclude>**/DbConnectionList*.*</exclude>
                         <exclude>**/SelectWrapper*.*</exclude>
                         <exclude>**/SelectVisitorCustom*.*</exclude>
                         <exclude>**/SqlResourceType*.*</exclude>
