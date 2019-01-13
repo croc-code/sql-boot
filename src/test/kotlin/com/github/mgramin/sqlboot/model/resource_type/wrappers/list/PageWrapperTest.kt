@@ -27,8 +27,10 @@ package com.github.mgramin.sqlboot.model.resource_type.wrappers.list
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 class PageWrapperTest {
 
@@ -50,16 +52,21 @@ class PageWrapperTest {
     fun metaData() {
     }
 
-    @Test
-    fun read() {
-        assertEquals("persons", type.read(DbUri("table/hr?page=1:1")).findAny().get().name())
-        assertEquals("users", type.read(DbUri("table/hr?page=2:1")).findAny().get().name())
-        assertEquals("jobs", type.read(DbUri("table/hr?page=3:1")).findAny().get().name())
-        assertEquals(1, type.read(DbUri("table/hr?page=1:1")).count())
-        assertEquals(2, type.read(DbUri("table/hr?page=1:2")).count())
-        assertEquals(3, type.read(DbUri("table/hr?page=1:3")).count())
-        assertEquals(3, type.read(DbUri("table/hr?page=1")).count())
-        assertEquals(0, type.read(DbUri("table/hr?page=2")).count())
+    @ParameterizedTest
+    @CsvSource("persons;**/table/hr?page=1,1",
+            "users;**/table/hr?page=2,1",
+            "jobs;**/table/hr?page=3,1", delimiter = ';')
+    fun read(name: String, uri: String) {
+        assertEquals(name, type.read(DbUri(uri)).findAny().get().name())
     }
 
+    @ParameterizedTest
+    @CsvSource("1;table/hr?page=1,1",
+            "2;table/hr?page=1,2",
+            "3;table/hr?page=1,3",
+            "3;table/hr?page=1",
+            "0;table/hr?page=2", delimiter = ';')
+    fun read2(count: Long, uri: String) {
+        assertEquals(count, type.read(DbUri(uri)).count())
+    }
 }

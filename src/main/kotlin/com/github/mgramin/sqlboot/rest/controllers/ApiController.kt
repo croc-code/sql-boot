@@ -386,8 +386,7 @@ class ApiController {
             type: String
     ): ResponseEntity<List<DbResource>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
-        val connections = dbConnectionList!!
-                .getConnectionsByMask(connectionName)
+        val connections = dbConnectionList!!.getConnectionsByMask(connectionName!!)
         val result = ArrayList<DbResource>()
         for (connection in connections) {
             val fsResourceTypes = FsResourceTypes(connection, uri)

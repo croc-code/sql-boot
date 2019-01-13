@@ -57,12 +57,7 @@ class DbConnection {
             } catch (e: Exception) {
                 return e.message.toString()
             }
-
         }
-
-    fun setPassword(password: String) {
-        this.password = password
-    }
 
     fun getProperties(): Map<String, Any> {
         return JSONObject(properties).toMap()
@@ -79,19 +74,18 @@ class DbConnection {
         } else {
             val dataSourceNew = DataSource()
             if (driverClassName != null) {
-                dataSourceNew!!.driverClassName = driverClassName
+                dataSourceNew.driverClassName = driverClassName
             }
             if (url != null) {
-                dataSourceNew!!.url = url
+                dataSourceNew.url = url
             }
             if (user != null) {
-                dataSourceNew!!.username = user
+                dataSourceNew.username = user
             }
             if (password != null) {
-                dataSourceNew!!.password = password
+                dataSourceNew.password = password
             }
             return dataSourceNew
         }
     }
-
 }
