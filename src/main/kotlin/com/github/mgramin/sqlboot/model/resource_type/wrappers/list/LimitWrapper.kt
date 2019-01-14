@@ -37,7 +37,7 @@ import java.util.stream.Stream
  * @version $Id: 8035d736a6da6f6496cb9c0ebbe4e89d6ddd7b9f $
  * @since 0.1
  */
-class LimitWrapper(private val origin: ResourceType) : ResourceType {
+class LimitWrapper(private val origin: ResourceType, private val parameterName: String = "limit") : ResourceType {
 
     override fun aliases(): List<String> {
         return origin.aliases()
@@ -50,7 +50,7 @@ class LimitWrapper(private val origin: ResourceType) : ResourceType {
     @Throws(BootException::class)
     override fun read(uri: Uri): Stream<DbResource> {
         val limit = ofNullable(uri.params())
-                .map<String> { v -> v[LIMIT] }
+                .map<String> { v -> v[parameterName] }
                 .orElse(null) ?: return origin.read(uri)
         return origin.read(uri).limit(parseLong(limit))
     }
@@ -58,10 +58,4 @@ class LimitWrapper(private val origin: ResourceType) : ResourceType {
     override fun metaData(): Map<String, String> {
         return origin.metaData()
     }
-
-    companion object {
-
-        private val LIMIT = "limit"
-    }
-
 }

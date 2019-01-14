@@ -53,5 +53,4 @@ class SelectWrapperTest {
         }
         assertEquals(3, resources.size)
     }
-
 }

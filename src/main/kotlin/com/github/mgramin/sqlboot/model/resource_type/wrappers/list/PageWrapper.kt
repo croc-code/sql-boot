@@ -34,7 +34,7 @@ import java.util.stream.Stream
 
 class PageWrapper constructor(
     private val origin: ResourceType,
-    private val page: String = "page",
+    private val parameterName: String = "page",
     private val pageSize: Int = 10,
     private val delimiter: String = ","
 ) : ResourceType {
@@ -52,7 +52,7 @@ class PageWrapper constructor(
     }
 
     override fun read(uri: Uri): Stream<DbResource> {
-        val pageParameter = uri.params()[page]
+        val pageParameter = uri.params()[parameterName]
         if (pageParameter != null) {
             val pageNumber = valueOf(substringBefore(pageParameter, delimiter))
             val pageSize: Int

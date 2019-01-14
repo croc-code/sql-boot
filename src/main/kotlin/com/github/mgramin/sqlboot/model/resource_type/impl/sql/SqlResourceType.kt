@@ -45,7 +45,10 @@ import org.apache.commons.lang3.StringUtils.strip
 /**
  * Created by MGramin on 12.07.2017.
  */
-class SqlResourceType(@field:Transient private val selectQuery: SelectQuery, private val aliases: List<String>) : ResourceType {
+class SqlResourceType(
+    @field:Transient private val selectQuery: SelectQuery,
+    private val aliases: List<String>
+) : ResourceType {
 
     override fun aliases(): List<String> {
         return aliases
@@ -74,12 +77,6 @@ class SqlResourceType(@field:Transient private val selectQuery: SelectQuery, pri
                     val headers = o.entries
                             .map { strip(it.key, "@") to ofNullable(it.value).orElse("")}
                             .toMap()
-
-//                            .collect(toMap(
-//                                    { k -> strip(k.key, "@") },
-//                                    { v -> ofNullable(v.value).orElse("") }
-//                            ))
-
                     DbResourceImpl(name, this,
                             DbUri(this.name(), path.stream().map { it.toString() }.collect(toList())),
                             headers)

@@ -35,7 +35,10 @@ import java.util.stream.Stream
 /**
  * Created by MGramin on 18.07.2017.
  */
-class TemplateBodyWrapper(private val origin: ResourceType, private val templateGenerator: TemplateGenerator) : ResourceType {
+class TemplateBodyWrapper(
+    private val origin: ResourceType,
+    private val templateGenerator: TemplateGenerator
+) : ResourceType {
 
     override fun aliases(): List<String> {
         return origin.aliases()
@@ -48,14 +51,10 @@ class TemplateBodyWrapper(private val origin: ResourceType, private val template
     @Throws(BootException::class)
     override fun read(uri: Uri): Stream<DbResource> {
         return origin.read(uri)
-                .map { r ->
-                    DbResourceBodyWrapper(
-                            r, templateGenerator.generate(r.headers()))
-                }
+                .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
     }
 
     override fun metaData(): Map<String, String> {
         return origin.metaData()
     }
-
 }

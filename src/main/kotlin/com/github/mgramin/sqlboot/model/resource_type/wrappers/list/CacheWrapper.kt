@@ -35,28 +35,17 @@ import javax.cache.Cache
 import javax.cache.CacheManager
 import javax.cache.Caching
 import javax.cache.configuration.MutableConfiguration
-import javax.cache.spi.CachingProvider
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id: 822c72ab4745f06ca5b3062b4b0be1f9588596db $
  * @since 0.1
  */
-class CacheWrapper(private val origin: ResourceType) : ResourceType {
+class CacheWrapper(private val origin: ResourceType, private val parameterName: String = "cache") : ResourceType {
 
-    private val cachingProvider: CachingProvider = Caching.getCachingProvider()
-    private val cacheManager: CacheManager
-    private val config: MutableConfiguration<String, List<DbResource>>
-    private var cache: Cache<String, List<DbResource>>? = null
-
-    init {
-        cacheManager = cachingProvider.cacheManager
-        config = MutableConfiguration()
-        cache = cacheManager.getCache("simpleCache")
-        if (cache == null) {
-            cache = cacheManager.createCache("simpleCache", config)
-        }
-    }
+    private val cacheManager: CacheManager = Caching.getCachingProvider().cacheManager
+    private val cache: Cache<String, List<DbResource>> =
+            cacheManager.getCache("simpleCache") ?: cacheManager.createCache("simpleCache", MutableConfiguration())
 
     override fun aliases(): List<String> {
         return origin.aliases()
@@ -68,11 +57,11 @@ class CacheWrapper(private val origin: ResourceType) : ResourceType {
 
     @Throws(BootException::class)
     override fun read(uri: Uri): Stream<DbResource> {
-        val cache = ofNullable(uri.params()["cache"]).orElse("true")
-        var cachedResources: List<DbResource>? = this.cache!!.get(uri.toString())
+        val cache = ofNullable(uri.params()[parameterName]).orElse("true")
+        var cachedResources: List<DbResource>? = this.cache.get(uri.toString())
         if (cachedResources == null || cache.equals("false", ignoreCase = true)) {
             cachedResources = origin.read(uri).collect(Collectors.toList())
-            this.cache!!.put(uri.toString(), cachedResources)
+            this.cache.put(uri.toString(), cachedResources)
         }
         return cachedResources!!.stream()
     }
@@ -80,5 +69,4 @@ class CacheWrapper(private val origin: ResourceType) : ResourceType {
     override fun metaData(): Map<String, String> {
         return origin.metaData()
     }
-
 }

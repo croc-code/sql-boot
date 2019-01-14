@@ -85,12 +85,15 @@ interface ResourceType {
     @Throws(BootException::class)
     fun read(uri: Uri): Stream<DbResource>
 
-
     @JsonAutoDetect(fieldVisibility = Visibility.ANY)
-    class Metadata(private val name: String, private val type: String, private val description: String, properties: Map<String, Any>?) {
+    class Metadata(
+        private val name: String,
+        private val type: String,
+        private val description: String
+    ) {
         private val properties: MutableMap<String, Any>
 
-        constructor(name: String, description: String) : this(name, "String", description, null) {}
+        constructor(name: String, description: String) : this(name, "String", description)
 
         init {
             this.properties = HashMap()
@@ -105,7 +108,6 @@ interface ResourceType {
                 prop["description"] = description
                 this.properties.putAll(prop)
             }
-
         }
 
         fun name(): String {
@@ -119,7 +121,5 @@ interface ResourceType {
         fun properties(): Map<String, Any> {
             return properties
         }
-
     }
-
 }

@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.model.resource.impl
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
@@ -32,17 +31,13 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 /**
  * DB resource without body
  */
-class DbResourceImpl
-/**
- *
- * @param name
- * @param type
- * @param uri
- * @param headers
- */
-(private val name: String, @field:Transient private val type: ResourceType,
- @field:Transient private val uri: Uri,
- private val headers: Map<String, Any>) : DbResource {
+class DbResourceImpl(
+    private val name: String,
+    @field:Transient private val type: ResourceType,
+    @field:Transient private val uri: Uri,
+    private val headers: Map<String, Any>,
+    private val body: String = ""
+) : DbResource {
 
     override fun name(): String {
         return name
@@ -61,7 +56,6 @@ class DbResourceImpl
     }
 
     override fun body(): String {
-        throw BootException("Resource body not allow here.")
+        return body
     }
-
 }

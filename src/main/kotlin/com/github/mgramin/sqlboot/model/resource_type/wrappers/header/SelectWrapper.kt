@@ -38,7 +38,7 @@ import java.util.stream.Stream
 /**
  * Created by MGramin on 18.07.2017.
  */
-class SelectWrapper(private val origin: ResourceType) : ResourceType {
+class SelectWrapper(private val origin: ResourceType, private val parameterName: String = "select") : ResourceType {
 
     override fun aliases(): List<String> {
         return origin.aliases()
@@ -50,7 +50,7 @@ class SelectWrapper(private val origin: ResourceType) : ResourceType {
 
     @Throws(BootException::class)
     override fun read(uri: Uri): Stream<DbResource> {
-        val select = uri.params()[SELECT]
+        val select = uri.params()[parameterName]
         val resources = origin.read(uri)
         return if (select != null) {
             resources
@@ -71,7 +71,7 @@ class SelectWrapper(private val origin: ResourceType) : ResourceType {
     }
 
     override fun metaData(uri: Uri): List<ResourceType.Metadata> {
-        val select = uri.params()[SELECT]
+        val select = uri.params()[parameterName]
         return if (select != null) {
             origin.metaData(uri).stream()
                     .filter { e -> asList(*select.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).contains(e.name()) }
@@ -80,11 +80,5 @@ class SelectWrapper(private val origin: ResourceType) : ResourceType {
             origin.metaData(uri)
         }
     }
-
-    companion object {
-
-        private val SELECT = "select"
-    }
-
 }
 

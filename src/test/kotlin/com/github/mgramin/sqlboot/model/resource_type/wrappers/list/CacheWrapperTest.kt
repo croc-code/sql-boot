@@ -60,5 +60,4 @@ class CacheWrapperTest {
         )
         verify(originType, times(1)).read(any())
     }
-
 }
