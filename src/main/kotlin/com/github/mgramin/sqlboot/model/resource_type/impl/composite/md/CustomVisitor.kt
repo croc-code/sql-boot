@@ -28,8 +28,7 @@ import org.commonmark.node.AbstractVisitor
 import org.commonmark.node.FencedCodeBlock
 import org.commonmark.node.Heading
 import org.commonmark.node.Text
-
-import java.util.LinkedHashMap
+import java.util.*
 
 class CustomVisitor : AbstractVisitor() {
 

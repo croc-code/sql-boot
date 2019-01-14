@@ -24,11 +24,10 @@
 
 package com.github.mgramin.sqlboot.model.uri.wrappers
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SqlPlaceholdersWrapperTest {

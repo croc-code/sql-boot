@@ -24,14 +24,8 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.composite
 
-import org.junit.Assert.assertEquals
-
-import com.github.mgramin.sqlboot.model.resource.DbResource
-import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import java.util.stream.Stream
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 

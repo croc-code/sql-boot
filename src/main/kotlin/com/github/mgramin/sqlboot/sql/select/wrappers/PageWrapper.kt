@@ -26,7 +26,6 @@ package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
-import java.util.stream.Stream
 
 class PageWrapper(
     private val origin: SelectQuery,

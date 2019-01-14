@@ -24,9 +24,8 @@
 
 package com.github.mgramin.sqlboot.rest.controllers
 
-import org.junit.Assert.assertEquals
-
 import com.github.mgramin.sqlboot.rest.Application
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,7 +35,6 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit4.SpringRunner
 
 /**

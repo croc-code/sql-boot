@@ -24,9 +24,6 @@
 
 package com.github.mgramin.sqlboot.sql.select
 
-import com.github.mgramin.sqlboot.exceptions.BootException
-import java.util.stream.Stream
-
 /**
  * Simple select SQL-query
  *
@@ -40,7 +37,6 @@ interface SelectQuery {
      * Execute select query
      *
      * @return query result
-     * @throws BootException SQL exception
      */
     @Deprecated("")
     fun select(): Sequence<Map<String, Any>>
@@ -49,7 +45,6 @@ interface SelectQuery {
      * Execute select query with parameters
      *
      * @return query result
-     * @throws BootException SQL exception
      */
     fun select(variables: Map<String, Any>): Sequence<Map<String, Any>> {
         return select()
@@ -63,8 +58,6 @@ interface SelectQuery {
 
     /**
      * Check db health
-     *
-     * @throws BootException SQL exception
      */
     @Deprecated("")
     fun dbHealth()

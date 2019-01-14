@@ -24,13 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.uri.impl
 
-import java.util.Arrays.asList
-
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.uri.Uri
 import java.net.URI
-import java.util.Arrays
-import java.util.LinkedHashMap
+import java.util.*
+import java.util.Arrays.asList
 
 /**
  * Created by maksim on 12.06.16.
