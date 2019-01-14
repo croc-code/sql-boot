@@ -27,7 +27,6 @@ package com.github.mgramin.sqlboot.tools.files.file.wrappers
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.tools.files.file.File
 import java.io.ByteArrayOutputStream
-import java.io.IOException
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
@@ -53,23 +52,18 @@ class ZippedFile(private val name: String, private val origins: List<File>) : Fi
 
     @Throws(BootException::class)
     private fun unzip(): ByteArray {
-        try {
-            ByteArrayOutputStream().use { bytes ->
-                ZipOutputStream(bytes).use { zip ->
-                    for (ent in this.origins) {
-                        zip.putNextEntry(ZipEntry(ent.name()))
-                        zip.write(ent.content())
-                        zip.closeEntry()
-                    }
-                    zip.close()
-                    bytes.close()
-                    return bytes.toByteArray()
+        ByteArrayOutputStream().use { bytes ->
+            ZipOutputStream(bytes).use { zip ->
+                for (ent in this.origins) {
+                    zip.putNextEntry(ZipEntry(ent.name()))
+                    zip.write(ent.content())
+                    zip.closeEntry()
                 }
+                zip.close()
+                bytes.close()
+                return bytes.toByteArray()
             }
-        } catch (exception: IOException) {
-            throw BootException(exception)
         }
-
     }
 
 }

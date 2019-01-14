@@ -22,28 +22,21 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.tools.files.file.wrappers
+package com.github.mgramin.sqlboot.tools.files.file.impl
 
-import com.github.mgramin.sqlboot.tools.files.file.impl.FakeFile
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
 
-/**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id: cc6af71a08bd33aa73cb84e94d8acbd90bdeec25 $
- * @since 0.1
- */
-class ZippedFileTest {
+import org.junit.jupiter.api.Test
+
+internal class SimpleFileTest {
 
     @Test
     fun name() {
-        assertEquals("test.zip", ZippedFile("test.zip", arrayListOf(FakeFile())).name())
+        assertEquals("test.txt", SimpleFile("test.txt", "Hello World!".toByteArray()).name())
     }
 
     @Test
     fun content() {
-        assertEquals(144, ZippedFile("test.zip", arrayListOf(FakeFile())).content().size.toLong())
+        assertEquals("Hello World!", String(SimpleFile("test.txt", "Hello World!".toByteArray()).content()))
     }
-
 }
-
