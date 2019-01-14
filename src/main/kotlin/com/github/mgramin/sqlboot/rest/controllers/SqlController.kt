@@ -24,13 +24,11 @@
 
 package com.github.mgramin.sqlboot.rest.controllers
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
-import java.util.stream.Collectors.toList
 import javax.sql.DataSource
 
 /**
@@ -42,27 +40,28 @@ import javax.sql.DataSource
 class SqlController(@field:Autowired private val dataSource: DataSource) {
 
     @RequestMapping(value = ["sql"], produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
-    @Throws(BootException::class)
     fun execSql2Xml(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().collect(toList())
+        return JdbcSelectQuery(dataSource, sql).select().toList()
     }
 
-    @RequestMapping(value = ["exec"], method = arrayOf(RequestMethod.POST), produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
-    @Throws(BootException::class)
+    @RequestMapping(
+            value = ["exec"],
+            method = arrayOf(RequestMethod.POST),
+            produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
     fun execSql2XmlPost(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().collect(toList())
+        return JdbcSelectQuery(dataSource, sql).select().toList()
     }
 
     @RequestMapping(value = ["exec"], produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    @Throws(BootException::class)
     fun execSql2Json(@RequestParam("sql") sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().collect(toList())
+        return JdbcSelectQuery(dataSource, sql).select().toList()
     }
 
-    @RequestMapping(value = ["exec"], method = arrayOf(RequestMethod.POST), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    @Throws(BootException::class)
+    @RequestMapping(
+            value = ["exec"],
+            method = arrayOf(RequestMethod.POST),
+            produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun execSql2JsonPost(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().collect(toList())
+        return JdbcSelectQuery(dataSource, sql).select().toList()
     }
-
 }

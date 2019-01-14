@@ -54,7 +54,7 @@ class JdbcSelectQueryTest {
                   |  from (select name as   "n"
                   |             , email as "mail"
                   |          from main_schema.users)""".trimMargin())
-                .select().collect(Collectors.toList())
+                .select().toList()
         println(select[0])
 //        assertThat(select[0], hasEntry("labrador", "buzz"));
 //        assertEquals(select.toString(),

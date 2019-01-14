@@ -31,16 +31,11 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
-
-import java.util.HashMap
-import java.util.LinkedHashMap
-import kotlin.collections.Map.Entry
-import java.util.stream.Stream
-
+import org.apache.commons.lang3.StringUtils.strip
+import java.util.*
 import java.util.Optional.ofNullable
 import java.util.stream.Collectors.toList
-import java.util.stream.Collectors.toMap
-import org.apache.commons.lang3.StringUtils.strip
+import java.util.stream.Stream
 
 /**
  * Created by MGramin on 12.07.2017.
@@ -75,12 +70,14 @@ class SqlResourceType(
                     val name = path[path.size - 1].toString()
 
                     val headers = o.entries
-                            .map { strip(it.key, "@") to ofNullable(it.value).orElse("")}
+                            .map { strip(it.key, "@") to ofNullable(it.value).orElse("") }
                             .toMap()
                     DbResourceImpl(name, this,
                             DbUri(this.name(), path.stream().map { it.toString() }.collect(toList())),
                             headers)
                 }
+                .map { o -> o as DbResource }
+                .toList().stream()
     }
 
     override fun metaData(): Map<String, String> {

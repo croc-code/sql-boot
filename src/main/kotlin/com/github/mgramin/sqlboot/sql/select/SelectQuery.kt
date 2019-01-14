@@ -43,8 +43,7 @@ interface SelectQuery {
      * @throws BootException SQL exception
      */
     @Deprecated("")
-    @Throws(BootException::class)
-    fun select(): Stream<Map<String, Any>>
+    fun select(): Sequence<Map<String, Any>>
 
     /**
      * Execute select query with parameters
@@ -52,8 +51,7 @@ interface SelectQuery {
      * @return query result
      * @throws BootException SQL exception
      */
-    @Throws(BootException::class)
-    open fun select(variables: Map<String, Any>): Stream<Map<String, Any>> {
+    fun select(variables: Map<String, Any>): Sequence<Map<String, Any>> {
         return select()
     }
 
@@ -69,7 +67,5 @@ interface SelectQuery {
      * @throws BootException SQL exception
      */
     @Deprecated("")
-    @Throws(BootException::class)
     fun dbHealth()
-
 }

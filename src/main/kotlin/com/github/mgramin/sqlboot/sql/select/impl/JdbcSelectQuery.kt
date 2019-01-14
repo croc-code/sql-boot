@@ -34,11 +34,7 @@ import java.sql.SQLException
 import java.util.AbstractMap.SimpleEntry
 import java.util.Arrays.stream
 import java.util.Optional.ofNullable
-import java.util.Spliterator.ORDERED
-import java.util.Spliterators.spliteratorUnknownSize
 import java.util.stream.Collectors.toMap
-import java.util.stream.Stream
-import java.util.stream.StreamSupport.stream
 import javax.sql.DataSource
 
 /**
@@ -48,30 +44,28 @@ import javax.sql.DataSource
  * @version $Id: f38638fde3d38f83edd4b8a03c570f845c856752 $
  * @since 0.1
  */
-class JdbcSelectQuery(private val dataSource: DataSource,
-                      private val sql: String?,
-                      private val nullAlias: String,
-                      private val templateGenerator: TemplateGenerator?) : SelectQuery {
+class JdbcSelectQuery(
+    private val dataSource: DataSource,
+    private val sql: String?,
+    private val nullAlias: String,
+    private val templateGenerator: TemplateGenerator?
+) : SelectQuery {
 
-    constructor(datasource: DataSource,
-                templateGenerator: TemplateGenerator) : this(datasource, null, "[NULL]", templateGenerator) {
-    }
+    constructor(datasource: DataSource, templateGenerator: TemplateGenerator)
+            : this(datasource, null, "[NULL]", templateGenerator)
 
-    constructor(datasource: DataSource,
-                sql: String) : this(datasource, sql, "[NULL]", null) {
-    }
+    constructor(datasource: DataSource, sql: String)
+            : this(datasource, sql, "[NULL]", null)
 
-    @Throws(BootException::class)
-    override fun select(): Stream<Map<String, Any>> {
+    override fun select(): Sequence<Map<String, Any>> {
         return getMapStream(sql)
     }
 
-    @Throws(BootException::class)
-    override fun select(variables: Map<String, Any>): Stream<Map<String, Any>> {
+    override fun select(variables: Map<String, Any>): Sequence<Map<String, Any>> {
         return getMapStream(templateGenerator!!.generate(variables))
     }
 
-    private fun getMapStream(sqlText: String?): Stream<Map<String, Any>> {
+    private fun getMapStream(sqlText: String?): Sequence<Map<String, Any>> {
         logger.info(sqlText)
         val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
         val iterator = object : Iterator<Map<String, Any>> {
@@ -101,7 +95,7 @@ class JdbcSelectQuery(private val dataSource: DataSource,
                                 { a, b -> a }))
             }
         }
-        return stream(spliteratorUnknownSize(iterator, ORDERED), false)
+        return iterator.asSequence()
     }
 
     override fun columns(): Map<String, String> {

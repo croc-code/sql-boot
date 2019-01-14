@@ -28,26 +28,19 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import java.util.stream.Stream
 
-class PageWrapper
-/**
- * Ctor.
- *
- * @param origin
- * @param pageNumber
- * @param pageSize
- */
-(private val origin: SelectQuery,
- private val pageNumber: Int,
- private val pageSize: Int
+class PageWrapper(
+    private val origin: SelectQuery,
+    private val pageNumber: Int,
+    private val pageSize: Int
 ) : SelectQuery {
 
     val sql = """select *
                 |  from ()""".trimMargin()
 
     @Throws(BootException::class)
-    override fun select(): Stream<Map<String, Any>> {
+    override fun select(): Sequence<Map<String, Any>> {
         println(sql)
-        return Stream.empty()
+        return sequenceOf()
     }
 
     override fun columns(): Map<String, String> {

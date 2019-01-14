@@ -27,16 +27,13 @@ package com.github.mgramin.sqlboot.model.resource_type
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.uri.Uri
 import org.json.JSONException
 import org.json.JSONObject
-
-import java.util.HashMap
-import java.util.stream.Stream
-
+import java.util.*
 import java.util.stream.Collectors.toList
+import java.util.stream.Stream
 
 /**
  * Resource type e.g. Table, Index, Stored function etc
@@ -82,7 +79,6 @@ interface ResourceType {
     /**
      * Read resources by uri
      */
-    @Throws(BootException::class)
     fun read(uri: Uri): Stream<DbResource>
 
     @JsonAutoDetect(fieldVisibility = Visibility.ANY)
