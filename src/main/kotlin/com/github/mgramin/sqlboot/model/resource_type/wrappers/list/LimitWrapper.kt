@@ -28,9 +28,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.lang.Long.parseLong
 import java.util.Optional.ofNullable
-import java.util.stream.Stream
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -48,11 +46,11 @@ class LimitWrapper(private val origin: ResourceType, private val parameterName: 
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Stream<DbResource> {
+    override fun read(uri: Uri): Sequence<DbResource> {
         val limit = ofNullable(uri.params())
                 .map<String> { v -> v[parameterName] }
                 .orElse(null) ?: return origin.read(uri)
-        return origin.read(uri).limit(parseLong(limit))
+        return origin.read(uri).take(limit.toInt())
     }
 
     override fun metaData(): Map<String, String> {

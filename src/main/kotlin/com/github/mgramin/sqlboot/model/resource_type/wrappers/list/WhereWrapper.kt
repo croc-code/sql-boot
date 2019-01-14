@@ -28,7 +28,6 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.util.stream.Stream
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -44,7 +43,7 @@ class WhereWrapper(private val origin: ResourceType) : ResourceType {
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Stream<DbResource> {
+    override fun read(uri: Uri): Sequence<DbResource> {
         val resources = origin.read(uri)
         return resources
                 .filter { resource ->
@@ -62,5 +61,4 @@ class WhereWrapper(private val origin: ResourceType) : ResourceType {
     override fun metaData(): Map<String, String> {
         return origin.metaData()
     }
-
 }

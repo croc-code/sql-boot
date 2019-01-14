@@ -390,7 +390,7 @@ class ApiController {
         val result = ArrayList<DbResource>()
         for (connection in connections) {
             val fsResourceTypes = FsResourceTypes(connection, uri)
-            val collect = fsResourceTypes.read(uri).collect(toList())
+            val collect = fsResourceTypes.read(uri).toList()
             result.addAll(collect)
         }
 
@@ -412,7 +412,7 @@ class ApiController {
         val headers = fsResourceTypes
                 .read(uri)
                 .map { it.headers() }
-                .collect(toList())
+                .toList()
         return if (headers.isEmpty()) {
             ResponseEntity(headers, HttpStatus.NO_CONTENT)
         } else {

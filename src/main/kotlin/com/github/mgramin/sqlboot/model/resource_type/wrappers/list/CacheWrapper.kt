@@ -29,8 +29,6 @@ import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import java.util.Optional.ofNullable
-import java.util.stream.Collectors
-import java.util.stream.Stream
 import javax.cache.Cache
 import javax.cache.CacheManager
 import javax.cache.Caching
@@ -45,7 +43,8 @@ class CacheWrapper(private val origin: ResourceType, private val parameterName: 
 
     private val cacheManager: CacheManager = Caching.getCachingProvider().cacheManager
     private val cache: Cache<String, List<DbResource>> =
-            cacheManager.getCache("simpleCache") ?: cacheManager.createCache("simpleCache", MutableConfiguration())
+            cacheManager.getCache("simpleCache")
+                    ?: cacheManager.createCache("simpleCache", MutableConfiguration())
 
     override fun aliases(): List<String> {
         return origin.aliases()
@@ -56,14 +55,14 @@ class CacheWrapper(private val origin: ResourceType, private val parameterName: 
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Stream<DbResource> {
+    override fun read(uri: Uri): Sequence<DbResource> {
         val cache = ofNullable(uri.params()[parameterName]).orElse("true")
         var cachedResources: List<DbResource>? = this.cache.get(uri.toString())
         if (cachedResources == null || cache.equals("false", ignoreCase = true)) {
-            cachedResources = origin.read(uri).collect(Collectors.toList())
+            cachedResources = origin.read(uri).toList()
             this.cache.put(uri.toString(), cachedResources)
         }
-        return cachedResources!!.stream()
+        return cachedResources.asSequence()
     }
 
     override fun metaData(): Map<String, String> {

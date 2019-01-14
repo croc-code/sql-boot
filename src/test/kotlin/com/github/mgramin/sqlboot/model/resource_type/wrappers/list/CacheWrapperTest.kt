@@ -30,14 +30,13 @@ import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.jupiter.api.assertAll
-import java.util.stream.Stream.of
 
 
 class CacheWrapperTest {
 
     private val originType = mock<ResourceType> {
         on { aliases() } doReturn arrayListOf("fake_resource_type", "fake_type", "frt", "f")
-        on { read(any()) } doReturn of(mock {}, mock {}, mock {})
+        on { read(any()) } doReturn sequenceOf(mock {}, mock {}, mock {})
     }
     private val cachedType = CacheWrapper(originType)
 

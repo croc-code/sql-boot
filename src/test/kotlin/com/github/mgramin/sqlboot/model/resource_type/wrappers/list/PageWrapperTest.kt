@@ -57,7 +57,7 @@ class PageWrapperTest {
             "users;**/table/hr?page=2,1",
             "jobs;**/table/hr?page=3,1", delimiter = ';')
     fun read(name: String, uri: String) {
-        assertEquals(name, type.read(DbUri(uri)).findAny().get().name())
+        assertEquals(name, type.read(DbUri(uri)).first().name())
     }
 
     @ParameterizedTest
@@ -66,7 +66,7 @@ class PageWrapperTest {
             "3;table/hr?page=1,3",
             "3;table/hr?page=1",
             "0;table/hr?page=2", delimiter = ';')
-    fun read2(count: Long, uri: String) {
+    fun read2(count: Int, uri: String) {
         assertEquals(count, type.read(DbUri(uri)).count())
     }
 }

@@ -43,7 +43,6 @@ import java.io.File
 import java.io.IOException
 import java.nio.charset.StandardCharsets.UTF_8
 import java.util.*
-import java.util.stream.Stream
 import javax.sql.DataSource
 
 /**
@@ -161,16 +160,13 @@ constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Stream<DbResource> {
-        return resourceTypes!!.stream()
-                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .findAny()
-                .get()
+    override fun read(uri: Uri): Sequence<DbResource> {
+        return resourceTypes!!
+                .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
                 .read(uri)
     }
 
     override fun metaData(): Map<String, String> {
         throw BootException("Not implemented!")
     }
-
 }

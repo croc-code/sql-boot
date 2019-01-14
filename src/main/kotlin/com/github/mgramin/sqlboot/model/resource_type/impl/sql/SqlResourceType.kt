@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.model.resource_type.impl.sql
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
@@ -32,10 +31,8 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import org.apache.commons.lang3.StringUtils.strip
-import java.util.*
 import java.util.Optional.ofNullable
 import java.util.stream.Collectors.toList
-import java.util.stream.Stream
 
 /**
  * Created by MGramin on 12.07.2017.
@@ -56,11 +53,8 @@ class SqlResourceType(
                 .collect(toList())
     }
 
-    @Throws(BootException::class)
-    override fun read(uri: Uri): Stream<DbResource> {
-        val variables = HashMap<String, Any>()
-        variables["uri"] = uri
-        return selectQuery.select(variables)
+    override fun read(uri: Uri): Sequence<DbResource> {
+        return selectQuery.select(hashMapOf("uri" to uri))
                 .map { o ->
                     val path = o.entries.stream()
                             .filter { v -> v.key.startsWith("@") }
@@ -76,12 +70,9 @@ class SqlResourceType(
                             DbUri(this.name(), path.stream().map { it.toString() }.collect(toList())),
                             headers)
                 }
-                .map { o -> o as DbResource }
-                .toList().stream()
     }
 
     override fun metaData(): Map<String, String> {
         return selectQuery.columns()
     }
-
 }

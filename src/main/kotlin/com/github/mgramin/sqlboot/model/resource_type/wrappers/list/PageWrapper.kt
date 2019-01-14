@@ -30,7 +30,6 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 import org.apache.commons.lang3.StringUtils.substringAfter
 import org.apache.commons.lang3.StringUtils.substringBefore
 import java.lang.Integer.valueOf
-import java.util.stream.Stream
 
 class PageWrapper constructor(
     private val origin: ResourceType,
@@ -51,7 +50,7 @@ class PageWrapper constructor(
         return origin.metaData()
     }
 
-    override fun read(uri: Uri): Stream<DbResource> {
+    override fun read(uri: Uri): Sequence<DbResource> {
         val pageParameter = uri.params()[parameterName]
         if (pageParameter != null) {
             val pageNumber = valueOf(substringBefore(pageParameter, delimiter))
@@ -61,7 +60,7 @@ class PageWrapper constructor(
             } else {
                 pageSize = valueOf(substringAfter(pageParameter, delimiter))
             }
-            return origin.read(uri).skip(((pageNumber - 1) * pageSize).toLong()).limit(pageSize.toLong())
+            return origin.read(uri).drop(((pageNumber - 1) * pageSize)).take(pageSize)
         } else {
             return origin.read(uri)
         }

@@ -30,7 +30,6 @@ import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
-import java.util.stream.Stream
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -49,7 +48,7 @@ class TemplateBodyWrapper(
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Stream<DbResource> {
+    override fun read(uri: Uri): Sequence<DbResource> {
         return origin.read(uri)
                 .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
     }

@@ -33,7 +33,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 import java.util.stream.Collectors.toList
-import java.util.stream.Stream
 
 /**
  * Resource type e.g. Table, Index, Stored function etc
@@ -79,7 +78,7 @@ interface ResourceType {
     /**
      * Read resources by uri
      */
-    fun read(uri: Uri): Stream<DbResource>
+    fun read(uri: Uri): Sequence<DbResource>
 
     @JsonAutoDetect(fieldVisibility = Visibility.ANY)
     class Metadata(

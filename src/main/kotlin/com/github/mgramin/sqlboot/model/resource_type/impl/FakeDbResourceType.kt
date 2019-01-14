@@ -30,7 +30,6 @@ import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import java.util.Arrays.asList
-import java.util.stream.Stream
 
 /**
  * Created by maksim on 22.05.17.
@@ -45,8 +44,8 @@ class FakeDbResourceType : ResourceType {
         return arrayListOf()
     }
 
-    override fun read(uri: Uri): Stream<DbResource> {
-        return Stream.of(
+    override fun read(uri: Uri): Sequence<DbResource> {
+        return sequenceOf(
                 FakeDbResource(DbUri("table/hr.persons")),
                 FakeDbResource(DbUri("table/hr.users")),
                 FakeDbResource(DbUri("table/hr.jobs")))
@@ -56,5 +55,4 @@ class FakeDbResourceType : ResourceType {
         // TODO
         return hashMapOf()
     }
-
 }

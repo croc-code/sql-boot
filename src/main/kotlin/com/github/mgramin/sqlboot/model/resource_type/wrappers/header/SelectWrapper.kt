@@ -33,7 +33,6 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 import java.util.Arrays.asList
 import java.util.stream.Collectors
 import java.util.stream.Collectors.toMap
-import java.util.stream.Stream
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -49,7 +48,7 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Stream<DbResource> {
+    override fun read(uri: Uri): Sequence<DbResource> {
         val select = uri.params()[parameterName]
         val resources = origin.read(uri)
         return if (select != null) {
