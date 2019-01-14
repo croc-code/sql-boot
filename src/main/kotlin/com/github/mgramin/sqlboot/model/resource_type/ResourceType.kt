@@ -31,8 +31,7 @@ import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.uri.Uri
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
-import java.util.stream.Collectors.toList
+import java.util.HashMap
 
 /**
  * Resource type e.g. Table, Index, Stored function etc
@@ -70,9 +69,9 @@ interface ResourceType {
 
     @JvmDefault
     fun metaData(uri: Uri): List<Metadata> {
-        return metaData().entries.stream()
+        return metaData().entries
                 .map { e -> ResourceType.Metadata(e.key, e.value) }
-                .collect(toList())
+                .toList()
     }
 
     /**

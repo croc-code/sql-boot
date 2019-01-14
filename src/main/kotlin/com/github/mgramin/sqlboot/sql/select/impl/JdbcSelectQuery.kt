@@ -31,10 +31,7 @@ import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
 import org.apache.log4j.Logger
 import org.springframework.jdbc.core.JdbcTemplate
 import java.sql.SQLException
-import java.util.AbstractMap.SimpleEntry
-import java.util.Arrays.stream
 import java.util.Optional.ofNullable
-import java.util.stream.Collectors.toMap
 import javax.sql.DataSource
 
 /**
@@ -51,11 +48,11 @@ class JdbcSelectQuery(
     private val templateGenerator: TemplateGenerator?
 ) : SelectQuery {
 
-    constructor(datasource: DataSource, templateGenerator: TemplateGenerator)
-            : this(datasource, null, "[NULL]", templateGenerator)
+    constructor(dataSource: DataSource, templateGenerator: TemplateGenerator)
+            : this(dataSource, null, "[NULL]", templateGenerator)
 
-    constructor(datasource: DataSource, sql: String)
-            : this(datasource, sql, "[NULL]", null)
+    constructor(dataSource: DataSource, sql: String)
+            : this(dataSource, sql, "[NULL]", null)
 
     override fun select(): Sequence<Map<String, Any>> {
         return getMapStream(sql)
@@ -74,25 +71,11 @@ class JdbcSelectQuery(
             }
 
             override fun next(): Map<String, Any> {
-                return stream(rowSet.metaData.columnNames)
-                        .map { v ->
-                            val `object` = rowSet.getObject(v)
-                            /*if (`object` is SerialClob) {
-                                try {
-                                    return@stream rowSet.metaData.columnNames
-                                            .map SimpleEntry < String, Any>(v, (`object` as SerialClob).getSubString(1,
-                                    `object`.length().toInt()) as Any)
-                                } catch (e: SerialException) {
-                                    e.printStackTrace()
-                                }
-
-                            }*/
-                            SimpleEntry(v, `object`)
-                        }
-                        .collect(toMap(
-                                { k -> k.key.toLowerCase() },
-                                { v -> ofNullable(v.value).orElse(nullAlias) },
-                                { a, b -> a }))
+                return rowSet
+                        .metaData
+                        .columnNames
+                        .map { it.toLowerCase() to ofNullable(rowSet.getObject(it)).orElse(nullAlias) }
+                        .toMap()
             }
         }
         return iterator.asSequence()
@@ -102,9 +85,8 @@ class JdbcSelectQuery(
         return SelectStatementParser(templateGenerator!!.template())
                 .parse()
                 .columns()
-                .stream()
-                .collect(toMap(
-                        { it.name() }, { it.comment() }, { a, b -> a }))
+                .map { it.name() to it.comment() }
+                .toMap()
     }
 
     override fun dbHealth() {

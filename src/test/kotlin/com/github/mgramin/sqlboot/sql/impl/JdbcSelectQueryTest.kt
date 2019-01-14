@@ -54,10 +54,8 @@ class JdbcSelectQueryTest {
                   |             , email as "mail"
                   |          from main_schema.users)""".trimMargin())
                 .select().toList()
-        println(select[0])
-//        assertThat(select[0], hasEntry("labrador", "buzz"));
-//        assertEquals(select.toString(),
-//                "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]")
+        assertEquals(select.toString(),
+                "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]")
     }
 
     @Test

@@ -25,30 +25,28 @@
 package com.github.mgramin.sqlboot.sql.select.impl.parser
 
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTParser.Select_statementContext
-import java.util.*
+import java.util.HashMap
 import java.util.Optional.ofNullable
-import java.util.stream.Collectors
 
 class SelectVisitorCustom : SELECTBaseVisitor<Any>() {
 
     override fun visitSelect_statement(ctx: Select_statementContext): Any {
-        val columns = ctx.select_row().stream()
+        val columns = ctx.select_row()
                 .map { v ->
                     SelectStatement.Column(
-                            ofNullable(v.column_alias()).map<String> { a -> a.ID().getText() }
-                                    .orElse(ofNullable(v.column_name()).map<String> { a -> a.ID().getText() }.orElse("NULL")),
+                            ofNullable(v.column_alias()).map<String> { a -> a.ID().text }
+                                    .orElse(ofNullable(v.column_name()).map<String> { a -> a.ID().text }.orElse("NULL")),
                             ofNullable(v.column_comment())
                                     .map<String> { v1 ->
-                                        v1.MULTIPLE_LINE_COMMENT().getText()
+                                        v1.MULTIPLE_LINE_COMMENT().text
                                                 .replace("/*", "")
-                                                .replace("*/", "").trim({ it <= ' ' })
+                                                .replace("*/", "").trim { it <= ' ' }
                                     }
                                     .orElse(""), HashMap())
                 }
-                .collect(Collectors.toList())
+                .toList()
         return SelectStatement(
-                ofNullable(ctx.table_name()).map<String>({ it.getText() }).orElse("TABLE NOT DEFINE"),
+                ofNullable(ctx.table_name()).map<String> { it.text }.orElse("TABLE NOT DEFINE"),
                 columns)
     }
-
 }

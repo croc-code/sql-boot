@@ -31,8 +31,6 @@ import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
 import com.github.mgramin.sqlboot.model.resource_type.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import java.util.Arrays.asList
-import java.util.stream.Collectors
-import java.util.stream.Collectors.toMap
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -55,10 +53,10 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
             resources
                     .map { v ->
                         DbResourceBodyWrapper(DbResourceImpl(v.name(), v.type(), v.dbUri(),
-                                v.headers().entries.stream()
+                                v.headers()
                                         .filter { h -> asList(*select.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).contains(h.key) }
-                                        .collect(toMap({ it.key }, { it.value }, { a, b -> a }
-                                        ))), v.body())
+                                        .map { it.key to it.value }
+                                        .toMap()), v.body())
                     }
         } else {
             resources
@@ -72,9 +70,9 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
     override fun metaData(uri: Uri): List<ResourceType.Metadata> {
         val select = uri.params()[parameterName]
         return if (select != null) {
-            origin.metaData(uri).stream()
+            origin.metaData(uri)
                     .filter { e -> asList(*select.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).contains(e.name()) }
-                    .collect(Collectors.toList())
+                    .toList()
         } else {
             origin.metaData(uri)
         }

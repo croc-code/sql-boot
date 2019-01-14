@@ -32,7 +32,6 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import org.apache.commons.lang3.StringUtils.strip
 import java.util.Optional.ofNullable
-import java.util.stream.Collectors.toList
 
 /**
  * Created by MGramin on 12.07.2017.
@@ -47,19 +46,19 @@ class SqlResourceType(
     }
 
     override fun path(): List<String> {
-        return selectQuery.columns().keys.stream()
+        return selectQuery.columns().keys
                 .filter { v -> v.startsWith("@") }
                 .map { v -> strip(v, "@") }
-                .collect(toList())
+                .toList()
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
         return selectQuery.select(hashMapOf("uri" to uri))
                 .map { o ->
-                    val path = o.entries.stream()
+                    val path = o.entries
                             .filter { v -> v.key.startsWith("@") }
                             .map { it.value }
-                            .collect(toList())
+                            .toList()
 
                     val name = path[path.size - 1].toString()
 
@@ -67,7 +66,7 @@ class SqlResourceType(
                             .map { strip(it.key, "@") to ofNullable(it.value).orElse("") }
                             .toMap()
                     DbResourceImpl(name, this,
-                            DbUri(this.name(), path.stream().map { it.toString() }.collect(toList())),
+                            DbUri(this.name(), path.map { it.toString() }.toList()),
                             headers)
                 }
     }
