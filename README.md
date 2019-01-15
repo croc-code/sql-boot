@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot)
 [![Build status](https://ci.appveyor.com/api/projects/status/vy096ig84cymr8ir?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot-hffyc)
-[![Coverage Status](https://coveralls.io/repos/github/sql-boot/sql-boot/badge.svg?branch=master)](https://coveralls.io/github/sql-boot/sql-boot?branch=master)
+[![codecov](https://codecov.io/gh/sql-boot/sql-boot/branch/master/graph/badge.svg)](https://codecov.io/gh/sql-boot/sql-boot)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sql-boot/sql-boot/blob/master/LICENSE)
 [![codebeat badge](https://codebeat.co/badges/5f90d946-b2a2-46fe-8951-99f354b3a8e9)](https://codebeat.co/projects/github-com-mgramin-sql-boot-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/97169221af6f4b73a5974a6a5c82cd60)](https://www.codacy.com/app/mgramin/sql-boot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mgramin/sql-boot&amp;utm_campaign=Badge_Grade)
