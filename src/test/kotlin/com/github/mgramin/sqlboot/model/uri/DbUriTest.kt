@@ -22,14 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.uri
+package com.github.mgramin.sqlboot.model.uri
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.wrappers.JsonWrapper
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.net.URISyntaxException
 
 /**
  * Created by maksim on 12.06.16.
@@ -48,68 +46,58 @@ class DbUriTest {
     }
 
     @Test
-    @Throws(BootException::class)
     fun createAllTableWithChildObjectsFromSchema() {
         test("table/hr.*/", "DbUri{type='table', path=[hr, *], recursive=true, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun dropAllTableFromSchema() {
         test("table/hr.*/drop", "DbUri{type='table', path=[hr, *], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun createColumnsForTable() {
         test("column/hr.persons.*name",
                 "DbUri{type='column', path=[hr, persons, *name], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun dropColumnFromTable() {
         test("column/hr.persons.name/drop",
                 "DbUri{type='column', path=[hr, persons, name], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun createAllFkForTable() {
         test("fk/hr.employees.*",
                 "DbUri{type='fk', path=[hr, employees, *], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun dropAllFkFromTable() {
         test("fk/hr.employees.*/drop",
                 "DbUri{type='fk', path=[hr, employees, *], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun disableAllFkFromTable() {
         test("fk/hr.employees.*/disable",
                 "DbUri{type='fk', path=[hr, employees, *], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun disableAllFkFromSchema() {
         test("fk/hr.*.*/disable",
                 "DbUri{type='fk', path=[hr, *, *], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class)
     fun testDefaultActionIsCreate() {
         test("fk/hr.*.*",
                 "DbUri{type='fk', path=[hr, *, *], recursive=false, params={}}")
     }
 
     @Test
-    @Throws(BootException::class, URISyntaxException::class)
     fun testParams() {
         test("t/hr?@table_comment=big_table",
                 "DbUri{type='t', path=[hr], recursive=false, params={@table_comment=big_table}}")
@@ -123,7 +111,6 @@ class DbUriTest {
         assertEquals("count", dbUri.action())
     }
 
-    @Throws(BootException::class)
     private fun test(uriString: String, jsonExpected: String) {
         val uri = DbUri(uriString)
         assertEquals(uriString, uri.toString())

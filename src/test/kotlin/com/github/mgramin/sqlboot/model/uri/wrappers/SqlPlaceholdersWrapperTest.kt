@@ -26,36 +26,37 @@ package com.github.mgramin.sqlboot.model.uri.wrappers
 
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.Assert
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 class SqlPlaceholdersWrapperTest {
 
-    internal val uri: Uri = SqlPlaceholdersWrapper(DbUri("table/hr.*persons*/"))
+    private val uri: Uri = SqlPlaceholdersWrapper(DbUri("table/hr.*persons*/?select=name,age"))
 
     @Test
-    @Throws(Exception::class)
     fun type() {
         assertEquals("table", uri.type())
     }
 
     @Test
-    @Throws(Exception::class)
     fun path() {
-        assertEquals("hr", uri.path()[0])
-        assertEquals("%persons%", uri.path()[1])
+        assertEquals(arrayListOf("hr", "%persons%"), uri.path())
     }
 
     @Test
-    @Throws(Exception::class)
+    fun pathIndex() {
+        Assert.assertEquals("%persons%", uri.path(1))
+    }
+
+    @Test
     fun recursive() {
         assertTrue(uri.recursive()!!)
     }
 
     @Test
-    @Throws(Exception::class)
     fun params() {
-        assertEquals(0, uri.params().size.toLong())
+        assertEquals(1, uri.params().size)
     }
 }
