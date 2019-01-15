@@ -65,6 +65,4 @@ class ZippedFile(private val name: String, private val origins: List<File>) : Fi
             }
         }
     }
-
 }
-

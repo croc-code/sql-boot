@@ -27,8 +27,8 @@ package com.github.mgramin.sqlboot.model.uri.impl
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.uri.Uri
 import java.net.URI
-import java.util.*
 import java.util.Arrays.asList
+import java.util.LinkedHashMap
 
 /**
  * Created by maksim on 12.06.16.
@@ -85,7 +85,6 @@ class DbUri : Uri {
         } catch (e: Exception) {
             throw BootException(e)
         }
-
     }
 
     override fun type(): String {
@@ -133,5 +132,4 @@ class DbUri : Uri {
         }
         return result.toString().replace("%", "*")
     }
-
 }

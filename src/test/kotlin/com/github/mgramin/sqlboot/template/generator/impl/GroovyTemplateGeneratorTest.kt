@@ -53,5 +53,4 @@ class GroovyTemplateGeneratorTest {
         val templateGenerator = GroovyTemplateGenerator("create table \${table.toLowerCase()} ...")
         assertEquals(templateGenerator.generate(maps), "create table persons ...")
     }
-
 }

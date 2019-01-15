@@ -37,5 +37,4 @@ class SelectStatementParser(private val sql: String) {
         val visit = SelectVisitorCustom().visit(parser.select_statement())
         return visit as SelectStatement
     }
-
 }

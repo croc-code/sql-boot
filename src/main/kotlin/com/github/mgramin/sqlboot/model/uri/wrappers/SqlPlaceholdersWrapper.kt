@@ -62,5 +62,4 @@ class SqlPlaceholdersWrapper(private val origin: Uri) : Uri {
     override fun toString(): String {
         return origin.toString()
     }
-
 }

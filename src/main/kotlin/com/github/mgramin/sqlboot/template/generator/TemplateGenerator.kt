@@ -42,5 +42,4 @@ interface TemplateGenerator {
      * @return
      */
     fun template(): String
-
 }

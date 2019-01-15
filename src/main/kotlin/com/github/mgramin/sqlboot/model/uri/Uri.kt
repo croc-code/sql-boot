@@ -77,5 +77,4 @@ interface Uri : Serializable {
      * @return
      */
     fun action(): String
-
 }

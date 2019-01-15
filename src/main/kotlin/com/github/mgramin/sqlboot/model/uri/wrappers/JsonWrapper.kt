@@ -67,6 +67,4 @@ class JsonWrapper(private val origin: Uri) : Uri {
         s = s.replace("%", "*")
         return s
     }
-
-
 }

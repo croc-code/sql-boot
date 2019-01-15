@@ -62,5 +62,4 @@ class SelectStatementParserTest {
         val toCharColumn = iterator.next()
         assertEquals("logon_time", toCharColumn.name())
     }
-
 }

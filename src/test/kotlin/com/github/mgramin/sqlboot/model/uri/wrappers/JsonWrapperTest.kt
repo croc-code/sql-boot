@@ -64,5 +64,4 @@ class JsonWrapperTest {
         assertEquals("DbUri{type='table', path=[hr, *persons*], recursive=true, params={}}",
                 uri.toString())
     }
-
 }

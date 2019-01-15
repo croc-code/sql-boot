@@ -46,5 +46,4 @@ internal class PageWrapperTest {
     @Test
     fun getQuery() {
     }
-
 }

@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.model.resource
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import java.io.Serializable
 
@@ -75,5 +75,4 @@ interface DbResource : Serializable {
      */
     @JsonProperty
     fun body(): String
-
 }

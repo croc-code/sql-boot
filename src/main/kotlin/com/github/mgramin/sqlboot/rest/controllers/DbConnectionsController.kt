@@ -47,5 +47,4 @@ class DbConnectionsController @Autowired constructor(private val dbConnectionLis
     val allDbConnections: List<DbConnection>
         @RequestMapping(value = ["/connections"])
         get() = dbConnectionList.connections
-
 }

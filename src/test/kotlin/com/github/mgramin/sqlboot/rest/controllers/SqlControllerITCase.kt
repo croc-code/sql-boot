@@ -83,5 +83,4 @@ class SqlControllerITCase {
         assertEquals(forEntity.body, "[{\"ONE\":\"1\",\"TWO\":\"2\"}]")
         assertEquals(forEntity.headers.contentType, MediaType.APPLICATION_JSON_UTF8)
     }
-
 }

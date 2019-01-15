@@ -24,8 +24,7 @@
 
 package com.github.mgramin.sqlboot.tools.files.file.impl
 
-import org.junit.jupiter.api.Assertions.*
-
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class SimpleFileTest {

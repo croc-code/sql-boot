@@ -25,14 +25,15 @@
 package com.github.mgramin.sqlboot.sql.select.impl.parser
 
 class SelectStatement(
-        /**
-         * Table name in select
-         */
-        private val fromTable: String,
-        /**
-         * Columns name in select
-         */
-        private val columns: List<Column>) {
+    /**
+     * Table name in select
+     */
+    private val fromTable: String,
+    /**
+     * Columns name in select
+     */
+    private val columns: List<Column>
+) {
 
     fun tableName(): String {
         return fromTable
@@ -55,7 +56,5 @@ class SelectStatement(
         fun properties(): Map<String, String> {
             return properties
         }
-
     }
-
 }

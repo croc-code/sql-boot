@@ -58,5 +58,4 @@ class SqlPlaceholdersWrapperTest {
     fun params() {
         assertEquals(0, uri.params().size.toLong())
     }
-
 }

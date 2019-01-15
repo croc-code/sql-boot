@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.model.resource.wrappers
 
 import com.github.mgramin.sqlboot.model.resource.DbResource
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType
+import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 
 /**
@@ -52,5 +52,4 @@ class DbResourceBodyWrapper(private val origin: DbResource, private val body: St
     override fun body(): String {
         return this.body
     }
-
 }

@@ -44,6 +44,4 @@ class ZippedFileTest {
     fun content() {
         assertEquals(144, ZippedFile("test.zip", arrayListOf(FakeFile())).content().size.toLong())
     }
-
 }
-

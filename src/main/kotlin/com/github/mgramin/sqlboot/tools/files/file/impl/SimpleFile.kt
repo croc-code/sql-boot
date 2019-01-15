@@ -33,7 +33,6 @@ import com.github.mgramin.sqlboot.tools.files.file.File
  */
 class SimpleFile(private val name: String, private val content: ByteArray) : File {
 
-
     override fun name(): String {
         return this.name
     }
@@ -41,6 +40,4 @@ class SimpleFile(private val name: String, private val content: ByteArray) : Fil
     override fun content(): ByteArray {
         return this.content
     }
-
 }
-

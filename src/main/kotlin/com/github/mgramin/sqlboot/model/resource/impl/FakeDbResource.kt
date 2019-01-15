@@ -25,8 +25,8 @@
 package com.github.mgramin.sqlboot.model.resource.impl
 
 import com.github.mgramin.sqlboot.model.resource.DbResource
-import com.github.mgramin.sqlboot.model.resource_type.ResourceType
-import com.github.mgramin.sqlboot.model.resource_type.impl.FakeDbResourceType
+import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
+import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeDbResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.google.common.collect.ImmutableMap.of
 

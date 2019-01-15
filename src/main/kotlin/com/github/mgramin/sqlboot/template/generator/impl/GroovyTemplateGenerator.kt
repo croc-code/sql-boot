@@ -39,5 +39,4 @@ class GroovyTemplateGenerator(private val templateText: String) : TemplateGenera
     override fun template(): String {
         return templateText
     }
-
 }

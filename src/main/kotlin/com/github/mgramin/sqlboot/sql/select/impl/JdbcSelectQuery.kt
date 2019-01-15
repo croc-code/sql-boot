@@ -95,12 +95,10 @@ class JdbcSelectQuery(
         } catch (e: SQLException) {
             throw BootException(e)
         }
-
     }
 
     companion object {
 
         private val logger = Logger.getLogger(JdbcSelectQuery::class.java)
     }
-
 }

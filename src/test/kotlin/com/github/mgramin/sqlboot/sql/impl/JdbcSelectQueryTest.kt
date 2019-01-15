@@ -73,5 +73,4 @@ class JdbcSelectQueryTest {
     fun dbHealth() {
         JdbcSelectQuery(this.dataSource!!, "").dbHealth()
     }
-
 }

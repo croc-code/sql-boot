@@ -54,5 +54,4 @@ class HttpParserWrapper : Uri {
     override fun action(): String {
         return ""
     }
-
 }

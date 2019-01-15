@@ -59,7 +59,6 @@ class DbUriTest {
         test("table/hr.*/drop", "DbUri{type='table', path=[hr, *], recursive=false, params={}}")
     }
 
-
     @Test
     @Throws(BootException::class)
     fun createColumnsForTable() {
@@ -73,7 +72,6 @@ class DbUriTest {
         test("column/hr.persons.name/drop",
                 "DbUri{type='column', path=[hr, persons, name], recursive=false, params={}}")
     }
-
 
     @Test
     @Throws(BootException::class)
@@ -110,7 +108,6 @@ class DbUriTest {
                 "DbUri{type='fk', path=[hr, *, *], recursive=false, params={}}")
     }
 
-
     @Test
     @Throws(BootException::class, URISyntaxException::class)
     fun testParams() {
@@ -126,12 +123,10 @@ class DbUriTest {
         assertEquals("count", dbUri.action())
     }
 
-
     @Throws(BootException::class)
     private fun test(uriString: String, jsonExpected: String) {
         val uri = DbUri(uriString)
         assertEquals(uriString, uri.toString())
         assertEquals(JsonWrapper(DbUri(uriString)).toString(), jsonExpected)
     }
-
 }

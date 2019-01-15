@@ -53,6 +53,4 @@ class BootException : RuntimeException {
      * @param cause Cause
      */
     constructor(cause: Throwable) : super(cause) {}
-
 }
-

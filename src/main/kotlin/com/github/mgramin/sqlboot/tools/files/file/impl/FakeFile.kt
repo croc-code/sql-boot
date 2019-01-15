@@ -40,6 +40,4 @@ class FakeFile : File {
     override fun content(): ByteArray {
         return "Hello World!".toByteArray()
     }
-
 }
-

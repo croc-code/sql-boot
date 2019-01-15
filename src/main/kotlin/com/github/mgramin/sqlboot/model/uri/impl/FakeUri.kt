@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.model.uri.impl
 
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.util.*
+import java.util.HashMap
 
 class FakeUri : Uri {
 
@@ -56,5 +56,4 @@ class FakeUri : Uri {
     override fun toString(): String {
         return "FAKE_TBL"
     }
-
 }
