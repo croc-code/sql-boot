@@ -280,9 +280,9 @@
         </executions>
         <configuration>
           <excludes>
-            <exclude>**/ResourceType*.*</exclude>
-            <exclude>**/FsResourceTypes*.*</exclude>
-            <exclude>**/DbConnectionList*.*</exclude>
+            <!--<exclude>**/ResourceType*.*</exclude>-->
+            <!--<exclude>**/FsResourceTypes*.*</exclude>-->
+            <!--<exclude>**/DbConnectionList*.*</exclude>-->
             <exclude>**/SelectWrapper*.*</exclude>
             <exclude>**/SelectVisitorCustom*.*</exclude>
             <exclude>**/SqlResourceType*.*</exclude>
