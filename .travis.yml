@@ -13,10 +13,11 @@ services:
 ## Run integration tests
 script:
   - mvn verify
-  - mvn compile jacoco:report coveralls:report -Pcoverall
+  - mvn compile jacoco:report
   - mvn docker:build
 
 after_success:
+  - bash <(curl -s https://codecov.io/bash)
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push mgramin/sql-boot
 
