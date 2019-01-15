@@ -54,15 +54,15 @@ class JdbcSelectQuery(
     constructor(dataSource: DataSource, sql: String)
             : this(dataSource, sql, "[NULL]", null)
 
-    override fun select(): Sequence<Map<String, Any>> {
-        return getMapStream(sql)
+    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
+        return if (sql != null) {
+            getMapStream(sql)
+        } else {
+            getMapStream(templateGenerator!!.generate(variables))
+        }
     }
 
-    override fun select(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        return getMapStream(templateGenerator!!.generate(variables))
-    }
-
-    private fun getMapStream(sqlText: String?): Sequence<Map<String, Any>> {
+    private fun getMapStream(sqlText: String): Sequence<Map<String, Any>> {
         logger.info(sqlText)
         val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
         val iterator = object : Iterator<Map<String, Any>> {

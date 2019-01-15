@@ -53,7 +53,7 @@ class SqlResourceType(
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
-        return selectQuery.select(hashMapOf("uri" to uri))
+        return selectQuery.execute(hashMapOf("uri" to uri))
                 .map { o ->
                     val path = o.entries
                             .filter { v -> v.key.startsWith("@") }

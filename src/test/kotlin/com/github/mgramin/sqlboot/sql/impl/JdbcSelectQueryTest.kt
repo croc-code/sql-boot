@@ -50,10 +50,10 @@ class JdbcSelectQueryTest {
     fun select() {
         val select = JdbcSelectQuery(this.dataSource!!,
                 """select *
-                  |  from (select name as   "n"
+                  |  from (select name  as   "n"
                   |             , email as "mail"
                   |          from main_schema.users)""".trimMargin())
-                .select().toList()
+                .execute(hashMapOf()).toList()
         assertEquals(select.toString(),
                 "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]")
     }
@@ -65,7 +65,6 @@ class JdbcSelectQueryTest {
                                           |     , email as email    /* email */
                                           |  from main_schema.users""".trimMargin()))
         val metadata = selectQuery.columns()
-        println(metadata)
         assertEquals("email", metadata["email"])
         assertEquals("name", metadata["name"])
     }

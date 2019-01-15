@@ -34,21 +34,11 @@ package com.github.mgramin.sqlboot.sql.select
 interface SelectQuery {
 
     /**
-     * Execute select query
-     *
-     * @return query result
-     */
-    @Deprecated("")
-    fun select(): Sequence<Map<String, Any>>
-
-    /**
      * Execute select query with parameters
      *
      * @return query result
      */
-    fun select(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        return select()
-    }
+    fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>>
 
     /**
      *

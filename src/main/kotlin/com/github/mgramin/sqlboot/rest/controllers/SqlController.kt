@@ -41,7 +41,7 @@ class SqlController(@field:Autowired private val dataSource: DataSource) {
 
     @RequestMapping(value = ["sql"], produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
     fun execSql2Xml(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().toList()
+        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
     }
 
     @RequestMapping(
@@ -49,12 +49,12 @@ class SqlController(@field:Autowired private val dataSource: DataSource) {
             method = arrayOf(RequestMethod.POST),
             produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
     fun execSql2XmlPost(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().toList()
+        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
     }
 
     @RequestMapping(value = ["exec"], produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun execSql2Json(@RequestParam("sql") sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().toList()
+        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
     }
 
     @RequestMapping(
@@ -62,6 +62,6 @@ class SqlController(@field:Autowired private val dataSource: DataSource) {
             method = arrayOf(RequestMethod.POST),
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun execSql2JsonPost(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).select().toList()
+        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
     }
 }
