@@ -40,21 +40,17 @@ import javax.sql.DataSource
  */
 class JdbcSelectQuery(
     private val dataSource: DataSource,
-//    private val sql: String?,
     private val nullAlias: String,
-    private val templateGenerator: TemplateGenerator?
+    private val templateGenerator: TemplateGenerator
 ) : SelectQuery {
 
     constructor(dataSource: DataSource, templateGenerator: TemplateGenerator)
-            : this(dataSource, /*null, */"[NULL]", templateGenerator)
-
-//    constructor(dataSource: DataSource, sql: String)
-//            : this(dataSource, sql, "[NULL]", null)
+            : this(dataSource, "[NULL]", templateGenerator)
 
     private val logger = Logger.getLogger(JdbcSelectQuery::class.java)
 
     override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        return getMapStream(templateGenerator!!.generate(variables))
+        return getMapStream(templateGenerator.generate(variables))
     }
 
     private fun getMapStream(sqlText: String): Sequence<Map<String, Any>> {
