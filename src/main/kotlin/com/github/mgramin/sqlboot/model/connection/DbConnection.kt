@@ -25,7 +25,6 @@
 package com.github.mgramin.sqlboot.model.connection
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
 import org.apache.tomcat.jdbc.pool.DataSource
 import org.json.JSONObject
 import org.springframework.core.io.Resource
@@ -52,7 +51,7 @@ class DbConnection {
     val health: String
         get() {
             try {
-                JdbcSelectQuery(getDataSource(), "").dbHealth()
+                getDataSource().connection
                 return "OK"
             } catch (e: Exception) {
                 return e.message.toString()

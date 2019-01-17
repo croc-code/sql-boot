@@ -24,14 +24,11 @@
 
 package com.github.mgramin.sqlboot.sql.select.impl
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatementParser
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
 import org.apache.log4j.Logger
 import org.springframework.jdbc.core.JdbcTemplate
-import java.sql.SQLException
-import java.util.Optional.ofNullable
 import javax.sql.DataSource
 
 /**
@@ -54,6 +51,8 @@ class JdbcSelectQuery(
     constructor(dataSource: DataSource, sql: String)
             : this(dataSource, sql, "[NULL]", null)
 
+    private val logger = Logger.getLogger(JdbcSelectQuery::class.java)
+
     override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
         return if (sql != null) {
             getMapStream(sql)
@@ -74,7 +73,7 @@ class JdbcSelectQuery(
                 return rowSet
                         .metaData
                         .columnNames
-                        .map { it.toLowerCase() to ofNullable(rowSet.getObject(it)).orElse(nullAlias) }
+                        .map { it.toLowerCase() to (rowSet.getObject(it) ?: nullAlias) }
                         .toMap()
             }
         }
@@ -89,16 +88,4 @@ class JdbcSelectQuery(
                 .toMap()
     }
 
-    override fun dbHealth() {
-        try {
-            val connection = dataSource.connection
-        } catch (e: SQLException) {
-            throw BootException(e)
-        }
-    }
-
-    companion object {
-
-        private val logger = Logger.getLogger(JdbcSelectQuery::class.java)
-    }
 }

@@ -31,14 +31,13 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import org.apache.commons.lang3.StringUtils.strip
-import java.util.Optional.ofNullable
 
 /**
  * Created by MGramin on 12.07.2017.
  */
 class SqlResourceType(
-    @field:Transient private val selectQuery: SelectQuery,
-    private val aliases: List<String>
+        @field:Transient private val selectQuery: SelectQuery,
+        private val aliases: List<String>
 ) : ResourceType {
 
     override fun aliases(): List<String> {
@@ -63,7 +62,7 @@ class SqlResourceType(
                     val name = path[path.size - 1].toString()
 
                     val headers = o.entries
-                            .map { strip(it.key, "@") to ofNullable(it.value).orElse("") }
+                            .map { strip(it.key, "@") to it.value }
                             .toMap()
                     DbResourceImpl(name, this,
                             DbUri(this.name(), path.map { it.toString() }.toList()),

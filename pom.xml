@@ -280,6 +280,7 @@
         </executions>
         <configuration>
           <excludes>
+            <exclude>**/rest/**</exclude>
             <exclude>**/Fake*.*</exclude>
             <exclude>**/SELECTBaseListener.*</exclude>
             <exclude>**/SELECTBaseVisitor.*</exclude>

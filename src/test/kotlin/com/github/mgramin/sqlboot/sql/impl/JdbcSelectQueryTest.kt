@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.sql.impl
 
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -48,29 +48,27 @@ class JdbcSelectQueryTest {
 
     @Test
     fun select() {
-        val select = JdbcSelectQuery(this.dataSource!!,
+        val rows = JdbcSelectQuery(this.dataSource!!,
                 """select *
-                  |  from (select name  as   "n"
+                  |  from (select name  as "n"
                   |             , email as "mail"
                   |          from main_schema.users)""".trimMargin())
                 .execute(hashMapOf()).toList()
-        assertEquals(select.toString(),
-                "[{n=mkyong, mail=mkyong@gmail.com}, {n=alex, mail=alex@yahoo.com}, {n=joel, mail=joel@gmail.com}]")
+        assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
+                linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com"),
+                linkedMapOf("n" to "joel", "mail" to "joel@gmail.com")),
+                rows)
     }
 
     @Test
     fun medataData() {
         val selectQuery = JdbcSelectQuery(this.dataSource!!,
-                GroovyTemplateGenerator("""select name  as name     /* name */
-                                          |     , email as email    /* email */
-                                          |  from main_schema.users""".trimMargin()))
+                FakeTemplateGenerator("""select name  as n      /* First name */
+                                        |     , email as "mail" /* Personal email */
+                                        |  from main_schema.users""".trimMargin()))
         val metadata = selectQuery.columns()
-        assertEquals("email", metadata["email"])
-        assertEquals("name", metadata["name"])
+        assertEquals("First name", metadata["n"])
+        assertEquals("Personal email", metadata["mail"])
     }
 
-    @Test
-    fun dbHealth() {
-        JdbcSelectQuery(this.dataSource!!, "").dbHealth()
-    }
 }

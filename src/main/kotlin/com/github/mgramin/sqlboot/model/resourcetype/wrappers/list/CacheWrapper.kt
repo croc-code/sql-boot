@@ -28,7 +28,6 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.util.Optional.ofNullable
 import javax.cache.Cache
 import javax.cache.CacheManager
 import javax.cache.Caching
@@ -56,7 +55,7 @@ class CacheWrapper(private val origin: ResourceType, private val parameterName: 
 
     @Throws(BootException::class)
     override fun read(uri: Uri): Sequence<DbResource> {
-        val cache = ofNullable(uri.params()[parameterName]).orElse("true")
+        val cache = uri.params()[parameterName] ?: "true"
         var cachedResources: List<DbResource>? = this.cache.get(uri.toString())
         if (cachedResources == null || cache.equals("false", ignoreCase = true)) {
             cachedResources = origin.read(uri).toList()

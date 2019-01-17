@@ -41,6 +41,7 @@ class CacheWrapperTest {
         on { aliases() } doReturn arrayListOf("fake_resource_type", "fake_type", "frt", "f")
         on { read(any()) } doReturn sequenceOf(mock {}, mock {}, mock {})
     }
+
     private val cachedType = CacheWrapper(originType)
 
     @Test

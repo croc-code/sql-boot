@@ -22,29 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select
+package com.github.mgramin.sqlboot.template.generator.impl
 
-/**
- * Simple select SQL-query
- *
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id: 3a4e282eda365f55a3031fef68fec51109ca784d $
- * @since 0.1
- */
-interface SelectQuery {
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
-    /**
-     * Execute select query with parameters
-     *
-     * @return query result
-     */
-    fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>>
+internal class FakeTemplateGeneratorTest {
 
-    /**
-     *  Select columns
-     *
-     * @return Map of column names and column comments
-     */
-    fun columns(): Map<String, String>
+    @Test
+    fun generate() {
+        assertEquals(FakeTemplateGenerator("Hello World!").generate(hashMapOf()), "Hello World!")
+    }
 
+    @Test
+    fun template() {
+        assertEquals(FakeTemplateGenerator("Hello World!").template(), "Hello World!")
+    }
 }
