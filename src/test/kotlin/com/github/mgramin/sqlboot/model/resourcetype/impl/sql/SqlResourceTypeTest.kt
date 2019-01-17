@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl.sql
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.WhereWrapper
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
+import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -51,13 +52,13 @@ class SqlResourceTypeTest {
 
     @Test
     fun name() {
-        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, "sql query ..."), asList("table"))
+        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, FakeTemplateGenerator("sql query ...")), asList("table"))
         assertEquals("table", table.name())
     }
 
     @Test
     fun aliases() {
-        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, "sql query ..."), asList("table"))
+        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, FakeTemplateGenerator("sql query ...")), asList("table"))
         assertEquals(1, table.aliases().size)
         assertEquals("table", table.aliases()[0])
     }
@@ -65,9 +66,9 @@ class SqlResourceTypeTest {
     @Test
     fun read() {
         val sql = """select *
-            |          from (select table_schema   as "@schema"
-            |                     , table_name     as "@table"
-            |                  from information_schema.tables)""".trimMargin()
+                    |  from (select table_schema   as "@schema"
+                    |             , table_name     as "@table"
+                    |          from information_schema.tables)""".trimMargin()
         val type = WhereWrapper(SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("table")))
         assertEquals(4, type.read(DbUri("table/m.column")).count())
     }
@@ -75,10 +76,10 @@ class SqlResourceTypeTest {
     @Test
     fun read2() {
         val sql = """select *
-            |          from (select table_schema    as "@schema"
-            |                     , table_name      as "@table"
-            |                     , column_name     as "@column"
-            |                  from information_schema.columns)""".trimMargin()
+                    |  from (select table_schema    as "@schema"
+                    |             , table_name      as "@table"
+                    |             , column_name     as "@column"
+                    |          from information_schema.columns)""".trimMargin()
         val type = WhereWrapper(
                 SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("column")))
         assertEquals(8, type.read(DbUri("column/main_schema.users")).count())
@@ -87,12 +88,12 @@ class SqlResourceTypeTest {
     @Test
     fun path() {
         val sql = """select @schema
-            |             , @table
-            |             , @column
-            |          from (select table_schema    as "@schema"
-            |                     , table_name      as "@table"
-            |                     , column_name     as "@column"
-            |                  from information_schema.columns)""".trimMargin()
+                    |     , @table
+                    |     , @column
+                    |  from (select table_schema    as "@schema"
+                    |             , table_name      as "@table"
+                    |             , column_name     as "@column"
+                    |          from information_schema.columns)""".trimMargin()
         val type = SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("column"))
         val path = type.path()
         assertEquals("[schema, table, column]", path.toString())

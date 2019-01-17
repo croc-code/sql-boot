@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers
 
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
+import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.MediaType
@@ -46,7 +47,7 @@ class SqlController(@field:Autowired private val dataSource: DataSource) {
 
     @RequestMapping(value = ["sql"], produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
     fun execSql2Xml(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
+        return JdbcSelectQuery(dataSource, FakeTemplateGenerator(sql)).execute(hashMapOf()).toList()
     }
 
     @RequestMapping(
@@ -54,12 +55,12 @@ class SqlController(@field:Autowired private val dataSource: DataSource) {
             method = arrayOf(RequestMethod.POST),
             produces = arrayOf(MediaType.APPLICATION_XML_VALUE))
     fun execSql2XmlPost(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
+        return JdbcSelectQuery(dataSource, FakeTemplateGenerator(sql)).execute(hashMapOf()).toList()
     }
 
     @RequestMapping(value = ["exec"], produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun execSql2Json(@RequestParam("sql") sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
+        return JdbcSelectQuery(dataSource, FakeTemplateGenerator(sql)).execute(hashMapOf()).toList()
     }
 
     @RequestMapping(
@@ -67,6 +68,6 @@ class SqlController(@field:Autowired private val dataSource: DataSource) {
             method = arrayOf(RequestMethod.POST),
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
     fun execSql2JsonPost(@RequestBody sql: String): List<Map<String, Any>> {
-        return JdbcSelectQuery(dataSource, sql).execute(hashMapOf()).toList()
+        return JdbcSelectQuery(dataSource, FakeTemplateGenerator(sql)).execute(hashMapOf()).toList()
     }
 }

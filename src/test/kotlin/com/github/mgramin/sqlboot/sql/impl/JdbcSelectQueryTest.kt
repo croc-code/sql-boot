@@ -49,10 +49,10 @@ class JdbcSelectQueryTest {
     @Test
     fun select() {
         val rows = JdbcSelectQuery(this.dataSource!!,
-                """select *
-                  |  from (select name  as "n"
-                  |             , email as "mail"
-                  |          from main_schema.users)""".trimMargin())
+                FakeTemplateGenerator("""select *
+                                        |  from (select name  as "n"
+                                        |             , email as "mail"
+                                        |          from main_schema.users)""".trimMargin()))
                 .execute(hashMapOf()).toList()
         assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
                 linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com"),
