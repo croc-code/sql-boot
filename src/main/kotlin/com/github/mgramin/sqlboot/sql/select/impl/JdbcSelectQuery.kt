@@ -50,10 +50,7 @@ class JdbcSelectQuery(
     private val logger = Logger.getLogger(JdbcSelectQuery::class.java)
 
     override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        return getMapStream(templateGenerator.generate(variables))
-    }
-
-    private fun getMapStream(sqlText: String): Sequence<Map<String, Any>> {
+        val sqlText = templateGenerator.generate(variables)
         logger.info(sqlText)
         val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
         val iterator = object : Iterator<Map<String, Any>> {
