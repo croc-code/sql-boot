@@ -36,8 +36,8 @@ import org.apache.commons.lang3.StringUtils.strip
  * Created by MGramin on 12.07.2017.
  */
 class SqlResourceType(
-        @field:Transient private val selectQuery: SelectQuery,
-        private val aliases: List<String>
+    @field:Transient private val selectQuery: SelectQuery,
+    private val aliases: List<String>
 ) : ResourceType {
 
     override fun aliases(): List<String> {
@@ -48,7 +48,6 @@ class SqlResourceType(
         return selectQuery.columns().keys
                 .filter { v -> v.startsWith("@") }
                 .map { v -> strip(v, "@") }
-                .toList()
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
@@ -56,17 +55,13 @@ class SqlResourceType(
                 .map { o ->
                     val path = o.entries
                             .filter { v -> v.key.startsWith("@") }
-                            .map { it.value }
-                            .toList()
-
-                    val name = path[path.size - 1].toString()
-
+                            .map { it.value.toString() }
+                    val name = path[path.size - 1]
                     val headers = o.entries
                             .map { strip(it.key, "@") to it.value }
                             .toMap()
-                    DbResourceImpl(name, this,
-                            DbUri(this.name(), path.map { it.toString() }.toList()),
-                            headers)
+
+                    DbResourceImpl(name, this, DbUri(this.name(), path), headers)
                 }
     }
 

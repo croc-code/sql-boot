@@ -70,7 +70,7 @@ class JdbcSelectQuery(
     }
 
     override fun columns(): Map<String, String> {
-        return SelectStatementParser(templateGenerator!!.template())
+        return SelectStatementParser(templateGenerator.template())
                 .parse()
                 .columns()
                 .map { it.name() to it.comment() }
