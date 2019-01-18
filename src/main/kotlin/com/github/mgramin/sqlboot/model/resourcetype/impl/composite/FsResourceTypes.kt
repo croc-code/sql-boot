@@ -48,41 +48,11 @@ import javax.sql.DataSource
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceTypes
-/**
- * Ctor.
- */
-@Throws(BootException::class)
-constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
+class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
 
-    /**
-     *
-     */
-    private val dataSource: DataSource
+    private val dataSource: DataSource = dbConnection.getDataSource()
+    private val resourceTypes: List<ResourceType>? = walk(dbConnection.baseFolder!!.file.path, uri)
 
-    /**
-     *
-     */
-    private val resourceTypes: List<ResourceType>?
-
-    init {
-        dataSource = dbConnection.getDataSource()
-        try {
-            val baseFolder = dbConnection.baseFolder!!.file.path
-            resourceTypes = walk(baseFolder, uri)
-        } catch (e: IOException) {
-            throw BootException(e)
-        }
-    }
-
-    @Deprecated("")
-    fun resourceTypes(): List<ResourceType>? {
-        return resourceTypes
-    }
-
-    /**
-     *
-     */
     private fun walk(path: String, uri: Uri?): List<ResourceType>? {
         val files = File(path).listFiles() ?: return null
         val list = ArrayList<ResourceType>()
@@ -93,17 +63,13 @@ constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
 
                 var sql: String? = null
                 try {
-                    val markdownFile = MarkdownFile(
-                            readFileToString(sqlFile, UTF_8))
-                    val parse = markdownFile.parse()
-
+                    val parse = MarkdownFile(readFileToString(sqlFile, UTF_8)).parse()
                     if (uri != null) {
                         val s = parse[uri.action()]
                         if (s != null) {
                             sql = s
                         } else {
-                            val iterator = parse.entries
-                                    .iterator()
+                            val iterator = parse.entries.iterator()
                             if (iterator.hasNext()) {
                                 sql = iterator.next().value
                             }
@@ -119,34 +85,20 @@ constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
                     // TODO catch and process this exception
                 }
 
-                val baseResourceType: ResourceType?
                 if (sqlFile.exists() && sql != null) {
-                    baseResourceType = SqlResourceType(
-                            JdbcSelectQuery(
-                                    dataSource, GroovyTemplateGenerator(sql)),
-                            listOf(f.name))
-                } else {
-                    baseResourceType = null
-                }
-
-                if (baseResourceType != null) {
-                    val resourceType = CacheWrapper(
-                            SelectWrapper(
-                                    //                    new SqlBodyWrapper(
-                                    TemplateBodyWrapper(
-                                            PageWrapper(
-                                                    LimitWrapper(
-                                                            //                                new WhereWrapper(
-                                                            baseResourceType)
-                                            ),
-                                            GroovyTemplateGenerator("EMPTY BODY ..."))
-                                    //                        dataSource)
-                            ))
+                    val baseResourceType: ResourceType = SqlResourceType(JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)), listOf(f.name))
+                    val resourceType = CacheWrapper(SelectWrapper(TemplateBodyWrapper(PageWrapper(
+                            LimitWrapper(baseResourceType)), GroovyTemplateGenerator("EMPTY BODY ..."))))
                     list.add(resourceType)
                 }
             }
         }
         return list
+    }
+
+    @Deprecated("")
+    fun resourceTypes(): List<ResourceType>? {
+        return resourceTypes
     }
 
     override fun aliases(): List<String> {
@@ -157,7 +109,6 @@ constructor(dbConnection: DbConnection, uri: Uri) : ResourceType {
         throw BootException("Not implemented!")
     }
 
-    @Throws(BootException::class)
     override fun read(uri: Uri): Sequence<DbResource> {
         return resourceTypes!!
                 .first { v -> v.name().equals(uri.type(), ignoreCase = true) }

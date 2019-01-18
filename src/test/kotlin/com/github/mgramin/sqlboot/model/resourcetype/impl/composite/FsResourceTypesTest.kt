@@ -24,47 +24,60 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl.composite
 
-import org.junit.Test
-import org.junit.runner.RunWith
+import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id: 5231745cc5b9b08cedd762394593203cd13cbd25 $
  * @since 0.1
  */
-@RunWith(SpringRunner::class)
-@ContextConfiguration(locations = arrayOf("/test_config.xml"))
+@ExtendWith(SpringExtension::class)
+@ContextConfiguration(locations = ["/test_config.xml"])
 class FsResourceTypesTest {
 
-    // TODO use parametrized tests ?
+    private val db = DbConnection()
 
-    @Test
-    fun test() {
-    }
-
-    /*@Test
-    public void loadFromSql() throws Exception {
-        final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/h2/database"));
-        types.setUrl("jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';");
-        types.init();
-        final Stream<DbResource> dbResourceStream = types.read(new DbUri("table/bookings.airports"));
-
-        final DbResource dbResource = dbResourceStream.findFirst().get();
-        System.out.println(dbResource.name());
-        System.out.println(dbResource.body());
-        assertEquals(1, dbResourceStream.count());
-
-        assertEquals(5, types.read(new DbUri("table/bookings")).count());
+    init {
+        db.baseFolder = FileSystemResource("conf/h2/database")
+        db.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
     }
 
     @Test
-    public void loadFromJdbc() throws Exception {
-        final FsResourceTypes types = new FsResourceTypes(new FileSystemResource("conf/common/database"));
-        types.setUrl("jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';");
-        types.init();
-        assertEquals(1, types.read(new DbUri("table/bookings.airports")).count());
-        assertEquals(5, types.read(new DbUri("table/bookings")).count());
-    }*/
+    fun read() {
+        val types = FsResourceTypes(db, FakeUri())
+        assertEquals(5, types.read(DbUri("table/bookings")).count())
+        assertEquals(1, types.read(DbUri("table/bookings.airports")).count())
+    }
+
+    @Test
+    @Deprecated("Deprecated")
+    fun resourceTypes() {
+        assertEquals(8, FsResourceTypes(db, FakeUri()).resourceTypes()!!.count())
+    }
+
+    @Test
+    fun aliases() {
+        assertThrows(BootException::class.java) { FsResourceTypes(db, FakeUri()).aliases() }
+    }
+
+    @Test
+    fun path() {
+        assertThrows(BootException::class.java) { FsResourceTypes(db, FakeUri()).path() }
+    }
+
+    @Test
+    fun metaData() {
+        assertThrows(BootException::class.java) { FsResourceTypes(db, FakeUri()).metaData() }
+    }
+
 }
