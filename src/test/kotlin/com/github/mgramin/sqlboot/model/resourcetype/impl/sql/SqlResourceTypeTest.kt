@@ -29,12 +29,12 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.Arrays.asList
 import javax.sql.DataSource
 
@@ -43,7 +43,7 @@ import javax.sql.DataSource
  * @version $Id: 3d61942b737e9bf2768c93c6058e1ec55929b6f3 $
  * @since 0.1
  */
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @ContextConfiguration(locations = ["/test_config.xml"])
 class SqlResourceTypeTest {
 
@@ -52,15 +52,15 @@ class SqlResourceTypeTest {
 
     @Test
     fun name() {
-        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, FakeTemplateGenerator("sql query ...")), asList("table"))
+        // TODO use FakeSelectQuery
+        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, FakeTemplateGenerator("sql query ...")), arrayListOf("table", "tbl", "t"))
         assertEquals("table", table.name())
     }
 
     @Test
     fun aliases() {
-        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, FakeTemplateGenerator("sql query ...")), asList("table"))
-        assertEquals(1, table.aliases().size)
-        assertEquals("table", table.aliases()[0])
+        val table = SqlResourceType(JdbcSelectQuery(dataSource!!, FakeTemplateGenerator("sql query ...")), arrayListOf("table", "tbl", "t"))
+        assertEquals(arrayListOf("table", "tbl", "t"), table.aliases())
     }
 
     @Test
@@ -69,7 +69,7 @@ class SqlResourceTypeTest {
                     |  from (select table_schema   as "@schema"
                     |             , table_name     as "@table"
                     |          from information_schema.tables)""".trimMargin()
-        val type = WhereWrapper(SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("table")))
+        val type = WhereWrapper(SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), arrayListOf("table", "tbl", "t")))
         assertEquals(4, type.read(DbUri("table/m.column")).count())
     }
 
@@ -95,7 +95,10 @@ class SqlResourceTypeTest {
                     |             , column_name     as "@column"
                     |          from information_schema.columns)""".trimMargin()
         val type = SqlResourceType(JdbcSelectQuery(dataSource!!, GroovyTemplateGenerator(sql)), asList("column"))
-        val path = type.path()
-        assertEquals("[schema, table, column]", path.toString())
+        assertEquals("[schema, table, column]", type.path().toString())
+    }
+
+    @Test
+    fun metaData() {
     }
 }

@@ -38,11 +38,8 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.PageWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
-import org.apache.commons.io.FileUtils.readFileToString
 import java.io.File
-import java.io.IOException
 import java.nio.charset.StandardCharsets.UTF_8
-import java.util.ArrayList
 import javax.sql.DataSource
 
 /**
@@ -51,53 +48,35 @@ import javax.sql.DataSource
 class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
 
     private val dataSource: DataSource = dbConnection.getDataSource()
-    private val resourceTypes: List<ResourceType>? = walk(dbConnection.baseFolder!!.file.path, uri)
+    private val resourceTypes: List<ResourceType> = walk(dbConnection.baseFolder!!.file.path, uri)
 
-    private fun walk(path: String, uri: Uri?): List<ResourceType>? {
-        val files = File(path).listFiles() ?: return null
-        val list = ArrayList<ResourceType>()
-        for (f in files) {
-            if (f.isDirectory) {
-                val sqlFile = File(f, "README.md")
-                list.addAll(walk(f.absolutePath, uri)!!)
-
-                var sql: String? = null
-                try {
-                    val parse = MarkdownFile(readFileToString(sqlFile, UTF_8)).parse()
-                    if (uri != null) {
-                        val s = parse[uri.action()]
-                        if (s != null) {
-                            sql = s
-                        } else {
-                            val iterator = parse.entries.iterator()
-                            if (iterator.hasNext()) {
-                                sql = iterator.next().value
-                            }
-                        }
-                    } else {
-                        val iterator = parse.entries
-                                .iterator()
-                        if (iterator.hasNext()) {
-                            sql = iterator.next().value
-                        }
-                    }
-                } catch (e: IOException) {
-                    // TODO catch and process this exception
+    private fun walk(path: String, uri: Uri): List<ResourceType> {
+        val result = arrayListOf<ResourceType>()
+        File(path)
+                .listFiles()
+                .filter { it.isDirectory }
+                .onEach { result.addAll(walk(it.absolutePath, uri)) }
+                .filter { File(it, "README.md").exists() }
+                .forEach { dir ->
+                    val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
+                    val sql = map[uri.action()] ?: map.entries.iterator().next().value
+                    val resourceType =
+                            CacheWrapper(
+                                    SelectWrapper(
+                                            TemplateBodyWrapper(
+                                                    PageWrapper(
+                                                            LimitWrapper(
+                                                                    SqlResourceType(
+                                                                            JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)),
+                                                                            listOf(dir.name)))),
+                                                    GroovyTemplateGenerator("[EMPTY BODY]"))))
+                    result.add(resourceType)
                 }
-
-                if (sqlFile.exists() && sql != null) {
-                    val baseResourceType: ResourceType = SqlResourceType(JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)), listOf(f.name))
-                    val resourceType = CacheWrapper(SelectWrapper(TemplateBodyWrapper(PageWrapper(
-                            LimitWrapper(baseResourceType)), GroovyTemplateGenerator("EMPTY BODY ..."))))
-                    list.add(resourceType)
-                }
-            }
-        }
-        return list
+        return result
     }
 
     @Deprecated("")
-    fun resourceTypes(): List<ResourceType>? {
+    fun resourceTypes(): List<ResourceType> {
         return resourceTypes
     }
 
@@ -110,7 +89,7 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
-        return resourceTypes!!
+        return resourceTypes
                 .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
                 .read(uri)
     }

@@ -24,21 +24,46 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md
 
+import org.commonmark.node.AbstractVisitor
+import org.commonmark.node.FencedCodeBlock
+import org.commonmark.node.Heading
+import org.commonmark.node.Text
 import org.commonmark.parser.Parser
+import java.util.LinkedHashMap
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id: d5d9fbccca9519bf74e3b6add53e46104ffa5931 $
  * @since 0.1
  */
-// TODO implement com.github.mgramin.sqlboot.tools.files.file.File ?
 class MarkdownFile(private val text: String) {
 
     fun parse(): Map<String, String> {
-        val parser = Parser.builder().build()
-        val document = parser.parse(text)
         val visitor = CustomVisitor()
-        document.accept(visitor)
-        return visitor.map
+        Parser.builder().build().parse(text).accept(visitor)
+        return visitor.getMap()
     }
+
+    class CustomVisitor : AbstractVisitor() {
+
+        private var currentTag: String = ""
+        private val map = LinkedHashMap<String, String>()
+
+        override fun visit(text: Text) {
+            if (text.parent is Heading && (text.parent as Heading).level >= 3) {
+                currentTag = text.literal
+            }
+        }
+
+        override fun visit(fencedCodeBlock: FencedCodeBlock) {
+            if (fencedCodeBlock.fenceLength == 4) {
+                map[currentTag] = fencedCodeBlock.literal.trim()
+            }
+        }
+
+        fun getMap(): Map<String, String> {
+            return map
+        }
+    }
+
 }

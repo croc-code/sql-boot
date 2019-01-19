@@ -111,7 +111,7 @@ class ApiController {
 
     private fun getSwaggerDescription(request: HttpServletRequest, connectionName: String): Swagger {
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList!!.getConnectionByName(connectionName), null!!)
+                dbConnectionList!!.getConnectionByName(connectionName), FakeUri())
         val resourceTypes = fsResourceTypes.resourceTypes()
         val swagger = Swagger()
 

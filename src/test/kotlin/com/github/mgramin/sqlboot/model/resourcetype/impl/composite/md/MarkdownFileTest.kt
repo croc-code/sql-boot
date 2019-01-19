@@ -34,8 +34,6 @@ class MarkdownFileTest {
     @Throws(IOException::class)
     fun parse() {
         val text = """
-            |# Schema
-            |### get_all_tables
             |````sql
             |select u.username     as "@schema"
             |     , u.user_id      as "user_id"
@@ -44,10 +42,6 @@ class MarkdownFileTest {
             | order by u.username
             |````
             |
-            |```sql
-            |select DBMS_DDL.get_metadata(...)
-            |  from dual
-            |```
             |### row_count
             |
             |````sql
@@ -56,7 +50,16 @@ class MarkdownFileTest {
             | order by u.username
             |````
             |""".trimMargin()
+        val map = MarkdownFile(text).parse()
+        assertEquals(arrayListOf("", "row_count"), map.keys.toList())
+        assertEquals(map[""], """select u.username     as "@schema"
+                                |     , u.user_id      as "user_id"
+                                |     , u.created      as "created"
+                                |  from all_users u
+                                | order by u.username""".trimMargin())
 
-        assertEquals(2, MarkdownFile(text).parse().size)
+        assertEquals(map["row_count"], """select count(1)
+                                         |  from all_users u
+                                         | order by u.username""".trimMargin())
     }
 }
