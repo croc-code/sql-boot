@@ -41,7 +41,7 @@ class FakeDbResourceType : ResourceType {
     }
 
     override fun path(): List<String> {
-        return arrayListOf()
+        return arrayListOf("schema", "table", "index")
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
@@ -52,7 +52,6 @@ class FakeDbResourceType : ResourceType {
     }
 
     override fun metaData(): Map<String, String> {
-        // TODO
-        return hashMapOf()
+        return hashMapOf("@schema" to "Schema name", "@table" to "Table name", "@index" to "Index name")
     }
 }

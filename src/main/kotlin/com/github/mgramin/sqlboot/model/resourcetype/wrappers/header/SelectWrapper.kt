@@ -28,6 +28,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import java.util.Arrays.asList
@@ -67,7 +68,7 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
         return origin.metaData()
     }
 
-    override fun metaData(uri: Uri): List<ResourceType.Metadata> {
+    override fun metaData(uri: Uri): List<Metadata> {
         val select = uri.params()[parameterName]
         return if (select != null) {
             origin.metaData(uri)

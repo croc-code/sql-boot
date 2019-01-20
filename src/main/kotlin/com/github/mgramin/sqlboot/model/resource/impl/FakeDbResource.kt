@@ -54,6 +54,6 @@ class FakeDbResource(private val uri: Uri) : DbResource {
     }
 
     override fun body(): String {
-        return "{body}"
+        return "Empty body, sorry ... :("
     }
 }

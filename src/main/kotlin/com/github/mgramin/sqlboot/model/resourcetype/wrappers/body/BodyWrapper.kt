@@ -22,35 +22,38 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resourcetype.wrappers.header
+package com.github.mgramin.sqlboot.model.resourcetype.wrappers.body
 
+import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
-import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeDbResourceType
-import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import com.github.mgramin.sqlboot.model.uri.Uri
+import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
 
-class SelectWrapperTest {
+/**
+ * Created by MGramin on 18.07.2017.
+ */
+class BodyWrapper(
+    private val origin: ResourceType,
+    private val templateGenerator: TemplateGenerator
+) : ResourceType {
 
-    private val fakeType: ResourceType = SelectWrapper(FakeDbResourceType())
-
-    @Test
-    fun name() {
-        assertEquals("fake_resource_type", fakeType.name())
+    override fun aliases(): List<String> {
+        return origin.aliases()
     }
 
-    @Test
-    fun aliases() {
-        assertEquals("[fake_resource_type, fake_type, frt, f]",
-                fakeType.aliases().toString())
+    override fun path(): List<String> {
+        return origin.path()
     }
 
-    @Test
-    fun read() {
-        val resources = fakeType.read(DbUri("table/hr.persons?select=schema")).iterator().asSequence().toList()
-        for (resource in resources) {
-            assertEquals(1, resource.headers().size.toLong())
-        }
-        assertEquals(3, resources.size)
+    @Throws(BootException::class)
+    override fun read(uri: Uri): Sequence<DbResource> {
+        return origin.read(uri)
+                .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
+    }
+
+    override fun metaData(): Map<String, String> {
+        return origin.metaData()
     }
 }

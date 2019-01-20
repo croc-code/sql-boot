@@ -30,7 +30,7 @@ import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md.MarkdownFile
 import com.github.mgramin.sqlboot.model.resourcetype.impl.sql.SqlResourceType
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.TemplateBodyWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.CacheWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.LimitWrapper
@@ -54,6 +54,7 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
         val result = arrayListOf<ResourceType>()
         File(path)
                 .listFiles()
+                .asSequence()
                 .filter { it.isDirectory }
                 .onEach { result.addAll(walk(it.absolutePath, uri)) }
                 .filter { File(it, "README.md").exists() }
@@ -63,7 +64,7 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
                     val resourceType =
                             CacheWrapper(
                                     SelectWrapper(
-                                            TemplateBodyWrapper(
+                                            BodyWrapper(
                                                     PageWrapper(
                                                             LimitWrapper(
                                                                     SqlResourceType(

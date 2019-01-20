@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.rest.controllers
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
 import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.FsResourceTypes
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
@@ -388,7 +389,7 @@ class ApiController {
         @PathVariable type: String,
         @PathVariable path: String,
         @PathVariable action: String
-    ): ResponseEntity<List<ResourceType.Metadata>> {
+    ): ResponseEntity<List<Metadata>> {
         val uri = SqlPlaceholdersWrapper(
                 DbUri(parseUri("$type/$path/$action", request)))
         val fsResourceTypes = FsResourceTypes(
