@@ -36,7 +36,6 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.WhereWrapper
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -68,9 +67,7 @@ class ResourceTypeWrapperTest {
         @Test
         fun read() {
             val resources = w.read(DbUri("table/hr.persons?select=schema")).iterator().asSequence().toList()
-            for (resource in resources) {
-                assertEquals(1, resource.headers().size.toLong())
-            }
+            resources.forEach { resource -> assertEquals(1, resource.headers().size) }
             assertEquals(3, resources.size)
         }
     }
@@ -86,7 +83,7 @@ class ResourceTypeWrapperTest {
                 "users;**/table/hr?page=2,1",
                 "jobs;**/table/hr?page=3,1", delimiter = ';')
         fun read(name: String, uri: String) {
-            Assertions.assertEquals(name, w.read(DbUri(uri)).first().name())
+            assertEquals(name, w.read(DbUri(uri)).first().name())
         }
 
         @ParameterizedTest
@@ -96,7 +93,7 @@ class ResourceTypeWrapperTest {
                 "3;table/hr?page=1",
                 "0;table/hr?page=2", delimiter = ';')
         fun read2(count: Int, uri: String) {
-            Assertions.assertEquals(count, w.read(DbUri(uri)).count())
+            assertEquals(count, w.read(DbUri(uri)).count())
         }
     }
 
@@ -106,10 +103,11 @@ class ResourceTypeWrapperTest {
             return WhereWrapper(FakeDbResourceType())
         }
 
-        @Test
-        fun read() {
-            assertEquals(1, w.read(DbUri("table/hr.persons")).count())
-            assertEquals(3, w.read(DbUri("table/hr.s")).count())
+        @ParameterizedTest
+        @CsvSource("1;table/hr.persons",
+                "3;table/hr.s", delimiter = ';')
+        fun read(count: Int, uri: String) {
+            assertEquals(count, w.read(DbUri(uri)).count())
         }
     }
 
@@ -120,12 +118,13 @@ class ResourceTypeWrapperTest {
             return LimitWrapper(FakeDbResourceType())
         }
 
-        @Test
-        fun read() {
-            assertEquals(3, w.read(DbUri("table/hr.persons")).count())
-            assertEquals(3, w.read(DbUri("table/hr.persons?limit=3")).count())
-            assertEquals(2, w.read(DbUri("table/hr.persons?limit=2")).count())
-            assertEquals(1, w.read(DbUri("table/hr.persons?limit=1")).count())
+        @ParameterizedTest
+        @CsvSource("3;table/hr.persons",
+                "3;table/hr.persons?limit=3",
+                "2;table/hr.persons?limit=2",
+                "1;table/hr.persons?limit=1", delimiter = ';')
+        fun read(count: Int, uri: String) {
+            assertEquals(count, w.read(DbUri(uri)).count())
         }
     }
 
