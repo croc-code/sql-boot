@@ -53,7 +53,7 @@ class JdbcSelectQuery(
         val sqlText = templateGenerator.generate(variables)
         logger.info(sqlText)
         val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
-        val iterator = object : Iterator<Map<String, Any>> {
+        return object : Iterator<Map<String, Any>> {
             override fun hasNext(): Boolean {
                 return rowSet.next()
             }
@@ -65,8 +65,7 @@ class JdbcSelectQuery(
                         .map { it.toLowerCase() to (rowSet.getObject(it) ?: nullAlias) }
                         .toMap()
             }
-        }
-        return iterator.asSequence()
+        }.asSequence()
     }
 
     override fun columns(): Map<String, String> {

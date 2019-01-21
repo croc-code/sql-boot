@@ -60,18 +60,20 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
                 .filter { File(it, "README.md").exists() }
                 .forEach { dir ->
                     val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
-                    val sql = map[uri.action()] ?: map.entries.iterator().next().value
-                    val resourceType =
-                            CacheWrapper(
-                                    SelectWrapper(
-                                            BodyWrapper(
-                                                    PageWrapper(
-                                                            LimitWrapper(
-                                                                    SqlResourceType(
-                                                                            JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)),
-                                                                            listOf(dir.name)))),
-                                                    GroovyTemplateGenerator("[EMPTY BODY]"))))
-                    result.add(resourceType)
+                    if (map.isNotEmpty()) {
+                        val sql = map[uri.action()] ?: map.entries.iterator().next().value
+                        val resourceType =
+                                CacheWrapper(
+                                        SelectWrapper(
+                                                BodyWrapper(
+                                                        PageWrapper(
+                                                                LimitWrapper(
+                                                                        SqlResourceType(
+                                                                                JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)),
+                                                                                listOf(dir.name)))),
+                                                        GroovyTemplateGenerator("[EMPTY BODY]"))))
+                        result.add(resourceType)
+                    }
                 }
         return result
     }

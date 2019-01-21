@@ -16,3 +16,4 @@ target/
 src/main/assembly/static/lib/*.jar
 
 src/main/generated-sources
+conf/sql-boot*

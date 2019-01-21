@@ -42,7 +42,7 @@ class DbConnection {
     var url: String? = null
     var user: String? = null
     @JsonIgnore
-    private var password: String? = null
+    var password: String? = null
     var driverClassName: String? = null
     private var properties: String? = null
 
