@@ -22,11 +22,10 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.parser
+package com.github.mgramin.sqlboot.sql.select.impl.parser
 
-import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatementParser
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class SelectStatementParserTest {
 

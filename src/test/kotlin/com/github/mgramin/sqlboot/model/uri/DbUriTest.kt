@@ -26,8 +26,8 @@ package com.github.mgramin.sqlboot.model.uri
 
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.wrappers.JsonWrapper
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 /**
  * Created by maksim on 12.06.16.

@@ -22,10 +22,9 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.impl
+package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
-import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
+import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -47,13 +46,8 @@ class JdbcSelectQueryTest {
     internal var dataSource: DataSource? = null
 
     @Test
-    fun select() {
-        val rows = JdbcSelectQuery(this.dataSource!!,
-                FakeTemplateGenerator("""select *
-                                        |  from (select name  as "n"
-                                        |             , email as "mail"
-                                        |          from main_schema.users)""".trimMargin()))
-                .execute(hashMapOf()).toList()
+    fun execute() {
+        val rows = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).toList()
         assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
                 linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com"),
                 linkedMapOf("n" to "joel", "mail" to "joel@gmail.com")),
@@ -61,14 +55,22 @@ class JdbcSelectQueryTest {
     }
 
     @Test
-    fun medataData() {
-        val selectQuery = JdbcSelectQuery(this.dataSource!!,
-                FakeTemplateGenerator("""select name  as n      /* First name */
-                                        |     , email as "mail" /* Personal email */
-                                        |  from main_schema.users""".trimMargin()))
-        val metadata = selectQuery.columns()
-        assertEquals("First name", metadata["n"])
-        assertEquals("Personal email", metadata["mail"])
+    @Deprecated("Move to base test class")
+    fun columns() {
+        val columns = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
+        assertEquals(mapOf("n" to "First name", "mail" to "Personal email"), columns)
+    }
+
+    @Test
+    @Deprecated("Move to base test class")
+    fun query() {
+        assertEquals(
+                """select "n"        /* First name */
+                  |     , "mail"     /* Personal email */
+                  |  from (select name  as "n"
+                  |             , email as "mail"
+                  |          from main_schema.users)""".trimMargin(),
+                JdbcSelectQuery(FakeSelectQuery(), dataSource!!).query())
     }
 
 }

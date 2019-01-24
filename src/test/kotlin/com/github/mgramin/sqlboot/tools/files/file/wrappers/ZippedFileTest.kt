@@ -25,8 +25,8 @@
 package com.github.mgramin.sqlboot.tools.files.file.wrappers
 
 import com.github.mgramin.sqlboot.tools.files.file.impl.FakeFile
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

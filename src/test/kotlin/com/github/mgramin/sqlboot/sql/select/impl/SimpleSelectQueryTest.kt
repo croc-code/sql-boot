@@ -22,34 +22,29 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select
+package com.github.mgramin.sqlboot.sql.select.impl
 
-/**
- * Simple select SQL-query
- *
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id: 3a4e282eda365f55a3031fef68fec51109ca784d $
- * @since 0.1
- */
-interface SelectQuery {
+import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
 
-    /**
-     * Select query text
-     */
-    fun query(): String
+internal class SimpleSelectQueryTest {
 
-    /**
-     *  Select columns
-     *
-     * @return Map of column names and column comments
-     */
-    fun columns(): Map<String, String>
+    @Test
+    fun query() {
+        val template = "select name /* First name*/ from persons"
+        assertEquals(template, SimpleSelectQuery(FakeTemplateGenerator(template)).query())
+    }
 
-    /**
-     * Execute select query with parameters
-     *
-     * @return query result
-     */
-    fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>>
+    @Test
+    fun columns() {
+        assertEquals(linkedMapOf("name" to "First name"), SimpleSelectQuery(FakeTemplateGenerator("select name /* First name*/ from persons")).columns())
+    }
 
+    @Test
+    fun execute() {
+        assertThrows(RuntimeException::class.java) { SimpleSelectQuery(FakeTemplateGenerator("select name from persons")).execute(hashMapOf()) }
+
+    }
 }

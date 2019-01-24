@@ -22,34 +22,26 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select
+package com.github.mgramin.sqlboot.sql.select.impl
 
-/**
- * Simple select SQL-query
- *
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id: 3a4e282eda365f55a3031fef68fec51109ca784d $
- * @since 0.1
- */
-interface SelectQuery {
+import com.github.mgramin.sqlboot.sql.select.SelectQuery
 
-    /**
-     * Select query text
-     */
-    fun query(): String
+class FakeSelectQuery : SelectQuery {
 
-    /**
-     *  Select columns
-     *
-     * @return Map of column names and column comments
-     */
-    fun columns(): Map<String, String>
+    override fun query(): String {
+        return """select "n"        /* First name */
+                 |     , "mail"     /* Personal email */
+                 |  from (select name  as "n"
+                 |             , email as "mail"
+                 |          from main_schema.users)""".trimMargin()
+    }
 
-    /**
-     * Execute select query with parameters
-     *
-     * @return query result
-     */
-    fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>>
+    override fun columns(): Map<String, String> {
+        return mapOf("n" to "First name", "mail" to "Personal email")
+    }
+
+    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 }

@@ -27,45 +27,13 @@ package com.github.mgramin.sqlboot.sql.select.impl
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SelectStatementParser
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
-import org.apache.log4j.Logger
-import org.springframework.jdbc.core.JdbcTemplate
-import javax.sql.DataSource
 
-/**
- * Execute SQL-query through plain old Jdbc.
- *
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id: f38638fde3d38f83edd4b8a03c570f845c856752 $
- * @since 0.1
- */
-class JdbcSelectQuery(
-    private val dataSource: DataSource,
-    private val nullAlias: String,
-    private val templateGenerator: TemplateGenerator
+class SimpleSelectQuery(
+        private val templateGenerator: TemplateGenerator
 ) : SelectQuery {
 
-    constructor(dataSource: DataSource, templateGenerator: TemplateGenerator)
-            : this(dataSource, "[NULL]", templateGenerator)
-
-    private val logger = Logger.getLogger(JdbcSelectQuery::class.java)
-
-    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        val sqlText = templateGenerator.generate(variables)
-        logger.info(sqlText)
-        val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
-        return object : Iterator<Map<String, Any>> {
-            override fun hasNext(): Boolean {
-                return rowSet.next()
-            }
-
-            override fun next(): Map<String, Any> {
-                return rowSet
-                        .metaData
-                        .columnNames
-                        .map { it.toLowerCase() to (rowSet.getObject(it) ?: nullAlias) }
-                        .toMap()
-            }
-        }.asSequence()
+    override fun query(): String {
+        return templateGenerator.template()
     }
 
     override fun columns(): Map<String, String> {
@@ -74,6 +42,10 @@ class JdbcSelectQuery(
                 .columns()
                 .map { it.name() to it.comment() }
                 .toMap()
+    }
+
+    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
+        throw RuntimeException("Not allow here")
     }
 
 }

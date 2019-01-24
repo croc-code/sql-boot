@@ -32,11 +32,11 @@ import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md.MarkdownF
 import com.github.mgramin.sqlboot.model.resourcetype.impl.sql.SqlResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.CacheWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.LimitWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.PageWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
-import com.github.mgramin.sqlboot.sql.select.impl.JdbcSelectQuery
+import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
@@ -62,16 +62,18 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
                     val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
                     if (map.isNotEmpty()) {
                         val sql = map[uri.action()] ?: map.entries.iterator().next().value
+                        val selectQuery = JdbcSelectQuery(SimpleSelectQuery(GroovyTemplateGenerator(sql)), dataSource)
                         val resourceType =
-                                CacheWrapper(
+//                                CacheWrapper(
                                         SelectWrapper(
                                                 BodyWrapper(
                                                         PageWrapper(
                                                                 LimitWrapper(
                                                                         SqlResourceType(
-                                                                                JdbcSelectQuery(dataSource, GroovyTemplateGenerator(sql)),
+                                                                                selectQuery,
                                                                                 listOf(dir.name)))),
-                                                        GroovyTemplateGenerator("[EMPTY BODY]"))))
+                                                        GroovyTemplateGenerator("[EMPTY BODY]")))
+//                                )
                         result.add(resourceType)
                     }
                 }
