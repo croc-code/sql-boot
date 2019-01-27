@@ -140,7 +140,7 @@ class ApiController {
         )
 
         // paths
-        for (resourceType in resourceTypes!!) {
+        for (resourceType in resourceTypes) {
 
             val parameter = PathParameter().required(true).type("string")
                     .name("connection_name")
@@ -216,11 +216,9 @@ class ApiController {
         for (resourceType in resourceTypes) {
             val model = ModelImpl()
             val stringStringMap = resourceType.metaData()
-            if (stringStringMap != null) {
-                val entries = stringStringMap.entries
-                for ((key, value) in entries) {
-                    model.property(key, StringProperty().description(value))
-                }
+            val entries = stringStringMap.entries
+            for ((key, value) in entries) {
+                model.property(key, StringProperty().description(value))
             }
             swagger.model(resourceType.name(), model)
         }
@@ -326,7 +324,7 @@ class ApiController {
         val fsResourceTypes = FsResourceTypes(
                 dbConnectionList!!.getConnectionByName(connectionName), uri)
         val resourceType = fsResourceTypes
-                .resourceTypes()!!
+                .resourceTypes()
                 .stream()
                 .filter { v -> v.name().equals(type, ignoreCase = true) }
                 .findAny()
@@ -348,7 +346,7 @@ class ApiController {
         val fsResourceTypes = FsResourceTypes(
                 dbConnectionList!!.getConnectionByName(connectionName), uri)
         val resourceType = fsResourceTypes
-                .resourceTypes()!!
+                .resourceTypes()
                 .stream()
                 .filter { v -> v.name().equals(type, ignoreCase = true) }
                 .findAny()
@@ -395,7 +393,7 @@ class ApiController {
         val fsResourceTypes = FsResourceTypes(
                 dbConnectionList!!.getConnectionByName(connectionName), uri)
         val resourceType = fsResourceTypes
-                .resourceTypes()!!
+                .resourceTypes()
                 .stream()
                 .filter { v -> v.name().equals(type, ignoreCase = true) }
                 .findAny()

@@ -22,26 +22,32 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select.impl
+package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 
-class FakeSelectQuery : SelectQuery {
+class PaginatedSelectQuery(
+    private val origin: SelectQuery,
+    private val pageNumber: Int,
+    private val pageSize: Int
+) : SelectQuery {
 
     override fun query(): String {
-        return """select n        /* First name */
-                 |     , mail     /* Personal email */
-                 |  from (select name  as n
-                 |             , email as mail
-                 |          from main_schema.users)""".trimMargin()
+        val query = origin.query()
+        val from = pageSize * pageNumber
+        val to = pageSize * pageNumber + pageSize
+        return """select ${columns().keys.joinToString { it }}
+                 |  from ($query)
+                 | where rownum >= $from and rownum <= $to
+                 """.trimMargin()
     }
 
     override fun columns(): Map<String, String> {
-        return mapOf("n" to "First name", "mail" to "Personal email")
+        return origin.columns()
     }
 
     override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return origin.execute(variables)
     }
 
 }

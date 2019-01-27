@@ -25,7 +25,9 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
-import org.junit.Assert.assertEquals
+import org.junit.Assert
+import org.junit.jupiter.api.Assertions.*
+
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,44 +35,28 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import javax.sql.DataSource
 
-/**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id: 550c861e4b0f97eb68e0b0d6bb0d0b99e2af1e83 $
- * @since 0.1
- */
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(locations = ["/test_config.xml"])
-class JdbcSelectQueryTest {
+internal class PaginatedSelectQueryTest {
 
     @Autowired
     internal var dataSource: DataSource? = null
 
     @Test
+    fun query() {
+    }
+
+    @Test
+    fun columns() {
+    }
+
+    @Test
     fun execute() {
-        val rows = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).toList()
-        assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
-                linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com"),
-                linkedMapOf("n" to "joel", "mail" to "joel@gmail.com")),
+        val selectQuery = JdbcSelectQuery(PaginatedSelectQuery(FakeSelectQuery(), 1, 1), this.dataSource!!)
+        println(selectQuery.query())
+        val rows = selectQuery.execute(hashMapOf()).toList()
+        Assert.assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
+                linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com")),
                 rows)
     }
-
-    @Test
-    @Deprecated("Move to base test class")
-    fun columns() {
-        val columns = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
-        assertEquals(mapOf("n" to "First name", "mail" to "Personal email"), columns)
-    }
-
-    @Test
-    @Deprecated("Move to base test class")
-    fun query() {
-        assertEquals(
-                """select n        /* First name */
-                  |     , mail     /* Personal email */
-                  |  from (select name  as n
-                  |             , email as mail
-                  |          from main_schema.users)""".trimMargin(),
-                JdbcSelectQuery(FakeSelectQuery(), dataSource!!).query())
-    }
-
 }
