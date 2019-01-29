@@ -37,6 +37,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.PageWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
@@ -62,7 +63,11 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
                     val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
                     if (map.isNotEmpty()) {
                         val sql = map[uri.action()] ?: map.entries.iterator().next().value
-                        val selectQuery = JdbcSelectQuery(SimpleSelectQuery(GroovyTemplateGenerator(sql)), dataSource)
+                        val selectQuery = JdbcSelectQuery(
+                                PaginatedSelectQuery(
+                                SimpleSelectQuery(GroovyTemplateGenerator(sql)),0,5), dataSource
+
+                        )
                         val resourceType =
 //                                CacheWrapper(
                                         SelectWrapper(

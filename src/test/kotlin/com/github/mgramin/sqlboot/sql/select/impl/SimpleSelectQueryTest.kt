@@ -34,17 +34,54 @@ internal class SimpleSelectQueryTest {
     @Test
     fun query() {
         val template = "select name /* First name*/ from persons"
-        assertEquals(template, SimpleSelectQuery(FakeTemplateGenerator(template)).query())
+        assertEquals(template,
+                SimpleSelectQuery(FakeTemplateGenerator(template)).query())
     }
 
     @Test
     fun columns() {
-        assertEquals(linkedMapOf("name" to "First name"), SimpleSelectQuery(FakeTemplateGenerator("select name /* First name*/ from persons")).columns())
+        assertEquals(linkedMapOf("name" to "First name"),
+                SimpleSelectQuery(FakeTemplateGenerator("select name /* First name*/ from persons")).columns())
     }
 
     @Test
     fun execute() {
-        assertThrows(RuntimeException::class.java) { SimpleSelectQuery(FakeTemplateGenerator("select name from persons")).execute(hashMapOf()) }
-
+        assertThrows(RuntimeException::class.java) {
+            SimpleSelectQuery(FakeTemplateGenerator("select name from persons")).execute(hashMapOf())
+        }
     }
+
+//    @Test
+//    fun parse() {
+//        val selectStatement = SelectStatementParser("""
+//            select "name"    as "persons_name"   /* name of person {key:value, key2:value2} */
+//                 , p.age     as persons_age      /* age of person */
+//                 , address   as "address"        /* address of person */
+//                 , test_column
+//                 , to_char(s.logon_time,'dd.mm.yyyy hh24:mi:ss') as logon_time /* logon_time comment */
+//              from persons p where 1=1""").parse()
+//
+//        assertEquals("persons", selectStatement.tableName())
+//
+//        val iterator = selectStatement.columns().iterator()
+//
+//        val columnName = iterator.next()
+//        assertEquals("persons_name", columnName.name())
+//        assertEquals("name of person {key:value, key2:value2}", columnName.comment())
+//
+//        val columnAge = iterator.next()
+//        assertEquals("persons_age", columnAge.name())
+//        assertEquals("age of person", columnAge.comment())
+//
+//        val columnAddress = iterator.next()
+//        assertEquals("address", columnAddress.name())
+//        assertEquals("address of person", columnAddress.comment())
+//
+//        val testColumn = iterator.next()
+//        assertEquals("test_column", testColumn.name())
+//
+//        val toCharColumn = iterator.next()
+//        assertEquals("logon_time", toCharColumn.name())
+//    }
+
 }

@@ -52,4 +52,20 @@ interface SelectQuery {
      */
     fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>>
 
+
+    class Column(private val name: String, private val comment: String, private val properties: Map<String, String>) {
+
+        fun name(): String {
+            return name
+        }
+
+        fun comment(): String {
+            return comment
+        }
+
+        fun properties(): Map<String, String> {
+            return properties
+        }
+    }
+
 }

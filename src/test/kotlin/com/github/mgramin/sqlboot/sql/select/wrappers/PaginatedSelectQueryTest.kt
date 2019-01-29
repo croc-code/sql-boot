@@ -25,11 +25,11 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
-import org.junit.Assert
-import org.junit.jupiter.api.Assertions.*
-
+import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -50,13 +50,20 @@ internal class PaginatedSelectQueryTest {
     fun columns() {
     }
 
-    @Test
-    fun execute() {
-        val selectQuery = JdbcSelectQuery(PaginatedSelectQuery(FakeSelectQuery(), 1, 1), this.dataSource!!)
-        println(selectQuery.query())
-        val rows = selectQuery.execute(hashMapOf()).toList()
-        Assert.assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
-                linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com")),
-                rows)
+    @ParameterizedTest
+    @CsvSource(
+            "1;1;1",
+            "1;2;1",
+            "1;3;1",
+            "0;4;1",
+            "3;1;100",
+            delimiter = ';')
+    fun execute(expectedCount: Int, pageNumber: Int, pageSize: Int) {
+        val selectQuery =
+                JdbcSelectQuery(
+                        PaginatedSelectQuery(
+                                FakeSelectQuery(), pageNumber, pageSize),
+                        this.dataSource!!)
+        assertEquals(expectedCount, selectQuery.execute(hashMapOf()).count())
     }
 }

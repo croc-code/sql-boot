@@ -27,19 +27,15 @@ package com.github.mgramin.sqlboot.sql.select.wrappers
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 
 class PaginatedSelectQuery(
-    private val origin: SelectQuery,
-    private val pageNumber: Int,
-    private val pageSize: Int
+        private val origin: SelectQuery,
+        private val pageNumber: Int,
+        private val pageSize: Int
 ) : SelectQuery {
 
     override fun query(): String {
         val query = origin.query()
-        val from = pageSize * pageNumber
-        val to = pageSize * pageNumber + pageSize
-        return """select ${columns().keys.joinToString { it }}
-                 |  from ($query)
-                 | where rownum >= $from and rownum <= $to
-                 """.trimMargin()
+        val from = pageSize * (pageNumber - 1)
+        return """$query LIMIT $pageSize OFFSET $from"""
     }
 
     override fun columns(): Map<String, String> {
