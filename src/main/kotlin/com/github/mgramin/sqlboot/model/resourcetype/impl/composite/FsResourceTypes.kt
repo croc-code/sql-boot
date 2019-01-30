@@ -32,13 +32,12 @@ import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md.MarkdownF
 import com.github.mgramin.sqlboot.model.resourcetype.impl.sql.SqlResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.LimitWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.PageWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import org.apache.commons.lang3.StringUtils
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
 import javax.sql.DataSource
@@ -62,23 +61,40 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
                 .forEach { dir ->
                     val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
                     if (map.isNotEmpty()) {
-                        val sql = map[uri.action()] ?: map.entries.iterator().next().value
-                        val selectQuery = JdbcSelectQuery(
-                                PaginatedSelectQuery(
-                                SimpleSelectQuery(GroovyTemplateGenerator(sql)),0,5), dataSource
 
-                        )
+                        val pageParameter = uri.params()["page"]
+                        val pageNumber: Int
+                        val pageSize: Int
+                        if (pageParameter != null) {
+                            val delimiter = ","
+                            pageNumber = Integer.valueOf(StringUtils.substringBefore(pageParameter, delimiter))
+                            pageSize = if (StringUtils.substringAfter(pageParameter, delimiter).isEmpty()) {
+                                10
+                            } else {
+                                Integer.valueOf(StringUtils.substringAfter(pageParameter, delimiter))
+                            }
+                        } else {
+                            pageSize = 10
+                            pageNumber = 1
+                        }
+
+                        val sql = map[uri.action()] ?: map.entries.iterator().next().value
+                        val selectQuery =
+                                JdbcSelectQuery(
+                                        origin = PaginatedSelectQuery(
+                                                origin = SimpleSelectQuery(
+                                                        templateGenerator = GroovyTemplateGenerator(sql)),
+                                                pageNumber = pageNumber,
+                                                pageSize = pageSize),
+                                        dataSource = dataSource)
                         val resourceType =
 //                                CacheWrapper(
-                                        SelectWrapper(
-                                                BodyWrapper(
-                                                        PageWrapper(
-                                                                LimitWrapper(
-                                                                        SqlResourceType(
-                                                                                selectQuery,
-                                                                                listOf(dir.name)))),
-                                                        GroovyTemplateGenerator("[EMPTY BODY]")))
-//                                )
+                                SelectWrapper(
+                                        origin = BodyWrapper(
+                                                origin = SqlResourceType(
+                                                        selectQuery = selectQuery,
+                                                        aliases = listOf(dir.name)),
+                                                templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))
                         result.add(resourceType)
                     }
                 }

@@ -35,7 +35,7 @@ class PaginatedSelectQuery(
     override fun query(): String {
         val query = origin.query()
         val from = pageSize * (pageNumber - 1)
-        return """$query LIMIT $pageSize OFFSET $from"""
+        return """$query OFFSET $from LIMIT $pageSize"""
     }
 
     override fun columns(): Map<String, String> {

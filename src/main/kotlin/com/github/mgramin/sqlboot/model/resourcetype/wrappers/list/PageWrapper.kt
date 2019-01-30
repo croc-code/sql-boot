@@ -52,17 +52,16 @@ class PageWrapper constructor(
 
     override fun read(uri: Uri): Sequence<DbResource> {
         val pageParameter = uri.params()[parameterName]
-        if (pageParameter != null) {
+        return if (pageParameter != null) {
             val pageNumber = valueOf(substringBefore(pageParameter, delimiter))
-            val pageSize: Int
-            if (substringAfter(pageParameter, delimiter).isEmpty()) {
-                pageSize = this.pageSize
+            val pageSize: Int = if (substringAfter(pageParameter, delimiter).isEmpty()) {
+                this.pageSize
             } else {
-                pageSize = valueOf(substringAfter(pageParameter, delimiter))
+                valueOf(substringAfter(pageParameter, delimiter))
             }
-            return origin.read(uri).drop(((pageNumber - 1) * pageSize)).take(pageSize)
+            origin.read(uri).drop(((pageNumber - 1) * pageSize)).take(pageSize)
         } else {
-            return origin.read(uri)
+            origin.read(uri)
         }
     }
 }

@@ -10,5 +10,5 @@ select "@schema"                  /* { "label": "owner", "description": "Owner o
              , c.table_name                 as "@table"
              , c.column_name                as "@column"
              , c.*
-          from information_schema.columns c);
+          from information_schema.columns c)
 ````

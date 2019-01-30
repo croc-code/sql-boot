@@ -10,6 +10,5 @@
                , c.constraint_name    as "@pk"
                , c.*
             from information_schema.constraints c
-
-         );
+         )
 ````
