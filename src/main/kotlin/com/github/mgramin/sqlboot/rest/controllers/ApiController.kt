@@ -72,15 +72,15 @@ import javax.servlet.http.HttpServletRequest
  * @since 0.1
  */
 @RestController
-@ComponentScan(basePackages = arrayOf("com.github.mgramin.sqlboot"))
+@ComponentScan(basePackages = ["com.github.mgramin.sqlboot"])
 @EnableAutoConfiguration
 @CrossOrigin
 class ApiController {
 
     @Autowired
-    private val dbConnectionList: DbConnectionList? = null
+    private lateinit var dbConnectionList: DbConnectionList
 
-    @RequestMapping(method = arrayOf(GET), path = arrayOf("/api"), produces = arrayOf(APPLICATION_JSON_VALUE))
+    @RequestMapping(method = [GET], path = ["/api"], produces = [APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
     fun apiDocsDefault(
         request: HttpServletRequest,
@@ -95,7 +95,7 @@ class ApiController {
         }
     }
 
-    @RequestMapping(method = arrayOf(GET), path = arrayOf("/api/{connectionName}"), produces = arrayOf(APPLICATION_JSON_VALUE))
+    @RequestMapping(method = [GET], path = ["/api/{connectionName}"], produces = [APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
     fun apiDocs(
         request: HttpServletRequest,
@@ -112,7 +112,7 @@ class ApiController {
 
     private fun getSwaggerDescription(request: HttpServletRequest, connectionName: String): Swagger {
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList!!.getConnectionByName(connectionName), FakeUri())
+                dbConnectionList.getConnectionByName(connectionName), FakeUri())
         val resourceTypes = fsResourceTypes.resourceTypes()
         val swagger = Swagger()
 
@@ -232,7 +232,7 @@ class ApiController {
         @PathVariable connectionName: String
     ): List<ResourceType>? {
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList!!.getConnectionByName(connectionName), FakeUri())
+                dbConnectionList.getConnectionByName(connectionName), FakeUri())
         return fsResourceTypes.resourceTypes()
     }
 
@@ -322,7 +322,7 @@ class ApiController {
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList!!.getConnectionByName(connectionName), uri)
+                dbConnectionList.getConnectionByName(connectionName), uri)
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()
@@ -344,7 +344,7 @@ class ApiController {
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList!!.getConnectionByName(connectionName), uri)
+                dbConnectionList.getConnectionByName(connectionName), uri)
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()
@@ -359,27 +359,6 @@ class ApiController {
         return ResponseEntity(collect, HttpStatus.OK)
     }
 
-    /*    @RequestMapping(value = "/api/{connectionName}/meta/{type}/{path:.+}", method = GET)
-    public ResponseEntity<List<Map<String, Object>>> getResourceMetadata21(
-        final HttpServletRequest request,
-        @PathVariable String connectionName,
-        @PathVariable String type,
-        @PathVariable String path) {
-        final Uri uri = new SqlPlaceholdersWrapper(new DbUri(parseUri(path, request)));
-        final FsResourceTypes fsResourceTypes = new FsResourceTypes(
-            dbConnectionList.getConnectionByName(connectionName), uri);
-        final ResourceType resourceType = fsResourceTypes
-            .resourceTypes()
-            .stream()
-            .filter(v -> v.name().equalsIgnoreCase(type))
-            .findAny()
-            .orElse(null);
-        if (resourceType == null) {
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(resourceType.columns(uri), HttpStatus.OK);
-    }*/
-
     @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}/{action}"], method = [GET])
     fun getResourceMetadata3(
         request: HttpServletRequest,
@@ -391,7 +370,7 @@ class ApiController {
         val uri = SqlPlaceholdersWrapper(
                 DbUri(parseUri("$type/$path/$action", request)))
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList!!.getConnectionByName(connectionName), uri)
+                dbConnectionList.getConnectionByName(connectionName), uri)
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()
@@ -407,7 +386,7 @@ class ApiController {
         type: String
     ): ResponseEntity<List<DbResource>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
-        val connections = dbConnectionList!!.getConnectionsByMask(connectionName!!)
+        val connections = dbConnectionList.getConnectionsByMask(connectionName!!)
         val result = ArrayList<DbResource>()
         for (connection in connections) {
             val fsResourceTypes = FsResourceTypes(connection, uri)
@@ -429,7 +408,8 @@ class ApiController {
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList!!.getConnectionByName(connectionName), uri)
+                dbConnectionList.getConnectionByName(connectionName),
+                uri)
         val headers = fsResourceTypes
                 .read(uri)
                 .map { it.headers() }
@@ -442,12 +422,10 @@ class ApiController {
     }
 
     private fun parseUri(path: String, request: HttpServletRequest): String {
-        val uriString: String
-        if (request.queryString == null || request.queryString.isEmpty()) {
-            uriString = path
+        return if (request.queryString == null || request.queryString.isEmpty()) {
+            path
         } else {
-            uriString = path + "?" + request.queryString
+            path + "?" + request.queryString
         }
-        return uriString
     }
 }

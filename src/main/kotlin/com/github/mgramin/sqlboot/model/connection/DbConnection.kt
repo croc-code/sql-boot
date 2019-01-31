@@ -26,7 +26,6 @@ package com.github.mgramin.sqlboot.model.connection
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.apache.tomcat.jdbc.pool.DataSource
-import org.json.JSONObject
 import org.springframework.core.io.Resource
 
 /**
@@ -44,7 +43,10 @@ class DbConnection {
     @JsonIgnore
     var password: String? = null
     var driverClassName: String? = null
-    private var properties: String? = null
+    var properties: String? = null
+
+    var paginationQueryTemplate: String? = null
+
 
     private var dataSource: DataSource? = null
 
@@ -58,13 +60,20 @@ class DbConnection {
             }
         }
 
-    fun getProperties(): Map<String, Any> {
-        return JSONObject(properties).toMap()
+    constructor()
+    constructor(name: String? = null, baseFolder: Resource? = null, url: String? = null,
+                user: String? = null, password: String? = null, driverClassName: String? = null,
+                properties: String? = null, paginationQueryTemplate: String? = null) {
+        this.name = name
+        this.baseFolder = baseFolder
+        this.url = url
+        this.user = user
+        this.password = password
+        this.driverClassName = driverClassName
+        this.properties = properties
+        this.paginationQueryTemplate = paginationQueryTemplate
     }
 
-    fun setProperties(properties: String) {
-        this.properties = properties
-    }
 
     @JsonIgnore
     fun getDataSource(): DataSource {

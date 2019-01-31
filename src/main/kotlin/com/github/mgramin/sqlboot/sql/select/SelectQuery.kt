@@ -44,6 +44,7 @@ interface SelectQuery {
      * @return Map of column names and column comments
      */
     fun columns(): Map<String, String>
+//    fun columns(): List<Column>
 
     /**
      * Execute select query with parameters

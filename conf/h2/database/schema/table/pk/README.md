@@ -9,6 +9,5 @@
                , c.table_name         as "@table"
                , c.constraint_name    as "@pk"
                , c.*
-            from information_schema.constraints c
-         )
+            from information_schema.constraints c)
 ````

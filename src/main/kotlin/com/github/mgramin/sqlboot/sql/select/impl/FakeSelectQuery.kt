@@ -41,7 +41,7 @@ class FakeSelectQuery : SelectQuery {
     }
 
     override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
 }

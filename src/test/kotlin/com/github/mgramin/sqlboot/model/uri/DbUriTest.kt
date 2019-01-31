@@ -28,6 +28,8 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.wrappers.JsonWrapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 /**
  * Created by maksim on 12.06.16.
@@ -109,6 +111,20 @@ class DbUriTest {
     fun testAction() {
         val dbUri = DbUri("table/hr.p*/count?limit=10")
         assertEquals("count", dbUri.action())
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+            "table/hr.persons?page=1,10#1#10",
+            "table/hr.persons?page=2,10#2#10",
+            "table/hr.persons?page=1,5#1#5",
+            "table/hr.persons?page=2,5#2#5",
+            "table/hr.persons#1#10",
+            delimiter = '#')
+    fun testPageParameters(uri: String, expectedPageNumber: Int, expectedPageSize: Int) {
+        val dbUri = DbUri(uri)
+        assertEquals(expectedPageNumber, dbUri.pageNumber())
+        assertEquals(expectedPageSize, dbUri.pageSize())
     }
 
     private fun test(uriString: String, jsonExpected: String) {

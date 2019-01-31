@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.model.uri
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.apache.commons.lang3.StringUtils
 import java.io.Serializable
 
 /**
@@ -63,7 +64,7 @@ interface Uri : Serializable {
      *
      * @return
      */
-    fun recursive(): Boolean?
+    fun recursive(): Boolean
 
     /**
      *
@@ -77,4 +78,33 @@ interface Uri : Serializable {
      * @return
      */
     fun action(): String
+
+    fun pageNumber(): Int {
+        val pageParameter = params()["page"]
+        val pageNumber: Int
+        pageNumber = if (pageParameter != null) {
+            val delimiter = ","
+            Integer.valueOf(StringUtils.substringBefore(pageParameter, delimiter))
+        } else {
+            1
+        }
+        return pageNumber
+    }
+
+    fun pageSize(): Int {
+        val pageParameter = params()["page"]
+        val pageSize: Int
+        pageSize = if (pageParameter != null) {
+            val delimiter = ","
+            if (StringUtils.substringAfter(pageParameter, delimiter).isEmpty()) {
+                10
+            } else {
+                Integer.valueOf(StringUtils.substringAfter(pageParameter, delimiter))
+            }
+        } else {
+            10
+        }
+        return pageSize
+    }
+
 }

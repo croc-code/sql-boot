@@ -37,7 +37,7 @@ class DbUri : Uri {
 
     private val type: String
     private val objects: List<String>
-    private val recursive: Boolean?
+    private val recursive: Boolean
     private val params = LinkedHashMap<String, String>()
     private val action: String
 
@@ -57,15 +57,15 @@ class DbUri : Uri {
 
             val list = asList(*pathString.split("[/]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
             type = list[0]
-            if (list.size == 1) {
-                objects = asList("%")
+            objects = if (list.size == 1) {
+                asList("%")
             } else {
-                objects = asList(*list[1].split("[.]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
+                asList(*list[1].split("[.]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
             }
-            if (list.size == 3) {
-                action = list[2]
+            action = if (list.size == 3) {
+                list[2]
             } else {
-                action = ""
+                ""
             }
             recursive = pathString[pathString.length - 1] == '/'
 
@@ -94,7 +94,7 @@ class DbUri : Uri {
         }
     }
 
-    override fun recursive(): Boolean? {
+    override fun recursive(): Boolean {
         return recursive
     }
 
@@ -110,7 +110,7 @@ class DbUri : Uri {
         val result = StringBuilder(type + "/" + objects.joinToString("."))
         if (action != "" && action != "create")
             result.append("/").append(action)
-        if (recursive != null && recursive)
+        if (recursive)
             result.append("/")
         if (!params.isEmpty()) {
             result.append("?")

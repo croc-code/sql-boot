@@ -4,6 +4,8 @@ conf:
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
+      paginationQueryTemplate: >
+        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "visible": false,
@@ -13,6 +15,8 @@ conf:
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
+      paginationQueryTemplate: >
+        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "color": "green",
@@ -23,6 +27,8 @@ conf:
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
+      paginationQueryTemplate: >
+        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "color": "orange",
@@ -33,6 +39,8 @@ conf:
       baseFolder: file:conf/h2/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
+      paginationQueryTemplate: >
+        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "color": "red",
@@ -43,16 +51,3 @@ conf:
 
 server:
   port: 8007
-
-spring:
-  security:
-    enabled: false
-management:
-  security:
-    enabled: false
-security:
-  basic:
-    enabled: false
-
-
-

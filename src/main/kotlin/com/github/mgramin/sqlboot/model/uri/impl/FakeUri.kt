@@ -30,7 +30,7 @@ import java.util.HashMap
 class FakeUri : Uri {
 
     override fun type(): String {
-        return ""
+        return "table"
     }
 
     override fun path(): List<String> {
@@ -41,19 +41,19 @@ class FakeUri : Uri {
         return "FAKE_TBL"
     }
 
-    override fun recursive(): Boolean? {
-        return null
+    override fun recursive(): Boolean {
+        return false
     }
 
     override fun params(): Map<String, String> {
-        return HashMap()
+        return mapOf("page" to "1,20")
     }
 
     override fun action(): String {
-        return ""
+        return "create"
     }
 
-    override fun toString(): String {
-        return "FAKE_TBL"
-    }
+//    override fun toString(): String {
+//        return "FAKE_TBL"
+//    }
 }

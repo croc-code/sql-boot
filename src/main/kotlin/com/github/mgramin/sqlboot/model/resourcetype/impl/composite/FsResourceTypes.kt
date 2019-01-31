@@ -35,9 +35,8 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapp
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.TemplatedSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
-import org.apache.commons.lang3.StringUtils
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
 import javax.sql.DataSource
@@ -45,7 +44,7 @@ import javax.sql.DataSource
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
+class FsResourceTypes(private val dbConnection: DbConnection, uri: Uri) : ResourceType {
 
     private val dataSource: DataSource = dbConnection.getDataSource()
     private val resourceTypes: List<ResourceType> = walk(dbConnection.baseFolder!!.file.path, uri)
@@ -61,31 +60,14 @@ class FsResourceTypes(dbConnection: DbConnection, uri: Uri) : ResourceType {
                 .forEach { dir ->
                     val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
                     if (map.isNotEmpty()) {
-
-                        val pageParameter = uri.params()["page"]
-                        val pageNumber: Int
-                        val pageSize: Int
-                        if (pageParameter != null) {
-                            val delimiter = ","
-                            pageNumber = Integer.valueOf(StringUtils.substringBefore(pageParameter, delimiter))
-                            pageSize = if (StringUtils.substringAfter(pageParameter, delimiter).isEmpty()) {
-                                10
-                            } else {
-                                Integer.valueOf(StringUtils.substringAfter(pageParameter, delimiter))
-                            }
-                        } else {
-                            pageSize = 10
-                            pageNumber = 1
-                        }
-
                         val sql = map[uri.action()] ?: map.entries.iterator().next().value
                         val selectQuery =
                                 JdbcSelectQuery(
-                                        origin = PaginatedSelectQuery(
+                                        origin = TemplatedSelectQuery(
                                                 origin = SimpleSelectQuery(
                                                         templateGenerator = GroovyTemplateGenerator(sql)),
-                                                pageNumber = pageNumber,
-                                                pageSize = pageSize),
+                                                variables = mapOf("uri" to uri),
+                                                dbConnection = dbConnection),
                                         dataSource = dataSource)
                         val resourceType =
 //                                CacheWrapper(

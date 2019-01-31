@@ -45,7 +45,7 @@ class JsonWrapper(private val origin: Uri) : Uri {
         return origin.path(index)
     }
 
-    override fun recursive(): Boolean? {
+    override fun recursive(): Boolean {
         return origin.recursive()
     }
 

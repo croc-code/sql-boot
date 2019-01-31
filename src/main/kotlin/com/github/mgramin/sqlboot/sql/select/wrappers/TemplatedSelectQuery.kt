@@ -24,18 +24,21 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
+import com.github.mgramin.sqlboot.model.connection.DbConnection
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 
-class PaginatedSelectQuery(
+class TemplatedSelectQuery(
         private val origin: SelectQuery,
-        private val pageNumber: Int,
-        private val pageSize: Int
+//        private val template: String,
+        private val variables: Map<String, Any>,
+        private val dbConnection: DbConnection
 ) : SelectQuery {
 
     override fun query(): String {
-        val query = origin.query()
-        val from = pageSize * (pageNumber - 1)
-        return """$query OFFSET $from LIMIT $pageSize"""
+        val vars = hashMapOf<String, Any>("query" to origin.query())
+        vars.putAll(variables)
+        return GroovyTemplateGenerator(dbConnection.paginationQueryTemplate!!).generate(vars)
     }
 
     override fun columns(): Map<String, String> {

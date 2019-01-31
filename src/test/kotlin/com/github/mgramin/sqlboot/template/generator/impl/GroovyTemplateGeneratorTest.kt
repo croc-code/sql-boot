@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl
 
+import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -53,4 +54,16 @@ class GroovyTemplateGeneratorTest {
         val templateGenerator = GroovyTemplateGenerator("create table \${table.toLowerCase()} ...")
         assertEquals(templateGenerator.generate(maps), "create table persons ...")
     }
+
+
+    @Test
+    fun test() {
+        val uri = FakeUri()
+        val s = GroovyTemplateGenerator("{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}")
+                .generate(mapOf("uri" to uri))
+
+        val generate = GroovyTemplateGenerator("Hello ${'$'}{world}!").generate(mapOf("world" to "${'$'}{abc}"))
+        println(generate)
+    }
+
 }
