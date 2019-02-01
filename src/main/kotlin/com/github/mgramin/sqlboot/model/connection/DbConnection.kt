@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.connection
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.apache.tomcat.jdbc.pool.DataSource
+import org.json.JSONObject
 import org.springframework.core.io.Resource
 
 /**
@@ -43,7 +44,7 @@ class DbConnection {
     @JsonIgnore
     var password: String? = null
     var driverClassName: String? = null
-    var properties: String? = null
+    private var properties: String? = null
 
     var paginationQueryTemplate: String? = null
 
@@ -74,6 +75,13 @@ class DbConnection {
         this.paginationQueryTemplate = paginationQueryTemplate
     }
 
+    fun getProperties(): Map<String, Any> {
+        return JSONObject(properties).toMap()
+    }
+
+    fun setProperties(properties: String) {
+        this.properties = properties
+    }
 
     @JsonIgnore
     fun getDataSource(): DataSource {
