@@ -26,7 +26,7 @@ package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
-import org.apache.log4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
 import javax.sql.DataSource
 
@@ -38,14 +38,14 @@ import javax.sql.DataSource
  * @since 0.1
  */
 class JdbcSelectQuery(
-    private val origin : SelectQuery,
-    private val dataSource: DataSource,
-    private val nullAlias: String
+        private val origin: SelectQuery,
+        private val dataSource: DataSource,
+        private val nullAlias: String
 ) : SelectQuery {
 
-    constructor(origin : SelectQuery, dataSource: DataSource) : this(origin, dataSource, "[NULL]")
+    constructor(origin: SelectQuery, dataSource: DataSource) : this(origin, dataSource, "[NULL]")
 
-    private val logger = Logger.getLogger(JdbcSelectQuery::class.java)
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun query(): String {
         return origin.query()

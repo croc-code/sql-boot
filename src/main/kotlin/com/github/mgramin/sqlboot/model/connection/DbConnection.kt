@@ -101,7 +101,9 @@ class DbConnection {
             if (password != null) {
                 dataSourceNew.password = password
             }
+            dataSource = dataSourceNew
             return dataSourceNew
         }
     }
+
 }
