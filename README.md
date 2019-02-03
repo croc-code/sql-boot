@@ -1,4 +1,4 @@
-# Database as a Code_
+# Treat your database as Code
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot)
 [![Build status](https://ci.appveyor.com/api/projects/status/vy096ig84cymr8ir?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot-hffyc)
@@ -12,78 +12,43 @@
 [![EO badge](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org/)
 [![DevOps By Rultor.com](http://www.rultor.com/b/sql-boot/sql-boot)](http://www.rultor.com/p/sql-boot/sql-boot)
 
-sql-boot is a database management tool for developers, DBA and DevOps use to manage both relational and non-relational databases using simple REST. Take a proactive approach to database management.
+Advanced REST-wrapper for your own SQL-queries (actually not only SQL).
 
-Write own queries or use existen (list)
+1. Write query
+2. Put to sql-boot folder structure
+3. Get data from URI, e.g. prod_db/hr.persons?select=name,address&page=2&orderby=name+desc
 
-For SQL database - simple REST-wrapper for your own sql-queries.
-
-
-Example:
-- simply write query
-- put to folder structure
-- call and get data from URI - prod_db/hr.persons?select=name,address&page=2&orderby=name+desc
-
-Generate migration scripts:
-- createTable
-- dropTable
-- alterTable
-- createRole
-- dropRole
-- createQueue
-- dropQueue
-- stopQueue
-- startQueue
-
-SQL-driven* DB-management framework for Developers, DBA and DevOps (*actually, not only SQL)
-
-
-- Evolutionary
-- Transparent (DB independent - native old SQL/*QL/JDBC/REST)
-- Polyglot
-
-
-Destinations
-------------
-- Create and manage your DB source code (DDL, DML, etc)
-- Get DB metrics
-- Database reverse engineering
-- Share expert knowledge
-- Multiplatform (REST/Java based)
 
 Concepts
 --------
-TODO
+- Share expert knowledge
+- TODO ...
+
 
 Self-documentation
 ------------------
 sql-boot uses the [OpenAPI](https://github.com/OAI/OpenAPI-Specification) standard to generate up-to-date documentation for APIs based your SQL-queries metadata.
 You can use a tool like [Swagger-UI](https://github.com/swagger-api/swagger-ui) or [Swagger-Editor](https://github.com/swagger-api/swagger-editor) to render interactive documentation (for demo requests) or [generate client API](https://github.com/swagger-api/swagger-codegen) against the live API server.
 
+
 How to pronounce
 ----------------
 It is pronounced "sequelboot" - https://translate.google.com/?source=osdd#en/en/sequelboot
 
 
-Try online (on Heroku):
+Try online:
 -----------------------
-- [table/hr](https://sql-boot.herokuapp.com/api/h2/table/hr) - get all table from "hr" schema
-- [table/hr.jobs](https://sql-boot.herokuapp.com/api/h2/table/hr.jobs) - get table "hr.jobs"
-- [table/hr.users/](https://sql-boot.herokuapp.com/api/h2/table/hr.users/) - get table "hr.users" with child objects (pk, fk, indexes etc)
-- [index/hr.users](https://sql-boot.herokuapp.com/api/h2/index/hr.users) - get all indexes for table "hr.users"
-- [index/hr](https://sql-boot.herokuapp.com/api/h2/index/hr) - get all indexes from "hr" schema
-- [index/hr.p*](https://sql-boot.herokuapp.com/api/h2/index/hr.p*) - get all indexes from "hr" schema and starting with "p"
-- [pk/hr](https://sql-boot.herokuapp.com/api/h2/pk/hr) - get all pk from "hr" schema
-- [fk/*](https://sql-boot.herokuapp.com/api/h2/fk/*) - get all fk from all db schemas
-
+- [table/scott](http://217.73.63.31:8007/api/oracle/headers/table/scott) - get all table from schema "scott"
+- [table/scott.emp](http://217.73.63.31:8007/api/oracle/headers/table/scott.emp) - get table "hr.emp"
+- [index/scott](http://217.73.63.31:8007/api/oracle/headers/index/scott) - get all indexes from "scott" schema
 
 
 Try with Docker and embedded (H2) demo db:
 ------------------------------------------
-
 ```
 docker run -t -p 8007:8007 mgramin/sql-boot
 ```
+
 
 Build from source:
 ------------------
@@ -93,22 +58,15 @@ cd sql-boot
 mvn package
 ```
 
-Base configurations:
---------------------
 
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-conf.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-conf)
-https://github.com/sql-boot/sql-boot-conf
+Base queries:
+--------------------
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-oracle.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-oracle)
+https://github.com/sql-boot/sql-boot-oracle
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgresql.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgresql)
 https://github.com/sql-boot/sql-boot-postgresql
 
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-oracle.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-oracle)
-https://github.com/sql-boot/sql-boot-oracle
 
 [![Build Status](https://travis-ci.org/sql-boot/sql-boot-cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-cassandra)
 https://github.com/sql-boot/sql-boot-cassandra
-
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgres_dba.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgres_dba)
-https://github.com/sql-boot/sql-boot-postgres_dba
-
-https://github.com/sql-boot/sql-boot-clickhouse
