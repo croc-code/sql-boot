@@ -19,10 +19,16 @@ Advanced REST-wrapper for your own SQL-queries (actually not only SQL).
 3. Get data from URI, e.g. prod_db/hr.persons?select=name,address&page=2&orderby=name+desc
 
 
-Concepts
---------
-- Share expert knowledge
-- TODO ...
+Share expert knowledge
+----------------------
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-oracle.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-oracle)
+https://github.com/sql-boot/sql-boot-oracle
+
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgresql.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgresql)
+https://github.com/sql-boot/sql-boot-postgresql
+
+[![Build Status](https://travis-ci.org/sql-boot/sql-boot-cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-cassandra)
+https://github.com/sql-boot/sql-boot-cassandra
 
 
 Self-documentation
@@ -38,7 +44,7 @@ It is pronounced "sequelboot" - https://translate.google.com/?source=osdd#en/en/
 
 Try online:
 -----------------------
-- [table/scott](http://217.73.63.31:8007/api/oracle/headers/table/scott) - get all table from schema "scott"
+- [table/scott](http://217.73.63.31:8007/api/oracle/headers/table/scott) - get all tables from schema "scott"
 - [table/scott.emp](http://217.73.63.31:8007/api/oracle/headers/table/scott.emp) - get table "hr.emp"
 - [index/scott](http://217.73.63.31:8007/api/oracle/headers/index/scott) - get all indexes from "scott" schema
 
@@ -57,16 +63,3 @@ git clone https://github.com/mgramin/sql-boot
 cd sql-boot
 mvn package
 ```
-
-
-Base queries:
---------------------
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-oracle.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-oracle)
-https://github.com/sql-boot/sql-boot-oracle
-
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgresql.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgresql)
-https://github.com/sql-boot/sql-boot-postgresql
-
-
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-cassandra)
-https://github.com/sql-boot/sql-boot-cassandra

@@ -43,7 +43,7 @@ class JdbcSelectQuery(
         private val nullAlias: String
 ) : SelectQuery {
 
-    constructor(origin: SelectQuery, dataSource: DataSource) : this(origin, dataSource, "[NULL]")
+    constructor(origin: SelectQuery, dataSource: DataSource) : this(origin, dataSource, "")
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
