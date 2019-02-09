@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
 import org.junit.Assert.assertEquals
@@ -68,7 +68,7 @@ internal class TemplatedSelectQueryTest {
                         TemplatedSelectQuery(
                                 FakeSelectQuery(),
                                 mapOf("uri" to DbUri("table/hr.persons?page=$pageNumber,$pageSize")),
-                                DbConnection(paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}")),
+                                SimpleDbConnection(paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}")),
                         this.dataSource!!)
         assertEquals(expectedCount, selectQuery.execute(hashMapOf()).count())
     }

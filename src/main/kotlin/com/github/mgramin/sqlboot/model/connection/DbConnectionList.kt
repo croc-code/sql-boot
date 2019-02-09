@@ -36,13 +36,13 @@ import org.springframework.stereotype.Service
 @Service
 @Configuration
 @ConfigurationProperties(prefix = "conf")
-open class DbConnectionList(val connections: List<DbConnection>) {
+open class DbConnectionList(val connections: List<SimpleDbConnection>) {
 
-    fun getConnectionByName(name: String): DbConnection {
+    fun getConnectionByName(name: String): SimpleDbConnection {
         return connections.first { v -> v.name.equals(name, ignoreCase = true) }
     }
 
-    fun getConnectionsByMask(name: String): List<DbConnection> {
+    fun getConnectionsByMask(name: String): List<SimpleDbConnection> {
         return connections.filter { v -> v.name!!.matches(name.toRegex()) }
     }
 }

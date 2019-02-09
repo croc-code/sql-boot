@@ -83,8 +83,8 @@ class ApiController {
     @RequestMapping(method = [GET], path = ["/api"], produces = [APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
     fun apiDocsDefault(
-        request: HttpServletRequest,
-        @RequestParam(required = false) format: String?
+            request: HttpServletRequest,
+            @RequestParam(required = false) format: String?
     ): String {
         val connectionName = "h2"
         val swaggerDescription = getSwaggerDescription(request, connectionName)
@@ -98,9 +98,9 @@ class ApiController {
     @RequestMapping(method = [GET], path = ["/api/{connectionName}"], produces = [APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
     fun apiDocs(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @RequestParam(required = false) format: String?
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @RequestParam(required = false) format: String?
     ): String {
         val swaggerDescription = getSwaggerDescription(request, connectionName)
         return if (format != null && format == "yaml") {
@@ -228,8 +228,8 @@ class ApiController {
 
     @RequestMapping(value = ["/api/{connectionName}/types"])
     fun test(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String
     ): List<ResourceType>? {
         val fsResourceTypes = FsResourceTypes(
                 dbConnectionList.getConnectionByName(connectionName), FakeUri())
@@ -238,77 +238,77 @@ class ApiController {
 
     @RequestMapping(value = ["/api/{connectionName}/{type}"])
     fun getResourcesEntireJson(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String
     ): ResponseEntity<List<DbResource>> {
         return getListResponseEntity(request, connectionName, type)
     }
 
     @RequestMapping(value = ["/api/default/{type}"])
     fun getResourcesEntireJsonDefaultConnection(
-        request: HttpServletRequest,
-        @PathVariable type: String
+            request: HttpServletRequest,
+            @PathVariable type: String
     ): ResponseEntity<List<DbResource>> {
         return getListResponseEntity(request, null, type)
     }
 
     @RequestMapping(value = ["/api/{connectionName}/{type}/{path:.+}"])
     fun getResourcesEntireJson2(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String,
-        @PathVariable path: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String,
+            @PathVariable path: String
     ): ResponseEntity<List<DbResource>> {
         return getListResponseEntity(request, connectionName, "$type/$path")
     }
 
     @RequestMapping(value = ["/api/{connectionName}/{type}/{path:.+}/{action}"])
     fun getResourcesEntireJson3(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String,
-        @PathVariable path: String,
-        @PathVariable action: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String,
+            @PathVariable path: String,
+            @PathVariable action: String
     ): ResponseEntity<List<DbResource>> {
         return getListResponseEntity(request, connectionName, "$type/$path/$action")
     }
 
     @RequestMapping(value = ["/api/default/{type}/{path:.+}"])
     fun getResourcesEntireJson2DefaultConnection(
-        request: HttpServletRequest,
-        @PathVariable type: String,
-        @PathVariable path: String
+            request: HttpServletRequest,
+            @PathVariable type: String,
+            @PathVariable path: String
     ): ResponseEntity<List<DbResource>> {
         return getListResponseEntity(request, null, "$type/$path")
     }
 
     @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}"], method = arrayOf(GET))
     fun getResourcesHeadersJson(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String,
-        @PathVariable path: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String,
+            @PathVariable path: String
     ): ResponseEntity<List<Map<String, Any>>> {
         return getListResponseEntityHeaders(request, connectionName, "$type/$path")
     }
 
     @RequestMapping(value = ["/api/{connectionName}/headers/{type}"], method = arrayOf(GET))
     fun getResourcesHeadersJson2(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String
     ): ResponseEntity<List<Map<String, Any>>> {
         return getListResponseEntityHeaders(request, connectionName, type)
     }
 
     @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}/{action}"], method = arrayOf(GET))
     fun getResourcesHeadersJson3(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String,
-        @PathVariable path: String,
-        @PathVariable action: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String,
+            @PathVariable path: String,
+            @PathVariable action: String
     ): ResponseEntity<List<Map<String, Any>>> {
         return getListResponseEntityHeaders(request, connectionName,
                 "$type/$path/$action")
@@ -316,13 +316,14 @@ class ApiController {
 
     @RequestMapping(value = ["/api/{connectionName}/meta/{type}"], method = arrayOf(GET))
     fun getResourceMetadata(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
+        val dbConnection = dbConnectionList.getConnectionsByMask(connectionName).first()
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList.getConnectionByName(connectionName), uri)
+                dbConnection, uri)
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()
@@ -337,14 +338,15 @@ class ApiController {
 
     @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}"], method = [GET])
     fun getResourceMetadata2(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String,
-        @PathVariable path: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String,
+            @PathVariable path: String
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
+        val dbConnection = dbConnectionList.getConnectionsByMask(connectionName).first()
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList.getConnectionByName(connectionName), uri)
+                dbConnection, uri)
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()
@@ -361,11 +363,11 @@ class ApiController {
 
     @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}/{action}"], method = [GET])
     fun getResourceMetadata3(
-        request: HttpServletRequest,
-        @PathVariable connectionName: String,
-        @PathVariable type: String,
-        @PathVariable path: String,
-        @PathVariable action: String
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String,
+            @PathVariable path: String,
+            @PathVariable action: String
     ): ResponseEntity<List<Metadata>> {
         val uri = SqlPlaceholdersWrapper(
                 DbUri(parseUri("$type/$path/$action", request)))
@@ -381,9 +383,9 @@ class ApiController {
     }
 
     private fun getListResponseEntity(
-        request: HttpServletRequest,
-        connectionName: String?,
-        type: String
+            request: HttpServletRequest,
+            connectionName: String?,
+            type: String
     ): ResponseEntity<List<DbResource>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
         val connections = dbConnectionList.getConnectionsByMask(connectionName!!)
@@ -402,22 +404,27 @@ class ApiController {
     }
 
     private fun getListResponseEntityHeaders(
-        request: HttpServletRequest,
-        connectionName: String,
-        path: String
+            request: HttpServletRequest,
+            connectionName: String,
+            path: String
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
-        val fsResourceTypes = FsResourceTypes(
-                dbConnectionList.getConnectionByName(connectionName),
-                uri)
-        val headers = fsResourceTypes
-                .read(uri)
-                .map { it.headers() }
-                .toList()
-        return if (headers.isEmpty()) {
-            ResponseEntity(headers, HttpStatus.NO_CONTENT)
+        val connections = dbConnectionList.getConnectionsByMask(connectionName)
+        val result = ArrayList<Map<String, Any>>()
+
+        for (connection in connections) {
+            val fsResourceTypes = FsResourceTypes(connection, uri)
+            val headers = fsResourceTypes
+                    .read(uri)
+                    .map { it.headers() }
+                    .toList()
+            result.addAll(headers)
+        }
+
+        return if (result.isEmpty()) {
+            ResponseEntity(result, HttpStatus.NO_CONTENT)
         } else {
-            ResponseEntity(headers, HttpStatus.OK)
+            ResponseEntity(result, HttpStatus.OK)
         }
     }
 

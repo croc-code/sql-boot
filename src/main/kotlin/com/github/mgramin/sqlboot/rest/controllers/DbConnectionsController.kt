@@ -24,8 +24,8 @@
 
 package com.github.mgramin.sqlboot.rest.controllers
 
-import com.github.mgramin.sqlboot.model.connection.DbConnection
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
+import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController
 @CrossOrigin
 class DbConnectionsController @Autowired constructor(private val dbConnectionList: DbConnectionList) {
 
-    val allDbConnections: List<DbConnection>
+    val allDbConnections: List<SimpleDbConnection>
         @RequestMapping(value = ["/connections"])
         get() = dbConnectionList.connections
 }

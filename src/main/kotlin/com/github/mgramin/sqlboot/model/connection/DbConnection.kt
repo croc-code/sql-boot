@@ -24,86 +24,11 @@
 
 package com.github.mgramin.sqlboot.model.connection
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.apache.tomcat.jdbc.pool.DataSource
-import org.json.JSONObject
-import org.springframework.core.io.Resource
+import javax.sql.DataSource
 
-/**
- * @author Maksim Gramin (mgramin@gmail.com)
- * @version $Id: f221782080d430e77aed80ef8446745687c350f4 $
- * @since 0.1
- */
-class DbConnection {
+interface DbConnection {
 
-    var name: String? = null
-    @JsonIgnore // TODO fix json serialization for Resource class
-    var baseFolder: Resource? = null
-    var url: String? = null
-    var user: String? = null
-    @JsonIgnore
-    var password: String? = null
-    var driverClassName: String? = null
-    private var properties: String? = null
-
-    var paginationQueryTemplate: String? = null
-
-
-    private var dataSource: DataSource? = null
-
-    val health: String
-        get() {
-            try {
-                getDataSource().connection
-                return "OK"
-            } catch (e: Exception) {
-                return e.message.toString()
-            }
-        }
-
-    constructor()
-    constructor(name: String? = null, baseFolder: Resource? = null, url: String? = null,
-                user: String? = null, password: String? = null, driverClassName: String? = null,
-                properties: String? = null, paginationQueryTemplate: String? = null) {
-        this.name = name
-        this.baseFolder = baseFolder
-        this.url = url
-        this.user = user
-        this.password = password
-        this.driverClassName = driverClassName
-        this.properties = properties
-        this.paginationQueryTemplate = paginationQueryTemplate
-    }
-
-    fun getProperties(): Map<String, Any> {
-        return JSONObject(properties).toMap()
-    }
-
-    fun setProperties(properties: String) {
-        this.properties = properties
-    }
-
-    @JsonIgnore
-    fun getDataSource(): DataSource {
-        if (dataSource != null) {
-            return dataSource!!
-        } else {
-            val dataSourceNew = DataSource()
-            if (driverClassName != null) {
-                dataSourceNew.driverClassName = driverClassName
-            }
-            if (url != null) {
-                dataSourceNew.url = url
-            }
-            if (user != null) {
-                dataSourceNew.username = user
-            }
-            if (password != null) {
-                dataSourceNew.password = password
-            }
-            dataSource = dataSourceNew
-            return dataSourceNew
-        }
-    }
+    fun name(): String
+    fun getDataSource(): DataSource
 
 }

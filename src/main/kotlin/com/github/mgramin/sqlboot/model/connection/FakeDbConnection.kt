@@ -22,31 +22,16 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.sql.select.wrappers
+package com.github.mgramin.sqlboot.model.connection
 
-import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
-import com.github.mgramin.sqlboot.sql.select.SelectQuery
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import javax.sql.DataSource
 
-class TemplatedSelectQuery(
-        private val origin: SelectQuery,
-//        private val template: String,
-        private val variables: Map<String, Any>,
-        private val dbConnection: SimpleDbConnection
-) : SelectQuery {
-
-    override fun query(): String {
-        val vars = hashMapOf<String, Any>("query" to origin.query())
-        vars.putAll(variables)
-        return GroovyTemplateGenerator(dbConnection.paginationQueryTemplate!!).generate(vars)
+class FakeDbConnection : DbConnection {
+    override fun getDataSource(): DataSource {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun columns(): Map<String, String> {
-        return origin.columns()
+    override fun name(): String {
+        return "Simple fake connection"
     }
-
-    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        return origin.execute(variables)
-    }
-
 }

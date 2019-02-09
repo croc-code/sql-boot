@@ -24,10 +24,12 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.wrappers
 
+import com.github.mgramin.sqlboot.model.connection.FakeDbConnection
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeDbResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.DbNameWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.CacheWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.LimitWrapper
@@ -148,6 +150,50 @@ class ResourceTypeWrapperTest {
 
     }
 
+
+    @Nested
+    internal inner class DbNameWrapperTest : BaseResourceWrapperTest() {
+
+        override fun getWrapper(): ResourceType {
+            return DbNameWrapper(
+                    FakeDbResourceType(),
+                    FakeDbConnection()
+            )
+        }
+
+        @Test
+        fun read() {
+            w.read(FakeUri()).forEach { println(it.headers()) }
+        }
+
+        @Test
+        fun metadata() {
+            println(w.metaData())
+        }
+
+        @Test
+        override fun metaData() {
+            assertEquals(
+                    hashMapOf(
+                            "@schema" to "Schema name",
+                            "@table" to "Table name",
+                            "@index" to "Index name",
+                            "database" to "Database name"),
+                    w.metaData())
+        }
+
+        @Test
+        override fun metaDataByUri() {
+            assertEquals(
+                    arrayListOf(
+                            Metadata("@schema", "String", "Schema name"),
+                            Metadata("@table", "String", "Table name"),
+                            Metadata("@index", "String", "Index name"),
+                            Metadata("database", "String", "Database name")).sorted(),
+                    w.metaData(FakeUri()).sorted())
+        }
+    }
+
     internal abstract inner class BaseResourceWrapperTest {
 
         val w = getWrapper()
@@ -171,7 +217,7 @@ class ResourceTypeWrapperTest {
         }
 
         @Test
-        fun metaDataByUri() {
+        open fun metaDataByUri() {
             assertEquals(
                     arrayListOf(
                             Metadata("@schema", "String", "Schema name"),
@@ -181,7 +227,7 @@ class ResourceTypeWrapperTest {
         }
 
         @Test
-        fun metaData() {
+        open fun metaData() {
             assertEquals(hashMapOf("@schema" to "Schema name", "@table" to "Table name", "@index" to "Index name"),
                     w.metaData())
         }

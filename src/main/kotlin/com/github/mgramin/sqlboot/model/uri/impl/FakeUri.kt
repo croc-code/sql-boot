@@ -25,7 +25,6 @@
 package com.github.mgramin.sqlboot.model.uri.impl
 
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.util.HashMap
 
 class FakeUri : Uri {
 

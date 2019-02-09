@@ -25,12 +25,13 @@
 package com.github.mgramin.sqlboot.model.resourcetype.impl.composite
 
 import com.github.mgramin.sqlboot.exceptions.BootException
-import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md.MarkdownFile
 import com.github.mgramin.sqlboot.model.resourcetype.impl.sql.SqlResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.DbNameWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
@@ -44,7 +45,7 @@ import javax.sql.DataSource
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceTypes(private val dbConnection: DbConnection, uri: Uri) : ResourceType {
+class FsResourceTypes(private val dbConnection: SimpleDbConnection, uri: Uri) : ResourceType {
 
     private val dataSource: DataSource = dbConnection.getDataSource()
     private val resourceTypes: List<ResourceType> = walk(dbConnection.baseFolder!!.file.path, uri)
@@ -71,12 +72,16 @@ class FsResourceTypes(private val dbConnection: DbConnection, uri: Uri) : Resour
                                         dataSource = dataSource)
                         val resourceType =
 //                                CacheWrapper(
-                                SelectWrapper(
-                                        origin = BodyWrapper(
-                                                origin = SqlResourceType(
-                                                        selectQuery = selectQuery,
-                                                        aliases = listOf(dir.name)),
-                                                templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))
+                                DbNameWrapper(
+                                        SelectWrapper(
+                                                origin = BodyWrapper(
+                                                        origin = SqlResourceType(
+                                                                selectQuery = selectQuery,
+                                                                aliases = listOf(dir.name)),
+                                                        templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))),
+                                        dbConnection
+                                )
+//                                )
                         result.add(resourceType)
                     }
                 }

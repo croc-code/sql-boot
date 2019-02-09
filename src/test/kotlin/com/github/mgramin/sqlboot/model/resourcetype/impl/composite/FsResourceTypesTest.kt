@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.model.resourcetype.impl.composite
 
 import com.github.mgramin.sqlboot.exceptions.BootException
-import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -45,7 +45,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ContextConfiguration(locations = ["/test_config.xml"])
 class FsResourceTypesTest {
 
-    private val db = DbConnection()
+    private val db = SimpleDbConnection()
 
     init {
         db.baseFolder = FileSystemResource("conf/h2/database")
