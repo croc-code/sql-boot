@@ -39,6 +39,7 @@ import javax.sql.DataSource
  */
 class JdbcSelectQuery(
         private val origin: SelectQuery,
+        @Deprecated("")
         private val dataSource: DataSource,
         private val nullAlias: String
 ) : SelectQuery {

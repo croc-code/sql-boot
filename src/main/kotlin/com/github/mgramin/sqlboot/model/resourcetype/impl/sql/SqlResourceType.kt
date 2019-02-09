@@ -24,34 +24,51 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl.sql
 
+import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.TemplatedSelectQuery
+import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import org.apache.commons.lang3.StringUtils.strip
 
 /**
  * Created by MGramin on 12.07.2017.
  */
 class SqlResourceType(
-    @field:Transient private val selectQuery: SelectQuery,
-    private val aliases: List<String>
+        private val aliases: List<String>,
+        sql: String,
+        private val connections: List<DbConnection>
 ) : ResourceType {
+
+    private val simpleSelectQuery = SimpleSelectQuery(GroovyTemplateGenerator(sql))
 
     override fun aliases(): List<String> {
         return aliases
     }
 
     override fun path(): List<String> {
-        return selectQuery.columns().keys
+        return simpleSelectQuery.columns().keys
                 .filter { v -> v.startsWith("@") }
                 .map { v -> strip(v, "@") }
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
-        return selectQuery.execute(hashMapOf("uri" to uri))
+
+        /*val map: Sequence<DbResourceImpl> = connections
+                .asSequence()
+                .map {
+                    JdbcSelectQuery(
+                            TemplatedSelectQuery(simpleSelectQuery, mapOf("uri" to uri), it as SimpleDbConnection),
+                            dataSource = it.getDataSource())
+                }
+                .map { it.execute(hashMapOf("uri" to uri)) }
+                .flatMap { it.asSequence() }
                 .map { o ->
                     val path = o.entries
                             .filter { v -> v.key.startsWith("@") }
@@ -61,11 +78,48 @@ class SqlResourceType(
                             .map { strip(it.key, "@") to it.value }
                             .toMap()
 
-                    DbResourceImpl(name, this, DbUri(this.name(), path), headers)
-                }
+                    return@map DbResourceImpl(name, this, DbUri(this.name(), path), headers)
+                }.asSequence()
+        return map*/
+
+        var result: ArrayList<DbResourceImpl> = arrayListOf()
+
+        for (connection in connections) {
+            val selectQuery =
+                    JdbcSelectQuery(
+                            TemplatedSelectQuery(
+                                    simpleSelectQuery,
+                                    variables = mapOf("uri" to uri),
+                                    dbConnection = connection as SimpleDbConnection),
+                            dataSource = connection.getDataSource())
+
+            val map: Sequence<DbResourceImpl> = selectQuery.execute(hashMapOf("uri" to uri))
+                    .map { o ->
+                        val path = o.entries
+                                .filter { v -> v.key.startsWith("@") }
+                                .map { it.value.toString() }
+                        val name = path[path.size - 1]
+                        val headers = o.entries
+                                .map { strip(it.key, "@") to it.value }
+                                .toMap()
+                        val newHeaders = headers.toMutableMap()
+                        newHeaders["database"] = connection.name()
+
+                        DbResourceImpl(name, this, DbUri(this.name(), path), newHeaders)
+                    }
+
+            result.addAll(map.toList())
+        }
+
+
+        return result.asSequence()
     }
 
     override fun metaData(): Map<String, String> {
-        return selectQuery.columns()
+        val columns = simpleSelectQuery.columns()
+        val newColumns = columns.toMutableMap()
+        newColumns["database"] = "Database name"
+        return newColumns
     }
+
 }

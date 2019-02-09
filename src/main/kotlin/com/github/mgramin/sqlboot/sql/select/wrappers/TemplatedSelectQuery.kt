@@ -30,8 +30,8 @@ import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerato
 
 class TemplatedSelectQuery(
         private val origin: SelectQuery,
-//        private val template: String,
         private val variables: Map<String, Any>,
+        @Deprecated("")
         private val dbConnection: SimpleDbConnection
 ) : SelectQuery {
 

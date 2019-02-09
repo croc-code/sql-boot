@@ -48,6 +48,7 @@ class FsResourceTypesTest {
     private val db = SimpleDbConnection()
 
     init {
+        db.name = "unit_test_db"
         db.baseFolder = FileSystemResource("conf/h2/database")
         db.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
         db.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
@@ -55,7 +56,7 @@ class FsResourceTypesTest {
 
     @Test
     fun read() {
-        val types = FsResourceTypes(db, FakeUri())
+        val types = FsResourceTypes(listOf(db), FakeUri())
         assertEquals(5, types.read(DbUri("table/bookings")).count())
         assertEquals(1, types.read(DbUri("table/bookings.airports")).count())
     }
@@ -64,22 +65,22 @@ class FsResourceTypesTest {
     @Deprecated("Deprecated")
     fun resourceTypes() {
         assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "pk", "table", "schema").sorted().toList(),
-                FsResourceTypes(db, FakeUri()).resourceTypes().map { it.name() }.sorted())
+                FsResourceTypes(listOf(db), FakeUri()).resourceTypes().map { it.name() }.sorted())
     }
 
     @Test
     fun aliases() {
-        assertThrows(BootException::class.java) { FsResourceTypes(db, FakeUri()).aliases() }
+        assertThrows(BootException::class.java) { FsResourceTypes(listOf(db), FakeUri()).aliases() }
     }
 
     @Test
     fun path() {
-        assertThrows(BootException::class.java) { FsResourceTypes(db, FakeUri()).path() }
+        assertThrows(BootException::class.java) { FsResourceTypes(listOf(db), FakeUri()).path() }
     }
 
     @Test
     fun metaData() {
-        assertThrows(BootException::class.java) { FsResourceTypes(db, FakeUri()).metaData() }
+        assertThrows(BootException::class.java) { FsResourceTypes(listOf(db), FakeUri()).metaData() }
     }
 
 }

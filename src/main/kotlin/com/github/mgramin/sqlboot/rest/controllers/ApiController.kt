@@ -112,7 +112,7 @@ class ApiController {
 
     private fun getSwaggerDescription(request: HttpServletRequest, connectionName: String): Swagger {
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList.getConnectionByName(connectionName), FakeUri())
+                listOf(dbConnectionList.getConnectionByName(connectionName)), FakeUri())
         val resourceTypes = fsResourceTypes.resourceTypes()
         val swagger = Swagger()
 
@@ -232,7 +232,7 @@ class ApiController {
             @PathVariable connectionName: String
     ): List<ResourceType>? {
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList.getConnectionByName(connectionName), FakeUri())
+                listOf(dbConnectionList.getConnectionByName(connectionName)), FakeUri())
         return fsResourceTypes.resourceTypes()
     }
 
@@ -321,7 +321,7 @@ class ApiController {
             @PathVariable type: String
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
-        val dbConnection = dbConnectionList.getConnectionsByMask(connectionName).first()
+        val dbConnection = dbConnectionList.getConnectionsByMask(connectionName)
         val fsResourceTypes = FsResourceTypes(
                 dbConnection, uri)
         val resourceType = fsResourceTypes
@@ -344,7 +344,7 @@ class ApiController {
             @PathVariable path: String
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
-        val dbConnection = dbConnectionList.getConnectionsByMask(connectionName).first()
+        val dbConnection = dbConnectionList.getConnectionsByMask(connectionName)
         val fsResourceTypes = FsResourceTypes(
                 dbConnection, uri)
         val resourceType = fsResourceTypes
@@ -372,7 +372,7 @@ class ApiController {
         val uri = SqlPlaceholdersWrapper(
                 DbUri(parseUri("$type/$path/$action", request)))
         val fsResourceTypes = FsResourceTypes(
-                dbConnectionList.getConnectionByName(connectionName), uri)
+                listOf(dbConnectionList.getConnectionByName(connectionName)), uri)
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()
@@ -390,11 +390,9 @@ class ApiController {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
         val connections = dbConnectionList.getConnectionsByMask(connectionName!!)
         val result = ArrayList<DbResource>()
-        for (connection in connections) {
-            val fsResourceTypes = FsResourceTypes(connection, uri)
-            val collect = fsResourceTypes.read(uri).toList()
-            result.addAll(collect)
-        }
+        val fsResourceTypes = FsResourceTypes(connections, uri)
+        val collect = fsResourceTypes.read(uri).toList()
+        result.addAll(collect)
 
         return if (result.isEmpty()) {
             ResponseEntity(result, HttpStatus.NO_CONTENT)
@@ -412,14 +410,12 @@ class ApiController {
         val connections = dbConnectionList.getConnectionsByMask(connectionName)
         val result = ArrayList<Map<String, Any>>()
 
-        for (connection in connections) {
-            val fsResourceTypes = FsResourceTypes(connection, uri)
-            val headers = fsResourceTypes
-                    .read(uri)
-                    .map { it.headers() }
-                    .toList()
-            result.addAll(headers)
-        }
+        val fsResourceTypes = FsResourceTypes(connections, uri)
+        val headers = fsResourceTypes
+                .read(uri)
+                .map { it.headers() }
+                .toList()
+        result.addAll(headers)
 
         return if (result.isEmpty()) {
             ResponseEntity(result, HttpStatus.NO_CONTENT)

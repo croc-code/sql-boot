@@ -31,55 +31,49 @@ import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md.MarkdownFile
 import com.github.mgramin.sqlboot.model.resourcetype.impl.sql.SqlResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.DbNameWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
-import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.TemplatedSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
-import javax.sql.DataSource
 
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceTypes(private val dbConnection: SimpleDbConnection, uri: Uri) : ResourceType {
+class FsResourceTypes(private val dbConnections: List<SimpleDbConnection>, uri: Uri) : ResourceType {
 
-    private val dataSource: DataSource = dbConnection.getDataSource()
-    private val resourceTypes: List<ResourceType> = walk(dbConnection.baseFolder!!.file.path, uri)
+    private val resourceTypes: List<ResourceType> = walk(dbConnections.first().baseFolder!!.file.path, uri, dbConnections.first())
 
-    private fun walk(path: String, uri: Uri): List<ResourceType> {
+    private fun walk(path: String, uri: Uri, connection: SimpleDbConnection): List<ResourceType> {
         val result = arrayListOf<ResourceType>()
         File(path)
                 .listFiles()
                 .asSequence()
                 .filter { it.isDirectory }
-                .onEach { result.addAll(walk(it.absolutePath, uri)) }
+                .onEach { result.addAll(walk(it.absolutePath, uri, connection)) }
                 .filter { File(it, "README.md").exists() }
                 .forEach { dir ->
                     val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
                     if (map.isNotEmpty()) {
                         val sql = map[uri.action()] ?: map.entries.iterator().next().value
-                        val selectQuery =
-                                JdbcSelectQuery(
-                                        origin = TemplatedSelectQuery(
-                                                origin = SimpleSelectQuery(
-                                                        templateGenerator = GroovyTemplateGenerator(sql)),
-                                                variables = mapOf("uri" to uri),
-                                                dbConnection = dbConnection),
-                                        dataSource = dataSource)
+//                        val selectQuery =
+//                                JdbcSelectQuery(
+//                                        TemplatedSelectQuery(
+//                                                SimpleSelectQuery(GroovyTemplateGenerator(sql)),
+//                                                variables = mapOf("uri" to uri),
+//                                                dbConnection = dbConnections.first()),
+//                                        dataSource = connection.getDataSource())
                         val resourceType =
 //                                CacheWrapper(
-                                DbNameWrapper(
+                                SortWrapper(
                                         SelectWrapper(
-                                                origin = BodyWrapper(
-                                                        origin = SqlResourceType(
-                                                                selectQuery = selectQuery,
-                                                                aliases = listOf(dir.name)),
-                                                        templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))),
-                                        dbConnection
+                                                BodyWrapper(
+                                                        SqlResourceType(
+                                                                aliases = listOf(dir.name),
+                                                                sql = sql,
+                                                                connections = dbConnections),
+                                                        templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))
                                 )
 //                                )
                         result.add(resourceType)
@@ -102,9 +96,10 @@ class FsResourceTypes(private val dbConnection: SimpleDbConnection, uri: Uri) : 
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
-        return resourceTypes
+        val resourceType: ResourceType = resourceTypes
+                .asSequence()
                 .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .read(uri)
+        return resourceType.read(uri)
     }
 
     override fun metaData(): Map<String, String> {

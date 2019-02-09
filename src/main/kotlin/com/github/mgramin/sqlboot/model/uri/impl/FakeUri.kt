@@ -45,14 +45,11 @@ class FakeUri : Uri {
     }
 
     override fun params(): Map<String, String> {
-        return mapOf("page" to "1,20")
+        return mapOf("page" to "1,20", "sortby" to "schema,table")
     }
 
     override fun action(): String {
         return "create"
     }
 
-//    override fun toString(): String {
-//        return "FAKE_TBL"
-//    }
 }

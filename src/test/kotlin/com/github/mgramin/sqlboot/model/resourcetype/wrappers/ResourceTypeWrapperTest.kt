@@ -34,6 +34,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapp
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.CacheWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.LimitWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.PageWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.WhereWrapper
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
@@ -167,11 +168,6 @@ class ResourceTypeWrapperTest {
         }
 
         @Test
-        fun metadata() {
-            println(w.metaData())
-        }
-
-        @Test
         override fun metaData() {
             assertEquals(
                     hashMapOf(
@@ -193,6 +189,24 @@ class ResourceTypeWrapperTest {
                     w.metaData(FakeUri()).sorted())
         }
     }
+
+
+    @Nested
+    internal inner class SortWrapperTest : BaseResourceWrapperTest() {
+
+        override fun getWrapper(): ResourceType {
+            return SortWrapper(FakeDbResourceType())
+        }
+
+        @Test
+        fun read() {
+            w.read(FakeUri())
+                    //.forEach { println(it.headers()) }
+        }
+
+    }
+
+
 
     internal abstract inner class BaseResourceWrapperTest {
 

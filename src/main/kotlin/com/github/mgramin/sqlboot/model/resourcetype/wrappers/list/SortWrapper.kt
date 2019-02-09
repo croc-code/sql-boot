@@ -27,13 +27,10 @@ package com.github.mgramin.sqlboot.model.resourcetype.wrappers.list
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.lang.Integer.valueOf
 
-class PageWrapper constructor(
-        private val origin: ResourceType,
-        private val parameterName: String = "page",
-        private val pageSize: Int = 10,
-        private val delimiter: String = ","
+
+class SortWrapper(private val origin: ResourceType,
+                  private val parameterName: String = "orderby"
 ) : ResourceType {
 
     override fun aliases(): List<String> {
@@ -49,17 +46,12 @@ class PageWrapper constructor(
     }
 
     override fun read(uri: Uri): Sequence<DbResource> {
-        val pageParameter = uri.params()[parameterName]
-        return if (pageParameter != null) {
-            val pageNumber = valueOf(pageParameter.substringBefore(delimiter))
-            val pageSize: Int = if (!pageParameter.contains(delimiter)) {
-                this.pageSize
-            } else {
-                valueOf(pageParameter.substringAfter(delimiter))
-            }
-            origin.read(uri).drop(((pageNumber - 1) * pageSize)).take(pageSize)
-        } else {
-            origin.read(uri)
+        val read: Sequence<DbResource> = origin.read(uri)
+        val parameters = uri.params()[parameterName]
+        if (parameters != null) {
+            return read.sortedWith(compareByDescending { it.headers()["pga_used_mem"] as Comparable<*>? })
         }
+        return read
     }
+
 }
