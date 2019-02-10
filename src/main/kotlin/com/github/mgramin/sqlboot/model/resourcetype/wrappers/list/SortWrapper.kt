@@ -49,9 +49,16 @@ class SortWrapper(private val origin: ResourceType,
         val read: Sequence<DbResource> = origin.read(uri)
         val parameters = uri.params()[parameterName]
         if (parameters != null) {
-            return read.sortedWith(compareByDescending { it.headers()["pga_used_mem"] as Comparable<*>? })
+            val arrayOf: Array<(DbResource) -> Comparable<*>> = parameters.split(",").map {
+                return@map { it1: DbResource -> it1.headers()[it] as Comparable<*> }
+            }.toTypedArray()
+            return read.sortedWith(compareByDescending(*arrayOf))
         }
         return read
+    }
+
+    private fun <T> compareByDescending(vararg selectors: (T) -> Comparable<*>?): Comparator<T> {
+        return Comparator { b, a -> compareValuesBy(a, b, *selectors) }
     }
 
 }
