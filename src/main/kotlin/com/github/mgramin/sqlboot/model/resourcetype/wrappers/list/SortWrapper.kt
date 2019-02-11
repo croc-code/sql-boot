@@ -47,14 +47,12 @@ class SortWrapper(private val origin: ResourceType,
 
     override fun read(uri: Uri): Sequence<DbResource> {
         val read: Sequence<DbResource> = origin.read(uri)
-        val parameters = uri.params()[parameterName]
-        if (parameters != null) {
-            val arrayOf: Array<(DbResource) -> Comparable<*>> = parameters.split(",").map {
-                return@map { it1: DbResource -> it1.headers()[it] as Comparable<*> }
-            }.toTypedArray()
-            return read.sortedWith(compareByDescending(*arrayOf))
-        }
-        return read
+        val parameters = uri.params()[parameterName] ?: return read
+        val arrayOf: Array<(DbResource) -> Comparable<*>> = parameters
+                .split(",")
+                .map { return@map { it1: DbResource -> (it1.headers()[it] ?: "") as Comparable<*> } }
+                .toTypedArray()
+        return read.sortedWith(compareByDescending(*arrayOf))
     }
 
     private fun <T> compareByDescending(vararg selectors: (T) -> Comparable<*>?): Comparator<T> {
