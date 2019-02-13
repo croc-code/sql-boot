@@ -215,9 +215,7 @@ class ApiController {
         // definitions
         for (resourceType in resourceTypes) {
             val model = ModelImpl()
-            val stringStringMap = resourceType.metaData()
-            val entries = stringStringMap.entries
-            for ((key, value) in entries) {
+            for ((key, value) in resourceType.metaData().entries) {
                 model.property(key, StringProperty().description(value))
             }
             swagger.model(resourceType.name(), model)

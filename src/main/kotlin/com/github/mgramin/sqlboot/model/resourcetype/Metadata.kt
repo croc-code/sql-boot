@@ -6,18 +6,13 @@ import org.json.JSONObject
 import java.util.HashMap
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-data class Metadata (
-    private val name: String,
-    private val type: String,
-    private val description: String
+data class Metadata(
+        private val name: String,
+        private val type: String,
+        private val description: String
 ) : Comparable<Metadata> {
 
-    override fun compareTo(other: Metadata): Int {
-        if (name > other.name()) {
-            return -1
-        }
-        return 1
-    }
+    override fun compareTo(other: Metadata): Int = if (name > other.name()) -1 else 1
 
     private val properties: MutableMap<String, Any>
 

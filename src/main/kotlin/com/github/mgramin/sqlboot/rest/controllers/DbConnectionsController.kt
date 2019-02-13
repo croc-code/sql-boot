@@ -47,4 +47,9 @@ class DbConnectionsController @Autowired constructor(private val dbConnectionLis
     val allDbConnections: List<SimpleDbConnection>
         @RequestMapping(value = ["/connections"])
         get() = dbConnectionList.connections
+
+    /*val allDbConnectionsByMask: List<SimpleDbConnection>
+        @RequestMapping(value = ["/connections"])
+        get() = dbConnectionList.connections*/
+
 }

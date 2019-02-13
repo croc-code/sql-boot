@@ -62,7 +62,7 @@ interface ResourceType {
     @JsonProperty
     fun metaData(): Map<String, String>
 
-    @JvmDefault
+//    @JvmDefault
     fun metaData(uri: Uri): List<Metadata> {
         return metaData().entries
                 .map { e -> Metadata(e.key, e.value) }
