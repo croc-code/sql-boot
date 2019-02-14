@@ -118,7 +118,7 @@ class SqlResourceType(
     override fun metaData(): Map<String, String> {
         val columns = simpleSelectQuery.columns()
         val newColumns = columns.toMutableMap()
-        newColumns["database"] = "Database name"
+        newColumns["database"] = """{"label": "Database", "description": "Database name", "visible": true}"""
         return newColumns
     }
 
