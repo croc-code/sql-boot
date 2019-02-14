@@ -230,7 +230,7 @@ class ApiController {
             @PathVariable connectionName: String
     ): List<ResourceType>? {
         val fsResourceTypes = FsResourceTypes(
-                listOf(dbConnectionList.getConnectionByName(connectionName)), FakeUri())
+                dbConnectionList.getConnectionsByMask(connectionName), FakeUri())
         return fsResourceTypes.resourceTypes()
     }
 
