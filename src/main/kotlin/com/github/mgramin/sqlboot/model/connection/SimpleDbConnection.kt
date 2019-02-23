@@ -36,6 +36,7 @@ import org.springframework.core.io.Resource
  */
 open class SimpleDbConnection : DbConnection {
 
+    override fun paginationQueryTemplate() = this.paginationQueryTemplate!!
 
     override fun name(): String {
         return name!!

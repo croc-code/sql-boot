@@ -24,19 +24,27 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
+import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 
-class TemplatedSelectQuery(
+class PaginatedSelectQuery(
         private val origin: SelectQuery,
-        private val variables: Map<String, Any>,
+        private val uri: Uri,
         private val template: String
 ) : SelectQuery {
 
     override fun query(): String {
-        val vars = hashMapOf<String, Any>("query" to origin.query())
-        vars.putAll(variables)
-        return GroovyTemplateGenerator(template).generate(vars)
+        return if (uri.params().containsKey("page")) {
+            val vars = mapOf(
+                    "query" to origin.query(),
+                    "uri" to uri,
+                    "offset" to uri.pageSize() * (uri.pageNumber() - 1),
+                    "limit" to uri.pageSize())
+            GroovyTemplateGenerator(template).generate(vars)
+        } else {
+            origin.query()
+        }
     }
 
     override fun columns() = origin.columns()

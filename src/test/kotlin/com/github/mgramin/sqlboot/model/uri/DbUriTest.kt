@@ -127,6 +127,18 @@ class DbUriTest {
         assertEquals(expectedPageSize, dbUri.pageSize())
     }
 
+    @ParameterizedTest
+    @CsvSource(
+            "{}#table/hr.persons",
+            "{age=desc}#table/hr.persons?orderby=age-desc",
+            "{age=asc}#table/hr.persons?orderby=age-asc",
+            "{age=asc}#table/hr.persons?orderby=age",
+            "{age=desc, name=asc}#table/hr.persons?orderby=age-desc,name-asc",
+            delimiter = '#')
+    fun testOrderParameters(expected: String, uri: String) {
+        assertEquals(expected, DbUri(uri).orderedColumns().toSortedMap().toString())
+    }
+
     private fun test(uriString: String, jsonExpected: String) {
         val uri = DbUri(uriString)
         assertEquals(uriString, uri.toString())

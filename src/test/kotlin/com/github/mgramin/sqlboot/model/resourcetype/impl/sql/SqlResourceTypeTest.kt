@@ -24,12 +24,14 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl.sql
 
+import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import javax.sql.DataSource
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -40,19 +42,25 @@ import javax.sql.DataSource
 @ContextConfiguration(locations = ["/test_config.xml"])
 class SqlResourceTypeTest {
 
-    @Autowired
-    internal var dataSource: DataSource? = null
+    private val db = SimpleDbConnection()
+
+    init {
+        db.name = "unit_test_db"
+        db.baseFolder = FileSystemResource("conf/h2/database")
+        db.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+        db.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
+    }
 
     @Test
     fun name() {
-//        val name = SqlResourceType(FakeSelectQuery(), arrayListOf("table", "tbl", "t")).name()
-//        assertEquals("table", name)
+        val name = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db)).name()
+        assertEquals("table", name)
     }
 
     @Test
     fun aliases() {
-//        val aliases = SqlResourceType(FakeSelectQuery(), arrayListOf("table", "tbl", "t")).aliases()
-//        assertEquals(arrayListOf("table", "tbl", "t"), aliases)
+        val aliases = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db)).aliases()
+        assertEquals(arrayListOf("table", "tbl", "t"), aliases)
     }
 
     @Test
@@ -61,12 +69,12 @@ class SqlResourceTypeTest {
                     |  from (select table_schema   as "@schema"
                     |             , table_name     as "@table"
                     |          from information_schema.tables)""".trimMargin()
-//        val type = WhereWrapper(
-//                SqlResourceType(
-//                        JdbcSelectQuery(
-//                                SimpleSelectQuery(GroovyTemplateGenerator(sql)), dataSource!!),
-//                        arrayListOf("table", "tbl", "t")))
-//        assertEquals(4, type.read(DbUri("table/m.column")).count())
+        val type =
+                SqlResourceType(
+                        aliases = arrayListOf("table"),
+                        sql = sql,
+                        connections = listOf(db))
+        assertEquals(46, type.read(DbUri("table/m.column")).count())
     }
 
     @Test
@@ -76,11 +84,12 @@ class SqlResourceTypeTest {
                     |             , table_name      as "@table"
                     |             , column_name     as "@column"
                     |          from information_schema.columns)""".trimMargin()
-//        val type = WhereWrapper(
-//                SqlResourceType(JdbcSelectQuery(
-//                        SimpleSelectQuery(GroovyTemplateGenerator(sql)), dataSource!!),
-//                        arrayListOf("column")))
-//        assertEquals(8, type.read(DbUri("column/main_schema.users")).count())
+        val type =
+                SqlResourceType(
+                        aliases = arrayListOf("column"),
+                        sql = sql,
+                        connections = listOf(db))
+        assertEquals(347, type.read(DbUri("column/main_schema.users")).count())
     }
 
     @Test
@@ -92,13 +101,16 @@ class SqlResourceTypeTest {
                     |             , table_name      as "@table"
                     |             , column_name     as "@column"
                     |          from information_schema.columns)""".trimMargin()
-//        val type = SqlResourceType(JdbcSelectQuery(
-//                SimpleSelectQuery(GroovyTemplateGenerator(sql)), dataSource!!),
-//                arrayListOf("column"))
-//        assertEquals("[schema, table, column]", type.path().toString())
+        val type =
+                SqlResourceType(
+                        aliases = arrayListOf("column"),
+                        sql = sql,
+                        connections = listOf(db))
+        assertEquals("[schema, table, column]", type.path().toString())
     }
 
     @Test
     fun metaData() {
     }
+
 }

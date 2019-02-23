@@ -105,4 +105,13 @@ class ApiControllerITCase {
         val result = client!!.exchange("/api/h2/headers/table", HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
         assertEquals(200, result.statusCodeValue.toLong())
     }
+
+    @Test
+    fun getSortedResources() {
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.TEXT_PLAIN
+        val result = client!!.exchange("/api/h2/headers/table", HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
+        assertEquals(200, result.statusCodeValue.toLong())
+    }
+
 }

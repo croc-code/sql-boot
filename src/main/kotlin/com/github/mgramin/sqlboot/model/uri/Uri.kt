@@ -93,8 +93,7 @@ interface Uri : Serializable {
 
     fun pageSize(): Int {
         val pageParameter = params()["page"]
-        val pageSize: Int
-        pageSize = if (pageParameter != null) {
+        return if (pageParameter != null) {
             val delimiter = ","
             if (StringUtils.substringAfter(pageParameter, delimiter).isEmpty()) {
                 10
@@ -104,7 +103,16 @@ interface Uri : Serializable {
         } else {
             10
         }
-        return pageSize
+    }
+
+    fun orderedColumns(): Map<String, String> {
+        return (params()["orderby"] ?: "")
+                .split(",")
+                .asSequence()
+                .filter { it.isNotBlank() }
+                .map { return@map if (!it.contains("-")) "$it-asc" else it }
+                .map { it.substringBefore("-") to it.substringAfter("-") }
+                .toMap()
     }
 
 }

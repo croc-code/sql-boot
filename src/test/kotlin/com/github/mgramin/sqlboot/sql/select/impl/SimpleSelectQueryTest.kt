@@ -40,7 +40,7 @@ internal class SimpleSelectQueryTest {
 
     @Test
     fun columns() {
-        assertEquals(linkedMapOf("name" to "First name"),
+        assertEquals(mapOf("name" to "First name"),
                 SimpleSelectQuery(FakeTemplateGenerator("select name /* First name*/ from persons")).columns())
     }
 

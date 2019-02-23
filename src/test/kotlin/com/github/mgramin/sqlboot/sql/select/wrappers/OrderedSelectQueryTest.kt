@@ -24,22 +24,28 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
 import org.junit.jupiter.api.Test
-import kotlin.test.assertTrue
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import javax.sql.DataSource
 
-internal class TemplatedSelectQueryTest {
+@ExtendWith(SpringExtension::class)
+@ContextConfiguration(locations = ["/test_config.xml"])
+internal class OrderedSelectQueryTest {
+
+    @Autowired
+    internal var dataSource: DataSource? = null
 
     @Test
     fun query() {
-        val selectQuery =
-                TemplatedSelectQuery(
-                        origin = FakeSelectQuery(),
-                        variables = mapOf("uri" to DbUri("table/hr.persons")),
-                        template = """/* */
-                                     |${'$'}query""".trimMargin())
-        assertTrue(selectQuery.query().contains("/* */"))
+        val selectQuery = OrderedSelectQuery(
+                FakeSelectQuery(),
+                mapOf("n" to "desc", "mail" to "asc")
+        )
+        println(selectQuery.query())
     }
 
     @Test
@@ -48,6 +54,14 @@ internal class TemplatedSelectQueryTest {
 
     @Test
     fun execute() {
+        val selectQuery =
+                JdbcSelectQuery(
+                        OrderedSelectQuery(
+                                FakeSelectQuery(),
+                                mapOf("n" to "asc", "mail" to "desc")),
+                        this.dataSource!!)
+        val execute: Sequence<Map<String, Any>> = selectQuery.execute(emptyMap())
+        println("result = ${execute.toList()}")
     }
 
 }

@@ -57,24 +57,17 @@ class FsResourceTypes(private val dbConnections: List<SimpleDbConnection>, uri: 
                     val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
                     if (map.isNotEmpty()) {
                         val sql = map[uri.action()] ?: map.entries.iterator().next().value
-//                        val selectQuery =
-//                                JdbcSelectQuery(
-//                                        TemplatedSelectQuery(
-//                                                SimpleSelectQuery(GroovyTemplateGenerator(sql)),
-//                                                variables = mapOf("uri" to uri),
-//                                                dbConnection = dbConnections.first()),
-//                                        dataSource = connection.getDataSource())
                         val resourceType =
 //                                CacheWrapper(
-                                SortWrapper(
-                                        SelectWrapper(
-                                                BodyWrapper(
-                                                        SqlResourceType(
-                                                                aliases = listOf(dir.name),
-                                                                sql = sql,
-                                                                connections = dbConnections),
-                                                        templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))
-                                )
+                                SelectWrapper(
+//                                        PageWrapper(
+                                                SortWrapper(
+                                                        BodyWrapper(
+                                                                SqlResourceType(
+                                                                        aliases = listOf(dir.name),
+                                                                        sql = sql,
+                                                                        connections = dbConnections),
+                                                                templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
 //                                )
                         result.add(resourceType)
                     }

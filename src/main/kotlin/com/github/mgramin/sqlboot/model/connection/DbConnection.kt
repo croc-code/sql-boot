@@ -30,5 +30,6 @@ interface DbConnection {
 
     fun name(): String
     fun getDataSource(): DataSource
+    fun paginationQueryTemplate(): String
 
 }

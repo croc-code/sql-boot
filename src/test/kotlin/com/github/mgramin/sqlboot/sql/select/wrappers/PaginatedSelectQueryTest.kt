@@ -24,20 +24,42 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
-class SortedSelectQuery : SelectQuery {
+internal class PaginatedSelectQueryTest {
 
-    override fun query(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @ParameterizedTest
+    @CsvSource(
+            "offset 0 limit 1,1,1",
+            "offset 0 limit 2,1,2",
+            "offset 0 limit 3,1,3",
+            "offset 1 limit 1,2,1",
+            "offset 2 limit 2,2,2",
+            "offset 2 limit 1,3,1",
+            "offset 3 limit 1,4,1",
+            "offset 0 limit 100,1,100")
+    fun query(expectedQuery: String, pageNumber: Int, pageSize: Int) {
+        val paginatedSelectQuery =
+                PaginatedSelectQuery(
+                        origin = FakeSelectQuery(),
+                        uri = DbUri("table/hr.persons?page=$pageNumber,$pageSize"),
+                        template = "${"$"}{query} offset ${"$"}offset limit ${"$"}limit")
+        println(paginatedSelectQuery.query())
+        assertTrue(paginatedSelectQuery.query().contains(expectedQuery))
     }
 
-    override fun columns(): Map<String, String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Test
+    fun columns() {
     }
 
-    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Test
+    fun execute() {
+
     }
 
 }

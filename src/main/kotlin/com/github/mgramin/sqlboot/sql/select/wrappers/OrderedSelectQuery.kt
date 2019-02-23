@@ -25,18 +25,18 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 
-class TemplatedSelectQuery(
+class OrderedSelectQuery(
         private val origin: SelectQuery,
-        private val variables: Map<String, Any>,
-        private val template: String
+        private val orderedColumns: Map<String, String>
 ) : SelectQuery {
 
     override fun query(): String {
-        val vars = hashMapOf<String, Any>("query" to origin.query())
-        vars.putAll(variables)
-        return GroovyTemplateGenerator(template).generate(vars)
+        if (orderedColumns.isEmpty()) return origin.query()
+        val orderExpression = orderedColumns.map { "${it.key} ${it.value}" }.joinToString { it }
+        return """select *
+                 |  from (${origin.query()})
+                 | order by $orderExpression""".trimMargin()
     }
 
     override fun columns() = origin.columns()
