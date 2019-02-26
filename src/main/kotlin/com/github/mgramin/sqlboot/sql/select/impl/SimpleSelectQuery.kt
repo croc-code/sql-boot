@@ -31,6 +31,7 @@ import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTParser
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
+import reactor.core.publisher.Flux
 
 class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : SelectQuery {
 
@@ -45,7 +46,7 @@ class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : Sele
                 .toMap()
     }
 
-    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
+    override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         throw RuntimeException("Not allow here")
     }
 

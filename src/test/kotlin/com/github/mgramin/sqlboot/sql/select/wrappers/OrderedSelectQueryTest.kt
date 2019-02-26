@@ -60,7 +60,7 @@ internal class OrderedSelectQueryTest {
                                 FakeSelectQuery(),
                                 mapOf("n" to "asc", "mail" to "desc")),
                         this.dataSource!!)
-        val execute: Sequence<Map<String, Any>> = selectQuery.execute(emptyMap())
+        val execute: Sequence<Map<String, Any>> = selectQuery.execute(emptyMap()).collectList().block().asSequence()
         println("result = ${execute.toList()}")
     }
 

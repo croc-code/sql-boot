@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.sql.select.impl
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import reactor.core.publisher.Flux
 
 class FakeSelectQuery : SelectQuery {
 
@@ -40,7 +41,7 @@ class FakeSelectQuery : SelectQuery {
         return mapOf("n" to "First name", "mail" to "Personal email")
     }
 
-    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
+    override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         TODO("not implemented")
     }
 

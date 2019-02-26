@@ -28,6 +28,9 @@ import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import reactor.core.publisher.toFlux
 import javax.sql.DataSource
 
 /**
@@ -39,7 +42,6 @@ import javax.sql.DataSource
  */
 class JdbcSelectQuery(
         private val origin: SelectQuery,
-        @Deprecated("")
         private val dataSource: DataSource,
         private val nullAlias: String
 ) : SelectQuery {
@@ -56,23 +58,31 @@ class JdbcSelectQuery(
         return origin.columns()
     }
 
-    override fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>> {
+    override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         val sqlText = GroovyTemplateGenerator(origin.query()).generate(variables)
         logger.info(sqlText)
-        val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
-        return object : Iterator<Map<String, Any>> {
-            override fun hasNext(): Boolean {
-                return rowSet.next()
-            }
 
-            override fun next(): Map<String, Any> {
-                return rowSet
-                        .metaData
-                        .columnNames
-                        .map { it.toLowerCase() to (rowSet.getObject(it) ?: nullAlias) }
-                        .toMap()
+        return Mono.fromCallable {
+            val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
+            return@fromCallable object : Iterator<Map<String, Any>> {
+                override fun hasNext(): Boolean {
+                    return rowSet.next()
+                }
+
+                override fun next(): Map<String, Any> {
+                    return rowSet
+                            .metaData
+                            .columnNames
+                            .map { it.toLowerCase() to (rowSet.getObject(it) ?: nullAlias) }
+                            .toMap()
+                }
             }
-        }.asSequence()
+        }
+                .map { it.toFlux() }
+                .toFlux()
+                .flatMap { it }
+
+
     }
 
 }

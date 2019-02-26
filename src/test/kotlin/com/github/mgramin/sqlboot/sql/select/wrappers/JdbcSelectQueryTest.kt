@@ -47,7 +47,7 @@ class JdbcSelectQueryTest {
 
     @Test
     fun execute() {
-        val rows = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).toList()
+        val rows = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).collectList().block()
         assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
                 linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com"),
                 linkedMapOf("n" to "joel", "mail" to "joel@gmail.com")),

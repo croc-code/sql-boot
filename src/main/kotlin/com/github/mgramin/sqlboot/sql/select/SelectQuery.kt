@@ -24,6 +24,8 @@
 
 package com.github.mgramin.sqlboot.sql.select
 
+import reactor.core.publisher.Flux
+
 /**
  * Simple select SQL-query
  *
@@ -51,7 +53,7 @@ interface SelectQuery {
      *
      * @return query result
      */
-    fun execute(variables: Map<String, Any>): Sequence<Map<String, Any>>
+    fun execute(variables: Map<String, Any>): Flux<Map<String, Any>>
 
 
     class Column(private val name: String, private val comment: String, private val properties: Map<String, String>) {
