@@ -30,6 +30,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import reactor.core.publisher.Flux
 import javax.sql.DataSource
 
 @ExtendWith(SpringExtension::class)
@@ -60,8 +61,7 @@ internal class OrderedSelectQueryTest {
                                 FakeSelectQuery(),
                                 mapOf("n" to "asc", "mail" to "desc")),
                         this.dataSource!!)
-        val execute: Sequence<Map<String, Any>> = selectQuery.execute(emptyMap()).collectList().block().asSequence()
-        println("result = ${execute.toList()}")
+        val execute: Flux<Map<String, Any>> = selectQuery.execute(emptyMap())
     }
 
 }
