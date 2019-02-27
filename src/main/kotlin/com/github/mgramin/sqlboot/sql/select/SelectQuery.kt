@@ -40,13 +40,6 @@ interface SelectQuery {
      */
     fun query(): String
 
-    /**
-     *  Select columns
-     *
-     * @return Map of column names and column comments
-     */
-    fun columns(): Map<String, String>
-//    fun columns(): List<Column>
 
     /**
      * Execute select query with parameters
@@ -54,6 +47,15 @@ interface SelectQuery {
      * @return query result
      */
     fun execute(variables: Map<String, Any>): Flux<Map<String, Any>>
+
+
+    /**
+     *  Select columns
+     *
+     * @return Map of column names and column comments
+     */
+    fun columns(): Map<String, String>
+//    fun columns(): List<Column>
 
 
     class Column(private val name: String, private val comment: String, private val properties: Map<String, String>) {

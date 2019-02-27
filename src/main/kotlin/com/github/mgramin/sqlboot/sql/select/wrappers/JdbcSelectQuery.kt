@@ -31,6 +31,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toFlux
+import reactor.core.scheduler.Schedulers
 import javax.sql.DataSource
 
 /**
@@ -63,6 +64,7 @@ class JdbcSelectQuery(
         logger.info(sqlText)
 
         return Mono.fromCallable {
+            logger.info(Thread.currentThread().toString())
             val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
             return@fromCallable object : Iterator<Map<String, Any>> {
                 override fun hasNext(): Boolean {
@@ -78,11 +80,10 @@ class JdbcSelectQuery(
                 }
             }
         }
+                .publishOn(Schedulers.parallel())
                 .map { it.toFlux() }
                 .toFlux()
                 .flatMap { it }
-
-
     }
 
 }

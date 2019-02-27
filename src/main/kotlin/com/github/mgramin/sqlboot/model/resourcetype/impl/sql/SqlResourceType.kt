@@ -38,7 +38,6 @@ import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import org.apache.commons.lang3.StringUtils.strip
 import reactor.core.publisher.Flux
-import reactor.core.scheduler.Schedulers
 
 /**
  * Created by MGramin on 12.07.2017.
@@ -63,15 +62,22 @@ class SqlResourceType(
 
     override fun read(uri: Uri): Sequence<DbResource> {
         val mergeSequential: Flux<Map<String, Any>> =
-                Flux.mergeSequential(
+                Flux.merge(
                         connections
-                                .map { connection -> createQuery(uri, connection).execute(hashMapOf("uri" to uri)) }
-                                .map { it.parallel().runOn(Schedulers.parallel()) }
-                                .map { connection -> connection.map { it } })
+                                .asSequence()
+                                .map { connection ->
+                                    return@map createQuery(uri, connection).execute(hashMapOf("uri" to uri))
+                                            .map<Map<String, Any>?> {
+                                                val mutableMap = it.toMutableMap()
+                                                mutableMap["database"] = connection.name()
+                                                mutableMap
+                                            }
+                                }
+                                .toList()
+
+                )
 
         return mergeSequential
-                .parallel()
-                .runOn(Schedulers.parallel())
                 .map { o ->
                     val path = o.entries
                             .filter { v -> v.key.startsWith("@") }
@@ -80,10 +86,11 @@ class SqlResourceType(
                     val headers = o.entries
                             .map { strip(it.key, "@") to it.value }
                             .toMap()
-//                    val newHeaders = headers.toMutableMap()
-//                    newHeaders["database"] = connection.name()
                     DbResourceImpl(name, this, DbUri(this.name(), path), headers) as DbResource
-                }.sequential().collectList().block().asSequence()
+                }
+                .collectList()
+                .block()
+                .asSequence()
     }
 
     override fun metaData(): Map<String, String> {
