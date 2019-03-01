@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.uri.Uri
+import reactor.core.publisher.Flux
 
 /**
  * Resource type e.g. Table, Index, Stored function etc
@@ -72,6 +73,6 @@ interface ResourceType {
     /**
      * Read resources by uri
      */
-    fun read(uri: Uri): Sequence<DbResource>
+    fun read(uri: Uri): Flux<DbResource>
 
 }

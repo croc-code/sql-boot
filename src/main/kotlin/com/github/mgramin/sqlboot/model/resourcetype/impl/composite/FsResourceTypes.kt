@@ -35,13 +35,17 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapp
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import reactor.core.publisher.Flux
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
 
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceTypes(private val dbConnections: List<SimpleDbConnection>, uri: Uri) : ResourceType {
+class FsResourceTypes(
+        private val dbConnections: List<SimpleDbConnection>,
+        private val uri: Uri
+) : ResourceType {
 
     private val resourceTypes: List<ResourceType> = walk(dbConnections.first().baseFolder!!.file.path, uri, dbConnections.first())
 
@@ -61,13 +65,13 @@ class FsResourceTypes(private val dbConnections: List<SimpleDbConnection>, uri: 
 //                                CacheWrapper(
                                 SelectWrapper(
 //                                        PageWrapper(
-                                                SortWrapper(
-                                                        BodyWrapper(
-                                                                SqlResourceType(
-                                                                        aliases = listOf(dir.name),
-                                                                        sql = sql,
-                                                                        connections = dbConnections),
-                                                                templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
+                                        SortWrapper(
+                                                BodyWrapper(
+                                                        SqlResourceType(
+                                                                aliases = listOf(dir.name),
+                                                                sql = sql,
+                                                                connections = dbConnections),
+                                                        templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
 //                                )
                         result.add(resourceType)
                     }
@@ -88,14 +92,18 @@ class FsResourceTypes(private val dbConnections: List<SimpleDbConnection>, uri: 
         throw BootException("Not implemented!")
     }
 
-    override fun read(uri: Uri): Sequence<DbResource> {
-        val resourceType: ResourceType = resourceTypes
+    override fun read(uri: Uri): Flux<DbResource> {
+        return resourceTypes
                 .asSequence()
                 .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
-        return resourceType.read(uri)
+                .read(uri)
     }
 
     override fun metaData(): Map<String, String> {
-        throw BootException("Not implemented!")
+        return resourceTypes
+                .asSequence()
+                .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
+                .metaData()
     }
+
 }

@@ -30,6 +30,7 @@ import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
+import reactor.core.publisher.Flux
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -48,7 +49,7 @@ class BodyWrapper(
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         return origin.read(uri)
                 .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
     }

@@ -28,6 +28,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
+import reactor.core.publisher.Flux
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -43,7 +44,7 @@ class WhereWrapper(private val origin: ResourceType) : ResourceType {
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         val resources = origin.read(uri)
         return resources
                 .filter { resource ->

@@ -60,7 +60,7 @@ class SqlResourceType(
                 .map { v -> strip(v, "@") }
     }
 
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         val mergeSequential: Flux<Map<String, Any>> =
                 Flux.merge(
                         connections
@@ -88,9 +88,6 @@ class SqlResourceType(
                             .toMap()
                     DbResourceImpl(name, this, DbUri(this.name(), path), headers) as DbResource
                 }
-                .collectList()
-                .block()
-                .asSequence()
     }
 
     override fun metaData(): Map<String, String> {

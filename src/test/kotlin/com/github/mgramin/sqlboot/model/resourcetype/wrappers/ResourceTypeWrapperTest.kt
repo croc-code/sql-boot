@@ -57,7 +57,7 @@ class ResourceTypeWrapperTest {
         @Test
         fun read() {
             assertEquals(arrayListOf("Hello World!", "Hello World!", "Hello World!"),
-                    w.read(FakeUri()).map { it.body() }.toList())
+                    w.read(FakeUri()).map { it.body() }.collectList().block())
         }
     }
 
@@ -69,7 +69,7 @@ class ResourceTypeWrapperTest {
 
         @Test
         fun read() {
-            val resources = w.read(DbUri("table/hr.persons?select=schema")).iterator().asSequence().toList()
+            val resources = w.read(DbUri("table/hr.persons?select=schema")).collectList().block().iterator().asSequence().toList()
             resources.forEach { resource -> assertEquals(1, resource.headers().size) }
             assertEquals(3, resources.size)
         }
@@ -86,7 +86,7 @@ class ResourceTypeWrapperTest {
                 "users;**/table/hr?page=2,1",
                 "jobs;**/table/hr?page=3,1", delimiter = ';')
         fun read(name: String, uri: String) {
-            assertEquals(name, w.read(DbUri(uri)).first().name())
+            assertEquals(name, w.read(DbUri(uri)).blockFirst().name())
         }
 
         @ParameterizedTest
@@ -95,8 +95,8 @@ class ResourceTypeWrapperTest {
                 "3;table/hr?page=1,3",
                 "3;table/hr?page=1",
                 "0;table/hr?page=2", delimiter = ';')
-        fun read2(count: Int, uri: String) {
-            assertEquals(count, w.read(DbUri(uri)).count())
+        fun read2(count: Long, uri: String) {
+            assertEquals(count, w.read(DbUri(uri)).count().block())
         }
     }
 
@@ -109,8 +109,8 @@ class ResourceTypeWrapperTest {
         @ParameterizedTest
         @CsvSource("1;table/hr.persons",
                 "3;table/hr.s", delimiter = ';')
-        fun read(count: Int, uri: String) {
-            assertEquals(count, w.read(DbUri(uri)).count())
+        fun read(count: Long, uri: String) {
+            assertEquals(count, w.read(DbUri(uri)).count().block())
         }
     }
 
@@ -126,8 +126,8 @@ class ResourceTypeWrapperTest {
                 "3;table/hr.persons?limit=3",
                 "2;table/hr.persons?limit=2",
                 "1;table/hr.persons?limit=1", delimiter = ';')
-        fun read(count: Int, uri: String) {
-            assertEquals(count, w.read(DbUri(uri)).count())
+        fun read(count: Long, uri: String) {
+            assertEquals(count, w.read(DbUri(uri)).count().block())
         }
     }
 
@@ -142,9 +142,9 @@ class ResourceTypeWrapperTest {
         @Test
         fun read() {
             assertAll("Should return same objects",
-                    { assertEquals(3, w.read(FakeUri()).count()) },
-                    { assertEquals(3, w.read(FakeUri()).count()) },
-                    { assertEquals(3, w.read(FakeUri()).count()) }
+                    { assertEquals(3, w.read(FakeUri()).count().block()) },
+                    { assertEquals(3, w.read(FakeUri()).count().block()) },
+                    { assertEquals(3, w.read(FakeUri()).count().block()) }
             )
 //            verify(originType, times(1)).read(any())
         }
@@ -164,7 +164,7 @@ class ResourceTypeWrapperTest {
 
         @Test
         fun read() {
-            w.read(FakeUri()).forEach { println(it.headers()) }
+//            w.read(FakeUri()).forEach { println(it.headers()) }
         }
 
         @Test

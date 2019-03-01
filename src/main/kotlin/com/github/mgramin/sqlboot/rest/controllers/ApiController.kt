@@ -52,20 +52,26 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Flux
+import java.time.Duration
 import java.util.ArrayList
 import java.util.Arrays.asList
 import java.util.stream.Collectors.joining
 import java.util.stream.Collectors.toList
 import javax.servlet.http.HttpServletRequest
+import kotlin.random.Random
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -301,6 +307,36 @@ class ApiController {
         return getListResponseEntityHeaders(request, connectionName, type)
     }
 
+    @RequestMapping(value = ["/api/{connectionName}/headers/txt/{type}"], method = [GET, POST],
+            produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    @ResponseBody
+    fun getResourcesHeadersTxt(
+            request: HttpServletRequest,
+            @PathVariable connectionName: String,
+            @PathVariable type: String
+    ): Flux<String> {
+        val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
+        val connections = dbConnectionList.getConnectionsByMask(connectionName)
+        val fsResourceTypes = FsResourceTypes(connections, uri)
+
+//        val tableBuilder = Table.Builder()
+//                .withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
+//                .withRowLimit(32)
+//                .addRow("Index", "Boolean")
+
+        return fsResourceTypes
+                .read(uri)
+                .map { it.headers() }
+                .map {
+                    val metaData = fsResourceTypes.metaData()
+                    val joinToString: String = metaData
+                            .map { row -> it[row.key] }
+                            .joinToString(limit = 50, truncated = ".....", postfix = "                         ")
+                    return@map joinToString
+                }
+    }
+
+
     @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}/{action}"], method = [GET, POST])
     fun getResourcesHeadersJson3(
             request: HttpServletRequest,
@@ -390,7 +426,7 @@ class ApiController {
         val connections = dbConnectionList.getConnectionsByMask(connectionName!!)
         val result = ArrayList<DbResource>()
         val fsResourceTypes = FsResourceTypes(connections, uri)
-        val collect = fsResourceTypes.read(uri).toList()
+        val collect = fsResourceTypes.read(uri).collectList().block()
         result.addAll(collect)
 
         return if (result.isEmpty()) {
@@ -407,19 +443,15 @@ class ApiController {
     ): ResponseEntity<List<Map<String, Any>>> {
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
         val connections = dbConnectionList.getConnectionsByMask(connectionName)
-        val result = ArrayList<Map<String, Any>>()
-
-        val fsResourceTypes = FsResourceTypes(connections, uri)
-        val headers = fsResourceTypes
+        val headers = FsResourceTypes(connections, uri)
                 .read(uri)
                 .map { it.headers() }
-                .toList()
-        result.addAll(headers)
-
-        return if (result.isEmpty()) {
-            ResponseEntity(result, HttpStatus.NO_CONTENT)
+                .collectList()
+                .block()
+        return if (headers.isEmpty()) {
+            ResponseEntity(headers, HttpStatus.NO_CONTENT)
         } else {
-            ResponseEntity(result, HttpStatus.OK)
+            ResponseEntity(headers, HttpStatus.OK)
         }
     }
 

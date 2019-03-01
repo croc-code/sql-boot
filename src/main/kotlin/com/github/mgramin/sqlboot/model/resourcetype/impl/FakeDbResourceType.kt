@@ -29,6 +29,8 @@ import com.github.mgramin.sqlboot.model.resource.impl.FakeDbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import reactor.core.publisher.Flux
+import reactor.core.publisher.toFlux
 import java.util.Arrays.asList
 
 /**
@@ -44,11 +46,11 @@ class FakeDbResourceType : ResourceType {
         return arrayListOf("schema", "table", "index")
     }
 
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         return sequenceOf(
                 FakeDbResource(DbUri("table/hr.persons")),
                 FakeDbResource(DbUri("table/hr.users")),
-                FakeDbResource(DbUri("table/hr.jobs")))
+                FakeDbResource(DbUri("table/hr.jobs"))).toFlux()
     }
 
     override fun metaData(): Map<String, String> {

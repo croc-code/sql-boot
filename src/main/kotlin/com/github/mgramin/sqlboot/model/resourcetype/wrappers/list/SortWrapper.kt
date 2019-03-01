@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.wrappers.list
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
+import reactor.core.publisher.Flux
 
 
 class SortWrapper(private val origin: ResourceType,
@@ -45,8 +46,9 @@ class SortWrapper(private val origin: ResourceType,
         return origin.metaData()
     }
 
-    override fun read(uri: Uri): Sequence<DbResource> {
-        val read: Sequence<DbResource> = origin.read(uri)
+    override fun read(uri: Uri): Flux<DbResource> {
+        return origin.read(uri)
+        /*val read: Flux<DbResource> = origin.read(uri)
         val parameters = uri.orderedColumns()
         if (parameters.isEmpty()) {
             return read
@@ -54,7 +56,7 @@ class SortWrapper(private val origin: ResourceType,
         val arrayOf: Array<(DbResource) -> Comparable<*>> = parameters
                 .map { return@map { it1: DbResource -> (it1.headers()[it.key] ?: "") as Comparable<*> } }
                 .toTypedArray()
-        return read.sortedWith(compareByDescending(*arrayOf))
+        return read.sortedWith(compareByDescending(*arrayOf))*/
     }
 
     private fun <T> compareByDescending(vararg selectors: (T) -> Comparable<*>?): Comparator<T> {

@@ -57,8 +57,8 @@ class FsResourceTypesTest {
     @Test
     fun read() {
         val types = FsResourceTypes(listOf(db), FakeUri())
-        assertEquals(5, types.read(DbUri("table/bookings")).count())
-        assertEquals(1, types.read(DbUri("table/bookings.airports")).count())
+        assertEquals(5, types.read(DbUri("table/bookings")).count().block())
+        assertEquals(1, types.read(DbUri("table/bookings.airports")).count().block())
     }
 
     @Test

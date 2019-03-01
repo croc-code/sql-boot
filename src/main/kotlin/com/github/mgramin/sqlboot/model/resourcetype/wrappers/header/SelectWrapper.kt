@@ -31,6 +31,7 @@ import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
+import reactor.core.publisher.Flux
 import java.util.Arrays.asList
 
 /**
@@ -47,7 +48,7 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         val select = uri.params()[parameterName]
         val resources = origin.read(uri)
         return if (select != null) {

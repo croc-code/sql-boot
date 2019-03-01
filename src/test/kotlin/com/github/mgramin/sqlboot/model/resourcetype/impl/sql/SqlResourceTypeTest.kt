@@ -74,7 +74,7 @@ class SqlResourceTypeTest {
                         aliases = arrayListOf("table"),
                         sql = sql,
                         connections = listOf(db))
-        assertEquals(46, type.read(DbUri("table/m.column")).count())
+        assertEquals(46, type.read(DbUri("table/m.column")).count().block())
     }
 
     @Test
@@ -89,7 +89,7 @@ class SqlResourceTypeTest {
                         aliases = arrayListOf("column"),
                         sql = sql,
                         connections = listOf(db))
-        assertEquals(347, type.read(DbUri("column/main_schema.users")).count())
+        assertEquals(347, type.read(DbUri("column/main_schema.users")).count().block())
     }
 
     @Test

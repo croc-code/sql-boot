@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.wrappers.list
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
+import reactor.core.publisher.Flux
 import java.lang.Integer.valueOf
 
 class PageWrapper constructor(
@@ -48,7 +49,7 @@ class PageWrapper constructor(
         return origin.metaData()
     }
 
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         val pageParameter = uri.params()[parameterName]
         return if (pageParameter != null) {
             val pageNumber = valueOf(pageParameter.substringBefore(delimiter))
@@ -57,7 +58,7 @@ class PageWrapper constructor(
             } else {
                 valueOf(pageParameter.substringAfter(delimiter))
             }
-            origin.read(uri).drop(((pageNumber - 1) * pageSize)).take(pageSize)
+            origin.read(uri).skip(((pageNumber - 1) * pageSize).toLong()).take(pageSize.toLong())
         } else {
             origin.read(uri)
         }

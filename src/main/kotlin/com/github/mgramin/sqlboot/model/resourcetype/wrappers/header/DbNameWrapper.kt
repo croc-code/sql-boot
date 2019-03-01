@@ -28,6 +28,7 @@ import com.github.mgramin.sqlboot.model.connection.DbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
+import reactor.core.publisher.Flux
 
 class DbNameWrapper(private val origin: ResourceType,
                     private val dbConnection: DbConnection) : ResourceType {
@@ -46,7 +47,7 @@ class DbNameWrapper(private val origin: ResourceType,
         return metaData
     }
 
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         return origin.read(uri).map {
             return@map object : DbResource {
 

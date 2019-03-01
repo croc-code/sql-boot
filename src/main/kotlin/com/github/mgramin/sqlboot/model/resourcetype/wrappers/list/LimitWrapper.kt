@@ -28,6 +28,7 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
+import reactor.core.publisher.Flux
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -45,9 +46,9 @@ class LimitWrapper(private val origin: ResourceType, private val parameterName: 
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Sequence<DbResource> {
+    override fun read(uri: Uri): Flux<DbResource> {
         val limit = uri.params().let { v -> v[parameterName] } ?: return origin.read(uri)
-        return origin.read(uri).take(limit.toInt())
+        return origin.read(uri).take(limit.toLong())
     }
 
     override fun metaData(): Map<String, String> {
