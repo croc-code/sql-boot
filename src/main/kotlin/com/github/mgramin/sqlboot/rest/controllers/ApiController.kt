@@ -58,6 +58,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
+import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.ArrayList
@@ -80,7 +81,7 @@ class ApiController {
     @Autowired
     private lateinit var dbConnectionList: DbConnectionList
 
-    @RequestMapping(method = [GET], path = ["/api"], produces = [APPLICATION_JSON_VALUE])
+    @RequestMapping(method = [GET, POST], path = ["/api"], produces = [APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
     fun apiDocsDefault(
             request: HttpServletRequest,
@@ -95,7 +96,7 @@ class ApiController {
         }
     }
 
-    @RequestMapping(method = [GET], path = ["/api/{connectionName}"], produces = [APPLICATION_JSON_VALUE])
+    @RequestMapping(method = [GET, POST], path = ["/api/{connectionName}"], produces = [APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
     fun apiDocs(
             request: HttpServletRequest,
@@ -281,7 +282,7 @@ class ApiController {
         return getListResponseEntity(request, null, "$type/$path")
     }
 
-    @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}"], method = arrayOf(GET))
+    @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}"], method = [GET, POST])
     fun getResourcesHeadersJson(
             request: HttpServletRequest,
             @PathVariable connectionName: String,
@@ -291,7 +292,7 @@ class ApiController {
         return getListResponseEntityHeaders(request, connectionName, "$type/$path")
     }
 
-    @RequestMapping(value = ["/api/{connectionName}/headers/{type}"], method = arrayOf(GET))
+    @RequestMapping(value = ["/api/{connectionName}/headers/{type}"], method = [GET, POST])
     fun getResourcesHeadersJson2(
             request: HttpServletRequest,
             @PathVariable connectionName: String,
@@ -300,7 +301,7 @@ class ApiController {
         return getListResponseEntityHeaders(request, connectionName, type)
     }
 
-    @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}/{action}"], method = arrayOf(GET))
+    @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}/{action}"], method = [GET, POST])
     fun getResourcesHeadersJson3(
             request: HttpServletRequest,
             @PathVariable connectionName: String,
@@ -312,7 +313,7 @@ class ApiController {
                 "$type/$path/$action")
     }
 
-    @RequestMapping(value = ["/api/{connectionName}/meta/{type}"], method = arrayOf(GET))
+    @RequestMapping(value = ["/api/{connectionName}/meta/{type}"], method = [GET, POST])
     fun getResourceMetadata(
             request: HttpServletRequest,
             @PathVariable connectionName: String,
@@ -334,7 +335,7 @@ class ApiController {
         return ResponseEntity(collect, HttpStatus.OK)
     }
 
-    @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}"], method = [GET])
+    @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}"], method = [GET, POST])
     fun getResourceMetadata2(
             request: HttpServletRequest,
             @PathVariable connectionName: String,
@@ -359,7 +360,7 @@ class ApiController {
         return ResponseEntity(collect, HttpStatus.OK)
     }
 
-    @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}/{action}"], method = [GET])
+    @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}/{action}"], method = [GET, POST])
     fun getResourceMetadata3(
             request: HttpServletRequest,
             @PathVariable connectionName: String,
