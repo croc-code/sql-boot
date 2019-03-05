@@ -50,7 +50,7 @@ class MarkdownFileTest {
             | order by u.username
             |````
             |""".trimMargin()
-        val map = MarkdownFile(text).parse()
+        val map = MarkdownFile("test.md", text).parse()
         assertEquals(arrayListOf("", "row_count"), map.keys.toList())
         assertEquals(map[""], """select u.username     as "@schema"
                                 |     , u.user_id      as "user_id"

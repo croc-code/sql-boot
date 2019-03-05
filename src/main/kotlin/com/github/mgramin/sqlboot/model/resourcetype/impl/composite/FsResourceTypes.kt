@@ -35,8 +35,10 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapp
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import reactor.core.publisher.Flux
 import java.io.File
+import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
 
 /**
@@ -47,36 +49,26 @@ class FsResourceTypes(
         private val uri: Uri
 ) : ResourceType {
 
-    private val resourceTypes: List<ResourceType> = walk(dbConnections.first().baseFolder!!.file.path, uri, dbConnections.first())
+    private val resourceTypes: List<ResourceType> = walk(dbConnections.first().baseFolder!!.file.path)
 
-    private fun walk(path: String, uri: Uri, connection: SimpleDbConnection): List<ResourceType> {
-        val result = arrayListOf<ResourceType>()
-        File(path)
-                .listFiles()
-                .asSequence()
-                .filter { it.isDirectory }
-                .onEach { result.addAll(walk(it.absolutePath, uri, connection)) }
-                .filter { File(it, "README.md").exists() }
-                .forEach { dir ->
-                    val map = MarkdownFile(File(dir, "README.md").readText(UTF_8)).parse()
-                    if (map.isNotEmpty()) {
-                        val sql = map[uri.action()] ?: map.entries.iterator().next().value
-                        val resourceType =
-//                                CacheWrapper(
-                                SelectWrapper(
-//                                        PageWrapper(
-                                        SortWrapper(
-                                                BodyWrapper(
-                                                        SqlResourceType(
-                                                                aliases = listOf(dir.name),
-                                                                sql = sql,
-                                                                connections = dbConnections),
-                                                        templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
-//                                )
-                        result.add(resourceType)
-                    }
+    private fun walk(path: String): List<ResourceType> {
+        return File(path)
+                .walkTopDown()
+                .filter { it.isFile }
+                .filter { it.extension.equals("md", true) || it.extension.equals("sql", true) }
+                .map { return@map if (it.extension.equals("md", true)) MarkdownFile(it.name, it.readText(UTF_8)) else SimpleFile(it.name, it.readText(UTF_8).toByteArray()) }
+                .filter { it.content().isNotEmpty() }
+                .map {
+                    return@map SelectWrapper(
+                            SortWrapper(
+                                    BodyWrapper(
+                                            SqlResourceType(
+                                                    aliases = listOf(File(it.name()).nameWithoutExtension),
+                                                    sql = it.content().toString(Charset.defaultCharset()),
+                                                    connections = dbConnections),
+                                            templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
                 }
-        return result
+                .toList()
     }
 
     @Deprecated("")

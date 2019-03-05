@@ -24,6 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md
 
+import com.github.mgramin.sqlboot.tools.files.file.File
 import org.commonmark.node.AbstractVisitor
 import org.commonmark.node.FencedCodeBlock
 import org.commonmark.node.Heading
@@ -36,8 +37,19 @@ import java.util.LinkedHashMap
  * @version $Id: d5d9fbccca9519bf74e3b6add53e46104ffa5931 $
  * @since 0.1
  */
-class MarkdownFile(private val text: String) {
+class MarkdownFile(private val name: String, private val text: String) : File {
 
+    override fun name(): String {
+        return name
+    }
+
+    override fun content(): ByteArray {
+        val visitor = CustomVisitor()
+        Parser.builder().build().parse(text).accept(visitor)
+        return visitor.getMap().iterator().next().value.toByteArray()
+    }
+
+    @Deprecated("")
     fun parse(): Map<String, String> {
         val visitor = CustomVisitor()
         Parser.builder().build().parse(text).accept(visitor)
