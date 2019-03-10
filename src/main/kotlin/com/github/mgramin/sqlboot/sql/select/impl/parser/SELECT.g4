@@ -53,15 +53,28 @@ FUNCTION_EXPRESSION
   : ID '(' .*? ')'
   ;
 
+WITH_EXPRESSION
+  : 'with' LEFT_BRACKET .*? RIGHT_BRACKET
+  ;
+
 
 
 
 
 select_statement
-   : select select_row( COMMA select_row )*
-       from (schema_name+ DOT)? table_name
+   : (with)*
+     select select_row( COMMA select_row )*
+     from (schema_name+ DOT)? table_name
        .*?
    ;
+
+with
+    : with_expression
+    ;
+
+with_expression
+  : 'with' ID 'as' LEFT_BRACKET .*? RIGHT_BRACKET (COMMA ID 'as' LEFT_BRACKET .*? RIGHT_BRACKET)*
+  ;
 
 
 

@@ -46,7 +46,13 @@ class MarkdownFile(private val name: String, private val text: String) : File {
     override fun content(): ByteArray {
         val visitor = CustomVisitor()
         Parser.builder().build().parse(text).accept(visitor)
-        return visitor.getMap().iterator().next().value.toByteArray()
+        return visitor
+                .getMap()
+                .asSequence()
+                .ifEmpty { mapOf("" to "").asSequence() }
+                .first()
+                .value
+                .toByteArray()
     }
 
     @Deprecated("")
