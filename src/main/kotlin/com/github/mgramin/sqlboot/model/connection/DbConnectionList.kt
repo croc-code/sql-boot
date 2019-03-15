@@ -39,10 +39,10 @@ import org.springframework.stereotype.Service
 open class DbConnectionList(val connections: List<SimpleDbConnection>) {
 
     fun getConnectionByName(name: String): SimpleDbConnection {
-        return connections.first { v -> v.name.equals(name, ignoreCase = true) }
+        return connections.first { v -> v.getName().equals(name, ignoreCase = true) }
     }
 
     fun getConnectionsByMask(name: String): List<SimpleDbConnection> {
-        return connections.filter { v -> v.name!!.matches(name.toRegex()) }
+        return connections.filter { v -> v.getName().matches(name.toRegex()) }
     }
 }

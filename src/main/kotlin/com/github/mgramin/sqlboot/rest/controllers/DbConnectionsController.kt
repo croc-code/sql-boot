@@ -24,14 +24,22 @@
 
 package com.github.mgramin.sqlboot.rest.controllers
 
+import com.github.mgramin.sqlboot.model.connection.CheckedConnection
+import com.github.mgramin.sqlboot.model.connection.DbConnection
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Flux
+import reactor.core.publisher.toFlux
+import reactor.core.scheduler.Schedulers
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -51,5 +59,17 @@ class DbConnectionsController @Autowired constructor(private val dbConnectionLis
     /*val allDbConnectionsByMask: List<SimpleDbConnection>
         @RequestMapping(value = ["/connections"])
         get() = dbConnectionList.connections*/
+
+    @GetMapping(value = ["/connections/health"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    @ResponseBody
+    internal fun health(): Flux<DbConnection> {
+        return dbConnectionList
+                .connections
+                .toFlux()
+                .parallel()
+                .runOn(Schedulers.elastic())
+                .map { CheckedConnection(it) as DbConnection }
+                .sequential()
+    }
 
 }

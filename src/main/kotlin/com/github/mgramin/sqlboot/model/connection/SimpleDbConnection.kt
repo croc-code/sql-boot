@@ -38,11 +38,17 @@ open class SimpleDbConnection : DbConnection {
 
     override fun paginationQueryTemplate() = this.paginationQueryTemplate!!
 
-    override fun name(): String {
+    override fun getName(): String {
         return name!!
     }
 
-    var name: String? = null
+    fun setName(name: String) {
+        this.name = name
+    }
+
+    private var name: String? = null
+
+
     @JsonIgnore // TODO fix json serialization for Resource class
     var baseFolder: Resource? = null
     var url: String? = null
@@ -57,15 +63,7 @@ open class SimpleDbConnection : DbConnection {
 
     private var dataSource: DataSource? = null
 
-    val health: String
-        get() {
-            return try {
-                getDataSource().connection
-                "OK"
-            } catch (e: Exception) {
-                e.message.toString()
-            }
-        }
+    override fun getHealth() = "UKNOWN"
 
     constructor()
     constructor(name: String? = null, baseFolder: Resource? = null, url: String? = null,
@@ -81,7 +79,7 @@ open class SimpleDbConnection : DbConnection {
         this.paginationQueryTemplate = paginationQueryTemplate
     }
 
-    fun getProperties(): Map<String, Any> {
+    override fun getProperties(): Map<String, Any> {
         return JSONObject(properties).toMap()
     }
 

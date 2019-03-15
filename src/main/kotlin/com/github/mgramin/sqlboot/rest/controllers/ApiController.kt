@@ -56,7 +56,6 @@ import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
@@ -65,13 +64,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
-import java.time.Duration
 import java.util.ArrayList
 import java.util.Arrays.asList
 import java.util.stream.Collectors.joining
 import java.util.stream.Collectors.toList
 import javax.servlet.http.HttpServletRequest
-import kotlin.random.Random
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

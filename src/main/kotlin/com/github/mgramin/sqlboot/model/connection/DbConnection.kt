@@ -28,8 +28,14 @@ import javax.sql.DataSource
 
 interface DbConnection {
 
-    fun name(): String
+    fun getName(): String
+
+    fun getHealth(): String
+
     fun getDataSource(): DataSource
+
     fun paginationQueryTemplate(): String
+
+    fun getProperties(): Map<String, Any>
 
 }

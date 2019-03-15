@@ -201,11 +201,11 @@ class ResourceTypeWrapperTest {
         @Test
         fun read() {
             w.read(FakeUri())
-                    //.forEach { println(it.headers()) }
+                    .doOnNext { println(it.headers()) }
+                    .subscribe()
         }
 
     }
-
 
 
     internal abstract inner class BaseResourceWrapperTest {
