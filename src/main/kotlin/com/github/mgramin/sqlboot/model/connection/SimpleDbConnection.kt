@@ -66,18 +66,6 @@ open class SimpleDbConnection : DbConnection {
     override fun getHealth() = "UKNOWN"
 
     constructor()
-    constructor(name: String? = null, baseFolder: Resource? = null, url: String? = null,
-                user: String? = null, password: String? = null, driverClassName: String? = null,
-                properties: String? = null, paginationQueryTemplate: String? = null) {
-        this.name = name
-        this.baseFolder = baseFolder
-        this.url = url
-        this.user = user
-        this.password = password
-        this.driverClassName = driverClassName
-        this.properties = properties
-        this.paginationQueryTemplate = paginationQueryTemplate
-    }
 
     override fun getProperties(): Map<String, Any> {
         return JSONObject(properties).toMap()
