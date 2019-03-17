@@ -24,41 +24,27 @@
 
 package com.github.mgramin.sqlboot.model.connection
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.slf4j.LoggerFactory
-import javax.sql.DataSource
-
 class CheckedConnection(private val origin: DbConnection) : DbConnection {
-
-    override fun getProperties() = origin.getProperties()
 
     private val health: String
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
-    @JsonIgnore
-    override fun getDataSource(): DataSource {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getName() = origin.getName()
-
-    override fun getHealth(): String {
-        return health
-    }
-
-//    override fun getDataSource() = origin.getDataSource()
-
-    override fun paginationQueryTemplate() = origin.paginationQueryTemplate()
-
     init {
         health = try {
-            logger.info("Check connection...")
             origin.getDataSource().connection
             "Ok"
         } catch (e: Exception) {
             e.message.toString()
         }
     }
+
+    override fun name() = origin.name()
+
+    override fun properties() = origin.properties()
+
+    override fun health() = health
+
+    override fun paginationQueryTemplate() = origin.paginationQueryTemplate()
+
+    override fun getDataSource() = origin.getDataSource()
 
 }

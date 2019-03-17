@@ -34,46 +34,27 @@ import org.springframework.core.io.Resource
  * @version $Id: f221782080d430e77aed80ef8446745687c350f4 $
  * @since 0.1
  */
-open class SimpleDbConnection : DbConnection {
+open class SimpleDbConnection(
+        var name: String? = null,
+        @JsonIgnore var baseFolder: Resource? = null,
+        var url: String? = null,
+        var user: String? = null,
+        @JsonIgnore var password: String? = null,
+        var driverClassName: String? = null,
+        var properties: String? = null,
+        var paginationQueryTemplate: String? = null
+) : DbConnection {
+
+    override fun name() = this.name!!
 
     override fun paginationQueryTemplate() = this.paginationQueryTemplate!!
 
-    override fun getName(): String {
-        return name!!
-    }
-
-    fun setName(name: String) {
-        this.name = name
-    }
-
-    private var name: String? = null
-
-
-    @JsonIgnore // TODO fix json serialization for Resource class
-    var baseFolder: Resource? = null
-    var url: String? = null
-    var user: String? = null
-    @JsonIgnore
-    var password: String? = null
-    var driverClassName: String? = null
-    private var properties: String? = null
-
-    var paginationQueryTemplate: String? = null
-
+    override fun health() = "UKNOWN"
 
     private var dataSource: DataSource? = null
 
-    override fun getHealth() = "UKNOWN"
+    override fun properties() = JSONObject(properties).toMap()
 
-    constructor()
-
-    override fun getProperties(): Map<String, Any> {
-        return JSONObject(properties).toMap()
-    }
-
-    fun setProperties(properties: String) {
-        this.properties = properties
-    }
 
     @JsonIgnore
     override fun getDataSource(): DataSource {

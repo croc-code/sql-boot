@@ -27,15 +27,16 @@ package com.github.mgramin.sqlboot.model.connection
 import javax.sql.DataSource
 
 class FakeDbConnection : DbConnection {
-    override fun getProperties(): Map<String, Any> {
+
+    override fun properties(): Map<String, Any> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getHealth(): String {
+    override fun health(): String {
         return "Ok"
     }
 
-    override fun getName(): String {
+    override fun name(): String {
         return "Simple fake connection"
     }
 

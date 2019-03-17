@@ -46,13 +46,13 @@ internal class DbConnectionListTest {
     @ParameterizedTest
     @ValueSource(strings = ["test", "dev", "prod"])
     fun getConnectionByName(connectionName: String) {
-        assertEquals(connectionName, dbConnectionList.getConnectionByName(connectionName).getName())
+        assertEquals(connectionName, dbConnectionList.getConnectionByName(connectionName).name())
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["test", "dev", "prod"])
     fun getConnectionsByMask(connectionMask: String) {
-        assertEquals(connectionMask, dbConnectionList.getConnectionsByMask(connectionMask).first().getName())
+        assertEquals(connectionMask, dbConnectionList.getConnectionsByMask(connectionMask).first().name())
     }
 
     @Test

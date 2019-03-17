@@ -32,25 +32,33 @@ package com.github.mgramin.sqlboot.exceptions
  */
 class BootException : RuntimeException {
 
-    /**
-     * Ctor.
-     *
-     * @param message Error message
-     */
-    constructor(message: String) : super(message) {}
+    val errorCode: Int
+        get() = field
+
 
     /**
      * Ctor.
      *
      * @param message Error message
-     * @param cause Cause
      */
-    constructor(message: String, cause: Throwable) : super(message, cause) {}
+    constructor(message: String) : super(message) {
+        this.errorCode = 0
+    }
 
     /**
      * Ctor.
      *
      * @param cause Cause
      */
-    constructor(cause: Throwable) : super(cause) {}
+    constructor(cause: Throwable) : super(cause) {
+        this.errorCode = 0
+    }
+
+    /**
+     *
+     */
+    constructor(message: String, errorCode: Int) : super(message) {
+        this.errorCode = errorCode
+    }
+
 }

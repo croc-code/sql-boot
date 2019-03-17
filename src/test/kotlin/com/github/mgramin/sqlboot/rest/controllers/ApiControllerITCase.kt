@@ -28,6 +28,8 @@ import com.github.mgramin.sqlboot.rest.Application
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -49,69 +51,24 @@ class ApiControllerITCase {
     @Autowired
     private val client: TestRestTemplate? = null
 
-    @Test
-    fun getText() {
+
+    @ParameterizedTest
+    @CsvSource(
+            "204#/api/h2/headers/table/foo",
+            "200#/api/h2/table/BOOKINGS.AIRCRAFTS",
+            "204#/api/h2/table/not_exist_schema",
+            "200#/api/h2/table",
+            "404#/api/h2/not_exist_type",
+            "200#/api/h2/table/BOOKINGS.AIRPORTS?select=remarks",
+            "200#/api/h2/headers/table/BOOKINGS",
+            "200#/api/h2/headers/table",
+            delimiter = '#'
+    )
+    fun test(code : Int, uri : String) {
         val headers = HttpHeaders()
         headers.contentType = MediaType.TEXT_PLAIN
-        val result = client!!.exchange(
-                "/api/h2/table/BOOKINGS.AIRCRAFTS",
-                HttpMethod.GET,
-                HttpEntity<Any>(headers),
-                String::class.java)
-        assertEquals(200, result.statusCodeValue.toLong())
-    }
-
-    @Test
-    fun getEmptyText() {
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.TEXT_PLAIN
-        val result = client!!.exchange("/api/h2/table/not_exist_schema", HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
-        assertEquals(204, result.statusCodeValue.toLong())
-    }
-
-    @Test
-    fun getTextDdl2() {
-        val result = client!!.getForEntity("/api/h2/table", String::class.java)
-        println(result)
-        assertEquals(200, result.statusCodeValue.toLong())
-    }
-
-    @Test
-    fun getTextDdlWithParams() {
-        val result = client!!.getForEntity("/api/h2/table/BOOKINGS.AIRPORTS?select=remarks", String::class.java)
-        assertEquals(200, result.statusCodeValue.toLong())
-    }
-
-    @Test
-    fun getResourcesHeaders() {
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.TEXT_PLAIN
-        val result = client!!.exchange("/api/h2/headers/table/BOOKINGS", HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
-        assertEquals(200, result.statusCodeValue.toLong())
-    }
-
-    @Test
-    fun getResourcesEmptyHeaders() {
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.TEXT_PLAIN
-        val result = client!!.exchange("/api/h2/headers/table/foo", HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
-        assertEquals(204, result.statusCodeValue.toLong())
-    }
-
-    @Test
-    fun getResourcesHeaders2() {
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.TEXT_PLAIN
-        val result = client!!.exchange("/api/h2/headers/table", HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
-        assertEquals(200, result.statusCodeValue.toLong())
-    }
-
-    @Test
-    fun getSortedResources() {
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.TEXT_PLAIN
-        val result = client!!.exchange("/api/h2/headers/table", HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
-        assertEquals(200, result.statusCodeValue.toLong())
+        val result = client!!.exchange(uri, HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
+        assertEquals(code, result.statusCodeValue)
     }
 
 }

@@ -65,7 +65,7 @@ class DbNameWrapper(private val origin: ResourceType,
 
                 override fun headers(): Map<String, Any> {
                     val headers = it.headers().toMutableMap()
-                    headers["database"] = dbConnection.getName()
+                    headers["database"] = dbConnection.name()
                     return headers
                 }
 

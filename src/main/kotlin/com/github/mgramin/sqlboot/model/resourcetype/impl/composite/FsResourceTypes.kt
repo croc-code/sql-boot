@@ -38,6 +38,7 @@ import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerato
 import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import reactor.core.publisher.Flux
 import java.io.File
+import java.lang.Exception
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
 
@@ -85,17 +86,25 @@ class FsResourceTypes(
     }
 
     override fun read(uri: Uri): Flux<DbResource> {
+        try {
         return resourceTypes
                 .asSequence()
                 .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
                 .read(uri)
+        } catch (e : Exception) {
+            throw BootException("Type not found", 404)
+        }
     }
 
     override fun metaData(): Map<String, String> {
-        return resourceTypes
-                .asSequence()
-                .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .metaData()
+        try {
+            return resourceTypes
+                    .asSequence()
+                    .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
+                    .metaData()
+        } catch (e : Exception) {
+            throw BootException("Type not found", 404)
+        }
     }
 
 }

@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers
 
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
@@ -423,7 +424,15 @@ class ApiController {
         val connections = dbConnectionList.getConnectionsByMask(connectionName!!)
         val result = ArrayList<DbResource>()
         val fsResourceTypes = FsResourceTypes(connections, uri)
-        val collect = fsResourceTypes.read(uri).collectList().block()
+        val collect: MutableList<DbResource>?
+        try {
+            collect = fsResourceTypes.read(uri).collectList().block()
+        } catch (e: BootException) {
+            if (e.errorCode == 404) {
+                return ResponseEntity(result, HttpStatus.NOT_FOUND)
+            }
+            return ResponseEntity(result, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
         result.addAll(collect)
 
         return if (result.isEmpty()) {
