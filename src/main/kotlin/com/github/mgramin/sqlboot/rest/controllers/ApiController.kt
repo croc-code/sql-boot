@@ -26,7 +26,6 @@ package com.github.mgramin.sqlboot.rest.controllers
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
-import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.FsResourceTypes
@@ -68,66 +67,20 @@ class ApiController {
     }
 
 
-    @RequestMapping(value = ["/api/{connectionName}/{type}"])
-    fun getResourcesEntireJson(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String
-    ): ResponseEntity<List<DbResource>> {
-        return getListResponseEntity(request, connectionName, type)
-    }
-
-    @RequestMapping(value = ["/api/{connectionName}/{type}/{path:.+}"])
-    fun getResourcesEntireJson2(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String,
-            @PathVariable path: String
-    ): ResponseEntity<List<DbResource>> {
-        return getListResponseEntity(request, connectionName, "$type/$path")
-    }
-
-    @RequestMapping(value = ["/api/{connectionName}/{type}/{path:.+}/{action}"])
-    fun getResourcesEntireJson3(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String,
-            @PathVariable path: String,
-            @PathVariable action: String
-    ): ResponseEntity<List<DbResource>> {
-        return getListResponseEntity(request, connectionName, "$type/$path/$action")
-    }
-
-
-    @RequestMapping(value = ["/api/{connectionName}/headers/{type}"], method = [GET, POST])
+    @RequestMapping(value = ["/api/{connectionName}/headers/**"], method = [GET, POST])
     fun getResourcesHeadersJson(
             request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String
+            @PathVariable connectionName: String
     ): ResponseEntity<List<Map<String, Any>>> {
-        return getListResponseEntityHeaders(request, connectionName, type)
+        val filter = request.servletPath
+                .split("/")
+                .filter { it.isNotEmpty() }
+                .filter { it != "api" }
+                .filterIndexed{ index, _ -> index != 0 && index != 1 }
+                .joinToString(separator = "/") { it }
+        return getListResponseEntityHeaders(request, connectionName, filter)
     }
 
-    @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}"], method = [GET, POST])
-    fun getResourcesHeadersJson2(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String,
-            @PathVariable path: String
-    ): ResponseEntity<List<Map<String, Any>>> {
-        return getListResponseEntityHeaders(request, connectionName, "$type/$path")
-    }
-
-    @RequestMapping(value = ["/api/{connectionName}/headers/{type}/{path:.+}/{action}"], method = [GET, POST])
-    fun getResourcesHeadersJson3(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String,
-            @PathVariable path: String,
-            @PathVariable action: String
-    ): ResponseEntity<List<Map<String, Any>>> {
-        return getListResponseEntityHeaders(request, connectionName, "$type/$path/$action")
-    }
 
 
     @RequestMapping(value = ["/api/{connectionName}/meta/{type}"], method = [GET, POST])
@@ -177,31 +130,6 @@ class ApiController {
         return ResponseEntity(resourceType.metaData(uri), HttpStatus.OK)
     }
 
-
-    private fun getListResponseEntity(
-            request: HttpServletRequest,
-            connectionName: String?,
-            type: String
-    ): ResponseEntity<List<DbResource>> {
-        val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
-        val connections = dbConnectionList.getConnectionsByMask(connectionName!!)
-        val result = ArrayList<DbResource>()
-        val fsResourceTypes = FsResourceTypes(connections, uri)
-        try {
-            val collect = fsResourceTypes.read(uri).collectList().block()
-            result.addAll(collect)
-            return if (result.isEmpty()) {
-                ResponseEntity(result, HttpStatus.NO_CONTENT)
-            } else {
-                ResponseEntity(result, HttpStatus.OK)
-            }
-        } catch (e: BootException) {
-            if (e.errorCode == 404) {
-                return ResponseEntity(result, HttpStatus.NOT_FOUND)
-            }
-            return ResponseEntity(result, HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
 
 
     private fun getListResponseEntityHeaders(

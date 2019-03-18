@@ -26,7 +26,6 @@ package com.github.mgramin.sqlboot.rest.controllers
 
 import com.github.mgramin.sqlboot.rest.Application
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -52,19 +51,31 @@ class ApiControllerITCase {
     private val client: TestRestTemplate? = null
 
 
-    @ParameterizedTest
+    /*@ParameterizedTest
     @CsvSource(
-            "204#/api/h2/headers/table/foo",
             "200#/api/h2/table/BOOKINGS.AIRCRAFTS",
             "204#/api/h2/table/not_exist_schema",
             "200#/api/h2/table",
             "404#/api/h2/not_exist_type",
             "200#/api/h2/table/BOOKINGS.AIRPORTS?select=remarks",
+            delimiter = '#'
+    )
+    fun test(code : Int, uri : String) {
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.TEXT_PLAIN
+        val result = client!!.exchange(uri, HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
+        assertEquals(code, result.statusCodeValue)
+    }*/
+
+
+    @ParameterizedTest
+    @CsvSource(
+            "204#/api/h2/headers/table/foo",
             "200#/api/h2/headers/table/BOOKINGS",
             "200#/api/h2/headers/table",
             delimiter = '#'
     )
-    fun test(code : Int, uri : String) {
+    fun testHeaders(code : Int, uri : String) {
         val headers = HttpHeaders()
         headers.contentType = MediaType.TEXT_PLAIN
         val result = client!!.exchange(uri, HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)

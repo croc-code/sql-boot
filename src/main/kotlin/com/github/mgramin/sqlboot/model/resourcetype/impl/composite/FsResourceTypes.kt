@@ -38,7 +38,6 @@ import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerato
 import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import reactor.core.publisher.Flux
 import java.io.File
-import java.lang.Exception
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
 
