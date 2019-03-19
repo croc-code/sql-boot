@@ -51,35 +51,41 @@ class ApiControllerITCase {
     private val client: TestRestTemplate? = null
 
 
-    /*@ParameterizedTest
+    @ParameterizedTest
     @CsvSource(
+            "204#/api/h2/table/foo",
+            "200#/api/h2/table/BOOKINGS",
+            "200#/api/h2/table",
             "200#/api/h2/table/BOOKINGS.AIRCRAFTS",
             "204#/api/h2/table/not_exist_schema",
             "200#/api/h2/table",
             "404#/api/h2/not_exist_type",
             "200#/api/h2/table/BOOKINGS.AIRPORTS?select=remarks",
-            delimiter = '#'
-    )
-    fun test(code : Int, uri : String) {
+            delimiter = '#')
+    fun testHeaders(code: Int, uri: String) {
         val headers = HttpHeaders()
         headers.contentType = MediaType.TEXT_PLAIN
         val result = client!!.exchange(uri, HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
         assertEquals(code, result.statusCodeValue)
-    }*/
+    }
 
 
     @ParameterizedTest
     @CsvSource(
-            "204#/api/h2/headers/table/foo",
-            "200#/api/h2/headers/table/BOOKINGS",
-            "200#/api/h2/headers/table",
+            "200#6#/api/meta/h2/table",
+            "200#6#/api/meta/h2/table/foo",
+            "200#6#/api/meta/h2/table/foo.bar",
+            "200#8#/api/meta/h2/column",
+            "200#8#/api/meta/h2/column/foo",
+            "200#8#/api/meta/h2/column/foo.bar",
             delimiter = '#'
     )
-    fun testHeaders(code : Int, uri : String) {
+    fun testHeadersMeta(code: Int, fieldCount: Int, uri: String) {
         val headers = HttpHeaders()
-        headers.contentType = MediaType.TEXT_PLAIN
-        val result = client!!.exchange(uri, HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
+        headers.contentType = MediaType.APPLICATION_JSON
+        val result = client!!.exchange(uri, HttpMethod.GET, HttpEntity<Any>(headers), List::class.java)
         assertEquals(code, result.statusCodeValue)
+        assertEquals(fieldCount, result.body.count())
     }
 
 }

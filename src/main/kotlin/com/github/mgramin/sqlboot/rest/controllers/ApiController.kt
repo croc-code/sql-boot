@@ -29,6 +29,7 @@ import com.github.mgramin.sqlboot.model.connection.DbConnectionList
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.FsResourceTypes
+import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper
@@ -67,77 +68,27 @@ class ApiController {
     }
 
 
-    @RequestMapping(value = ["/api/{connectionName}/headers/**"], method = [GET, POST])
+    @RequestMapping(value = ["/api/{connectionName}/**"], method = [GET, POST])
     fun getResourcesHeadersJson(
             request: HttpServletRequest,
             @PathVariable connectionName: String
     ): ResponseEntity<List<Map<String, Any>>> {
-        val filter = request.servletPath
+        val uriString = request.servletPath
                 .split("/")
+                .asSequence()
                 .filter { it.isNotEmpty() }
                 .filter { it != "api" }
-                .filterIndexed{ index, _ -> index != 0 && index != 1 }
+                .filter { it != "headers" }
+                .filterIndexed { index, _ -> index != 0 }
                 .joinToString(separator = "/") { it }
-        return getListResponseEntityHeaders(request, connectionName, filter)
+        val uri: Uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
+        return getListResponseEntityHeaders(uri, connectionName)
     }
-
-
-
-    @RequestMapping(value = ["/api/{connectionName}/meta/{type}"], method = [GET, POST])
-    fun getResourceMetadata(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String
-    ): ResponseEntity<List<Metadata>> {
-        val uri = SqlPlaceholdersWrapper(DbUri(parseUri(type, request)))
-        return responseEntity(connectionName, uri)
-    }
-
-
-    @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}"], method = [GET, POST])
-    fun getResourceMetadata2(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String,
-            @PathVariable path: String
-    ): ResponseEntity<List<Metadata>> {
-        val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
-        return responseEntity(connectionName, uri)
-    }
-
-
-    @RequestMapping(value = ["/api/{connectionName}/meta/{type}/{path:.+}/{action}"], method = [GET, POST])
-    fun getResourceMetadata3(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String,
-            @PathVariable type: String,
-            @PathVariable path: String,
-            @PathVariable action: String
-    ): ResponseEntity<List<Metadata>> {
-        val uri = SqlPlaceholdersWrapper(DbUri(parseUri("$type/$path/$action", request)))
-        return responseEntity(connectionName, uri)
-    }
-
-    private fun responseEntity(connectionName: String, uri: SqlPlaceholdersWrapper): ResponseEntity<List<Metadata>> {
-        val fsResourceTypes = FsResourceTypes(
-                listOf(dbConnectionList.getConnectionByName(connectionName)), uri)
-        val resourceType = fsResourceTypes
-                .resourceTypes()
-                .stream()
-                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .findAny()
-                .orElse(null) ?: return ResponseEntity(ArrayList(), HttpStatus.NO_CONTENT)
-        return ResponseEntity(resourceType.metaData(uri), HttpStatus.OK)
-    }
-
-
 
     private fun getListResponseEntityHeaders(
-            request: HttpServletRequest,
-            connectionName: String,
-            path: String
+            uri: Uri,
+            connectionName: String
     ): ResponseEntity<List<Map<String, Any>>> {
-        val uri = SqlPlaceholdersWrapper(DbUri(parseUri(path, request)))
         val connections = dbConnectionList.getConnectionsByMask(connectionName)
         try {
             val headers = FsResourceTypes(connections, uri)
@@ -156,6 +107,36 @@ class ApiController {
             }
             return ResponseEntity(emptyList(), HttpStatus.INTERNAL_SERVER_ERROR)
         }
+    }
+
+
+    @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
+    fun getResourceMetadata(
+            request: HttpServletRequest,
+            @PathVariable connectionName: String
+    ): ResponseEntity<List<Metadata>> {
+        val uriString = request.servletPath
+                .split("/")
+                .filter { it.isNotEmpty() }
+                .filter { it != "api" }
+                .filter { it != "meta" }
+                .filterIndexed { index, _ -> index != 0 }
+                .joinToString(separator = "/") { it }
+        val uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
+        return responseEntity(connectionName, uri)
+    }
+
+
+    private fun responseEntity(connectionName: String, uri: Uri): ResponseEntity<List<Metadata>> {
+        val fsResourceTypes = FsResourceTypes(
+                listOf(dbConnectionList.getConnectionByName(connectionName)), uri)
+        val resourceType = fsResourceTypes
+                .resourceTypes()
+                .stream()
+                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
+                .findAny()
+                .orElse(null) ?: return ResponseEntity(ArrayList(), HttpStatus.NO_CONTENT)
+        return ResponseEntity(resourceType.metaData(uri), HttpStatus.OK)
     }
 
 

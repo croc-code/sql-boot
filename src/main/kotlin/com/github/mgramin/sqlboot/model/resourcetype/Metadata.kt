@@ -1,6 +1,9 @@
 package com.github.mgramin.sqlboot.model.resourcetype
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.google.gson.reflect.TypeToken
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.HashMap
@@ -21,9 +24,10 @@ data class Metadata(
     init {
         this.properties = HashMap()
         try {
-            this.properties.putAll(JSONObject(description).toMap())
+            val map: Map<String, Any> = Gson().fromJson(description, object : TypeToken<Map<String, Any>>() {}.type)
+            this.properties.putAll(map)
             this.properties["key"] = name.replace("@", "")
-        } catch (ignored: JSONException) {
+        } catch (ignored: Exception) {
             this.properties.clear()
             val prop = HashMap<String, Any>()
             prop["key"] = name.replace("@", "")
