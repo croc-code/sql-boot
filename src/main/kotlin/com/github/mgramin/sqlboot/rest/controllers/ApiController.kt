@@ -81,14 +81,11 @@ class ApiController {
                 .filter { it != "headers" }
                 .joinToString(separator = "/") { it }
         val uri: Uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
-        return getListResponseEntityHeaders(uri, connectionName)
+        return getListResponseEntityHeaders(uri)
     }
 
-    private fun getListResponseEntityHeaders(
-            uri: Uri,
-            connectionName: String
-    ): ResponseEntity<List<Map<String, Any>>> {
-        val connections = dbConnectionList.getConnectionsByMask(connectionName)
+    private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
+        val connections = dbConnectionList.getConnectionsByMask(uri.connection())
         try {
             val headers = FsResourceTypes(connections, uri)
                     .read(uri)
@@ -121,13 +118,13 @@ class ApiController {
                 .filter { it != "meta" }
                 .joinToString(separator = "/") { it }
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
-        return responseEntity(connectionName, uri)
+        return responseEntity(uri)
     }
 
 
-    private fun responseEntity(connectionName: String, uri: Uri): ResponseEntity<List<Metadata>> {
+    private fun responseEntity(uri: Uri): ResponseEntity<List<Metadata>> {
         val fsResourceTypes = FsResourceTypes(
-                listOf(dbConnectionList.getConnectionByName(connectionName)), uri)
+                listOf(dbConnectionList.getConnectionByName(uri.connection())), uri)
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()

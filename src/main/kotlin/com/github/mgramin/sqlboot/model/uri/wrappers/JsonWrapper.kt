@@ -43,6 +43,8 @@ class JsonWrapper(private val origin: Uri) : Uri {
 
     override fun action() = origin.action()
 
+    override fun connection() = origin.connection()
+
     override fun toString(): String {
         var s = "DbUri{" +
                 "type='" + origin.type() + '\''.toString() +

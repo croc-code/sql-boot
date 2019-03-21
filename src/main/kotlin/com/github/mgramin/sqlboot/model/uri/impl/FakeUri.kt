@@ -28,6 +28,7 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 
 class FakeUri : Uri {
 
+
     override fun type(): String {
         return "table"
     }
@@ -46,6 +47,10 @@ class FakeUri : Uri {
 
     override fun action(): String {
         return "create"
+    }
+
+    override fun connection(): String {
+        return "prod"
     }
 
 }

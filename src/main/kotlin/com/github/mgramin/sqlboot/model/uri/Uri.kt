@@ -74,6 +74,12 @@ interface Uri : Serializable {
      */
     fun action(): String
 
+    /**
+     * Connection name
+     */
+    fun connection(): String
+
+
     fun pageNumber(): Int {
         val pageParameter = params()["page"]
         val pageNumber: Int

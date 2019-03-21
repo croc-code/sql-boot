@@ -89,6 +89,8 @@ class DbUri : Uri {
 
     override fun action() = this.action
 
+    override fun connection() = this.connection
+
     override fun toString(): String {
         val result = StringBuilder(connection + "/" + type + "/" + objects.joinToString("."))
         if (action != "" && action != "create")
