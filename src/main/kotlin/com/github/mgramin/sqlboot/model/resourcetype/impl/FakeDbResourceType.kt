@@ -48,9 +48,9 @@ class FakeDbResourceType : ResourceType {
 
     override fun read(uri: Uri): Flux<DbResource> {
         return sequenceOf(
-                FakeDbResource(DbUri("table/hr.persons")),
-                FakeDbResource(DbUri("table/hr.users")),
-                FakeDbResource(DbUri("table/hr.jobs"))).toFlux()
+                FakeDbResource(DbUri("prod/table/hr.persons")),
+                FakeDbResource(DbUri("prod/table/hr.users")),
+                FakeDbResource(DbUri("prod/table/hr.jobs"))).toFlux()
     }
 
     override fun metaData(): Map<String, String> {

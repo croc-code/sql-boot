@@ -27,41 +27,26 @@ package com.github.mgramin.sqlboot.model.uri.wrappers
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class JsonWrapperTest {
 
-    private val uri: Uri = JsonWrapper(DbUri("table/hr.*persons*/?select=name,age"))
+    private val uri: Uri = JsonWrapper(SqlPlaceholdersWrapper(DbUri("prod/table/hr.*persons*/?select=name,age")))
 
     @Test
-    fun type() {
-        assertEquals("table", uri.type())
-    }
+    fun type() = assertEquals("table", uri.type())
 
     @Test
-    fun path() {
-        assertEquals(arrayListOf("hr", "%persons%"), uri.path())
-    }
+    fun path() = assertEquals(arrayListOf("hr", "%persons%"), uri.path())
 
     @Test
-    fun pathIndex() {
-        assertEquals("%persons%", uri.path(1))
-    }
+    fun pathIndex() = assertEquals("%persons%", uri.path(1))
 
     @Test
-    fun recursive() {
-        assertTrue(uri.recursive()!!)
-    }
+    fun params() = assertEquals(1, uri.params().size)
 
     @Test
-    fun params() {
-        assertEquals(1, uri.params().size)
-    }
-
-    @Test
-    fun toStringTest() {
-        assertEquals("DbUri{type='table', path=[hr, *persons*], recursive=true, params={select=name,age}}",
+    fun toStringTest() = assertEquals("DbUri{type='table', path=[hr, *persons*], params={select=name,age}}",
                 uri.toString())
-    }
+
 }

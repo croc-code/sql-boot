@@ -86,7 +86,7 @@ class SqlResourceType(
                     val headers = o.entries
                             .map { strip(it.key, "@") to it.value }
                             .toMap()
-                    DbResourceImpl(name, this, DbUri(this.name(), path), headers) as DbResource
+                    DbResourceImpl(name, this, DbUri(headers["database"].toString(), this.name(), path), headers) as DbResource
                 }
     }
 

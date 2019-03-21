@@ -33,33 +33,19 @@ import com.github.mgramin.sqlboot.model.uri.Uri
  */
 class SqlPlaceholdersWrapper(private val origin: Uri) : Uri {
 
-    override fun type(): String {
-        return origin.type()
-    }
+    override fun type() = origin.type()
 
-    override fun path(): List<String> {
-        return origin.path().asSequence()
-                .map { v -> v.replace("*", "%") }
-                .toList()
-    }
+    override fun path() = origin.path()
+            .asSequence()
+            .map { v -> v.replace("*", "%") }
+            .toList()
 
-    override fun path(index: Int): String {
-        return origin.path(index).replace("*", "%")
-    }
+    override fun path(index: Int) = origin.path(index).replace("*", "%")
 
-    override fun recursive(): Boolean {
-        return origin.recursive()
-    }
+    override fun params() = origin.params()
 
-    override fun params(): Map<String, String> {
-        return origin.params()
-    }
+    override fun action() = origin.action()
 
-    override fun action(): String {
-        return origin.action()
-    }
+    override fun toString() = origin.toString()
 
-    override fun toString(): String {
-        return origin.toString()
-    }
 }

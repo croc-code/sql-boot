@@ -33,35 +33,20 @@ import com.github.mgramin.sqlboot.model.uri.Uri
  */
 class JsonWrapper(private val origin: Uri) : Uri {
 
-    override fun type(): String {
-        return origin.type()
-    }
+    override fun type() = origin.type()
 
-    override fun path(): List<String> {
-        return origin.path()
-    }
+    override fun path() = origin.path()
 
-    override fun path(index: Int): String {
-        return origin.path(index)
-    }
+    override fun path(index: Int) = origin.path(index)
 
-    override fun recursive(): Boolean {
-        return origin.recursive()
-    }
+    override fun params() = origin.params()
 
-    override fun params(): Map<String, String> {
-        return origin.params()
-    }
-
-    override fun action(): String {
-        return origin.action()
-    }
+    override fun action() = origin.action()
 
     override fun toString(): String {
         var s = "DbUri{" +
                 "type='" + origin.type() + '\''.toString() +
                 ", path=" + origin.path() +
-                ", recursive=" + origin.recursive() +
                 ", params=" + origin.params() +
                 "}"
         s = s.replace("%", "*")

@@ -40,10 +40,6 @@ class FakeUri : Uri {
         return "FAKE_TBL"
     }
 
-    override fun recursive(): Boolean {
-        return false
-    }
-
     override fun params(): Map<String, String> {
         return mapOf("page" to "1,20", "sortby" to "schema,table")
     }

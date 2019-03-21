@@ -82,19 +82,19 @@ class ResourceTypeWrapperTest {
         }
 
         @ParameterizedTest
-        @CsvSource("persons;**/table/hr?page=1,1",
-                "users;**/table/hr?page=2,1",
-                "jobs;**/table/hr?page=3,1", delimiter = ';')
+        @CsvSource("persons;prod/table/hr?page=1,1",
+                "users;prod/table/hr?page=2,1",
+                "jobs;prod/table/hr?page=3,1", delimiter = ';')
         fun read(name: String, uri: String) {
             assertEquals(name, w.read(DbUri(uri)).blockFirst().name())
         }
 
         @ParameterizedTest
-        @CsvSource("1;table/hr?page=1,1",
-                "2;table/hr?page=1,2",
-                "3;table/hr?page=1,3",
-                "3;table/hr?page=1",
-                "0;table/hr?page=2", delimiter = ';')
+        @CsvSource("1;prod/table/hr?page=1,1",
+                "2;prod/table/hr?page=1,2",
+                "3;prod/table/hr?page=1,3",
+                "3;prod/table/hr?page=1",
+                "0;prod/table/hr?page=2", delimiter = ';')
         fun read2(count: Long, uri: String) {
             assertEquals(count, w.read(DbUri(uri)).count().block())
         }
@@ -107,8 +107,8 @@ class ResourceTypeWrapperTest {
         }
 
         @ParameterizedTest
-        @CsvSource("1;table/hr.persons",
-                "3;table/hr.s", delimiter = ';')
+        @CsvSource("1;prod/table/hr.persons",
+                "3;prod/table/hr.s", delimiter = ';')
         fun read(count: Long, uri: String) {
             assertEquals(count, w.read(DbUri(uri)).count().block())
         }

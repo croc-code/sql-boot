@@ -60,11 +60,6 @@ interface Uri : Serializable {
      */
     fun path(index: Int): String
 
-    /**
-     *
-     * @return
-     */
-    fun recursive(): Boolean
 
     /**
      *

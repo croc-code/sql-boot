@@ -28,12 +28,11 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import org.junit.Assert
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class SqlPlaceholdersWrapperTest {
 
-    private val uri: Uri = SqlPlaceholdersWrapper(DbUri("table/hr.*persons*/?select=name,age"))
+    private val uri: Uri = SqlPlaceholdersWrapper(DbUri("prod/table/hr.*persons*/?select=name,age"))
 
     @Test
     fun type() {
@@ -48,11 +47,6 @@ class SqlPlaceholdersWrapperTest {
     @Test
     fun pathIndex() {
         Assert.assertEquals("%persons%", uri.path(1))
-    }
-
-    @Test
-    fun recursive() {
-        assertTrue(uri.recursive()!!)
     }
 
     @Test

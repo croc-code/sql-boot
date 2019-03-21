@@ -27,91 +27,72 @@ package com.github.mgramin.sqlboot.model.uri.impl
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.uri.Uri
 import java.net.URI
-import java.util.Arrays.asList
-import java.util.LinkedHashMap
 
 /**
  * Created by maksim on 12.06.16.
  */
 class DbUri : Uri {
 
+    private val connection: String
     private val type: String
     private val objects: List<String>
-    private val recursive: Boolean
-    private val params = LinkedHashMap<String, String>()
+    private val params: Map<String, String>
     private val action: String
 
-    constructor(type: String, objects: List<String>) {
+    constructor(connection: String, type: String, objects: List<String>) {
+        this.connection = connection
         this.type = type
         this.objects = objects
         this.action = ""
-        this.recursive = false
+        this.params = emptyMap()
     }
 
-    @Throws(BootException::class)
     constructor(uriString: String) {
         try {
             val uri = URI(uriString)
-            val pathString = uri.path.replace("*", "%")
-            val queryString = uri.query
 
-            val list = asList(*pathString.split("[/]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
-            type = list[0]
-            objects = if (list.size == 1) {
-                asList("%")
-            } else {
-                asList(*list[1].split("[.]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
-            }
-            action = if (list.size == 3) {
-                list[2]
-            } else {
-                ""
-            }
-            recursive = pathString[pathString.length - 1] == '/'
+            val pathMap: Map<Int, String> = uri.path
+                    .split("/")
+                    .filter { it.isNotEmpty() }
+                    .mapIndexed { index, element -> index to element }
+                    .toMap()
 
-            if (queryString != null)
-                for (s in queryString.split("&".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-                    params[s.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]] = s.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
-                }
+            connection = pathMap.getValue(0)
+            type = pathMap.getValue(1)
+            objects = pathMap.getOrDefault(2, "*").split(".")
+            action = pathMap.getOrDefault(3, "")
+
+            params = if (uri.query != null)
+                uri.query
+                        .split("&")
+                        .map { it.split("=")[0] to it.split("=")[1] }
+                        .toMap()
+            else emptyMap()
+
         } catch (e: Exception) {
             throw BootException(e)
         }
     }
 
-    override fun type(): String {
-        return type
-    }
+    override fun type() = type
 
-    override fun path(): List<String> {
-        return objects
-    }
+    override fun path() = objects
 
-    override fun path(index: Int): String {
-        return if (index > objects.size - 1) {
-            "%"
-        } else {
-            objects[index]
-        }
-    }
+    override fun path(index: Int) =
+            if (index > objects.size - 1) {
+                "%"
+            } else {
+                objects[index]
+            }
 
-    override fun recursive(): Boolean {
-        return recursive
-    }
+    override fun params() = params
 
-    override fun params(): Map<String, String> {
-        return params
-    }
-
-    override fun action(): String {
-        return this.action
-    }
+    override fun action() = this.action
 
     override fun toString(): String {
-        val result = StringBuilder(type + "/" + objects.joinToString("."))
+        val result = StringBuilder(connection + "/" + type + "/" + objects.joinToString("."))
         if (action != "" && action != "create")
             result.append("/").append(action)
-        if (recursive)
-            result.append("/")
         if (!params.isEmpty()) {
             result.append("?")
             var i = 0
@@ -123,4 +104,5 @@ class DbUri : Uri {
         }
         return result.toString().replace("%", "*")
     }
+
 }

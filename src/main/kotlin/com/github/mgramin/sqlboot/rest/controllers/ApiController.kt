@@ -79,7 +79,6 @@ class ApiController {
                 .filter { it.isNotEmpty() }
                 .filter { it != "api" }
                 .filter { it != "headers" }
-                .filterIndexed { index, _ -> index != 0 }
                 .joinToString(separator = "/") { it }
         val uri: Uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
         return getListResponseEntityHeaders(uri, connectionName)
@@ -120,7 +119,6 @@ class ApiController {
                 .filter { it.isNotEmpty() }
                 .filter { it != "api" }
                 .filter { it != "meta" }
-                .filterIndexed { index, _ -> index != 0 }
                 .joinToString(separator = "/") { it }
         val uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
         return responseEntity(connectionName, uri)
