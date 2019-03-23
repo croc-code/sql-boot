@@ -73,16 +73,18 @@ class ApiController {
             request: HttpServletRequest,
             @PathVariable connectionName: String
     ): ResponseEntity<List<Map<String, Any>>> {
-        val uriString = request.servletPath
-                .split("/")
-                .asSequence()
-                .filter { it.isNotEmpty() }
-                .filter { it != "api" }
-                .filter { it != "headers" }
-                .joinToString(separator = "/") { it }
-        val uri: Uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
-        return getListResponseEntityHeaders(uri)
+        return getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/headers"))))
     }
+
+
+    @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
+    fun getResourceMetadata(
+            request: HttpServletRequest,
+            @PathVariable connectionName: String
+    ): ResponseEntity<List<Metadata>> {
+        return responseEntity(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/meta"))))
+    }
+
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
         val connections = dbConnectionList.getConnectionsByMask(uri.connection())
@@ -106,22 +108,6 @@ class ApiController {
     }
 
 
-    @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
-    fun getResourceMetadata(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String
-    ): ResponseEntity<List<Metadata>> {
-        val uriString = request.servletPath
-                .split("/")
-                .filter { it.isNotEmpty() }
-                .filter { it != "api" }
-                .filter { it != "meta" }
-                .joinToString(separator = "/") { it }
-        val uri = SqlPlaceholdersWrapper(DbUri(parseUri(uriString, request)))
-        return responseEntity(uri)
-    }
-
-
     private fun responseEntity(uri: Uri): ResponseEntity<List<Metadata>> {
         val fsResourceTypes = FsResourceTypes(
                 listOf(dbConnectionList.getConnectionByName(uri.connection())), uri)
@@ -135,7 +121,13 @@ class ApiController {
     }
 
 
-    private fun parseUri(path: String, request: HttpServletRequest): String {
+    private fun parseUri(request: HttpServletRequest, basePath: String): String {
+        val path = request.servletPath
+                .split("/")
+                .asSequence()
+                .filter { it.isNotEmpty() }
+                .filter { !basePath.split("/").contains(it) }
+                .joinToString(separator = "/") { it }
         return if (request.queryString == null || request.queryString.isEmpty()) {
             path
         } else {
