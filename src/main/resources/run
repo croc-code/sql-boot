@@ -1,0 +1,2 @@
+#!/bin/sh
+java -Dloader.path='.' -jar ./sql-boot.jar
