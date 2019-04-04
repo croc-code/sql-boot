@@ -23,7 +23,7 @@ after_success:
 
 before_deploy:
   - export TRAVIS_TAG=v0.2.0
-  - git tag $TRAVIS_TAG
+  - git tag $TRAVIS_TAG --force
 
 deploy:
   provider: releases
