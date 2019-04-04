@@ -27,5 +27,6 @@ deploy:
   file: target/sql-boot.zip
   skip_cleanup: true
   name: v0.2.0
+  overwrite: true
   on:
     all_branches: true
