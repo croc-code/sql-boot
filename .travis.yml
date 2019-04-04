@@ -21,13 +21,13 @@ after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push mgramin/sql-boot
 
-deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: target/sql-boot.zip
-  skip_cleanup: true
-  name: v0.2.0
-  overwrite: true
-  on:
-    all_branches: true
+#deploy:
+#  provider: releases
+#  api_key: $GITHUB_TOKEN
+#  file: target/sql-boot.zip
+#  skip_cleanup: true
+#  name: v0.2.0
+#  overwrite: true
+#  on:
+#    all_branches: true
 
