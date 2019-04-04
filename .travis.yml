@@ -30,4 +30,3 @@ deploy:
   overwrite: true
   on:
     all_branches: true
-    
