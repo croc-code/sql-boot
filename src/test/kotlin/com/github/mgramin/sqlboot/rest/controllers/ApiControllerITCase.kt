@@ -59,7 +59,7 @@ class ApiControllerITCase {
             "200#/api/h2/table/BOOKINGS.AIRCRAFTS",
             "204#/api/h2/table/not_exist_schema",
             "200#/api/h2/table",
-            "404#/api/h2/not_exist_type",
+            "204#/api/h2/not_exist_type",
             "200#/api/h2/table/BOOKINGS.AIRPORTS?select=remarks",
             delimiter = '#')
     fun testHeaders(code: Int, uri: String) {
