@@ -22,19 +22,18 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resourcetype.impl.composite
+package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
-import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md.MarkdownFile
-import com.github.mgramin.sqlboot.model.resourcetype.impl.sql.SqlResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.tools.files.file.impl.MarkdownFile
 import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import reactor.core.publisher.Flux
 import java.io.File
@@ -44,7 +43,7 @@ import java.nio.charset.StandardCharsets.UTF_8
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceTypes(
+class FsResourceType(
         private val dbConnections: List<SimpleDbConnection>,
         private val uri: Uri
 ) : ResourceType {
@@ -86,11 +85,12 @@ class FsResourceTypes(
 
     override fun read(uri: Uri): Flux<DbResource> {
         try {
-        return resourceTypes
-                .asSequence()
-                .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .read(uri)
-        } catch (e : Exception) {
+            return Flux.merge(
+                    resourceTypes
+                            .filter { v -> v.name().matches(uri.type().replace("?", ".?").replace("*", ".*?").toRegex()) }
+                            .map { it.read(uri) }
+                            .toList())
+        } catch (e: Exception) {
             throw BootException("Type not found", 404)
         }
     }
@@ -101,7 +101,7 @@ class FsResourceTypes(
                     .asSequence()
                     .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
                     .metaData()
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             throw BootException("Type not found", 404)
         }
     }

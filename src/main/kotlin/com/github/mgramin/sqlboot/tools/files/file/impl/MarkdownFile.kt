@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md
+package com.github.mgramin.sqlboot.tools.files.file.impl
 
 import com.github.mgramin.sqlboot.tools.files.file.File
 import org.commonmark.node.AbstractVisitor

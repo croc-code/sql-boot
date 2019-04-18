@@ -27,7 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.wrappers
 import com.github.mgramin.sqlboot.model.connection.FakeDbConnection
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
-import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeDbResourceType
+import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.DbNameWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
@@ -51,7 +51,7 @@ class ResourceTypeWrapperTest {
     @Nested
     internal inner class BodyWrapperTest : BaseResourceWrapperTest() {
         override fun getWrapper(): ResourceType {
-            return BodyWrapper(FakeDbResourceType(), FakeTemplateGenerator("Hello World!"))
+            return BodyWrapper(FakeResourceType(), FakeTemplateGenerator("Hello World!"))
         }
 
         @Test
@@ -64,7 +64,7 @@ class ResourceTypeWrapperTest {
     @Nested
     internal inner class SelectWrapperTest : BaseResourceWrapperTest() {
         override fun getWrapper(): ResourceType {
-            return SelectWrapper(FakeDbResourceType())
+            return SelectWrapper(FakeResourceType())
         }
 
         @Test
@@ -78,7 +78,7 @@ class ResourceTypeWrapperTest {
     @Nested
     internal inner class PageWrapperTest : BaseResourceWrapperTest() {
         override fun getWrapper(): ResourceType {
-            return PageWrapper(FakeDbResourceType())
+            return PageWrapper(FakeResourceType())
         }
 
         @ParameterizedTest
@@ -103,7 +103,7 @@ class ResourceTypeWrapperTest {
     @Nested
     internal inner class WhereWrapperTest : BaseResourceWrapperTest() {
         override fun getWrapper(): ResourceType {
-            return WhereWrapper(FakeDbResourceType())
+            return WhereWrapper(FakeResourceType())
         }
 
         @ParameterizedTest
@@ -118,7 +118,7 @@ class ResourceTypeWrapperTest {
     @Nested
     internal inner class LimitWrapperTest : BaseResourceWrapperTest() {
         override fun getWrapper(): ResourceType {
-            return LimitWrapper(FakeDbResourceType())
+            return LimitWrapper(FakeResourceType())
         }
 
         @ParameterizedTest
@@ -136,7 +136,7 @@ class ResourceTypeWrapperTest {
     internal inner class CacheWrapperTest : BaseResourceWrapperTest() {
 
         override fun getWrapper(): ResourceType {
-            return CacheWrapper(FakeDbResourceType())
+            return CacheWrapper(FakeResourceType())
         }
 
         @Test
@@ -157,7 +157,7 @@ class ResourceTypeWrapperTest {
 
         override fun getWrapper(): ResourceType {
             return DbNameWrapper(
-                    FakeDbResourceType(),
+                    FakeResourceType(),
                     FakeDbConnection()
             )
         }
@@ -195,7 +195,7 @@ class ResourceTypeWrapperTest {
     internal inner class SortWrapperTest : BaseResourceWrapperTest() {
 
         override fun getWrapper(): ResourceType {
-            return SortWrapper(FakeDbResourceType())
+            return SortWrapper(FakeResourceType())
         }
 
         @Test

@@ -26,7 +26,7 @@ package com.github.mgramin.sqlboot.rest.controllers
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
-import com.github.mgramin.sqlboot.model.resourcetype.impl.composite.FsResourceTypes
+import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import io.swagger.models.Info
 import io.swagger.models.ModelImpl
@@ -92,7 +92,7 @@ class SwaggerController {
 
 
     private fun getSwaggerDescription(request: HttpServletRequest, connectionName: String): Swagger {
-        val fsResourceTypes = FsResourceTypes(
+        val fsResourceTypes = FsResourceType(
                 listOf(dbConnectionList.getConnectionByName(connectionName)), FakeUri())
         val resourceTypes = fsResourceTypes.resourceTypes()
         val swagger = Swagger()

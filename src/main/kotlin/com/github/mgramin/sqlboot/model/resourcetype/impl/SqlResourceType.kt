@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resourcetype.impl.sql
+package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.model.connection.DbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
@@ -61,25 +61,19 @@ class SqlResourceType(
     }
 
     override fun read(uri: Uri): Flux<DbResource> {
-        val mergeSequential: Flux<Map<String, Any>> =
-                Flux.merge(
-                        connections
-                                .asSequence()
-                                .map { connection ->
-                                    return@map createQuery(uri, connection).execute(hashMapOf("uri" to uri))
-                                            .map<Map<String, Any>?> {
-                                                val mutableMap = it.toMutableMap()
-                                                mutableMap["database"] = connection.name()
-                                                mutableMap
-                                            }
-                                }
-                                .toList()
-
-                )
-
-        return mergeSequential
+        return Flux.merge(
+                connections
+                        .map { connection ->
+                            return@map createQuery(uri, connection).execute(hashMapOf("uri" to uri))
+                                    .map<Map<String, Any>?> {
+                                        val mutableMap = it.toMutableMap()
+                                        mutableMap["database"] = connection.name()
+                                        mutableMap
+                                    }
+                        }
+                        .toList())
                 .map { o ->
-                    val path = o.entries
+                    val path = o!!.entries
                             .filter { v -> v.key.startsWith("@") }
                             .map { it.value.toString() }
                     val name = path[path.size - 1]

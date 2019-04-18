@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.resourcetype.impl.composite.md
+package com.github.mgramin.sqlboot.tools.files.file.impl
 
 import org.junit.jupiter.api.Test
 import java.io.IOException

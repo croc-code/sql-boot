@@ -36,7 +36,7 @@ import java.util.Arrays.asList
 /**
  * Created by maksim on 22.05.17.
  */
-class FakeDbResourceType : ResourceType {
+class FakeResourceType : ResourceType {
 
     override fun aliases(): List<String> {
         return asList("fake_resource_type", "fake_type", "frt", "f")
