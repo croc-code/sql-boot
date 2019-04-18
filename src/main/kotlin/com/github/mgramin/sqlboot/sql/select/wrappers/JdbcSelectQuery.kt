@@ -51,13 +51,9 @@ class JdbcSelectQuery(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun query(): String {
-        return origin.query()
-    }
+    override fun query() = origin.query()
 
-    override fun columns(): Map<String, String> {
-        return origin.columns()
-    }
+    override fun columns() = origin.columns()
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         val sqlText = GroovyTemplateGenerator(origin.query()).generate(variables)
