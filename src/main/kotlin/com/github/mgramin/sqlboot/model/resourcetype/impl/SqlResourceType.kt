@@ -67,9 +67,9 @@ class SqlResourceType(
                         .map { connection ->
                             return@map createQuery(uri, connection).execute(hashMapOf("uri" to uri))
                                     .map<Map<String, Any>?> {
-                                        val mutableMap = it.toMutableMap()
-                                        mutableMap["database"] = connection.name()
-                                        mutableMap
+                                        val toMutableMap = it.toMutableMap()
+                                        toMutableMap["database"] = connection.name()
+                                        toMutableMap
                                     }
                         }
                         .toList())

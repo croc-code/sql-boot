@@ -31,7 +31,6 @@ import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -64,7 +63,7 @@ class ApiController {
 
     @RequestMapping(value = ["/api/{connectionName}/types"])
     fun types(@PathVariable connectionName: String): List<ResourceType>? {
-        return FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), FakeUri()).resourceTypes()
+        return FsResourceType(dbConnectionList.getConnectionsByMask(connectionName)).resourceTypes()
     }
 
 
@@ -89,7 +88,7 @@ class ApiController {
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
         val connections = dbConnectionList.getConnectionsByMask(uri.connection())
         try {
-            val headers = FsResourceType(connections, uri)
+            val headers = FsResourceType(connections)
                     .read(uri)
                     .map { it.headers() }
                     .collectList()
@@ -110,7 +109,7 @@ class ApiController {
 
     private fun responseEntity(uri: Uri): ResponseEntity<List<Metadata>> {
         val fsResourceTypes = FsResourceType(
-                listOf(dbConnectionList.getConnectionByName(uri.connection())), uri)
+                listOf(dbConnectionList.getConnectionByName(uri.connection())))
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()

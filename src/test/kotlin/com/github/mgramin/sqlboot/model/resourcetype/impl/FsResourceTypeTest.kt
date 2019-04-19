@@ -26,9 +26,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
-import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
-import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -66,41 +64,32 @@ class FsResourceTypeTest {
             "prod/tab*/bookings,5",
             "prod/table/bookings,5",
             "prod/table/bookings.airports,1")
-    fun read(uri: String, count: Long) {
-        StepVerifier
-                .create(FsResourceType(listOf(db), FakeUri()).read(DbUri(uri)))
-                .expectNextCount(count)
-                .verifyComplete()
-    }
+    fun read(uri: String, count: Long) =
+            StepVerifier
+                    .create(FsResourceType(listOf(db)).read(DbUri(uri)))
+                    .expectNextCount(count)
+                    .verifyComplete()
 
     @Test
     @Deprecated("Deprecated")
-    fun resourceTypes() {
-        assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "pk", "table", "schema").sorted().toList(),
-                FsResourceType(listOf(db), FakeUri()).resourceTypes().map { it.name() }.sorted())
-    }
+    fun resourceTypes() =
+            assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "pk", "table", "schema").sorted().toList(),
+                    FsResourceType(listOf(db)).resourceTypes().map { it.name() }.sorted())
 
     @Test
-    fun aliases() {
-        assertThrows(BootException::class.java) { FsResourceType(listOf(db), FakeUri()).aliases() }
-    }
+    fun aliases() = assertThrows(BootException::class.java) { FsResourceType(listOf(db)).aliases() }
 
     @Test
-    fun path() {
-        assertThrows(BootException::class.java) { FsResourceType(listOf(db), FakeUri()).path() }
-    }
+    fun path() = assertThrows(BootException::class.java) { FsResourceType(listOf(db)).path() }
 
     @ParameterizedTest
     @CsvSource(
             "prod/sessions,7",
             "prod/schema,9",
-//            "prod/s*,5",
-//            "prod/tab*/bookings,5",
+            "prod/s*,16",
+            "prod/tab*/bookings,6",
             "prod/table/bookings,6",
             "prod/table/bookings.airports,6")
-    fun metaData(uri: String, count: Int) {
-        val metaData: List<Metadata> = FsResourceType(listOf(db), DbUri(uri)).metaData(DbUri(uri))
-        assertEquals(count, metaData.count())
-    }
+    fun metaData(uri: String, count: Int) = assertEquals(count, FsResourceType(listOf(db)).metaData(DbUri(uri)).count())
 
 }

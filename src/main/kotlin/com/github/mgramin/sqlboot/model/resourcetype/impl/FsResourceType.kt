@@ -26,7 +26,6 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
-import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
@@ -44,63 +43,49 @@ import java.nio.charset.StandardCharsets.UTF_8
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceType(
-        private val dbConnections: List<SimpleDbConnection>,
-        private val uri: Uri
-) : ResourceType {
+class FsResourceType(private val dbConnections: List<SimpleDbConnection>) : ResourceType {
 
     private val resourceTypes: List<ResourceType> = walk(dbConnections.first().baseFolder!!.file.path)
 
-    private fun walk(path: String): List<ResourceType> {
-        return File(path)
-                .walkTopDown()
-                .filter { it.isFile }
-                .filter { it.extension.equals("md", true) || it.extension.equals("sql", true) }
-                .map { return@map if (it.extension.equals("md", true)) MarkdownFile(it.name, it.readText(UTF_8)) else SimpleFile(it.name, it.readText(UTF_8).toByteArray()) }
-                .filter { it.content().isNotEmpty() }
-                .map {
-                    return@map SelectWrapper(
-                            SortWrapper(
-                                    BodyWrapper(
-                                            SqlResourceType(
-                                                    aliases = listOf(File(it.name()).nameWithoutExtension),
-                                                    sql = it.content().toString(Charset.defaultCharset()),
-                                                    connections = dbConnections),
-                                            templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
-                }
-                .toList()
-    }
+    private fun walk(path: String) =
+            File(path)
+                    .walkTopDown()
+                    .filter { it.isFile }
+                    .filter { it.extension.equals("md", true) || it.extension.equals("sql", true) }
+                    .map { return@map if (it.extension.equals("md", true)) MarkdownFile(it.name, it.readText(UTF_8)) else SimpleFile(it.name, it.readText(UTF_8).toByteArray()) }
+                    .filter { it.content().isNotEmpty() }
+                    .map { createQuery(it) }
+                    .toList()
+
+    private fun createQuery(it: com.github.mgramin.sqlboot.tools.files.file.File) =
+            SelectWrapper(
+                    SortWrapper(
+                            BodyWrapper(
+                                    SqlResourceType(
+                                            aliases = listOf(File(it.name()).nameWithoutExtension),
+                                            sql = it.content().toString(Charset.defaultCharset()),
+                                            connections = dbConnections),
+                                    templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
 
     @Deprecated("")
-    fun resourceTypes(): List<ResourceType> {
-        return resourceTypes
-    }
+    fun resourceTypes() = resourceTypes
 
-    override fun aliases(): List<String> {
-        throw BootException("Not implemented!")
-    }
+    override fun aliases() = throw BootException("Not implemented!")
 
-    override fun path(): List<String> {
-        throw BootException("Not implemented!")
-    }
+    override fun path() = throw BootException("Not implemented!")
 
-    override fun read(uri: Uri): Flux<DbResource> {
-        return Flux.merge(
-                resourceTypes
-                        .filter { v -> v.name().matches(uri.type().replace("?", ".?").replace("*", ".*?").toRegex()) }
-                        .map { it.read(uri) }
-                        .toList())
-    }
+    override fun read(uri: Uri) =
+            Flux.merge(
+                    resourceTypes
+                            .filter { it.name().matches(wildcardToRegex(uri)) }
+                            .map { it.read(uri) })
 
-    override fun metaData(uri: Uri): List<Metadata> {
-        try {
-            return resourceTypes
-                    .asSequence()
-                    .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                    .metaData(uri)
-        } catch (e: Exception) {
-            throw BootException("Type not found", 404)
-        }
-    }
+
+    override fun metaData(uri: Uri): List<Metadata> =
+            resourceTypes
+                    .filter { it.name().matches(wildcardToRegex(uri)) }
+                    .flatMap { it.metaData(uri) }
+
+    private fun wildcardToRegex(uri: Uri) = uri.type().replace("?", ".?").replace("*", ".*?").toRegex()
 
 }
