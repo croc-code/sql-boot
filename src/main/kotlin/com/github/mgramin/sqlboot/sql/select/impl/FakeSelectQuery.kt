@@ -29,6 +29,8 @@ import reactor.core.publisher.Flux
 
 class FakeSelectQuery : SelectQuery {
 
+    override fun properties() = mapOf("dialect" to "h2")
+
     override fun query(): String {
         return """select n        /* First name */
                  |     , mail     /* Personal email */

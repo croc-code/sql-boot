@@ -39,6 +39,21 @@ internal class SimpleSelectQueryTest {
     }
 
     @Test
+    fun properties() {
+        val template = """/* { "dialect": "h2" } */
+                         |select name /* First name*/
+                         |  from persons""".trimMargin()
+        assertEquals(mapOf("dialect" to "h2"), SimpleSelectQuery(FakeTemplateGenerator(template)).properties())
+    }
+
+    @Test
+    fun emptyProperties() {
+        val template = """select name /* First name*/
+                         |  from persons""".trimMargin()
+        assertEquals(emptyMap<String, String>(), SimpleSelectQuery(FakeTemplateGenerator(template)).properties())
+    }
+
+    @Test
     fun columns() {
         assertEquals(mapOf("name" to "First name"),
                 SimpleSelectQuery(FakeTemplateGenerator("select name /* First name*/ from persons")).columns())
@@ -58,7 +73,7 @@ internal class SimpleSelectQueryTest {
 //                 , p.age     as persons_age      /* age of person */
 //                 , address   as "address"        /* address of person */
 //                 , test_column
-//                 , to_char(s.logon_time,'dd.mm.yyyy hh24:mi:ss') as logon_time /* logon_time comment */
+//                 , to_char(s.logon_time,'dd.mm.yyyy hh24:mi:ss') as logon_time /* logon_time properties */
 //              from persons p where 1=1""").parse()
 //
 //        assertEquals("persons", selectStatement.tableName())
@@ -67,15 +82,15 @@ internal class SimpleSelectQueryTest {
 //
 //        val columnName = iterator.next()
 //        assertEquals("persons_name", columnName.name())
-//        assertEquals("name of person {key:value, key2:value2}", columnName.comment())
+//        assertEquals("name of person {key:value, key2:value2}", columnName.properties())
 //
 //        val columnAge = iterator.next()
 //        assertEquals("persons_age", columnAge.name())
-//        assertEquals("age of person", columnAge.comment())
+//        assertEquals("age of person", columnAge.properties())
 //
 //        val columnAddress = iterator.next()
 //        assertEquals("address", columnAddress.name())
-//        assertEquals("address of person", columnAddress.comment())
+//        assertEquals("address of person", columnAddress.properties())
 //
 //        val testColumn = iterator.next()
 //        assertEquals("test_column", testColumn.name())

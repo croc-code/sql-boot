@@ -33,7 +33,6 @@ package com.github.mgramin.sqlboot.exceptions
 class BootException : RuntimeException {
 
     val errorCode: Int
-        get() = field
 
 
     /**

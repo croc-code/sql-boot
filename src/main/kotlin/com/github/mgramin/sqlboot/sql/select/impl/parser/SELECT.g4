@@ -62,7 +62,8 @@ WITH_EXPRESSION
 
 
 select_statement
-   : (with)*
+   : query_comment
+     (with)*
      select select_row( COMMA select_row )*
      from (schema_name+ DOT)? table_name
        .*?
@@ -125,6 +126,9 @@ column_alias
   ;
 
 
+query_comment
+  : MULTIPLE_LINE_COMMENT
+  ;
 
 column_comment
   : MULTIPLE_LINE_COMMENT

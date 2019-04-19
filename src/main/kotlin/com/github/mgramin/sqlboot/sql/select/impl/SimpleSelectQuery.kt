@@ -29,36 +29,42 @@ import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTBaseVisitor
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTLexer
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTParser
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
-import reactor.core.publisher.Flux
 
 class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : SelectQuery {
 
-    override fun query(): String {
-        return templateGenerator.template()
+    override fun query() = templateGenerator.template()
+
+    override fun properties(): Map<String, String> {
+        val comment: String = SelectStatementParser(templateGenerator.template()).comment().replace("/*", "").replace("*/", "")
+        return try {
+            Gson().fromJson(comment, object : TypeToken<Map<String, String>>() {}.type)
+        } catch (e: Exception) {
+            emptyMap()
+        }
     }
 
-    override fun columns(): Map<String, String> {
-        return SelectStatementParser(templateGenerator.template())
-                .parse()
-                .map { it.name() to it.comment() }
-                .toMap()
-    }
+    override fun columns() =
+            SelectStatementParser(templateGenerator.template())
+                    .parse()
+                    .map { it.name() to it.comment() }
+                    .toMap()
 
-    override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
-        throw RuntimeException("Not allow here")
-    }
+    override fun execute(variables: Map<String, Any>) = throw RuntimeException("Not allow here")
 
 
-    private class SelectStatementParser(private val sql: String) {
+    private class SelectStatementParser(sql: String) {
+
+        val parser = SELECTParser(CommonTokenStream(SELECTLexer(ANTLRInputStream(sql))))
+        val selectVisitorCustom = SelectVisitorCustom()
+        val visit = selectVisitorCustom.visit(parser.select_statement())
+
+        fun comment() = selectVisitorCustom.queryComment
 
         fun parse(): List<SelectQuery.Column> {
-            val parser = SELECTParser(
-                    CommonTokenStream(
-                            SELECTLexer(
-                                    ANTLRInputStream(sql))))
-            val visit = SelectVisitorCustom().visit(parser.select_statement())
             return visit as List<SelectQuery.Column>
         }
     }
@@ -66,8 +72,11 @@ class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : Sele
 
     private class SelectVisitorCustom : SELECTBaseVisitor<Any>() {
 
+        var queryComment: String = ""
+
         override fun visitSelect_statement(ctx: SELECTParser.Select_statementContext): Any {
-            val columns = ctx.select_row()
+            queryComment = ctx.query_comment().text
+            return ctx.select_row()
                     .map { v ->
                         SelectQuery.Column(
                                 v.column_alias()?.ID()?.text
@@ -77,7 +86,6 @@ class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : Sele
                                 } ?: (""), hashMapOf())
                     }
                     .toList()
-            return columns
         }
     }
 

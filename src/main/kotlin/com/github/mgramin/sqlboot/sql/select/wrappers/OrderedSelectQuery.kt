@@ -31,6 +31,8 @@ class OrderedSelectQuery(
         private val orderedColumns: Map<String, String>
 ) : SelectQuery {
 
+    override fun properties() = origin.properties()
+
     override fun query(): String {
         if (orderedColumns.isEmpty()) return origin.query()
         val orderExpression = orderedColumns.map { "${it.key} ${it.value}" }.joinToString { it }

@@ -34,6 +34,8 @@ class PaginatedSelectQuery(
         private val template: String
 ) : SelectQuery {
 
+    override fun properties() = origin.properties()
+
     override fun query(): String {
         return if (uri.params().containsKey("page")) {
             val vars = mapOf(

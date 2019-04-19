@@ -1,7 +1,7 @@
 ````sql
 select "@schema"            /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , "@table"             /* { "label": "table name", "description": "Name of the table", "visible": true } */
-     , remarks              /* { "label": "remarks", "description": "Explanatory comment on the table", "visible": true } */
+     , remarks              properties
      , last_modification    /* { "label": "last modification", "description": "Last modification" } */
      , table_type           /* { "label": "table type", "description": "Typical types", "visible": true, "values": ['TABLE', 'VIEW', 'SYSTEM TABLE', 'GLOBAL TEMPORARY', 'LOCAL TEMPORARY', 'ALIAS', 'SYNONYM'] } */
   from (select t.table_schema as "@schema"

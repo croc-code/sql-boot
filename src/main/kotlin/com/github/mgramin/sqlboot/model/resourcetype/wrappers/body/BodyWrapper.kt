@@ -37,8 +37,8 @@ import reactor.core.publisher.Flux
  * Created by MGramin on 18.07.2017.
  */
 class BodyWrapper(
-    private val origin: ResourceType,
-    private val templateGenerator: TemplateGenerator
+        private val origin: ResourceType,
+        private val templateGenerator: TemplateGenerator
 ) : ResourceType {
 
     override fun aliases(): List<String> {

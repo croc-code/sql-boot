@@ -45,7 +45,7 @@ class SqlResourceTypeTest {
     private val db = SimpleDbConnection()
 
     init {
-        db.name ="unit_test_db"
+        db.name = "unit_test_db"
         db.baseFolder = FileSystemResource("conf/h2/database")
         db.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
         db.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"

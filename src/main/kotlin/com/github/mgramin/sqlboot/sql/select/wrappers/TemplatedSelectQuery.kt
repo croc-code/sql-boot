@@ -33,6 +33,8 @@ class TemplatedSelectQuery(
         private val template: String
 ) : SelectQuery {
 
+    override fun properties() = origin.properties()
+
     override fun query(): String {
         val vars = hashMapOf<String, Any>("query" to origin.query())
         vars.putAll(variables)

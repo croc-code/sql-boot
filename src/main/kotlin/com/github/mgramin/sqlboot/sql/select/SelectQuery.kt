@@ -40,7 +40,6 @@ interface SelectQuery {
      */
     fun query(): String
 
-
     /**
      * Execute select query with parameters
      *
@@ -48,6 +47,10 @@ interface SelectQuery {
      */
     fun execute(variables: Map<String, Any>): Flux<Map<String, Any>>
 
+    /**
+     * Query properties
+     */
+    fun properties(): Map<String, String>
 
     /**
      *  Select columns

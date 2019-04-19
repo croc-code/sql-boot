@@ -47,6 +47,6 @@ class JsonWrapperTest {
 
     @Test
     fun toStringTest() = assertEquals("DbUri{type='table', path=[hr, *persons*], params={select=name,age}}",
-                uri.toString())
+            uri.toString())
 
 }

@@ -54,10 +54,10 @@ class FsResourceType(private val dbConnections: List<SimpleDbConnection>) : Reso
                     .filter { it.extension.equals("md", true) || it.extension.equals("sql", true) }
                     .map { return@map if (it.extension.equals("md", true)) MarkdownFile(it.name, it.readText(UTF_8)) else SimpleFile(it.name, it.readText(UTF_8).toByteArray()) }
                     .filter { it.content().isNotEmpty() }
-                    .map { createQuery(it) }
+                    .map { createObjectType(it) }
                     .toList()
 
-    private fun createQuery(it: com.github.mgramin.sqlboot.tools.files.file.File) =
+    private fun createObjectType(it: com.github.mgramin.sqlboot.tools.files.file.File) =
             SelectWrapper(
                     SortWrapper(
                             BodyWrapper(

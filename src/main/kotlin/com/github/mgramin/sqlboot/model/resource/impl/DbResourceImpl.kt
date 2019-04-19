@@ -32,11 +32,11 @@ import com.github.mgramin.sqlboot.model.uri.Uri
  * DB resource without body
  */
 class DbResourceImpl(
-    private val name: String,
-    @field:Transient private val type: ResourceType,
-    @field:Transient private val uri: Uri,
-    private val headers: Map<String, Any>,
-    private val body: String = ""
+        private val name: String,
+        @field:Transient private val type: ResourceType,
+        @field:Transient private val uri: Uri,
+        private val headers: Map<String, Any>,
+        private val body: String = ""
 ) : DbResource {
 
     override fun name(): String {

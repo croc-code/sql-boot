@@ -47,6 +47,8 @@ class JdbcSelectQuery(
         private val nullAlias: String
 ) : SelectQuery {
 
+    override fun properties() = origin.properties()
+
     constructor(origin: SelectQuery, dataSource: DataSource) : this(origin, dataSource, "")
 
     private val logger = LoggerFactory.getLogger(this::class.java)
