@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.impl.FakeDbResource
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
@@ -53,7 +54,9 @@ class FakeResourceType : ResourceType {
                 FakeDbResource(DbUri("prod/table/hr.jobs"))).toFlux()
     }
 
-    override fun metaData(): Map<String, String> {
-        return hashMapOf("@schema" to "Schema name", "@table" to "Table name", "@index" to "Index name")
+    override fun metaData(uri: Uri): List<Metadata> {
+        return listOf(Metadata("@schema", "Schema name"),
+                Metadata("@table", "Table name"),
+                Metadata("@index", "Index name"))
     }
 }

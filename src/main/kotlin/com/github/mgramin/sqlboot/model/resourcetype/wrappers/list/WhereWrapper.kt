@@ -59,7 +59,6 @@ class WhereWrapper(private val origin: ResourceType) : ResourceType {
                 }
     }
 
-    override fun metaData(): Map<String, String> {
-        return origin.metaData()
-    }
+    override fun metaData(uri: Uri) = origin.metaData(uri)
+
 }

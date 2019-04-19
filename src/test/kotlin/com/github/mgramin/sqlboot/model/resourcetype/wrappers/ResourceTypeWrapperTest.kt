@@ -168,17 +168,6 @@ class ResourceTypeWrapperTest {
         }
 
         @Test
-        override fun metaData() {
-            assertEquals(
-                    hashMapOf(
-                            "@schema" to "Schema name",
-                            "@table" to "Table name",
-                            "@index" to "Index name",
-                            "database" to "Database name"),
-                    w.metaData())
-        }
-
-        @Test
         override fun metaDataByUri() {
             assertEquals(
                     arrayListOf(
@@ -238,12 +227,6 @@ class ResourceTypeWrapperTest {
                             Metadata("@table", "String", "Table name"),
                             Metadata("@index", "String", "Index name")).sorted(),
                     w.metaData(FakeUri()).sorted())
-        }
-
-        @Test
-        open fun metaData() {
-            assertEquals(hashMapOf("@schema" to "Schema name", "@table" to "Table name", "@index" to "Index name"),
-                    w.metaData())
         }
 
     }

@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.wrappers.header
 
 import com.github.mgramin.sqlboot.model.connection.DbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import reactor.core.publisher.Flux
@@ -41,11 +42,7 @@ class DbNameWrapper(private val origin: ResourceType,
         return origin.path()
     }
 
-    override fun metaData(): Map<String, String> {
-        val metaData = origin.metaData().toMutableMap()
-        metaData["database"] = "Database name"
-        return metaData
-    }
+    override fun metaData(uri: Uri): List<Metadata> = origin.metaData(uri) + Metadata("database", "Database name")
 
     override fun read(uri: Uri): Flux<DbResource> {
         return origin.read(uri).map {

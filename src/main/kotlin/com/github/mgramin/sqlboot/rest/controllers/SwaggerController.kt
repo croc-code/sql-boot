@@ -194,13 +194,13 @@ class SwaggerController {
         }
 
         // definitions
-        for (resourceType in resourceTypes) {
+        /*for (resourceType in resourceTypes) {
             val model = ModelImpl()
             for ((key, value) in resourceType.metaData().entries) {
                 model.property(key, StringProperty().description(value))
             }
             swagger.model(resourceType.name(), model)
-        }
+        }*/
 
         return swagger
     }

@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
@@ -91,12 +92,12 @@ class FsResourceType(
                         .toList())
     }
 
-    override fun metaData(): Map<String, String> {
+    override fun metaData(uri: Uri): List<Metadata> {
         try {
             return resourceTypes
                     .asSequence()
                     .first { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                    .metaData()
+                    .metaData(uri)
         } catch (e: Exception) {
             throw BootException("Type not found", 404)
         }

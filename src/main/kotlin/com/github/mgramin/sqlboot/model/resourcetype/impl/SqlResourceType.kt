@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 import com.github.mgramin.sqlboot.model.connection.DbConnection
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
@@ -84,12 +85,9 @@ class SqlResourceType(
                 }
     }
 
-    override fun metaData(): Map<String, String> {
-        val columns = simpleSelectQuery.columns()
-        val newColumns = columns.toMutableMap()
-        newColumns["database"] = """{"label": "Database", "description": "Database name", "visible": true}"""
-        return newColumns
-    }
+    override fun metaData(uri: Uri): List<Metadata> = simpleSelectQuery.columns()
+            .map { Metadata(it.key, it.value) } +
+            Metadata("database", """{"label": "Database", "description": "Database name", "visible": true}""")
 
     private fun createQuery(uri: Uri, connection: DbConnection): SelectQuery {
         return JdbcSelectQuery(

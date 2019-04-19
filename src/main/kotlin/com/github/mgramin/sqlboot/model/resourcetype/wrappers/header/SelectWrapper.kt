@@ -65,10 +65,6 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
         }
     }
 
-    override fun metaData(): Map<String, String> {
-        return origin.metaData()
-    }
-
     override fun metaData(uri: Uri): List<Metadata> {
         val select = uri.params()[parameterName]
         return if (select != null) {

@@ -51,7 +51,6 @@ class LimitWrapper(private val origin: ResourceType, private val parameterName: 
         return origin.read(uri).take(limit.toLong())
     }
 
-    override fun metaData(): Map<String, String> {
-        return origin.metaData()
-    }
+    override fun metaData(uri: Uri) = origin.metaData(uri)
+
 }

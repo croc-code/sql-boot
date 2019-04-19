@@ -42,9 +42,7 @@ class SortWrapper(private val origin: ResourceType,
         return origin.path()
     }
 
-    override fun metaData(): Map<String, String> {
-        return origin.metaData()
-    }
+    override fun metaData(uri: Uri) = origin.metaData(uri)
 
     override fun read(uri: Uri): Flux<DbResource> {
         return origin.read(uri)

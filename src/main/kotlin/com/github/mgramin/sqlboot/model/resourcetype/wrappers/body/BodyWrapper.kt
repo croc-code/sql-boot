@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.wrappers.body
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
@@ -54,7 +55,7 @@ class BodyWrapper(
                 .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
     }
 
-    override fun metaData(): Map<String, String> {
-        return origin.metaData()
+    override fun metaData(uri: Uri): List<Metadata> {
+        return origin.metaData(uri)
     }
 }

@@ -57,17 +57,18 @@ interface ResourceType {
     fun path(): List<String>
 
     /**
-     * Retrieves a map that contains information about the resource metadata (properties) "name" ->
-     * "type"
+     * Retrieves a map that contains information about the resource metadata (properties) "name" -> "type"
      */
-    @JsonProperty
-    fun metaData(): Map<String, String>
+//    @JsonProperty
+//    fun metaData(): Map<String, String>
 
-    fun metaData(uri: Uri): List<Metadata> {
-        return metaData().entries
-                .map { e -> Metadata(e.key, e.value) }
-                .toList()
-    }
+    @JsonProperty
+    fun metaData(uri: Uri): List<Metadata>
+//    {
+//        return metaData().entries
+//                .map { e -> Metadata(e.key, e.value) }
+//                .toList()
+//    }
 
     /**
      * Read resources by uri

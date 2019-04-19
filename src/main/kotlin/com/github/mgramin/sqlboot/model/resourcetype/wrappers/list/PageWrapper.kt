@@ -45,9 +45,7 @@ class PageWrapper constructor(
         return origin.path()
     }
 
-    override fun metaData(): Map<String, String> {
-        return origin.metaData()
-    }
+    override fun metaData(uri: Uri) = origin.metaData(uri)
 
     override fun read(uri: Uri): Flux<DbResource> {
         val pageParameter = uri.params()[parameterName]
