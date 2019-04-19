@@ -84,15 +84,11 @@ class FsResourceType(
     }
 
     override fun read(uri: Uri): Flux<DbResource> {
-        try {
-            return Flux.merge(
-                    resourceTypes
-                            .filter { v -> v.name().matches(uri.type().replace("?", ".?").replace("*", ".*?").toRegex()) }
-                            .map { it.read(uri) }
-                            .toList())
-        } catch (e: Exception) {
-            throw BootException("Type not found", 404)
-        }
+        return Flux.merge(
+                resourceTypes
+                        .filter { v -> v.name().matches(uri.type().replace("?", ".?").replace("*", ".*?").toRegex()) }
+                        .map { it.read(uri) }
+                        .toList())
     }
 
     override fun metaData(): Map<String, String> {

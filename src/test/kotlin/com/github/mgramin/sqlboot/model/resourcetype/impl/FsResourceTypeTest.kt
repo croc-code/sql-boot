@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -89,9 +90,17 @@ class FsResourceTypeTest {
         assertThrows(BootException::class.java) { FsResourceType(listOf(db), FakeUri()).path() }
     }
 
-    @Test
-    fun metaData() {
-//        assertThrows(BootException::class.java) { FsResourceType(listOf(db), FakeUri()).metaData() }
+    @ParameterizedTest
+    @CsvSource(
+            "prod/sessions,7",
+            "prod/schema,9",
+//            "prod/s*,5",
+//            "prod/tab*/bookings,5",
+            "prod/table/bookings,6",
+            "prod/table/bookings.airports,6")
+    fun metaData(uri: String, count: Int) {
+        val metaData: List<Metadata> = FsResourceType(listOf(db), DbUri(uri)).metaData(DbUri(uri))
+        assertEquals(count, metaData.count())
     }
 
 }
