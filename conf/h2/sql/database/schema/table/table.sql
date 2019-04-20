@@ -1,4 +1,3 @@
-````sql
 select "@schema"            /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , "@table"             /* { "label": "table name", "description": "Name of the table", "visible": true } */
      , remarks              properties
@@ -11,4 +10,3 @@ select "@schema"            /* { "label": "owner", "description": "Owner of the 
          where lower(t.table_schema) like lower('${uri.path(0)}')
            and lower(t.table_name) like lower('${uri.path(1)}'))
 order by "@schema", "@table"
-````

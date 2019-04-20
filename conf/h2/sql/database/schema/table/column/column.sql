@@ -1,4 +1,3 @@
-````sql
 select "@schema"                  /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , "@table"                   /* { "label": "table name", "description": "Name of the table", "visible": true } */
      , "@column"                  /* { "label": "column name", "description": "Name of the column", "visible": true } */
@@ -11,4 +10,3 @@ select "@schema"                  /* { "label": "owner", "description": "Owner o
              , c.column_name                as "@column"
              , c.*
           from information_schema.columns c)
-````

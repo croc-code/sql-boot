@@ -1,4 +1,3 @@
-````sql
 select "@schema"
      , "@table"
      , "@session"
@@ -7,4 +6,3 @@ select "@schema"
             , SESSION_ID   as "@session"
             , LOCK_TYPE
          from information_schema.LOCKS)
-````

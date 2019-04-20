@@ -1,4 +1,3 @@
-````sql
 select "@schema"    /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , "@table"     /* { "label": "table name", "description": "Name of the table", "visible": true } */
      , "@index"     /* { "label": "index name", "description": "Name of the index", "visible": true } */
@@ -24,4 +23,3 @@ select "@schema"    /* { "label": "owner", "description": "Owner of the table", 
              , INDEX_NAME   as "@index"
              , i.*
           from information_schema.indexes i)
-````

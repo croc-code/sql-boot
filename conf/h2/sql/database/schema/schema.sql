@@ -1,4 +1,3 @@
-````sql
 select "@schema"                    /* { "label": "schema", "description": "Schema", "visible": true } */
      , CATALOG_NAME                 /* { "label": "catalog", "description": "Catalog" } */
      , SCHEMA_OWNER                 /* { "label": "owner", "description": "Schema owner" } */
@@ -10,4 +9,3 @@ select "@schema"                    /* { "label": "schema", "description": "Sche
   from (select s.SCHEMA_NAME    as "@schema"
              , s.*
           from information_schema.SCHEMATA s)
-````

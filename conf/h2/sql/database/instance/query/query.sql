@@ -1,4 +1,3 @@
-````sql
 select "@statement" from (
 select SQL_STATEMENT as "@statement"
      , EXECUTION_COUNT
@@ -13,4 +12,3 @@ select SQL_STATEMENT as "@statement"
      , AVERAGE_ROW_COUNT
      , STD_DEV_ROW_COUNT
   from information_schema.QUERY_STATISTICS)
-````

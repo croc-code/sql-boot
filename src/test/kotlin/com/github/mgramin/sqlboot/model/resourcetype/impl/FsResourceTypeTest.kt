@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -50,16 +49,19 @@ class FsResourceTypeTest {
 
     private val dbMd = SimpleDbConnection()
     private val dbSql = SimpleDbConnection()
+    private val connections = listOf(dbMd, dbSql)
 
     init {
-        dbMd.name = "unit_test_db"
+        dbMd.name = "unit_test_db_md"
         dbMd.baseFolder = FileSystemResource("conf/h2/md/database")
         dbMd.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
         dbMd.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
-//        dbSql.name = "unit_test_db"
-//        dbSql.baseFolder = ClassPathResource("conf/h2/database")
-//        dbSql.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
-//        dbSql.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
+
+        dbSql.name = "unit_test_db_sql"
+        dbSql.baseFolder = FileSystemResource("conf/h2/sql/database")
+        dbSql.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+        dbSql.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
+        dbSql.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
     }
 
     @ParameterizedTest
@@ -71,10 +73,12 @@ class FsResourceTypeTest {
             "prod/table/bookings,5",
             "prod/table/bookings.airports,1")
     fun read(uri: String, count: Long) =
-            StepVerifier
-                    .create(FsResourceType(listOf(dbMd)).read(DbUri(uri)))
-                    .expectNextCount(count)
-                    .verifyComplete()
+            connections.forEach {
+                StepVerifier
+                        .create(FsResourceType(listOf(it)).read(DbUri(uri)))
+                        .expectNextCount(count)
+                        .verifyComplete()
+            }
 
     @Test
     @Deprecated("Deprecated")
