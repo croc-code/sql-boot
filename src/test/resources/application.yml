@@ -57,3 +57,6 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-bicycle"
         }
 
+spring:
+  jmx:
+    enabled: false

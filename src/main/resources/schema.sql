@@ -1,4 +1,4 @@
-drop schema hr if exists;
+drop schema hr if exists cascade;
 create schema hr;
 
 create table hr.users (
@@ -63,7 +63,7 @@ create table hr.cities_2 (
 
 
 
-drop schema bookings if exists;
+drop schema bookings if exists cascade;
 create schema bookings;
 
 create table bookings.aircrafts (
