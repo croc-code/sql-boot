@@ -44,8 +44,6 @@ class CheckedConnection(private val origin: DbConnection) : DbConnection {
 
     override fun health() = health
 
-    override fun paginationQueryTemplate() = origin.paginationQueryTemplate()
-
     override fun getDataSource() = origin.getDataSource()
 
 }

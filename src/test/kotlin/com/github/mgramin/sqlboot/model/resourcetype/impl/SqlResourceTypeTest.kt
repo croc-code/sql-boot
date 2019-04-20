@@ -27,6 +27,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.dialect.FakeDialect
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -56,13 +57,13 @@ class SqlResourceTypeTest {
 
     @Test
     fun name() {
-        val name = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db), emptyList()).name()
+        val name = SqlResourceType(listOf("table", "tbl", "t"), "", listOf(db), listOf(FakeDialect())).name()
         assertEquals("table", name)
     }
 
     @Test
     fun aliases() {
-        val aliases = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db), emptyList()).aliases()
+        val aliases = SqlResourceType(listOf("table", "tbl", "t"), "", listOf(db), listOf(FakeDialect())).aliases()
         assertEquals(arrayListOf("table", "tbl", "t"), aliases)
     }
 
@@ -72,14 +73,8 @@ class SqlResourceTypeTest {
                     |  from (select table_schema   as "@schema"
                     |             , table_name     as "@table"
                     |          from information_schema.tables)""".trimMargin()
-        val type =
-                SqlResourceType(
-                        aliases = arrayListOf("table"),
-                        sql = sql,
-                        connections = listOf(db),
-                        dialects = listOf(FakeDialect()))
         StepVerifier
-                .create(type.read(DbUri("table/m.column")))
+                .create(createSqlResourceType(sql).read(FakeUri()))
                 .expectNextCount(46)
                 .verifyComplete()
     }
@@ -91,15 +86,23 @@ class SqlResourceTypeTest {
                     |             , table_name      as "@table"
                     |             , column_name     as "@column"
                     |          from information_schema.columns)""".trimMargin()
-        val type =
-                SqlResourceType(
-                        aliases = arrayListOf("column"),
-                        sql = sql,
-                        connections = listOf(db),
-                        dialects = listOf(FakeDialect()))
         StepVerifier
-                .create(type.read(DbUri("column/main_schema.users")))
+                .create(createSqlResourceType(sql).read(FakeUri()))
                 .expectNextCount(347)
+                .verifyComplete()
+    }
+
+    @Test
+    fun read3() {
+        val sql = """/* { "executor": "http" } */
+                    |select pid as "@pid"
+                    |     , name
+                    |     , total_size
+                    |  from processes
+                    | limit 5""".trimMargin()
+        StepVerifier
+                .create(createSqlResourceType(sql).read(DbUri("prod/process")))
+                .expectNextCount(5)
                 .verifyComplete()
     }
 
@@ -124,5 +127,12 @@ class SqlResourceTypeTest {
     @Test
     fun metaData() {
     }
+
+    private fun createSqlResourceType(sql: String) =
+            SqlResourceType(
+                    aliases = arrayListOf("table"),
+                    sql = sql,
+                    connections = listOf(db),
+                    dialects = listOf(FakeDialect()))
 
 }

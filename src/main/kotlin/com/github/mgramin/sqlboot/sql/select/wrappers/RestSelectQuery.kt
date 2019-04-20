@@ -14,6 +14,8 @@ class RestSelectQuery(
         private val endpoint: String
 ) : SelectQuery {
 
+    override fun properties() = origin.properties()
+
     override fun query() = origin.query()
 
     override fun columns() = origin.columns()
@@ -22,7 +24,7 @@ class RestSelectQuery(
         val client: List<Map<String, Any>>? = WebClient
                 .create(endpoint)
                 .get()
-                .uri("/exec?query=${origin.query()}")
+                .uri("/exec?query=${origin.query()}".replace("{", "[").replace("}", "]"))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String::class.java)

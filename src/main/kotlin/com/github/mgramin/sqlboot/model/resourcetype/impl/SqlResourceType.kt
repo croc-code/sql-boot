@@ -37,6 +37,7 @@ import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import org.apache.commons.lang3.StringUtils.strip
 import reactor.core.publisher.Flux
@@ -93,16 +94,25 @@ class SqlResourceType(
             Metadata("database", """{"label": "Database", "description": "Database name", "visible": true}""")
 
     private fun createQuery(uri: Uri, connection: DbConnection): SelectQuery {
-        return JdbcSelectQuery(
-                PaginatedSelectQuery(
-                        OrderedSelectQuery(
-                                simpleSelectQuery,
-                                uri.orderedColumns()),
-                        uri,
-                        //dialects.first { it.name.equals("h2") }.paginationQueryTemplate!!
-                        dialects.first { it.name() == connection.dialect() }.paginationQueryTemplate()
-                ),
-                dataSource = connection.getDataSource())
+        val properties = simpleSelectQuery.properties()
+        val baseQuery = PaginatedSelectQuery(
+                OrderedSelectQuery(
+                        simpleSelectQuery,
+                        uri.orderedColumns()),
+                uri,
+                dialects.first { it.name() == connection.dialect() }.paginationQueryTemplate()
+        )
+        return if (properties["executor"] == "http") {
+            RestSelectQuery(
+                    baseQuery,
+                    endpoint = "http://5.8.181.165:8082"
+            )
+        } else {
+            JdbcSelectQuery(
+                    baseQuery,
+                    dataSource = connection.getDataSource()
+            )
+        }
     }
 
 }

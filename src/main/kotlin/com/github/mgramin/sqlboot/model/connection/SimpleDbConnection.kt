@@ -50,8 +50,6 @@ open class SimpleDbConnection(
 
     override fun name() = this.name!!
 
-    override fun paginationQueryTemplate() = this.paginationQueryTemplate!!
-
     override fun health() = "UNKNOWN"
 
     private var dataSource: DataSource? = null

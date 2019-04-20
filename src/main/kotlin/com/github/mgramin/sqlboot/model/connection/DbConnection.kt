@@ -36,8 +36,6 @@ interface DbConnection {
 
     fun getDataSource(): DataSource
 
-    fun paginationQueryTemplate(): String
-
     fun properties(): Map<String, Any>
 
 }
