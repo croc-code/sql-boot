@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.dialect.FakeDialect
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -32,6 +33,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import reactor.test.StepVerifier
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -46,6 +48,7 @@ class SqlResourceTypeTest {
 
     init {
         db.name = "unit_test_db"
+        db.dialect = "h2"
         db.baseFolder = FileSystemResource("conf/h2/database")
         db.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
         db.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
@@ -53,13 +56,13 @@ class SqlResourceTypeTest {
 
     @Test
     fun name() {
-        val name = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db)).name()
+        val name = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db), emptyList()).name()
         assertEquals("table", name)
     }
 
     @Test
     fun aliases() {
-        val aliases = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db)).aliases()
+        val aliases = SqlResourceType(arrayListOf("table", "tbl", "t"), "", listOf(db), emptyList()).aliases()
         assertEquals(arrayListOf("table", "tbl", "t"), aliases)
     }
 
@@ -73,8 +76,12 @@ class SqlResourceTypeTest {
                 SqlResourceType(
                         aliases = arrayListOf("table"),
                         sql = sql,
-                        connections = listOf(db))
-        assertEquals(46, type.read(DbUri("table/m.column")).count().block())
+                        connections = listOf(db),
+                        dialects = listOf(FakeDialect()))
+        StepVerifier
+                .create(type.read(DbUri("table/m.column")))
+                .expectNextCount(46)
+                .verifyComplete()
     }
 
     @Test
@@ -88,8 +95,12 @@ class SqlResourceTypeTest {
                 SqlResourceType(
                         aliases = arrayListOf("column"),
                         sql = sql,
-                        connections = listOf(db))
-        assertEquals(347, type.read(DbUri("column/main_schema.users")).count().block())
+                        connections = listOf(db),
+                        dialects = listOf(FakeDialect()))
+        StepVerifier
+                .create(type.read(DbUri("column/main_schema.users")))
+                .expectNextCount(347)
+                .verifyComplete()
     }
 
     @Test
@@ -105,7 +116,8 @@ class SqlResourceTypeTest {
                 SqlResourceType(
                         aliases = arrayListOf("column"),
                         sql = sql,
-                        connections = listOf(db))
+                        connections = listOf(db),
+                        dialects = emptyList())
         assertEquals("[schema, table, column]", type.path().toString())
     }
 

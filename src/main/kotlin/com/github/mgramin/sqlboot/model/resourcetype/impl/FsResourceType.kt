@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.dialect.Dialect
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
@@ -43,7 +44,10 @@ import java.nio.charset.StandardCharsets.UTF_8
 /**
  * Created by MGramin on 11.07.2017.
  */
-class FsResourceType(private val dbConnections: List<SimpleDbConnection>) : ResourceType {
+class FsResourceType(
+        private val dbConnections: List<SimpleDbConnection>,
+        private val dialects: List<Dialect>
+) : ResourceType {
 
     private val resourceTypes: List<ResourceType> = walk(dbConnections.first().baseFolder!!.file.path)
 
@@ -64,7 +68,8 @@ class FsResourceType(private val dbConnections: List<SimpleDbConnection>) : Reso
                                     SqlResourceType(
                                             aliases = listOf(File(it.name()).nameWithoutExtension),
                                             sql = it.content().toString(Charset.defaultCharset()),
-                                            connections = dbConnections),
+                                            connections = dbConnections,
+                                            dialects = dialects),
                                     templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
 
     @Deprecated("")
@@ -79,7 +84,6 @@ class FsResourceType(private val dbConnections: List<SimpleDbConnection>) : Reso
                     resourceTypes
                             .filter { it.name().matches(wildcardToRegex(uri)) }
                             .map { it.read(uri) })
-
 
     override fun metaData(uri: Uri): List<Metadata> =
             resourceTypes

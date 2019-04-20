@@ -32,6 +32,8 @@ interface DbConnection {
 
     fun health(): String
 
+    fun dialect(): String
+
     fun getDataSource(): DataSource
 
     fun paginationQueryTemplate(): String

@@ -28,6 +28,8 @@ import javax.sql.DataSource
 
 class FakeDbConnection : DbConnection {
 
+    override fun dialect() = "h2"
+
     override fun properties(): Map<String, Any> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

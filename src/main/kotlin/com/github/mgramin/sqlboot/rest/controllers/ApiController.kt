@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.rest.controllers
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
+import com.github.mgramin.sqlboot.model.dialect.DbDialectList
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
@@ -60,10 +61,13 @@ class ApiController {
     @Autowired
     private lateinit var dbConnectionList: DbConnectionList
 
+    @Autowired
+    private lateinit var dbDialectList: DbDialectList
+
 
     @RequestMapping(value = ["/api/{connectionName}/types"])
     fun types(@PathVariable connectionName: String): List<ResourceType>? {
-        return FsResourceType(dbConnectionList.getConnectionsByMask(connectionName)).resourceTypes()
+        return FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList()).resourceTypes()
     }
 
 
@@ -88,7 +92,7 @@ class ApiController {
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
         val connections = dbConnectionList.getConnectionsByMask(uri.connection())
         try {
-            val headers = FsResourceType(connections)
+            val headers = FsResourceType(connections, dbDialectList.dialects)
                     .read(uri)
                     .map { it.headers() }
                     .collectList()
@@ -109,7 +113,8 @@ class ApiController {
 
     private fun responseEntity(uri: Uri): ResponseEntity<List<Metadata>> {
         val fsResourceTypes = FsResourceType(
-                listOf(dbConnectionList.getConnectionByName(uri.connection())))
+                listOf(dbConnectionList.getConnectionByName(uri.connection())),
+                emptyList())
         val resourceType = fsResourceTypes
                 .resourceTypes()
                 .stream()

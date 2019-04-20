@@ -22,30 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.mgramin.sqlboot.model.connection
+package com.github.mgramin.sqlboot.model.dialect
 
-class CheckedConnection(private val origin: DbConnection) : DbConnection {
-    private val health: String
+// TODO rename to H2Dialect
+class FakeDialect : Dialect {
 
-    init {
-        health = try {
-            origin.getDataSource().connection
-            "Ok"
-        } catch (e: Exception) {
-            e.message.toString()
-        }
-    }
+    override fun name() = "h2"
 
-    override fun name() = origin.name()
-
-    override fun dialect() = origin.dialect()
-
-    override fun properties() = origin.properties()
-
-    override fun health() = health
-
-    override fun paginationQueryTemplate() = origin.paginationQueryTemplate()
-
-    override fun getDataSource() = origin.getDataSource()
+    override fun paginationQueryTemplate() = "${"$"}{query}"
 
 }

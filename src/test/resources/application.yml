@@ -3,26 +3,24 @@ conf:
   dialects:
     - name: h2
       paginationQueryTemplate: >
-        ${query}
+        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
 
   connections:
     - name: h2
+      dialect: h2
       baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
-      paginationQueryTemplate: >
-        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "visible": false,
           "description": "Embedded db for unit tests only"
         }
     - name: dev
+      dialect: h2
       baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
-      paginationQueryTemplate: >
-        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "visible": false,
@@ -31,11 +29,10 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-tools"
         }
     - name: test
+      dialect: h2
       baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
-      paginationQueryTemplate: >
-        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "visible": false,
@@ -44,11 +41,10 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-bug"
         }
     - name: prod
+      dialect: h2
       baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
-      paginationQueryTemplate: >
-        ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
       properties: >
         {
           "visible": false,

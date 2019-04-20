@@ -25,6 +25,7 @@
 package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.dialect.Dialect
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
@@ -46,7 +47,8 @@ import reactor.core.publisher.Flux
 class SqlResourceType(
         private val aliases: List<String>,
         sql: String,
-        private val connections: List<DbConnection>
+        private val connections: List<DbConnection>,
+        private val dialects: List<Dialect>
 ) : ResourceType {
 
     private val simpleSelectQuery = SimpleSelectQuery(GroovyTemplateGenerator(sql))
@@ -97,7 +99,9 @@ class SqlResourceType(
                                 simpleSelectQuery,
                                 uri.orderedColumns()),
                         uri,
-                        connection.paginationQueryTemplate()),
+                        //dialects.first { it.name.equals("h2") }.paginationQueryTemplate!!
+                        dialects.first { it.name() == connection.dialect() }.paginationQueryTemplate()
+                ),
                 dataSource = connection.getDataSource())
     }
 

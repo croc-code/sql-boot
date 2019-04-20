@@ -26,6 +26,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.dialect.FakeDialect
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -53,11 +54,13 @@ class FsResourceTypeTest {
 
     init {
         dbMd.name = "unit_test_db_md"
+        dbMd.dialect = "h2"
         dbMd.baseFolder = FileSystemResource("conf/h2/md/database")
         dbMd.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
         dbMd.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
 
         dbSql.name = "unit_test_db_sql"
+        dbSql.dialect = "h2"
         dbSql.baseFolder = FileSystemResource("conf/h2/sql/database")
         dbSql.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
         dbSql.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
@@ -75,7 +78,7 @@ class FsResourceTypeTest {
     fun read(uri: String, count: Long) =
             connections.forEach {
                 StepVerifier
-                        .create(FsResourceType(listOf(it)).read(DbUri(uri)))
+                        .create(FsResourceType(listOf(it), listOf(FakeDialect())).read(DbUri(uri)))
                         .expectNextCount(count)
                         .verifyComplete()
             }
@@ -84,13 +87,13 @@ class FsResourceTypeTest {
     @Deprecated("Deprecated")
     fun resourceTypes() =
             assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "pk", "table", "schema").sorted().toList(),
-                    FsResourceType(listOf(dbMd)).resourceTypes().map { it.name() }.sorted())
+                    FsResourceType(listOf(dbMd), emptyList()).resourceTypes().map { it.name() }.sorted())
 
     @Test
-    fun aliases() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd)).aliases() }
+    fun aliases() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd), emptyList()).aliases() }
 
     @Test
-    fun path() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd)).path() }
+    fun path() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd), emptyList()).path() }
 
     @ParameterizedTest
     @CsvSource(
@@ -100,6 +103,6 @@ class FsResourceTypeTest {
             "prod/tab*/bookings,6",
             "prod/table/bookings,6",
             "prod/table/bookings.airports,6")
-    fun metaData(uri: String, count: Int) = assertEquals(count, FsResourceType(listOf(dbMd)).metaData(DbUri(uri)).count())
+    fun metaData(uri: String, count: Int) = assertEquals(count, FsResourceType(listOf(dbMd), emptyList()).metaData(DbUri(uri)).count())
 
 }

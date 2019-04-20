@@ -33,6 +33,6 @@ import org.springframework.stereotype.Service
 @ConfigurationProperties(prefix = "conf")
 open class DbDialectList(val dialects: List<DbDialect>) {
 
-    fun dialect(name: String) = dialects.first()
+    fun dialect(name: String) = dialects.first { it.name.equals(name, ignoreCase = true) }
 
 }

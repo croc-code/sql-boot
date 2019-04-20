@@ -42,8 +42,11 @@ open class SimpleDbConnection(
         @JsonIgnore var password: String? = null,
         var driverClassName: String? = null,
         var properties: String? = null,
-        var paginationQueryTemplate: String? = null
+        var paginationQueryTemplate: String? = null,
+        var dialect: String? = null
 ) : DbConnection {
+
+    override fun dialect() = this.dialect!!
 
     override fun name() = this.name!!
 
