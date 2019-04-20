@@ -1,7 +1,13 @@
 conf:
+
+  dialects:
+    - name: h2
+      paginationQueryTemplate: >
+        ${query}
+
   connections:
     - name: h2
-      baseFolder: file:conf/h2/database
+      baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       paginationQueryTemplate: >
@@ -12,7 +18,7 @@ conf:
           "description": "Embedded db for unit tests only"
         }
     - name: dev
-      baseFolder: file:conf/h2/database
+      baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       paginationQueryTemplate: >
@@ -25,7 +31,7 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-tools"
         }
     - name: test
-      baseFolder: file:conf/h2/database
+      baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       paginationQueryTemplate: >
@@ -38,7 +44,7 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-bug"
         }
     - name: prod
-      baseFolder: file:conf/h2/database
+      baseFolder: file:conf/h2/md/database
       url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       paginationQueryTemplate: >

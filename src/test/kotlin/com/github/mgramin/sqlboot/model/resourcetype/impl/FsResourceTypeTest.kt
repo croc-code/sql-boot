@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -47,13 +48,18 @@ import reactor.test.StepVerifier
 @ContextConfiguration(locations = ["/test_config.xml"])
 class FsResourceTypeTest {
 
-    private val db = SimpleDbConnection()
+    private val dbMd = SimpleDbConnection()
+    private val dbSql = SimpleDbConnection()
 
     init {
-        db.name = "unit_test_db"
-        db.baseFolder = FileSystemResource("conf/h2/database")
-        db.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
-        db.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
+        dbMd.name = "unit_test_db"
+        dbMd.baseFolder = FileSystemResource("conf/h2/md/database")
+        dbMd.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+        dbMd.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
+//        dbSql.name = "unit_test_db"
+//        dbSql.baseFolder = ClassPathResource("conf/h2/database")
+//        dbSql.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+//        dbSql.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
     }
 
     @ParameterizedTest
@@ -66,7 +72,7 @@ class FsResourceTypeTest {
             "prod/table/bookings.airports,1")
     fun read(uri: String, count: Long) =
             StepVerifier
-                    .create(FsResourceType(listOf(db)).read(DbUri(uri)))
+                    .create(FsResourceType(listOf(dbMd)).read(DbUri(uri)))
                     .expectNextCount(count)
                     .verifyComplete()
 
@@ -74,13 +80,13 @@ class FsResourceTypeTest {
     @Deprecated("Deprecated")
     fun resourceTypes() =
             assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "pk", "table", "schema").sorted().toList(),
-                    FsResourceType(listOf(db)).resourceTypes().map { it.name() }.sorted())
+                    FsResourceType(listOf(dbMd)).resourceTypes().map { it.name() }.sorted())
 
     @Test
-    fun aliases() = assertThrows(BootException::class.java) { FsResourceType(listOf(db)).aliases() }
+    fun aliases() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd)).aliases() }
 
     @Test
-    fun path() = assertThrows(BootException::class.java) { FsResourceType(listOf(db)).path() }
+    fun path() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd)).path() }
 
     @ParameterizedTest
     @CsvSource(
@@ -90,6 +96,6 @@ class FsResourceTypeTest {
             "prod/tab*/bookings,6",
             "prod/table/bookings,6",
             "prod/table/bookings.airports,6")
-    fun metaData(uri: String, count: Int) = assertEquals(count, FsResourceType(listOf(db)).metaData(DbUri(uri)).count())
+    fun metaData(uri: String, count: Int) = assertEquals(count, FsResourceType(listOf(dbMd)).metaData(DbUri(uri)).count())
 
 }

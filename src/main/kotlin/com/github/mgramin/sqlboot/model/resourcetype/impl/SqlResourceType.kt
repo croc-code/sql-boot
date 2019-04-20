@@ -62,6 +62,7 @@ class SqlResourceType(
     }
 
     override fun read(uri: Uri): Flux<DbResource> {
+        simpleSelectQuery.properties()
         return Flux.merge(
                 connections
                         .map { connection ->
