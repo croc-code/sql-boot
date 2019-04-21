@@ -4,6 +4,7 @@ import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.springframework.http.MediaType
+import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux
 import reactor.core.publisher.toFlux
@@ -23,8 +24,9 @@ class RestSelectQuery(
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         val client: List<Map<String, Any>>? = WebClient
                 .create(endpoint)
-                .get()
+                .post()
                 .uri("/exec?query=${origin.query()}".replace("{", "[").replace("}", "]"))
+                .body(BodyInserters.fromObject(origin.query()))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String::class.java)
