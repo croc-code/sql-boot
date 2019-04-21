@@ -25,7 +25,7 @@ class RestSelectQuery(
         val client: List<Map<String, Any>>? = WebClient
                 .create(endpoint)
                 .post()
-                .uri("/exec?query=${origin.query()}".replace("{", "[").replace("}", "]"))
+                .uri("/exec")
                 .body(BodyInserters.fromObject(origin.query()))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
