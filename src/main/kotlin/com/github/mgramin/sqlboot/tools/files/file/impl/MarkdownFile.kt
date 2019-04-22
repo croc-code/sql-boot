@@ -30,7 +30,7 @@ import org.commonmark.node.FencedCodeBlock
 import org.commonmark.node.Heading
 import org.commonmark.node.Text
 import org.commonmark.parser.Parser
-import java.util.*
+import java.util.LinkedHashMap
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)

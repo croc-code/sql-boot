@@ -3,7 +3,7 @@ package com.github.mgramin.sqlboot.model.resourcetype
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.util.*
+import java.util.HashMap
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 data class Metadata(
