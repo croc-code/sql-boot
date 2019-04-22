@@ -34,43 +34,27 @@ import reactor.core.publisher.Flux
 class DbNameWrapper(private val origin: ResourceType,
                     private val dbConnection: DbConnection) : ResourceType {
 
-    override fun aliases(): List<String> {
-        return origin.aliases()
-    }
+    override fun aliases() = origin.aliases()
 
-    override fun path(): List<String> {
-        return origin.path()
-    }
+    override fun path() = origin.path()
 
-    override fun metaData(uri: Uri): List<Metadata> = origin.metaData(uri) + Metadata("database", "Database name")
+    override fun metaData(uri: Uri) = origin.metaData(uri) + Metadata("database", "Database name")
 
-    override fun read(uri: Uri): Flux<DbResource> {
-        return origin.read(uri).map {
-            return@map object : DbResource {
-
-                override fun name(): String {
-                    return it.name()
-                }
-
-                override fun type(): ResourceType {
-                    return it.type()
-                }
-
-                override fun dbUri(): Uri {
-                    return it.dbUri()
-                }
-
-                override fun headers(): Map<String, Any> {
-                    val headers = it.headers().toMutableMap()
-                    headers["database"] = dbConnection.name()
-                    return headers
-                }
-
-                override fun body(): String {
-                    return it.body()
-                }
-            }
-        }
-    }
+    override fun read(uri: Uri): Flux<DbResource> =
+            origin
+                    .read(uri)
+                    .map {
+                        return@map object : DbResource {
+                            override fun name() = it.name()
+                            override fun type() = it.type()
+                            override fun dbUri() = it.dbUri()
+                            override fun body() = it.body()
+                            override fun headers(): Map<String, Any> {
+                                val headers = it.headers().toMutableMap()
+                                headers["database"] = dbConnection.name()
+                                return headers
+                            }
+                        }
+                    }
 
 }

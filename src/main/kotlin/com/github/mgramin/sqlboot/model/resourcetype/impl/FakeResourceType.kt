@@ -39,24 +39,19 @@ import java.util.Arrays.asList
  */
 class FakeResourceType : ResourceType {
 
-    override fun aliases(): List<String> {
-        return asList("fake_resource_type", "fake_type", "frt", "f")
-    }
+    override fun aliases() = asList("fake_resource_type", "fake_type", "frt", "f")
 
-    override fun path(): List<String> {
-        return arrayListOf("schema", "table", "index")
-    }
+    override fun path() = arrayListOf("schema", "table", "index")
 
-    override fun read(uri: Uri): Flux<DbResource> {
-        return sequenceOf(
-                FakeDbResource(DbUri("prod/table/hr.persons")),
-                FakeDbResource(DbUri("prod/table/hr.users")),
-                FakeDbResource(DbUri("prod/table/hr.jobs"))).toFlux()
-    }
+    override fun read(uri: Uri): Flux<DbResource> =
+            sequenceOf(
+                    FakeDbResource(DbUri("prod/table/hr.persons")),
+                    FakeDbResource(DbUri("prod/table/hr.users")),
+                    FakeDbResource(DbUri("prod/table/hr.jobs"))).toFlux()
 
-    override fun metaData(uri: Uri): List<Metadata> {
-        return listOf(Metadata("@schema", "Schema name"),
-                Metadata("@table", "Table name"),
-                Metadata("@index", "Index name"))
-    }
+    override fun metaData(uri: Uri) =
+            listOf(Metadata("@schema", "Schema name"),
+                    Metadata("@table", "Table name"),
+                    Metadata("@index", "Index name"))
+
 }

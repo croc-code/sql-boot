@@ -28,7 +28,6 @@ import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
-import com.google.common.collect.ImmutableMap.of
 
 /**
  * Created by maksim on 22.05.17.
@@ -48,9 +47,10 @@ class FakeDbResource(private val uri: Uri) : DbResource {
     }
 
     override fun headers(): Map<String, Any> {
-        return of<String, Any>("schema", "hr",
-                "table", "persons",
-                "file", "table.hr.persons.sql")
+        return mapOf(
+                "schema" to "hr",
+                "table" to "persons",
+                "file" to "table.hr.persons.sql")
     }
 
     override fun body(): String {

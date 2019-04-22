@@ -31,11 +31,8 @@ import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.DbNameWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.CacheWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.LimitWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.PageWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
-import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.WhereWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.TypeWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.*
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
@@ -45,14 +42,14 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import reactor.test.StepVerifier
 
 class ResourceTypeWrapperTest {
 
     @Nested
     internal inner class BodyWrapperTest : BaseResourceWrapperTest() {
-        override fun getWrapper(): ResourceType {
-            return BodyWrapper(FakeResourceType(), FakeTemplateGenerator("Hello World!"))
-        }
+
+        override fun getWrapper() = BodyWrapper(FakeResourceType(), FakeTemplateGenerator("Hello World!"))
 
         @Test
         fun read() {
@@ -63,9 +60,8 @@ class ResourceTypeWrapperTest {
 
     @Nested
     internal inner class SelectWrapperTest : BaseResourceWrapperTest() {
-        override fun getWrapper(): ResourceType {
-            return SelectWrapper(FakeResourceType())
-        }
+
+        override fun getWrapper() = SelectWrapper(FakeResourceType())
 
         @Test
         fun read() {
@@ -77,9 +73,8 @@ class ResourceTypeWrapperTest {
 
     @Nested
     internal inner class PageWrapperTest : BaseResourceWrapperTest() {
-        override fun getWrapper(): ResourceType {
-            return PageWrapper(FakeResourceType())
-        }
+
+        override fun getWrapper() = PageWrapper(FakeResourceType())
 
         @ParameterizedTest
         @CsvSource("persons;prod/table/hr?page=1,1",
@@ -100,11 +95,11 @@ class ResourceTypeWrapperTest {
         }
     }
 
+
     @Nested
     internal inner class WhereWrapperTest : BaseResourceWrapperTest() {
-        override fun getWrapper(): ResourceType {
-            return WhereWrapper(FakeResourceType())
-        }
+
+        override fun getWrapper() = WhereWrapper(FakeResourceType())
 
         @ParameterizedTest
         @CsvSource("1;prod/table/hr.persons",
@@ -117,9 +112,8 @@ class ResourceTypeWrapperTest {
 
     @Nested
     internal inner class LimitWrapperTest : BaseResourceWrapperTest() {
-        override fun getWrapper(): ResourceType {
-            return LimitWrapper(FakeResourceType())
-        }
+
+        override fun getWrapper() = LimitWrapper(FakeResourceType())
 
         @ParameterizedTest
         @CsvSource("3;table/hr.persons",
@@ -155,12 +149,7 @@ class ResourceTypeWrapperTest {
     @Nested
     internal inner class DbNameWrapperTest : BaseResourceWrapperTest() {
 
-        override fun getWrapper(): ResourceType {
-            return DbNameWrapper(
-                    FakeResourceType(),
-                    FakeDbConnection()
-            )
-        }
+        override fun getWrapper() = DbNameWrapper(FakeResourceType(), FakeDbConnection())
 
         @Test
         fun read() {
@@ -168,7 +157,7 @@ class ResourceTypeWrapperTest {
         }
 
         @Test
-        override fun metaDataByUri() {
+        override fun metaData() {
             assertEquals(
                     arrayListOf(
                             Metadata("@schema", "String", "Schema name"),
@@ -181,11 +170,28 @@ class ResourceTypeWrapperTest {
 
 
     @Nested
+    internal inner class TypeWrapperTest : BaseResourceWrapperTest() {
+
+        override fun getWrapper() = TypeWrapper(FakeResourceType())
+
+        @Test
+        fun read() {
+            StepVerifier
+                    .create(w.read(FakeUri()))
+                    .expectNextMatches { v -> v.headers().count() == 3 }
+                    .expectNextMatches { v -> v.headers().count() == 3 }
+                    .expectNextMatches { v -> v.headers().count() == 3 }
+                    .expectNextCount(0)
+                    .verifyComplete()
+        }
+
+    }
+
+
+    @Nested
     internal inner class SortWrapperTest : BaseResourceWrapperTest() {
 
-        override fun getWrapper(): ResourceType {
-            return SortWrapper(FakeResourceType())
-        }
+        override fun getWrapper() = SortWrapper(FakeResourceType())
 
         @Test
         fun read() {
@@ -204,23 +210,16 @@ class ResourceTypeWrapperTest {
         protected abstract fun getWrapper(): ResourceType
 
         @Test
-        fun name() {
-            assertEquals("fake_resource_type", w.name())
-        }
+        fun name() = assertEquals("fake_resource_type", w.name())
 
         @Test
-        fun aliases() {
-            assertEquals("[fake_resource_type, fake_type, frt, f]",
-                    w.aliases().toString())
-        }
+        fun aliases() = assertEquals("[fake_resource_type, fake_type, frt, f]", w.aliases().toString())
 
         @Test
-        fun path() {
-            assertEquals(arrayListOf("schema", "table", "index"), w.path())
-        }
+        fun path() = assertEquals(arrayListOf("schema", "table", "index"), w.path())
 
         @Test
-        open fun metaDataByUri() {
+        open fun metaData() {
             assertEquals(
                     arrayListOf(
                             Metadata("@schema", "String", "Schema name"),
