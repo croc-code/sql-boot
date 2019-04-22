@@ -52,6 +52,7 @@ class FakeResourceType : ResourceType {
     override fun metaData(uri: Uri) =
             listOf(Metadata("@schema", "Schema name"),
                     Metadata("@table", "Table name"),
-                    Metadata("@index", "Index name"))
+                    Metadata("@index", "Index name"),
+                    Metadata("size", "Number", "Table size"))
 
 }

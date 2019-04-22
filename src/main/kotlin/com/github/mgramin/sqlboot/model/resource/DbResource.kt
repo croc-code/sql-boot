@@ -75,4 +75,5 @@ interface DbResource : Serializable {
      */
     @JsonProperty
     fun body(): String
+
 }

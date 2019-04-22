@@ -24,7 +24,14 @@ class TypeWrapper(private val origin: ResourceType) : ResourceType {
                             override fun dbUri() = it.dbUri()
                             override fun body() = it.body()
                             override fun headers(): Map<String, Any> {
-                                return it.headers().toMutableMap()
+                                val newHeaders = it.headers().toMutableMap()
+                                metaData(uri).forEach { m ->
+                                    val type = m.properties()["type"].toString()
+                                    if (type.equals("number", ignoreCase = true)) {
+                                        newHeaders[m.name()] = newHeaders[m.name()].toString().toInt()
+                                    }
+                                }
+                                return newHeaders
                             }
 
                         }

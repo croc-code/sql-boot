@@ -50,7 +50,8 @@ class FakeDbResource(private val uri: Uri) : DbResource {
         return mapOf(
                 "schema" to "hr",
                 "table" to "persons",
-                "file" to "table.hr.persons.sql")
+                "file" to "table.hr.persons.sql",
+                "size" to "100")
     }
 
     override fun body(): String {

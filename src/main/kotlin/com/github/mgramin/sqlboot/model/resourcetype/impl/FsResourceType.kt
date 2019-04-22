@@ -31,6 +31,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapper
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.TypeWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
@@ -62,15 +63,16 @@ class FsResourceType(
                     .toList()
 
     private fun createObjectType(it: com.github.mgramin.sqlboot.tools.files.file.File) =
-            SelectWrapper(
-                    SortWrapper(
-                            BodyWrapper(
-                                    SqlResourceType(
-                                            aliases = listOf(File(it.name()).nameWithoutExtension),
-                                            sql = it.content().toString(Charset.defaultCharset()),
-                                            connections = dbConnections,
-                                            dialects = dialects),
-                                    templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]"))))
+            TypeWrapper(
+                    SelectWrapper(
+                            SortWrapper(
+                                    BodyWrapper(
+                                            SqlResourceType(
+                                                    aliases = listOf(File(it.name()).nameWithoutExtension),
+                                                    sql = it.content().toString(Charset.defaultCharset()),
+                                                    connections = dbConnections,
+                                                    dialects = dialects),
+                                            templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))))
 
     @Deprecated("")
     fun resourceTypes() = resourceTypes

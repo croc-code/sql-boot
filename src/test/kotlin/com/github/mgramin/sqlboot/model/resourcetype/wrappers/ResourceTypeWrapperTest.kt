@@ -163,6 +163,7 @@ class ResourceTypeWrapperTest {
                             Metadata("@schema", "String", "Schema name"),
                             Metadata("@table", "String", "Table name"),
                             Metadata("@index", "String", "Index name"),
+                            Metadata("size", "Number", "Table size"),
                             Metadata("database", "String", "Database name")).sorted(),
                     w.metaData(FakeUri()).sorted())
         }
@@ -178,10 +179,8 @@ class ResourceTypeWrapperTest {
         fun read() {
             StepVerifier
                     .create(w.read(FakeUri()))
-                    .expectNextMatches { v -> v.headers().count() == 3 }
-                    .expectNextMatches { v -> v.headers().count() == 3 }
-                    .expectNextMatches { v -> v.headers().count() == 3 }
-                    .expectNextCount(0)
+                    .expectNextMatches { v -> v.headers().count() == 4 && v.headers()["size"] is Int }
+                    .expectNextCount(2)
                     .verifyComplete()
         }
 
@@ -224,7 +223,9 @@ class ResourceTypeWrapperTest {
                     arrayListOf(
                             Metadata("@schema", "String", "Schema name"),
                             Metadata("@table", "String", "Table name"),
-                            Metadata("@index", "String", "Index name")).sorted(),
+                            Metadata("@index", "String", "Index name"),
+                            Metadata("size", "Number", "Table size")
+                    ).sorted(),
                     w.metaData(FakeUri()).sorted())
         }
 

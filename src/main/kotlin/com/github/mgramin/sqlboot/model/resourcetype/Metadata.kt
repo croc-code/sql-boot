@@ -8,11 +8,9 @@ import java.util.*
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 data class Metadata(
         private val name: String,
-        private val type: String,
+        private var type: String,
         private val description: String
 ) : Comparable<Metadata> {
-
-    override fun compareTo(other: Metadata): Int = if (name > other.name()) -1 else 1
 
     private val properties: MutableMap<String, Any>
 
@@ -24,25 +22,28 @@ data class Metadata(
             val map: Map<String, Any> = Gson().fromJson(description, object : TypeToken<Map<String, Any>>() {}.type)
             this.properties.putAll(map)
             this.properties["key"] = name.replace("@", "")
+            if (map.containsKey("type")) {
+                this.type = map["type"].toString()
+            } else {
+                this.type = "String"
+            }
         } catch (ignored: Exception) {
             this.properties.clear()
             val prop = HashMap<String, Any>()
             prop["key"] = name.replace("@", "")
             prop["label"] = name.replace("@", "")
             prop["description"] = description
+            prop["type"] = type
             this.properties.putAll(prop)
         }
     }
 
-    fun name(): String {
-        return name
-    }
+    fun name(): String = name
 
-    fun description(): String {
-        return description
-    }
+    fun description(): String = description
 
-    fun properties(): Map<String, Any> {
-        return properties
-    }
+    fun properties(): Map<String, Any> = properties
+
+    override fun compareTo(other: Metadata): Int = if (name > other.name()) -1 else 1
+
 }

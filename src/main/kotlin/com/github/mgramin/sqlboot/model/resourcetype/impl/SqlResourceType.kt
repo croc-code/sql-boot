@@ -89,7 +89,8 @@ class SqlResourceType(
                 }
     }
 
-    override fun metaData(uri: Uri): List<Metadata> = simpleSelectQuery.columns()
+    override fun metaData(uri: Uri): List<Metadata> = simpleSelectQuery
+            .columns()
             .map { Metadata(it.key, it.value) } +
             Metadata("database", """{"label": "Database", "description": "Database name", "visible": true}""")
 
