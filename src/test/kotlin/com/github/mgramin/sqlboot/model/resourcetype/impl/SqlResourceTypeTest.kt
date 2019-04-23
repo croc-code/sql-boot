@@ -28,6 +28,7 @@ import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
 import com.github.mgramin.sqlboot.model.dialect.FakeDialect
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
+import com.google.gson.JsonObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -122,6 +123,17 @@ class SqlResourceTypeTest {
                     |     , column_name   as "@column"
                     |  from information_schema.columns""".trimMargin()
         assertEquals(4, createType(sql, "column").metaData(FakeUri()).count())
+    }
+
+    @Test
+    fun toJson() {
+        val sql = """select table_schema  as "@schema"
+                    |     , table_name    as "@table"
+                    |     , column_name   as "@column"
+                    |  from information_schema.columns""".trimMargin()
+        val json: JsonObject = createType(sql, "table").toJson()
+        assertEquals("table", json.get("name").asString)
+        assertEquals("[table]", json.get("aliases").asString)
     }
 
     private fun createType(sql: String, type: String) =

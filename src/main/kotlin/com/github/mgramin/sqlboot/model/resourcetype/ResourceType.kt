@@ -24,9 +24,9 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.uri.Uri
+import com.google.gson.JsonObject
 import reactor.core.publisher.Flux
 
 /**
@@ -37,32 +37,31 @@ interface ResourceType {
     /**
      * Name of resource type, e.g "table", "index", "stored procedure" etc
      */
-    @JsonProperty
-    fun name(): String {
-        return aliases()[0]
-    }
+    fun name() = aliases()[0]
 
     /**
      * Aliases of resource type, e.g. ["table", "tbl", "t", "tablo"]
      */
-    @JsonProperty
     fun aliases(): List<String>
 
     /**
      * Path of resource e.g. ["schema", "table", "column"] or ["schema", "table", "index", "index_column"]
      */
-    @JsonProperty
     fun path(): List<String>
 
     /**
      * Information about the resource metadata (properties) "name" -> "type"
      */
-    @JsonProperty
     fun metaData(uri: Uri): List<Metadata>
 
     /**
      * Read resources by uri
      */
     fun read(uri: Uri): Flux<DbResource>
+
+    /**
+     * Get as JSON
+     */
+    fun toJson(): JsonObject
 
 }

@@ -32,6 +32,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper
+import com.google.gson.JsonArray
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
@@ -65,9 +66,13 @@ class ApiController {
 
 
     @RequestMapping(value = ["/api/{connectionName}/types"])
-    fun types(@PathVariable connectionName: String) =
-            FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList()).resourceTypes()
-
+    fun types(@PathVariable connectionName: String): String {
+        val jsonArray = JsonArray()
+        FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList())
+                .resourceTypes()
+                .forEach {jsonArray.add(it.toJson())}
+        return jsonArray.toString()
+    }
 
     @RequestMapping(value = ["/api/{connectionName}/**"], method = [GET, POST])
     fun getResourcesHeadersJson(request: HttpServletRequest) =

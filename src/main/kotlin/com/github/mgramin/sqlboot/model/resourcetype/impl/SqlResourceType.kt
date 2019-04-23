@@ -39,6 +39,8 @@ import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import org.apache.commons.lang3.StringUtils.strip
 import reactor.core.publisher.Flux
 
@@ -94,6 +96,14 @@ class SqlResourceType(
                     .columns()
                     .map { Metadata(it.key, it.value) } +
                     Metadata("database", """{"label": "Database", "description": "Database name", "visible": true}""")
+
+    override fun toJson(): JsonObject {
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("name", name())
+        jsonObject.addProperty("aliases", aliases().toString())
+        jsonObject.addProperty("query", simpleSelectQuery.query())
+        return jsonObject
+    }
 
     private fun createQuery(uri: Uri, connection: DbConnection): SelectQuery {
         val properties = simpleSelectQuery.properties()

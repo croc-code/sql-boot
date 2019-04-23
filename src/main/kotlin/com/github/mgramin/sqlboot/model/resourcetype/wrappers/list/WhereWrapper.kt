@@ -61,4 +61,5 @@ class WhereWrapper(private val origin: ResourceType) : ResourceType {
 
     override fun metaData(uri: Uri) = origin.metaData(uri)
 
+    override fun toJson() = origin.toJson()
 }

@@ -62,4 +62,5 @@ class PageWrapper constructor(
         }
     }
 
+    override fun toJson() = origin.toJson()
 }

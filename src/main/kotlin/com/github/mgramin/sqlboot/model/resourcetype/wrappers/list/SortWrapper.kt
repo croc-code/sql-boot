@@ -61,4 +61,5 @@ class SortWrapper(private val origin: ResourceType,
         return Comparator { b, a -> compareValuesBy(a, b, *selectors) }
     }
 
+    override fun toJson() = origin.toJson()
 }

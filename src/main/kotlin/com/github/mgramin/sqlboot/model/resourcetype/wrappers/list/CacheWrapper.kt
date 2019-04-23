@@ -70,4 +70,5 @@ class CacheWrapper(private val origin: ResourceType, private val parameterName: 
     override fun metaData(uri: Uri): List<Metadata> {
         return origin.metaData(uri)
     }
+    override fun toJson() = origin.toJson()
 }

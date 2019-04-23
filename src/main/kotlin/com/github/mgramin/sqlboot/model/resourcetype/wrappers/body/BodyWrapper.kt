@@ -30,6 +30,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
+import org.json.JSONObject
 import reactor.core.publisher.Flux
 
 /**
@@ -49,5 +50,7 @@ class BodyWrapper(
                     .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
 
     override fun metaData(uri: Uri): List<Metadata> = origin.metaData(uri)
+
+    override fun toJson() = origin.toJson()
 
 }

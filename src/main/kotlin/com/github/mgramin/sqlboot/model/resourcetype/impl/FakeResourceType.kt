@@ -30,6 +30,8 @@ import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import reactor.core.publisher.Flux
 import reactor.core.publisher.toFlux
 import java.util.Arrays.asList
@@ -54,5 +56,9 @@ class FakeResourceType : ResourceType {
                     Metadata("@table", "Table name"),
                     Metadata("@index", "Index name"),
                     Metadata("size", "Number", "Table size"))
+
+    override fun toJson(): JsonObject {
+        return JsonParser().parse("""{ "name": "fake_resource_type" }""").asJsonObject
+    }
 
 }

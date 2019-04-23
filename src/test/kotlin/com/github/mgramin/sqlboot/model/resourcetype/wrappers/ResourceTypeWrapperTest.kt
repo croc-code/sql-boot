@@ -229,6 +229,11 @@ class ResourceTypeWrapperTest {
                     w.metaData(FakeUri()).sorted())
         }
 
+        @Test
+        fun toJson() {
+            assertEquals("fake_resource_type", w.toJson().get("name").asString)
+        }
+
     }
 
 }

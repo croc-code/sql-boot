@@ -53,4 +53,5 @@ class LimitWrapper(private val origin: ResourceType, private val parameterName: 
 
     override fun metaData(uri: Uri) = origin.metaData(uri)
 
+    override fun toJson() = origin.toJson()
 }

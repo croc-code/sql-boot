@@ -57,4 +57,6 @@ class DbNameWrapper(private val origin: ResourceType,
                         }
                     }
 
+    override fun toJson() = origin.toJson()
+
 }

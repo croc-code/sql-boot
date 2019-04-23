@@ -75,4 +75,7 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
             origin.metaData(uri)
         }
     }
+
+    override fun toJson() = origin.toJson()
+
 }

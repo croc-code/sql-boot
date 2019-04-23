@@ -37,4 +37,6 @@ class TypeWrapper(private val origin: ResourceType) : ResourceType {
                         }
                     }
 
+    override fun toJson() = origin.toJson()
+
 }
