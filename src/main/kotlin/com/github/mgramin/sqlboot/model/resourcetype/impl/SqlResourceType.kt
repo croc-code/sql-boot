@@ -32,6 +32,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
+import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
@@ -39,6 +40,7 @@ import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.apache.commons.lang3.StringUtils.strip
@@ -102,6 +104,7 @@ class SqlResourceType(
         jsonObject.addProperty("name", name())
         jsonObject.addProperty("aliases", aliases().toString())
         jsonObject.addProperty("query", simpleSelectQuery.query())
+        jsonObject.add("metadata", Gson().toJsonTree(metaData(FakeUri())))
         return jsonObject
     }
 

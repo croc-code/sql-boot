@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.bind.annotation.RestController
-import java.util.ArrayList
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -70,19 +69,30 @@ class ApiController {
         val jsonArray = JsonArray()
         FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList())
                 .resourceTypes()
-                .forEach {jsonArray.add(it.toJson())}
+                .forEach { jsonArray.add(it.toJson()) }
         return jsonArray.toString()
     }
+
+
+    @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
+    fun getResourceMetadata(request: HttpServletRequest): ResponseEntity<String> {
+        val jsonArray = JsonArray()
+        val uri = SqlPlaceholdersWrapper(
+                        DbUri(parseUri(request, "api/meta")))
+        FsResourceType(listOf(dbConnectionList.getConnectionByName(uri.connection())), emptyList())
+                .resourceTypes()
+                .asSequence()
+                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
+                .map { it.metaData(uri) }
+                .first()
+                .forEach { jsonArray.add(it.toJson()) }
+        return ResponseEntity(jsonArray.toString(), HttpStatus.OK)
+    }
+
 
     @RequestMapping(value = ["/api/{connectionName}/**"], method = [GET, POST])
     fun getResourcesHeadersJson(request: HttpServletRequest) =
             getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/headers"))))
-
-
-    @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
-    fun getResourceMetadata(request: HttpServletRequest) =
-            responseEntity(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/meta"))))
-
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
         val connections = dbConnectionList.getConnectionsByMask(uri.connection())
@@ -103,20 +113,6 @@ class ApiController {
             }
             return ResponseEntity(emptyList(), HttpStatus.INTERNAL_SERVER_ERROR)
         }
-    }
-
-
-    private fun responseEntity(uri: Uri): ResponseEntity<List<Metadata>> {
-        val fsResourceTypes = FsResourceType(
-                listOf(dbConnectionList.getConnectionByName(uri.connection())),
-                emptyList())
-        val resourceType = fsResourceTypes
-                .resourceTypes()
-                .stream()
-                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .findAny()
-                .orElse(null) ?: return ResponseEntity(ArrayList(), HttpStatus.NO_CONTENT)
-        return ResponseEntity(resourceType.metaData(uri), HttpStatus.OK)
     }
 
 
