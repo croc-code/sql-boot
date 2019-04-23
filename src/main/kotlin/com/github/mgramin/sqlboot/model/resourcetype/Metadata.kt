@@ -2,6 +2,8 @@ package com.github.mgramin.sqlboot.model.resourcetype
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import java.util.HashMap
 
@@ -43,6 +45,18 @@ data class Metadata(
     fun description(): String = description
 
     fun properties(): Map<String, Any> = properties
+
+    /**
+     * Get as JSON
+     */
+    fun toJson(): JsonObject {
+        val jsonObject = JsonObject()
+        val toJson: JsonElement = Gson().toJsonTree (properties)
+        jsonObject.addProperty("name", name)
+        jsonObject.addProperty("description", description)
+        jsonObject.add("properties", toJson)
+        return jsonObject
+    }
 
     override fun compareTo(other: Metadata): Int = if (name > other.name()) -1 else 1
 
