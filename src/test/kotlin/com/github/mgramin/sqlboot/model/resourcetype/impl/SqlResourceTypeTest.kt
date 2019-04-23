@@ -74,7 +74,7 @@ class SqlResourceTypeTest {
                     |             , table_name     as "@table"
                     |          from information_schema.tables)""".trimMargin()
         StepVerifier
-                .create(createSqlResourceType(sql).read(FakeUri()))
+                .create(createType(sql, "table").read(FakeUri()))
                 .expectNextCount(46)
                 .verifyComplete()
     }
@@ -87,7 +87,7 @@ class SqlResourceTypeTest {
                     |             , column_name     as "@column"
                     |          from information_schema.columns)""".trimMargin()
         StepVerifier
-                .create(createSqlResourceType(sql).read(FakeUri()))
+                .create(createType(sql, "table").read(FakeUri()))
                 .expectNextCount(347)
                 .verifyComplete()
     }
@@ -101,36 +101,32 @@ class SqlResourceTypeTest {
                     |  from processes
                     | limit 5""".trimMargin()
         StepVerifier
-                .create(createSqlResourceType(sql).read(DbUri("prod/process")))
+                .create(createType(sql, "table").read(DbUri("prod/process")))
                 .expectNextCount(5)
                 .verifyComplete()
     }
 
     @Test
     fun path() {
-        val sql = """select @schema
-                    |     , @table
-                    |     , @column
-                    |  from (select table_schema    as "@schema"
-                    |             , table_name      as "@table"
-                    |             , column_name     as "@column"
-                    |          from information_schema.columns)""".trimMargin()
-        val type =
-                SqlResourceType(
-                        aliases = arrayListOf("column"),
-                        sql = sql,
-                        connections = listOf(db),
-                        dialects = emptyList())
-        assertEquals("[schema, table, column]", type.path().toString())
+        val sql = """select table_schema  as "@schema"
+                    |     , table_name    as "@table"
+                    |     , column_name   as "@column"
+                    |  from information_schema.columns""".trimMargin()
+        assertEquals("[schema, table, column]", createType(sql, "column").path().toString())
     }
 
     @Test
     fun metaData() {
+        val sql = """select table_schema  as "@schema"
+                    |     , table_name    as "@table"
+                    |     , column_name   as "@column"
+                    |  from information_schema.columns""".trimMargin()
+        assertEquals(4, createType(sql, "column").metaData(FakeUri()).count())
     }
 
-    private fun createSqlResourceType(sql: String) =
+    private fun createType(sql: String, type: String) =
             SqlResourceType(
-                    aliases = arrayListOf("table"),
+                    aliases = arrayListOf(type),
                     sql = sql,
                     connections = listOf(db),
                     dialects = listOf(FakeDialect()))

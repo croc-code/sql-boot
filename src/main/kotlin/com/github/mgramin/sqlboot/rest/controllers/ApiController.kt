@@ -28,7 +28,6 @@ import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
-import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
@@ -66,27 +65,18 @@ class ApiController {
 
 
     @RequestMapping(value = ["/api/{connectionName}/types"])
-    fun types(@PathVariable connectionName: String): List<ResourceType>? {
-        return FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList()).resourceTypes()
-    }
+    fun types(@PathVariable connectionName: String) =
+            FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList()).resourceTypes()
 
 
     @RequestMapping(value = ["/api/{connectionName}/**"], method = [GET, POST])
-    fun getResourcesHeadersJson(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String
-    ): ResponseEntity<List<Map<String, Any>>> {
-        return getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/headers"))))
-    }
+    fun getResourcesHeadersJson(request: HttpServletRequest) =
+            getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/headers"))))
 
 
     @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
-    fun getResourceMetadata(
-            request: HttpServletRequest,
-            @PathVariable connectionName: String
-    ): ResponseEntity<List<Metadata>> {
-        return responseEntity(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/meta"))))
-    }
+    fun getResourceMetadata(request: HttpServletRequest) =
+            responseEntity(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/meta"))))
 
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {

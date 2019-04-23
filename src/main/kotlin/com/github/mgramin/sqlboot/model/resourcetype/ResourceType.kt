@@ -38,7 +38,6 @@ interface ResourceType {
      * Name of resource type, e.g "table", "index", "stored procedure" etc
      */
     @JsonProperty
-    @JvmDefault
     fun name(): String {
         return aliases()[0]
     }
@@ -50,25 +49,16 @@ interface ResourceType {
     fun aliases(): List<String>
 
     /**
-     * Path of resource e.g. ["schema", "table", "column"] or ["schema", "table", "index",
-     * "index_column"]
+     * Path of resource e.g. ["schema", "table", "column"] or ["schema", "table", "index", "index_column"]
      */
     @JsonProperty
     fun path(): List<String>
 
     /**
-     * Retrieves a map that contains information about the resource metadata (properties) "name" -> "type"
+     * Information about the resource metadata (properties) "name" -> "type"
      */
-//    @JsonProperty
-//    fun metaData(): Map<String, String>
-
     @JsonProperty
     fun metaData(uri: Uri): List<Metadata>
-//    {
-//        return metaData().entries
-//                .map { e -> Metadata(e.key, e.value) }
-//                .toList()
-//    }
 
     /**
      * Read resources by uri

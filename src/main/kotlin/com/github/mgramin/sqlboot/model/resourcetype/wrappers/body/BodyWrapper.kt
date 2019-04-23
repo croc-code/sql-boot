@@ -24,7 +24,6 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.wrappers.body
 
-import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.wrappers.DbResourceBodyWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
@@ -41,21 +40,14 @@ class BodyWrapper(
         private val templateGenerator: TemplateGenerator
 ) : ResourceType {
 
-    override fun aliases(): List<String> {
-        return origin.aliases()
-    }
+    override fun aliases() = origin.aliases()
 
-    override fun path(): List<String> {
-        return origin.path()
-    }
+    override fun path() = origin.path()
 
-    @Throws(BootException::class)
-    override fun read(uri: Uri): Flux<DbResource> {
-        return origin.read(uri)
-                .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
-    }
+    override fun read(uri: Uri): Flux<DbResource> =
+            origin.read(uri)
+                    .map { r -> DbResourceBodyWrapper(r, templateGenerator.generate(r.headers())) }
 
-    override fun metaData(uri: Uri): List<Metadata> {
-        return origin.metaData(uri)
-    }
+    override fun metaData(uri: Uri): List<Metadata> = origin.metaData(uri)
+
 }
