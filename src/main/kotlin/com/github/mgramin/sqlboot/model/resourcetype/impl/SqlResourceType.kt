@@ -42,7 +42,6 @@ import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.apache.commons.lang3.StringUtils.strip
 import reactor.core.publisher.Flux
 
@@ -66,14 +65,16 @@ class SqlResourceType(
         return simpleSelectQuery.columns().keys
                 .filter { v -> v.startsWith("@") }
                 .map { v -> strip(v, "@") }
+                .ifEmpty { listOf(simpleSelectQuery.columns().keys.first()) }
     }
 
     override fun read(uri: Uri): Flux<DbResource> {
-        simpleSelectQuery.properties()
+        val specificDialect = simpleSelectQuery.properties()["dialect"]
         return Flux.merge(
                 connections
                         .map { connection ->
-                            return@map createQuery(uri, connection).execute(hashMapOf("uri" to uri))
+                            return@map createQuery(uri, connection, specificDialect
+                                    ?: connection.dialect()).execute(hashMapOf("uri" to uri))
                                     .map<Map<String, Any>?> {
                                         val toMutableMap = it.toMutableMap()
                                         toMutableMap["database"] = connection.name()
@@ -85,10 +86,14 @@ class SqlResourceType(
                     val path = o!!.entries
                             .filter { v -> v.key.startsWith("@") }
                             .map { it.value.toString() }
-                    val name = path[path.size - 1]
                     val headers = o.entries
                             .map { strip(it.key, "@") to it.value }
                             .toMap()
+                    val name = if (path.isEmpty()) {
+                        headers.asSequence().first().key
+                    } else {
+                        path[path.size - 1]
+                    }
                     DbResourceImpl(name, this, DbUri(headers["database"].toString(), this.name(), path), headers) as DbResource
                 }
     }
@@ -104,19 +109,21 @@ class SqlResourceType(
         jsonObject.addProperty("name", name())
         jsonObject.addProperty("aliases", aliases().toString())
         jsonObject.addProperty("query", simpleSelectQuery.query())
+        jsonObject.add("query_properties", Gson().toJsonTree(simpleSelectQuery.properties()))
         jsonObject.add("metadata", Gson().toJsonTree(metaData(FakeUri())))
         return jsonObject
     }
 
-    private fun createQuery(uri: Uri, connection: DbConnection): SelectQuery {
+    private fun createQuery(uri: Uri, connection: DbConnection, specificDialect: String): SelectQuery {
         val properties = simpleSelectQuery.properties()
-        val baseQuery = PaginatedSelectQuery(
-                OrderedSelectQuery(
-                        simpleSelectQuery,
-                        uri.orderedColumns()),
-                uri,
-                dialects.first { it.name() == connection.dialect() }.paginationQueryTemplate()
-        )
+        val paginationQueryTemplate = dialects.first { it.name() == specificDialect }.paginationQueryTemplate()
+        val baseQuery =
+                PaginatedSelectQuery(
+                        OrderedSelectQuery(
+                                simpleSelectQuery,
+                                uri.orderedColumns()),
+                        uri,
+                        paginationQueryTemplate)
         return if (properties["executor"] == "http") {
             RestSelectQuery(
                     baseQuery,

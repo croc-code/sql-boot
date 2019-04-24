@@ -117,6 +117,15 @@ class SqlResourceTypeTest {
     }
 
     @Test
+    fun path2() {
+        val sql = """select table_schema  as "schema"
+                    |     , table_name    as "table"
+                    |     , column_name   as "column"
+                    |  from information_schema.columns""".trimMargin()
+        assertEquals("[schema]", createType(sql, "column").path().toString())
+    }
+
+    @Test
     fun metaData() {
         val sql = """select table_schema  as "@schema"
                     |     , table_name    as "@table"
