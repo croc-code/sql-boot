@@ -22,7 +22,7 @@ after_success:
   - docker push mgramin/sql-boot
 
 before_deploy:
-  - export TRAVIS_TAG=v0.2.0
+  - export TRAVIS_TAG=v0.3.0
   - git tag $TRAVIS_TAG --force
 
 deploy:
@@ -30,7 +30,7 @@ deploy:
   api_key: $GITHUB_TOKEN
   file: target/sql-boot.zip
   skip_cleanup: true
-  name: v0.2.0
+  name: v0.3.0
   overwrite: true
   on:
     all_branches: true
