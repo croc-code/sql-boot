@@ -73,6 +73,17 @@ class ApiController {
         return jsonArray.toString()
     }
 
+    @RequestMapping(value = ["/api/{connectionName}/types/{typeMask}"])
+    fun typesByMask(@PathVariable connectionName: String, @PathVariable typeMask: String): String {
+        val jsonArray = JsonArray()
+        FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList())
+                .resourceTypes()
+                .filter { it.name().matches(wildcardToRegex(typeMask)) }
+                .forEach { jsonArray.add(it.toJson()) }
+        return jsonArray.toString()
+    }
+
+    private fun wildcardToRegex(name: String) = name.replace("?", ".?").replace("*", ".*?").toRegex()
 
     @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
     fun getResourceMetadata(request: HttpServletRequest): ResponseEntity<String> {
