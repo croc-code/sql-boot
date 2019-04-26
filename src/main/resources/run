@@ -1,2 +1,3 @@
 #!/bin/sh
+export LANG='en_US.UTF-8'
 java -Dloader.path='.' -jar ./sql-boot.jar
