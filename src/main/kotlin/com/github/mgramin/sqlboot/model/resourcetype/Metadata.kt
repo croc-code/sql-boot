@@ -40,7 +40,7 @@ data class Metadata(
         }
     }
 
-    fun name(): String = name
+    fun name(): String = name.replace("@", "")
 
     fun description(): String = description
 
@@ -52,7 +52,7 @@ data class Metadata(
     fun toJson(): JsonObject {
         val jsonObject = JsonObject()
         val toJson: JsonElement = Gson().toJsonTree (properties)
-        jsonObject.addProperty("name", name)
+        jsonObject.addProperty("name", name.replace("@", ""))
         jsonObject.addProperty("description", description)
         jsonObject.add("properties", toJson)
         return jsonObject

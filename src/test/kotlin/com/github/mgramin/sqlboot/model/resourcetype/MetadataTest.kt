@@ -24,6 +24,6 @@ internal class MetadataTest {
             """{"name":"name","description":"{ \"key_1\": \"value_1\" }","properties":{"key_1":"value_1","key":"name"}}""",
             metadata().toJson().toString())
 
-    private fun metadata() = Metadata("name", "String", """{ "key_1": "value_1" }""")
+    private fun metadata() = Metadata("@name", "String", """{ "key_1": "value_1" }""")
 
 }
