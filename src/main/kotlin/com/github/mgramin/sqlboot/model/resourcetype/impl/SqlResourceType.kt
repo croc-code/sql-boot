@@ -41,6 +41,7 @@ import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import org.apache.commons.lang3.StringUtils.strip
 import reactor.core.publisher.Flux
@@ -110,7 +111,9 @@ class SqlResourceType(
         jsonObject.addProperty("aliases", aliases().toString())
         jsonObject.addProperty("query", simpleSelectQuery.query())
         jsonObject.add("query_properties", Gson().toJsonTree(simpleSelectQuery.properties()))
-        jsonObject.add("metadata", Gson().toJsonTree(metaData(FakeUri())))
+        val jsonArray = JsonArray()
+        metaData(FakeUri()).forEach { jsonArray.add(it.toJson()) }
+        jsonObject.add("metadata", jsonArray)
         return jsonObject
     }
 
