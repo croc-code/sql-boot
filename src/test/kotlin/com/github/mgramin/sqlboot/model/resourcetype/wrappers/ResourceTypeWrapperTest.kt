@@ -43,6 +43,7 @@ import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import reactor.test.StepVerifier
+import java.math.BigDecimal
 
 class ResourceTypeWrapperTest {
 
@@ -179,7 +180,7 @@ class ResourceTypeWrapperTest {
         fun read() {
             StepVerifier
                     .create(w.read(FakeUri()))
-                    .expectNextMatches { v -> v.headers().count() == 4 && v.headers()["size"] is Int }
+                    .expectNextMatches { v -> v.headers().count() == 4 && v.headers()["size"] is BigDecimal }
                     .expectNextCount(2)
                     .verifyComplete()
         }
