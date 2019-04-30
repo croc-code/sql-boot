@@ -28,7 +28,7 @@ class TypeWrapper(private val origin: ResourceType) : ResourceType {
                                 metaData(uri).forEach { m ->
                                     val type = m.properties()["type"].toString()
                                     if (type.equals("number", ignoreCase = true)) {
-                                        newHeaders[m.name()] = newHeaders[m.name()].toString().toInt()
+                                        newHeaders[m.name()] = newHeaders[m.name()].toString().toBigDecimal()
                                     }
                                 }
                                 return newHeaders
