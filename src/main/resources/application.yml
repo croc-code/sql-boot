@@ -1,4 +1,5 @@
 conf:
+
   dialects:
     - name: h2
       paginationQueryTemplate: >
