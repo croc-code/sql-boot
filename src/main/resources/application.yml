@@ -1,5 +1,4 @@
 conf:
-
   dialects:
     - name: h2
       paginationQueryTemplate: >
@@ -53,6 +52,11 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-bicycle"
         }
 
-
 server:
   port: 8007
+
+#Metrics related configurations
+management.endpoint.metrics.enabled: true
+management.endpoints.web.exposure.include: '*'
+management.endpoint.prometheus.enabled: true
+management.metrics.export.prometheus.enabled: true
