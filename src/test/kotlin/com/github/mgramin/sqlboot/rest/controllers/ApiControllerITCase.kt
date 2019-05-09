@@ -78,8 +78,7 @@ class ApiControllerITCase {
             "200#8#/api/meta/h2/column",
             "200#8#/api/meta/h2/column/foo",
             "200#8#/api/meta/h2/column/foo.bar",
-            delimiter = '#'
-    )
+            delimiter = '#')
     fun testHeadersMeta(code: Int, fieldCount: Int, uri: String) {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON

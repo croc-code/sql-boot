@@ -35,6 +35,7 @@ class DbUri : Uri {
 
     private val connection: String
     private val type: String
+    // TODO rename to PATH
     private val objects: List<String>
     private val params: Map<String, String>
     private val action: String

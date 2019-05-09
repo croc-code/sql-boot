@@ -27,7 +27,6 @@ package com.github.mgramin.sqlboot.rest.controllers
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
-import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
@@ -85,11 +84,31 @@ class ApiController {
 
     private fun wildcardToRegex(name: String) = name.replace("?", ".?").replace("*", ".*?").toRegex()
 
-    @RequestMapping(value = ["/api/meta/{connectionName}/**"], method = [GET, POST])
-    fun getResourceMetadata(request: HttpServletRequest): ResponseEntity<String> {
+    @RequestMapping(value = ["/api/meta/{connection}/{type}"], method = [GET, POST])
+    fun getResourceMetadata(@PathVariable connection: String,
+                            @PathVariable type: String,
+                            request: HttpServletRequest): ResponseEntity<String> {
         val jsonArray = JsonArray()
         val uri = SqlPlaceholdersWrapper(
-                        DbUri(parseUri(request, "api/meta")))
+                DbUri("$connection/$type"))
+        FsResourceType(listOf(dbConnectionList.getConnectionByName(uri.connection())), emptyList())
+                .resourceTypes()
+                .asSequence()
+                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
+                .map { it.metaData(uri) }
+                .first()
+                .forEach { jsonArray.add(it.toJson()) }
+        return ResponseEntity(jsonArray.toString(), HttpStatus.OK)
+    }
+
+    @RequestMapping(value = ["/api/meta/{connection}/{type}/{path}"], method = [GET, POST])
+    fun getResourceMetadata(@PathVariable connection: String,
+                            @PathVariable type: String,
+                            @PathVariable path: String,
+                            request: HttpServletRequest): ResponseEntity<String> {
+        val jsonArray = JsonArray()
+        val uri = SqlPlaceholdersWrapper(
+                DbUri("$connection/$type/$path"))
         FsResourceType(listOf(dbConnectionList.getConnectionByName(uri.connection())), emptyList())
                 .resourceTypes()
                 .asSequence()
@@ -101,9 +120,18 @@ class ApiController {
     }
 
 
-    @RequestMapping(value = ["/api/{connectionName}/**"], method = [GET, POST])
-    fun getResourcesHeadersJson(request: HttpServletRequest) =
-            getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri(parseUri(request, "api/headers"))))
+    @RequestMapping(value = ["/api/{connection}/{type}"], method = [GET, POST])
+    fun getResourcesHeadersJson(@PathVariable connection: String,
+                                @PathVariable type: String,
+                                request: HttpServletRequest) =
+            getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri("$connection/$type")))
+
+    @RequestMapping(value = ["/api/{connection}/{type}/{path}"], method = [GET, POST])
+    fun getResourcesHeadersJson(@PathVariable connection: String,
+                                @PathVariable type: String,
+                                @PathVariable path: String,
+                                request: HttpServletRequest) =
+            getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri("$connection/$type/$path")))
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
         val connections = dbConnectionList.getConnectionsByMask(uri.connection())
@@ -123,21 +151,6 @@ class ApiController {
                 return ResponseEntity(emptyList(), HttpStatus.NOT_FOUND)
             }
             return ResponseEntity(emptyList(), HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
-
-
-    private fun parseUri(request: HttpServletRequest, basePath: String): String {
-        val path = request.servletPath
-                .split("/")
-                .asSequence()
-                .filter { it.isNotEmpty() }
-                .filter { !basePath.split("/").contains(it) }
-                .joinToString(separator = "/") { it }
-        return if (request.queryString == null || request.queryString.isEmpty()) {
-            path
-        } else {
-            path + "?" + request.queryString
         }
     }
 

@@ -3,6 +3,7 @@ package com.github.mgramin.sqlboot.sql.select.wrappers
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -22,6 +23,7 @@ internal class RestSelectQueryTest {
     }
 
     @Test
+    @Disabled
     fun execute() {
         val mockQuery = mock<SelectQuery> {
             on { query() } doReturn "select * from processes limit 10"
