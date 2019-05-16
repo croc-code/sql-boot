@@ -23,12 +23,11 @@ internal class RestSelectQueryTest {
     }
 
     @Test
-    @Disabled
     fun execute() {
         val mockQuery = mock<SelectQuery> {
             on { query() } doReturn "select * from processes limit 10"
         }
-        val rows = RestSelectQuery(mockQuery, "http://5.8.181.165:8082")
+        val rows = RestSelectQuery(mockQuery, "http://81.23.10.106:8082")
                 .execute(hashMapOf())
                 .collectList()
                 .block()

@@ -130,7 +130,7 @@ class SqlResourceType(
         return if (properties["executor"] == "http") {
             RestSelectQuery(
                     baseQuery,
-                    endpoint = "http://5.8.181.165:8082"
+                    endpoint = "http://localhost:8082"
             )
         } else {
             JdbcSelectQuery(
