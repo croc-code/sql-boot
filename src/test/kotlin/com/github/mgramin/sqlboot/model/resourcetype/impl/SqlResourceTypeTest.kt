@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl
 
-import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import com.github.mgramin.sqlboot.model.dialect.FakeDialect
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
@@ -47,7 +47,7 @@ import reactor.test.StepVerifier
 @ContextConfiguration(locations = ["/test_config.xml"])
 class SqlResourceTypeTest {
 
-    private val db = SimpleDbConnection()
+    private val db = SimpleEndpoint()
 
     init {
         db.name = "unit_test_db"

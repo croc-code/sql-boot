@@ -24,10 +24,9 @@
 
 package com.github.mgramin.sqlboot.rest.controllers
 
-import com.github.mgramin.sqlboot.model.connection.CheckedConnection
-import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.Endpoint
 import com.github.mgramin.sqlboot.model.connection.DbConnectionList
-import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
@@ -52,23 +51,19 @@ import reactor.core.scheduler.Schedulers
 @CrossOrigin
 class DbConnectionsController @Autowired constructor(private val dbConnectionList: DbConnectionList) {
 
-    val allDbConnections: List<SimpleDbConnection>
+    val allDbConnections: List<SimpleEndpoint>
         @RequestMapping(value = ["/connections"])
         get() = dbConnectionList.connections
 
-    /*val allDbConnectionsByMask: List<SimpleDbConnection>
-        @RequestMapping(value = ["/connections"])
-        get() = dbConnectionList.connections*/
-
     @GetMapping(value = ["/connections/health"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     @ResponseBody
-    internal fun health(): Flux<DbConnection> {
+    internal fun health(): Flux<Endpoint> {
         return dbConnectionList
                 .connections
                 .toFlux()
                 .parallel()
                 .runOn(Schedulers.elastic())
-                .map { CheckedConnection(it) as DbConnection }
+                .map { it as Endpoint }
                 .sequential()
     }
 

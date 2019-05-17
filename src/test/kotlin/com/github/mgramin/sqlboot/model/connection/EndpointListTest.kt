@@ -38,7 +38,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @EnableAutoConfiguration
 @ContextConfiguration(classes = [DbConnectionList::class], initializers = [ConfigFileApplicationContextInitializer::class])
-internal class DbConnectionListTest {
+internal class EndpointListTest {
 
     @Autowired
     lateinit var dbConnectionList: DbConnectionList

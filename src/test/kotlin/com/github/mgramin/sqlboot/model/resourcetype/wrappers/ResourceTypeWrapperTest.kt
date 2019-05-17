@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.wrappers
 
-import com.github.mgramin.sqlboot.model.connection.FakeDbConnection
+import com.github.mgramin.sqlboot.model.connection.FakeEndpoint
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeResourceType
@@ -150,7 +150,7 @@ class ResourceTypeWrapperTest {
     @Nested
     internal inner class DbNameWrapperTest : BaseResourceWrapperTest() {
 
-        override fun getWrapper() = DbNameWrapper(FakeResourceType(), FakeDbConnection())
+        override fun getWrapper() = DbNameWrapper(FakeResourceType(), FakeEndpoint())
 
         @Test
         fun read() {

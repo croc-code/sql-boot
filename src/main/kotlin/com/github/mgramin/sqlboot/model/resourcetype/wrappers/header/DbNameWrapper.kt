@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.wrappers.header
 
-import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.Endpoint
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
@@ -32,7 +32,7 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 import reactor.core.publisher.Flux
 
 class DbNameWrapper(private val origin: ResourceType,
-                    private val dbConnection: DbConnection) : ResourceType {
+                    private val endpoint: Endpoint) : ResourceType {
 
     override fun aliases() = origin.aliases()
 
@@ -51,7 +51,7 @@ class DbNameWrapper(private val origin: ResourceType,
                             override fun body() = it.body()
                             override fun headers(): Map<String, Any> {
                                 val headers = it.headers().toMutableMap()
-                                headers["database"] = dbConnection.name()
+                                headers["database"] = endpoint.name()
                                 return headers
                             }
                         }

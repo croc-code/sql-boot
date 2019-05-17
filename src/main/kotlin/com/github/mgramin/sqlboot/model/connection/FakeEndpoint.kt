@@ -26,16 +26,12 @@ package com.github.mgramin.sqlboot.model.connection
 
 import javax.sql.DataSource
 
-class FakeDbConnection : DbConnection {
+class FakeEndpoint : Endpoint {
 
     override fun dialect() = "h2"
 
     override fun properties(): Map<String, Any> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun health(): String {
-        return "Ok"
     }
 
     override fun name(): String {

@@ -24,7 +24,7 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl
 
-import com.github.mgramin.sqlboot.model.connection.DbConnection
+import com.github.mgramin.sqlboot.model.connection.Endpoint
 import com.github.mgramin.sqlboot.model.dialect.Dialect
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resource.impl.DbResourceImpl
@@ -52,7 +52,7 @@ import reactor.core.publisher.Flux
 class SqlResourceType(
         private val aliases: List<String>,
         sql: String,
-        private val connections: List<DbConnection>,
+        private val connections: List<Endpoint>,
         private val dialects: List<Dialect>
 ) : ResourceType {
 
@@ -117,7 +117,7 @@ class SqlResourceType(
         return jsonObject
     }
 
-    private fun createQuery(uri: Uri, connection: DbConnection, specificDialect: String): SelectQuery {
+    private fun createQuery(uri: Uri, connection: Endpoint, specificDialect: String): SelectQuery {
         val properties = simpleSelectQuery.properties()
         val paginationQueryTemplate = dialects.first { it.name() == specificDialect }.paginationQueryTemplate()
         val baseQuery =

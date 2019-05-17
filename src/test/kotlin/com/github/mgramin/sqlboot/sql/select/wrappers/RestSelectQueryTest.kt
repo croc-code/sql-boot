@@ -23,6 +23,7 @@ internal class RestSelectQueryTest {
     }
 
     @Test
+    @Disabled
     fun execute() {
         val mockQuery = mock<SelectQuery> {
             on { query() } doReturn "select * from processes limit 10"

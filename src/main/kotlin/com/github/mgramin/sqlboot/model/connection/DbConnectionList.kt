@@ -36,7 +36,7 @@ import org.springframework.stereotype.Service
 @Service
 @Configuration
 @ConfigurationProperties(prefix = "conf")
-open class DbConnectionList(val connections: List<SimpleDbConnection>) {
+open class DbConnectionList(val connections: List<SimpleEndpoint>) {
 
     fun getConnectionByName(name: String) = connections.first { v -> v.name().equals(name, ignoreCase = true) }
 

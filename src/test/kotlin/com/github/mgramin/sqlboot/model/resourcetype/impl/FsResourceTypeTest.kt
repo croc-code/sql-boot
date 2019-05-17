@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
-import com.github.mgramin.sqlboot.model.connection.SimpleDbConnection
+import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import com.github.mgramin.sqlboot.model.dialect.FakeDialect
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -48,8 +48,8 @@ import reactor.test.StepVerifier
 @ContextConfiguration(locations = ["/test_config.xml"])
 class FsResourceTypeTest {
 
-    private val dbMd = SimpleDbConnection()
-    private val dbSql = SimpleDbConnection()
+    private val dbMd = SimpleEndpoint()
+    private val dbSql = SimpleEndpoint()
     private val connections = listOf(dbMd, dbSql)
 
     init {

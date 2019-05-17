@@ -34,7 +34,7 @@ import org.springframework.core.io.Resource
  * @version $Id: f221782080d430e77aed80ef8446745687c350f4 $
  * @since 0.1
  */
-open class SimpleDbConnection(
+open class SimpleEndpoint(
         var name: String? = null,
         @JsonIgnore var baseFolder: Resource? = null,
         var url: String? = null,
@@ -44,13 +44,11 @@ open class SimpleDbConnection(
         var properties: String? = null,
         var paginationQueryTemplate: String? = null,
         var dialect: String? = null
-) : DbConnection {
+) : Endpoint {
 
     override fun dialect() = this.dialect!!
 
     override fun name() = this.name!!
-
-    override fun health() = "UNKNOWN"
 
     private var dataSource: DataSource? = null
 

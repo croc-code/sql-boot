@@ -24,26 +24,16 @@
 
 package com.github.mgramin.sqlboot.model.connection
 
-class CheckedConnection(private val origin: DbConnection) : DbConnection {
-    private val health: String
+import javax.sql.DataSource
 
-    init {
-        health = try {
-            origin.getDataSource().connection
-            "Ok"
-        } catch (e: Exception) {
-            e.message.toString()
-        }
-    }
+interface Endpoint {
 
-    override fun name() = origin.name()
+    fun name(): String
 
-    override fun dialect() = origin.dialect()
+    fun dialect(): String
 
-    override fun properties() = origin.properties()
+    fun getDataSource(): DataSource
 
-    override fun health() = health
-
-    override fun getDataSource() = origin.getDataSource()
+    fun properties(): Map<String, Any>
 
 }
