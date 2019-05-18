@@ -75,7 +75,7 @@ class SqlResourceType(
                 connections
                         .map { connection ->
                             return@map createQuery(uri, connection, specificDialect
-                                    ?: connection.dialect()).execute(hashMapOf("uri" to uri))
+                                    ?: connection.properties()["sql.dialect"].toString()).execute(hashMapOf("uri" to uri))
                                     .map<Map<String, Any>?> {
                                         val toMutableMap = it.toMutableMap()
                                         toMutableMap["database"] = connection.name()

@@ -32,9 +32,6 @@ interface Endpoint {
 
     fun host(): String
 
-    @Deprecated("Move to properties")
-    fun dialect(): String
-
     @Deprecated("Move to SQLResourceType")
     fun getDataSource(): DataSource
 

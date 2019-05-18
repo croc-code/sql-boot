@@ -39,19 +39,12 @@ open class SimpleEndpoint(
         var name: String? = null,
         var host: String? = null,
         @JsonIgnore var baseFolder: Resource? = null,
-        var user: String? = null,
-        @JsonIgnore var password: String? = null,
-        var driverClassName: String? = null,
-        var properties: String? = null,
-        var paginationQueryTemplate: String? = null,
-        var dialect: String? = null
+        var properties: String? = null
 ) : Endpoint {
 
     override fun name() = name!!
 
     override fun host() = host!!
-
-    override fun dialect() = dialect!!
 
     override fun properties(): Map<String, Any> =
             Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
@@ -64,17 +57,17 @@ open class SimpleEndpoint(
             return dataSource!!
         } else {
             val dataSourceNew = DataSource()
-            if (driverClassName != null) {
-                dataSourceNew.driverClassName = driverClassName
+            if (properties()["jdbc.driver.class.name"] != null) {
+                dataSourceNew.driverClassName = properties()["jdbc.driver.class.name"].toString()
             }
             if (properties()["url"] != null) {
                 dataSourceNew.url = properties()["url"].toString()
             }
-            if (user != null) {
-                dataSourceNew.username = user
+            if (properties()["jdbc.user"] != null) {
+                dataSourceNew.username = properties()["jdbc.user"].toString()
             }
-            if (password != null) {
-                dataSourceNew.password = password
+            if (properties()["jdbc.password"] != null) {
+                dataSourceNew.password = properties()["jdbc.password"].toString()
             }
             dataSource = dataSourceNew
             return dataSourceNew

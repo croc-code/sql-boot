@@ -52,11 +52,10 @@ class SqlResourceTypeTest {
     init {
         db.name = "unit_test_db"
         db.host = "127.0.0.1"
-        db.dialect = "h2"
         db.baseFolder = FileSystemResource("conf/h2/database")
-        db.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
         db.properties = """
             {
+                "sql.dialect": "h2",
                 "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
             }
             """.trimIndent()

@@ -38,8 +38,6 @@ class FakeEndpoint : Endpoint {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun dialect() = "h2"
-
     override fun getDataSource(): DataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
