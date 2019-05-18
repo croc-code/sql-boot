@@ -46,13 +46,13 @@ internal class EndpointListTest {
     @ParameterizedTest
     @ValueSource(strings = ["test", "dev", "prod"])
     fun getConnectionByName(connectionName: String) {
-        assertEquals(connectionName, endpointList.getConnectionByName(connectionName).name())
+        assertEquals(connectionName, endpointList.getByName(connectionName).name())
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["test", "dev", "prod"])
     fun getConnectionsByMask(connectionMask: String) {
-        assertEquals(connectionMask, endpointList.getConnectionsByMask(connectionMask).first().name())
+        assertEquals(connectionMask, endpointList.getByMask(connectionMask).first().name())
     }
 
     @Test

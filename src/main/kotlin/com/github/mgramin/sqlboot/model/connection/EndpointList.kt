@@ -38,8 +38,8 @@ import org.springframework.stereotype.Service
 @ConfigurationProperties(prefix = "conf")
 open class EndpointList(val endpoints: List<SimpleEndpoint>) {
 
-    fun getConnectionByName(name: String) = endpoints.first { v -> v.name().equals(name, ignoreCase = true) }
+    fun getByName(name: String) = endpoints.first { v -> v.name().equals(name, ignoreCase = true) }
 
-    fun getConnectionsByMask(name: String) = endpoints.filter { v -> v.name().matches(name.toRegex()) }
+    fun getByMask(mask: String) = endpoints.filter { v -> v.name().matches(mask.toRegex()) }
 
 }

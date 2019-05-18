@@ -66,7 +66,7 @@ class ApiController {
     @RequestMapping(value = ["/api/{connectionName}/types"])
     fun types(@PathVariable connectionName: String): String {
         val jsonArray = JsonArray()
-        FsResourceType(endpointList.getConnectionsByMask(connectionName), emptyList())
+        FsResourceType(endpointList.getByMask(connectionName), emptyList())
                 .resourceTypes()
                 .forEach { jsonArray.add(it.toJson()) }
         return jsonArray.toString()
@@ -75,7 +75,7 @@ class ApiController {
     @RequestMapping(value = ["/api/{connectionName}/types/{typeMask}"])
     fun typesByMask(@PathVariable connectionName: String, @PathVariable typeMask: String): String {
         val jsonArray = JsonArray()
-        FsResourceType(endpointList.getConnectionsByMask(connectionName), emptyList())
+        FsResourceType(endpointList.getByMask(connectionName), emptyList())
                 .resourceTypes()
                 .filter { it.name().matches(wildcardToRegex(typeMask)) }
                 .forEach { jsonArray.add(it.toJson()) }
@@ -91,7 +91,7 @@ class ApiController {
         val jsonArray = JsonArray()
         val uri = SqlPlaceholdersWrapper(
                 DbUri("$connection/$type"))
-        FsResourceType(listOf(endpointList.getConnectionByName(uri.connection())), emptyList())
+        FsResourceType(listOf(endpointList.getByName(uri.connection())), emptyList())
                 .resourceTypes()
                 .asSequence()
                 .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
@@ -109,7 +109,7 @@ class ApiController {
         val jsonArray = JsonArray()
         val uri = SqlPlaceholdersWrapper(
                 DbUri("$connection/$type/$path"))
-        FsResourceType(listOf(endpointList.getConnectionByName(uri.connection())), emptyList())
+        FsResourceType(listOf(endpointList.getByName(uri.connection())), emptyList())
                 .resourceTypes()
                 .asSequence()
                 .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
@@ -134,7 +134,7 @@ class ApiController {
             getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri("$connection/$type/$path")))
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
-        val connections = endpointList.getConnectionsByMask(uri.connection())
+        val connections = endpointList.getByMask(uri.connection())
         try {
             val headers = FsResourceType(connections, dbDialectList.dialects)
                     .read(uri)

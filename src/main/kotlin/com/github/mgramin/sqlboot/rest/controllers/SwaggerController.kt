@@ -85,7 +85,7 @@ class SwaggerController {
 
     private fun getSwaggerDescription(request: HttpServletRequest, connectionName: String): Swagger {
         val fsResourceTypes = FsResourceType(
-                listOf(endpointList.getConnectionByName(connectionName)), emptyList())
+                listOf(endpointList.getByName(connectionName)), emptyList())
         val resourceTypes = fsResourceTypes.resourceTypes()
         val swagger = Swagger()
 
