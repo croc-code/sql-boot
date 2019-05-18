@@ -44,20 +44,20 @@ internal class EndpointListTest {
     lateinit var endpointList: EndpointList
 
     @ParameterizedTest
-    @ValueSource(strings = ["test", "dev", "prod"])
+    @ValueSource(strings = ["h2"])
     fun getConnectionByName(connectionName: String) {
         assertEquals(connectionName, endpointList.getByName(connectionName).name())
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["test", "dev", "prod"])
+    @ValueSource(strings = ["h2"])
     fun getConnectionsByMask(connectionMask: String) {
         assertEquals(connectionMask, endpointList.getByMask(connectionMask).first().name())
     }
 
     @Test
     fun getConnections() {
-        assertEquals(4, endpointList.endpoints.count())
+        assertEquals(1, endpointList.endpoints.count())
     }
 
 }

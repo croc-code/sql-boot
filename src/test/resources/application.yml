@@ -17,45 +17,6 @@ conf:
           "visible": false,
           "description": "Embedded db for unit tests only"
         }
-    - name: dev
-      host: 127.0.0.1
-      dialect: h2
-      baseFolder: file:conf/h2/md/database
-      driverClassName: org.h2.Driver
-      properties: >
-        {
-          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-          "visible": false,
-          "color": "green",
-          "description": "Develop demo db",
-          "css_class": "fas fa-fw fa-2x fa-tools"
-        }
-    - name: test
-      host: 127.0.0.1
-      dialect: h2
-      baseFolder: file:conf/h2/md/database
-      driverClassName: org.h2.Driver
-      properties: >
-        {
-          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-          "visible": false,
-          "color": "orange",
-          "description": "Testing demo db",
-          "css_class": "fas fa-fw fa-2x fa-bug"
-        }
-    - name: prod
-      host: 127.0.0.1
-      dialect: h2
-      baseFolder: file:conf/h2/md/database
-      driverClassName: org.h2.Driver
-      properties: >
-        {
-          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-          "visible": false,
-          "color": "red",
-          "description": "Production demo db",
-          "css_class": "fas fa-fw fa-2x fa-bicycle"
-        }
 
 spring:
   jmx:
