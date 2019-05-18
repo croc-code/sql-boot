@@ -30,6 +30,8 @@ interface Endpoint {
 
     fun name(): String
 
+    fun host(): String
+
     @Deprecated("Move to properties")
     fun dialect(): String
 

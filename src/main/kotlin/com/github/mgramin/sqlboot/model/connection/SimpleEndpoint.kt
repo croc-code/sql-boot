@@ -25,10 +25,10 @@
 package com.github.mgramin.sqlboot.model.connection
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.apache.tomcat.jdbc.pool.DataSource
-import org.springframework.core.io.Resource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.apache.tomcat.jdbc.pool.DataSource
+import org.springframework.core.io.Resource
 
 
 /**
@@ -47,9 +47,13 @@ open class SimpleEndpoint(
         var dialect: String? = null
 ) : Endpoint {
 
-    override fun dialect() = this.dialect!!
-
     override fun name() = this.name!!
+
+    override fun host(): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun dialect() = this.dialect!!
 
     private var dataSource: DataSource? = null
 

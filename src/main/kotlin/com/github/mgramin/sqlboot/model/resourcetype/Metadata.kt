@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import java.util.HashMap
+import java.util.*
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 data class Metadata(
@@ -51,7 +51,7 @@ data class Metadata(
      */
     fun toJson(): JsonObject {
         val jsonObject = JsonObject()
-        val toJson: JsonElement = Gson().toJsonTree (properties)
+        val toJson: JsonElement = Gson().toJsonTree(properties)
         jsonObject.addProperty("name", name.replace("@", ""))
         jsonObject.addProperty("description", description)
         jsonObject.add("properties", toJson)

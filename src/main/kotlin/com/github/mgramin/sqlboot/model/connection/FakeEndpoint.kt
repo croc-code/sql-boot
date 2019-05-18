@@ -28,15 +28,17 @@ import javax.sql.DataSource
 
 class FakeEndpoint : Endpoint {
 
-    override fun dialect() = "h2"
+    override fun name() = "Simple fake connection"
+
+    override fun host(): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun properties(): Map<String, Any> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun name(): String {
-        return "Simple fake connection"
-    }
+    override fun dialect() = "h2"
 
     override fun getDataSource(): DataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
