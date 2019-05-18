@@ -53,8 +53,8 @@ class SqlResourceTypeTest {
         db.name = "unit_test_db"
         db.dialect = "h2"
         db.baseFolder = FileSystemResource("conf/h2/database")
-        db.url = "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
         db.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
+        db.properties = """{ "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';" }"""
     }
 
     @Test

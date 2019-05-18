@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers
 
 import com.github.mgramin.sqlboot.exceptions.BootException
-import com.github.mgramin.sqlboot.model.connection.DbConnectionList
+import com.github.mgramin.sqlboot.model.connection.EndpointList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletRequest
 class ApiController {
 
     @Autowired
-    private lateinit var dbConnectionList: DbConnectionList
+    private lateinit var endpointList: EndpointList
 
     @Autowired
     private lateinit var dbDialectList: DbDialectList
@@ -66,7 +66,7 @@ class ApiController {
     @RequestMapping(value = ["/api/{connectionName}/types"])
     fun types(@PathVariable connectionName: String): String {
         val jsonArray = JsonArray()
-        FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList())
+        FsResourceType(endpointList.getConnectionsByMask(connectionName), emptyList())
                 .resourceTypes()
                 .forEach { jsonArray.add(it.toJson()) }
         return jsonArray.toString()
@@ -75,7 +75,7 @@ class ApiController {
     @RequestMapping(value = ["/api/{connectionName}/types/{typeMask}"])
     fun typesByMask(@PathVariable connectionName: String, @PathVariable typeMask: String): String {
         val jsonArray = JsonArray()
-        FsResourceType(dbConnectionList.getConnectionsByMask(connectionName), emptyList())
+        FsResourceType(endpointList.getConnectionsByMask(connectionName), emptyList())
                 .resourceTypes()
                 .filter { it.name().matches(wildcardToRegex(typeMask)) }
                 .forEach { jsonArray.add(it.toJson()) }
@@ -91,7 +91,7 @@ class ApiController {
         val jsonArray = JsonArray()
         val uri = SqlPlaceholdersWrapper(
                 DbUri("$connection/$type"))
-        FsResourceType(listOf(dbConnectionList.getConnectionByName(uri.connection())), emptyList())
+        FsResourceType(listOf(endpointList.getConnectionByName(uri.connection())), emptyList())
                 .resourceTypes()
                 .asSequence()
                 .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
@@ -109,7 +109,7 @@ class ApiController {
         val jsonArray = JsonArray()
         val uri = SqlPlaceholdersWrapper(
                 DbUri("$connection/$type/$path"))
-        FsResourceType(listOf(dbConnectionList.getConnectionByName(uri.connection())), emptyList())
+        FsResourceType(listOf(endpointList.getConnectionByName(uri.connection())), emptyList())
                 .resourceTypes()
                 .asSequence()
                 .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
@@ -134,7 +134,7 @@ class ApiController {
             getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri("$connection/$type/$path")))
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
-        val connections = dbConnectionList.getConnectionsByMask(uri.connection())
+        val connections = endpointList.getConnectionsByMask(uri.connection())
         try {
             val headers = FsResourceType(connections, dbDialectList.dialects)
                     .read(uri)

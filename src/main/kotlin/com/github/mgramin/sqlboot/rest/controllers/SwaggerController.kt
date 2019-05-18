@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.github.mgramin.sqlboot.model.connection.DbConnectionList
+import com.github.mgramin.sqlboot.model.connection.EndpointList
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import io.swagger.models.Info
 import io.swagger.models.ModelImpl
@@ -56,7 +56,7 @@ import javax.servlet.http.HttpServletRequest
 class SwaggerController {
 
     @Autowired
-    private lateinit var dbConnectionList: DbConnectionList
+    private lateinit var endpointList: EndpointList
 
 
     @RequestMapping(method = [RequestMethod.GET, RequestMethod.POST], path = ["/api"], produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -92,7 +92,7 @@ class SwaggerController {
 
     private fun getSwaggerDescription(request: HttpServletRequest, connectionName: String): Swagger {
         val fsResourceTypes = FsResourceType(
-                listOf(dbConnectionList.getConnectionByName(connectionName)), emptyList())
+                listOf(endpointList.getConnectionByName(connectionName)), emptyList())
         val resourceTypes = fsResourceTypes.resourceTypes()
         val swagger = Swagger()
 
@@ -102,9 +102,9 @@ class SwaggerController {
         swagger.info = Info().version("v1").title("API specification")
         swagger.schemes = Arrays.asList(Scheme.HTTP, Scheme.HTTPS)
 
-        swagger.path("/connections",
+        swagger.path("/endpoints",
                 Path().get(Operation()
-                        .tag("connections")
+                        .tag("endpoints")
                         .response(200,
                                 Response()
                                         .description("Ok")

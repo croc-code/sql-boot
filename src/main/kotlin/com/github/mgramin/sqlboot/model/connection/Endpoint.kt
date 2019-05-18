@@ -30,8 +30,10 @@ interface Endpoint {
 
     fun name(): String
 
+    @Deprecated("Move to properties")
     fun dialect(): String
 
+    @Deprecated("Move to SQLResourceType")
     fun getDataSource(): DataSource
 
     fun properties(): Map<String, Any>

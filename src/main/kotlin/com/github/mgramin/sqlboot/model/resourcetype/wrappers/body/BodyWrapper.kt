@@ -30,7 +30,6 @@ import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
-import org.json.JSONObject
 import reactor.core.publisher.Flux
 
 /**

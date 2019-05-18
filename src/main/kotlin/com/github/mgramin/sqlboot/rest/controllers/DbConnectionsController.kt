@@ -25,7 +25,7 @@
 package com.github.mgramin.sqlboot.rest.controllers
 
 import com.github.mgramin.sqlboot.model.connection.Endpoint
-import com.github.mgramin.sqlboot.model.connection.DbConnectionList
+import com.github.mgramin.sqlboot.model.connection.EndpointList
 import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -49,17 +49,17 @@ import reactor.core.scheduler.Schedulers
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot.model.resource_type"])
 @EnableAutoConfiguration
 @CrossOrigin
-class DbConnectionsController @Autowired constructor(private val dbConnectionList: DbConnectionList) {
+class DbConnectionsController @Autowired constructor(private val endpointList: EndpointList) {
 
     val allDbConnections: List<SimpleEndpoint>
-        @RequestMapping(value = ["/connections"])
-        get() = dbConnectionList.connections
+        @RequestMapping(value = ["/endpoints"])
+        get() = endpointList.endpoints
 
-    @GetMapping(value = ["/connections/health"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
+    @GetMapping(value = ["/endpoints/health"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     @ResponseBody
     internal fun health(): Flux<Endpoint> {
-        return dbConnectionList
-                .connections
+        return endpointList
+                .endpoints
                 .toFlux()
                 .parallel()
                 .runOn(Schedulers.elastic())

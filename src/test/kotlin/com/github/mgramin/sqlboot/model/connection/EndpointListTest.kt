@@ -37,27 +37,27 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @EnableAutoConfiguration
-@ContextConfiguration(classes = [DbConnectionList::class], initializers = [ConfigFileApplicationContextInitializer::class])
+@ContextConfiguration(classes = [EndpointList::class], initializers = [ConfigFileApplicationContextInitializer::class])
 internal class EndpointListTest {
 
     @Autowired
-    lateinit var dbConnectionList: DbConnectionList
+    lateinit var endpointList: EndpointList
 
     @ParameterizedTest
     @ValueSource(strings = ["test", "dev", "prod"])
     fun getConnectionByName(connectionName: String) {
-        assertEquals(connectionName, dbConnectionList.getConnectionByName(connectionName).name())
+        assertEquals(connectionName, endpointList.getConnectionByName(connectionName).name())
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["test", "dev", "prod"])
     fun getConnectionsByMask(connectionMask: String) {
-        assertEquals(connectionMask, dbConnectionList.getConnectionsByMask(connectionMask).first().name())
+        assertEquals(connectionMask, endpointList.getConnectionsByMask(connectionMask).first().name())
     }
 
     @Test
     fun getConnections() {
-        assertEquals(4, dbConnectionList.connections.count())
+        assertEquals(4, endpointList.endpoints.count())
     }
 
 }

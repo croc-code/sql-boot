@@ -26,8 +26,10 @@ package com.github.mgramin.sqlboot.model.connection
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.apache.tomcat.jdbc.pool.DataSource
-import org.json.JSONObject
 import org.springframework.core.io.Resource
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -37,7 +39,6 @@ import org.springframework.core.io.Resource
 open class SimpleEndpoint(
         var name: String? = null,
         @JsonIgnore var baseFolder: Resource? = null,
-        var url: String? = null,
         var user: String? = null,
         @JsonIgnore var password: String? = null,
         var driverClassName: String? = null,
@@ -52,7 +53,9 @@ open class SimpleEndpoint(
 
     private var dataSource: DataSource? = null
 
-    override fun properties() = JSONObject(properties).toMap()
+    override fun properties(): Map<String, Any> {
+        return Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
+    }
 
 
     @JsonIgnore
@@ -64,8 +67,8 @@ open class SimpleEndpoint(
             if (driverClassName != null) {
                 dataSourceNew.driverClassName = driverClassName
             }
-            if (url != null) {
-                dataSourceNew.url = url
+            if (properties()["url"] != null) {
+                dataSourceNew.url = properties()["url"].toString()
             }
             if (user != null) {
                 dataSourceNew.username = user

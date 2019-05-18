@@ -5,24 +5,24 @@ conf:
       paginationQueryTemplate: >
         ${query} offset ${uri.pageSize()*(uri.pageNumber()-1)} limit ${uri.pageSize()}
 
-  connections:
+  endpoints:
     - name: h2
       dialect: h2
       baseFolder: file:conf/h2/md/database
-      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
         {
+          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
           "visible": false,
           "description": "Embedded db for unit tests only"
         }
     - name: dev
       dialect: h2
       baseFolder: file:conf/h2/md/database
-      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
         {
+          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
           "visible": false,
           "color": "green",
           "description": "Develop demo db",
@@ -31,10 +31,10 @@ conf:
     - name: test
       dialect: h2
       baseFolder: file:conf/h2/md/database
-      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
         {
+          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
           "visible": false,
           "color": "orange",
           "description": "Testing demo db",
@@ -43,10 +43,10 @@ conf:
     - name: prod
       dialect: h2
       baseFolder: file:conf/h2/md/database
-      url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
       driverClassName: org.h2.Driver
       properties: >
         {
+          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
           "visible": false,
           "color": "red",
           "description": "Production demo db",
