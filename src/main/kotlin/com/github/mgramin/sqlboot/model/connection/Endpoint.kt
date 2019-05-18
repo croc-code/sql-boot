@@ -32,9 +32,9 @@ interface Endpoint {
 
     fun host(): String
 
+    fun properties(): Map<String, Any>
+
     @Deprecated("Move to SQLResourceType")
     fun getDataSource(): DataSource
-
-    fun properties(): Map<String, Any>
 
 }

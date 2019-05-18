@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import reactor.test.StepVerifier
@@ -55,9 +54,9 @@ class FsResourceTypeTest {
     init {
         dbMd.name = "unit_test_db_md"
         dbMd.host = "127.0.0.1"
-        dbMd.baseFolder = "conf/h2/md/database"
         dbMd.properties = """
             {
+                "fs.base.folder": "conf/h2/md/database",
                 "sql.dialect": "h2",
                 "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
             }
@@ -65,9 +64,9 @@ class FsResourceTypeTest {
 
         dbSql.name = "unit_test_db_sql"
         dbSql.host = "127.0.0.1"
-        dbSql.baseFolder = "conf/h2/sql/database"
         dbSql.properties = """
             {
+                "fs.base.folder": "conf/h2/sql/database",
                 "sql.dialect": "h2",
                 "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
             }

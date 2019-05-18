@@ -13,7 +13,7 @@ conf:
       properties: >
         {
           "sql.dialect": "h2",
-          "fs.base.folder": "file:conf/h2/md/database",
+          "fs.base.folder": "conf/h2/md/database",
           "jdbc.driver.class.name": "org.h2.Driver",
           "jdbc.user": "",
           "jdbc.password": "",

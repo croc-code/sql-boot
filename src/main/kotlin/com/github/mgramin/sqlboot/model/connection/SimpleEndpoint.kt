@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.apache.tomcat.jdbc.pool.DataSource
-import org.springframework.core.io.Resource
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -38,7 +37,6 @@ import org.springframework.core.io.Resource
 open class SimpleEndpoint(
         var name: String? = null,
         var host: String? = null,
-        @JsonIgnore var baseFolder: String? = null,
         var properties: String? = null
 ) : Endpoint {
 

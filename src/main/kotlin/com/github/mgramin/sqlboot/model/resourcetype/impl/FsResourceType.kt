@@ -55,7 +55,7 @@ class FsResourceType(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private val resourceTypes: List<ResourceType> = walk(FileSystemResource(dbConnections.first().baseFolder!!).file.path)
+    private val resourceTypes: List<ResourceType> = walk(FileSystemResource(dbConnections.first().properties()["fs.base.folder"].toString()).file.path)
 
     private fun walk(path: String) =
             File(path)

@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.core.io.FileSystemResource
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import reactor.test.StepVerifier
@@ -52,7 +51,6 @@ class SqlResourceTypeTest {
     init {
         db.name = "unit_test_db"
         db.host = "127.0.0.1"
-        db.baseFolder = "conf/h2/database"
         db.properties = """
             {
                 "sql.dialect": "h2",
