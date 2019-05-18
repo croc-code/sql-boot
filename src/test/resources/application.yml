@@ -7,6 +7,7 @@ conf:
 
   endpoints:
     - name: h2
+      host: 127.0.0.1
       dialect: h2
       baseFolder: file:conf/h2/md/database
       driverClassName: org.h2.Driver
@@ -17,6 +18,7 @@ conf:
           "description": "Embedded db for unit tests only"
         }
     - name: dev
+      host: 127.0.0.1
       dialect: h2
       baseFolder: file:conf/h2/md/database
       driverClassName: org.h2.Driver
@@ -29,6 +31,7 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-tools"
         }
     - name: test
+      host: 127.0.0.1
       dialect: h2
       baseFolder: file:conf/h2/md/database
       driverClassName: org.h2.Driver
@@ -41,6 +44,7 @@ conf:
           "css_class": "fas fa-fw fa-2x fa-bug"
         }
     - name: prod
+      host: 127.0.0.1
       dialect: h2
       baseFolder: file:conf/h2/md/database
       driverClassName: org.h2.Driver

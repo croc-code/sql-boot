@@ -54,16 +54,26 @@ class FsResourceTypeTest {
 
     init {
         dbMd.name = "unit_test_db_md"
+        dbMd.host = "127.0.0.1"
         dbMd.dialect = "h2"
         dbMd.baseFolder = FileSystemResource("conf/h2/md/database")
         dbMd.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
-        dbMd.properties = """{ "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';" }"""
+        dbMd.properties = """
+            {
+                "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+            }
+            """.trimIndent()
 
         dbSql.name = "unit_test_db_sql"
+        dbSql.host = "127.0.0.1"
         dbSql.dialect = "h2"
         dbSql.baseFolder = FileSystemResource("conf/h2/sql/database")
         dbSql.paginationQueryTemplate = "${'$'}{query} offset ${'$'}{uri.pageSize()*(uri.pageNumber()-1)} limit ${'$'}{uri.pageSize()}"
-        dbSql.properties = """{ "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';" }"""
+        dbSql.properties = """
+            {
+                "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+            }
+            """.trimIndent()
     }
 
     @ParameterizedTest

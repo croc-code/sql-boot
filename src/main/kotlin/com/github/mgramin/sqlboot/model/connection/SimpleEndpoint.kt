@@ -30,7 +30,6 @@ import com.google.gson.reflect.TypeToken
 import org.apache.tomcat.jdbc.pool.DataSource
 import org.springframework.core.io.Resource
 
-
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
  * @version $Id: f221782080d430e77aed80ef8446745687c350f4 $
@@ -38,6 +37,7 @@ import org.springframework.core.io.Resource
  */
 open class SimpleEndpoint(
         var name: String? = null,
+        var host: String? = null,
         @JsonIgnore var baseFolder: Resource? = null,
         var user: String? = null,
         @JsonIgnore var password: String? = null,
@@ -47,20 +47,16 @@ open class SimpleEndpoint(
         var dialect: String? = null
 ) : Endpoint {
 
-    override fun name() = this.name!!
+    override fun name() = name!!
 
-    override fun host(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun host() = host!!
 
-    override fun dialect() = this.dialect!!
+    override fun dialect() = dialect!!
+
+    override fun properties(): Map<String, Any> =
+            Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
 
     private var dataSource: DataSource? = null
-
-    override fun properties(): Map<String, Any> {
-        return Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
-    }
-
 
     @JsonIgnore
     override fun getDataSource(): DataSource {
