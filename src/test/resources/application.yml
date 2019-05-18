@@ -9,11 +9,11 @@ conf:
     - name: h2
       host: 127.0.0.1
       dialect: h2
-      baseFolder: file:conf/h2/md/database
+      baseFolder: conf/h2/md/database
       properties: >
         {
           "sql.dialect": "h2",
-          "sql.base.folder": "file:conf/h2/md/database",
+          "fs.base.folder": "file:conf/h2/md/database",
           "jdbc.driver.class.name": "org.h2.Driver",
           "jdbc.user": "",
           "jdbc.password": "",

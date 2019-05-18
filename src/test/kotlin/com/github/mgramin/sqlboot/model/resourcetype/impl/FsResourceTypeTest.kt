@@ -55,7 +55,7 @@ class FsResourceTypeTest {
     init {
         dbMd.name = "unit_test_db_md"
         dbMd.host = "127.0.0.1"
-        dbMd.baseFolder = FileSystemResource("conf/h2/md/database")
+        dbMd.baseFolder = "conf/h2/md/database"
         dbMd.properties = """
             {
                 "sql.dialect": "h2",
@@ -65,7 +65,7 @@ class FsResourceTypeTest {
 
         dbSql.name = "unit_test_db_sql"
         dbSql.host = "127.0.0.1"
-        dbSql.baseFolder = FileSystemResource("conf/h2/sql/database")
+        dbSql.baseFolder = "conf/h2/sql/database"
         dbSql.properties = """
             {
                 "sql.dialect": "h2",

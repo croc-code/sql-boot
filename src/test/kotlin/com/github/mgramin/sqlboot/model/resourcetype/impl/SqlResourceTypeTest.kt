@@ -52,7 +52,7 @@ class SqlResourceTypeTest {
     init {
         db.name = "unit_test_db"
         db.host = "127.0.0.1"
-        db.baseFolder = FileSystemResource("conf/h2/database")
+        db.baseFolder = "conf/h2/database"
         db.properties = """
             {
                 "sql.dialect": "h2",

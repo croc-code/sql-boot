@@ -38,7 +38,7 @@ import org.springframework.core.io.Resource
 open class SimpleEndpoint(
         var name: String? = null,
         var host: String? = null,
-        @JsonIgnore var baseFolder: Resource? = null,
+        @JsonIgnore var baseFolder: String? = null,
         var properties: String? = null
 ) : Endpoint {
 

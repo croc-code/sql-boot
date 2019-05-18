@@ -38,6 +38,7 @@ import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerato
 import com.github.mgramin.sqlboot.tools.files.file.impl.MarkdownFile
 import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import com.google.gson.JsonObject
+import org.springframework.core.io.FileSystemResource
 import reactor.core.publisher.Flux
 import java.io.File
 import java.nio.charset.Charset
@@ -54,7 +55,7 @@ class FsResourceType(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private val resourceTypes: List<ResourceType> = walk(dbConnections.first().baseFolder!!.file.path)
+    private val resourceTypes: List<ResourceType> = walk(FileSystemResource(dbConnections.first().baseFolder!!).file.path)
 
     private fun walk(path: String) =
             File(path)
