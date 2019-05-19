@@ -54,7 +54,8 @@ class SqlResourceTypeTest {
         db.properties = """
             {
                 "sql.dialect": "h2",
-                "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+                "jdbc.url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+                "jdbc.driver.class.name": "org.h2.Driver"
             }
             """.trimIndent()
     }
@@ -153,7 +154,7 @@ class SqlResourceTypeTest {
             SqlResourceType(
                     aliases = arrayListOf(type),
                     sql = sql,
-                    connections = listOf(db),
+                    endpoints = listOf(db),
                     dialects = listOf(FakeDialect()))
 
 }

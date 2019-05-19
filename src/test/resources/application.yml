@@ -8,16 +8,15 @@ conf:
   endpoints:
     - name: h2
       host: 127.0.0.1
-      dialect: h2
-      baseFolder: conf/h2/md/database
       properties: >
         {
           "sql.dialect": "h2",
           "fs.base.folder": "conf/h2/md/database",
+          "jdbc.url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
           "jdbc.driver.class.name": "org.h2.Driver",
           "jdbc.user": "",
           "jdbc.password": "",
-          "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+          "os.query.rest.port": "8082",
           "visible": false,
           "description": "Embedded db for unit tests only"
         }

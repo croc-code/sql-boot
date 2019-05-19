@@ -58,7 +58,8 @@ class FsResourceTypeTest {
             {
                 "fs.base.folder": "conf/h2/md/database",
                 "sql.dialect": "h2",
-                "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+                "jdbc.url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+                "jdbc.driver.class.name": "org.h2.Driver"
             }
             """.trimIndent()
 
@@ -68,7 +69,8 @@ class FsResourceTypeTest {
             {
                 "fs.base.folder": "conf/h2/sql/database",
                 "sql.dialect": "h2",
-                "url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';"
+                "jdbc.url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+                "jdbc.driver.class.name": "org.h2.Driver"
             }
             """.trimIndent()
     }

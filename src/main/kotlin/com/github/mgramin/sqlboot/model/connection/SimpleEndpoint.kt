@@ -51,24 +51,16 @@ open class SimpleEndpoint(
 
     @JsonIgnore
     override fun getDataSource(): DataSource {
-        if (dataSource != null) {
-            return dataSource!!
+        return if (dataSource != null) {
+            dataSource!!
         } else {
             val dataSourceNew = DataSource()
-            if (properties()["jdbc.driver.class.name"] != null) {
-                dataSourceNew.driverClassName = properties()["jdbc.driver.class.name"].toString()
-            }
-            if (properties()["url"] != null) {
-                dataSourceNew.url = properties()["url"].toString()
-            }
-            if (properties()["jdbc.user"] != null) {
-                dataSourceNew.username = properties()["jdbc.user"].toString()
-            }
-            if (properties()["jdbc.password"] != null) {
-                dataSourceNew.password = properties()["jdbc.password"].toString()
-            }
+            dataSourceNew.driverClassName = properties()["jdbc.driver.class.name"].toString()
+            dataSourceNew.url = properties()["jdbc.url"].toString()
+            dataSourceNew.username = properties()["jdbc.user"].toString()
+            dataSourceNew.password = properties()["jdbc.password"].toString()
             dataSource = dataSourceNew
-            return dataSourceNew
+            dataSourceNew
         }
     }
 

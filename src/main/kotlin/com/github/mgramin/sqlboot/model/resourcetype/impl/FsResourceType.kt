@@ -37,7 +37,6 @@ import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import com.github.mgramin.sqlboot.tools.files.file.impl.MarkdownFile
 import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
-import com.google.gson.JsonObject
 import org.springframework.core.io.FileSystemResource
 import reactor.core.publisher.Flux
 import java.io.File
@@ -48,14 +47,32 @@ import java.nio.charset.StandardCharsets.UTF_8
  * Created by MGramin on 11.07.2017.
  */
 class FsResourceType(
-        private val dbConnections: List<SimpleEndpoint>,
+        private val endpoints: List<SimpleEndpoint>,
         private val dialects: List<Dialect>
 ) : ResourceType {
-    override fun toJson(): JsonObject {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    private val resourceTypes: List<ResourceType> = walk(FileSystemResource(dbConnections.first().properties()["fs.base.folder"].toString()).file.path)
+    override fun aliases() = throw BootException("Not implemented!")
+
+    override fun path() = throw BootException("Not implemented!")
+
+    override fun read(uri: Uri) =
+            Flux.merge(
+                    resourceTypes
+                            .filter { it.name().matches(wildcardToRegex(uri)) }
+                            .map { it.read(uri) })
+
+    override fun metaData(uri: Uri): List<Metadata> =
+            resourceTypes
+                    .filter { it.name().matches(wildcardToRegex(uri)) }
+                    .flatMap { it.metaData(uri) }
+
+    override fun toJson() = throw BootException("Not implemented!")
+
+    @Deprecated("")
+    fun resourceTypes() = resourceTypes
+
+    private val resourceTypes: List<ResourceType> =
+            walk(FileSystemResource(endpoints.first().properties()["fs.base.folder"].toString()).file.path)
 
     private fun walk(path: String) =
             File(path)
@@ -75,28 +92,11 @@ class FsResourceType(
                                             SqlResourceType(
                                                     aliases = listOf(File(it.name()).nameWithoutExtension),
                                                     sql = it.content().toString(Charset.defaultCharset()),
-                                                    connections = dbConnections,
+                                                    endpoints = endpoints,
                                                     dialects = dialects),
                                             templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))))
 
-    @Deprecated("")
-    fun resourceTypes() = resourceTypes
-
-    override fun aliases() = throw BootException("Not implemented!")
-
-    override fun path() = throw BootException("Not implemented!")
-
-    override fun read(uri: Uri) =
-            Flux.merge(
-                    resourceTypes
-                            .filter { it.name().matches(wildcardToRegex(uri)) }
-                            .map { it.read(uri) })
-
-    override fun metaData(uri: Uri): List<Metadata> =
-            resourceTypes
-                    .filter { it.name().matches(wildcardToRegex(uri)) }
-                    .flatMap { it.metaData(uri) }
-
-    private fun wildcardToRegex(uri: Uri) = uri.type().replace("?", ".?").replace("*", ".*?").toRegex()
+    private fun wildcardToRegex(uri: Uri) =
+            uri.type().replace("?", ".?").replace("*", ".*?").toRegex()
 
 }

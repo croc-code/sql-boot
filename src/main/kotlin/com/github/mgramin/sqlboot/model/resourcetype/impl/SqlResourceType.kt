@@ -52,7 +52,7 @@ import reactor.core.publisher.Flux
 class SqlResourceType(
         private val aliases: List<String>,
         sql: String,
-        private val connections: List<Endpoint>,
+        private val endpoints: List<Endpoint>,
         private val dialects: List<Dialect>
 ) : ResourceType {
 
@@ -72,7 +72,7 @@ class SqlResourceType(
     override fun read(uri: Uri): Flux<DbResource> {
         val specificDialect = simpleSelectQuery.properties()["dialect"]
         return Flux.merge(
-                connections
+                endpoints
                         .map { connection ->
                             return@map createQuery(uri, connection, specificDialect
                                     ?: connection.properties()["sql.dialect"].toString()).execute(hashMapOf("uri" to uri))
@@ -117,9 +117,8 @@ class SqlResourceType(
         return jsonObject
     }
 
-    private fun createQuery(uri: Uri, connection: Endpoint, specificDialect: String): SelectQuery {
-        val properties = simpleSelectQuery.properties()
-        val paginationQueryTemplate = dialects.first { it.name() == specificDialect }.paginationQueryTemplate()
+    private fun createQuery(uri: Uri, endpoint: Endpoint, dialect: String): SelectQuery {
+        val paginationQueryTemplate = dialects.first { it.name() == dialect }.paginationQueryTemplate()
         val baseQuery =
                 PaginatedSelectQuery(
                         OrderedSelectQuery(
@@ -127,16 +126,14 @@ class SqlResourceType(
                                 uri.orderedColumns()),
                         uri,
                         paginationQueryTemplate)
-        return if (properties["executor"] == "http") {
+        return if (simpleSelectQuery.properties()["executor"] == "http") {
             RestSelectQuery(
                     baseQuery,
-                    endpoint = "http://localhost:8082"
-            )
+                    endpoint = "http://${endpoint.host()}:${endpoint.properties()["os.query.rest.port"]}")
         } else {
             JdbcSelectQuery(
                     baseQuery,
-                    dataSource = connection.getDataSource()
-            )
+                    dataSource = endpoint.getDataSource())
         }
     }
 
