@@ -34,5 +34,4 @@ deploy:
   name: v0.3.0
   overwrite: true
   on:
-    all_branches: true
     tags: false
