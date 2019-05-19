@@ -27,6 +27,7 @@ before_deploy:
 
 deploy:
   provider: releases
+  branch: master
   api_key: $GITHUB_TOKEN
   file: target/sql-boot.zip
   skip_cleanup: true
