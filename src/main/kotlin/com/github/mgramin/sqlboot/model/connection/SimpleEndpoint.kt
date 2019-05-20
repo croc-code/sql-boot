@@ -47,6 +47,9 @@ open class SimpleEndpoint(
     override fun properties(): Map<String, Any> =
             Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
 
+    fun getProperties(): Map<String, Any> =
+            Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
+
     private var dataSource: DataSource? = null
 
     @JsonIgnore
