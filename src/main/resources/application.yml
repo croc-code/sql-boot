@@ -37,7 +37,6 @@ conf:
           "jdbc.user": "postgres",
           "jdbc.password": "postgres",
           "os.query.rest.port": "8082",
-          "visible": false,
           "description": "Embedded db for unit tests only"
         }
 

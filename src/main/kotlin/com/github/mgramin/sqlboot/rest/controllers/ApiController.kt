@@ -123,15 +123,27 @@ class ApiController {
     @RequestMapping(value = ["/api/{connection}/{type}"], method = [GET, POST])
     fun getResourcesHeadersJson(@PathVariable connection: String,
                                 @PathVariable type: String,
-                                request: HttpServletRequest) =
-            getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri("$connection/$type")))
+                                request: HttpServletRequest): ResponseEntity<List<Map<String, Any>>> {
+        val uriString = if (request.queryString != null) {
+            "$connection/$type?${request.queryString}"
+        } else {
+            "$connection/$type"
+        }
+        return getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri(uriString)))
+    }
 
     @RequestMapping(value = ["/api/{connection}/{type}/{path}"], method = [GET, POST])
     fun getResourcesHeadersJson(@PathVariable connection: String,
                                 @PathVariable type: String,
                                 @PathVariable path: String,
-                                request: HttpServletRequest) =
-            getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri("$connection/$type/$path")))
+                                request: HttpServletRequest): ResponseEntity<List<Map<String, Any>>> {
+        val uriString = if (request.queryString != null) {
+            "$connection/$type/$path?${request.queryString}"
+        } else {
+            "$connection/$type/$path"
+        }
+        return getListResponseEntityHeaders(SqlPlaceholdersWrapper(DbUri(uriString)))
+    }
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
         val connections = endpointList.getByMask(uri.connection())

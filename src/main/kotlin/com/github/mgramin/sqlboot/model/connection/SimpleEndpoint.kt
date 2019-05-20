@@ -62,6 +62,10 @@ open class SimpleEndpoint(
             dataSourceNew.url = properties()["jdbc.url"].toString()
             dataSourceNew.username = properties()["jdbc.user"].toString()
             dataSourceNew.password = properties()["jdbc.password"].toString()
+            dataSourceNew.minIdle = 1
+            dataSourceNew.maxActive = 3
+            dataSourceNew.maxIdle = 3
+            dataSourceNew.maxWait = 3
             dataSource = dataSourceNew
             dataSourceNew
         }
