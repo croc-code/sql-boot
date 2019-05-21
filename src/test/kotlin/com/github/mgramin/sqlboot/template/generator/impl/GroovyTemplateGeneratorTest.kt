@@ -54,11 +54,4 @@ class GroovyTemplateGeneratorTest {
         assertEquals(templateGenerator.generate(maps), "create table persons ...")
     }
 
-    @Test
-    fun test() {
-        val maps = hashMapOf("column" to "id", "table" to "persons", "__timeFilter" to "public")
-        val templateGenerator = GroovyTemplateGenerator("create table \${table.toLowerCase()} ... where \$__timeFilter(time)")
-        assertEquals(templateGenerator.generate(maps), "create table persons ...")
-    }
-
 }
