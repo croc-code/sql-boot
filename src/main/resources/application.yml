@@ -26,19 +26,6 @@ conf:
           "visible": false,
           "description": "Embedded db for unit tests only"
         }
-    - name: demo-db
-      host: 127.0.0.1
-      properties: >
-        {
-          "sql.dialect": "postgres",
-          "fs.base.folder": "conf/sql-config/database",
-          "jdbc.url": "jdbc:postgresql://81.23.10.106:5432/postgres",
-          "jdbc.driver.class.name": "org.postgresql.Driver",
-          "jdbc.user": "postgres",
-          "jdbc.password": "postgres",
-          "os.query.rest.port": "8082",
-          "description": "Embedded db for unit tests only"
-        }
 
 server:
   port: 8007
