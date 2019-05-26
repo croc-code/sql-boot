@@ -17,7 +17,3 @@ src/main/assembly/static/lib/*.jar
 
 src/main/generated-sources
 conf/sql-boot*
-
-malewicz/node_modules/
-malewicz/node/
-malewicz/dist/
