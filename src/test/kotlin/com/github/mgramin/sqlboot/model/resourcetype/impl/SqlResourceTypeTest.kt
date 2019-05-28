@@ -62,37 +62,57 @@ class SqlResourceTypeTest {
 
     @Test
     fun name() {
-        val name = SqlResourceType(listOf("table", "tbl", "t"), "", listOf(db), listOf(FakeDialect())).name()
+        val sql = """/*
+                    |  { "name": "table" }
+                    |*/
+                    |select *
+                    |  from (select table_schema   as "@schema"
+                    |             , table_name     as "@table"
+                    |          from information_schema.tables)""".trimMargin()
+        val name = SqlResourceType(sql, listOf(db), listOf(FakeDialect())).name()
         assertEquals("table", name)
     }
 
     @Test
     fun aliases() {
-        val aliases = SqlResourceType(listOf("table", "tbl", "t"), "", listOf(db), listOf(FakeDialect())).aliases()
-        assertEquals(arrayListOf("table", "tbl", "t"), aliases)
+        val sql = """/*
+                    |  { "name": "table" }
+                    |*/
+                    |select *
+                    |  from (select table_schema   as "@schema"
+                    |             , table_name     as "@table"
+                    |          from information_schema.tables)""".trimMargin()
+        val aliases = SqlResourceType(sql, listOf(db), listOf(FakeDialect())).aliases()
+        assertEquals(arrayListOf("table"), aliases)
     }
 
     @Test
     fun read() {
-        val sql = """select *
+        val sql = """/*
+                    |  { "name": "table" }
+                    |*/
+                    |select *
                     |  from (select table_schema   as "@schema"
                     |             , table_name     as "@table"
                     |          from information_schema.tables)""".trimMargin()
         StepVerifier
-                .create(createType(sql, "table").read(FakeUri()))
+                .create(createType(sql).read(FakeUri()))
                 .expectNextCount(46)
                 .verifyComplete()
     }
 
     @Test
     fun read2() {
-        val sql = """select *
+        val sql = """/*
+                    |  { "name": "column" }
+                    |*/
+                    |select *
                     |  from (select table_schema    as "@schema"
                     |             , table_name      as "@table"
                     |             , column_name     as "@column"
                     |          from information_schema.columns)""".trimMargin()
         StepVerifier
-                .create(createType(sql, "table").read(FakeUri()))
+                .create(createType(sql).read(FakeUri()))
                 .expectNextCount(347)
                 .verifyComplete()
     }
@@ -100,59 +120,70 @@ class SqlResourceTypeTest {
     @Test
     @Disabled
     fun read3() {
-        val sql = """/* { "executor": "http" } */
+        val sql = """/* { "name": "process", "executor": "http" } */
                     |select pid as "@pid"
                     |     , name
                     |     , total_size
                     |  from processes
                     | limit 5""".trimMargin()
         StepVerifier
-                .create(createType(sql, "table").read(DbUri("prod/process")))
+                .create(createType(sql).read(DbUri("prod/process")))
                 .expectNextCount(5)
                 .verifyComplete()
     }
 
     @Test
     fun path() {
-        val sql = """select table_schema  as "@schema"
+        val sql = """/*
+                    |  { "name": "column" }
+                    |*/
+                    |select table_schema  as "@schema"
                     |     , table_name    as "@table"
                     |     , column_name   as "@column"
                     |  from information_schema.columns""".trimMargin()
-        assertEquals("[schema, table, column]", createType(sql, "column").path().toString())
+        assertEquals("[schema, table, column]", createType(sql).path().toString())
     }
 
     @Test
     fun path2() {
-        val sql = """select table_schema  as "schema"
+        val sql = """/*
+                    |  { "name": "column" }
+                    |*/
+                    |select table_schema  as "schema"
                     |     , table_name    as "table"
                     |     , column_name   as "column"
                     |  from information_schema.columns""".trimMargin()
-        assertEquals("[schema]", createType(sql, "column").path().toString())
+        assertEquals("[schema]", createType(sql).path().toString())
     }
 
     @Test
     fun metaData() {
-        val sql = """select table_schema  as "@schema"
+        val sql = """/*
+                    |  { "name": "column" }
+                    |*/
+                    |select table_schema  as "@schema"
                     |     , table_name    as "@table"
                     |     , column_name   as "@column"
                     |  from information_schema.columns""".trimMargin()
-        assertEquals(4, createType(sql, "column").metaData(FakeUri()).count())
+        assertEquals(4, createType(sql).metaData(FakeUri()).count())
     }
 
     @Test
     fun toJson() {
-        val sql = """select table_schema  as "@schema"
+        val sql = """/*
+                    |  { "name": "column" }
+                    |*/
+                    |select table_schema  as "@schema"
                     |     , table_name    as "@table"
                     |     , column_name   as "@column"
                     |  from information_schema.columns""".trimMargin()
-        val json: JsonObject = createType(sql, "table").toJson()
-        assertEquals("table", json.get("name").asString)
-        assertEquals("[table]", json.get("aliases").asString)
+        val json: JsonObject = createType(sql).toJson()
+        assertEquals("column", json.get("name").asString)
+        assertEquals("[column]", json.get("aliases").asString)
     }
 
-    private fun createType(sql: String, type: String) =
+    private fun createType(sql: String) =
             SqlResourceType(
-                    aliases = arrayListOf(type),
                     sql = sql,
                     endpoints = listOf(db),
                     dialects = listOf(FakeDialect()))

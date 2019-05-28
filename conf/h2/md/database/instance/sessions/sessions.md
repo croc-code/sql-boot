@@ -1,4 +1,7 @@
 ````sql
+/*
+  { "name": "sessions" }
+*/
 select "@id"          /* { "label": "id", "description": "ID", "visible": true } */
      , USER_NAME      /* { "label": "user", "description": "User name", "visible": true } */
      , session_start  /* { "label": "session start", "description": "Session start", "visible": true } */

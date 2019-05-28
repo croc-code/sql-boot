@@ -48,8 +48,7 @@ import reactor.test.StepVerifier
 class FsResourceTypeTest {
 
     private val dbMd = SimpleEndpoint()
-    private val dbSql = SimpleEndpoint()
-    private val connections = listOf(dbMd, dbSql)
+    private val connections = listOf(dbMd)
 
     init {
         dbMd.name = "unit_test_db_md"
@@ -57,17 +56,6 @@ class FsResourceTypeTest {
         dbMd.properties = """
             {
                 "fs.base.folder": "conf/h2/md/database",
-                "sql.dialect": "h2",
-                "jdbc.url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-                "jdbc.driver.class.name": "org.h2.Driver"
-            }
-            """.trimIndent()
-
-        dbSql.name = "unit_test_db_sql"
-        dbSql.host = "127.0.0.1"
-        dbSql.properties = """
-            {
-                "fs.base.folder": "conf/h2/sql/database",
                 "sql.dialect": "h2",
                 "jdbc.url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
                 "jdbc.driver.class.name": "org.h2.Driver"

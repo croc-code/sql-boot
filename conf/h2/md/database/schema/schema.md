@@ -1,4 +1,7 @@
 ````sql
+/*
+  { "name": "schema" }
+*/
 select "@schema"                    /* { "label": "schema", "description": "Schema", "visible": true } */
      , CATALOG_NAME                 /* { "label": "catalog", "description": "Catalog" } */
      , SCHEMA_OWNER                 /* { "label": "owner", "description": "Schema owner" } */

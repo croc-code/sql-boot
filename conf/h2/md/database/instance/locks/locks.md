@@ -1,4 +1,7 @@
 ````sql
+/*
+  { "name": "locks" }
+*/
 select "@schema"
      , "@table"
      , "@session"
