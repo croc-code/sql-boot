@@ -1,4 +1,7 @@
 ````sql
+/*
+  { "name": "query" }
+*/
 select "@statement" from (
 select SQL_STATEMENT as "@statement"
      , EXECUTION_COUNT

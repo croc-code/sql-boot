@@ -36,11 +36,9 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import com.github.mgramin.sqlboot.tools.files.file.impl.MarkdownFile
-import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import org.springframework.core.io.FileSystemResource
 import reactor.core.publisher.Flux
 import java.io.File
-import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
 
 /**
@@ -78,20 +76,20 @@ class FsResourceType(
             File(path)
                     .walkTopDown()
                     .filter { it.isFile }
-                    .filter { it.extension.equals("md", true) || it.extension.equals("sql", true) }
-                    .map { return@map if (it.extension.equals("md", true)) MarkdownFile(it.name, it.readText(UTF_8)) else SimpleFile(it.name, it.readText(UTF_8).toByteArray()) }
+                    .filter { it.extension.equals("md", true) }
+                    .map { MarkdownFile(it.name, it.readText(UTF_8)) }
                     .filter { it.content().isNotEmpty() }
+                    .flatMap { it.parse().map { v -> v.value }.asSequence() }
                     .map { createObjectType(it) }
                     .toList()
 
-    private fun createObjectType(it: com.github.mgramin.sqlboot.tools.files.file.File) =
+    private fun createObjectType(it: String) =
             TypeWrapper(
                     SelectWrapper(
                             SortWrapper(
                                     BodyWrapper(
                                             SqlResourceType(
-                                                    aliases = listOf(File(it.name()).nameWithoutExtension),
-                                                    sql = it.content().toString(Charset.defaultCharset()),
+                                                    sql = it,
                                                     endpoints = endpoints,
                                                     dialects = dialects),
                                             templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))))

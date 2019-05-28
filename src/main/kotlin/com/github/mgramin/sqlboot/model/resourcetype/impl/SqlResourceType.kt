@@ -50,7 +50,6 @@ import reactor.core.publisher.Flux
  * Created by MGramin on 12.07.2017.
  */
 class SqlResourceType(
-        private val aliases: List<String>,
         sql: String,
         private val endpoints: List<Endpoint>,
         private val dialects: List<Dialect>
@@ -59,7 +58,7 @@ class SqlResourceType(
     private val simpleSelectQuery = SimpleSelectQuery(GroovyTemplateGenerator(sql))
 
     override fun aliases(): List<String> {
-        return aliases
+        return listOf(simpleSelectQuery.properties()["name"]!!)
     }
 
     override fun path(): List<String> {

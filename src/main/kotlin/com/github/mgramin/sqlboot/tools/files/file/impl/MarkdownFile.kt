@@ -66,6 +66,7 @@ class MarkdownFile(private val name: String, private val text: String) : File {
 
         private var currentTag: String = ""
         private val map = LinkedHashMap<String, String>()
+        private var key = 1
 
         override fun visit(text: Text) {
             if (text.parent is Heading && (text.parent as Heading).level >= 3) {
@@ -75,7 +76,7 @@ class MarkdownFile(private val name: String, private val text: String) : File {
 
         override fun visit(fencedCodeBlock: FencedCodeBlock) {
             if (fencedCodeBlock.fenceLength == 4) {
-                map[currentTag] = fencedCodeBlock.literal.trim()
+                map[key++.toString()] = fencedCodeBlock.literal.trim()
             }
         }
 

@@ -51,14 +51,14 @@ class MarkdownFileTest {
             |````
             |""".trimMargin()
         val map = MarkdownFile("test.md", text).parse()
-        assertEquals(arrayListOf("", "row_count"), map.keys.toList())
-        assertEquals(map[""], """select u.username     as "@schema"
+//        assertEquals(arrayListOf("", "row_count"), map.keys.toList())
+        assertEquals(map["1"], """select u.username     as "@schema"
                                 |     , u.user_id      as "user_id"
                                 |     , u.created      as "created"
                                 |  from all_users u
                                 | order by u.username""".trimMargin())
 
-        assertEquals(map["row_count"], """select count(1)
+        assertEquals(map["2"], """select count(1)
                                          |  from all_users u
                                          | order by u.username""".trimMargin())
     }
