@@ -20,6 +20,10 @@ Advanced REST-wrapper for your own SQL-queries (actually not only SQL).
 2. Put to sql-boot folder structure
 3. Get data from URI, e.g. prod_db/hr.persons?select=name,address&page=2&orderby=name+desc
 
+Feel SQL Power
+---------------------------------------------------------
+Simple integration your sql-scripts to you infrastructure
+
 
 Share expert knowledge
 ----------------------
@@ -37,7 +41,6 @@ Self-documentation
 ------------------
 sql-boot uses the [OpenAPI](https://github.com/OAI/OpenAPI-Specification) standard to generate up-to-date documentation for APIs based your SQL-queries metadata.
 You can use a tool like [Swagger-UI](https://github.com/swagger-api/swagger-ui) or [Swagger-Editor](https://github.com/swagger-api/swagger-editor) to render interactive documentation (for demo requests) or [generate client API](https://github.com/swagger-api/swagger-codegen) against the live API server.
-
 
 How to pronounce
 ----------------
