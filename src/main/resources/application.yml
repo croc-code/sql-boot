@@ -23,7 +23,7 @@ conf:
           "jdbc.user": "",
           "jdbc.password": "",
           "os.query.rest.port": "8082",
-          "visible": false,
+          "visible": true,
           "description": "Embedded db for unit tests only"
         }
 

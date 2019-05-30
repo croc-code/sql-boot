@@ -3,9 +3,6 @@
       <li class="list-group-item list-group-item-primary">Connections:</li>
       <div v-for="connection in connections" class="list-group-item" v-bind:class="{ disabled: isDisabled(connection.health) }" :key="connection.name" >
         <label>
-          <!--<input type="checkbox" id="defaultCheck1" v-if="isActiveConnection(connection.name)" checked="checked" />-->
-          <!--<input type="checkbox" id="defaultCheck2" v-else />-->
-
           <input type="checkbox" :value="connection.name" v-model="checkedNames" />
           <i :class="connection.properties.css_class"></i>
           {{connection.name}}
@@ -31,12 +28,15 @@ export default {
     )
     this.doLoading()
   },
+  watch: {
+    connections: function (newVal, oldVal) {
+      this.$store.commit('setConnection', newVal[0].name)
+    }
+  },
   methods: {
     isDisabled (health) {
-      if (health === 'Ok') {
-        return false
-      }
-      return true
+      return health !== 'Ok';
+
     },
     doLoading () {
       this.$sse('http://localhost:8007/connections/health', { format: 'json' }) // or { format: 'plain' }
@@ -67,8 +67,6 @@ export default {
     isActiveConnection (connectionName) {
       return this.$store.state.connections.includes(connectionName)
     }
-  },
-  props: {
   }
 }
 </script>

@@ -22,7 +22,7 @@
             <li class="page-item" v-bind:class="{ active: isActivePage(4) }">
               <a class="page-link" href="#" v-on:click="setPageNumber(4)">4</a>
             </li>
-            <li class="page-item" v-bind:class="{ disabled: isActivePage(4) }">
+            <li class="page-item">
               <a class="page-link" href="#" aria-label="Next" v-on:click="nextPage">
                 <span aria-hidden="false">&raquo;</span>
                 <span class="sr-only">Next</span>

@@ -29,15 +29,20 @@ export default {
       return this.$store.commit('setType', type)
     }
   },
-  created: function () {
-    this.$http.get(this.$store.state.host + '/api/' + this.$store.state.connections + '/types').then(
-      response => {
-        this.types = response.body
-      }
-    )
+  computed: {
+    getPreparedTypesUri () {
+      this.$http.get(this.$store.getters.preparedTypesUri).then (
+        response => {
+          this.types = response.body
+        }
+      )
+      return this.$store.getters.preparedTypesUri
+    }
   },
-  props: {
-    uri: String
+  watch: {
+    getPreparedTypesUri (newVal, oldVal) {
+
+    }
   }
 }
 </script>

@@ -39,11 +39,6 @@ export default {
       return this.$store.getters.getSimpleUri
     }
   },
-  methods: {
-    changeUri: function (event) {
-      return this.$store.commit('changeUri', event.target.value)
-    }
-  },
   created: function () {
     if (this.$router.currentRoute.fullPath && this.$router.currentRoute.fullPath !== '/') {
       this.$store.commit('changeUri', this.$router.currentRoute.fullPath)

@@ -32,7 +32,7 @@ Vue.config.productionTip = false
 const store = new Vuex.Store({
   state: {
     host: 'http://localhost:8007/',
-    connections: ['h2'],
+    connections: '',
     type: 'table',
     path: [''],
     page: { 'number': 1, 'size': 15 },
@@ -41,6 +41,9 @@ const store = new Vuex.Store({
     cache: false
   },
   getters: {
+    preparedTypesUri: state => {
+      return state.host + '/api/' + state.connections + '/types'
+    },
     preparedMetaUri: state => {
       return state.host + '/api/meta/' + state.connections + '/' + state.type + '/'
     },
@@ -56,6 +59,9 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    setConnection (state, connectionName) {
+      state.connections = connectionName
+    },
     setType (state, typeName) {
       state.type = typeName
     },
