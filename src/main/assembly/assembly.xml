@@ -49,9 +49,5 @@
             <directory>conf</directory>
             <outputDirectory>conf</outputDirectory>
         </fileSet>
-        <fileSet>
-            <directory>src/main/malewicz/dist</directory>
-            <outputDirectory>public</outputDirectory>
-        </fileSet>
     </fileSets>
 </assembly>
