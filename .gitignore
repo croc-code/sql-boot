@@ -16,5 +16,5 @@ target/
 src/main/assembly/static/lib/*.jar
 
 src/main/generated-sources
-src/resources/public
+src/main/resources/public/*
 conf/sql-boot*

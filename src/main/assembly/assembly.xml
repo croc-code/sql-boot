@@ -26,19 +26,10 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
     <id>bin</id>
-    <!--<baseDirectory>/</baseDirectory>-->
     <formats>
-        <!--<format>tar.gz</format>-->
-        <!--<format>tar.bz2</format>-->
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
-    <fileSets>
-        <fileSet>
-            <directory>conf</directory>
-            <outputDirectory>conf</outputDirectory>
-        </fileSet>
-    </fileSets>
     <files>
         <file>
             <source>target/sql-boot-0.3.0-SNAPSHOT.jar</source>
@@ -53,4 +44,14 @@
             <source>src/main/resources/application.yml</source>
         </file>
     </files>
+    <fileSets>
+        <fileSet>
+            <directory>conf</directory>
+            <outputDirectory>conf</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/malewicz/dist</directory>
+            <outputDirectory>public</outputDirectory>
+        </fileSet>
+    </fileSets>
 </assembly>

@@ -399,6 +399,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -441,7 +442,6 @@
                     <installDirectory>target</installDirectory>
                 </configuration>
                 <executions>
-                    <!-- Install our node and npm version to run npm/node scripts-->
                     <execution>
                         <id>install node and npm</id>
                         <goals>
@@ -451,20 +451,16 @@
                             <nodeVersion>v11.14.0</nodeVersion>
                         </configuration>
                     </execution>
-                    <!-- Install all project dependencies -->
                     <execution>
                         <id>npm install</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <!-- optional: default phase is "generate-resources" -->
                         <phase>generate-resources</phase>
-                        <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
                     </execution>
-                    <!-- Build and minify static files -->
                     <execution>
                         <id>npm run build</id>
                         <goals>
@@ -473,28 +469,6 @@
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <copy todir="src/main/resources/public">
-                                    <fileset dir="src/main/malewicz/dist"/>
-                                </copy>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
