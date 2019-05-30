@@ -31,7 +31,7 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    host: 'http://81.23.10.106:8007/',
+    host: '',
     connections: '',
     type: 'table',
     path: [''],
