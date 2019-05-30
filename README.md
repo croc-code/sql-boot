@@ -20,7 +20,7 @@ Advanced REST-wrapper for your own SQL-queries (actually not only SQL).
 2. Put to sql-boot folder structure
 3. Get data from URI, e.g. prod_db/hr.persons?select=name,address&page=2&orderby=name+desc
 
-Feel SQL Power
+Feel the Power of SQL
 ---------------------------------------------------------
 Simple integration your sql-scripts to you infrastructure
 
