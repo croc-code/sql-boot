@@ -1,6 +1,6 @@
 ````sql
 /*
-  { "name": "query" }
+  { "name": "query", "title": "Queries" }
 */
 select "@statement" from (
 select SQL_STATEMENT as "@statement"

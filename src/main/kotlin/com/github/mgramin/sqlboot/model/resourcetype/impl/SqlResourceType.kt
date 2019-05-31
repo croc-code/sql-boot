@@ -102,14 +102,14 @@ class SqlResourceType(
             simpleSelectQuery
                     .columns()
                     .map { Metadata(it.key, it.value) } +
-                    Metadata("database", """{"label": "Database", "description": "Database name", "visible": true}""")
+                    Metadata("database", """{"label": "Database", "description": "Database name", "visible": false}""")
 
     override fun toJson(): JsonObject {
         val jsonObject = JsonObject()
         jsonObject.addProperty("name", name())
         jsonObject.addProperty("aliases", aliases().toString())
         jsonObject.addProperty("query", simpleSelectQuery.query())
-        jsonObject.add("query_properties", Gson().toJsonTree(simpleSelectQuery.properties()))
+        jsonObject.add("properties", Gson().toJsonTree(simpleSelectQuery.properties()))
         val jsonArray = JsonArray()
         metaData(FakeUri()).forEach { jsonArray.add(it.toJson()) }
         jsonObject.add("metadata", jsonArray)

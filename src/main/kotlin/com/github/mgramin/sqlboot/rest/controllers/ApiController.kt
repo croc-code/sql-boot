@@ -84,42 +84,6 @@ class ApiController {
 
     private fun wildcardToRegex(name: String) = name.replace("?", ".?").replace("*", ".*?").toRegex()
 
-    @RequestMapping(value = ["/api/meta/{connection}/{type}"], method = [GET, POST])
-    fun getResourceMetadata(@PathVariable connection: String,
-                            @PathVariable type: String,
-                            request: HttpServletRequest): ResponseEntity<String> {
-        val jsonArray = JsonArray()
-        val uri = SqlPlaceholdersWrapper(
-                DbUri("$connection/$type"))
-        FsResourceType(listOf(endpointList.getByName(uri.connection())), emptyList())
-                .resourceTypes()
-                .asSequence()
-                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .map { it.metaData(uri) }
-                .first()
-                .forEach { jsonArray.add(it.toJson()) }
-        return ResponseEntity(jsonArray.toString(), HttpStatus.OK)
-    }
-
-    @RequestMapping(value = ["/api/meta/{connection}/{type}/{path}"], method = [GET, POST])
-    fun getResourceMetadata(@PathVariable connection: String,
-                            @PathVariable type: String,
-                            @PathVariable path: String,
-                            request: HttpServletRequest): ResponseEntity<String> {
-        val jsonArray = JsonArray()
-        val uri = SqlPlaceholdersWrapper(
-                DbUri("$connection/$type/$path"))
-        FsResourceType(listOf(endpointList.getByName(uri.connection())), emptyList())
-                .resourceTypes()
-                .asSequence()
-                .filter { v -> v.name().equals(uri.type(), ignoreCase = true) }
-                .map { it.metaData(uri) }
-                .first()
-                .forEach { jsonArray.add(it.toJson()) }
-        return ResponseEntity(jsonArray.toString(), HttpStatus.OK)
-    }
-
-
     @RequestMapping(value = ["/api/{connection}/{type}"], method = [GET, POST])
     fun getResourcesHeadersJson(@PathVariable connection: String,
                                 @PathVariable type: String,

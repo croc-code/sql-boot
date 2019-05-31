@@ -1,12 +1,12 @@
 ````sql
 /*
-  { "name": "table" }
+  { "name": "table", "title": "Tables" }
 */
-select "@schema"            /* { "label": "owner", "description": "Owner of the table", "visible": true } */
-     , "@table"             /* { "label": "table name", "description": "Name of the table", "visible": true } */
-     , remarks              properties
-     , last_modification    /* { "label": "last modification", "description": "Last modification" } */
-     , table_type           /* { "label": "table type", "description": "Typical types", "visible": true, "values": ['TABLE', 'VIEW', 'SYSTEM TABLE', 'GLOBAL TEMPORARY', 'LOCAL TEMPORARY', 'ALIAS', 'SYNONYM'] } */
+select "@schema"            /* { "label": "Owner", "description": "Owner of the table", "visible": false } */
+     , "@table"             /* { "label": "Name", "description": "Name of the table", "visible": true } */
+     , table_type           /* { "label": "Type", "description": "Typical types", "visible": true, "values": ['TABLE', 'VIEW', 'SYSTEM TABLE', 'GLOBAL TEMPORARY', 'LOCAL TEMPORARY', 'ALIAS', 'SYNONYM'] } */
+     , remarks              /* { "label": "Comment", "description": "Comments", "visible": true } */
+     , last_modification    /* { "label": "Last modification", "description": "Last modification" } */
   from (select t.table_schema as "@schema"
              , t.table_name   as "@table"
              , t.*
@@ -18,7 +18,7 @@ order by "@schema", "@table"
 
 ````sql
 /*
-  { "name": "column" }
+  { "name": "column", "title": "Columns" }
 */
 select "@schema"                  /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , "@table"                   /* { "label": "table name", "description": "Name of the table", "visible": true } */
@@ -36,7 +36,7 @@ select "@schema"                  /* { "label": "owner", "description": "Owner o
 
 ````sql
 /*
-  { "name": "pk" }
+  { "name": "pk", "title": "Primary keys" }
 */
   select "@schema"    /* { "label": "owner", "description": "Owner of the table", "visible": true } */
        , "@table"     /* { "label": "table name", "description": "Name of the table", "visible": true } */
@@ -53,7 +53,7 @@ select "@schema"                  /* { "label": "owner", "description": "Owner o
 
 ````sql
 /*
-  { "name": "index" }
+  { "name": "index", "title": "Indexes" }
 */
 select "@schema"    /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , "@table"     /* { "label": "table name", "description": "Name of the table", "visible": true } */

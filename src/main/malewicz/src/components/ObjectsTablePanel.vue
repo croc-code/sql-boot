@@ -1,6 +1,9 @@
 <template>
   <div>
     <ul class="nav">
+      <h4>{{meta.properties.title}}</h4>
+    </ul>
+    <ul class="nav">
       <li class="nav-item pt-2 pb-2">
         <nav aria-label="test">
           <ul class="pagination">
@@ -88,7 +91,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(met, index) in meta">
+                <tr v-for="(met, index) in meta.metadata">
                   <th scope="row">{{index + 1}}</th>
                   <td><input type="checkbox" value="" id="defaultCheck1" v-model="met.properties.visible"></td>
                   <td>{{met.properties.label}}</td>
@@ -116,29 +119,23 @@ export default {
     }
   },
   created: function () {
-    this.$http.get(this.$store.getters.preparedMetaUri).then(
+    this.$http.get(this.$store.getters.preparedTypeUri).then(
       response => {
-        this.meta = response.body
+        this.meta = response.body[0]
       }
     )
     this.$http.get(this.$store.getters.preparedUri).then(
       response => {
         this.items = response.body
-        let field = this.$store.state.orderby.field
-        /*this.items.sort(function (a, b) {
-          console.log('sorting field = ' + field)
-          if (a[field] < b[field]) return 1
-          else return -1
-        })*/
       }
     )
   },
   computed: {
     defaultMeta: function () {
-      return this.meta.filter(function (v) { return v.properties.visible })
+      return this.meta.metadata.filter(function (v) { return v.properties.visible })
     },
     count () {
-      return this.$store.getters.preparedMetaUri
+      return this.$store.getters.preparedTypeUri
     },
     count2 () {
       return this.$store.getters.preparedUri
@@ -149,7 +146,7 @@ export default {
       this.meta = []
       this.$http.get(newValue).then(
         response => {
-          this.meta = response.body
+          this.meta = response.body[0]
         }
       )
     },
@@ -158,11 +155,6 @@ export default {
       this.$http.get(newValue).then(
         response => {
           this.items = response.body
-          let field = this.$store.state.orderby.field
-          /*this.items.sort(function (a, b) {
-            if (a[field] < b[field]) return 1
-            else return -1
-          })*/
         }, response => {
           this.$notify({
             group: 'foo',
@@ -178,9 +170,9 @@ export default {
     call () {
       this.meta = []
       this.items = []
-      this.$http.get(this.$store.getters.preparedMetaUri).then(
+      this.$http.get(this.$store.getters.preparedTypeUri).then(
         response => {
-          this.meta = response.body
+          this.meta = response.body[0]
         }
       )
       this.$http.get(this.$store.getters.preparedUri).then(

@@ -8,7 +8,7 @@
          id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
          aria-controls="v-pills-home" aria-selected="true"
          v-on:click="setType(type.name)"
-      ><i class="fa fa-table fa-fw" aria-hidden="true"></i>&nbsp; {{type.name}}</a>
+      ><i class="fa fa-table fa-fw" aria-hidden="true"></i>&nbsp; {{ type.properties.title || type.name }}</a>
     </div>
   </div>
 </template>

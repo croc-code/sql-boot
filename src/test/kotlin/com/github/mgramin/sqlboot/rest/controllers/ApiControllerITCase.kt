@@ -69,22 +69,4 @@ class ApiControllerITCase {
         assertEquals(code, result.statusCodeValue)
     }
 
-
-    @ParameterizedTest
-    @CsvSource(
-            "200#6#/api/meta/h2/table",
-            "200#6#/api/meta/h2/table/foo",
-            "200#6#/api/meta/h2/table/foo.bar",
-            "200#8#/api/meta/h2/column",
-            "200#8#/api/meta/h2/column/foo",
-            "200#8#/api/meta/h2/column/foo.bar",
-            delimiter = '#')
-    fun testHeadersMeta(code: Int, fieldCount: Int, uri: String) {
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_JSON
-        val result = client!!.exchange(uri, HttpMethod.GET, HttpEntity<Any>(headers), List::class.java)
-        assertEquals(code, result.statusCodeValue)
-        assertEquals(fieldCount, result.body.count())
-    }
-
 }

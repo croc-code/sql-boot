@@ -1,6 +1,6 @@
 ````sql
 /*
-  { "name": "sessions" }
+  { "name": "sessions", "title": "Sessions" }
 */
 select "@id"          /* { "label": "id", "description": "ID", "visible": true } */
      , USER_NAME      /* { "label": "user", "description": "User name", "visible": true } */

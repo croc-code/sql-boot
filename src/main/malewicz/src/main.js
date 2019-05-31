@@ -31,7 +31,7 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    host: '',
+    host: 'http://localhost:8007/',
     connections: '',
     type: 'table',
     path: [''],
@@ -44,8 +44,8 @@ const store = new Vuex.Store({
     preparedTypesUri: state => {
       return state.host + '/api/' + state.connections + '/types'
     },
-    preparedMetaUri: state => {
-      return state.host + '/api/meta/' + state.connections + '/' + state.type + '/'
+    preparedTypeUri: state => {
+      return state.host + '/api/' + state.connections + '/types' + '/' + state.type
     },
     preparedUri: state => {
       return state.host + '/api/' + state.connections + '/' + state.type + '/' + state.path +

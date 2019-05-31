@@ -1,6 +1,6 @@
 ````sql
 /*
-  { "name": "schema" }
+  { "name": "schema", "title": "Schema" }
 */
 select "@schema"                    /* { "label": "schema", "description": "Schema", "visible": true } */
      , CATALOG_NAME                 /* { "label": "catalog", "description": "Catalog" } */
