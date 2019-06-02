@@ -52,7 +52,7 @@
         <tr>
             <th scope="row">#</th>
             <th v-for="met in defaultMeta" data-toggle="tooltip" data-placement="left"
-                v-bind:title="met.properties.description" :key="met.properties.key" v-on:click="setSort(met.properties.key)">{{met.properties.label}}
+                v-bind:title="met.properties.description" :key="met.properties.key" v-on:click="setSort(met.properties.key)">{{met.properties.label || met.name}}
             </th>
         </tr>
         </thead>
@@ -132,7 +132,7 @@ export default {
   },
   computed: {
     defaultMeta: function () {
-      return this.meta.metadata.filter(function (v) { return v.properties.visible })
+      return this.meta.metadata.filter(function (v) { return v.properties.visible || true })
     },
     count () {
       return this.$store.getters.preparedTypeUri
