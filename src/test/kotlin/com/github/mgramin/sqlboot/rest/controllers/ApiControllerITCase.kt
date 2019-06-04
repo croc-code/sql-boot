@@ -53,13 +53,13 @@ class ApiControllerITCase {
 
     @ParameterizedTest
     @CsvSource(
-            "204#/api/h2/table/foo",
+            "200#/api/h2/table/foo",
             "200#/api/h2/table/BOOKINGS",
             "200#/api/h2/table",
             "200#/api/h2/table/BOOKINGS.AIRCRAFTS",
-            "204#/api/h2/table/not_exist_schema",
+            "200#/api/h2/table/not_exist_schema",
             "200#/api/h2/table",
-            "204#/api/h2/not_exist_type",
+            "200#/api/h2/not_exist_type",
             "200#/api/h2/table/BOOKINGS.AIRPORTS?select=remarks",
             delimiter = '#')
     fun testHeaders(code: Int, uri: String) {

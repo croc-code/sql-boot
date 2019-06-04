@@ -165,7 +165,7 @@ class ResourceTypeWrapperTest {
                             Metadata("@table", "String", "Table name"),
                             Metadata("@index", "String", "Index name"),
                             Metadata("size", "Number", "Table size"),
-                            Metadata("database", "String", "Database name")).sorted(),
+                            Metadata("endpoint", "String", "Endpoint name")).sorted(),
                     w.metaData(FakeUri()).sorted())
         }
     }

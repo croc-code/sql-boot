@@ -7,31 +7,35 @@ import router from './router'
 import VueResource from 'vue-resource'
 import VueTreeNavigation from 'vue-tree-navigation'
 
-import ECharts from 'vue-echarts' // refers to components/ECharts.vue in webpack
-// import ECharts modules manually to reduce bundle size
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
-
 import Notifications from 'vue-notification'
 import JsonExcel from 'vue-json-excel'
 
 import VueSSE from 'vue-sse'
 
+import Vuetify from 'vuetify'
+
+import VueHighlightJS from 'vue-highlightjs'
+
+
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+
 
 Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(VueTreeNavigation)
-Vue.component('v-chart', ECharts)
 Vue.use(Notifications)
 Vue.component('downloadExcel', JsonExcel)
-
 Vue.use(VueSSE)
+Vue.use(Vuetify)
+Vue.use(VueHighlightJS)
+
 
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
     host: '',
+    // host: 'http://localhost:8007/',
     connections: '',
     type: 'table',
     path: [''],

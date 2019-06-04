@@ -21,7 +21,7 @@ internal class MetadataTest {
 
     @Test
     fun toJson() = assertEquals(
-            """{"name":"name","description":"{ \"key_1\": \"value_1\" }","properties":{"key_1":"value_1","key":"name"}}""",
+            """{"name":"name","description":"{ \"key_1\": \"value_1\" }","value":"name","text":"name","properties":{"key_1":"value_1","key":"name"}}""",
             metadata().toJson().toString())
 
     private fun metadata() = Metadata("@name", "String", """{ "key_1": "value_1" }""")
