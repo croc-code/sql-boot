@@ -1,14 +1,42 @@
 <template>
-    <div class="list-group">
-      <li class="list-group-item list-group-item-primary">Connections:</li>
-      <div v-for="connection in connections" class="list-group-item" v-bind:class="{ disabled: isDisabled(connection.health) }" :key="connection.name" >
-        <label>
-          <input type="checkbox" :value="connection.name" v-model="checkedNames" />
-          <i :class="connection.properties.css_class"></i>
-          {{connection.name}}
-        </label>
-      </div>
-    </div>
+
+     <v-navigation-drawer>
+      <v-toolbar flat>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title class="title">Connections</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+
+      <v-divider></v-divider>
+
+      <v-list dense class="pt-0">
+        <v-list-tile
+          v-for="item in connections"
+          :key="item.name">
+          <v-list-tile-action>
+            <v-icon large>dashboard</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
+<!--    <div class="list-group">-->
+<!--      <li class="list-group-item list-group-item-primary">Connections:</li>-->
+<!--      <div v-for="connection in connections" class="list-group-item" v-bind:class="{ disabled: isDisabled(connection.health) }" :key="connection.name" >-->
+<!--        <label>-->
+<!--          <input type="checkbox" :value="connection.name" v-model="checkedNames" />-->
+<!--          <i :class="connection.properties.css_class"></i>-->
+<!--          {{connection.name}}-->
+<!--        </label>-->
+<!--      </div>-->
+<!--    </div>-->
+
 </template>
 
 <script>

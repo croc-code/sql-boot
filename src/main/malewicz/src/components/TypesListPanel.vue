@@ -1,18 +1,31 @@
 <template>
-  <div>
-    <div class="list-group">
-      <li class="list-group-item list-group-item-primary">Objects:</li>
-      <span v-for="type in types" data-toggle="tooltip" data-placement="left" v-bind:title="type.properties.description" >
-      <a class="list-group-item"
-         v-bind:class="{ active: isActive(type) }"
-         id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
-         aria-controls="v-pills-home" aria-selected="true"
-         v-on:click="setType(type.name)"
-      ><i class="fa fa-table fa-fw" aria-hidden="true"></i>&nbsp; {{ type.properties.title || type.name }}</a>
-      </span>
-    </div>
-  </div>
+    <v-navigation-drawer permanent>
+      <v-toolbar flat>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title class="title">Objects</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+
+      <v-divider></v-divider>
+
+      <v-list dense class="pt-0">
+        <v-list-tile
+          v-for="item in types"
+          :key="item.name"
+          @click="setType(item.name)" v-if="item.properties.title">
+          <v-list-tile-action>
+            <v-icon large>{{item.properties.icon}}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.properties.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
 </template>
+
 <script>
 export default {
   name: 'TypesListPanel',

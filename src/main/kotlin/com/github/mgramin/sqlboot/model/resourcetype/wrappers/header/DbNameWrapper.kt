@@ -38,7 +38,7 @@ class DbNameWrapper(private val origin: ResourceType,
 
     override fun path() = origin.path()
 
-    override fun metaData(uri: Uri): List<Metadata> = origin.metaData(uri) + Metadata("database", "Database name")
+    override fun metaData(uri: Uri): List<Metadata> = origin.metaData(uri) + Metadata("endpoint", "Endpoint name")
 
     override fun read(uri: Uri): Flux<DbResource> =
             origin

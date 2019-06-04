@@ -77,7 +77,7 @@ class SqlResourceType(
                                     ?: connection.properties()["sql.dialect"].toString()).execute(hashMapOf("uri" to uri))
                                     .map<Map<String, Any>?> {
                                         val toMutableMap = it.toMutableMap()
-                                        toMutableMap["database"] = connection.name()
+                                        toMutableMap["endpoint"] = connection.name()
                                         toMutableMap
                                     }
                         }
@@ -94,7 +94,7 @@ class SqlResourceType(
                     } else {
                         path[path.size - 1]
                     }
-                    DbResourceImpl(name, this, DbUri(headers["database"].toString(), this.name(), path), headers) as DbResource
+                    DbResourceImpl(name, this, DbUri(headers["endpoint"].toString(), this.name(), path), headers) as DbResource
                 }
     }
 
@@ -102,7 +102,7 @@ class SqlResourceType(
             simpleSelectQuery
                     .columns()
                     .map { Metadata(it.key, it.value) } +
-                    Metadata("database", """{"label": "Database", "description": "Database name", "visible": false}""")
+                    Metadata("endpoint", """{"label": "Endpoint", "description": "Endpoint name", "visible": false}""")
 
     override fun toJson(): JsonObject {
         val jsonObject = JsonObject()

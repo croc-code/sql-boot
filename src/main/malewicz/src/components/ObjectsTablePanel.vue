@@ -1,111 +1,119 @@
 <template>
   <div>
-    <ul class="nav">
-      <h4>{{meta.properties.title}}</h4>
-    </ul>
-    <ul class="nav">
-      <li class="nav-item pt-2 pb-2">
-        <nav aria-label="test">
-          <ul class="pagination">
-            <li class="page-item" v-bind:class="{ disabled: isActivePage(1) }">
-              <a class="page-link" href="#" aria-label="Previous" v-on:click="prevPage">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-              </a>
-            </li>
-            <li class="page-item" v-bind:class="{ active: isActivePage(1) }">
-              <a class="page-link" href="#" v-on:click="setPageNumber(1)">1</a>
-            </li>
-            <li class="page-item" v-bind:class="{ active: isActivePage(2) }">
-              <a class="page-link" href="#" v-on:click="setPageNumber(2)">2</a>
-            </li>
-            <li class="page-item" v-bind:class="{ active: isActivePage(3) }">
-              <a class="page-link" href="#" v-on:click="setPageNumber(3)">3</a>
-            </li>
-            <li class="page-item" v-bind:class="{ active: isActivePage(4) }">
-              <a class="page-link" href="#" v-on:click="setPageNumber(4)">4</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next" v-on:click="nextPage">
-                <span aria-hidden="false">&raquo;</span>
-                <span class="sr-only">Next</span>
-              </a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-cog fa-fw" aria-hidden="true"/></a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#" data-target="#exampleModal" v-on:click="call"><i class="fas fa-reply fa-fw" aria-hidden="true"/></a>
-            </li>
-            <li class="page-item">
-              <download-excel
-                :data   = "items">
-                <a class="page-link" href="#">To Excel</a>
-              </download-excel>
-            </li>
-          </ul>
-        </nav>
-      </li>
-    </ul>
-    <table class="table table-striped table-hover table-sm table-responsive">
-        <thead>
-        <tr>
-            <th scope="row">#</th>
-            <th v-for="met in defaultMeta" data-toggle="tooltip" data-placement="left"
-                v-bind:title="met.properties.description" :key="met.properties.key" v-on:click="setSort(met.properties.key)">{{met.properties.label || met.name}}
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(item, index) in items" v-bind:class="item._style" :key="item.name">
-          <th scope="row">{{index+1}}</th>
-          <td v-for="met in defaultMeta" :key="item[met.properties.key]">
-            <span v-bind:class="met.properties.class">
-              <a v-if="item['_link_'+met.properties.key]" :href="'/#/' + item['database']+'/'+item['_link_'+met.properties.key]">{{item[met.properties.key]}}</a>
-              <span v-else v-html="item[met.properties.key]"></span>
-            </span>
-          </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <v-toolbar flat color="primary">
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-toolbar-title class="text">{{meta.properties.title}}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>settings</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>search</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>apps</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>refresh</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>more_vert</v-icon>
+      </v-btn>
+    </v-toolbar>
+
+<!--    <ul class="nav">-->
+<!--      <li class="nav-item pt-2 pb-2">-->
+<!--        <nav aria-label="test">-->
+<!--          <ul class="pagination">-->
+<!--            <li class="page-item">-->
+<!--              <a class="page-link" href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-cog fa-fw" aria-hidden="true"/></a>-->
+<!--            </li>-->
+<!--            <li class="page-item">-->
+<!--              <a class="page-link" href="#" data-target="#exampleModal" v-on:click="call"><i class="fas fa-reply fa-fw" aria-hidden="true"/></a>-->
+<!--            </li>-->
+<!--            <li class="page-item">-->
+<!--              <download-excel-->
+<!--                :data   = "items">-->
+<!--                <a class="page-link" href="#">To Excel</a>-->
+<!--              </download-excel>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </nav>-->
+<!--      </li>-->
+<!--    </ul>-->
+
+   <v-data-table
+    :headers="defaultMeta"
+    :items="items"
+    :pagination.sync="pagination"
+    :loading="true"
+    hide-actions
+    class="elevation-1">
+     <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+    <template v-slot:items="props">
+      <td v-for="met in defaultMeta">{{ props.item[met.name] }}</td>
+    </template>
+   </v-data-table>
+
+    <div class="text-xs-center pt-3">
+      <v-pagination v-model="currentPageNumber" :length=15></v-pagination>
+    </div>
+
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel" data-toggle="modal" data-target="#exampleModal">Columns</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <table class="table table-sm table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Visible</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(met, index) in meta.metadata">
-                  <th scope="row">{{index + 1}}</th>
-                  <td><input type="checkbox" value="" id="defaultCheck1" v-model="met.properties.visible"></td>
-                  <td>{{met.properties.label}}</td>
-                  <td>{{met.properties.description}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
+<!--    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
+<!--         aria-hidden="true">-->
+<!--      <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--          <div class="modal-header">-->
+<!--            <h5 class="modal-title" id="exampleModalLabel" data-toggle="modal" data-target="#exampleModal">Columns</h5>-->
+<!--            <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--              <span aria-hidden="true">&times;</span>-->
+<!--            </button>-->
+<!--          </div>-->
+<!--          <div class="modal-body">-->
+<!--            <table class="table table-sm table-hover">-->
+<!--              <thead>-->
+<!--                <tr>-->
+<!--                  <th scope="col">#</th>-->
+<!--                  <th scope="col">Visible</th>-->
+<!--                  <th scope="col">Name</th>-->
+<!--                  <th scope="col">Description</th>-->
+<!--                </tr>-->
+<!--              </thead>-->
+<!--              <tbody>-->
+<!--                <tr v-for="(met, index) in meta.metadata">-->
+<!--                  <th scope="row">{{index + 1}}</th>-->
+<!--                  <td><input type="checkbox" value="" id="defaultCheck1" v-model="met.properties.visible"></td>-->
+<!--                  <td>{{met.properties.label}}</td>-->
+<!--                  <td>{{met.properties.description}}</td>-->
+<!--                </tr>-->
+<!--              </tbody>-->
+<!--            </table>-->
+<!--          </div>-->
+<!--          <div class="modal-footer">-->
+<!--            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+      <div class="text-xs-center">
+        <v-dialog v-model="dialog" width="1200">
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on">Click Me</v-btn>
+          </template>
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>
+              Privacy Policy
+            </v-card-title>
+            <v-card-text>
+              <pre v-highlightjs="meta.query" class="text-sm-left"><code class="sql"></code></pre>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </div>
-    </div>
 
   </div>
 </template>
@@ -115,7 +123,12 @@ export default {
   data () {
     return {
       meta: [],
-      items: []
+      items: [],
+      currentPageNumber: 1,
+      pagination: {
+        rowsPerPage: -1
+      }
+
     }
   },
   created: function () {
@@ -142,6 +155,9 @@ export default {
     }
   },
   watch: {
+    currentPageNumber (newValue) {
+      this.setPageNumber(newValue)
+    },
     count (newValue) {
       this.meta = []
       this.$http.get(newValue).then(

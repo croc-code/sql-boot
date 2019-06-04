@@ -1,9 +1,13 @@
 ````sql
 /*
-  { "name": "table", "title": "Tables" }
+{ 
+  "name": "table", 
+  "title": "Tables",
+  "icon": "table_chart"
+}
 */
 select "@schema"            /* { "label": "Owner", "description": "Owner of the table", "visible": false } */
-     , "@table"             /* { "label": "Name", "description": "Name of the table", "visible": true } */
+     , "@table"             /* { "label": "Name", "description": "Name of the table" } */
      , table_type           /* { "label": "Type", "description": "Typical types", "visible": true, "values": ['TABLE', 'VIEW', 'SYSTEM TABLE', 'GLOBAL TEMPORARY', 'LOCAL TEMPORARY', 'ALIAS', 'SYNONYM'] } */
      , remarks              /* { "label": "Comment", "description": "Comments", "visible": true } */
      , last_modification    /* { "label": "Last modification", "description": "Last modification" } */
@@ -13,12 +17,15 @@ select "@schema"            /* { "label": "Owner", "description": "Owner of the 
           from information_schema.tables t
          where lower(t.table_schema) like lower('${uri.path(0)}')
            and lower(t.table_name) like lower('${uri.path(1)}'))
-order by "@schema", "@table"
 ````
 
 ````sql
 /*
-  { "name": "column", "title": "Columns" }
+{ 
+  "name": "column", 
+  "title": "Columns",
+  "icon": "view_column"
+}
 */
 select "@schema"                  /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , "@table"                   /* { "label": "table name", "description": "Name of the table", "visible": true } */
@@ -36,7 +43,11 @@ select "@schema"                  /* { "label": "owner", "description": "Owner o
 
 ````sql
 /*
-  { "name": "pk", "title": "Primary keys" }
+{ 
+  "name": "pk", 
+  "title": "Primary keys",
+  "icon": "vpn_key"
+}
 */
   select "@schema"    /* { "label": "owner", "description": "Owner of the table", "visible": true } */
        , "@table"     /* { "label": "table name", "description": "Name of the table", "visible": true } */

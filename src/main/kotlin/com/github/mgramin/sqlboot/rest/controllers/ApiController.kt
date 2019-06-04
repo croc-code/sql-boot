@@ -117,11 +117,7 @@ class ApiController {
                     .map { it.headers() }
                     .collectList()
                     .block()
-            return if (headers.isEmpty()) {
-                ResponseEntity(headers, HttpStatus.NO_CONTENT)
-            } else {
-                ResponseEntity(headers, HttpStatus.OK)
-            }
+            return ResponseEntity(headers, HttpStatus.OK)
         } catch (e: BootException) {
             if (e.errorCode == 404) {
                 return ResponseEntity(emptyList(), HttpStatus.NOT_FOUND)

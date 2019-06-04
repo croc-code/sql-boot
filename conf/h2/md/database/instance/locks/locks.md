@@ -1,6 +1,10 @@
 ````sql
 /*
-  { "name": "locks", "title": "Locks" }
+{
+  "name": "locks",
+  "title": "Locks",
+  "icon": "lock"
+}
 */
 select "@schema"
      , "@table"

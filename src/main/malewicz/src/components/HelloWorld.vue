@@ -1,17 +1,24 @@
 <template>
-  <div class="hello">
 
-    <div class="row">
-
-      <div class="col-sm-3 d-none d-sm-block">
-        <ConnectionsListPanel class="mt-2"/>
-        <TypesListPanel class="mt-2"/>
-      </div>
-      <div class="col-sm-9">
-        <component v-bind:is="panel"></component>
-      </div>
-    </div>
-  </div>
+     <v-container grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs2>
+          <v-card color="secondary">
+            <v-card-text class="px-0">
+              <ConnectionsListPanel/>
+              <TypesListPanel/>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex xs10>
+          <v-card color="secondary">
+            <v-card-text class="px-0">
+              <component v-bind:is="panel"></component>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
 </template>
 
@@ -20,12 +27,11 @@
 import TypesListPanel from './TypesListPanel'
 import ConnectionsListPanel from './ConnectionsListPanel'
 import ObjectsTablePanel from './ObjectsTablePanel'
-import ChartPanel from './ChartPanel'
 
 export default {
   props: ['panel'],
   name: 'HelloWorld',
-  components: { ChartPanel, ObjectsTablePanel, ConnectionsListPanel, TypesListPanel },
+  components: { ObjectsTablePanel, ConnectionsListPanel, TypesListPanel },
   watch: {
     $route (to, from) {
       this.$store.commit('changeUri', to.fullPath)
