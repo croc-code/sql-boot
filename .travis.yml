@@ -32,7 +32,9 @@ deploy:
   provider: releases
   branch: master
   api_key: $GITHUB_TOKEN
-  file: target/sql-boot.zip
+  file:
+    - target/sql-boot.zip
+    - target/rpm/sql-boot/RPMS/noarch/sql-boot-0.3.0-SNAPSHOT20190608181116.noarch.rpm
   skip_cleanup: true
   name: v0.3.0
   overwrite: true
