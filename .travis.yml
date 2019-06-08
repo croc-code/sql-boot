@@ -16,6 +16,9 @@ script:
   - mvn compile jacoco:report
   - mvn docker:build
 
+before_install:
+  - sudo apt-get install -y rpm
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"

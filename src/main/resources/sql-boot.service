@@ -1,0 +1,15 @@
+[Unit]
+Description=sql-boot service
+After=syslog.target
+
+[Service]
+User=root
+WorkingDirectory=/opt/sql-boot
+ExecStart=/bin/bash /opt/sql-boot/run
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -495,6 +495,104 @@
                 </executions>
             </plugin>
 
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rpm-maven-plugin</artifactId>
+                <version>2.2.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-rpm</id>
+                        <goals>
+                            <goal>rpm</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <license>GPL (c) 2005, SWWDC</license>
+                    <distribution>Trash 2005</distribution>
+                    <group>Application/Collectors</group>
+<!--                    <icon>src/main/resources/icon.gif</icon>-->
+                    <packager>SWWDC</packager>
+                    <prefix>/usr/local</prefix>
+                    <changelogFile>src/changelog</changelogFile>
+                    <defineStatements>
+                        <defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
+                    </defineStatements>
+                    <mappings>
+                        <mapping>
+                            <directory>/opt/sql-boot</directory>
+                            <filemode>440</filemode>
+                            <username>sql-boot</username>
+                            <groupname>sql-boot-group</groupname>
+                            <sources>
+                                <source>
+                                    <location>target/sql-boot-0.3.0-SNAPSHOT.jar</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/opt/sql-boot</directory>
+                            <filemode>440</filemode>
+                            <username>sql-boot</username>
+                            <groupname>sql-boot-group</groupname>
+                            <sources>
+                                <source>
+                                    <location>src/main/resources/run</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/opt/sql-boot</directory>
+                            <filemode>440</filemode>
+                            <username>sql-boot</username>
+                            <groupname>sql-boot-group</groupname>
+                            <sources>
+                                <source>
+                                    <location>src/main/resources/application.yml</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/opt/sql-boot/conf</directory>
+                            <filemode>440</filemode>
+                            <username>sql-boot</username>
+                            <groupname>sql-boot-group</groupname>
+                            <sources>
+                                <source>
+                                    <location>conf</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                        <mapping>
+                            <directory>/usr/lib/systemd/system</directory>
+                            <directoryIncluded>false</directoryIncluded>
+                            <filemode>644</filemode>
+                            <username>root</username>
+                            <groupname>root</groupname>
+                            <sources>
+                                <source>
+                                    <location>src/main/resources/sql-boot.service</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                    </mappings>
+                    <preinstallScriptlet>
+                        <script>echo "installing ${project.name} now"</script>
+                    </preinstallScriptlet>
+<!--                    <postinstallScriptlet>-->
+<!--                        <scriptFile>src/main/scripts/postinstall</scriptFile>-->
+<!--                        <fileEncoding>utf-8</fileEncoding>-->
+<!--                        <filter>true</filter>-->
+<!--                    </postinstallScriptlet>-->
+<!--                    <preremoveScriptlet>-->
+<!--                        <scriptFile>src/main/scripts/preremove</scriptFile>-->
+<!--                        <fileEncoding>utf-8</fileEncoding>-->
+<!--                    </preremoveScriptlet>-->
+                </configuration>
+            </plugin>
+
+
         </plugins>
     </build>
 
