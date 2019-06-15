@@ -15,6 +15,7 @@ script:
   - mvn verify
   - mvn compile jacoco:report
   - mvn docker:build
+  - mvn rpm:rpm
 
 before_install:
   - sudo apt-get install -y rpm
@@ -34,7 +35,7 @@ deploy:
   api_key: $GITHUB_TOKEN
   file:
     - target/sql-boot.zip
-    - target/rpm/sql-boot/RPMS/noarch/sql-boot-0.3.0-SNAPSHOT20190608181116.noarch.rpm
+    - target/rpm/sql-boot/RPMS/noarch/sql-boot-0.3.0-1.noarch.rpm
   skip_cleanup: true
   name: v0.3.0
   overwrite: true

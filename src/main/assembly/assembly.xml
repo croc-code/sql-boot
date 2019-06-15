@@ -32,7 +32,7 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <files>
         <file>
-            <source>target/sql-boot-0.3.0-SNAPSHOT.jar</source>
+            <source>target/sql-boot-0.3.0.jar</source>
             <destName>sql-boot.jar</destName>
             <fileMode>0764</fileMode>
         </file>

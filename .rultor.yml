@@ -1,6 +1,5 @@
 merge:
   script: |
-    apt-get install -y rpm
     mvn clean install
 
 release:
