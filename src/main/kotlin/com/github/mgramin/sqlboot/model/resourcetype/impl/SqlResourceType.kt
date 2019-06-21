@@ -43,10 +43,7 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.*
 import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -127,12 +124,13 @@ class SqlResourceType(
     private fun createQuery(uri: Uri, endpoint: Endpoint, dialect: String): SelectQuery {
         val paginationQueryTemplate = dialects.first { it.name() == dialect }.paginationQueryTemplate()
         val baseQuery =
-                PaginatedSelectQuery(
-                        OrderedSelectQuery(
-                                simpleSelectQuery,
-                                uri.orderedColumns()),
-                        uri,
-                        paginationQueryTemplate)
+                GrafanaSelectQuery(
+                        PaginatedSelectQuery(
+                                OrderedSelectQuery(
+                                        simpleSelectQuery,
+                                        uri.orderedColumns()),
+                                uri,
+                                paginationQueryTemplate))
         return if (simpleSelectQuery.properties()["executor"] == "http") {
             RestSelectQuery(
                     baseQuery,
