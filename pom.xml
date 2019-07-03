@@ -181,7 +181,20 @@
 
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>3.0.0-beta-1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-xml</artifactId>
+            <version>3.0.0-beta-1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-templates</artifactId>
+            <version>3.0.0-beta-1</version>
         </dependency>
 
         <dependency>
