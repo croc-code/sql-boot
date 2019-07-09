@@ -34,7 +34,7 @@ package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 
 class PaginatedSelectQuery(
         private val origin: SelectQuery,
@@ -51,7 +51,7 @@ class PaginatedSelectQuery(
                     "uri" to uri,
                     "offset" to uri.pageSize() * (uri.pageNumber() - 1),
                     "limit" to uri.pageSize())
-            GroovyTemplateGenerator(template).generate(vars)
+            JinjaTemplateGenerator(template).generate(vars)
         } else {
             origin.query()
         }

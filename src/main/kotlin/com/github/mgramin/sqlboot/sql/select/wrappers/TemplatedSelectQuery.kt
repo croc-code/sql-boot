@@ -33,7 +33,7 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 
 class TemplatedSelectQuery(
         private val origin: SelectQuery,
@@ -46,7 +46,7 @@ class TemplatedSelectQuery(
     override fun query(): String {
         val vars = hashMapOf<String, Any>("query" to origin.query())
         vars.putAll(variables)
-        return GroovyTemplateGenerator(template).generate(vars)
+        return JinjaTemplateGenerator(template).generate(vars)
     }
 
     override fun columns() = origin.columns()

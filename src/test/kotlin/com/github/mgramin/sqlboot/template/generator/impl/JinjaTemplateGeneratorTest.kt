@@ -32,34 +32,16 @@
 
 package com.github.mgramin.sqlboot.template.generator.impl
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
-/**
- * Created by MGramin on 10.12.2016.
- */
-class GroovyTemplateGeneratorTest {
+internal class JinjaTemplateGeneratorTest {
 
     @Test
-    fun process() {
-        val txt = """... where lower(c.table_schema) like '${'$'}schema'
-                    |      and lower(c.table_name) like '${'$'}table'
-                    |      and lower(c.column_name) like '${'$'}column'""".trimMargin()
-
-        val result = """... where lower(c.table_schema) like 'public'
-                       |      and lower(c.table_name) like 'persons'
-                       |      and lower(c.column_name) like 'id'""".trimMargin()
-
-        val maps = hashMapOf("column" to "id", "table" to "persons", "schema" to "public")
-        val templateGenerator = GroovyTemplateGenerator(txt)
-        assertEquals(templateGenerator.generate(maps), result)
-    }
+    fun generate() =
+            assertEquals("Hello, World!", JinjaTemplateGenerator("Hello, {{ name }}!").generate(mapOf("name" to "World")))
 
     @Test
-    fun processLoweCase() {
-        val maps = hashMapOf("column" to "id", "table" to "persons", "schema" to "public")
-        val templateGenerator = GroovyTemplateGenerator("create table \${table.toLowerCase()} ...")
-        assertEquals(templateGenerator.generate(maps), "create table persons ...")
-    }
+    fun template() = assertEquals("Hello, {{ name }}!", JinjaTemplateGenerator("Hello, {{ name }}!").template())
 
 }

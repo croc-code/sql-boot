@@ -56,7 +56,7 @@ internal class PaginatedSelectQueryTest {
                 PaginatedSelectQuery(
                         origin = FakeSelectQuery(),
                         uri = DbUri("table/hr.persons?page=$pageNumber,$pageSize"),
-                        template = "${"$"}{query} offset ${"$"}offset limit ${"$"}limit")
+                        template = "{{ query }} offset {{ offset }} limit {{ limit }}")
         println(paginatedSelectQuery.query())
         assertTrue(paginatedSelectQuery.query().contains(expectedQuery))
     }

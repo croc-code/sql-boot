@@ -42,7 +42,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.SelectWrapp
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.header.TypeWrapper
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
 import com.github.mgramin.sqlboot.tools.files.file.impl.MarkdownFile
 import org.springframework.core.io.FileSystemResource
 import reactor.core.publisher.Flux
@@ -100,7 +100,7 @@ class FsResourceType(
                                                     sql = it,
                                                     endpoints = endpoints,
                                                     dialects = dialects),
-                                            templateGenerator = GroovyTemplateGenerator("[EMPTY BODY]")))))
+                                            templateGenerator = FakeTemplateGenerator("[EMPTY BODY]")))))
 
     private fun wildcardToRegex(uri: Uri) =
             uri.type().replace("?", ".?").replace("*", ".*?").toRegex()

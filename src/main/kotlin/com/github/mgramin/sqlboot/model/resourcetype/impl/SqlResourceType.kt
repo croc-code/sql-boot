@@ -43,8 +43,12 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.*
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
+import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -60,7 +64,7 @@ class SqlResourceType(
         private val dialects: List<Dialect>
 ) : ResourceType {
 
-    private val simpleSelectQuery = SimpleSelectQuery(GroovyTemplateGenerator(sql))
+    private val simpleSelectQuery = SimpleSelectQuery(JinjaTemplateGenerator(sql))
 
     override fun aliases(): List<String> {
         return listOf(simpleSelectQuery.properties()["name"]!!)

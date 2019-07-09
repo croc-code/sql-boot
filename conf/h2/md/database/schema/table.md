@@ -15,8 +15,8 @@ select "@schema"            /* { "label": "Owner", "description": "Owner of the 
              , t.table_name   as "@table"
              , t.*
           from information_schema.tables t
-         where lower(t.table_schema) like lower('${uri.path(0)}')
-           and lower(t.table_name) like lower('${uri.path(1)}'))
+         where lower(t.table_schema) like lower('{{ uri.path(0) }}')
+           and lower(t.table_name) like lower('{{ uri.path(1) }}'))
 ````
 
 ````sql

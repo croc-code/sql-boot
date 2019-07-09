@@ -33,18 +33,17 @@
 package com.github.mgramin.sqlboot.template.generator.impl
 
 import com.github.mgramin.sqlboot.template.generator.TemplateGenerator
-import groovy.text.GStringTemplateEngine
-import groovy.text.Template
+import com.hubspot.jinjava.Jinjava
 
-class GroovyTemplateGenerator(private val templateText: String) : TemplateGenerator {
 
-    private val template: Template = GStringTemplateEngine().createTemplate(templateText)
+class JinjaTemplateGenerator(private val templateText: String) : TemplateGenerator {
 
     override fun generate(variables: Map<String, Any>): String {
-        return this.template.make(variables).toString()
+        return Jinjava().render(templateText, variables)
     }
 
     override fun template(): String {
         return templateText
     }
+
 }

@@ -33,7 +33,7 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
-import com.github.mgramin.sqlboot.template.generator.impl.GroovyTemplateGenerator
+import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
 import reactor.core.publisher.Flux
@@ -66,7 +66,7 @@ class JdbcSelectQuery(
     override fun columns() = origin.columns()
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
-        val sqlText = GroovyTemplateGenerator(origin.query()).generate(variables)
+        val sqlText = JinjaTemplateGenerator(origin.query()).generate(variables)
         logger.info(sqlText)
 
         return Mono.fromCallable {

@@ -37,6 +37,6 @@ class FakeDialect : Dialect {
 
     override fun name() = "h2"
 
-    override fun paginationQueryTemplate() = "${"$"}{query}"
+    override fun paginationQueryTemplate() = "{{ query }}"
 
 }
