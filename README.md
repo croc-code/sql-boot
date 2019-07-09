@@ -1,6 +1,6 @@
 # Treat your database as Code
 
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot)
+[![Build Status](https://travis-ci.org/crocinc/sql-boot.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot)
 [![Build status](https://ci.appveyor.com/api/projects/status/vy096ig84cymr8ir?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot-hffyc)
 [![codecov](https://codecov.io/gh/sql-boot/sql-boot/branch/master/graph/badge.svg)](https://codecov.io/gh/sql-boot/sql-boot)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sql-boot/sql-boot/blob/master/LICENSE)
