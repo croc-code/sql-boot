@@ -92,7 +92,7 @@
 <!--      </div>-->
 <!--    </div>-->
 
-      <div class="text-xs-center">
+<!--      <div class="text-xs-center">
         <v-dialog v-model="dialog" width="1200">
           <template v-slot:activator="{ on }">
             <v-btn v-on="on">Click Me</v-btn>
@@ -106,7 +106,7 @@
             </v-card-text>
           </v-card>
         </v-dialog>
-      </div>
+      </div>-->
 
   </div>
 </template>
