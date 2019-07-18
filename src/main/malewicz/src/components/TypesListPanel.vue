@@ -6,7 +6,7 @@
       <v-toolbar-title>Database Navigator</v-toolbar-title>
     </v-toolbar>
 
-    <v-list>
+    <v-list two-line>
       <div v-for="item in types" :key="item.name">
         <v-list-tile @click="setType(item.name)" v-if="item.properties.title">
           <v-list-tile-avatar>

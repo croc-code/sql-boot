@@ -1,16 +1,27 @@
 <template>
 
-  <v-container grid-list-md text-xs-center>
-    <v-layout row wrap>
-      <v-flex xs2>
+    <v-app id="inspire">
+
+      <v-toolbar color="green" dark fixed app clipped-right>
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <!--<v-toolbar-title>Toolbar</v-toolbar-title>-->
+      </v-toolbar>
+
+      <v-navigation-drawer fixed v-model="drawer" app>
         <ConnectionsListPanel/>
         <TypesListPanel/>
-      </v-flex>
-      <v-flex xs10>
+      </v-navigation-drawer>
+
+      <v-content>
         <component v-bind:is="panel"></component>
-      </v-flex>
-    </v-layout>
-  </v-container>
+      </v-content>
+
+      <v-footer color="green" class="white--text" app>
+        <span>CrocInc/sql-boot</span>
+        <v-spacer></v-spacer>
+        <span>&copy; 2019</span>
+      </v-footer>
+    </v-app>
 
 </template>
 
@@ -21,6 +32,17 @@
   import ObjectsTablePanel from './ObjectsTablePanel'
 
   export default {
+   data: () => ({
+    drawer: true,
+    drawerRight: true,
+    right: null,
+    left: null
+  }),
+
+  props: {
+    source: String
+  },
+
     props: ['panel'],
     name: 'HelloWorld',
     components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel},

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <v-toolbar color="green" dark>
+    <v-toolbar>
       <v-toolbar-title class="text">{{meta.properties.title}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
@@ -40,10 +40,8 @@
     :headers="defaultMeta"
     :items="items"
     :pagination.sync="pagination"
-    :loading="true"
     hide-actions
     class="elevation-1">
-     <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
     <template v-slot:items="props">
       <td v-for="met in defaultMeta">{{ props.item[met.name] }}</td>
     </template>
