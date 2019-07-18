@@ -1,62 +1,57 @@
 <template>
-    <v-navigation-drawer permanent>
-      <v-toolbar flat>
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-title class="title">Objects</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-toolbar>
+  <div>
 
-      <v-divider></v-divider>
 
-      <v-list dense class="pt-0">
-        <v-list-tile
-          v-for="item in types"
-          :key="item.name"
-          @click="setType(item.name)" v-if="item.properties.title">
-          <v-list-tile-action>
-            <v-icon large>{{item.properties.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.properties.title }}</v-list-tile-title>
-          </v-list-tile-content>
+    <v-toolbar color="green" dark>
+      <v-toolbar-title>Database Navigator</v-toolbar-title>
+    </v-toolbar>
+
+    <v-list>
+      <div v-for="item in types" :key="item.name">
+        <v-list-tile @click="setType(item.name)" v-if="item.properties.title">
+          <v-list-tile-avatar>
+            <v-icon class="green white--text" v-if="item.properties.icon">{{item.properties.icon}}</v-icon>
+            <v-icon class="grey white--text" v-else>not_interested</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-content>{{ item.properties.title }}</v-list-tile-content>
         </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
+      </div>
+    </v-list>
+
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'TypesListPanel',
-  data () {
-    return {
-      types: []
-    }
-  },
-  methods: {
-    isActive (type) {
-      return this.$store.state.type === type.name
+  export default {
+    name: 'TypesListPanel',
+    data() {
+      return {
+        types: []
+      }
     },
-    setType (type) {
-      this.$store.commit('setSort', '')
-      return this.$store.commit('setType', type)
-    }
-  },
-  computed: {
-    getPreparedTypesUri () {
-      this.$http.get(this.$store.getters.preparedTypesUri).then (
-        response => {
-          this.types = response.body
-        }
-      )
-      return this.$store.getters.preparedTypesUri
-    }
-  },
-  watch: {
-    getPreparedTypesUri (newVal, oldVal) {
+    methods: {
+      isActive(type) {
+        return this.$store.state.type === type.name
+      },
+      setType(type) {
+        this.$store.commit('setSort', '')
+        return this.$store.commit('setType', type)
+      }
+    },
+    computed: {
+      getPreparedTypesUri() {
+        this.$http.get(this.$store.getters.preparedTypesUri).then(
+          response => {
+            this.types = response.body
+          }
+        )
+        return this.$store.getters.preparedTypesUri
+      }
+    },
+    watch: {
+      getPreparedTypesUri(newVal, oldVal) {
 
+      }
     }
   }
-}
 </script>
