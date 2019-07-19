@@ -1,21 +1,24 @@
 <template>
   <div>
 
-
     <v-toolbar color="green" dark>
       <v-toolbar-title>Database Navigator</v-toolbar-title>
     </v-toolbar>
 
     <v-list two-line>
-      <div v-for="item in types" :key="item.name">
-        <v-list-tile @click="setType(item.name)" v-if="item.properties.title">
-          <v-list-tile-avatar>
-            <v-icon class="green white--text" v-if="item.properties.icon">{{item.properties.icon}}</v-icon>
-            <v-icon class="grey white--text" v-else>not_interested</v-icon>
-          </v-list-tile-avatar>
-          <v-list-tile-content>{{ item.properties.title }}</v-list-tile-content>
-        </v-list-tile>
-      </div>
+      <v-tooltip bottom v-for="item in types" :key="item.name">
+        <template v-slot:activator="{ on }">
+          <v-list-tile v-on="on" @click="setType(item.name)" v-if="item.properties.title">
+            <v-list-tile-avatar>
+              <v-icon class="green white--text" v-if="item.properties.icon">{{item.properties.icon}}</v-icon>
+              <v-icon class="grey white--text" v-else>not_interested</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>{{ item.properties.title }}</v-list-tile-content>
+          </v-list-tile>
+        </template>
+        <span v-if="item.properties.description">{{ item.properties.description }}</span>
+        <span v-else>{{ item.properties.title }}</span>
+      </v-tooltip>
     </v-list>
 
   </div>
