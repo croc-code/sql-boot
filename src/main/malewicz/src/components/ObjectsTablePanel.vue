@@ -134,6 +134,9 @@ export default {
     this.$http.get(this.$store.getters.preparedUri).then(
       response => {
         this.items = response.body
+        if (this.items.length === 15 && this.message === this.getPageCount()) {
+          this.increasePageCount()
+        }
       }
     )
   },
