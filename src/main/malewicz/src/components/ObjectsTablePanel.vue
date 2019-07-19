@@ -3,7 +3,7 @@
 
     <v-toolbar>
       <v-toolbar-title class="text">{{meta.properties.title}}</v-toolbar-title>
-      <v-spacer></v-spacer>
+      <!--<v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>settings</v-icon>
       </v-btn>
@@ -12,7 +12,7 @@
       </v-btn>
       <v-btn icon>
         <v-icon>refresh</v-icon>
-      </v-btn>
+      </v-btn>-->
     </v-toolbar>
 
 <!--    <ul class="nav">-->
