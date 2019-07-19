@@ -71,7 +71,7 @@ const store = new Vuex.Store({
     connections: '',
     type: 'table',
     path: [''],
-    page: { 'number': 1, 'size': 15 },
+    page: { 'number': 1, 'size': 15, 'count': 1 },
     orderby: {},
     where: '',
     cache: false
@@ -92,6 +92,15 @@ const store = new Vuex.Store({
       return state.connections + '/' + state.type + '/' + (state.path ? state.path : '') +
         '?page=' + state.page.number + ',' + state.page.size +
         (state.orderby.field ? ('&orderby=' + state.orderby.field + '-' + state.orderby.ord) : '')
+    },
+    getPage: state => {
+      return state.page
+    },
+    getPageCount: state => {
+      return state.page.count
+    },
+    getPageNumber: state => {
+      return state.page.number
     }
   },
   mutations: {
@@ -119,6 +128,12 @@ const store = new Vuex.Store({
     setPage (state, val) {
       state.page.number = parseInt(val.split(',')[0])
       state.page.size = parseInt(val.split(',')[1])
+    },
+    setPageCount (state, count) {
+      state.page.count = count
+    },
+    increasePageCount (state) {
+      state.page.count++
     },
     changeUri (state, uriString) {
       const parse = require('url-parse')

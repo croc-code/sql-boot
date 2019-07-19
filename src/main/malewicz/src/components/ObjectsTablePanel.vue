@@ -48,7 +48,11 @@
    </v-data-table>
 
     <div class="text-xs-center pt-3">
-      <v-pagination v-model="currentPageNumber" :length=15></v-pagination>
+      <v-pagination
+        v-model="message"
+        :length="getPageCount()"
+        :total-visible="7"
+        circle/>
     </div>
 
 
@@ -115,7 +119,6 @@ export default {
     return {
       meta: [],
       items: [],
-      currentPageNumber: 1,
       pagination: {
         rowsPerPage: -1
       }
@@ -143,12 +146,17 @@ export default {
     },
     count2 () {
       return this.$store.getters.preparedUri
+    },
+    message: {
+      get () {
+        return this.$store.getters.getPageNumber
+      },
+      set (value) {
+        return this.$store.commit('pageNumber', value)
+      }
     }
   },
   watch: {
-    currentPageNumber (newValue) {
-      this.setPageNumber(newValue)
-    },
     count (newValue) {
       this.meta = []
       this.$http.get(newValue).then(
@@ -162,6 +170,9 @@ export default {
       this.$http.get(newValue).then(
         response => {
           this.items = response.body
+          if (this.items.length === 15 && this.message === this.getPageCount()) {
+            this.increasePageCount()
+          }
         }, response => {
           this.$notify({
             group: 'foo',
@@ -202,6 +213,18 @@ export default {
     },
     setSort (field) {
       this.$store.commit('setSort', {field: field, ord: 'desc'})
+    },
+    getPageNumber() {
+      return this.$store.getters.getPageNumber()
+    },
+    getPageCount() {
+      return this.$store.getters.getPageCount
+    },
+    setPageCount(count) {
+      this.$store.commit('setPageCount', count)
+    },
+    increasePageCount() {
+      this.$store.commit('increasePageCount')
     }
   }
 }

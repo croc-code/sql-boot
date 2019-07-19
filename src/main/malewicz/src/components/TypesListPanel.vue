@@ -34,6 +34,8 @@
         return this.$store.state.type === type.name
       },
       setType(type) {
+        this.$store.commit('setPageCount', 1)
+        this.$store.commit('pageNumber', 1)
         this.$store.commit('setSort', '')
         return this.$store.commit('setType', type)
       }
