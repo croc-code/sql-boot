@@ -45,7 +45,7 @@
           })
         }
       )
-      this.doLoading()
+      // this.doLoading()
     },
     watch: {
       connections: function (newVal, oldVal) {
