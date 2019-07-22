@@ -58,9 +58,9 @@ internal class EndpointListTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["h2"])
+    @ValueSource(strings = ["h.*|123"])
     fun getConnectionsByMask(connectionMask: String) {
-        assertEquals(connectionMask, endpointList.getByMask(connectionMask).first().name())
+        assertEquals("h2", endpointList.getByMask(connectionMask).first().name())
     }
 
     @Test

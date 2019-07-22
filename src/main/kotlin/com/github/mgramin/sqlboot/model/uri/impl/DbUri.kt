@@ -58,7 +58,7 @@ class DbUri : Uri {
 
     constructor(uriString: String) {
         try {
-            val uri = URI(uriString)
+            val uri = URI(uriString.replace("|", "%7C"))
 
             val pathMap: Map<Int, String> = uri.path
                     .split("/")
