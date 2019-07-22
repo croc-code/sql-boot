@@ -41,12 +41,10 @@ import VueTreeNavigation from 'vue-tree-navigation'
 
 import Notifications from 'vue-notification'
 import JsonExcel from 'vue-json-excel'
-
 import VueSSE from 'vue-sse'
-
 import Vuetify from 'vuetify'
-
 import VueHighlightJS from 'vue-highlightjs'
+import moment from 'moment'
 
 
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
@@ -63,6 +61,12 @@ Vue.use(VueHighlightJS)
 
 
 Vue.config.productionTip = false
+
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD.MM.YYYY HH:mm:ss')
+  }
+});
 
 const store = new Vuex.Store({
   state: {

@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
 
     <v-toolbar>
@@ -84,7 +84,8 @@
      </template>
     <template v-slot:items="props">
       <td v-for="met in defaultMeta">
-        {{ props.item[met.name] }}
+        <span v-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>
+        <span v-else>{{ props.item[met.name] }}</span>
       </td>
     </template>
    </v-data-table>
