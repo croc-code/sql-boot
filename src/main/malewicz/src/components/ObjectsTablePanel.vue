@@ -91,8 +91,10 @@
     :headers="defaultMeta"
     :items="items"
     :pagination.sync="pagination"
+    :loading="isLoading"
     hide-actions
     class="elevation-1">
+    <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
     <template v-slot:items="props">
       <!--<v-tooltip v-for="met in defaultMeta">-->
         <!--<template v-slot:activator="{ on }">-->
@@ -125,7 +127,7 @@ export default {
         rowsPerPage: -1
       },
       dialog: false,
-      selected: "A"
+      isLoading: false
     }
   },
   created: function () {
@@ -134,12 +136,14 @@ export default {
         this.meta = response.body[0]
       }
     )
+    this.isLoading = true
     this.$http.get(this.$store.getters.preparedUri).then(
       response => {
         this.items = response.body
         if (this.items.length === 15 && this.message === this.getPageCount()) {
           this.increasePageCount()
         }
+        this.isLoading = false
       }
     )
   },
@@ -173,12 +177,14 @@ export default {
     },
     count2 (newValue) {
       this.items = []
+      this.isLoading = true
       this.$http.get(newValue).then(
         response => {
           this.items = response.body
           if (this.items.length === 15 && this.message === this.getPageCount()) {
             this.increasePageCount()
           }
+          this.isLoading = false
         }, response => {
           this.$notify({
             group: 'foo',
@@ -186,13 +192,13 @@ export default {
             title: 'Server error',
             text: response
           })
+          this.isLoading = false
         }
       )
     }
   },
   methods: {
     checkboxComparator() {
-      console.log("!!!!!!!!!!!!!!!!!")
       return true
     },
     call () {
