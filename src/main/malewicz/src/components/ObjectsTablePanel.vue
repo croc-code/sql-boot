@@ -46,10 +46,10 @@
         </v-card>
       </v-dialog>
 
-<!--      <v-dialog v-model="dialog" width="1200">
+      <v-dialog v-model="dialog2" width="1200">
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
-            <v-icon>settings</v-icon>
+            <v-icon>build</v-icon>
           </v-btn>
         </template>
         <v-card>
@@ -60,32 +60,12 @@
             <pre v-highlightjs="meta.query" class="text-sm-left"><code class="sql"></code></pre>
           </v-card-text>
         </v-card>
-      </v-dialog>-->
+      </v-dialog>
 
     </v-toolbar>
 
 
 
-<!--    <ul class="nav">-->
-<!--      <li class="nav-item pt-2 pb-2">-->
-<!--        <nav aria-label="test">-->
-<!--          <ul class="pagination">-->
-<!--            <li class="page-item">-->
-<!--              <a class="page-link" href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-cog fa-fw" aria-hidden="true"/></a>-->
-<!--            </li>-->
-<!--            <li class="page-item">-->
-<!--              <a class="page-link" href="#" data-target="#exampleModal" v-on:click="call"><i class="fas fa-reply fa-fw" aria-hidden="true"/></a>-->
-<!--            </li>-->
-<!--            <li class="page-item">-->
-<!--              <download-excel-->
-<!--                :data   = "items">-->
-<!--                <a class="page-link" href="#">To Excel</a>-->
-<!--              </download-excel>-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--        </nav>-->
-<!--      </li>-->
-<!--    </ul>-->
 
    <v-data-table
     :headers="defaultMeta"
@@ -95,13 +75,17 @@
     hide-actions
     class="elevation-1">
     <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+     <template slot="headerCell" scope="props">
+       <v-tooltip bottom>
+         <span slot="activator">{{ props.header.text }}</span>
+         <span v-if="props.header.properties.description">{{ props.header.properties.description }}</span>
+         <span v-else>{{ props.header.text }}</span>
+       </v-tooltip>
+     </template>
     <template v-slot:items="props">
-      <!--<v-tooltip v-for="met in defaultMeta">-->
-        <!--<template v-slot:activator="{ on }">-->
-          <td v-for="met in defaultMeta">{{ props.item[met.name] }}</td>
-        <!--</template>-->
-        <!--<span>{{ props.item[met.name] }}</span>-->
-      <!--</v-tooltip>-->
+      <td v-for="met in defaultMeta">
+        {{ props.item[met.name] }}
+      </td>
     </template>
    </v-data-table>
 
@@ -127,6 +111,7 @@ export default {
         rowsPerPage: -1
       },
       dialog: false,
+      dialog2: false,
       isLoading: false
     }
   },
