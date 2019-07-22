@@ -30,7 +30,7 @@
                 </template>
                 <template v-slot:items="props">
                   <td>
-                    <v-checkbox v-model="props.item.properties.visible" :value-comparator="checkboxComparator(props.item.properties.visible)" />
+                    <v-checkbox v-model="props.item.properties.visible" />
                   </td>
                     <td>{{ props.item.properties.label }}</td>
                     <td>{{ props.item.properties.description }}</td>
@@ -198,9 +198,6 @@ export default {
     }
   },
   methods: {
-    checkboxComparator() {
-      return true
-    },
     call () {
       this.meta = []
       this.items = []
