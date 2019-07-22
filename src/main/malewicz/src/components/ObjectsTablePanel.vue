@@ -117,12 +117,12 @@ export default {
     }
   },
   created: function () {
+    this.isLoading = true
     this.$http.get(this.$store.getters.preparedTypeUri).then(
       response => {
         this.meta = response.body[0]
       }
     )
-    this.isLoading = true
     this.$http.get(this.$store.getters.preparedUri).then(
       response => {
         this.items = response.body
@@ -158,6 +158,7 @@ export default {
       this.$http.get(newValue).then(
         response => {
           this.meta = response.body[0]
+          // this.setSort('time')
         }
       )
     },
@@ -172,12 +173,7 @@ export default {
           }
           this.isLoading = false
         }, response => {
-          this.$notify({
-            group: 'foo',
-            type: 'error',
-            title: 'Server error',
-            text: response
-          })
+          this.$notify({ group: 'foo', type: 'error', title: 'Server error', text: response })
           this.isLoading = false
         }
       )

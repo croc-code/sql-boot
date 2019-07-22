@@ -10,7 +10,7 @@
         <template v-slot:activator="{ on }">
           <v-list-tile v-on="on" @click="setType(item.name)" v-if="item.properties.title">
             <v-list-tile-avatar>
-              <v-icon v-bind:class="item.properties.icon_class || 'green white--text'">{{ item.properties.icon || "not_interested" }}</v-icon>
+              <v-icon v-bind:class="item.properties.icon_class">{{ item.properties.icon || "not_interested" }}</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>{{ item.properties.title }}</v-list-tile-content>
           </v-list-tile>
@@ -36,10 +36,10 @@
         return this.$store.state.type === type.name
       },
       setType(type) {
-        this.$store.commit('setPageCount', 1)
-        this.$store.commit('pageNumber', 1)
+        this.$store.commit('setType', type)
         this.$store.commit('setSort', '')
-        return this.$store.commit('setType', type)
+        this.$store.commit('pageNumber', 1)
+        this.$store.commit('setPageCount', 1)
       }
     },
     computed: {

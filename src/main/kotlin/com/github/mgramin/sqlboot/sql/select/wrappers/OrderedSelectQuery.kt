@@ -44,7 +44,6 @@ class OrderedSelectQuery(
     override fun query(): String {
         if (orderedColumns.isEmpty()) return origin.query()
         val orderExpression = orderedColumns.map { "${it.key} ${it.value}" }.joinToString { it }
-//        return """${origin.query()} order by $orderExpression"""
         return """select *
                  |  from (${origin.query()}) q
                  | order by $orderExpression""".trimMargin()
