@@ -6,7 +6,7 @@
     </v-toolbar>
 
     <v-list two-line>
-      <v-tooltip bottom v-for="item in types" :key="item.name">
+      <v-tooltip right v-for="item in types" :key="item.name">
         <template v-slot:activator="{ on }">
           <v-list-tile v-on="on" @click="setType(item.name)" v-if="item.properties.title">
             <v-list-tile-avatar>

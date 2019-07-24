@@ -73,6 +73,7 @@ const store = new Vuex.Store({
     host: '',
     // host: 'http://localhost:8007/',
     connections: '',
+    newConnections: [],
     type: 'table',
     path: [''],
     page: { 'number': 1, 'size': 15, 'count': 1 },
@@ -88,12 +89,12 @@ const store = new Vuex.Store({
       return state.host + '/api/' + state.connections + '/types' + '/' + state.type
     },
     preparedUri: state => {
-      return state.host + '/api/' + state.connections + '/' + state.type + '/' + state.path +
+      return state.host + '/api/' + state.newConnections.join('|') + '/' + state.type + '/' + state.path +
         '?page=' + state.page.number + ',' + state.page.size +
         (state.orderby.field ? ('&orderby=' + state.orderby.field + '-' + state.orderby.ord) : '')
     },
     getSimpleUri: state => {
-      return state.connections + '/' + state.type + '/' + (state.path ? state.path : '') +
+      return state.newConnections.join('|') + '/' + state.type + '/' + (state.path ? state.path : '') +
         '?page=' + state.page.number + ',' + state.page.size +
         (state.orderby.field ? ('&orderby=' + state.orderby.field + '-' + state.orderby.ord) : '')
     },
@@ -110,6 +111,9 @@ const store = new Vuex.Store({
   mutations: {
     setConnection (state, connectionName) {
       state.connections = connectionName
+    },
+    setNewConnection (state, connectionName) {
+      state.newConnections = connectionName
     },
     setType (state, typeName) {
       state.type = typeName
