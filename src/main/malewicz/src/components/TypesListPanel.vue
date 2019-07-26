@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
 
     <v-toolbar color="green" dark>
@@ -6,18 +6,26 @@
     </v-toolbar>
 
     <v-list two-line>
-      <v-tooltip right v-for="item in types" :key="item.name">
-        <template v-slot:activator="{ on }">
-          <v-list-tile v-on="on" @click="setType(item.name)" v-if="item.properties.title">
-            <v-list-tile-avatar>
-              <v-icon v-bind:class="item.properties.icon_class">{{ item.properties.icon || "not_interested" }}</v-icon>
-            </v-list-tile-avatar>
-            <v-list-tile-content>{{ item.properties.title }}</v-list-tile-content>
+      <v-list-group v-for="tag in allTags()" prepend-icon="bookmark_border">
+        <template v-slot:activator>
+          <v-list-tile>
+            <v-list-item-title>{{tag}}</v-list-item-title>
           </v-list-tile>
         </template>
-        <span v-if="item.properties.description">{{ item.properties.description }}</span>
-        <span v-else>{{ item.properties.title }}</span>
-      </v-tooltip>
+
+        <v-tooltip right v-for="item in typesByTag(tag)" :key="item.name">
+          <template v-slot:activator="{ on }">
+            <v-list-tile v-on="on" @click="setType(item.name)" v-if="item.properties.title">
+              <v-list-tile-avatar>
+                <v-icon v-bind:class="item.properties.icon_class">{{ item.properties.icon || "not_interested" }}</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>{{ item.properties.title }}</v-list-tile-content>
+            </v-list-tile>
+          </template>
+          <span v-if="item.properties.description">{{ item.properties.description }}</span>
+          <span v-else>{{ item.properties.title }}</span>
+        </v-tooltip>
+      </v-list-group>
     </v-list>
 
   </div>
@@ -32,6 +40,22 @@
       }
     },
     methods: {
+      typesByTag(tag) {
+        return this.types
+          .filter(el => el === 0 || Boolean(el.properties.tags))
+          .filter(v => { return v.properties.tags.includes(tag) })
+      },
+      allTags() {
+        return this.types
+          .map(v => { return v.properties.tags } )
+          .filter(el => el === 0 || Boolean(el))
+          .map(v => { return v.split(",") } )
+          .flatMap(v => v)
+          .filter(this.onlyUnique)
+      },
+      onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+      },
       isActive(type) {
         return this.$store.state.type === type.name
       },
@@ -53,9 +77,7 @@
       }
     },
     watch: {
-      getPreparedTypesUri(newVal, oldVal) {
-
-      }
+      getPreparedTypesUri(newVal, oldVal) {}
     }
   }
 </script>
