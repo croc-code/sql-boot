@@ -89,6 +89,8 @@ class JdbcSelectQuery(
                 .publishOn(Schedulers.parallel())
                 .map { it.toFlux() }
                 .toFlux()
+                .doOnError { logger.warn(it.message) }
+                .onErrorReturn(Flux.empty())
                 .flatMap { it }
     }
 
