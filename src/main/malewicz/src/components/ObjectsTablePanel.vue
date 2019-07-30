@@ -1,15 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-
     <v-toolbar>
-      <v-toolbar-title class="text">{{meta.properties.title}}</v-toolbar-title>
+      <v-toolbar-title class="text" v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <!--<v-btn icon>
-        <v-icon>settings</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn>-->
       <v-dialog v-model="dialog" width="1000">
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
@@ -135,12 +128,16 @@ export default {
   },
   computed: {
     defaultMeta: function () {
-      return this.meta.metadata.filter(function (v) { return v.properties.visible !== false })
+      if (this.meta.metadata) {
+        return this.meta.metadata.filter( v => { return v.properties.visible !== false } )
+      } else {
+        return this.meta.metadata
+      }
     },
     count () {
       return this.$store.getters.preparedTypeUri
     },
-    count2 () {
+    uri () {
       return this.$store.getters.preparedUri
     },
     message: {
@@ -162,7 +159,7 @@ export default {
         }
       )
     },
-    count2 (newValue) {
+    uri (newValue) {
       this.items = []
       this.isLoading = true
       this.$http.get(newValue).then(

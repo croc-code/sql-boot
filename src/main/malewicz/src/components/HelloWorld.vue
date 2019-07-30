@@ -4,7 +4,6 @@
 
       <v-toolbar color="green" dark fixed app clipped-right>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <!--<v-toolbar-title>Toolbar</v-toolbar-title>-->
       </v-toolbar>
 
       <v-navigation-drawer fixed v-model="drawer" app>
@@ -17,9 +16,9 @@
       </v-content>
 
       <v-footer color="green" class="white--text" app>
-        <span>CrocInc/sql-boot</span>
+        <span class="pa-3">CrocInc/sql-boot</span>
         <v-spacer></v-spacer>
-        <span>&copy; 2019</span>
+        <span class="pa-3">&copy; 2019</span>
       </v-footer>
     </v-app>
 
