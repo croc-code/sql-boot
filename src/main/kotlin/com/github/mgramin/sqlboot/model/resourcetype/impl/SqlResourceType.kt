@@ -108,10 +108,10 @@ class SqlResourceType(
     }
 
     override fun metaData(uri: Uri): List<Metadata> =
+            listOf(Metadata("endpoint", """{"label": "Endpoint", "description": "Endpoint name", "visible": true}""")) +
             simpleSelectQuery
                     .columns()
-                    .map { Metadata(it.key, it.value) } +
-                    Metadata("endpoint", """{"label": "Endpoint", "description": "Endpoint name", "visible": false}""")
+                    .map { Metadata(it.key, it.value) }
 
     override fun toJson(): JsonObject {
         val jsonObject = JsonObject()
