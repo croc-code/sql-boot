@@ -43,7 +43,7 @@
       typesByTag(tag) {
         return this.types
           .filter(el => el === 0 || Boolean(el.properties.tags))
-          .filter(v => { return v.properties.tags.includes(tag) })
+          .filter(v => { return v.properties.tags.includes(tag) &&  v.properties.tags.includes('ui')})
       },
       allTags() {
         return this.types
@@ -52,6 +52,7 @@
           .map(v => { return v.split(",") } )
           .flatMap(v => v)
           .filter(this.onlyUnique)
+          .filter(el => el !== 'ui')
       },
       onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
