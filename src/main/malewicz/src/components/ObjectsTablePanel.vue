@@ -88,7 +88,6 @@
         v-model="message"
         :length="getPageCount()"
         :total-visible="5"
-        next-icon="more_horiz"
         circle/>
     </div>
 
