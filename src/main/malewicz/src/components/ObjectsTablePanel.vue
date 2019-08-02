@@ -77,7 +77,12 @@
      </template>
     <template v-slot:items="props">
       <td v-for="met in defaultMeta">
-        <span v-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>
+        <span v-if="met.properties.icon && props.item[met.name]">
+          <v-btn icon :href="'#/'+props.item['endpoint']+'/'+props.item[met.name]">
+            <v-icon>{{ met.properties.icon }}</v-icon>
+          </v-btn>
+        </span>
+        <span v-else-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>
         <span v-else>{{ props.item[met.name] }}</span>
       </td>
     </template>
@@ -118,7 +123,7 @@ export default {
     this.$http.get(this.$store.getters.preparedUri).then(
       response => {
         this.items = response.body
-        if (this.items.length === 15 && this.message === this.getPageCount()) {
+        if (this.items.length >= 15 && this.message === this.getPageCount()) {
           this.increasePageCount()
         }
         this.isLoading = false
@@ -164,7 +169,7 @@ export default {
       this.$http.get(newValue).then(
         response => {
           this.items = response.body
-          if (this.items.length === 15 && this.message === this.getPageCount()) {
+          if (this.items.length >= 15 && this.message === this.getPageCount()) {
             this.increasePageCount()
           }
           this.isLoading = false

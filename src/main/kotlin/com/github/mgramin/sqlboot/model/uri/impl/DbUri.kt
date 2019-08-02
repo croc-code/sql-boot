@@ -69,7 +69,13 @@ class DbUri : Uri {
 
             connection = pathMap.getValue(0)
             type = pathMap.getValue(1)
-            objects = pathMap.getOrDefault(2, "*").split(".")
+
+            objects = if (pathMap.containsKey(2)) {
+                pathMap[2]!!.split(".")
+            } else {
+                emptyList()
+            }
+
             action = pathMap.getOrDefault(3, "")
 
             params = if (uri.query != null)

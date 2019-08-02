@@ -9,7 +9,7 @@
       <v-list-group v-for="tag in allTags()" prepend-icon="bookmark_border">
         <template v-slot:activator>
           <v-list-tile>
-            <v-list-item-title>{{tag}}</v-list-item-title>
+            <v-list-tile-title>{{tag}}</v-list-tile-title>
           </v-list-tile>
         </template>
 

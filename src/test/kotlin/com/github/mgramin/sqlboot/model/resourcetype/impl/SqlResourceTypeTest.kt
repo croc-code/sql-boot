@@ -99,7 +99,7 @@ class SqlResourceTypeTest {
         val sql = """/*
                     |  { "name": "table" }
                     |*/
-                    |select *
+                    |select @schema, @table
                     |  from (select table_schema   as "@schema"
                     |             , table_name     as "@table"
                     |          from information_schema.tables)""".trimMargin()
@@ -114,7 +114,7 @@ class SqlResourceTypeTest {
         val sql = """/*
                     |  { "name": "column" }
                     |*/
-                    |select *
+                    |select @schema, @table, @column
                     |  from (select table_schema    as "@schema"
                     |             , table_name      as "@table"
                     |             , column_name     as "@column"

@@ -6,17 +6,15 @@
   "icon": "table_chart"
 }
 */
-select "@schema"            /* { "label": "Owner", "description": "Owner of the table", "visible": false } */
-     , "@table"             /* { "label": "Name", "description": "Name of the table" } */
+select schema            /* { "label": "Owner", "description": "Owner of the table", "visible": false } */
+     , table             /* { "label": "Name", "description": "Name of the table" } */
      , table_type           /* { "label": "Type", "description": "Typical types", "visible": true, "values": ['TABLE', 'VIEW', 'SYSTEM TABLE', 'GLOBAL TEMPORARY', 'LOCAL TEMPORARY', 'ALIAS', 'SYNONYM'] } */
      , remarks              /* { "label": "Comment", "description": "Comments", "visible": true } */
      , last_modification    /* { "label": "Last modification", "description": "Last modification" } */
-  from (select t.table_schema as "@schema"
-             , t.table_name   as "@table"
+  from (select t.table_schema as schema
+             , t.table_name   as table
              , t.*
-          from information_schema.tables t
-         where lower(t.table_schema) like lower('{{ uri.path(0) }}')
-           and lower(t.table_name) like lower('{{ uri.path(1) }}'))
+          from information_schema.tables t)
 ````
 
 ````sql

@@ -72,7 +72,6 @@ const store = new Vuex.Store({
   state: {
     host: '',
     // host: 'http://localhost:8007/',
-    connections: '',
     newConnections: [],
     type: 'table',
     path: [''],
@@ -83,10 +82,10 @@ const store = new Vuex.Store({
   },
   getters: {
     preparedTypesUri: state => {
-      return state.host + '/api/' + state.connections + '/types'
+      return state.host + '/api/' + state.newConnections[0] + '/types'
     },
     preparedTypeUri: state => {
-      return state.host + '/api/' + state.connections + '/types' + '/' + state.type
+      return state.host + '/api/' + state.newConnections[0] + '/types' + '/' + state.type
     },
     preparedUri: state => {
       return state.host + '/api/' + state.newConnections.join('|') + '/' + state.type + '/' + state.path +
@@ -106,12 +105,12 @@ const store = new Vuex.Store({
     },
     getPageNumber: state => {
       return state.page.number
+    },
+    getConnections: state => {
+      return state.newConnections
     }
   },
   mutations: {
-    setConnection (state, connectionName) {
-      state.connections = connectionName
-    },
     setNewConnection (state, connectionName) {
       state.newConnections = connectionName
     },
@@ -147,10 +146,12 @@ const store = new Vuex.Store({
       const parse = require('url-parse')
       const url = parse(uriString, true)
       var path = url.pathname.split('/').filter(v => v)
-      state.connections = path[0]
+      state.newConnections = path[0].split('|')
       state.type = path[1]
       if (path[2]) {
         state.path = path[2]
+      } else {
+        state.path = ""
       }
       if (url.query.page) {
         state.page.number = parseInt(url.query.page.split(',')[0])

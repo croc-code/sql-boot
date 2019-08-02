@@ -30,35 +30,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.impl
+package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.model.uri.Uri
+import com.github.mgramin.sqlboot.sql.select.SelectQuery
 
-class FakeUri : Uri {
+class FilteredSelectQuery(
+        private val origin: SelectQuery,
+        private val path: List<String>
+) : SelectQuery {
 
+    override fun properties() = origin.properties()
 
-    override fun type(): String {
-        return "table"
+    override fun query(): String {
+        return if (path.isEmpty()) {
+            origin.query()
+        } else {
+            val whereCondition = origin.columns()
+                    .asSequence()
+                    .take(path.count())
+                    .mapIndexed { index, s -> """lower(${s.key}) like lower('${path[index]}')""" }
+                    .joinToString(prefix = "where ", separator = " and ")
+            """select *
+                 |  from (${origin.query()}) q
+                 | $whereCondition""".trimMargin()
+        }
     }
 
-    override fun path(): List<String> {
-        return emptyList()
-    }
+    override fun columns() = origin.columns()
 
-    override fun path(index: Int): String {
-        return "FAKE_TBL"
-    }
-
-    override fun params(): Map<String, String> {
-        return mapOf("page" to "1,20", "sortby" to "schema,table")
-    }
-
-    override fun action(): String {
-        return "create"
-    }
-
-    override fun connection(): String {
-        return "prod"
-    }
+    override fun execute(variables: Map<String, Any>) = origin.execute(variables)
 
 }

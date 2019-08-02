@@ -47,6 +47,7 @@ class DbUriTest {
     @Test
     fun createAllTableFromAllSchema() {
         test("prod/table/*", "DbUri{type='table', path=[*], params={}}")
+        test("prod/table/", "DbUri{type='table', path=[], params={}}")
     }
 
     @Test

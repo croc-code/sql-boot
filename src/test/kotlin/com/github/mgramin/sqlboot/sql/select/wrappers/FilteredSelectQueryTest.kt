@@ -30,35 +30,48 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.mgramin.sqlboot.model.uri.impl
+package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.model.uri.Uri
+import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
+import org.junit.jupiter.api.Assertions.*
 
-class FakeUri : Uri {
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import reactor.core.publisher.Flux
+import javax.sql.DataSource
 
+@ExtendWith(SpringExtension::class)
+@ContextConfiguration(locations = ["/test_config.xml"])
+internal class FilteredSelectQueryTest {
 
-    override fun type(): String {
-        return "table"
+    @Autowired
+    internal var dataSource: DataSource? = null
+
+    @Test
+    fun properties() {
     }
 
-    override fun path(): List<String> {
-        return emptyList()
+    @Test
+    fun query() {
+        println(FilteredSelectQuery(FakeSelectQuery(), listOf("test", "test1")).query())
     }
 
-    override fun path(index: Int): String {
-        return "FAKE_TBL"
+    @Test
+    fun columns() {
+        println(FakeSelectQuery().columns())
     }
 
-    override fun params(): Map<String, String> {
-        return mapOf("page" to "1,20", "sortby" to "schema,table")
-    }
-
-    override fun action(): String {
-        return "create"
-    }
-
-    override fun connection(): String {
-        return "prod"
+    @Test
+    fun execute() {
+        val execute: Flux<Map<String, Any>> =
+                JdbcSelectQuery(
+                        FilteredSelectQuery(
+                                FakeSelectQuery(),
+                                listOf("test", "test1")),
+                        dataSource!!).execute(emptyMap())
     }
 
 }

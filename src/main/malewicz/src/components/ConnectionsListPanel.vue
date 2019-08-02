@@ -31,11 +31,6 @@
           this.$store.commit('setNewConnection', response.body.map(v => { return v.name }))
         }
       )
-    },
-    watch: {
-      connections: function (newVal, oldVal) {
-        this.$store.commit('setConnection', newVal[0].name)
-      }
     }
   }
 </script>

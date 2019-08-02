@@ -79,13 +79,14 @@ class FsResourceTypeTest {
             "prod/tab*/bookings,5",
             "prod/table/bookings,5",
             "prod/table/bookings.airports,1")
-    fun read(uri: String, count: Long) =
+    fun read(uri: String, count: Long) {
             connections.forEach {
                 StepVerifier
                         .create(FsResourceType(listOf(it), listOf(FakeDialect())).read(DbUri(uri)))
                         .expectNextCount(count)
                         .verifyComplete()
             }
+    }
 
     @Test
     @Deprecated("Deprecated")

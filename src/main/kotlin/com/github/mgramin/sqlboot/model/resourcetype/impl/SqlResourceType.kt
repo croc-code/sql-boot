@@ -43,11 +43,11 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.FilteredSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.RestSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -109,9 +109,9 @@ class SqlResourceType(
 
     override fun metaData(uri: Uri): List<Metadata> =
             listOf(Metadata("endpoint", """{"label": "Endpoint", "description": "Endpoint name", "visible": true}""")) +
-            simpleSelectQuery
-                    .columns()
-                    .map { Metadata(it.key, it.value) }
+                    simpleSelectQuery
+                            .columns()
+                            .map { Metadata(it.key, it.value) }
 
     override fun toJson(): JsonObject {
         val jsonObject = JsonObject()
@@ -127,23 +127,16 @@ class SqlResourceType(
 
     private fun createQuery(uri: Uri, endpoint: Endpoint, dialect: String): SelectQuery {
         val paginationQueryTemplate = dialects.first { it.name() == dialect }.paginationQueryTemplate()
-        val baseQuery =
+        return JdbcSelectQuery(
                 GrafanaSelectQuery(
                         PaginatedSelectQuery(
                                 OrderedSelectQuery(
-                                        simpleSelectQuery,
+                                        FilteredSelectQuery(
+                                                simpleSelectQuery, uri.path()),
                                         uri.orderedColumns()),
                                 uri,
-                                paginationQueryTemplate))
-        return if (simpleSelectQuery.properties()["executor"] == "http") {
-            RestSelectQuery(
-                    baseQuery,
-                    endpoint = "http://${endpoint.host()}:${endpoint.properties()["os.query.rest.port"]}")
-        } else {
-            JdbcSelectQuery(
-                    baseQuery,
-                    dataSource = endpoint.getDataSource())
-        }
+                                paginationQueryTemplate)),
+                dataSource = endpoint.getDataSource())
     }
 
 }
