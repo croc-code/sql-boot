@@ -77,12 +77,21 @@
      </template>
     <template v-slot:items="props">
       <td v-for="met in defaultMeta">
-        <span v-if="met.properties.icon && props.item[met.name]">
-          <v-btn icon :href="'#/'+props.item['endpoint']+'/'+props.item[met.name]">
-            <v-icon>{{ met.properties.icon }}</v-icon>
-          </v-btn>
-        </span>
-        <span v-else-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>
+        <!--<span v-if="met.properties.icon && props.item[met.name]">-->
+          <!--<v-btn icon :href="'#/'+props.item['endpoint']+'/'+props.item[met.name]">-->
+            <!--<v-icon>{{ met.properties.icon }}</v-icon>-->
+          <!--</v-btn>-->
+        <!--</span>-->
+        <!--<span v-else-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>-->
+        <!--<span v-else>{{ props.item[met.name] }}</span>-->
+
+        <!--:href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link"-->
+
+        <a v-if="met.properties.datatype==='json' && props.item[met.name]" :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
+        <v-chip color="green" dark style="cursor: pointer">
+            {{ JSON.parse(props.item[met.name].value).label }}
+        </v-chip>
+        </a>
         <span v-else>{{ props.item[met.name] }}</span>
       </td>
     </template>

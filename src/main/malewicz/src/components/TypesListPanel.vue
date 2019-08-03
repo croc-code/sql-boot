@@ -65,6 +65,7 @@
         this.$store.commit('setSort', '')
         this.$store.commit('pageNumber', 1)
         this.$store.commit('setPageCount', 1)
+        this.$store.commit('setPath', "")
       }
     },
     computed: {
