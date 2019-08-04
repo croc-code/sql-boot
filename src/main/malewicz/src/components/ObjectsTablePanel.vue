@@ -104,7 +104,6 @@ export default {
     return {
       meta: [],
       items: [],
-      descending: false,
       pagination: {
         rowsPerPage: -1,
         sortBy: ''
