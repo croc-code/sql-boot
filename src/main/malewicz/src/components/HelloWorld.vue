@@ -57,9 +57,9 @@
       }
     },
     created: function () {
-      if (this.$router.currentRoute.fullPath && this.$router.currentRoute.fullPath !== '/') {
+      // if (this.$router.currentRoute.fullPath && this.$router.currentRoute.fullPath !== '/') {
         this.$store.commit('changeUri', this.$router.currentRoute.fullPath)
-      }
+      // }
     }
   }
 
