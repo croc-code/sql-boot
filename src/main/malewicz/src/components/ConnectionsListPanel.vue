@@ -25,12 +25,15 @@
       }
     },
     created: function () {
-      this.$http.get(this.$store.state.host + '/endpoints').then(
-        response => {
-          this.connections = response.body.filter(v => {return v.properties.visible !== false})
-          this.$store.commit('setNewConnection', response.body.map(v => { return v.name }))
-        }
-      )
+        this.$http.get(this.$store.state.host + '/endpoints').then(
+          response => {
+            this.connections = response.body.filter(v => {
+              return v.properties.visible !== false
+            })
+            this.$store.commit('setAllConnection', response.body)
+          }
+        )
     }
+
   }
 </script>

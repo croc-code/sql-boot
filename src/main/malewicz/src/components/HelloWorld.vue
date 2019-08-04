@@ -38,17 +38,15 @@
     left: null
   }),
 
-  props: {
-    source: String
-  },
-
     props: ['panel'],
     name: 'HelloWorld',
     components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel},
     watch: {
+
       $route(to, from) {
         this.$store.commit('changeUri', to.fullPath)
       },
+
       getSimpleUri: function (newUri, oldUri) {
         this.$router.push({path: '/' + newUri})
       }

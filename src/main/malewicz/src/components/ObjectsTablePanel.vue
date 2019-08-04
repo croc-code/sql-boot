@@ -58,8 +58,6 @@
     </v-toolbar>
 
 
-
-
    <v-data-table
     :headers="defaultMeta"
     :items="items"
@@ -79,7 +77,9 @@
       <td v-for="met in defaultMeta">
         <a v-if="met.properties.datatype==='json' && props.item[met.name]"
            :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
-          <v-chip color="green" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
+          <v-chip color="green" dark>
+            {{ JSON.parse(props.item[met.name].value).label }}
+          </v-chip>
         </a>
         <span v-else-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>
         <span v-else>{{ props.item[met.name] }}</span>
@@ -104,8 +104,10 @@ export default {
     return {
       meta: [],
       items: [],
+      descending: false,
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
+        sortBy: ''
       },
       dialog: false,
       dialog2: false,
@@ -113,23 +115,28 @@ export default {
     }
   },
   created: function () {
-    this.isLoading = true
-    this.$http.get(this.$store.getters.preparedTypeUri).then(
-      response => {
-        this.meta = response.body[0]
-      }
-    )
-    this.$http.get(this.$store.getters.preparedUri).then(
-      response => {
-        this.items = response.body
-        if (this.items.length >= 15 && this.message === this.getPageCount()) {
-          this.increasePageCount()
+    // if (this.$store.state.allConnections.length > 0) {
+      this.isLoading = true
+      this.$http.get(this.$store.getters.preparedTypeUri).then(
+        response => {
+          this.meta = response.body[0]
         }
-        this.isLoading = false
-      }
-    )
+      )
+      this.$http.get(this.$store.getters.preparedUri).then(
+        response => {
+          this.items = response.body
+          if (this.items.length >= 15 && this.message === this.getPageCount()) {
+            this.increasePageCount()
+          }
+          this.isLoading = false
+        }
+      )
+    // }
   },
   computed: {
+    getSort () {
+      return this.pagination
+    },
     defaultMeta: function () {
       if (this.meta.metadata) {
         return this.meta.metadata.filter( v => { return v.properties.visible !== false } )
@@ -153,6 +160,15 @@ export default {
     }
   },
   watch: {
+    getSort(newValue) {
+      if (newValue.descending === true) {
+        this.$store.commit('setSort', { "field": newValue.sortBy, "ord": "desc" })
+      } else if (newValue.descending === false) {
+        this.$store.commit('setSort', { "field": newValue.sortBy, "ord": "asc" })
+      } else {
+        this.$store.commit('setSort', {})
+      }
+    },
     count (newValue) {
       this.meta = []
       this.$http.get(newValue).then(

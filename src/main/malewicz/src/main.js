@@ -73,8 +73,9 @@ const store = new Vuex.Store({
     host: '',
     // host: 'http://localhost:8007/',
     newConnections: [],
+    allConnections: [],
     type: 'table',
-    path: [''],
+    path: [],
     page: { 'number': 1, 'size': 15, 'count': 1 },
     orderby: {},
     where: '',
@@ -113,6 +114,9 @@ const store = new Vuex.Store({
   mutations: {
     setNewConnection (state, connectionName) {
       state.newConnections = connectionName
+    },
+    setAllConnection (state, connectionName) {
+      state.allConnections = connectionName
     },
     setType (state, typeName) {
       state.type = typeName
