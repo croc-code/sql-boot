@@ -6,7 +6,7 @@
     <v-list>
       <v-list-tile v-for="item in connections" :key="item.name">
         <v-list-tile-action>
-          <v-checkbox v-model="$store.state.uri.newConnections" :value="item.name"/>
+          <v-checkbox v-model="$store.state.uri.connections" :value="item.name"/>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
@@ -27,12 +27,9 @@
     created: function () {
         this.$http.get(this.$store.state.uri.host + '/endpoints').then(
           response => {
-            this.connections = response.body.filter(v => {
-              return v.properties.visible !== false
-            })
+            this.connections = response.body.filter(v => { return v.properties.visible !== false })
           }
         )
     }
-
   }
 </script>

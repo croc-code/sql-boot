@@ -46,14 +46,16 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title class="headline grey lighten-2" primary-title>
-            Privacy Policy
-          </v-card-title>
+          <v-card-title class="headline grey lighten-2" primary-title>SQL-query</v-card-title>
           <v-card-text>
             <pre v-highlightjs="meta.query" class="text-sm-left"><code class="sql"></code></pre>
           </v-card-text>
         </v-card>
       </v-dialog>
+
+      <v-btn @click="call()" icon>
+        <v-icon>refresh</v-icon>
+      </v-btn>
 
     </v-toolbar>
 
@@ -81,6 +83,7 @@
             {{ JSON.parse(props.item[met.name].value).label }}
           </v-chip>
         </a>
+        <pre v-else-if="met.properties.format==='sql'" v-highlightjs="props.item[met.name]" class="text-sm-left"><code class="sql"></code></pre>
         <span v-else-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>
         <span v-else>{{ props.item[met.name] }}</span>
       </td>
@@ -114,7 +117,7 @@ export default {
     }
   },
   created: function () {
-    if (this.$store.state.uri.newConnections.length > 0) {
+    if (this.$store.state.uri.connections.length > 0) {
       this.isLoading = true
       this.$http.get(this.$store.getters.preparedTypeUri).then(
         response => {
@@ -143,10 +146,10 @@ export default {
         return this.meta.metadata
       }
     },
-    count () {
+    typeUri () {
       return this.$store.getters.preparedTypeUri
     },
-    uri () {
+    objectUri () {
       return this.$store.getters.preparedUri
     },
     message: {
@@ -168,7 +171,7 @@ export default {
         this.$store.commit('setSort', {})
       }
     },
-    count (newValue) {
+    typeUri (newValue) {
       this.meta = []
       this.$http.get(newValue).then(
         response => {
@@ -177,7 +180,7 @@ export default {
         }
       )
     },
-    uri (newValue) {
+    objectUri (newValue) {
       this.items = []
       this.isLoading = true
       this.$http.get(newValue).then(

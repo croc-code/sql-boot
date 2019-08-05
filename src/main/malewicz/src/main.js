@@ -37,7 +37,6 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
-import VueTreeNavigation from 'vue-tree-navigation'
 
 import Notifications from 'vue-notification'
 import JsonExcel from 'vue-json-excel'
@@ -52,7 +51,6 @@ import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
 Vue.use(VueResource)
 Vue.use(Vuex)
-Vue.use(VueTreeNavigation)
 Vue.use(Notifications)
 Vue.component('downloadExcel', JsonExcel)
 Vue.use(VueSSE)
@@ -83,19 +81,22 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    uri: state => {
+      return state.uri
+    },
     preparedTypesUri: state => {
-      return state.uri.host + '/api/' + state.uri.newConnections[0] + '/types'
+      return state.uri.host + '/api/' + state.uri.connections[0] + '/types'
     },
     preparedTypeUri: state => {
-      return state.uri.host + '/api/' + state.uri.newConnections[0] + '/types' + '/' + state.uri.type
+      return state.uri.host + '/api/' + state.uri.connections[0] + '/types' + '/' + state.uri.type
     },
     preparedUri: state => {
-      return state.uri.host + '/api/' + state.uri.newConnections.join('|') + '/' + state.uri.type + '/' + state.uri.path +
+      return state.uri.host + '/api/' + state.uri.connections.join('|') + '/' + state.uri.type + '/' + state.uri.path +
         '?page=' + state.uri.page.number + ',' + state.uri.page.size +
         (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '')
     },
     getSimpleUri: state => {
-      return state.uri.newConnections.join('|') + '/' + state.uri.type + '/' + (state.uri.path ? state.uri.path : '') +
+      return state.uri.connections.join('|') + '/' + state.uri.type + '/' + (state.uri.path ? state.uri.path : '') +
         '?page=' + state.uri.page.number + ',' + state.uri.page.size +
         (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '')
     },
@@ -109,13 +110,10 @@ const store = new Vuex.Store({
       return state.uri.page.number
     },
     getConnections: state => {
-      return state.uri.newConnections
+      return state.uri.connections
     }
   },
   mutations: {
-    setNewConnection (state, connectionName) {
-      state.uri.newConnections = connectionName
-    },
     setType (state, typeName) {
       state.uri.type = typeName
     },
@@ -150,7 +148,7 @@ const store = new Vuex.Store({
       const path = url.pathname.split('/').filter(v => v);
       const rawConnections = path[0]
       if (rawConnections) {
-        state.uri.newConnections = path[0].split('|')
+        state.uri.connections = path[0].split('|')
         state.uri.type = path[1]
         if (path[2]) {
           state.uri.path = path[2]

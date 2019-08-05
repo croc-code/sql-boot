@@ -72,7 +72,7 @@
     },
     computed: {
       getPreparedTypesUri() {
-        if (this.$store.state.uri.newConnections.length > 0) {
+        if (this.$store.state.uri.connections.length > 0) {
           this.$http.get(this.$store.getters.preparedTypesUri).then(
             response => {
               this.types = response.body

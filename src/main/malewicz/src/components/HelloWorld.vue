@@ -42,11 +42,9 @@
     name: 'HelloWorld',
     components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel},
     watch: {
-
       $route(to, from) {
         this.$store.commit('changeUri', to.fullPath)
       },
-
       getSimpleUri: function (newUri, oldUri) {
         this.$router.push({path: '/' + newUri})
       }
@@ -57,9 +55,7 @@
       }
     },
     created: function () {
-      // if (this.$router.currentRoute.fullPath && this.$router.currentRoute.fullPath !== '/') {
         this.$store.commit('changeUri', this.$router.currentRoute.fullPath)
-      // }
     }
   }
 
