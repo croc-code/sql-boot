@@ -32,10 +32,10 @@
             </template>
           </v-card-text>
           <v-divider></v-divider>
-          <!--<v-card-actions>-->
-            <!--<v-spacer></v-spacer>-->
-            <!--<v-btn color="primary" flat @click="dialog = false">I accept</v-btn>-->
-          <!--</v-card-actions>-->
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" flat @click="dialog = false">Close</v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
 
@@ -50,6 +50,11 @@
           <v-card-text>
             <pre v-highlightjs="meta.query" class="text-sm-left"><code class="sql"></code></pre>
           </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" flat @click="dialog2 = false">Close</v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
 
