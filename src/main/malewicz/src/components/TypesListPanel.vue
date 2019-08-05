@@ -60,7 +60,7 @@
         return self.indexOf(value) === index;
       },
       isActive(type) {
-        return this.$store.state.type === type.name
+        return this.$store.state.uri.type === type.name
       },
       setType(type) {
         this.$store.commit('setType', type)
@@ -72,12 +72,13 @@
     },
     computed: {
       getPreparedTypesUri() {
-        this.$http.get(this.$store.getters.preparedTypesUri).then(
-          response => {
-            this.types = response.body
-          }
-        )
-        return this.$store.getters.preparedTypesUri
+        if (this.$store.state.uri.newConnections.length > 0) {
+          this.$http.get(this.$store.getters.preparedTypesUri).then(
+            response => {
+              this.types = response.body
+            }
+          )
+        }
       }
     },
     watch: {

@@ -70,103 +70,104 @@ Vue.filter('formatDate', function(value) {
 
 const store = new Vuex.Store({
   state: {
-    host: '',
-    // host: 'http://localhost:8007/',
-    newConnections: [],
-    allConnections: [],
-    type: 'table',
-    path: [],
-    page: { 'number': 1, 'size': 15, 'count': 1 },
-    orderby: {},
-    where: '',
-    cache: false
+    uri: {
+      host: '',
+      // host: 'http://localhost:8007/',
+      newConnections: [],
+      type: 'table',
+      path: [],
+      page: { 'number': 1, 'size': 15, 'count': 1 },
+      orderby: {},
+      where: '',
+      cache: false,
+    }
   },
   getters: {
     preparedTypesUri: state => {
-      return state.host + '/api/' + state.newConnections[0] + '/types'
+      return state.uri.host + '/api/' + state.uri.newConnections[0] + '/types'
     },
     preparedTypeUri: state => {
-      return state.host + '/api/' + state.newConnections[0] + '/types' + '/' + state.type
+      return state.uri.host + '/api/' + state.uri.newConnections[0] + '/types' + '/' + state.uri.type
     },
     preparedUri: state => {
-      return state.host + '/api/' + state.newConnections.join('|') + '/' + state.type + '/' + state.path +
-        '?page=' + state.page.number + ',' + state.page.size +
-        (state.orderby.field ? ('&orderby=' + state.orderby.field + '-' + state.orderby.ord) : '')
+      return state.uri.host + '/api/' + state.uri.newConnections.join('|') + '/' + state.uri.type + '/' + state.uri.path +
+        '?page=' + state.uri.page.number + ',' + state.uri.page.size +
+        (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '')
     },
     getSimpleUri: state => {
-      return state.newConnections.join('|') + '/' + state.type + '/' + (state.path ? state.path : '') +
-        '?page=' + state.page.number + ',' + state.page.size +
-        (state.orderby.field ? ('&orderby=' + state.orderby.field + '-' + state.orderby.ord) : '')
+      return state.uri.newConnections.join('|') + '/' + state.uri.type + '/' + (state.uri.path ? state.uri.path : '') +
+        '?page=' + state.uri.page.number + ',' + state.uri.page.size +
+        (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '')
     },
     getPage: state => {
-      return state.page
+      return state.uri.page
     },
     getPageCount: state => {
-      return state.page.count
+      return state.uri.page.count
     },
     getPageNumber: state => {
-      return state.page.number
+      return state.uri.page.number
     },
     getConnections: state => {
-      return state.newConnections
+      return state.uri.newConnections
     }
   },
   mutations: {
     setNewConnection (state, connectionName) {
-      state.newConnections = connectionName
-    },
-    setAllConnection (state, connectionName) {
-      state.allConnections = connectionName
+      state.uri.newConnections = connectionName
     },
     setType (state, typeName) {
-      state.type = typeName
+      state.uri.type = typeName
     },
     setPath (state, path) {
-      state.path = path
+      state.uri.path = path
     },
     setSort (state, sort) {
-      state.orderby = sort
+      state.uri.orderby = sort
     },
     nextPage (state) {
-      state.page.number++
+      state.uri.page.number++
     },
     prevPage (state) {
-      state.page.number--
+      state.uri.page.number--
     },
     pageNumber (state, number) {
-      state.page.number = number
+      state.uri.page.number = number
     },
     setPage (state, val) {
-      state.page.number = parseInt(val.split(',')[0])
-      state.page.size = parseInt(val.split(',')[1])
+      state.uri.page.number = parseInt(val.split(',')[0])
+      state.uri.page.size = parseInt(val.split(',')[1])
     },
     setPageCount (state, count) {
-      state.page.count = count
+      state.uri.page.count = count
     },
     increasePageCount (state) {
-      state.page.count++
+      state.uri.page.count++
     },
     changeUri (state, uriString) {
       const parse = require('url-parse')
       const url = parse(uriString, true)
-      var path = url.pathname.split('/').filter(v => v)
-      state.newConnections = path[0].split('|')
-      state.type = path[1]
-      if (path[2]) {
-        state.path = path[2]
-      } else {
-        state.path = ""
-      }
-      if (url.query.page) {
-        state.page.number = parseInt(url.query.page.split(',')[0])
-        state.page.size = parseInt(url.query.page.split(',')[1])
-      }
-      if (url.query.orderby) {
-        let field = url.query.orderby.split('-')[0]
-        let ord = url.query.orderby.split('-')[1]
-        state.orderby = {field: field, ord: ord }
-      } else {
-        state.orderby = {}
+      const path = url.pathname.split('/').filter(v => v);
+      const rawConnections = path[0]
+      if (rawConnections) {
+        state.uri.newConnections = path[0].split('|')
+        state.uri.type = path[1]
+        if (path[2]) {
+          state.uri.path = path[2]
+        } else {
+          state.uri.path = ""
+        }
+        if (url.query.page) {
+          state.uri.page.number = parseInt(url.query.page.split(',')[0])
+          state.uri.page.size = parseInt(url.query.page.split(',')[1])
+        }
+        if (url.query.orderby) {
+          let field = url.query.orderby.split('-')[0]
+          let ord = url.query.orderby.split('-')[1]
+          state.uri.orderby = {field: field, ord: ord}
+        } else {
+          state.uri.orderby = {}
+        }
       }
     }
   }

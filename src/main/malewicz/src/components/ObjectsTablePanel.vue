@@ -114,7 +114,7 @@ export default {
     }
   },
   created: function () {
-    // if (this.$store.state.allConnections.length > 0) {
+    if (this.$store.state.uri.newConnections.length > 0) {
       this.isLoading = true
       this.$http.get(this.$store.getters.preparedTypeUri).then(
         response => {
@@ -130,7 +130,7 @@ export default {
           this.isLoading = false
         }
       )
-    // }
+    }
   },
   computed: {
     getSort () {
@@ -219,7 +219,7 @@ export default {
       return this.$store.commit('pageNumber', number)
     },
     isActivePage (number) {
-      return number === this.$store.state.page.number
+      return number === this.$store.state.uri.page.number
     },
     setSort (field) {
       this.$store.commit('setSort', {field: field, ord: 'desc'})
