@@ -6,7 +6,8 @@
     </v-toolbar>
 
     <v-list two-line>
-      <v-list-group v-for="tag in allTags()" prepend-icon="bookmark_border">
+      <div v-for="tag in allTags()">
+      <v-list-group v-if="typesByTag(tag).length > 0" prepend-icon="bookmark_border">
         <template v-slot:activator>
           <v-list-tile>
             <v-list-tile-title>{{tag}}</v-list-tile-title>
@@ -26,6 +27,7 @@
           <span v-else>{{ item.properties.title }}</span>
         </v-tooltip>
       </v-list-group>
+      </div>
     </v-list>
 
   </div>
