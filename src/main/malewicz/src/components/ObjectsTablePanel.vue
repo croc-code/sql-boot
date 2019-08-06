@@ -151,8 +151,7 @@ export default {
         return this.meta.metadata
       }
     },
-    uri123() {
-      console.log("AAAAAAAAAAAAA")
+    completeUri() {
       return this.$store.getters.getUri
     },
     typeUri () {
@@ -171,18 +170,9 @@ export default {
     }
   },
   watch: {
-    getSort(newValue) {
-      if (newValue.descending === true) {
-        this.$store.commit('setSort', { "field": newValue.sortBy, "ord": "desc" })
-      } else if (newValue.descending === false) {
-        this.$store.commit('setSort', { "field": newValue.sortBy, "ord": "asc" })
-      } else {
-        this.$store.commit('setSort', {})
-      }
-    },
-    uri123: {
+    completeUri: {
       handler(newVal, oldVal) {
-        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEE " + newVal)
+        console.log("RRRRRRRRRRRRRRRRRR - " + JSON.stringify(newVal))
       },
       deep: true,
     },
@@ -210,6 +200,15 @@ export default {
           this.isLoading = false
         }
       )
+    },
+    getSort(newValue) {
+      if (newValue.descending === true) {
+        this.$store.commit('setSort', { "field": newValue.sortBy, "ord": "desc" })
+      } else if (newValue.descending === false) {
+        this.$store.commit('setSort', { "field": newValue.sortBy, "ord": "asc" })
+      } else {
+        this.$store.commit('setSort', {})
+      }
     }
   },
   methods: {

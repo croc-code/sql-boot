@@ -63,11 +63,7 @@
         return this.$store.state.uri.type === type.name
       },
       setType(type) {
-        this.$store.commit('setType', type)
-        this.$store.commit('setSort', '')
-        this.$store.commit('pageNumber', 1)
-        this.$store.commit('setPageCount', 1)
-        this.$store.commit('setPath', "")
+        this.$store.commit('skipObjectUri', type)
       }
     },
     computed: {

@@ -112,6 +112,13 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    setUri (state, uri) {
+      state.uri = uri
+    },
+    skipObjectUri (state, type) {
+      const c = state.uri.connections
+      state.uri = { "connections": c, "type": type, "path": [], "orderby": {}, page: { 'number': 1, 'size': 15, 'count': 1 }}
+    },
     setType (state, typeName) {
       state.uri.type = typeName
     },
