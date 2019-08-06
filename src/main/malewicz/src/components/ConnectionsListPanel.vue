@@ -25,7 +25,7 @@
       }
     },
     created: function () {
-        this.$http.get(this.$store.state.uri.host + '/endpoints').then(
+        this.$http.get(this.$store.state.host + '/endpoints').then(
           response => {
             this.connections = response.body.filter(v => { return v.properties.visible !== false })
           }

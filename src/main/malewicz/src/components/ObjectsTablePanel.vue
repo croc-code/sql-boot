@@ -151,6 +151,10 @@ export default {
         return this.meta.metadata
       }
     },
+    uri123() {
+      console.log("AAAAAAAAAAAAA")
+      return this.$store.getters.getUri
+    },
     typeUri () {
       return this.$store.getters.preparedTypeUri
     },
@@ -175,6 +179,12 @@ export default {
       } else {
         this.$store.commit('setSort', {})
       }
+    },
+    uri123: {
+      handler(newVal, oldVal) {
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEE " + newVal)
+      },
+      deep: true,
     },
     typeUri (newValue) {
       this.meta = []

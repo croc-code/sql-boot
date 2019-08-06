@@ -68,30 +68,28 @@ Vue.filter('formatDate', function(value) {
 
 const store = new Vuex.Store({
   state: {
+    host: '',
+    // host: 'http://localhost:8007/',
     uri: {
-      host: '',
-      // host: 'http://localhost:8007/',
-      newConnections: [],
+      connections: [],
       type: 'table',
       path: [],
       page: { 'number': 1, 'size': 15, 'count': 1 },
-      orderby: {},
-      where: '',
-      cache: false,
+      orderby: {}
     }
   },
   getters: {
-    uri: state => {
+    getUri: state => {
       return state.uri
     },
     preparedTypesUri: state => {
-      return state.uri.host + '/api/' + state.uri.connections[0] + '/types'
+      return state.host + '/api/' + state.uri.connections[0] + '/types'
     },
     preparedTypeUri: state => {
-      return state.uri.host + '/api/' + state.uri.connections[0] + '/types' + '/' + state.uri.type
+      return state.host + '/api/' + state.uri.connections[0] + '/types' + '/' + state.uri.type
     },
     preparedUri: state => {
-      return state.uri.host + '/api/' + state.uri.connections.join('|') + '/' + state.uri.type + '/' + state.uri.path +
+      return state.host + '/api/' + state.uri.connections.join('|') + '/' + state.uri.type + '/' + state.uri.path +
         '?page=' + state.uri.page.number + ',' + state.uri.page.size +
         (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '')
     },
