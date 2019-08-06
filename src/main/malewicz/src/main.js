@@ -71,6 +71,8 @@ const store = new Vuex.Store({
     host: '',
     // host: 'http://localhost:8007/',
     pageCount: 1,
+    allConnections: [],
+    types: [],
     uri: {
       connections: [],
       type: 'table',
@@ -80,6 +82,12 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    getAllConnections: state => {
+      return state.allConnections
+    },
+    getTypes: state => {
+      return state.types
+    },
     getUri: state => {
       return state.uri
     },
@@ -113,11 +121,18 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    setAllConnections (state, connections) {
+      state.allConnections = connections
+    },
+    setTypes (state, types) {
+      state.types = types
+    },
     setUri (state, uri) {
       state.uri = uri
     },
     skipObjectUri (state, type) {
       const c = state.uri.connections
+      state.pageCount = 1
       state.uri = { connections: c, type: type, path: [], orderby: {}, page: { number: 1, size: 15 }}
     },
     setType (state, typeName) {
@@ -183,5 +198,28 @@ new Vue({
   components: { App },
   template: '<App/>',
   store,
-  router
+  router,
+  created: function() {
+    this.$http.get(this.$store.state.host + '/endpoints').then(
+      response => {
+        this.$store.commit('setAllConnections', response.body)
+      }
+    )
+  },
+  computed: {
+    getAllConnections() {
+      return this.$store.getters.getAllConnections
+    }
+  },
+  watch: {
+    getAllConnections: {
+      handler(newVal, oldVal) {
+        this.$http.get(this.$store.state.host + '/api/' + newVal[0].name + '/types').then(
+          response => {
+            this.$store.commit('setTypes', response.body)
+          }
+        )
+      }
+    }
+  }
 }).$mount('#app')

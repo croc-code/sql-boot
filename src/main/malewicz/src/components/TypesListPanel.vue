@@ -37,24 +37,22 @@
   export default {
     name: 'TypesListPanel',
     data() {
-      return {
-        types: []
-      }
+      return {}
     },
     methods: {
-      typesByTag(tag) {
-        return this.types
-          .filter(el => el === 0 || Boolean(el.properties.tags))
-          .filter(v => { return v.properties.tags.includes(tag) &&  v.properties.tags.includes('ui')})
-      },
       allTags() {
-        return this.types
+        return this.$store.getters.getTypes
           .map(v => { return v.properties.tags } )
           .filter(el => el === 0 || Boolean(el))
           .map(v => { return v.split(",") } )
           .flatMap(v => v)
           .filter(this.onlyUnique)
           .filter(el => el !== 'ui')
+      },
+      typesByTag(tag) {
+        return this.$store.getters.getTypes
+          .filter(el => el === 0 || Boolean(el.properties.tags))
+          .filter(v => { return v.properties.tags.includes(tag) &&  v.properties.tags.includes('ui')})
       },
       onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
@@ -65,20 +63,6 @@
       setType(type) {
         this.$store.commit('skipObjectUri', type)
       }
-    },
-    computed: {
-      getPreparedTypesUri() {
-        if (this.$store.state.uri.connections.length > 0) {
-          this.$http.get(this.$store.getters.preparedTypesUri).then(
-            response => {
-              this.types = response.body
-            }
-          )
-        }
-      }
-    },
-    watch: {
-      getPreparedTypesUri(newVal, oldVal) {}
     }
   }
 </script>

@@ -154,12 +154,6 @@ export default {
     completeUri() {
       return this.$store.getters.getUri
     },
-    typeUri () {
-      return this.$store.getters.preparedTypeUri
-    },
-    objectUri () {
-      return this.$store.getters.preparedUri
-    },
     message: {
       get () {
         return this.$store.getters.getPageNumber
@@ -172,34 +166,39 @@ export default {
   watch: {
     completeUri: {
       handler(newVal, oldVal) {
-        console.log("RRRRRRRRRRRRRRRRRR")
+        this.meta = []
+        // this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
+
+        this.$http.get(this.$store.getters.preparedTypeUri).then(
+          response => {
+            this.meta = response.body[0]
+
+/*            if (Object.keys(this.$store.getters.getUri.orderby).length === 0) {
+              console.log("EMPTY!")
+              this.pagination.sortBy = 'time'
+              this.setSort('time')
+              return
+            }*/
+
+            this.items = []
+            this.isLoading = true
+            this.$http.get(this.$store.getters.preparedUri).then(
+              response => {
+                this.items = response.body
+                if (this.items.length >= 15 && this.message === this.getPageCount()) {
+                  this.increasePageCount()
+                }
+                this.isLoading = false
+              }, response => {
+                this.$notify({ group: 'foo', type: 'error', title: 'Server error', text: response })
+                this.isLoading = false
+              }
+            )
+
+          }
+        )
       },
       deep: true,
-    },
-    typeUri (newValue) {
-      this.meta = []
-      this.$http.get(newValue).then(
-        response => {
-          this.meta = response.body[0]
-          // this.setSort('time')
-        }
-      )
-    },
-    objectUri (newValue) {
-      this.items = []
-      this.isLoading = true
-      this.$http.get(newValue).then(
-        response => {
-          this.items = response.body
-          if (this.items.length >= 15 && this.message === this.getPageCount()) {
-            this.increasePageCount()
-          }
-          this.isLoading = false
-        }, response => {
-          this.$notify({ group: 'foo', type: 'error', title: 'Server error', text: response })
-          this.isLoading = false
-        }
-      )
     },
     getSort(newValue) {
       if (newValue.descending === true) {

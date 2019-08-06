@@ -4,7 +4,7 @@
       <v-toolbar-title>Connections</v-toolbar-title>
     </v-toolbar>
     <v-list>
-      <v-list-tile v-for="item in connections" :key="item.name">
+      <v-list-tile v-for="item in $store.getters.getAllConnections" :key="item.name">
         <v-list-tile-action>
           <v-checkbox v-model="$store.state.uri.connections" :value="item.name"/>
         </v-list-tile-action>
@@ -20,16 +20,7 @@
   export default {
     name: 'ConnectionsListPanel',
     data() {
-      return {
-        connections: []
-      }
-    },
-    created: function () {
-        this.$http.get(this.$store.state.host + '/endpoints').then(
-          response => {
-            this.connections = response.body.filter(v => { return v.properties.visible !== false })
-          }
-        )
+      return {}
     }
   }
 </script>
