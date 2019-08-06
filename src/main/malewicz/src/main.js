@@ -70,11 +70,12 @@ const store = new Vuex.Store({
   state: {
     host: '',
     // host: 'http://localhost:8007/',
+    pageCount: 1,
     uri: {
       connections: [],
       type: 'table',
       path: [],
-      page: { 'number': 1, 'size': 15, 'count': 1 },
+      page: { number: 1, size: 15 },
       orderby: {}
     }
   },
@@ -102,7 +103,7 @@ const store = new Vuex.Store({
       return state.uri.page
     },
     getPageCount: state => {
-      return state.uri.page.count
+      return state.pageCount
     },
     getPageNumber: state => {
       return state.uri.page.number
@@ -117,7 +118,7 @@ const store = new Vuex.Store({
     },
     skipObjectUri (state, type) {
       const c = state.uri.connections
-      state.uri = { "connections": c, "type": type, "path": [], "orderby": {}, page: { 'number': 1, 'size': 15, 'count': 1 }}
+      state.uri = { connections: c, type: type, path: [], orderby: {}, page: { number: 1, size: 15 }}
     },
     setType (state, typeName) {
       state.uri.type = typeName
@@ -142,10 +143,10 @@ const store = new Vuex.Store({
       state.uri.page.size = parseInt(val.split(',')[1])
     },
     setPageCount (state, count) {
-      state.uri.page.count = count
+      state.pageCount = count
     },
     increasePageCount (state) {
-      state.uri.page.count++
+      state.pageCount++
     },
     changeUri (state, uriString) {
       const parse = require('url-parse')

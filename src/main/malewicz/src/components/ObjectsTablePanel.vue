@@ -172,7 +172,7 @@ export default {
   watch: {
     completeUri: {
       handler(newVal, oldVal) {
-        console.log("RRRRRRRRRRRRRRRRRR - " + JSON.stringify(newVal))
+        console.log("RRRRRRRRRRRRRRRRRR")
       },
       deep: true,
     },
