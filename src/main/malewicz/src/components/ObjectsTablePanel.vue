@@ -68,7 +68,7 @@
    <v-data-table
     :headers="defaultMeta"
     :items="items"
-    :pagination.sync="uirPagination"
+    :pagination.sync="uriPagination"
     :loading="isLoading"
     hide-actions
     class="elevation-1">
@@ -139,7 +139,7 @@ export default {
         return this.$store.commit('pageNumber', value)
       }
     },
-    uirPagination: {
+    uriPagination: {
       get () {
         return this.$store.getters.getPagination
       },
@@ -152,19 +152,6 @@ export default {
     completeUri: {
       handler(newVal, oldVal) {
         this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
-
-        console.log("URI_VAL = " + JSON.stringify(this.$store.getters.getUri))
-        if (Object.keys(this.$store.getters.getUri.orderby).length === 0) {
-          const defaultSort = this.meta.metadata.filter(v => { return v.properties.sort }).map(v => v.name)[0]
-          console.log("defaultSort = " + defaultSort)
-          if (defaultSort) {
-            const sortType = this.meta.metadata.filter(v => { return v.properties.sort })[0].properties.sort
-            console.log("sortType = " + sortType)
-            this.setSort(defaultSort + '-' + sortType)
-            return
-          }
-        }
-
         this.items = []
         this.isLoading = true
         this.$http.get(this.$store.getters.preparedUri).then(

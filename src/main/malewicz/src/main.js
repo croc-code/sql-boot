@@ -151,7 +151,16 @@ const store = new Vuex.Store({
     skipObjectUri (state, type) {
       const c = state.uri.connections
       state.pageCount = 1
-      state.uri = { connections: c, type: type, path: [], orderby: {}, page: { number: 1, size: 15 }}
+
+      const meta = state.types.find( v => { return v.name === type } )
+      const defaultSort = meta.metadata.filter(v => { return v.properties.sort }).map(v => v.name)[0]
+      if (defaultSort) {
+        const sortType = meta.metadata.filter(v => { return v.properties.sort })[0].properties.sort
+        state.uri = { connections: c, type: type, path: [], orderby: { field: defaultSort, ord: sortType }, page: { number: 1, size: 15 }}
+      } else {
+        state.uri = { connections: c, type: type, path: [], orderby: {}, page: { number: 1, size: 15 }}
+      }
+
     },
     setType (state, typeName) {
       state.uri.type = typeName
