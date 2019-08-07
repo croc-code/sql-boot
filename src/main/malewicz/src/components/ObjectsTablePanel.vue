@@ -131,6 +131,9 @@ export default {
     completeUri() {
       return this.$store.getters.getUri
     },
+    types() {
+      return this.$store.getters.getTypes
+    },
     message: {
       get () {
         return this.$store.getters.getPageNumber
@@ -150,6 +153,30 @@ export default {
   },
   watch: {
     completeUri: {
+      handler(newVal, oldVal) {
+        if (this.$store.getters.getTypes.length === 0) {
+          return
+        }
+        this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
+        this.items = []
+        this.isLoading = true
+        this.$http.get(this.$store.getters.preparedUri).then(
+          response => {
+            this.items = response.body
+            if (this.items.length >= 15 && this.message === this.getPageCount()) {
+              this.increasePageCount()
+            }
+            this.isLoading = false
+          }, response => {
+            this.$notify({ group: 'foo', type: 'error', title: 'Server error', text: response })
+            this.isLoading = false
+          }
+        )
+
+      },
+      deep: true,
+    },
+    types: {
       handler(newVal, oldVal) {
         this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
         this.items = []
