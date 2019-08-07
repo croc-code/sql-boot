@@ -16,9 +16,9 @@
               <v-data-table :items="meta.metadata" class="elevation-1" hide-actions>
                 <template v-slot:headers="props">
                   <tr>
-                    <th>Видимость</th>
-                    <th>Имя</th>
-                    <th>Описание</th>
+                    <th>Visible</th>
+                    <th>Name</th>
+                    <th>Description</th>
                   </tr>
                 </template>
                 <template v-slot:items="props">
