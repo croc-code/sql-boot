@@ -68,7 +68,7 @@
    <v-data-table
     :headers="defaultMeta"
     :items="items"
-    :pagination.sync="pagination"
+    :pagination.sync="uirPagination"
     :loading="isLoading"
     hide-actions
     class="elevation-1">
@@ -112,32 +112,9 @@ export default {
     return {
       meta: [],
       items: [],
-      pagination: {
-        rowsPerPage: -1,
-        sortBy: ''
-      },
       dialog: false,
       dialog2: false,
       isLoading: false
-    }
-  },
-  created: function () {
-    if (this.$store.state.uri.connections.length > 0) {
-      this.isLoading = true
-      this.$http.get(this.$store.getters.preparedTypeUri).then(
-        response => {
-          this.meta = response.body[0]
-        }
-      )
-      this.$http.get(this.$store.getters.preparedUri).then(
-        response => {
-          this.items = response.body
-          if (this.items.length >= 15 && this.message === this.getPageCount()) {
-            this.increasePageCount()
-          }
-          this.isLoading = false
-        }
-      )
     }
   },
   computed: {
@@ -161,42 +138,48 @@ export default {
       set (value) {
         return this.$store.commit('pageNumber', value)
       }
+    },
+    uirPagination: {
+      get () {
+        return this.$store.getters.getPagination
+      },
+      set (value) {
+        return this.$store.commit('setPagination', value)
+      }
     }
   },
   watch: {
     completeUri: {
       handler(newVal, oldVal) {
-        this.meta = []
-        // this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
+        this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
 
-        this.$http.get(this.$store.getters.preparedTypeUri).then(
+        console.log("URI_VAL = " + JSON.stringify(this.$store.getters.getUri))
+        if (Object.keys(this.$store.getters.getUri.orderby).length === 0) {
+          const defaultSort = this.meta.metadata.filter(v => { return v.properties.sort }).map(v => v.name)[0]
+          console.log("defaultSort = " + defaultSort)
+          if (defaultSort) {
+            const sortType = this.meta.metadata.filter(v => { return v.properties.sort })[0].properties.sort
+            console.log("sortType = " + sortType)
+            this.setSort(defaultSort + '-' + sortType)
+            return
+          }
+        }
+
+        this.items = []
+        this.isLoading = true
+        this.$http.get(this.$store.getters.preparedUri).then(
           response => {
-            this.meta = response.body[0]
-
-/*            if (Object.keys(this.$store.getters.getUri.orderby).length === 0) {
-              console.log("EMPTY!")
-              this.pagination.sortBy = 'time'
-              this.setSort('time')
-              return
-            }*/
-
-            this.items = []
-            this.isLoading = true
-            this.$http.get(this.$store.getters.preparedUri).then(
-              response => {
-                this.items = response.body
-                if (this.items.length >= 15 && this.message === this.getPageCount()) {
-                  this.increasePageCount()
-                }
-                this.isLoading = false
-              }, response => {
-                this.$notify({ group: 'foo', type: 'error', title: 'Server error', text: response })
-                this.isLoading = false
-              }
-            )
-
+            this.items = response.body
+            if (this.items.length >= 15 && this.message === this.getPageCount()) {
+              this.increasePageCount()
+            }
+            this.isLoading = false
+          }, response => {
+            this.$notify({ group: 'foo', type: 'error', title: 'Server error', text: response })
+            this.isLoading = false
           }
         )
+
       },
       deep: true,
     },
@@ -212,13 +195,8 @@ export default {
   },
   methods: {
     call () {
-      this.meta = []
+      this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
       this.items = []
-      this.$http.get(this.$store.getters.preparedTypeUri).then(
-        response => {
-          this.meta = response.body[0]
-        }
-      )
       this.$http.get(this.$store.getters.preparedUri).then(
         response => {
           this.items = response.body

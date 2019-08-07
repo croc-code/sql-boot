@@ -82,6 +82,15 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    getPagination: state => {
+      if (state.uri.orderby.ord === 'asc') {
+        return { rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: false, page: 1, totalItems: 0 }
+      } else if (state.uri.orderby.ord === 'desc') {
+        return { rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: true, page: 1, totalItems: 0 }
+      } else {
+        return { rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: null, page: 1, totalItems: 0 }
+      }
+    },
     getAllConnections: state => {
       return state.allConnections
     },
@@ -121,6 +130,15 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    setPagination (state, pagination) {
+      if (pagination.descending === false) {
+        state.uri.orderby = {field: pagination.sortBy, ord: "asc"}
+      } else if (pagination.descending === true){
+        state.uri.orderby = {field: pagination.sortBy, ord: "desc"}
+      } else {
+        state.uri.orderby = {}
+      }
+    },
     setAllConnections (state, connections) {
       state.allConnections = connections
     },
