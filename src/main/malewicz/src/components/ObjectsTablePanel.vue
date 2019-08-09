@@ -84,9 +84,8 @@
       <td v-for="met in defaultMeta">
         <a v-if="met.properties.datatype==='json' && props.item[met.name]"
            :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
-          <v-chip color="green" dark>
-            {{ JSON.parse(props.item[met.name].value).label }}
-          </v-chip>
+          <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">{{ JSON.parse(props.item[met.name].value).icon }}</v-icon>
+          <v-chip v-else color="green" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
         </a>
         <pre v-else-if="met.properties.format==='sql'" v-highlightjs="props.item[met.name]" class="text-sm-left"><code class="sql"></code></pre>
         <span v-else-if="met.properties.datatype">{{ props.item[met.name] | formatDate }}</span>

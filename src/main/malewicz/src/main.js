@@ -208,9 +208,9 @@ const store = new Vuex.Store({
           state.uri.page.size = parseInt(url.query.page.split(',')[1])
         }
         if (url.query.orderby) {
-          let field = url.query.orderby.split('-')[0]
-          let ord = url.query.orderby.split('-')[1]
-          state.uri.orderby = {field: field, ord: ord}
+          const field = url.query.orderby.split('-')[0]
+          const ord = url.query.orderby.split('-')[1]
+          state.uri.orderby = { field: field, ord: ord }
         } else {
           state.uri.orderby = {}
         }
