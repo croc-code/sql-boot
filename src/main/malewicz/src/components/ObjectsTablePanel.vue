@@ -156,6 +156,9 @@ export default {
         if (this.$store.getters.getTypes.length === 0) {
           return
         }
+        if (this.$store.getters.getConnections.length === 0) {
+          return
+        }
         this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
         this.items = []
         this.isLoading = true
@@ -177,6 +180,9 @@ export default {
     },
     types: {
       handler(newVal, oldVal) {
+        if (this.$store.getters.getConnections.length === 0) {
+          return
+        }
         this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
         this.items = []
         this.isLoading = true
