@@ -153,6 +153,7 @@
           return
         }
         if (this.$store.getters.getConnections.length === 0) {
+          this.items = []
           return
         }
         this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
@@ -177,6 +178,7 @@
     types: {
       handler(newVal, oldVal) {
         if (this.$store.getters.getConnections.length === 0) {
+          this.items = []
           return
         }
         this.meta = this.$store.getters.getTypes.find( v => { return v.name === this.$store.getters.getUri.type } )
