@@ -65,7 +65,6 @@ select_statement
    : query_comment
      (with)*
      select select_row( COMMA select_row )*
-     from (schema_name+ DOT)? table_name
        .*?
    ;
 

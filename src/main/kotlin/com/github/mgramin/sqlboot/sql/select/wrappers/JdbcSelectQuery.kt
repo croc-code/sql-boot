@@ -67,7 +67,7 @@ class JdbcSelectQuery(
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         val sqlText = JinjaTemplateGenerator(origin.query()).generate(variables)
-        logger.info(sqlText)
+        logger.info("\n$sqlText")
 
         return Mono.fromCallable {
             logger.info(Thread.currentThread().toString())

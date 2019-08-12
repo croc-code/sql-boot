@@ -64,11 +64,20 @@ class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : Sele
     override fun execute(variables: Map<String, Any>) = throw RuntimeException("Not allow here")
 
 
-    private class SelectStatementParser(sql: String) {
+    private class SelectStatementParser {
 
-        val parser = SELECTParser(CommonTokenStream(SELECTLexer(ANTLRInputStream(sql))))
-        val selectVisitorCustom = SelectVisitorCustom()
-        val visit = selectVisitorCustom.visit(parser.select_statement())
+        constructor(sql: String) {
+            val selectLexer = SELECTLexer(ANTLRInputStream(sql))
+            selectLexer.removeErrorListeners()
+
+            this.parser = SELECTParser(CommonTokenStream(selectLexer))
+            this.selectVisitorCustom = SelectVisitorCustom()
+            this.visit = selectVisitorCustom.visit(parser.select_statement())
+        }
+
+        val parser: SELECTParser
+        val selectVisitorCustom: SelectVisitorCustom
+        val visit: Any
 
         fun comment() = selectVisitorCustom.queryComment
 
