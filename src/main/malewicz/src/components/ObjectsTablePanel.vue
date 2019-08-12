@@ -70,6 +70,7 @@
     :items="items"
     :pagination.sync="uriPagination"
     :loading="isLoading"
+    no-data-text="No data available"
     hide-actions
     class="elevation-1">
     <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
