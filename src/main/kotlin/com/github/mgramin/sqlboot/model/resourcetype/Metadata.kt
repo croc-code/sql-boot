@@ -61,6 +61,9 @@ data class Metadata(
             } else {
                 this.type = "String"
             }
+            if (!map.containsKey("visible")) {
+                this.properties["visible"] = true
+            }
         } catch (ignored: Exception) {
             this.properties.clear()
             val prop = HashMap<String, Any>()
@@ -68,6 +71,7 @@ data class Metadata(
             prop["label"] = name.replace("@", "")
             prop["description"] = description
             prop["type"] = type
+            prop["visible"] = true
             this.properties.putAll(prop)
         }
     }
