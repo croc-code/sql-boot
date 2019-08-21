@@ -574,7 +574,7 @@
                             <groupname>root</groupname>
                             <sources>
                                 <source>
-                                    <location>src/main/resources/sql-boot.service</location>
+                                    <location>src/main/resources/sql-boot@.service</location>
                                 </source>
                             </sources>
                         </mapping>
