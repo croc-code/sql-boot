@@ -30,7 +30,7 @@
 
     <groupId>com.github.mgramin.com.github.mgramin.sqlboot</groupId>
     <artifactId>sql-boot</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
     <packaging>jar</packaging>
 
     <name>sql-boot</name>
@@ -528,7 +528,7 @@
                             <groupname>sql-boot-group</groupname>
                             <sources>
                                 <source>
-                                    <location>target/sql-boot-0.4.0.jar</location>
+                                    <location>target/sql-boot-0.5.0.jar</location>
                                     <destination>sql-boot.jar</destination>
                                 </source>
                             </sources>
