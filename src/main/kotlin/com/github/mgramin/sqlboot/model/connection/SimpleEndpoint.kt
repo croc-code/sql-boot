@@ -66,17 +66,17 @@ open class SimpleEndpoint(
             dataSource!!
         } else {
             val dataSourceNew = DataSource()
-            if (properties().containsKey("jdbc.url")) {
-                dataSourceNew.url = properties()["jdbc.url"].toString()
+            if (properties().containsKey("jdbc_url")) {
+                dataSourceNew.url = properties()["jdbc_url"].toString()
             } else {
-                val jdbcProtocol = properties()["jdbc.protocol"]
-                val dbName = properties()["db.name"]
-                val dbPort = properties()["db.port"]
+                val jdbcProtocol = properties()["jdbc_protocol"]
+                val dbName = properties()["db_name"]
+                val dbPort = properties()["db_port"]
                 dataSourceNew.url = "$jdbcProtocol://$host:$dbPort/$dbName"
             }
-            dataSourceNew.driverClassName = properties()["jdbc.driver.class.name"].toString()
-            dataSourceNew.username = properties()["db.user"].toString()
-            dataSourceNew.password = properties()["db.password"].toString()
+            dataSourceNew.driverClassName = properties()["jdbc_driver_class_name"].toString()
+            dataSourceNew.username = properties()["db_user"].toString()
+            dataSourceNew.password = properties()["db_password"].toString()
             dataSourceNew.minIdle = 1
             dataSourceNew.maxActive = 3
             dataSourceNew.maxIdle = 3

@@ -63,10 +63,10 @@ class FsResourceTypeTest {
         dbMd.host = "127.0.0.1"
         dbMd.properties = """
             {
-                "fs.base.folder": "conf/h2/md/database",
-                "sql.dialect": "h2",
-                "jdbc.url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-                "jdbc.driver.class.name": "org.h2.Driver"
+                "fs_base_folder": "conf/h2/md/database",
+                "sql_dialect": "h2",
+                "jdbc_url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+                "jdbc_driver_class_name": "org.h2.Driver"
             }
             """.trimIndent()
     }

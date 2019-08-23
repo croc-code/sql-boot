@@ -83,7 +83,7 @@ class SqlResourceType(
                 endpoints
                         .map { connection ->
                             return@map createQuery(uri, connection, specificDialect
-                                    ?: connection.properties()["sql.dialect"].toString()).execute(hashMapOf("uri" to uri))
+                                    ?: connection.properties()["sql_dialect"].toString()).execute(hashMapOf("uri" to uri))
                                     .map<Map<String, Any>?> {
                                         val toMutableMap = it.toMutableMap()
                                         toMutableMap["endpoint"] = connection.name()

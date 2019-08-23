@@ -78,7 +78,7 @@ class FsResourceType(
     fun resourceTypes() = resourceTypes
 
     private val resourceTypes: List<ResourceType> =
-            walk(FileSystemResource(endpoints.first().properties()["fs.base.folder"].toString()).file.path)
+            walk(FileSystemResource(endpoints.first().properties()["fs_base_folder"].toString()).file.path)
 
     private fun walk(path: String) =
             File(path)
