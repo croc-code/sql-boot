@@ -8,18 +8,16 @@ conf:
   endpoints:
     - name: h2
       host: 127.0.0.1
-      properties: >
-        {
-          "sql_dialect": "h2",
-          "fs_base_folder": "conf/h2/md/database",
-          "jdbc_url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-          "jdbc_driver_class_name": "org.h2.Driver",
-          "jdbc.user": "",
-          "jdbc.password": "",
-          "os.query.rest.port": "8082",
-          "visible": false,
-          "description": "Embedded db for unit tests only"
-        }
+      properties:
+          sql_dialect: h2
+          fs_base_folder: conf/h2/md/database
+          jdbc_url: jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';
+          jdbc_driver_class_name: org.h2.Driver
+          jdbc.user:
+          jdbc.password:
+          os.query.rest.port: 8082
+          visible: false
+          description: Embedded db for unit tests only
 
 spring:
   jmx:

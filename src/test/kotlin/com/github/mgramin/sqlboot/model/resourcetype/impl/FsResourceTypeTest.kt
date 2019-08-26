@@ -61,14 +61,12 @@ class FsResourceTypeTest {
     init {
         dbMd.name = "unit_test_db_md"
         dbMd.host = "127.0.0.1"
-        dbMd.properties = """
-            {
-                "fs_base_folder": "conf/h2/md/database",
-                "sql_dialect": "h2",
-                "jdbc_url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-                "jdbc_driver_class_name": "org.h2.Driver"
-            }
-            """.trimIndent()
+        dbMd.properties = mapOf(
+                "fs_base_folder" to "conf/h2/md/database",
+                "sql_dialect" to "h2",
+                "jdbc_url" to "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+                "jdbc_driver_class_name" to "org.h2.Driver"
+        )
     }
 
     @ParameterizedTest
@@ -80,12 +78,12 @@ class FsResourceTypeTest {
             "prod/table/bookings,5",
             "prod/table/bookings.airports,1")
     fun read(uri: String, count: Long) {
-            connections.forEach {
-                StepVerifier
-                        .create(FsResourceType(listOf(it), listOf(FakeDialect())).read(DbUri(uri)))
-                        .expectNextCount(count)
-                        .verifyComplete()
-            }
+        connections.forEach {
+            StepVerifier
+                    .create(FsResourceType(listOf(it), listOf(FakeDialect())).read(DbUri(uri)))
+                    .expectNextCount(count)
+                    .verifyComplete()
+        }
     }
 
     @Test

@@ -59,13 +59,11 @@ class SqlResourceTypeTest {
     init {
         db.name = "unit_test_db"
         db.host = "127.0.0.1"
-        db.properties = """
-            {
-                "sql_dialect": "h2",
-                "jdbc_url": "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-                "jdbc_driver_class_name": "org.h2.Driver"
-            }
-            """.trimIndent()
+        db.properties = mapOf(
+                "sql_dialect" to "h2",
+                "jdbc_url" to "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+                "jdbc_driver_class_name" to "org.h2.Driver"
+        )
     }
 
     @Test

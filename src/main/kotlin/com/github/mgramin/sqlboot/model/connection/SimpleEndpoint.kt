@@ -33,8 +33,6 @@
 package com.github.mgramin.sqlboot.model.connection
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.apache.tomcat.jdbc.pool.DataSource
 
 /**
@@ -45,18 +43,14 @@ import org.apache.tomcat.jdbc.pool.DataSource
 open class SimpleEndpoint(
         var name: String? = null,
         var host: String? = null,
-        var properties: String? = null
+        var properties: Map<String, Any>? = null
 ) : Endpoint {
 
     override fun name() = name!!
 
     override fun host() = host!!
 
-    override fun properties(): Map<String, Any> =
-            Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
-
-    fun getProperties(): Map<String, Any> =
-            Gson().fromJson(properties, object : TypeToken<Map<String, Any>>() {}.type)
+    override fun properties(): Map<String, Any> = properties!!
 
     private var dataSource: DataSource? = null
 
