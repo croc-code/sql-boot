@@ -58,8 +58,8 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    // host: '',
-    host: 'http://localhost:8007/',
+    host: '',
+    // host: 'http://localhost:8007/',
     pageCount: 1,
     allConnections: [],
     types: [],

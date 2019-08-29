@@ -3,102 +3,12 @@
     <v-toolbar>
       <v-toolbar-title class="text" v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" width="1000">
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>settings</v-icon>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title class="headline grey lighten-2" primary-title>Columns</v-card-title>
-          <v-card-text>
-            <template>
-              <v-data-table :items="meta.metadata" class="elevation-1" hide-actions>
-                <template v-slot:headers="props">
-                  <tr>
-                    <th>Visible</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                  </tr>
-                </template>
-                <template v-slot:items="props">
-                  <td>
-                    <v-checkbox v-model="props.item.properties.visible"/>
-                  </td>
-                  <td>{{ props.item.properties.label }}</td>
-                  <td>{{ props.item.properties.description }}</td>
-                </template>
-              </v-data-table>
-            </template>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" flat @click="dialog = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <v-dialog v-model="dialog2" width="1200">
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>build</v-icon>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title class="headline grey lighten-2" primary-title>SQL-query</v-card-title>
-          <v-card-text>
-            <pre v-highlightjs="meta.query" class="text-sm-left"><code class="sql"></code></pre>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" flat @click="dialog2 = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <v-dialog v-model="dialog3" width="600">
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>search</v-icon>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title class="headline grey lighten-2" primary-title>Search</v-card-title>
-          <v-card-text>
-            <template>
-              <v-form ref="form">
-                <span v-for="item in meta.metadata" v-bind:key="item.name">
-                  <span v-if="item.properties.datatype === 'time'"></span>
-                    <v-combobox v-if="item.properties.values"
-                                :label="item.properties.label"
-                                v-model='selected[item.name]'
-                                :items="item.properties.values"
-                                clearable>
-                    </v-combobox>
-                    <v-text-field v-else
-                                  :label="item.properties.label"
-                                  v-model='selected[item.name]'
-                                  clearable filled>
-                    </v-text-field>
-                </span>
-              </v-form>
-            </template>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" flat @click="setFilter">Search</v-btn>
-            <v-btn color="primary" flat @click="dialog3 = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
+      <ColumnsComponent :meta="meta"/>
+      <CodeViewComponent :meta="meta"/>
+      <FilterComponent :meta="meta"/>
       <v-btn @click="call()" icon>
         <v-icon>refresh</v-icon>
       </v-btn>
-
     </v-toolbar>
 
     <v-data-table
@@ -136,19 +46,18 @@
 </template>
 <script>
 import CustomComponent from './CustomComponent'
+import FilterComponent from './FilterComponent'
+import ColumnsComponent from './ColumnsComponent'
+import CodeViewComponent from './CodeViewComponent'
 
 export default {
   name: 'ObjectsTablePanel',
-  components: {CustomComponent},
+  components: {CodeViewComponent, ColumnsComponent, FilterComponent, CustomComponent},
   data () {
     return {
       meta: [],
       items: [],
-      dialog: false,
-      dialog2: false,
-      dialog3: false,
-      isLoading: false,
-      selected: {}
+      isLoading: false
     }
   },
   computed: {

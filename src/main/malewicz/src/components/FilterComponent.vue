@@ -1,0 +1,58 @@
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+  <v-dialog v-model="show" width="600">
+    <template v-slot:activator="{ on }">
+      <v-btn icon v-on="on">
+        <v-icon>search</v-icon>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title class="headline grey lighten-2" primary-title>Search</v-card-title>
+      <v-card-text>
+        <template>
+          <v-form ref="form">
+                  <span v-for="item in meta.metadata" v-bind:key="item.name">
+                    <span v-if="item.properties.datatype === 'time'"></span>
+                      <v-combobox v-if="item.properties.values"
+                                  v-model='selected[item.name]'
+                                  :label="item.properties.label"
+                                  :items="item.properties.values"
+                                  clearable>
+                      </v-combobox>
+                      <v-text-field v-else
+                                    v-model='selected[item.name]'
+                                    :label="item.properties.label"
+                                    clearable
+                                    filled>
+                      </v-text-field>
+                  </span>
+          </v-form>
+        </template>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" flat @click="setFilter">Search</v-btn>
+        <v-btn color="primary" flat @click="show = false">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+<script>
+export default {
+  name: 'FilterComponent',
+  data () {
+    return {
+      show: false,
+      selected: {}
+    }
+  },
+  props: {
+    meta: {}
+  },
+  methods: {
+    setFilter () {
+      this.$store.commit('setFilter', this.selected)
+    }
+  }
+}
+</script>
