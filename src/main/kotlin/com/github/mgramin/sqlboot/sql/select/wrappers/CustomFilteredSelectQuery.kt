@@ -33,32 +33,29 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import com.google.gson.JsonObject
 
-class FilteredSelectQuery(
+
+class CustomFilteredSelectQuery(
         private val origin: SelectQuery,
-        private val path: List<String>
+        private val filter: JsonObject
 ) : SelectQuery {
 
-    override fun properties() = origin.properties()
-
     override fun query(): String {
-        println("!!!!!!!!!!!!!!!!")
-        return if (path.isEmpty()) {
-            origin.query()
-        } else {
-            val whereCondition = origin.columns()
-                    .asSequence()
-                    .take(path.count())
-                    .mapIndexed { index, s -> """lower(${s.key}) like lower('${path[index]}')""" }
-                    .joinToString(prefix = "where ", separator = " and ")
+        return if (filter.entrySet().size > 0) {
+            val whereCondition = filter.entrySet()
+                    .joinToString(prefix = "where ", separator = " and ") { """${it.key} = '${it.value.asString}'""" }
             """select *
-              |  from (${origin.query()}) q
-              | $whereCondition""".trimMargin()
+                 |  from (${origin.query()}) q
+                 | $whereCondition""".trimMargin()
+        } else {
+            origin.query()
         }
     }
+
+    override fun properties() = origin.properties()
 
     override fun columns() = origin.columns()
 
     override fun execute(variables: Map<String, Any>) = origin.execute(variables)
-
 }

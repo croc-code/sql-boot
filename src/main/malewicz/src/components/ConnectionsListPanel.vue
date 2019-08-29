@@ -17,10 +17,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'ConnectionsListPanel',
-    data() {
-      return {}
-    }
+export default {
+  name: 'ConnectionsListPanel',
+  data () {
+    return {}
   }
+}
 </script>

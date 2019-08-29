@@ -46,81 +46,79 @@ class DbUriTest {
 
     @Test
     fun createAllTableFromAllSchema() {
-        test("prod/table/*", "DbUri{type='table', path=[*], params={}}")
-        test("prod/table/", "DbUri{type='table', path=[], params={}}")
+        assertEqualsUri("prod/table/*", "DbUri{type='table', path=[*], params={}}")
+        assertEqualsUri("prod/table/", "DbUri{type='table', path=[], params={}}")
     }
 
     @Test
     fun createAllTableFromSchema() {
-        test("prod/table/hr", "DbUri{type='table', path=[hr], params={}}")
-        test("prod/table/hr.*", "DbUri{type='table', path=[hr, *], params={}}")
+        assertEqualsUri("prod/table/hr", "DbUri{type='table', path=[hr], params={}}")
+        assertEqualsUri("prod/table/hr.*", "DbUri{type='table', path=[hr, *], params={}}")
     }
 
     @Test
     fun createAllTableWithChildObjectsFromSchema() {
-        test("prod/table/hr.*", "DbUri{type='table', path=[hr, *], params={}}")
+        assertEqualsUri("prod/table/hr.*", "DbUri{type='table', path=[hr, *], params={}}")
     }
 
     @Test
     fun dropAllTableFromSchema() {
-        test("prod/table/hr.*/drop", "DbUri{type='table', path=[hr, *], params={}}")
+        assertEqualsUri("prod/table/hr.*/drop", "DbUri{type='table', path=[hr, *], params={}}")
     }
 
     @Test
     fun createColumnsForTable() {
-        test("prod/column/hr.persons.*name",
+        assertEqualsUri("prod/column/hr.persons.*name",
                 "DbUri{type='column', path=[hr, persons, *name], params={}}")
     }
 
     @Test
     fun dropColumnFromTable() {
-        test("prod/column/hr.persons.name/drop",
+        assertEqualsUri("prod/column/hr.persons.name/drop",
                 "DbUri{type='column', path=[hr, persons, name], params={}}")
     }
 
     @Test
     fun createAllFkForTable() {
-        test("prod/fk/hr.employees.*",
+        assertEqualsUri("prod/fk/hr.employees.*",
                 "DbUri{type='fk', path=[hr, employees, *], params={}}")
     }
 
     @Test
     fun dropAllFkFromTable() {
-        test("prod/fk/hr.employees.*/drop",
+        assertEqualsUri("prod/fk/hr.employees.*/drop",
                 "DbUri{type='fk', path=[hr, employees, *], params={}}")
     }
 
     @Test
     fun disableAllFkFromTable() {
-        test("prod/fk/hr.employees.*/disable",
+        assertEqualsUri("prod/fk/hr.employees.*/disable",
                 "DbUri{type='fk', path=[hr, employees, *], params={}}")
     }
 
     @Test
     fun disableAllFkFromSchema() {
-        test("prod/fk/hr.*.*/disable",
+        assertEqualsUri("prod/fk/hr.*.*/disable",
                 "DbUri{type='fk', path=[hr, *, *], params={}}")
     }
 
     @Test
     fun testDefaultActionIsCreate() {
-        test("prod/fk/hr.*.*",
+        assertEqualsUri("prod/fk/hr.*.*",
                 "DbUri{type='fk', path=[hr, *, *], params={}}")
     }
 
     @Test
     fun testParams() {
-        test("prod/t/hr?@table_comment=big_table",
+        assertEqualsUri("prod/t/hr?@table_comment=big_table",
                 "DbUri{type='t', path=[hr], params={@table_comment=big_table}}")
-        test("prod/table/hr?@table_comment=big_table",
+        assertEqualsUri("prod/table/hr?@table_comment=big_table",
                 "DbUri{type='table', path=[hr], params={@table_comment=big_table}}")
     }
 
     @Test
-    fun testAction() {
-        val dbUri = DbUri("prod/table/hr.p*/count?limit=10")
-        assertEquals("count", dbUri.action())
-    }
+    fun testAction() = assertEquals("count", DbUri("prod/table/hr.p*/count?limit=10").action())
+
 
     @ParameterizedTest
     @CsvSource(
@@ -130,11 +128,7 @@ class DbUriTest {
             "prod/table/hr.persons?page=2,5#2#5",
             "prod/table/hr.persons#1#10",
             delimiter = '#')
-    fun testPageParameters(uri: String, expectedPageNumber: Int, expectedPageSize: Int) {
-        val dbUri = DbUri(uri)
-        assertEquals(expectedPageNumber, dbUri.pageNumber())
-        assertEquals(expectedPageSize, dbUri.pageSize())
-    }
+    fun testPageParameters(uri: String, number: Int, size: Int) = assertEquals(number, DbUri(uri).pageNumber())
 
     @ParameterizedTest
     @CsvSource(
@@ -148,7 +142,12 @@ class DbUriTest {
         assertEquals(expected, DbUri(uri).orderedColumns().toSortedMap().toString())
     }
 
-    private fun test(uriString: String, jsonExpected: String) {
+    @Test
+    fun testFilter() {
+        println(DbUri("""prod/table/hr.persons?filter={"test":"test"}""").filter())
+    }
+
+    private fun assertEqualsUri(uriString: String, jsonExpected: String) {
         val uri = DbUri(uriString)
         assertEquals(uriString, uri.toString())
         assertEquals(JsonWrapper(DbUri(uriString)).toString(), jsonExpected)

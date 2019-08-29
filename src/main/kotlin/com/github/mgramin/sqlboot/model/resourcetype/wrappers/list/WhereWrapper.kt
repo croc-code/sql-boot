@@ -56,7 +56,7 @@ class WhereWrapper(private val origin: ResourceType) : ResourceType {
         val resources = origin.read(uri)
         return resources
                 .filter { resource ->
-                    for (i in 0 until uri.path().size) {
+                    for (i in uri.path().indices) {
                         val contains = resource.dbUri().path()[i]
                                 .toLowerCase().contains(uri.path()[i]
                                         .toLowerCase()) || uri.path()[i] == "%"

@@ -32,33 +32,31 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 
-class FilteredSelectQuery(
-        private val origin: SelectQuery,
-        private val path: List<String>
-) : SelectQuery {
+import org.junit.jupiter.api.Test
 
-    override fun properties() = origin.properties()
+internal class CustomFilteredSelectQueryTest {
 
-    override fun query(): String {
-        println("!!!!!!!!!!!!!!!!")
-        return if (path.isEmpty()) {
-            origin.query()
-        } else {
-            val whereCondition = origin.columns()
-                    .asSequence()
-                    .take(path.count())
-                    .mapIndexed { index, s -> """lower(${s.key}) like lower('${path[index]}')""" }
-                    .joinToString(prefix = "where ", separator = " and ")
-            """select *
-              |  from (${origin.query()}) q
-              | $whereCondition""".trimMargin()
-        }
+    @Test
+    fun query() {
+        println(CustomFilteredSelectQuery(FakeSelectQuery(), JsonParser().parse("""{ "table_name": "persons", "age": 20 }""").asJsonObject).query())
+        println(CustomFilteredSelectQuery(FakeSelectQuery(), JsonParser().parse("{}").asJsonObject).query())
+        println(CustomFilteredSelectQuery(FakeSelectQuery(), JsonObject()).query())
     }
 
-    override fun columns() = origin.columns()
+    @Test
+    fun properties() {
+    }
 
-    override fun execute(variables: Map<String, Any>) = origin.execute(variables)
+    @Test
+    fun columns() {
+    }
+
+    @Test
+    fun execute() {
+    }
 
 }

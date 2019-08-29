@@ -6,7 +6,7 @@
     </v-toolbar>
 
     <v-list two-line>
-      <div v-for="tag in allTags()">
+      <div v-for="tag in allTags()" v-bind:key="tag">
       <v-list-group v-if="typesByTag(tag).length > 0" prepend-icon="bookmark_border">
         <template v-slot:activator>
           <v-list-tile>
@@ -34,35 +34,35 @@
 </template>
 
 <script>
-  export default {
-    name: 'TypesListPanel',
-    data() {
-      return {}
+export default {
+  name: 'TypesListPanel',
+  data () {
+    return {}
+  },
+  methods: {
+    allTags () {
+      return this.$store.getters.getTypes
+        .map(v => { return v.properties.tags })
+        .filter(el => el === 0 || Boolean(el))
+        .map(v => { return v.split(',') })
+        .flatMap(v => v)
+        .filter(this.onlyUnique)
+        .filter(el => el !== 'ui')
     },
-    methods: {
-      allTags() {
-        return this.$store.getters.getTypes
-          .map(v => { return v.properties.tags } )
-          .filter(el => el === 0 || Boolean(el))
-          .map(v => { return v.split(",") } )
-          .flatMap(v => v)
-          .filter(this.onlyUnique)
-          .filter(el => el !== 'ui')
-      },
-      typesByTag(tag) {
-        return this.$store.getters.getTypes
-          .filter(el => el === 0 || Boolean(el.properties.tags))
-          .filter(v => { return v.properties.tags.includes(tag) &&  v.properties.tags.includes('ui')})
-      },
-      onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      },
-      isActive(type) {
-        return this.$store.state.uri.type === type.name
-      },
-      setType(type) {
-        this.$store.commit('skipObjectUri', type)
-      }
+    typesByTag (tag) {
+      return this.$store.getters.getTypes
+        .filter(el => el === 0 || Boolean(el.properties.tags))
+        .filter(v => { return v.properties.tags.includes(tag) && v.properties.tags.includes('ui') })
+    },
+    onlyUnique (value, index, self) {
+      return self.indexOf(value) === index
+    },
+    isActive (type) {
+      return this.$store.state.uri.type === type.name
+    },
+    setType (type) {
+      this.$store.commit('skipObjectUri', type)
     }
   }
+}
 </script>

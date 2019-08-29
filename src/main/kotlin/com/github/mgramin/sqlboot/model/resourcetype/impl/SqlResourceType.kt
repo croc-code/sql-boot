@@ -43,6 +43,7 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.CustomFilteredSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.FilteredSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
@@ -131,8 +132,10 @@ class SqlResourceType(
                 GrafanaSelectQuery(
                         PaginatedSelectQuery(
                                 OrderedSelectQuery(
-                                        FilteredSelectQuery(
-                                                simpleSelectQuery, uri.path()),
+                                        CustomFilteredSelectQuery(
+                                                FilteredSelectQuery(
+                                                        simpleSelectQuery, uri.path()),
+                                                uri.filter()),
                                         uri.orderedColumns()),
                                 uri,
                                 paginationQueryTemplate)),

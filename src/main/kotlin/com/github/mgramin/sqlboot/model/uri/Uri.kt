@@ -33,6 +33,8 @@
 package com.github.mgramin.sqlboot.model.uri
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import org.apache.commons.lang3.StringUtils
 import java.io.Serializable
 
@@ -122,6 +124,14 @@ interface Uri : Serializable {
                 .map { return@map if (!it.contains("-")) "$it-asc" else it }
                 .map { it.substringBefore("-") to it.substringAfter("-") }
                 .toMap()
+    }
+
+    fun filter(): JsonObject {
+        return if (params().containsKey("filter")) {
+            JsonParser().parse(params()["filter"]).asJsonObject
+        } else {
+            JsonObject()
+        }
     }
 
 }

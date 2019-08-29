@@ -48,57 +48,57 @@
   </div>
 </template>
 <script>
-  import moment from 'moment'
+import moment from 'moment'
 
-  export default {
-    name: 'CustomComponent',
-    props: {
-      met: {},
-      props: {}
-    },
-    filters: {
-      formatDate: function (value) {
-        if (value) {
-          return moment(String(value)).format('DD.MM.YYYY HH:mm:ss')
-        }
-      },
-      round: function (value, decimals) {
-        if(typeof value !== 'number'){
-          return value
-        }
-        if(!value) {
-          value = 0;
-        }
-        if (!decimals) {
-          decimals = 0;
-        }
-        value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
-        return value;
-      },
-      prettyByte: function (num) {
-        if (typeof num !== 'number' || isNaN(num)) {
-          throw new TypeError('Expected a number');
-        }
-
-        var exponent;
-        var unit;
-        var neg = num < 0;
-        var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-        if (neg) {
-          num = -num;
-        }
-
-        if (num < 1) {
-          return (neg ? '-' : '') + num + ' B';
-        }
-
-        exponent = Math.min(Math.floor(Math.log(num) / Math.log(1000)), units.length - 1);
-        num = (num / Math.pow(1000, exponent)).toFixed(2) * 1;
-        unit = units[exponent];
-
-        return (neg ? '-' : '') + num + ' ' + unit;
+export default {
+  name: 'CustomComponent',
+  props: {
+    met: {},
+    props: {}
+  },
+  filters: {
+    formatDate: function (value) {
+      if (value) {
+        return moment(String(value)).format('DD.MM.YYYY HH:mm:ss')
       }
+    },
+    round: function (value, decimals) {
+      if (typeof value !== 'number') {
+        return value
+      }
+      if (!value) {
+        value = 0
+      }
+      if (!decimals) {
+        decimals = 0
+      }
+      value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
+      return value
+    },
+    prettyByte: function (num) {
+      if (typeof num !== 'number' || isNaN(num)) {
+        throw new TypeError('Expected a number')
+      }
+
+      var exponent
+      var unit
+      var neg = num < 0
+      var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+      if (neg) {
+        num = -num
+      }
+
+      if (num < 1) {
+        return (neg ? '-' : '') + num + ' B'
+      }
+
+      exponent = Math.min(Math.floor(Math.log(num) / Math.log(1000)), units.length - 1)
+      num = (num / Math.pow(1000, exponent)).toFixed(2) * 1
+      unit = units[exponent]
+
+      return (neg ? '-' : '') + num + ' ' + unit
     }
   }
+}
 </script>

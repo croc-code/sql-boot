@@ -26,37 +26,37 @@
 
 <script>
 
-  import TypesListPanel from './TypesListPanel'
-  import ConnectionsListPanel from './ConnectionsListPanel'
-  import ObjectsTablePanel from './ObjectsTablePanel'
+import TypesListPanel from './TypesListPanel'
+import ConnectionsListPanel from './ConnectionsListPanel'
+import ObjectsTablePanel from './ObjectsTablePanel'
 
-  export default {
-   data: () => ({
+export default {
+  data: () => ({
     drawer: true,
     drawerRight: true,
     right: null,
     left: null
   }),
 
-    props: ['panel'],
-    name: 'HelloWorld',
-    components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel},
-    watch: {
-      $route(to, from) {
-        this.$store.commit('changeUri', to.fullPath)
-      },
-      getSimpleUri: function (newUri, oldUri) {
-        this.$router.push({path: '/' + newUri})
-      }
+  props: ['panel'],
+  name: 'HelloWorld',
+  components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel},
+  watch: {
+    $route (to, from) {
+      this.$store.commit('changeUri', to.fullPath)
     },
-    computed: {
-      getSimpleUri() {
-        return this.$store.getters.getSimpleUri
-      }
-    },
-    created: function () {
-        this.$store.commit('changeUri', this.$router.currentRoute.fullPath)
+    getSimpleUri: function (newUri, oldUri) {
+      this.$router.push({path: '/' + newUri})
     }
+  },
+  computed: {
+    getSimpleUri () {
+      return this.$store.getters.getSimpleUri
+    }
+  },
+  created: function () {
+    this.$store.commit('changeUri', this.$router.currentRoute.fullPath)
   }
+}
 
 </script>

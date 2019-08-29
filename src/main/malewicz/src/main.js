@@ -44,9 +44,7 @@ import VueSSE from 'vue-sse'
 import Vuetify from 'vuetify'
 import VueHighlightJS from 'vue-highlightjs'
 
-
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
-
 
 Vue.use(VueResource)
 Vue.use(Vuex)
@@ -60,8 +58,8 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    host: '',
-    // host: 'http://localhost:8007/',
+    // host: '',
+    host: 'http://localhost:8007/',
     pageCount: 1,
     allConnections: [],
     types: [],
@@ -70,7 +68,8 @@ const store = new Vuex.Store({
       type: 'table',
       path: [],
       page: { number: 1, size: 15 },
-      orderby: {}
+      orderby: {},
+      filter: {}
     }
   },
   getters: {
@@ -99,14 +98,16 @@ const store = new Vuex.Store({
       return state.host + '/api/' + state.uri.connections[0] + '/types' + '/' + state.uri.type
     },
     preparedUri: state => {
-      return state.host + '/api/' + state.uri.connections.join('|') + '/' + state.uri.type + '/' + state.uri.path +
+      return encodeURI(state.host + '/api/' + state.uri.connections.join('|') + '/' + state.uri.type + '/' + state.uri.path +
         '?page=' + state.uri.page.number + ',' + state.uri.page.size +
-        (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '')
+        (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '') +
+        (state.uri.filter ? ('&filter=' + JSON.stringify(state.uri.filter)) : ''))
     },
     getSimpleUri: state => {
       return state.uri.connections.join('|') + '/' + state.uri.type + '/' + (state.uri.path ? state.uri.path : '') +
         '?page=' + state.uri.page.number + ',' + state.uri.page.size +
-        (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '')
+        (state.uri.orderby.field ? ('&orderby=' + state.uri.orderby.field + '-' + state.uri.orderby.ord) : '') +
+        (state.uri.filter ? ('&filter=' + JSON.stringify(state.uri.filter)) : '')
     },
     getPage: state => {
       return state.uri.page
@@ -124,9 +125,9 @@ const store = new Vuex.Store({
   mutations: {
     setPagination (state, pagination) {
       if (pagination.descending === false) {
-        state.uri.orderby = {field: pagination.sortBy, ord: "asc"}
-      } else if (pagination.descending === true){
-        state.uri.orderby = {field: pagination.sortBy, ord: "desc"}
+        state.uri.orderby = {field: pagination.sortBy, ord: 'asc'}
+      } else if (pagination.descending === true) {
+        state.uri.orderby = {field: pagination.sortBy, ord: 'desc'}
       } else {
         state.uri.orderby = {}
       }
@@ -144,15 +145,14 @@ const store = new Vuex.Store({
       const c = state.uri.connections
       state.pageCount = 1
 
-      const meta = state.types.find( v => { return v.name === type } )
+      const meta = state.types.find(v => { return v.name === type })
       const defaultSort = meta.metadata.filter(v => { return v.properties.sort }).map(v => v.name)[0]
       if (defaultSort) {
         const sortType = meta.metadata.filter(v => { return v.properties.sort })[0].properties.sort
-        state.uri = { connections: c, type: type, path: [], orderby: { field: defaultSort, ord: sortType }, page: { number: 1, size: 15 }}
+        state.uri = {connections: c, type: type, path: [], orderby: { field: defaultSort, ord: sortType }, page: { number: 1, size: 15 }}
       } else {
-        state.uri = { connections: c, type: type, path: [], orderby: {}, page: { number: 1, size: 15 }}
+        state.uri = {connections: c, type: type, path: [], orderby: {}, page: { number: 1, size: 15 }}
       }
-
     },
     setType (state, typeName) {
       state.uri.type = typeName
@@ -162,6 +162,9 @@ const store = new Vuex.Store({
     },
     setSort (state, sort) {
       state.uri.orderby = sort
+    },
+    setFilter (state, filter) {
+      state.uri.filter = filter
     },
     nextPage (state) {
       state.uri.page.number++
@@ -185,7 +188,7 @@ const store = new Vuex.Store({
     changeUri (state, uriString) {
       const parse = require('url-parse')
       const url = parse(uriString, true)
-      const path = url.pathname.split('/').filter(v => v);
+      const path = url.pathname.split('/').filter(v => v)
       const rawConnections = path[0]
       if (rawConnections) {
         state.uri.connections = path[0].split('|')
@@ -193,7 +196,7 @@ const store = new Vuex.Store({
         if (path[2]) {
           state.uri.path = path[2]
         } else {
-          state.uri.path = ""
+          state.uri.path = ''
         }
         if (url.query.page) {
           state.uri.page.number = parseInt(url.query.page.split(',')[0])
@@ -205,6 +208,11 @@ const store = new Vuex.Store({
           state.uri.orderby = { field: field, ord: ord }
         } else {
           state.uri.orderby = {}
+        }
+        if (url.query.filter) {
+          state.uri.filter = JSON.parse(url.query.filter)
+        } else {
+          state.uri.filter = undefined
         }
       }
     }
@@ -218,7 +226,7 @@ new Vue({
   template: '<App/>',
   store,
   router,
-  created: function() {
+  created: function () {
     this.$http.get(this.$store.state.host + '/endpoints').then(
       response => {
         this.$store.commit('setAllConnections', response.body)
@@ -226,13 +234,13 @@ new Vue({
     )
   },
   computed: {
-    getAllConnections() {
+    getAllConnections () {
       return this.$store.getters.getAllConnections
     }
   },
   watch: {
     getAllConnections: {
-      handler(newVal, oldVal) {
+      handler (newVal, oldVal) {
         this.$http.get(this.$store.state.host + '/api/' + newVal[0].name + '/types').then(
           response => {
             this.$store.commit('setTypes', response.body)
