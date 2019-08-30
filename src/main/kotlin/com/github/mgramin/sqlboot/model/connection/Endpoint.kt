@@ -42,6 +42,8 @@ interface Endpoint {
 
     fun properties(): Map<String, Any>
 
+    fun confDir(): String
+
     @Deprecated("Move to SQLResourceType")
     fun getDataSource(): DataSource
 

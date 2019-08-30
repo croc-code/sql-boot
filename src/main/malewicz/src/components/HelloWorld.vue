@@ -1,26 +1,26 @@
 <template>
 
-    <v-app id="inspire">
+  <v-app id="inspire">
 
-      <v-toolbar color="green" dark fixed app clipped-right>
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      </v-toolbar>
+    <v-toolbar color="green" dark fixed app clipped-right>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+    </v-toolbar>
 
-      <v-navigation-drawer fixed v-model="drawer" app>
-        <ConnectionsListPanel/>
-        <TypesListPanel/>
-      </v-navigation-drawer>
+    <v-navigation-drawer fixed v-model="drawer" app>
+      <ConnectionsListPanel/>
+      <TypesListPanel/>
+    </v-navigation-drawer>
 
-      <v-content>
-        <component v-bind:is="panel"></component>
-      </v-content>
+    <v-content>
+      <component v-bind:is="panel"></component>
+    </v-content>
 
-      <v-footer color="green" class="white--text" app>
-        <span class="pa-3">CrocInc/sql-boot</span>
-        <v-spacer></v-spacer>
-        <span class="pa-3">&copy; 2019</span>
-      </v-footer>
-    </v-app>
+    <v-footer color="green" class="white--text" app>
+      <span class="pa-3">CrocInc/sql-boot</span>
+      <v-spacer></v-spacer>
+      <span class="pa-3">&copy; 2019</span>
+    </v-footer>
+  </v-app>
 
 </template>
 

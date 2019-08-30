@@ -43,12 +43,15 @@ import org.apache.tomcat.jdbc.pool.DataSource
 open class SimpleEndpoint(
         var name: String? = null,
         var host: String? = null,
+        var confDir: String? = null,
         var properties: Map<String, Any>? = null
 ) : Endpoint {
 
     override fun name() = name!!
 
     override fun host() = host!!
+
+    override fun confDir() = confDir!!
 
     override fun properties(): Map<String, Any> = properties!!
 

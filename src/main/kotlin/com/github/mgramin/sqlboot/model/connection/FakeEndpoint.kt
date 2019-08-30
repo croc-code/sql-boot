@@ -50,4 +50,8 @@ class FakeEndpoint : Endpoint {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun confDir(): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

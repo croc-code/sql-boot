@@ -61,8 +61,8 @@ class FsResourceTypeTest {
     init {
         dbMd.name = "unit_test_db_md"
         dbMd.host = "127.0.0.1"
+        dbMd.confDir = "conf/h2/md/database"
         dbMd.properties = mapOf(
-                "fs_base_folder" to "conf/h2/md/database",
                 "sql_dialect" to "h2",
                 "jdbc_url" to "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
                 "jdbc_driver_class_name" to "org.h2.Driver"

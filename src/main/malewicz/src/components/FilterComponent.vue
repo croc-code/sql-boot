@@ -1,5 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-dialog v-model="show" width="600">
+    {{localFilter}}
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
         <v-icon>search</v-icon>
@@ -11,15 +12,16 @@
         <template>
           <v-form ref="form">
                   <span v-for="item in meta.metadata" v-bind:key="item.name">
+                    <span v-if="item.name === 'endpoint'"></span>
                     <span v-if="item.properties.datatype === 'time'"></span>
                       <v-combobox v-if="item.properties.values"
-                                  v-model='selected[item.name]'
+                                  v-model='localFilter[item.name]'
                                   :label="item.properties.label"
                                   :items="item.properties.values"
                                   clearable>
                       </v-combobox>
                       <v-text-field v-else
-                                    v-model='selected[item.name]'
+                                    v-model='localFilter[item.name]'
                                     :label="item.properties.label"
                                     clearable
                                     filled>
@@ -40,10 +42,10 @@
 <script>
 export default {
   name: 'FilterComponent',
-  data () {
+  data: function () {
     return {
       show: false,
-      selected: {}
+      localFilter: {}
     }
   },
   props: {
@@ -51,7 +53,27 @@ export default {
   },
   methods: {
     setFilter () {
-      this.$store.commit('setFilter', this.selected)
+      for (const propName in this.$data.localFilter) {
+        if (this.$data.localFilter[propName] === null || this.$data.localFilter[propName] === undefined) {
+          delete this.$data.localFilter[propName]
+        }
+      }
+      this.$store.commit('setFilter', this.$data.localFilter)
+    }
+  },
+  computed: {
+    stateFilter () {
+      return this.$store.getters.getFilter
+    }
+  },
+  watch: {
+    stateFilter: {
+      handler (newVal) {
+        if (newVal.uri && Object.entries(newVal.uri).length === 0 && newVal.uri.constructor === Object) {
+          this.$data.localFilter = {}
+        }
+      },
+      deep: true
     }
   }
 }

@@ -67,7 +67,7 @@ const store = new Vuex.Store({
       connections: [],
       type: 'table',
       path: [],
-      page: { number: 1, size: 15 },
+      page: {number: 1, size: 15},
       orderby: {},
       filter: {}
     }
@@ -75,11 +75,11 @@ const store = new Vuex.Store({
   getters: {
     getPagination: state => {
       if (state.uri.orderby.ord === 'asc') {
-        return { rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: false, page: 1, totalItems: 0 }
+        return {rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: false, page: 1, totalItems: 0}
       } else if (state.uri.orderby.ord === 'desc') {
-        return { rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: true, page: 1, totalItems: 0 }
+        return {rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: true, page: 1, totalItems: 0}
       } else {
-        return { rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: null, page: 1, totalItems: 0 }
+        return {rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: null, page: 1, totalItems: 0}
       }
     },
     getAllConnections: state => {
@@ -120,6 +120,9 @@ const store = new Vuex.Store({
     },
     getConnections: state => {
       return state.uri.connections
+    },
+    getFilter: state => {
+      return state.uri.filter
     }
   },
   mutations: {
@@ -145,13 +148,25 @@ const store = new Vuex.Store({
       const c = state.uri.connections
       state.pageCount = 1
 
-      const meta = state.types.find(v => { return v.name === type })
-      const defaultSort = meta.metadata.filter(v => { return v.properties.sort }).map(v => v.name)[0]
+      const meta = state.types.find(v => {
+        return v.name === type
+      })
+      const defaultSort = meta.metadata.filter(v => {
+        return v.properties.sort
+      }).map(v => v.name)[0]
       if (defaultSort) {
-        const sortType = meta.metadata.filter(v => { return v.properties.sort })[0].properties.sort
-        state.uri = {connections: c, type: type, path: [], orderby: { field: defaultSort, ord: sortType }, page: { number: 1, size: 15 }}
+        const sortType = meta.metadata.filter(v => {
+          return v.properties.sort
+        })[0].properties.sort
+        state.uri = {
+          connections: c,
+          type: type,
+          path: [],
+          orderby: {field: defaultSort, ord: sortType},
+          page: {number: 1, size: 15}
+        }
       } else {
-        state.uri = {connections: c, type: type, path: [], orderby: {}, page: { number: 1, size: 15 }}
+        state.uri = {connections: c, type: type, path: [], orderby: {}, page: {number: 1, size: 15}}
       }
     },
     setType (state, typeName) {
@@ -205,14 +220,14 @@ const store = new Vuex.Store({
         if (url.query.orderby) {
           const field = url.query.orderby.split('-')[0]
           const ord = url.query.orderby.split('-')[1]
-          state.uri.orderby = { field: field, ord: ord }
+          state.uri.orderby = {field: field, ord: ord}
         } else {
           state.uri.orderby = {}
         }
         if (url.query.filter) {
           state.uri.filter = JSON.parse(url.query.filter)
         } else {
-          state.uri.filter = undefined
+          state.uri.filter = {}
         }
       }
     }
@@ -222,7 +237,7 @@ const store = new Vuex.Store({
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  components: { App },
+  components: {App},
   template: '<App/>',
   store,
   router,
