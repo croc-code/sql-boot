@@ -109,7 +109,7 @@ class SqlResourceType(
     }
 
     override fun metaData(uri: Uri): List<Metadata> =
-            listOf(Metadata("endpoint", """{"label": "Cluster", "description": "Source cluster", "visible": true}""")) +
+            listOf(Metadata("endpoint", """{"label": "Cluster", "description": "Source cluster", "visible": true, "sortable": false}""")) +
                     simpleSelectQuery
                             .columns()
                             .map { Metadata(it.key, it.value) }

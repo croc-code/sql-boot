@@ -86,13 +86,13 @@ data class Metadata(
      * Get as JSON
      */
     fun toJson(): JsonObject {
-        val jsonObject = JsonObject()
-        val toJson: JsonElement = Gson().toJsonTree(properties)
+        val jsonObject: JsonObject = Gson().toJsonTree(properties).asJsonObject
+        val propsJson: JsonElement = Gson().toJsonTree(properties)
         jsonObject.addProperty("name", name.replace("@", "").toLowerCase())
         jsonObject.addProperty("description", description)
         jsonObject.addProperty("value", name.replace("@", "").toLowerCase())
         jsonObject.addProperty("text", properties["label"]?.toString()?:name.replace("@", ""))
-        jsonObject.add("properties", toJson)
+        jsonObject.add("properties", propsJson)
         return jsonObject
     }
 
