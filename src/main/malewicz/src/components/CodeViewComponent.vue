@@ -2,7 +2,7 @@
   <v-dialog v-model="show" width="1200">
     <template v-slot:activator="{ on }">
       <v-btn icon v-on="on">
-        <v-icon>build</v-icon>
+        <v-icon>fa-code</v-icon>
       </v-btn>
     </template>
     <v-card>

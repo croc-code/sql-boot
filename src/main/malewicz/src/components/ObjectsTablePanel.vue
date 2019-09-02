@@ -7,7 +7,7 @@
       <CodeViewComponent :meta="meta"/>
       <FilterComponent :meta="meta"/>
       <v-btn @click="call()" icon>
-        <v-icon>refresh</v-icon>
+        <v-icon>fa-sync-alt</v-icon>
       </v-btn>
     </v-toolbar>
 

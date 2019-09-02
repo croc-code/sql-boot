@@ -45,13 +45,14 @@ import Vuetify from 'vuetify'
 import VueHighlightJS from 'vue-highlightjs'
 
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 
 Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.component('downloadExcel', JsonExcel)
 Vue.use(VueSSE)
-Vue.use(Vuetify)
+Vue.use(Vuetify, { iconfont: 'fa' })
 Vue.use(VueHighlightJS)
 
 Vue.config.productionTip = false
@@ -144,6 +145,9 @@ const store = new Vuex.Store({
     setUri (state, uri) {
       state.uri = uri
     },
+    setConnections (state, connections) {
+      state.uri.connections = connections
+    },
     skipObjectUri (state, type) {
       const c = state.uri.connections
       state.pageCount = 1
@@ -163,10 +167,11 @@ const store = new Vuex.Store({
           type: type,
           path: [],
           orderby: {field: defaultSort, ord: sortType},
-          page: {number: 1, size: 15}
+          page: {number: 1, size: 15},
+          filter: {}
         }
       } else {
-        state.uri = {connections: c, type: type, path: [], orderby: {}, page: {number: 1, size: 15}}
+        state.uri = {connections: c, type: type, path: [], orderby: {}, page: {number: 1, size: 15}, filter: {}}
       }
     },
     setType (state, typeName) {

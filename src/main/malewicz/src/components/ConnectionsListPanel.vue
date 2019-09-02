@@ -6,7 +6,7 @@
     <v-list>
       <v-list-tile v-for="item in $store.getters.getAllConnections" :key="item.name">
         <v-list-tile-action>
-          <v-checkbox v-model="$store.state.uri.connections" :value="item.name"/>
+          <v-checkbox v-model="connections" :value="item.name"/>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
@@ -21,6 +21,16 @@ export default {
   name: 'ConnectionsListPanel',
   data () {
     return {}
+  },
+  computed: {
+    connections: {
+      get () {
+        return this.$store.getters.getConnections
+      },
+      set (value) {
+        return this.$store.commit('setConnections', value)
+      }
+    }
   }
 }
 </script>

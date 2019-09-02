@@ -1,9 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-dialog v-model="show" width="600">
-    {{localFilter}}
     <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
-        <v-icon>search</v-icon>
+      <v-btn :color="color" icon flat v-on="on">
+        <v-icon>fa-filter</v-icon>
       </v-btn>
     </template>
     <v-card>
@@ -11,22 +10,22 @@
       <v-card-text>
         <template>
           <v-form ref="form">
-                  <span v-for="item in meta.metadata" v-bind:key="item.name">
-                    <span v-if="item.name === 'endpoint'"></span>
-                    <span v-if="item.properties.datatype === 'time'"></span>
-                      <v-combobox v-if="item.properties.values"
-                                  v-model='localFilter[item.name]'
-                                  :label="item.properties.label"
-                                  :items="item.properties.values"
-                                  clearable>
-                      </v-combobox>
-                      <v-text-field v-else
-                                    v-model='localFilter[item.name]'
-                                    :label="item.properties.label"
-                                    clearable
-                                    filled>
-                      </v-text-field>
-                  </span>
+            <span v-for="item in meta.metadata" v-bind:key="item.name">
+              <span v-if="item.name === 'endpoint'"></span>
+              <span v-else-if="item.properties.datatype === 'time'"></span>
+              <v-combobox v-else-if="item.properties.values"
+                          v-model='localFilter[item.name]'
+                          :label="item.properties.label"
+                          :items="item.properties.values"
+                          clearable>
+              </v-combobox>
+              <v-text-field v-else
+                            v-model='localFilter[item.name]'
+                            :label="item.properties.label"
+                            clearable
+                            filled>
+              </v-text-field>
+            </span>
           </v-form>
         </template>
       </v-card-text>
@@ -58,21 +57,28 @@ export default {
           delete this.$data.localFilter[propName]
         }
       }
-      this.$store.commit('setFilter', this.$data.localFilter)
+      this.$store.commit('setFilter', JSON.parse(JSON.stringify(this.$data.localFilter)))
     }
   },
   computed: {
     stateFilter () {
       return this.$store.getters.getFilter
+    },
+    color () {
+      const f = this.$store.getters.getFilter
+      if (Object.entries(f).length === 0 && f.constructor === Object) {
+        return ''
+      } else {
+        return 'warning'
+      }
     }
   },
   watch: {
     stateFilter: {
       handler (newVal) {
-        if (newVal.uri && Object.entries(newVal.uri).length === 0 && newVal.uri.constructor === Object) {
-          this.$data.localFilter = {}
-        }
+        this.$data.localFilter = JSON.parse(JSON.stringify(newVal))
       },
+      immediate: true,
       deep: true
     }
   }
