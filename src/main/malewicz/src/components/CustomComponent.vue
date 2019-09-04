@@ -77,9 +77,9 @@ export default {
     },
     prettyByte: function (num) {
       if (typeof num !== 'number' || isNaN(num)) {
-        throw new TypeError('Expected a number')
+        return num
+        // throw new TypeError('Expected a number, ' + num)
       }
-
       var exponent
       var unit
       var neg = num < 0

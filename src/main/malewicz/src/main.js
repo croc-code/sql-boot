@@ -58,6 +58,7 @@ Vue.use(VueHighlightJS)
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({
+  strict: true,
   state: {
     host: '',
     // host: 'http://localhost:8007/',
@@ -74,6 +75,9 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    getHost: state => {
+      return state.host
+    },
     getPagination: state => {
       if (state.uri.orderby.ord === 'asc') {
         return {rowsPerPage: -1, sortBy: state.uri.orderby.field, descending: false, page: 1, totalItems: 0}
