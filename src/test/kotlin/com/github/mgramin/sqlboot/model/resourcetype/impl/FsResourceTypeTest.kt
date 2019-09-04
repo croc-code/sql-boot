@@ -89,7 +89,7 @@ class FsResourceTypeTest {
     @Test
     @Deprecated("Deprecated")
     fun resourceTypes() =
-            assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "pk", "table", "schema").sorted().toList(),
+            assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "constraint", "table", "schema").sorted().toList(),
                     FsResourceType(listOf(dbMd), emptyList()).resourceTypes().map { it.name() }.sorted())
 
     @Test
