@@ -65,23 +65,17 @@ interface SelectQuery {
      *
      * @return Map of column names and column comments
      */
-    fun columns(): Map<String, String>
-//    fun columns(): List<Column>
+    fun columns(): List<Column>
 
 
-    class Column(private val name: String, private val comment: String, private val properties: Map<String, String>) {
+    data class Column(private val name: String, private val comment: String, private val properties: Map<String, String> = emptyMap()) {
 
-        fun name(): String {
-            return name
-        }
+        fun name() = name
 
-        fun comment(): String {
-            return comment
-        }
+        fun comment() = comment
 
-        fun properties(): Map<String, String> {
-            return properties
-        }
+        fun properties() = properties
+
     }
 
 }

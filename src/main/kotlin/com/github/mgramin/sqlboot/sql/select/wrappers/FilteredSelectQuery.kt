@@ -42,14 +42,13 @@ class FilteredSelectQuery(
     override fun properties() = origin.properties()
 
     override fun query(): String {
-        println("!!!!!!!!!!!!!!!!")
         return if (path.isEmpty()) {
             origin.query()
         } else {
             val whereCondition = origin.columns()
                     .asSequence()
                     .take(path.count())
-                    .mapIndexed { index, s -> """lower(${s.key}) like lower('${path[index]}')""" }
+                    .mapIndexed { index, s -> """lower(${s.name()}) like lower('${path[index]}')""" }
                     .joinToString(prefix = "where ", separator = " and ")
             """select *
               |  from (${origin.query()}) q

@@ -32,6 +32,7 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
+import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
@@ -66,7 +67,7 @@ class JdbcSelectQueryTest {
     @Deprecated("Move to base test class")
     fun columns() {
         val columns = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
-        assertEquals(mapOf("n" to "First name", "mail" to "Personal email"), columns)
+        assertEquals(listOf(SelectQuery.Column("n", "First name"), SelectQuery.Column("mail", "Personal email")), columns)
     }
 
     @Test

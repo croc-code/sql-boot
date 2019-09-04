@@ -72,10 +72,11 @@ class SqlResourceType(
     }
 
     override fun path(): List<String> {
-        return simpleSelectQuery.columns().keys
-                .filter { v -> v.startsWith("@") }
-                .map { v -> strip(v, "@") }
-                .ifEmpty { listOf(simpleSelectQuery.columns().keys.first()) }
+        return simpleSelectQuery.columns().asSequence()
+                .filter { v -> v.name().startsWith("@") }
+                .map { v -> strip(v.name(), "@") }
+                .toList()
+                .ifEmpty { listOf(simpleSelectQuery.columns().first().name()) }
     }
 
     override fun read(uri: Uri): Flux<DbResource> {
@@ -112,7 +113,7 @@ class SqlResourceType(
             listOf(Metadata("endpoint", """{"label": "Cluster", "description": "Source cluster", "visible": true, "sortable": false}""")) +
                     simpleSelectQuery
                             .columns()
-                            .map { Metadata(it.key, it.value) }
+                            .map { Metadata(it.name(), it.comment()) }
 
     override fun toJson(): JsonObject {
         val jsonObject = JsonObject()

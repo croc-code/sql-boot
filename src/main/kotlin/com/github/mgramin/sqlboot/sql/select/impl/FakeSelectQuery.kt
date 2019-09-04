@@ -47,9 +47,9 @@ class FakeSelectQuery : SelectQuery {
                  |          from main_schema.users)""".trimMargin()
     }
 
-    override fun columns(): Map<String, String> {
-        return mapOf("n" to "First name", "mail" to "Personal email")
-    }
+    override fun columns() =
+            listOf(SelectQuery.Column("n", "First name"), SelectQuery.Column("mail", "Personal email"))
+
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         TODO("not implemented")

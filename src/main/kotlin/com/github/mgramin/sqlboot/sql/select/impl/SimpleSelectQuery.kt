@@ -55,11 +55,7 @@ class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : Sele
         }
     }
 
-    override fun columns() =
-            SelectStatementParser(templateGenerator.template())
-                    .parse()
-                    .map { it.name() to it.comment() }
-                    .toMap()
+    override fun columns() = SelectStatementParser(templateGenerator.template()).parse()
 
     override fun execute(variables: Map<String, Any>) = throw RuntimeException("Not allow here")
 

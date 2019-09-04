@@ -32,6 +32,7 @@
 
 package com.github.mgramin.sqlboot.sql.select.impl
 
+import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -63,8 +64,8 @@ internal class SimpleSelectQueryTest {
 
     @Test
     fun columns() {
-        assertEquals(mapOf("name" to "First name"),
-                SimpleSelectQuery(FakeTemplateGenerator("select name /* First name*/ from persons")).columns())
+        assertEquals(listOf(SelectQuery.Column("name", "First name")),
+                SimpleSelectQuery(FakeTemplateGenerator("select name /* First name */ from persons")).columns())
     }
 
     @Test
