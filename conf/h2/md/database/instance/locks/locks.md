@@ -6,12 +6,9 @@
   "icon": "lock"
 }
 */
-select "@schema"
-     , "@table"
-     , "@session"
- from (select TABLE_SCHEMA as "@schema"
-            , TABLE_NAME   as "@table"
-            , SESSION_ID   as "@session"
-            , LOCK_TYPE
-         from information_schema.LOCKS)
+select TABLE_SCHEMA
+     , TABLE_NAME
+     , SESSION_ID
+     , LOCK_TYPE
+  from information_schema.LOCKS
 ````

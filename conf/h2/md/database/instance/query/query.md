@@ -2,8 +2,7 @@
 /*
   { "name": "query", "title": "Queries" }
 */
-select "@statement" from (
-select SQL_STATEMENT as "@statement"
+select SQL_STATEMENT
      , EXECUTION_COUNT
      , MIN_EXECUTION_TIME
      , MAX_EXECUTION_TIME
@@ -15,5 +14,5 @@ select SQL_STATEMENT as "@statement"
      , CUMULATIVE_ROW_COUNT
      , AVERAGE_ROW_COUNT
      , STD_DEV_ROW_COUNT
-  from information_schema.QUERY_STATISTICS)
+  from information_schema.QUERY_STATISTIC
 ````
