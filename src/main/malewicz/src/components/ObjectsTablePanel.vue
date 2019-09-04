@@ -4,7 +4,7 @@
       <v-toolbar-title class="text" v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <ColumnsComponent :meta="meta"/>
-      <CodeViewComponent :meta="meta"/>
+      <CodeViewComponent :code="meta.query"/>
       <FilterComponent :meta="meta"/>
       <v-btn @click="call()" icon>
         <v-icon>fa-sync-alt</v-icon>

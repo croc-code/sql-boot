@@ -8,7 +8,7 @@
     <v-card>
       <v-card-title class="headline grey lighten-2" primary-title>SQL-query</v-card-title>
       <v-card-text>
-        <pre v-highlightjs="meta.query" class="text-sm-left"><code class="sql"></code></pre>
+        <pre v-highlightjs="code" class="text-sm-left"><code class="sql"></code></pre>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
@@ -27,7 +27,7 @@ export default {
     }
   },
   props: {
-    meta: {}
+    code: ''
   }
 }
 </script>

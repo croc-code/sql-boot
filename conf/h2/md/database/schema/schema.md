@@ -1,6 +1,11 @@
 ````sql
 /*
-  { "name": "schema", "title": "Schema" }
+{
+  "name": "schema",
+  "title": "Schema",
+  "icon": "pets",
+  "tags": "ui,schema"
+}
 */
 select SCHEMA_NAME                  /* { "label": "schema", "description": "Schema", "visible": true } */
      , CATALOG_NAME                 /* { "label": "catalog", "description": "Catalog" } */

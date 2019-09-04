@@ -3,7 +3,8 @@
 { 
   "name": "table", 
   "title": "Tables",
-  "icon": "table_chart"
+  "icon": "table_chart",
+  "tags": "ui,schema"
 }
 */
 select table_schema      /* { "label": "Owner", "description": "Owner of the table", "visible": false } */
@@ -19,7 +20,8 @@ select table_schema      /* { "label": "Owner", "description": "Owner of the tab
 { 
   "name": "column", 
   "title": "Columns",
-  "icon": "view_column"
+  "icon": "view_column",
+  "tags": "ui,schema"
 }
 */
 select table_schema               /* { "label": "owner", "description": "Owner of the table", "visible": true } */
@@ -35,9 +37,10 @@ select table_schema               /* { "label": "owner", "description": "Owner o
 ````sql
 /*
 { 
-  "name": "pk", 
-  "title": "Primary keys",
-  "icon": "vpn_key"
+  "name": "constraint", 
+  "title": "Constraints",
+  "icon": "fa-key",
+  "tags": "ui,schema"
 }
 */
   select table_schema     /* { "label": "owner", "description": "Owner of the table", "visible": true } */
@@ -51,7 +54,12 @@ select table_schema               /* { "label": "owner", "description": "Owner o
 
 ````sql
 /*
-  { "name": "index", "title": "Indexes" }
+{
+  "name": "index",
+  "title": "Indexes",
+  "icon": "fa-indent",
+  "tags": "ui,schema"
+}
 */
 select TABLE_SCHEMA     /* { "label": "owner", "description": "Owner of the table", "visible": true } */
      , TABLE_NAME       /* { "label": "table name", "description": "Name of the table", "visible": true } */
