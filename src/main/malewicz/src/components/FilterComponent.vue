@@ -13,22 +13,22 @@
             <span v-for="item in meta.metadata" v-bind:key="item.name">
               <span v-if="item.name === 'endpoint'"></span>
               <span v-else-if="item.type === 'timestamptz'"></span>
-              <v-combobox v-else-if="item.properties.values"
+              <v-combobox v-else-if="item.values"
                           v-model='localFilter[item.name]'
-                          :label="item.properties.label"
-                          :items="item.properties.values"
+                          :label="item.label"
+                          :items="item.values"
                           clearable>
               </v-combobox>
-              <v-text-field v-else-if="item.type.startsWith('float')"
+              <v-text-field v-else-if="item.type == 'numeric' || item.type == 'float8' || item.type == 'int8'"
                             v-model='localFilter[item.name]'
                             type = "number"
-                            :label="item.properties.label"
+                            :label="item.label"
                             clearable
                             filled>
               </v-text-field>
               <v-text-field v-else
                             v-model='localFilter[item.name]'
-                            :label="item.properties.label"
+                            :label="item.label"
                             clearable
                             filled>
               </v-text-field>

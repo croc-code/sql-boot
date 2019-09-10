@@ -107,13 +107,7 @@ class SqlResourceType(
         return listOf(Metadata("endpoint", """{"label": "Cluster", "description": "Source cluster", "visible": true, "sortable": false}""")) +
                 selectQuery
                         .columns()
-                        .map {
-                            if (it.properties().containsKey("datatype")) {
-                                Metadata(it.name(), it.properties()["datatype"]!!, it.comment())
-                            } else {
-                                Metadata(it.name(), it.comment())
-                            }
-                        }
+                        .map { Metadata(it.name(), it.datatype(), it.comment()) }
     }
 
     override fun toJson(): JsonObject {

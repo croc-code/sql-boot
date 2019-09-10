@@ -32,19 +32,34 @@
 
 <template>
   <div>
-    <a v-if="met.format==='json' && props.item[met.name]"
-       :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
-      <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">
-        {{ JSON.parse(props.item[met.name].value).icon }}
-      </v-icon>
-      <v-chip v-else color="green" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
-    </a>
-    <CodeViewComponent v-else-if="met.properties.format==='sql'" :code="props.item[met.name]"/>
+    <span v-if="met.format==='json' && props.item[met.name]">
+      <a :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
+        <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">
+          {{ JSON.parse(props.item[met.name].value).icon }}
+        </v-icon>
+        <v-chip v-else color="green" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
+      </a>
+    </span>
+    <span v-else-if="met.format==='sql'">
+      <CodeViewComponent :code="props.item[met.name]"/>
+    </span>
     <span v-else-if="met.type==='timestamptz'">{{ props.item[met.name] | formatDate }}</span>
-    <span v-else-if="met.properties.format==='size'">{{ props.item[met.name] | prettyByte }}</span>
-    <span v-else>{{ props.item[met.name] | round(2) }}</span>
+    <span v-else-if="met.format==='size'">
+      <v-tooltip bottom>
+        <span slot="activator">{{ props.item[met.name] | prettyByte }}</span>
+        <span>{{ props.item[met.name] }}</span>
+      </v-tooltip>
+    </span>
+    <span v-else-if="met.type==='numeric' || met.type==='float8'">
+      <v-tooltip bottom>
+        <span slot="activator">{{ props.item[met.name] | round(2) }}</span>
+        <span>{{ props.item[met.name] }}</span>
+      </v-tooltip>
+    </span>
+    <span v-else>{{ props.item[met.name] }}</span>
   </div>
 </template>
+
 <script>
 
 import moment from 'moment'
@@ -52,7 +67,7 @@ import CodeViewComponent from './CodeViewComponent'
 
 export default {
   name: 'CustomComponent',
-  components: { CodeViewComponent },
+  components: {CodeViewComponent},
   props: {
     met: {},
     props: {}

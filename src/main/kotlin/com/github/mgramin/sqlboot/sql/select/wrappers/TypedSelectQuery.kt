@@ -50,14 +50,19 @@ class TypedSelectQuery(
             dataSource
                     .connection
                     .use {
-                        val metaData = it.prepareStatement(origin.query()).metaData
-                        origin.columns()
-                                .mapIndexed { index, column ->
-                                    SelectQuery.Column(
-                                            column.name(),
-                                            metaData.getColumnTypeName(index + 1).toString(),
-                                            column.comment(),
-                                            column.properties())
-                                }
+                        try {
+                            val metaData = it.prepareStatement(origin.query()).metaData
+                            origin.columns()
+                                    .mapIndexed { index, column ->
+                                        SelectQuery.Column(
+                                                column.name(),
+                                                metaData.getColumnTypeName(index + 1).toString(),
+                                                column.comment(),
+                                                column.properties())
+                                    }
+                        } catch (e : Exception) {
+                            origin.columns()
+                        }
                     }
+
 }

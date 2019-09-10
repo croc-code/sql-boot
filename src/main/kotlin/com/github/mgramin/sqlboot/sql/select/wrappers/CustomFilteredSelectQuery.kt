@@ -44,10 +44,18 @@ class CustomFilteredSelectQuery(
     override fun query(): String {
         return if (filter.entrySet().size > 0) {
             val whereCondition = filter.entrySet()
-                    .joinToString(prefix = "where ", separator = " and ") { """${it.key} = '${it.value.asString.replace("'", "''")}'""" }
+                    .joinToString(separator = " and ")
+                    {
+                        when (origin.columns().first { column -> column.name() == it.key }.datatype()) {
+                            "numeric" -> """${it.key} = ${it.value.asNumber}"""
+                            "float8" -> """${it.key} = ${it.value.asFloat}"""
+                            "int8" -> """${it.key} = ${it.value.asInt}"""
+                            else -> """${it.key} = '${it.value.asString.replace("'", "''")}'"""
+                        }
+                    }
             """select *
-                 |  from (${origin.query()}) q
-                 | $whereCondition""".trimMargin()
+              |  from (${origin.query()}) q
+              | where $whereCondition""".trimMargin()
         } else {
             origin.query()
         }

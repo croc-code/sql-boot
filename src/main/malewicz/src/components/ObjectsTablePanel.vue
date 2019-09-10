@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-toolbar>
-      <v-toolbar-title class="text" v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
+      <v-toolbar-title class="text" v-if="meta">{{ meta.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <ColumnsComponent :meta="meta"/>
       <CodeViewComponent :code="meta.query"/>
@@ -23,7 +23,7 @@
       <template slot="headerCell" slot-scope="props">
         <v-tooltip bottom>
           <span slot="activator">{{ props.header.text }}</span>
-          <span v-if="props.header.properties.description">{{ props.header.properties.description }}</span>
+          <span v-if="props.header.description">{{ props.header.description }}</span>
           <span v-else>{{ props.header.text }}</span>
         </v-tooltip>
       </template>
@@ -67,7 +67,7 @@ export default {
     defaultMeta: function () {
       if (this.meta.metadata) {
         return this.meta.metadata.filter(v => {
-          return v.properties.visible !== false
+          return v.visible !== false
         })
       } else {
         return this.meta.metadata
