@@ -67,7 +67,7 @@ const store = new Vuex.Store({
     types: [],
     uri: {
       connections: [],
-      type: 'table',
+      type: '',
       path: [],
       page: {number: 1, size: 15},
       orderby: {},
@@ -92,6 +92,9 @@ const store = new Vuex.Store({
     },
     getTypes: state => {
       return state.types
+    },
+    getType: state => {
+      return state.uri.types
     },
     getUri: state => {
       return state.uri
@@ -253,24 +256,10 @@ new Vue({
   created: function () {
     this.$http.get(this.$store.state.host + '/endpoints').then(
       response => {
+        // let filter = response.body.find(v => { return v.properties.default === true })
+        // this.$store.commit('setConnections', [filter.name])
         this.$store.commit('setAllConnections', response.body)
       }
     )
-  },
-  computed: {
-    getAllConnections () {
-      return this.$store.getters.getAllConnections
-    }
-  },
-  watch: {
-    getAllConnections: {
-      handler (newVal, oldVal) {
-        this.$http.get(this.$store.state.host + '/api/' + newVal[0].name + '/types').then(
-          response => {
-            this.$store.commit('setTypes', response.body)
-          }
-        )
-      }
-    }
   }
 }).$mount('#app')

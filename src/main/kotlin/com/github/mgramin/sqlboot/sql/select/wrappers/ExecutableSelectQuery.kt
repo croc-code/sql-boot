@@ -49,19 +49,19 @@ import javax.sql.DataSource
  * @version $Id: f38638fde3d38f83edd4b8a03c570f845c856752 $
  * @since 0.1
  */
-class JdbcSelectQuery(
+class ExecutableSelectQuery(
         private val origin: SelectQuery,
         private val dataSource: DataSource,
         private val nullAlias: String
 ) : SelectQuery {
-
-    override fun properties() = origin.properties()
 
     constructor(origin: SelectQuery, dataSource: DataSource) : this(origin, dataSource, "")
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun query() = origin.query()
+
+    override fun properties() = origin.properties()
 
     override fun columns() = origin.columns()
 
@@ -92,6 +92,7 @@ class JdbcSelectQuery(
                 .doOnError { logger.warn(it.message) }
                 .onErrorReturn(Flux.empty())
                 .flatMap { it }
+
     }
 
 }

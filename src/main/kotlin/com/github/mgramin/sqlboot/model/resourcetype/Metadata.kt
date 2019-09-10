@@ -58,8 +58,6 @@ data class Metadata(
             this.properties["key"] = name.replace("@", "")
             if (map.containsKey("type")) {
                 this.type = map["type"].toString()
-            } else {
-                this.type = "String"
             }
             if (!map.containsKey("visible")) {
                 this.properties["visible"] = true
@@ -88,9 +86,10 @@ data class Metadata(
     fun toJson(): JsonObject {
         val jsonObject: JsonObject = Gson().toJsonTree(properties).asJsonObject
         val propsJson: JsonElement = Gson().toJsonTree(properties)
-        jsonObject.addProperty("name", name.replace("@", "").toLowerCase())
+        jsonObject.addProperty("name", name.toLowerCase())
         jsonObject.addProperty("description", description)
-        jsonObject.addProperty("value", name.replace("@", "").toLowerCase())
+        jsonObject.addProperty("type", type)
+        jsonObject.addProperty("value", name.toLowerCase())
         jsonObject.addProperty("text", properties["label"]?.toString()?:name.replace("@", ""))
         jsonObject.add("properties", propsJson)
         return jsonObject

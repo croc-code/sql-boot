@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-dialog v-model="show" width="1200">
     <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
+      <v-btn icon flat color="green" v-on="on">
         <v-icon>fa-code</v-icon>
       </v-btn>
     </template>

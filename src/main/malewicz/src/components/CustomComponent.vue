@@ -32,26 +32,27 @@
 
 <template>
   <div>
-    <a v-if="met.properties.datatype==='json' && props.item[met.name]"
+    <a v-if="met.format==='json' && props.item[met.name]"
        :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
       <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">
         {{ JSON.parse(props.item[met.name].value).icon }}
       </v-icon>
       <v-chip v-else color="green" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
     </a>
-    <pre v-else-if="met.properties.format==='sql'" v-highlightjs="props.item[met.name]" class="text-sm-left">
-      <code class="sql"/>
-    </pre>
-    <span v-else-if="met.properties.datatype==='time'">{{ props.item[met.name] | formatDate }}</span>
+    <CodeViewComponent v-else-if="met.properties.format==='sql'" :code="props.item[met.name]"/>
+    <span v-else-if="met.type==='timestamptz'">{{ props.item[met.name] | formatDate }}</span>
     <span v-else-if="met.properties.format==='size'">{{ props.item[met.name] | prettyByte }}</span>
     <span v-else>{{ props.item[met.name] | round(2) }}</span>
   </div>
 </template>
 <script>
+
 import moment from 'moment'
+import CodeViewComponent from './CodeViewComponent'
 
 export default {
   name: 'CustomComponent',
+  components: { CodeViewComponent },
   props: {
     met: {},
     props: {}

@@ -49,14 +49,14 @@ import javax.sql.DataSource
  */
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(locations = ["/test_config.xml"])
-class JdbcSelectQueryTest {
+class ExecutableSelectQueryTest {
 
     @Autowired
     internal var dataSource: DataSource? = null
 
     @Test
     fun execute() {
-        val rows = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).collectList().block()
+        val rows = ExecutableSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).collectList().block()
         assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
                 linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com"),
                 linkedMapOf("n" to "joel", "mail" to "joel@gmail.com")),
@@ -66,8 +66,10 @@ class JdbcSelectQueryTest {
     @Test
     @Deprecated("Move to base test class")
     fun columns() {
-        val columns = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
-        assertEquals(listOf(SelectQuery.Column("n", "First name"), SelectQuery.Column("mail", "Personal email")), columns)
+        val columns = ExecutableSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
+        assertEquals(listOf(
+                SelectQuery.Column("n", "VARCHAR", "First name", emptyMap()),
+                SelectQuery.Column("mail", "VARCHAR", "Personal email", emptyMap())), columns)
     }
 
     @Test
@@ -79,7 +81,7 @@ class JdbcSelectQueryTest {
                   |  from (select name  as n
                   |             , email as mail
                   |          from main_schema.users)""".trimMargin(),
-                JdbcSelectQuery(FakeSelectQuery(), dataSource!!).query())
+                ExecutableSelectQuery(FakeSelectQuery(), dataSource!!).query())
     }
 
 }

@@ -64,7 +64,7 @@ internal class OrderedSelectQueryTest {
     @Test
     fun execute() {
         val selectQuery =
-                JdbcSelectQuery(
+                ExecutableSelectQuery(
                         OrderedSelectQuery(
                                 FakeSelectQuery(),
                                 mapOf("n" to "asc", "mail" to "desc")),

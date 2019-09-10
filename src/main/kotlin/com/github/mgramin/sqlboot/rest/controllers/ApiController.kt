@@ -74,7 +74,7 @@ class ApiController {
     @RequestMapping(value = ["/api/{connectionName}/types"])
     fun types(@PathVariable connectionName: String): String {
         val jsonArray = JsonArray()
-        FsResourceType(endpointList.getByMask(connectionName), emptyList())
+        FsResourceType(endpointList.getByMask(connectionName), dbDialectList.dialects)
                 .resourceTypes()
                 .forEach { jsonArray.add(it.toJson()) }
         return jsonArray.toString()
@@ -83,7 +83,7 @@ class ApiController {
     @RequestMapping(value = ["/api/{connectionName}/types/{typeMask}"])
     fun typesByMask(@PathVariable connectionName: String, @PathVariable typeMask: String): String {
         val jsonArray = JsonArray()
-        FsResourceType(endpointList.getByMask(connectionName), emptyList())
+        FsResourceType(endpointList.getByMask(connectionName), dbDialectList.dialects)
                 .resourceTypes()
                 .filter { it.name().matches(wildcardToRegex(typeMask)) }
                 .forEach { jsonArray.add(it.toJson()) }
@@ -118,8 +118,8 @@ class ApiController {
     }
 
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
-        val connections = endpointList.getByMask(uri.connection())
         try {
+            val connections = endpointList.getByMask(uri.connection())
             val headers = FsResourceType(connections, dbDialectList.dialects)
                     .read(uri)
                     .map { it.headers() }

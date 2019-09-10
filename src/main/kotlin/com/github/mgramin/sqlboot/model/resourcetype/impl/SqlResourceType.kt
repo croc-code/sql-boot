@@ -44,16 +44,16 @@ import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.CustomFilteredSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.ExecutableSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.FilteredSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.JdbcSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.TypedSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import org.apache.commons.lang3.StringUtils.strip
 import reactor.core.publisher.Flux
 
 /**
@@ -67,25 +67,15 @@ class SqlResourceType(
 
     private val simpleSelectQuery = SimpleSelectQuery(JinjaTemplateGenerator(sql))
 
-    override fun aliases(): List<String> {
-        return listOf(simpleSelectQuery.properties()["name"]!!)
-    }
+    override fun aliases(): List<String> = listOf(simpleSelectQuery.properties()["name"]!!)
 
-    override fun path(): List<String> {
-        return simpleSelectQuery.columns().asSequence()
-                .filter { v -> v.name().startsWith("@") }
-                .map { v -> strip(v.name(), "@") }
-                .toList()
-                .ifEmpty { listOf(simpleSelectQuery.columns().first().name()) }
-    }
+    override fun path(): List<String> = listOf(simpleSelectQuery.columns().first().name())
 
     override fun read(uri: Uri): Flux<DbResource> {
-        val specificDialect = simpleSelectQuery.properties()["dialect"]
         return Flux.merge(
                 endpoints
                         .map { connection ->
-                            return@map createQuery(uri, connection, specificDialect
-                                    ?: connection.properties()["sql_dialect"].toString()).execute(hashMapOf("uri" to uri))
+                            return@map createQuery(uri, connection).execute(hashMapOf("uri" to uri))
                                     .map<Map<String, Any>?> {
                                         val toMutableMap = it.toMutableMap()
                                         toMutableMap["endpoint"] = connection.name()
@@ -94,11 +84,9 @@ class SqlResourceType(
                         }
                         .toList())
                 .map { o ->
-                    val path = o!!.entries
-                            .filter { v -> v.key.startsWith("@") }
-                            .map { it.value.toString() }
+                    val path = o!!.entries.map { it.value.toString() }
                     val headers = o.entries
-                            .map { strip(it.key, "@") to it.value }
+                            .map { it.key to it.value }
                             .toMap()
                     val name = if (path.isEmpty()) {
                         headers.asSequence().first().key
@@ -109,11 +97,24 @@ class SqlResourceType(
                 }
     }
 
-    override fun metaData(uri: Uri): List<Metadata> =
-            listOf(Metadata("endpoint", """{"label": "Cluster", "description": "Source cluster", "visible": true, "sortable": false}""")) +
-                    simpleSelectQuery
-                            .columns()
-                            .map { Metadata(it.name(), it.comment()) }
+    override fun metaData(uri: Uri): List<Metadata> {
+        val endpoint = endpoints
+                .filter { it.properties().containsKey("tags") && it.properties()["tags"] == "history" }
+                .ifEmpty { endpoints.filter { it.properties().containsKey("default") } }
+                .ifEmpty { endpoints }
+                .first()
+        val selectQuery = createQuery(uri, endpoint)
+        return listOf(Metadata("endpoint", """{"label": "Cluster", "description": "Source cluster", "visible": true, "sortable": false}""")) +
+                selectQuery
+                        .columns()
+                        .map {
+                            if (it.properties().containsKey("datatype")) {
+                                Metadata(it.name(), it.properties()["datatype"]!!, it.comment())
+                            } else {
+                                Metadata(it.name(), it.comment())
+                            }
+                        }
+    }
 
     override fun toJson(): JsonObject {
         val jsonObject = JsonObject()
@@ -127,19 +128,21 @@ class SqlResourceType(
         return jsonObject
     }
 
-    private fun createQuery(uri: Uri, endpoint: Endpoint, dialect: String): SelectQuery {
-        val paginationQueryTemplate = dialects.first { it.name() == dialect }.paginationQueryTemplate()
-        return JdbcSelectQuery(
-                GrafanaSelectQuery(
-                        PaginatedSelectQuery(
-                                OrderedSelectQuery(
-                                        CustomFilteredSelectQuery(
-                                                FilteredSelectQuery(
-                                                        simpleSelectQuery, uri.path()),
-                                                uri.filter()),
-                                        uri.orderedColumns()),
-                                uri,
-                                paginationQueryTemplate)),
+    private fun createQuery(uri: Uri, endpoint: Endpoint): SelectQuery {
+        val dialect = dialects.first { it.name() == endpoint.properties()["sql_dialect"].toString() }
+        return ExecutableSelectQuery(
+                PaginatedSelectQuery(
+                        OrderedSelectQuery(
+                                CustomFilteredSelectQuery(
+                                        FilteredSelectQuery(
+                                                TypedSelectQuery(
+                                                        GrafanaSelectQuery(simpleSelectQuery),
+                                                        dataSource = endpoint.getDataSource()),
+                                                uri.path()),
+                                        uri.filter()),
+                                uri.orderedColumns()),
+                        uri,
+                        dialect.paginationQueryTemplate()),
                 dataSource = endpoint.getDataSource())
     }
 

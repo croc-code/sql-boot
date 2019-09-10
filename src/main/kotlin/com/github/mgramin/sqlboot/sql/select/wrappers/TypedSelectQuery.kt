@@ -32,45 +32,32 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
-import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
-
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import reactor.core.publisher.Flux
+import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import javax.sql.DataSource
 
-@ExtendWith(SpringExtension::class)
-@ContextConfiguration(locations = ["/test_config.xml"])
-internal class FilteredSelectQueryTest {
+class TypedSelectQuery(
+        private val origin: SelectQuery,
+        private val dataSource: DataSource
+) : SelectQuery {
 
-    @Autowired
-    internal var dataSource: DataSource? = null
+    override fun query() = origin.query()
 
-    @Test
-    fun properties() {
-    }
+    override fun execute(variables: Map<String, Any>) = origin.execute(variables)
 
-    @Test
-    fun query() {
-        println(FilteredSelectQuery(FakeSelectQuery(), listOf("test", "test1")).query())
-    }
+    override fun properties() = origin.properties()
 
-    @Test
-    fun columns() {
-        println(FakeSelectQuery().columns())
-    }
-
-    @Test
-    fun execute() {
-        val execute: Flux<Map<String, Any>> =
-                ExecutableSelectQuery(
-                        FilteredSelectQuery(
-                                FakeSelectQuery(),
-                                listOf("test", "test1")),
-                        dataSource!!).execute(emptyMap())
-    }
-
+    override fun columns() =
+            dataSource
+                    .connection
+                    .use {
+                        val metaData = it.prepareStatement(origin.query()).metaData
+                        origin.columns()
+                                .mapIndexed { index, column ->
+                                    SelectQuery.Column(
+                                            column.name(),
+                                            metaData.getColumnTypeName(index + 1).toString(),
+                                            column.comment(),
+                                            column.properties())
+                                }
+                    }
 }

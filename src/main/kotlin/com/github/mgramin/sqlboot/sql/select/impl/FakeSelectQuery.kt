@@ -48,7 +48,7 @@ class FakeSelectQuery : SelectQuery {
     }
 
     override fun columns() =
-            listOf(SelectQuery.Column("n", "First name"), SelectQuery.Column("mail", "Personal email"))
+            listOf(SelectQuery.Column("n", "VARCHAR", "First name"), SelectQuery.Column("mail", "VARCHAR", "Personal email"))
 
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {

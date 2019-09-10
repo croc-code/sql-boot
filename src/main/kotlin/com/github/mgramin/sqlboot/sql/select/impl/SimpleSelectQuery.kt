@@ -93,7 +93,7 @@ class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : Sele
                     .map { v ->
                         SelectQuery.Column(
                                 v.column_alias()?.ID()?.text
-                                        ?: (v.column_name()?.ID()?.text ?: "NULL"),
+                                        ?: (v.column_name()?.ID()?.text ?: "NULL"),"",
                                 v.column_comment()?.let { v1 ->
                                     v1.MULTIPLE_LINE_COMMENT().text.replace("/*", "").replace("*/", "").trim { it <= ' ' }
                                 } ?: (""), hashMapOf())

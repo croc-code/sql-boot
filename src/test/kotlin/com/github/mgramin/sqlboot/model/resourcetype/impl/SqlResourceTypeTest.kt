@@ -66,124 +66,63 @@ class SqlResourceTypeTest {
         )
     }
 
-    @Test
-    fun name() {
-        val sql = """/*
-                    |  { "name": "table" }
-                    |*/
-                    |select *
-                    |  from (select table_schema   as "@schema"
-                    |             , table_name     as "@table"
-                    |          from information_schema.tables)""".trimMargin()
-        val name = SqlResourceType(sql, listOf(db), listOf(FakeDialect())).name()
-        assertEquals("table", name)
-    }
+    private val getAllTablesSQL =
+            """/* { "name": "table" } */
+              |select table_schema
+              |     , table_name
+              |  from information_schema.tables""".trimMargin()
+
+    private val getAllColumnsSQL =
+            """/* { "name": "column" } */
+              |select table_schema
+              |     , table_name
+              |     , column_name
+              |  from information_schema.columns""".trimMargin()
+
+    val getAllProcesses =
+            """/* { "name": "process", "executor": "http" } */
+              |select pid as "@pid"
+              |     , name
+              |     , total_size
+              |  from processes
+              | limit 5""".trimMargin()
 
     @Test
-    fun aliases() {
-        val sql = """/*
-                    |  { "name": "table" }
-                    |*/
-                    |select *
-                    |  from (select table_schema   as "@schema"
-                    |             , table_name     as "@table"
-                    |          from information_schema.tables)""".trimMargin()
-        val aliases = SqlResourceType(sql, listOf(db), listOf(FakeDialect())).aliases()
-        assertEquals(arrayListOf("table"), aliases)
-    }
+    fun name() =
+            assertEquals("table",
+                    SqlResourceType(getAllTablesSQL, listOf(db), listOf(FakeDialect())).name())
+
 
     @Test
-    fun read() {
-        val sql = """/*
-                    |  { "name": "table" }
-                    |*/
-                    |select @schema, @table
-                    |  from (select table_schema   as "@schema"
-                    |             , table_name     as "@table"
-                    |          from information_schema.tables)""".trimMargin()
+    fun aliases() =
+            assertEquals(arrayListOf("table"),
+                    SqlResourceType(getAllTablesSQL, listOf(db), listOf(FakeDialect())).aliases())
+
+    @Test
+    fun readAllTables() {
         StepVerifier
-                .create(createType(sql).read(FakeUri()))
+                .create(createType(getAllTablesSQL).read(FakeUri()))
                 .expectNextCount(46)
                 .verifyComplete()
     }
 
     @Test
-    fun read2() {
-        val sql = """/*
-                    |  { "name": "column" }
-                    |*/
-                    |select @schema, @table, @column
-                    |  from (select table_schema    as "@schema"
-                    |             , table_name      as "@table"
-                    |             , column_name     as "@column"
-                    |          from information_schema.columns)""".trimMargin()
+    fun readAllColumns() {
         StepVerifier
-                .create(createType(sql).read(FakeUri()))
+                .create(createType(getAllColumnsSQL).read(FakeUri()))
                 .expectNextCount(347)
                 .verifyComplete()
     }
 
     @Test
-    @Disabled
-    fun read3() {
-        val sql = """/* { "name": "process", "executor": "http" } */
-                    |select pid as "@pid"
-                    |     , name
-                    |     , total_size
-                    |  from processes
-                    | limit 5""".trimMargin()
-        StepVerifier
-                .create(createType(sql).read(DbUri("prod/process")))
-                .expectNextCount(5)
-                .verifyComplete()
-    }
+    fun path() = assertEquals(listOf("table_schema"), createType(getAllColumnsSQL).path())
 
     @Test
-    fun path() {
-        val sql = """/*
-                    |  { "name": "column" }
-                    |*/
-                    |select table_schema  as "@schema"
-                    |     , table_name    as "@table"
-                    |     , column_name   as "@column"
-                    |  from information_schema.columns""".trimMargin()
-        assertEquals("[schema, table, column]", createType(sql).path().toString())
-    }
-
-    @Test
-    fun path2() {
-        val sql = """/*
-                    |  { "name": "column" }
-                    |*/
-                    |select table_schema  as "schema"
-                    |     , table_name    as "table"
-                    |     , column_name   as "column"
-                    |  from information_schema.columns""".trimMargin()
-        assertEquals("[schema]", createType(sql).path().toString())
-    }
-
-    @Test
-    fun metaData() {
-        val sql = """/*
-                    |  { "name": "column" }
-                    |*/
-                    |select table_schema  as "@schema"
-                    |     , table_name    as "@table"
-                    |     , column_name   as "@column"
-                    |  from information_schema.columns""".trimMargin()
-        assertEquals(4, createType(sql).metaData(FakeUri()).count())
-    }
+    fun metaData() = assertEquals(4, createType(getAllColumnsSQL).metaData(FakeUri()).count())
 
     @Test
     fun toJson() {
-        val sql = """/*
-                    |  { "name": "column" }
-                    |*/
-                    |select table_schema  as "@schema"
-                    |     , table_name    as "@table"
-                    |     , column_name   as "@column"
-                    |  from information_schema.columns""".trimMargin()
-        val json: JsonObject = createType(sql).toJson()
+        val json: JsonObject = createType(getAllColumnsSQL).toJson()
         assertEquals("column", json.get("name").asString)
         assertEquals("[column]", json.get("aliases").asString)
     }

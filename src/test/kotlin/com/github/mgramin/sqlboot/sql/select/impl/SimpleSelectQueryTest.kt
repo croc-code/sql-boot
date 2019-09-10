@@ -64,7 +64,7 @@ internal class SimpleSelectQueryTest {
 
     @Test
     fun columns() {
-        assertEquals(listOf(SelectQuery.Column("name", "First name")),
+        assertEquals(listOf(SelectQuery.Column("name", "", "First name")),
                 SimpleSelectQuery(FakeTemplateGenerator("select name /* First name */ from persons")).columns())
     }
 

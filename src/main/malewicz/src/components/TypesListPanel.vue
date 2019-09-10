@@ -31,14 +31,40 @@
       </div>
     </v-list>
 
+    <div class="text-xs-center" v-show="isLoading">
+    <v-progress-circular
+      :size="70"
+      :width="7"
+      color="green"
+      indeterminate></v-progress-circular>
+    </div>
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'TypesListPanel',
-  data () {
-    return {}
+  data: () => ({
+    isLoading: false
+  }),
+  computed: {
+    getAllConnections () {
+      return this.$store.getters.getAllConnections
+    }
+  },
+  watch: {
+    getAllConnections: {
+      handler (newVal, oldVal) {
+        this.$data.isLoading = true
+        this.$http.get(this.$store.state.host + '/api/' + newVal.map(v => { return v.name }).join('|') + '/types').then(
+          response => {
+            this.$data.isLoading = false
+            this.$store.commit('setTypes', response.body)
+          }
+        )
+      }
+    }
   },
   methods: {
     allTags () {

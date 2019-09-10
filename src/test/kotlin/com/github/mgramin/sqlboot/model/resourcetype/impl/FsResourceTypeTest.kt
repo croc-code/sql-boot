@@ -106,6 +106,7 @@ class FsResourceTypeTest {
             "prod/tab*/bookings,6",
             "prod/table/bookings,6",
             "prod/table/bookings.airports,6")
-    fun metaData(uri: String, count: Int) = assertEquals(count, FsResourceType(listOf(dbMd), emptyList()).metaData(DbUri(uri)).count())
+    fun metaData(uri: String, count: Int) =
+            assertEquals(count, FsResourceType(listOf(dbMd), listOf(FakeDialect())).metaData(DbUri(uri)).count())
 
 }

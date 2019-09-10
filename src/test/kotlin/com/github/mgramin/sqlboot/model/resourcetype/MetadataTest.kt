@@ -52,8 +52,14 @@ internal class MetadataTest {
     }
 
     @Test
+    fun test() {
+        val metadata = Metadata("@name", "Integer", """{ "key_1": "value_1" }""")
+        println(metadata)
+    }
+
+    @Test
     fun toJson() = assertEquals(
-            """{"key_1":"value_1","key":"name","visible":true,"name":"name","description":"{ \"key_1\": \"value_1\" }","value":"name","text":"name","properties":{"key_1":"value_1","key":"name","visible":true}}""",
+            """{"key_1":"value_1","key":"name","visible":true,"name":"@name","description":"{ \"key_1\": \"value_1\" }","type":"String","value":"@name","text":"name","properties":{"key_1":"value_1","key":"name","visible":true}}""",
             metadata().toJson().toString())
 
     private fun metadata() = Metadata("@name", "String", """{ "key_1": "value_1" }""")

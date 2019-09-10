@@ -44,7 +44,7 @@ class CustomFilteredSelectQuery(
     override fun query(): String {
         return if (filter.entrySet().size > 0) {
             val whereCondition = filter.entrySet()
-                    .joinToString(prefix = "where ", separator = " and ") { """${it.key} = '${it.value.asString}'""" }
+                    .joinToString(prefix = "where ", separator = " and ") { """${it.key} = '${it.value.asString.replace("'", "''")}'""" }
             """select *
                  |  from (${origin.query()}) q
                  | $whereCondition""".trimMargin()
