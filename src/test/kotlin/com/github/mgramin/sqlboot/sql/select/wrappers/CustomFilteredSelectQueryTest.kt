@@ -42,7 +42,7 @@ internal class CustomFilteredSelectQueryTest {
 
     @Test
     fun query() {
-        println(CustomFilteredSelectQuery(FakeSelectQuery(), JsonParser().parse("""{ "table_name": "persons", "age": 20 }""").asJsonObject).query())
+        println(CustomFilteredSelectQuery(FakeSelectQuery(), JsonParser().parse("""{ "n": "John Doe", "mail": "doe@mail.com" }""").asJsonObject).query())
         println(CustomFilteredSelectQuery(FakeSelectQuery(), JsonParser().parse("{}").asJsonObject).query())
         println(CustomFilteredSelectQuery(FakeSelectQuery(), JsonObject()).query())
     }
