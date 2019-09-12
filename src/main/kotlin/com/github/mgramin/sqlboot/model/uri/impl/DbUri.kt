@@ -34,7 +34,8 @@ package com.github.mgramin.sqlboot.model.uri.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.uri.Uri
-import java.net.URI
+import org.springframework.web.util.UriComponentsBuilder
+
 
 /**
  * Created by maksim on 12.06.16.
@@ -58,7 +59,7 @@ class DbUri : Uri {
 
     constructor(uriString: String) {
         try {
-            val uri = URI(uriString.replace("|", "%7C").replace("{", "%7B").replace("}", "%7D").replace(":", "%3A").replace(""""""", "%22"))
+            val uri = UriComponentsBuilder.fromUriString(uriString).build()
             val pathMap: Map<Int, String> = uri.path
                     .split("/")
                     .filter { it.isNotEmpty() }
@@ -77,9 +78,8 @@ class DbUri : Uri {
             action = pathMap.getOrDefault(3, "")
 
             params = if (uri.query != null)
-                uri.query
-                        .split("&")
-                        .map { it.split("=")[0] to it.split("=")[1] }
+                uri.queryParams
+                        .map { it.key to it.value.first() }
                         .toMap()
             else emptyMap()
 

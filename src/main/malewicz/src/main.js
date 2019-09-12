@@ -58,12 +58,13 @@ Vue.use(VueHighlightJS)
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({
-  strict: true,
+  // strict: true,
   state: {
     host: '',
     // host: 'http://localhost:8007/',
     pageCount: 1,
     allConnections: [],
+    currentType: {},
     types: [],
     uri: {
       connections: [],
@@ -92,6 +93,9 @@ const store = new Vuex.Store({
     },
     getTypes: state => {
       return state.types
+    },
+    getCurrentType: state => {
+      return state.currentType
     },
     getType: state => {
       return state.uri.types
@@ -183,6 +187,9 @@ const store = new Vuex.Store({
     },
     setType (state, typeName) {
       state.uri.type = typeName
+    },
+    setCurrentType (state, currentType) {
+      state.currentType = currentType
     },
     setPath (state, path) {
       state.uri.path = path

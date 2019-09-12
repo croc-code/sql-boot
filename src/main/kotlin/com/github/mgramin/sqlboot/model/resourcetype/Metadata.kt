@@ -43,7 +43,7 @@ import java.util.*
 data class Metadata(
         private val name: String,
         private var type: String,
-        private val description: String
+        private val comment: String
 ) : Comparable<Metadata> {
 
     private val properties: MutableMap<String, Any>
@@ -53,7 +53,7 @@ data class Metadata(
     init {
         this.properties = HashMap()
         try {
-            val map: Map<String, Any> = Gson().fromJson(description, object : TypeToken<Map<String, Any>>() {}.type)
+            val map: Map<String, Any> = Gson().fromJson(comment, object : TypeToken<Map<String, Any>>() {}.type)
             this.properties.putAll(map)
             this.properties["key"] = name.replace("@", "")
             if (map.containsKey("type")) {
@@ -67,18 +67,18 @@ data class Metadata(
             val prop = HashMap<String, Any>()
             prop["key"] = name.replace("@", "")
             prop["label"] = name.replace("@", "")
-            prop["description"] = description
+            prop["description"] = comment
             prop["type"] = type
             prop["visible"] = true
             this.properties.putAll(prop)
         }
     }
 
-    fun name(): String = name.replace("@", "")
+    fun name() = name
 
-    fun description(): String = description
+    fun comment() = comment
 
-    fun properties(): Map<String, Any> = properties
+    fun properties() = properties
 
     /**
      * Get as JSON
@@ -87,7 +87,6 @@ data class Metadata(
         val jsonObject: JsonObject = Gson().toJsonTree(properties).asJsonObject
         val propsJson: JsonElement = Gson().toJsonTree(properties)
         jsonObject.addProperty("name", name.toLowerCase())
-        jsonObject.addProperty("description", description)
         jsonObject.addProperty("type", type)
         jsonObject.addProperty("value", name.toLowerCase())
         jsonObject.addProperty("text", properties["label"]?.toString()?:name.replace("@", ""))

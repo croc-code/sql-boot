@@ -11,27 +11,29 @@
         <template>
           <v-form ref="form">
             <span v-for="item in meta.metadata" v-bind:key="item.name">
-              <span v-if="item.name === 'endpoint'"></span>
-              <span v-else-if="item.type === 'timestamptz'"></span>
-              <v-combobox v-else-if="item.values"
-                          v-model='localFilter[item.name]'
-                          :label="item.label"
-                          :items="item.values"
-                          clearable>
-              </v-combobox>
-              <v-text-field v-else-if="item.type == 'numeric' || item.type == 'float8' || item.type == 'int8'"
-                            v-model='localFilter[item.name]'
-                            type = "number"
-                            :label="item.label"
-                            clearable
-                            filled>
-              </v-text-field>
-              <v-text-field v-else
+              <span v-if="item.sortable !== false">
+                <span v-if="item.name === 'endpoint'"></span>
+                <span v-else-if="item.type === 'timestamptz'"></span>
+                <v-combobox v-else-if="item.values"
                             v-model='localFilter[item.name]'
                             :label="item.label"
-                            clearable
-                            filled>
-              </v-text-field>
+                            :items="item.values"
+                            clearable>
+                </v-combobox>
+                <v-text-field v-else-if="item.type == 'numeric' || item.type == 'float8' || item.type == 'int8'"
+                              v-model='localFilter[item.name]'
+                              type = "number"
+                              :label="item.label"
+                              clearable
+                              filled>
+                </v-text-field>
+                <v-text-field v-else
+                              v-model='localFilter[item.name]'
+                              :label="item.label"
+                              clearable
+                              filled>
+                </v-text-field>
+              </span>
             </span>
           </v-form>
         </template>

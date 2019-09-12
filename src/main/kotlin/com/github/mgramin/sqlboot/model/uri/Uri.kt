@@ -37,6 +37,8 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.apache.commons.lang3.StringUtils
 import java.io.Serializable
+import java.nio.charset.StandardCharsets
+
 
 /**
  * Resource URI.
@@ -128,7 +130,8 @@ interface Uri : Serializable {
 
     fun filter(): JsonObject {
         return if (params().containsKey("filter")) {
-            JsonParser().parse(params()["filter"]).asJsonObject
+            val filter = java.net.URLDecoder.decode(params()["filter"], StandardCharsets.UTF_8.name())
+            JsonParser().parse(filter).asJsonObject
         } else {
             JsonObject()
         }

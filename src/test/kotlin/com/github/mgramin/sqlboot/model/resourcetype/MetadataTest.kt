@@ -41,10 +41,10 @@ internal class MetadataTest {
     fun name() = assertEquals("name", metadata().name())
 
     @Test
-    fun description() = assertEquals("""{ "key_1": "value_1" }""", metadata().description())
+    fun description() = assertEquals("""{ "key_1": "value_1", "description": "foo" }""", metadata().comment())
 
     @Test
-    fun properties() = assertEquals(mapOf("key_1" to "value_1", "key" to "name", "visible" to true), metadata().properties())
+    fun properties() = assertEquals(mapOf("description" to "foo", "key_1" to "value_1", "key" to "name", "visible" to true), metadata().properties())
 
     @Test
     fun compareTo() {
@@ -53,15 +53,15 @@ internal class MetadataTest {
 
     @Test
     fun test() {
-        val metadata = Metadata("@name", "Integer", """{ "key_1": "value_1" }""")
+        val metadata = Metadata("name", "Integer", """{ "key_1": "value_1" }""")
         println(metadata)
     }
 
     @Test
     fun toJson() = assertEquals(
-            """{"key_1":"value_1","key":"name","visible":true,"name":"@name","description":"{ \"key_1\": \"value_1\" }","type":"String","value":"@name","text":"name","properties":{"key_1":"value_1","key":"name","visible":true}}""",
+            """{"description":"foo","key_1":"value_1","visible":true,"key":"name","name":"name","type":"String","value":"name","text":"name","properties":{"description":"foo","key_1":"value_1","visible":true,"key":"name"}}""",
             metadata().toJson().toString())
 
-    private fun metadata() = Metadata("@name", "String", """{ "key_1": "value_1" }""")
+    private fun metadata() = Metadata("name", "String", """{ "key_1": "value_1", "description": "foo" }""")
 
 }

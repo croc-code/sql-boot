@@ -9,7 +9,7 @@
       <v-card-title class="headline grey lighten-2" primary-title>Columns</v-card-title>
       <v-card-text>
         <template>
-          <v-data-table :items="meta.metadata" class="elevation-1" hide-actions>
+          <v-data-table :items="currentType.metadata" class="elevation-1" hide-actions>
             <template v-slot:headers="props">
               <tr>
                 <th>Visible</th>
@@ -19,9 +19,9 @@
             </template>
             <template v-slot:items="props">
               <td>
-                <v-checkbox v-model="props.item.properties.visible"/>
+                <v-checkbox v-model="props.item.visible"/>
               </td>
-              <td>{{ props.item.properties.label }}</td>
+              <td>{{ props.item.label }}</td>
               <td>{{ props.item.properties.description }}</td>
             </template>
           </v-data-table>
@@ -40,11 +40,27 @@ export default {
   name: 'ColumnsComponent',
   data () {
     return {
+      currentType: {},
       show: false
     }
   },
   props: {
-    meta: {}
+    typeName: ''
+  },
+  watch: {
+    typeName: function (newVal, oldVal) { // watch it
+      this.currentType = this.$store.getters.getTypes.find(v => {
+        return v.name === this.$store.getters.getUri.type
+      })
+      // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    }
   }
+  /* computed: {
+    currentType: function () {
+      return this.$store.getters.getTypes.find(v => {
+        return v.name === this.$store.getters.getUri.type
+      })
+    }
+  } */
 }
 </script>

@@ -32,13 +32,16 @@
 
 <template>
   <div>
-    <span v-if="met.format==='json' && props.item[met.name]">
+    <span v-if="met.type==='json' && props.item[met.name]">
       <a :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
         <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">
           {{ JSON.parse(props.item[met.name].value).icon }}
         </v-icon>
         <v-chip v-else color="green" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
       </a>
+    </span>
+    <span v-else-if="(met.type==='inet' || met.type==='xid') && props.item[met.name]">
+      {{ props.item[met.name].value }}
     </span>
     <span v-else-if="met.format==='sql'">
       <CodeViewComponent :code="props.item[met.name]"/>

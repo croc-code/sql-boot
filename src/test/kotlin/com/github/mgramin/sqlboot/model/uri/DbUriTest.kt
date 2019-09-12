@@ -144,7 +144,7 @@ class DbUriTest {
 
     @Test
     fun testFilter() {
-        println(DbUri("""prod/table/hr.persons?filter={"test":"test"}""").filter())
+        println(DbUri("""prod/table/hr.persons?filter={"client_host":"31.181.37.137 port=5844"}""").filter())
     }
 
     private fun assertEqualsUri(uriString: String, jsonExpected: String) {

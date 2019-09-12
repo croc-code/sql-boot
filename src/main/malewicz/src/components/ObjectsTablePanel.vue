@@ -1,9 +1,9 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-toolbar>
-      <v-toolbar-title class="text" v-if="meta">{{ meta.title }}</v-toolbar-title>
+      <v-toolbar-title class="text" v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <ColumnsComponent :meta="meta"/>
+      <ColumnsComponent :typeName="meta.name"/>
       <CodeViewComponent :code="meta.query"/>
       <FilterComponent :meta="meta"/>
       <v-btn @click="call()" icon>
