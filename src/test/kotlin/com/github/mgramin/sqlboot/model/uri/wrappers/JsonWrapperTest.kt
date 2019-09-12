@@ -45,10 +45,10 @@ class JsonWrapperTest {
     fun type() = assertEquals("table", uri.type())
 
     @Test
-    fun path() = assertEquals(arrayListOf("hr", "%persons%"), uri.path())
+    fun path() = assertEquals(arrayListOf("hr", "%25persons%25"), uri.path())
 
     @Test
-    fun pathIndex() = assertEquals("%persons%", uri.path(1))
+    fun pathIndex() = assertEquals("%25persons%25", uri.path(1))
 
     @Test
     fun params() = assertEquals(1, uri.params().size)

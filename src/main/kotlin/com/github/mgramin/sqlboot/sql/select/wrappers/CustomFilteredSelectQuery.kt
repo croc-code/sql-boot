@@ -50,6 +50,7 @@ class CustomFilteredSelectQuery(
                             "numeric" -> """${it.key} = ${it.value.asNumber}"""
                             "float8" -> """${it.key} = ${it.value.asFloat}"""
                             "int8" -> """${it.key} = ${it.value.asInt}"""
+                            "varchar","text","name" -> """${it.key} like '${it.value.asString.replace("'", "''")}'"""
                             else -> """${it.key} = '${it.value.asString.replace("'", "''")}'"""
                         }
                     }

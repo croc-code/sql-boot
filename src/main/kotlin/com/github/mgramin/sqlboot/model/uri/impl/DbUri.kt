@@ -109,7 +109,7 @@ class DbUri : Uri {
         val result = StringBuilder(connection + "/" + type + "/" + objects.joinToString("."))
         if (action != "" && action != "create")
             result.append("/").append(action)
-        if (!params.isEmpty()) {
+        if (params.isNotEmpty()) {
             result.append("?")
             var i = 0
             for ((key, value) in params) {

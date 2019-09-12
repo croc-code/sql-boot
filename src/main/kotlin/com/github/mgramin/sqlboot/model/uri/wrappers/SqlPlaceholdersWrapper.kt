@@ -43,14 +43,11 @@ class SqlPlaceholdersWrapper(private val origin: Uri) : Uri {
 
     override fun type() = origin.type()
 
-    override fun path() = origin.path()
-            .asSequence()
-            .map { v -> v.replace("*", "%") }
-            .toList()
+    override fun path() = origin.path().map { v -> v.replace("*", "%25") }.toList()
 
-    override fun path(index: Int) = origin.path(index).replace("*", "%")
+    override fun path(index: Int) = origin.path(index).replace("*", "%25")
 
-    override fun params() = origin.params()
+    override fun params() = origin.params().map { it.key to it.value.replace("*", "%25") }.toMap()
 
     override fun action() = origin.action()
 

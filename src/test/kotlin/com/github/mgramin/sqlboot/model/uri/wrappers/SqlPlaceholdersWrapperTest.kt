@@ -49,12 +49,12 @@ class SqlPlaceholdersWrapperTest {
 
     @Test
     fun path() {
-        assertEquals(arrayListOf("hr", "%persons%"), uri.path())
+        assertEquals(arrayListOf("hr", "%25persons%25"), uri.path())
     }
 
     @Test
     fun pathIndex() {
-        Assert.assertEquals("%persons%", uri.path(1))
+        Assert.assertEquals("%25persons%25", uri.path(1))
     }
 
     @Test

@@ -33,6 +33,7 @@
 package com.github.mgramin.sqlboot.model.uri.wrappers
 
 import com.github.mgramin.sqlboot.model.uri.Uri
+import java.nio.charset.StandardCharsets
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -59,7 +60,7 @@ class JsonWrapper(private val origin: Uri) : Uri {
                 ", path=" + origin.path() +
                 ", params=" + origin.params() +
                 "}"
-        s = s.replace("%", "*")
+        s = java.net.URLDecoder.decode(s, StandardCharsets.UTF_8.name()).replace("%", "*")
         return s
     }
 }
