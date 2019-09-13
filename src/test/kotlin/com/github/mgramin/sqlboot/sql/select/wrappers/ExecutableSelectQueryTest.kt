@@ -57,9 +57,10 @@ class ExecutableSelectQueryTest {
     @Test
     fun execute() {
         val rows = ExecutableSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).collectList().block()
-        assertEquals(arrayListOf(linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com"),
-                linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com"),
-                linkedMapOf("n" to "joel", "mail" to "joel@gmail.com")),
+        assertEquals(arrayListOf(
+                linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com", "registration_date" to ""),
+                linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com", "registration_date" to ""),
+                linkedMapOf("n" to "joel", "mail" to "joel@gmail.com", "registration_date" to "")),
                 rows)
     }
 
@@ -69,17 +70,21 @@ class ExecutableSelectQueryTest {
         val columns = ExecutableSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
         assertEquals(listOf(
                 SelectQuery.Column("n", "VARCHAR", "First name", emptyMap()),
-                SelectQuery.Column("mail", "VARCHAR", "Personal email", emptyMap())), columns)
+                SelectQuery.Column("mail", "VARCHAR", "Personal email", emptyMap()),
+                SelectQuery.Column("registration_date", "timestamptz", "Registration date", emptyMap())
+        ), columns)
     }
 
     @Test
     @Deprecated("Move to base test class")
     fun query() {
         assertEquals(
-                """select n        /* First name */
-                  |     , mail     /* Personal email */
+                """select n                 /* First name */
+                  |     , mail              /* Personal email */
+                  |     , registration_date /* Registration date */
                   |  from (select name  as n
                   |             , email as mail
+                  |             , registration_date
                   |          from main_schema.users)""".trimMargin(),
                 ExecutableSelectQuery(FakeSelectQuery(), dataSource!!).query())
     }

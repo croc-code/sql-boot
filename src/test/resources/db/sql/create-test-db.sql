@@ -12,6 +12,7 @@ create table main_schema.users
   id      integer primary key,
   name    varchar(30),
   email   varchar(50),
+  registration_date timestamp,
   id_city integer
 );
 

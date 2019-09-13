@@ -45,6 +45,7 @@ class FakeSelectQuery : SelectQuery {
               |     , registration_date /* Registration date */
               |  from (select name  as n
               |             , email as mail
+              |             , registration_date
               |          from main_schema.users)""".trimMargin()
 
     override fun columns() = listOf(
