@@ -39,16 +39,18 @@ class FakeSelectQuery : SelectQuery {
 
     override fun properties() = mapOf("dialect" to "h2")
 
-    override fun query(): String {
-        return """select n        /* First name */
-                 |     , mail     /* Personal email */
-                 |  from (select name  as n
-                 |             , email as mail
-                 |          from main_schema.users)""".trimMargin()
-    }
+    override fun query() =
+            """select n                 /* First name */
+              |     , mail              /* Personal email */
+              |     , registration_date /* Registration date */
+              |  from (select name  as n
+              |             , email as mail
+              |          from main_schema.users)""".trimMargin()
 
-    override fun columns() =
-            listOf(SelectQuery.Column("n", "VARCHAR", "First name"), SelectQuery.Column("mail", "VARCHAR", "Personal email"))
+    override fun columns() = listOf(
+            SelectQuery.Column("n", "VARCHAR", "First name"),
+            SelectQuery.Column("mail", "VARCHAR", "Personal email"),
+            SelectQuery.Column("registration_date", "timestamptz", "Registration date"))
 
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {

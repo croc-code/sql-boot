@@ -13,7 +13,14 @@
             <span v-for="item in meta.metadata" v-bind:key="item.name">
               <span v-if="item.sortable !== false">
                 <span v-if="item.name === 'endpoint'"></span>
-                <span v-else-if="item.type === 'timestamptz'"></span>
+                <span v-else-if="item.type === 'timestamptz'">
+                  <VueCtkDateTimePicker
+                    :label="item.label"
+                    format="YYYY-MM-DD HH:mm"
+                    color="green"
+                    :range=true
+                    v-model='localFilter[item.name]' />
+                </span>
                 <v-combobox v-else-if="item.values"
                             v-model='localFilter[item.name]'
                             :label="item.label"

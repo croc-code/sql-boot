@@ -47,10 +47,14 @@ import VueHighlightJS from 'vue-highlightjs'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
+
 Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.component('downloadExcel', JsonExcel)
+Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker)
 Vue.use(VueSSE)
 Vue.use(Vuetify, { iconfont: 'fa' })
 Vue.use(VueHighlightJS)
