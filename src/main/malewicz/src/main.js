@@ -39,7 +39,6 @@ import router from './router'
 import VueResource from 'vue-resource'
 
 import Notifications from 'vue-notification'
-import JsonExcel from 'vue-json-excel'
 import VueSSE from 'vue-sse'
 import Vuetify from 'vuetify'
 import VueHighlightJS from 'vue-highlightjs'
@@ -53,7 +52,6 @@ import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
 Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(Notifications)
-Vue.component('downloadExcel', JsonExcel)
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker)
 Vue.use(VueSSE)
 Vue.use(Vuetify, { iconfont: 'fa' })
