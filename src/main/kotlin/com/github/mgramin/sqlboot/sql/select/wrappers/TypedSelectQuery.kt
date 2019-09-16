@@ -33,12 +33,15 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import org.slf4j.LoggerFactory
 import javax.sql.DataSource
 
 class TypedSelectQuery(
         private val origin: SelectQuery,
         private val dataSource: DataSource
 ) : SelectQuery {
+
+    private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun query() = origin.query()
 
@@ -61,6 +64,7 @@ class TypedSelectQuery(
                                                 column.properties())
                                     }
                         } catch (e : Exception) {
+                            logger.warn(e.message)
                             origin.columns()
                         }
                     }
