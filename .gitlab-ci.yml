@@ -7,6 +7,7 @@ build_sql_boot:
   tags:
     - deploy-all-runner
   script:
+    - mvn frontend:install-node-and-npm@install-node-and-npm
     - mvn frontend:npm@npm-install
     - mvn frontend:npm@npm-run-build
     - mvn antrun:run@copy

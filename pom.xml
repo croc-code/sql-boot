@@ -448,7 +448,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>install node and npm</id>
+                        <id>install-node-and-npm</id>
                         <configuration>
                             <nodeVersion>v11.14.0</nodeVersion>
                         </configuration>
@@ -483,9 +483,9 @@
                                 </copy>
                             </target>
                         </configuration>
-                        <goals>
+                        <!--goals>
                             <goal>run</goal>
-                        </goals>
+                        </goals-->
                     </execution>
                 </executions>
             </plugin>
