@@ -455,6 +455,7 @@
                         <configuration>
                             <nodeVersion>v11.14.0</nodeVersion>
                         </configuration>
+                        <phase>generate-resources</phase>
                     </execution>
                     <execution>
                         <id>npm install</id>
@@ -474,7 +475,7 @@
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>
-                        <phase>package</phase>
+                        <phase>generate-resources</phase>
                     </execution>
                 </executions>
             </plugin>
