@@ -485,7 +485,7 @@
                 <executions>
                     <execution>
                         <id>copy</id>
-                        <phase>package</phase>
+                        <phase>compile</phase>
                         <configuration>
                             <target>
                                 <copy todir="src/main/resources/public">
