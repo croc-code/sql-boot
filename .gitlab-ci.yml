@@ -1,0 +1,12 @@
+---
+stages:
+  - build
+
+build_sql_boot:
+  stage: build
+  tags:
+    - deploy-all-runner
+  script:
+    - mvn package
+    - mvn rpm:rpm
+    - curl -u mgramin:AP6wKyUJSvWNF62ZHF4rx8vKZMwni24CcYwFNW -X PUT https://repo.croc.ru/artifactory/pstgrscroc.rpm-snapshots-local/sql-boot-0.5.1-1.noarch.rpm -T ./target/rpm/sql-boot/RPMS/noarch/sql-boot-0.5.1-1.noarch.rpm
