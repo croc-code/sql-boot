@@ -449,33 +449,21 @@
                 <executions>
                     <execution>
                         <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
                         <configuration>
                             <nodeVersion>v11.14.0</nodeVersion>
                         </configuration>
-                        <phase>generate-resources</phase>
                     </execution>
                     <execution>
-                        <id>npm install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
+                        <id>npm-install</id>
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm run build</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
+                        <id>npm-run-build</id>
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>
-                        <phase>generate-resources</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -495,9 +483,9 @@
                                 </copy>
                             </target>
                         </configuration>
-                        <!--goals>
+                        <goals>
                             <goal>run</goal>
-                        </goals-->
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
