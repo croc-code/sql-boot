@@ -1,66 +1,60 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-dialog v-model="show" width="1000">
-    <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
-        <v-icon>fa-columns</v-icon>
-      </v-btn>
-    </template>
-    <v-card>
-      <v-card-title class="headline grey lighten-2" primary-title>Columns</v-card-title>
-      <v-card-text>
-        <template>
-          <v-data-table :items="currentType.metadata" class="elevation-1" hide-actions>
-            <template v-slot:headers="props">
-              <tr>
-                <th>Visible</th>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </template>
-            <template v-slot:items="props">
-              <td>
-                <v-checkbox v-model="props.item.visible"/>
-              </td>
-              <td>{{ props.item.label }}</td>
-              <td>{{ props.item.properties.description }}</td>
-            </template>
-          </v-data-table>
+    <v-dialog v-model="show" width="600">
+        <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+                <v-icon>fa-columns</v-icon>
+            </v-btn>
         </template>
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" flat @click="show = false">Close</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+        <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>Columns</v-card-title>
+            <v-card-text>
+                <v-list>
+                    <v-list-item v-for="column in currentType.metadata" v-bind:key="column.name">
+                        <template v-slot:default="{ active, toggle }">
+                            <v-list-item-action>
+                                <v-checkbox v-model="column.visible" color="primary"/>
+                            </v-list-item-action>
+
+                            <v-list-item-content>
+                                <v-list-item-title>{{ column.label }}</v-list-item-title>
+                                <v-list-item-subtitle>
+                                    <v-textarea :value="column.description"
+                                                :rows=1
+                                                :flat=true
+                                                readonly>
+                                    </v-textarea>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                        </template>
+                    </v-list-item>
+                </v-list>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="show = false">Close</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 <script>
-export default {
-  name: 'ColumnsComponent',
-  data () {
-    return {
-      currentType: {},
-      show: false
+    export default {
+        name: 'ColumnsComponent',
+        data() {
+            return {
+                currentType: {},
+                show: false
+            }
+        },
+        props: {
+            typeName: ''
+        },
+        watch: {
+            typeName: function (newVal, oldVal) { // watch it
+                this.currentType = this.$store.getters.getTypes.find(v => {
+                    return v.name === this.$store.getters.getUri.type
+                })
+            }
+        }
     }
-  },
-  props: {
-    typeName: ''
-  },
-  watch: {
-    typeName: function (newVal, oldVal) { // watch it
-      this.currentType = this.$store.getters.getTypes.find(v => {
-        return v.name === this.$store.getters.getUri.type
-      })
-      // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-    }
-  }
-  /* computed: {
-    currentType: function () {
-      return this.$store.getters.getTypes.find(v => {
-        return v.name === this.$store.getters.getUri.type
-      })
-    }
-  } */
-}
 </script>

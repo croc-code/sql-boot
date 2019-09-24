@@ -1,17 +1,17 @@
 <template>
   <div>
-    <v-toolbar color="green" dark>
+    <v-toolbar :flat=true>
       <v-toolbar-title>Connections</v-toolbar-title>
     </v-toolbar>
     <v-list>
-      <v-list-tile v-for="item in $store.getters.getAllConnections" :key="item.name">
-        <v-list-tile-action>
+      <v-list-item v-for="item in $store.getters.getAllConnections" :key="item.name">
+        <v-list-item-action>
           <v-checkbox v-model="connections" :value="item.name"/>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </div>
 </template>

@@ -1,7 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
+
     <v-toolbar>
-      <v-toolbar-title class="text" v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
+      <v-toolbar-title v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <ColumnsComponent :typeName="meta.name"/>
       <CodeViewComponent :code="meta.query"/>
@@ -11,36 +12,31 @@
       </v-btn>
     </v-toolbar>
 
-    <v-data-table
-      :headers="defaultMeta"
-      :items="items"
-      :pagination.sync="uriPagination"
-      :loading="isLoading"
-      no-data-text="No data available"
-      hide-actions
-      class="elevation-1">
-      <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
-      <template slot="headerCell" slot-scope="props">
-        <v-tooltip bottom>
-          <span slot="activator">{{ props.header.text }}</span>
-          <span v-if="props.header.description">{{ props.header.description }}</span>
-          <span v-else>{{ props.header.text }}</span>
-        </v-tooltip>
+    <v-data-table :headers="defaultMeta"
+                  :items="items"
+                  :loading="isLoading"
+                  :options.sync = "options"
+                  no-data-text="No data available"
+                  hide-default-footer
+                  :fixed-header="true"
+                  class="elevation-1">
+      <template v-slot:progress>
+        <v-progress-linear color="green" :height="10" indeterminate></v-progress-linear>
       </template>
-      <template v-slot:items="props">
-        <td v-for="met in defaultMeta" v-bind:key="met.name">
-          <CustomComponent :met="met" :props="props"/>
-        </td>
+      <template v-slot:item="props">
+        <tr>
+          <td v-for="met in defaultMeta" v-bind:key="met.name">
+            <CustomComponent :met="met" :props="props"/>
+          </td>
+        </tr>
       </template>
     </v-data-table>
 
-    <div class="text-xs-center pt-3">
-      <v-pagination
-        v-model="message"
-        :length="getPageCount()"
-        :total-visible="5"
-        circle/>
-    </div>
+    <v-pagination v-model="message"
+                  :length="getPageCount()"
+                  :total-visible="5"
+                  circle>
+    </v-pagination>
 
   </div>
 </template>
@@ -57,12 +53,13 @@ export default {
     return {
       meta: [],
       items: [],
-      isLoading: false
+      isLoading: false,
+      options: {}
     }
   },
   computed: {
     getSort () {
-      return this.pagination
+      return this.options.sortBy
     },
     defaultMeta: function () {
       if (this.meta.metadata) {
@@ -153,10 +150,12 @@ export default {
       deep: true
     },
     getSort (newValue) {
-      if (newValue.descending === true) {
-        this.$store.commit('setSort', {'field': newValue.sortBy, 'ord': 'desc'})
-      } else if (newValue.descending === false) {
-        this.$store.commit('setSort', {'field': newValue.sortBy, 'ord': 'asc'})
+      if (newValue.length > 0) {
+        if (this.$data.options.sortDesc[0]) {
+          this.$store.commit('setSort', {'field': newValue, 'ord': 'desc'})
+        } else {
+          this.$store.commit('setSort', {'field': newValue, 'ord': 'asc'})
+        }
       } else {
         this.$store.commit('setSort', {})
       }

@@ -1,14 +1,18 @@
 <template>
-
-  <div id="app">
-    <notifications group="foo" />
-    <router-view/>
-  </div>
-
+  <v-app>
+    <v-content>
+      <router-view/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
+
 export default {
-  name: 'App'
-}
+  name: 'App',
+  components: {},
+  data: () => ({
+    //
+  }),
+};
 </script>

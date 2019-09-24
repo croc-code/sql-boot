@@ -1,15 +1,16 @@
 .DS_Store
-node_modules/
-node/
-/dist/
+node_modules
+/dist
+/node
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/test/unit/coverage/
-/test/e2e/reports/
-selenium-debug.log
-
-package-lock.json
 
 # Editor directories and files
 .idea
@@ -18,3 +19,7 @@ package-lock.json
 *.ntvs*
 *.njsproj
 *.sln
+*.sw?
+
+
+package-lock.json
