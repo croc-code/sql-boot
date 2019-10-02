@@ -14,3 +14,7 @@ build_sql_boot:
     - mvn package
     - mvn rpm:rpm
     - curl -u mgramin:AP6wKyUJSvWNF62ZHF4rx8vKZMwni24CcYwFNW -X PUT https://repo.croc.ru/artifactory/pstgrscroc.rpm-snapshots-local/sql-boot-0.5.1-1.noarch.rpm -T ./target/rpm/sql-boot/RPMS/noarch/sql-boot-0.5.1-1.noarch.rpm
+  artifacts:
+    paths:
+    - target/sql-boot.zip
+    expire_in: 1 day
