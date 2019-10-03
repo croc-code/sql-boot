@@ -54,7 +54,7 @@ export default {
       meta: [],
       items: [],
       isLoading: false,
-      options: {}
+      options: { "itemsPerPage": 100 }
     }
   },
   computed: {
