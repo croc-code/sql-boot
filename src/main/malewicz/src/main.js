@@ -40,7 +40,8 @@ import VueResource from 'vue-resource'
 
 import Notifications from 'vue-notification'
 import VueSSE from 'vue-sse'
-import Vuetify from 'vuetify'
+//import Vuetify from 'vuetify'
+import vuetify from './plugins/vuetify';
 import VueHighlightJS from 'vue-highlightjs'
 
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
@@ -54,7 +55,7 @@ Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker)
 Vue.use(VueSSE)
-Vue.use(Vuetify, { iconfont: 'fa' })
+// Vue.use(Vuetify, { iconfont: 'fa' })
 Vue.use(VueHighlightJS)
 
 Vue.config.productionTip = false
@@ -256,12 +257,31 @@ const store = new Vuex.Store({
 })
 
 /* eslint-disable no-new */
+/*
 new Vue({
+  render: h => h(App),
   el: '#app',
   components: {App},
   template: '<App/>',
   store,
   router,
+  created: function () {
+    this.$http.get(this.$store.state.host + '/endpoints').then(
+      response => {
+        // let filter = response.body.find(v => { return v.properties.default === true })
+        // this.$store.commit('setConnections', [filter.name])
+        this.$store.commit('setAllConnections', response.body)
+      }
+    )
+  }
+}).$mount('#app')
+*/
+
+new Vue({
+  router,
+  store,
+  vuetify,
+  render: h => h(App),
   created: function () {
     this.$http.get(this.$store.state.host + '/endpoints').then(
       response => {
