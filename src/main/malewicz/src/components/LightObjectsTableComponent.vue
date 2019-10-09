@@ -8,11 +8,19 @@
       </v-btn>
     </v-toolbar>
 
-    <v-data-table :headers="defaultMeta" :items="desserts" class="elevation-1">
-      <template v-slot:items="props">
+    <v-data-table :headers="defaultMeta"
+                  :items="desserts"
+                  class="elevation-1"
+                  :loading="isLoading">
+      <template v-slot:progress>
+        <v-progress-linear color="green" :height="10" indeterminate></v-progress-linear>
+      </template>
+      <template v-slot:item="props">
+        <tr>
         <td v-for="met in defaultMeta" v-bind:key="met.name">
           <CustomComponent :met="met" :props="props"/>
         </td>
+        </tr>
       </template>
     </v-data-table>
   </div>
@@ -27,9 +35,11 @@ export default {
     type: {}
   },
   created: function () {
+    this.isLoading = true
     this.$http.get(this.$store.getters.getHost + 'api/' + this.$store.getters.getAllConnections.map(function (item) { return item.name }).join('|') + '/' + this.$props.type.name + '?page=1,15').then(
       response => {
         this.desserts = response.body
+        this.isLoading = false
       }, response => {
         this.$notify({group: 'foo', type: 'error', title: 'Server error', text: response})
         this.isLoading = false
@@ -44,6 +54,7 @@ export default {
     }
   },
   data: () => ({
+    isLoading: false,
     desserts: []
   })
 }
