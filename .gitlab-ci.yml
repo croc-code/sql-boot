@@ -13,7 +13,7 @@ build_sql_boot:
     - mvn antrun:run@copy
     - mvn package
     - mvn rpm:rpm
-    - curl -u $ARTIFACTORY_USERNAME:AP6wKyUJSvWNF62ZHF4rx8vKmUnKedJ3MUrbnT -X PUT https://repo.croc.ru/artifactory/pstgrscroc.rpm-snapshots-local/sql-boot-0.5.1-1.noarch.rpm -T ./target/rpm/sql-boot/RPMS/noarch/sql-boot-0.5.1-1.noarch.rpm
+    - curl -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD -X PUT https://repo.croc.ru/artifactory/pstgrscroc.rpm-snapshots-local/sql-boot-0.5.1-1.noarch.rpm -T ./target/rpm/sql-boot/RPMS/noarch/sql-boot-0.5.1-1.noarch.rpm
   artifacts:
     paths:
     - target/sql-boot.zip
