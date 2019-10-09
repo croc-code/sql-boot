@@ -11,7 +11,8 @@
     <v-data-table :headers="defaultMeta"
                   :items="desserts"
                   class="elevation-1"
-                  :loading="isLoading">
+                  :loading="isLoading"
+                  :options.sync = "options">
       <template v-slot:progress>
         <v-progress-linear color="green" :height="10" indeterminate></v-progress-linear>
       </template>
@@ -55,7 +56,8 @@ export default {
   },
   data: () => ({
     isLoading: false,
-    desserts: []
+    desserts: [],
+    options: { "itemsPerPage": 5 }
   })
 }
 </script>
