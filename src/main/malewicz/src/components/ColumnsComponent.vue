@@ -6,7 +6,7 @@
             </v-btn>
         </template>
         <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>Columns</v-card-title>
+            <v-card-title class="headline grey lighten-2" primary-title>{{ $t('columns') }}</v-card-title>
             <v-card-text>
                 <v-list>
                     <v-list-item v-for="column in currentType.metadata" v-bind:key="column.name">

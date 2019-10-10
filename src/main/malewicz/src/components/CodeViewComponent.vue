@@ -6,7 +6,7 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-title class="headline grey lighten-2" primary-title>SQL-query</v-card-title>
+      <v-card-title class="headline grey lighten-2" primary-title>{{ $t('sqlQuery') }}</v-card-title>
       <v-card-text>
         <pre v-highlightjs="code" class="text-sm-left"><code class="sql"></code></pre>
       </v-card-text>

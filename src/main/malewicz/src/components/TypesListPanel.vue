@@ -2,7 +2,7 @@
   <div>
 
     <v-toolbar :flat="true">
-      <v-toolbar-title>Database Navigator</v-toolbar-title>
+      <v-toolbar-title>{{ $t('databaseNavigator') }}</v-toolbar-title>
     </v-toolbar>
 
     <v-list>

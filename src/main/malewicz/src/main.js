@@ -30,8 +30,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
@@ -40,22 +38,24 @@ import VueResource from 'vue-resource'
 
 import Notifications from 'vue-notification'
 import VueSSE from 'vue-sse'
-//import Vuetify from 'vuetify'
 import vuetify from './plugins/vuetify';
 import VueHighlightJS from 'vue-highlightjs'
 
-import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
-import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
+import 'vuetify/dist/vuetify.min.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
 
+import i18n from '@/plugins/i18n'
+import FlagIcon from 'vue-flag-icon'
+
+Vue.use(FlagIcon)
 Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(Notifications)
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker)
 Vue.use(VueSSE)
-// Vue.use(Vuetify, { iconfont: 'fa' })
 Vue.use(VueHighlightJS)
 
 Vue.config.productionTip = false
@@ -64,7 +64,7 @@ const store = new Vuex.Store({
   // strict: true,
   state: {
     host: '',
-    // host: 'http://localhost:8007/',
+    // host: 'http://81.23.10.106:8007/',
     pageCount: 1,
     allConnections: [],
     currentType: {},
@@ -256,28 +256,8 @@ const store = new Vuex.Store({
   }
 })
 
-/* eslint-disable no-new */
-/*
 new Vue({
-  render: h => h(App),
-  el: '#app',
-  components: {App},
-  template: '<App/>',
-  store,
-  router,
-  created: function () {
-    this.$http.get(this.$store.state.host + '/endpoints').then(
-      response => {
-        // let filter = response.body.find(v => { return v.properties.default === true })
-        // this.$store.commit('setConnections', [filter.name])
-        this.$store.commit('setAllConnections', response.body)
-      }
-    )
-  }
-}).$mount('#app')
-*/
-
-new Vue({
+  i18n,
   router,
   store,
   vuetify,
@@ -285,8 +265,6 @@ new Vue({
   created: function () {
     this.$http.get(this.$store.state.host + '/endpoints').then(
       response => {
-        // let filter = response.body.find(v => { return v.properties.default === true })
-        // this.$store.commit('setConnections', [filter.name])
         this.$store.commit('setAllConnections', response.body)
       }
     )

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar :flat=true>
-      <v-toolbar-title>Connections</v-toolbar-title>
+      <v-toolbar-title>{{ $t('connections') }}</v-toolbar-title>
     </v-toolbar>
     <v-list>
       <v-list-item v-for="item in $store.getters.getAllConnections" :key="item.name">

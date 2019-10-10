@@ -6,7 +6,7 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-title class="headline grey lighten-2" primary-title>Search</v-card-title>
+      <v-card-title class="headline grey lighten-2" primary-title>{{ $t('search') }}</v-card-title>
       <v-card-text>
         <template>
           <v-form ref="form">
