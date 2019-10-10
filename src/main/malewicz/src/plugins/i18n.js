@@ -9,21 +9,27 @@ const messages = {
         databaseNavigator: 'Database Navigator',
         columns: 'Columns',
         sqlQuery: 'SQL-query',
-        search: 'Search'
+        search: 'Search',
+        noData: 'No data available',
+        close: 'Close'
     },
     'ru': {
         connections: 'Соединения',
         databaseNavigator: 'Объекты БД',
         columns: 'Колонки',
         sqlQuery: 'SQL-запрос',
-        search: 'Поиск'
+        search: 'Поиск',
+        noData: 'Нет данных',
+        close: 'Закрыть'
     },
     'es': {
         connections: 'Conexiones',
         databaseNavigator: 'Objetos de BD',
         columns: 'Oradores',
         sqlQuery: 'SQL-consulta',
-        search: 'Buscar'
+        search: 'Buscar',
+        noData: 'Datos no disponibles',
+        close: 'Cerrar'
     }
 };
 

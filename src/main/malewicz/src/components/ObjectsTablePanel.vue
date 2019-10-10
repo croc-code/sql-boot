@@ -16,7 +16,7 @@
                   :items="items"
                   :loading="isLoading"
                   :options.sync = "options"
-                  no-data-text="No data available"
+                  :no-data-text = "this.$t('noData')"
                   hide-default-footer
                   :fixed-header="true"
                   class="elevation-1">
