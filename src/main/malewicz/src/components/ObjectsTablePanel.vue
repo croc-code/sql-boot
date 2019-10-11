@@ -23,6 +23,9 @@
       <template v-slot:progress>
         <v-progress-linear color="green" :height="10" indeterminate></v-progress-linear>
       </template>
+      <template v-slot:header.endpoint="endp">
+        {{ $t('cluster') }}
+      </template>
       <template v-slot:item="props">
         <tr>
           <td v-for="met in defaultMeta" v-bind:key="met.name">

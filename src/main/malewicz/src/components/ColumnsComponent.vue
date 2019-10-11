@@ -16,13 +16,11 @@
                             </v-list-item-action>
 
                             <v-list-item-content>
-                                <v-list-item-title>{{ column.label }}</v-list-item-title>
+                                <v-list-item-title v-if="column.name==='endpoint'">{{ $t('cluster') }}</v-list-item-title>
+                                <v-list-item-title v-else>{{ column.label }}</v-list-item-title>
                                 <v-list-item-subtitle>
-                                    <v-textarea :value="column.description"
-                                                :rows=1
-                                                :flat=true
-                                                readonly>
-                                    </v-textarea>
+                                    <v-textarea v-if="column.name==='endpoint'" :value="$t('sourceCluster')" :rows=1 :flat=true readonly></v-textarea>
+                                    <v-textarea v-else :value="column.description" :rows=1 :flat=true readonly></v-textarea>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                         </template>
@@ -32,7 +30,7 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="show = false">{{ $t('databaseNavigator') }}</v-btn>
+                <v-btn color="primary" text @click="show = false">{{ $t('close') }}</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

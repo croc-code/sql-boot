@@ -11,7 +11,9 @@ const messages = {
         sqlQuery: 'SQL-query',
         search: 'Search',
         noData: 'No data available',
-        close: 'Close'
+        close: 'Close',
+        cluster: 'Cluster',
+        sourceCluster: 'Source cluster'
     },
     'ru': {
         connections: 'Соединения',
@@ -20,7 +22,9 @@ const messages = {
         sqlQuery: 'SQL-запрос',
         search: 'Поиск',
         noData: 'Нет данных',
-        close: 'Закрыть'
+        close: 'Закрыть',
+        cluster: 'Кластер',
+        sourceCluster: 'Кластер источник'
     },
     'es': {
         connections: 'Conexiones',
@@ -29,7 +33,9 @@ const messages = {
         sqlQuery: 'SQL-consulta',
         search: 'Buscar',
         noData: 'Datos no disponibles',
-        close: 'Cerrar'
+        close: 'Cerrar',
+        cluster: 'Racimo',
+        sourceCluster: 'Clúster fuente'
     }
 };
 
