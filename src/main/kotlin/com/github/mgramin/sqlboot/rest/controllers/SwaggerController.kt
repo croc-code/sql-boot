@@ -45,20 +45,24 @@ import io.swagger.models.properties.StringProperty
 import io.swagger.util.Json
 import io.swagger.util.Yaml
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import java.util.*
 import java.util.stream.Collectors
 import javax.servlet.http.HttpServletRequest
 
-class SwaggerController {
-
-    @Autowired
-    private lateinit var endpointList: EndpointList
-
+@RestController
+@ComponentScan(basePackages = ["com.github.mgramin.sqlboot"])
+@EnableAutoConfiguration
+@CrossOrigin
+class SwaggerController @Autowired constructor(private val endpointList: EndpointList) {
 
     @RequestMapping(method = [RequestMethod.GET, RequestMethod.POST], path = ["/api"], produces = [MediaType.APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
@@ -66,7 +70,7 @@ class SwaggerController {
             request: HttpServletRequest,
             @RequestParam(required = false) format: String?
     ): String {
-        val connectionName = "h2"
+        val connectionName = "master_db"
         val swaggerDescription = getSwaggerDescription(request, connectionName)
         return if (format != null && format == "yaml") {
             Yaml.pretty().writeValueAsString(swaggerDescription)
