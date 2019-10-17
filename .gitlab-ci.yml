@@ -36,6 +36,7 @@ mirror-master:
     - master
   script:
     - mkdir -p ~/.ssh
+    - echo $GITHUB_MIRROR_PRIVATE
     - echo $GITHUB_MIRROR_PRIVATE | base64 -d > ~/.ssh/id_rsa
     - echo $GITHUB_MIRROR_PUBLIC > ~/.ssh/id_rsa.pub
     - ssh-keyscan -t rsa,dsa,ecdsa github.com >> ~/.ssh/known_hosts
