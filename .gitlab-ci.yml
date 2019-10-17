@@ -1,20 +1,46 @@
 ---
 stages:
   - build
+  - mirror
 
 build_sql_boot:
   stage: build
   tags:
     - deploy-all-runner
   script:
-    - mvn frontend:install-node-and-npm@install-node-and-npm
-    - mvn frontend:npm@npm-install
-    - mvn frontend:npm@npm-run-build
-    - mvn antrun:run@copy
-    - mvn package
-    - mvn rpm:rpm
-    - curl --fail -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD -X PUT https://repo.croc.ru/artifactory/pstgrscroc.rpm-snapshots-local/sql-boot-0.5.1-1.noarch.rpm -T ./target/rpm/sql-boot/RPMS/noarch/sql-boot-0.5.1-1.noarch.rpm
-  artifacts:
-    paths:
-    - target/sql-boot.zip
-    expire_in: 1 day
+    - echo "test"  
+  #  - mvn frontend:install-node-and-npm@install-node-and-npm
+  #  - mvn frontend:npm@npm-install
+  #  - mvn frontend:npm@npm-run-build
+  #  - mvn antrun:run@copy
+  #  - mvn package
+  #  - mvn rpm:rpm
+  #  - curl --fail -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD -X PUT https://repo.croc.ru/artifactory/pstgrscroc.rpm-snapshots-local/sql-boot-0.5.1-1.noarch.rpm -T ./target/rpm/sql-boot/RPMS/noarch/sql-boot-0.5.1-1.noarch.rpm
+  #artifacts:
+  #  paths:
+  #  - target/sql-boot.zip
+  #  expire_in: 1 day
+
+
+mirror-master:
+  stage: mirror
+  tags:
+    - deploy-all-runner
+  variables:
+    UPSTREAM_REPOSITORY: "git@github.com:CrocInc/sql-boot.git"
+    UPSTREAM_BRANCH: "master"
+    GIT_SUBMODULE_STRATEGY: none
+    GIT_STRATEGY: clone
+  cache: {}
+  only:
+    - master
+  script:
+    - mkdir -p ~/.ssh
+    - echo $GITHUB_MIRROR_PRIVATE | base64 -d > ~/.ssh/id_rsa
+    - echo $GITHUB_MIRROR_PUBLIC > ~/.ssh/id_rsa.pub
+    - ssh-keyscan -t rsa,dsa,ecdsa github.com >> ~/.ssh/known_hosts
+    - chmod -R go-rwx ~/.ssh
+    - git remote add mirror $UPSTREAM_REPOSITORY
+    - git remote show mirror
+    - git fetch mirror
+    - git push --progress mirror HEAD:master
