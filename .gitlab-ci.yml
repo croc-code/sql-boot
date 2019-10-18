@@ -22,7 +22,7 @@ build_sql_boot:
   #  expire_in: 1 day
 
 
-mirror-master:
+push-to-github:
   stage: mirror
   tags:
     - deploy-all-runner
@@ -38,11 +38,8 @@ mirror-master:
     - mkdir -p ~/.ssh
     - chmod -R go-rwx ~/.ssh
     - eval $(ssh-agent -s)
-    - ssh-add <(echo "$GITHUB_MIRROR_PRIVATE")
-    #- echo $GITHUB_MIRROR_PRIVATE | tr -d '\r' > ~/.ssh/id_rsa
-    #- echo $GITHUB_MIRROR_PUBLIC > ~/.ssh/id_rsa.pub
-    #- ssh-keyscan -t rsa,dsa,ecdsa github.com >> ~/.ssh/known_hosts
+    - ssh-add < (echo "$GITHUB_MIRROR_PRIVATE")
     - git remote add mirror $UPSTREAM_REPOSITORY
     - git remote show mirror
     - git fetch mirror
-    - git push --progress mirror HEAD:master
+    - git push --progress mirror HEAD:croc_repo
