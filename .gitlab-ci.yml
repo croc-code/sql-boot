@@ -38,7 +38,7 @@ push-to-github:
     - mkdir -p ~/.ssh
     - chmod -R go-rwx ~/.ssh
     - eval $(ssh-agent -s)
-    - ssh-add < (echo "$GITHUB_MIRROR_PRIVATE")
+    - ssh-add <(echo "$GITHUB_MIRROR_PRIVATE")
     - git remote add mirror $UPSTREAM_REPOSITORY
     - git remote show mirror
     - git fetch mirror
