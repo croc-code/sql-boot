@@ -12,6 +12,10 @@ services:
 
 ## Run integration tests
 script:
+  - mvn frontend:install-node-and-npm@install-node-and-npm
+  - mvn frontend:npm@npm-install
+  - mvn frontend:npm@npm-run-build
+  - mvn antrun:run@copy
   - mvn verify
   - mvn compile jacoco:report
   - mvn docker:build
