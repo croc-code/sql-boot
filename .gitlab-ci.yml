@@ -15,6 +15,8 @@ build_sql_boot:
     - mvn package
     - mvn rpm:rpm
     - curl --fail -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD -X PUT https://repo.croc.ru/artifactory/pstgrscroc.rpm-snapshots-local/sql-boot-0.5.1-1.noarch.rpm -T ./target/rpm/sql-boot/RPMS/noarch/sql-boot-0.5.1-1.noarch.rpm
+  only:
+    - master
   artifacts:
     paths:
     - target/sql-boot.zip
@@ -32,7 +34,7 @@ push-to-github:
     GIT_STRATEGY: clone
   cache: {}
   only:
-    - master
+    - github
   script:
     - mkdir -p ~/.ssh
     - chmod -R go-rwx ~/.ssh
