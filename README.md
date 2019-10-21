@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/crocinc/sql-boot.svg?branch=master)](https://travis-ci.org/crocinc/sql-boot)
 [![Build status](https://ci.appveyor.com/api/projects/status/jrpy23nvd03hcocb?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot)
 [![codecov](https://codecov.io/gh/CrocInc/sql-boot/branch/master/graph/badge.svg)](https://codecov.io/gh/CrocInc/sql-boot)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sql-boot/sql-boot/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/sql-boot/sql-boot/blob/master/LICENSE)
 [![codebeat badge](https://codebeat.co/badges/5f90d946-b2a2-46fe-8951-99f354b3a8e9)](https://codebeat.co/projects/github-com-mgramin-sql-boot-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/97169221af6f4b73a5974a6a5c82cd60)](https://www.codacy.com/app/mgramin/sql-boot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mgramin/sql-boot&amp;utm_campaign=Badge_Grade)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mgramin/sql-boot.svg)](https://hub.docker.com/r/mgramin/sql-boot/)
