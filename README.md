@@ -4,14 +4,15 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/jrpy23nvd03hcocb?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot)
 [![codecov](https://codecov.io/gh/CrocInc/sql-boot/branch/master/graph/badge.svg)](https://codecov.io/gh/CrocInc/sql-boot)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/sql-boot/sql-boot/blob/master/LICENSE)
-[![codebeat badge](https://codebeat.co/badges/5f90d946-b2a2-46fe-8951-99f354b3a8e9)](https://codebeat.co/projects/github-com-mgramin-sql-boot-master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/97169221af6f4b73a5974a6a5c82cd60)](https://www.codacy.com/app/mgramin/sql-boot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mgramin/sql-boot&amp;utm_campaign=Badge_Grade)
+[![codebeat badge](https://codebeat.co/badges/da168874-4940-41f4-a6e2-ae1ddc0f3873)](https://codebeat.co/projects/github-com-mgramin-sql-boot-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dff14223d4e94de58f2b6a3ac1c24036)](https://www.codacy.com/manual/mgramin/sql-boot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CrocInc/sql-boot&amp;utm_campaign=Badge_Grade)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mgramin/sql-boot.svg)](https://hub.docker.com/r/mgramin/sql-boot/)
 [![Main distribution](https://img.shields.io/badge/zip-download-brightgreen.svg)](https://github.com/sql-boot/sql-boot/releases/latest)
 [![Join the chat at https://gitter.im/sqlboot/Lobby](https://badges.gitter.im/sqlboot/Lobby.svg)](https://gitter.im/sqlboot/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![EO badge](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org/)
-[![DevOps By Rultor.com](http://www.rultor.com/b/sql-boot/sql-boot)](http://www.rultor.com/p/sql-boot/sql-boot)
-[![Hits-of-Code](https://hitsofcode.com/github/sql-boot/sql-boot)](https://hitsofcode.com/view/github/sql-boot/sql-boot)
+[![DevOps By Rultor.com](http://www.rultor.com/b/CrocInc/sql-boot)](http://www.rultor.com/p/CrocInc/sql-boot)
+[![Hits-of-Code](https://hitsofcode.com/github/CrocInc/sql-boot)](https://hitsofcode.com/view/github/CrocInc/sql-boot)
+[![Scc Count Badge](https://sloc.xyz/github/CrocInc/sql-boot/)](https://github.com/CrocInc/sql-boot/)
 
 
 Advanced REST-wrapper for your own SQL-queries (actually not only SQL).

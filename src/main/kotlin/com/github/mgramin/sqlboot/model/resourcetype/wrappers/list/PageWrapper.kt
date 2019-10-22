@@ -45,30 +45,25 @@ class PageWrapper constructor(
         private val delimiter: String = ","
 ) : ResourceType {
 
-    override fun aliases(): List<String> {
-        return origin.aliases()
-    }
+    override fun aliases() = origin.aliases()
 
-    override fun path(): List<String> {
-        return origin.path()
-    }
+    override fun path() = origin.path()
 
     override fun metaData(uri: Uri) = origin.metaData(uri)
 
-    override fun read(uri: Uri): Flux<DbResource> {
-        val pageParameter = uri.params()[parameterName]
-        return if (pageParameter != null) {
-            val pageNumber = valueOf(pageParameter.substringBefore(delimiter))
-            val pageSize: Int = if (!pageParameter.contains(delimiter)) {
-                this.pageSize
+    override fun read(uri: Uri): Flux<DbResource> =
+            if (uri.params().containsKey(parameterName)) {
+                val pageParameter = uri.params()[parameterName]
+                val pageNumber = valueOf(pageParameter!!.substringBefore(delimiter))
+                val pageSize: Int = if (!pageParameter.contains(delimiter)) {
+                    this.pageSize
+                } else {
+                    valueOf(pageParameter.substringAfter(delimiter))
+                }
+                origin.read(uri).skip(((pageNumber - 1) * pageSize).toLong()).take(pageSize.toLong())
             } else {
-                valueOf(pageParameter.substringAfter(delimiter))
+                origin.read(uri)
             }
-            origin.read(uri).skip(((pageNumber - 1) * pageSize).toLong()).take(pageSize.toLong())
-        } else {
-            origin.read(uri)
-        }
-    }
 
     override fun toJson() = origin.toJson()
 }

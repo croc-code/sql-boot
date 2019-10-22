@@ -92,31 +92,23 @@ interface Uri : Serializable {
     fun connection(): String
 
 
-    fun pageNumber(): Int {
-        val pageParameter = params()["page"]
-        val pageNumber: Int
-        pageNumber = if (pageParameter != null) {
-            val delimiter = ","
-            Integer.valueOf(StringUtils.substringBefore(pageParameter, delimiter))
-        } else {
-            1
-        }
-        return pageNumber
-    }
-
-    fun pageSize(): Int {
-        val pageParameter = params()["page"]
-        return if (pageParameter != null) {
-            val delimiter = ","
-            if (StringUtils.substringAfter(pageParameter, delimiter).isEmpty()) {
-                10
+    fun pageNumber(): Int =
+            if (params().containsKey("page")) {
+                Integer.valueOf(StringUtils.substringBefore(params()["page"], ","))
             } else {
-                Integer.valueOf(StringUtils.substringAfter(pageParameter, delimiter))
+                1
             }
-        } else {
-            10
-        }
-    }
+
+    fun pageSize(): Int =
+            if (params().containsKey("page")) {
+                if (StringUtils.substringAfter(params()["page"], ",").isEmpty()) {
+                    10
+                } else {
+                    Integer.valueOf(StringUtils.substringAfter(params()["page"], ","))
+                }
+            } else {
+                10
+            }
 
     fun orderedColumns(): Map<String, String> {
         return (params()["orderby"] ?: "")
