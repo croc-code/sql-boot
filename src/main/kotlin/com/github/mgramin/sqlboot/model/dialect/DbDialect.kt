@@ -32,11 +32,11 @@
 
 package com.github.mgramin.sqlboot.model.dialect
 
-open class DbDialect(var name: String? = null,
-                     var paginationQueryTemplate: String? = null) : Dialect {
+open class DbDialect(var name: String = "",
+                     var paginationQueryTemplate: String = "") : Dialect {
 
-    override fun name() = name!!
+    override fun name() = name
 
-    override fun paginationQueryTemplate() = paginationQueryTemplate!!
+    override fun paginationQueryTemplate() = paginationQueryTemplate
 
 }

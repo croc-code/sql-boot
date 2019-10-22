@@ -40,7 +40,6 @@ import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import reactor.core.publisher.Flux
-import java.util.Arrays.asList
 
 /**
  * Created by MGramin on 18.07.2017.
@@ -56,33 +55,28 @@ class SelectWrapper(private val origin: ResourceType, private val parameterName:
     }
 
     @Throws(BootException::class)
-    override fun read(uri: Uri): Flux<DbResource> {
-        val select = uri.params()[parameterName]
-        val resources = origin.read(uri)
-        return if (select != null) {
-            resources
-                    .map { v ->
-                        DbResourceBodyWrapper(DbResourceImpl(v.name(), v.type(), v.dbUri(),
-                                v.headers()
-                                        .filter { h -> asList(*select.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).contains(h.key) }
-                                        .map { it.key to it.value }
-                                        .toMap()), v.body())
-                    }
-        } else {
-            resources
-        }
-    }
+    override fun read(uri: Uri): Flux<DbResource> =
+            if (uri.params().containsKey(parameterName)) {
+                origin.read(uri)
+                        .map { v ->
+                            DbResourceBodyWrapper(DbResourceImpl(v.name(), v.type(), v.dbUri(),
+                                    v.headers()
+                                            .filter { h -> listOf(*uri.params()[parameterName]!!.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).contains(h.key) }
+                                            .map { it.key to it.value }
+                                            .toMap()), v.body())
+                        }
+            } else {
+                origin.read(uri)
+            }
 
-    override fun metaData(uri: Uri): List<Metadata> {
-        val select = uri.params()[parameterName]
-        return if (select != null) {
-            origin.metaData(uri)
-                    .filter { e -> asList(*select.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).contains(e.name()) }
-                    .toList()
-        } else {
-            origin.metaData(uri)
-        }
-    }
+    override fun metaData(uri: Uri): List<Metadata> =
+            if (uri.params().containsKey(parameterName)) {
+                origin.metaData(uri)
+                        .filter { e -> listOf(*uri.params()[parameterName]!!.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).contains(e.name()) }
+                        .toList()
+            } else {
+                origin.metaData(uri)
+            }
 
     override fun toJson() = origin.toJson()
 

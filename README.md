@@ -10,8 +10,9 @@
 [![Main distribution](https://img.shields.io/badge/zip-download-brightgreen.svg)](https://github.com/sql-boot/sql-boot/releases/latest)
 [![Join the chat at https://gitter.im/sqlboot/Lobby](https://badges.gitter.im/sqlboot/Lobby.svg)](https://gitter.im/sqlboot/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![EO badge](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org/)
-[![DevOps By Rultor.com](http://www.rultor.com/b/sql-boot/sql-boot)](http://www.rultor.com/p/sql-boot/sql-boot)
-[![Hits-of-Code](https://hitsofcode.com/github/sql-boot/sql-boot)](https://hitsofcode.com/view/github/sql-boot/sql-boot)
+[![DevOps By Rultor.com](http://www.rultor.com/b/CrocInc/sql-boot)](http://www.rultor.com/p/CrocInc/sql-boot)
+[![Hits-of-Code](https://hitsofcode.com/github/CrocInc/sql-boot)](https://hitsofcode.com/view/github/CrocInc/sql-boot)
+[![Scc Count Badge](https://sloc.xyz/github/CrocInc/sql-boot/)](https://github.com/CrocInc/sql-boot/)
 
 
 Advanced REST-wrapper for your own SQL-queries (actually not only SQL).

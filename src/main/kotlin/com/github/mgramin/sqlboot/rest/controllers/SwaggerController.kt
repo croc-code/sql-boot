@@ -68,11 +68,11 @@ class SwaggerController @Autowired constructor(private val endpointList: Endpoin
     @Throws(JsonProcessingException::class)
     fun apiDocsDefault(
             request: HttpServletRequest,
-            @RequestParam(required = false) format: String?
+            @RequestParam(required = false) format: String = "json"
     ): String {
         val connectionName = "master_db"
         val swaggerDescription = getSwaggerDescription(request, connectionName)
-        return if (format != null && format == "yaml") {
+        return if (format == "yaml") {
             Yaml.pretty().writeValueAsString(swaggerDescription)
         } else {
             Json.pretty().writeValueAsString(swaggerDescription)
@@ -84,10 +84,10 @@ class SwaggerController @Autowired constructor(private val endpointList: Endpoin
     fun apiDocs(
             request: HttpServletRequest,
             @PathVariable connectionName: String,
-            @RequestParam(required = false) format: String?
+            @RequestParam(required = false) format: String = "json"
     ): String {
         val swaggerDescription = getSwaggerDescription(request, connectionName)
-        return if (format != null && format == "yaml") {
+        return if (format == "yaml") {
             Yaml.pretty().writeValueAsString(swaggerDescription)
         } else {
             Json.pretty().writeValueAsString(swaggerDescription)
