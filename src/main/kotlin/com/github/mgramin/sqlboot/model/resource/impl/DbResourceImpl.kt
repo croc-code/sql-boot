@@ -47,23 +47,14 @@ class DbResourceImpl(
         private val body: String = ""
 ) : DbResource {
 
-    override fun name(): String {
-        return name
-    }
+    override fun name() = name
 
-    override fun type(): ResourceType {
-        return type
-    }
+    override fun type() = type
 
-    override fun dbUri(): Uri {
-        return uri
-    }
+    override fun dbUri() = uri
 
-    override fun headers(): Map<String, Any> {
-        return headers
-    }
+    override fun headers() = headers
 
-    override fun body(): String {
-        return body
-    }
+    override fun body() = body
+
 }

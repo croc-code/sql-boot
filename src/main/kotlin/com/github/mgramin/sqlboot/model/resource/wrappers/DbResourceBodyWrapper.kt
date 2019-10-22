@@ -41,23 +41,14 @@ import com.github.mgramin.sqlboot.model.uri.Uri
  */
 class DbResourceBodyWrapper(private val origin: DbResource, private val body: String) : DbResource {
 
-    override fun name(): String {
-        return origin.name()
-    }
+    override fun name() = origin.name()
 
-    override fun type(): ResourceType {
-        return origin.type()
-    }
+    override fun type() = origin.type()
 
-    override fun dbUri(): Uri {
-        return origin.dbUri()
-    }
+    override fun dbUri() = origin.dbUri()
 
-    override fun headers(): Map<String, Any> {
-        return origin.headers()
-    }
+    override fun headers() = origin.headers()
 
-    override fun body(): String {
-        return this.body
-    }
+    override fun body() = this.body
+
 }

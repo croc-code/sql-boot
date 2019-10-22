@@ -101,7 +101,7 @@ class SqlResourceTypeTest {
     @Test
     fun readAllTables() {
         StepVerifier
-                .create(createType(getAllTablesSQL).read(FakeUri()))
+                .create(createType(getAllTablesSQL).read(DbUri("prod/table")))
                 .expectNextCount(46)
                 .verifyComplete()
     }
@@ -109,7 +109,7 @@ class SqlResourceTypeTest {
     @Test
     fun readAllColumns() {
         StepVerifier
-                .create(createType(getAllColumnsSQL).read(FakeUri()))
+                .create(createType(getAllColumnsSQL).read(DbUri("prod/column")))
                 .expectNextCount(347)
                 .verifyComplete()
     }

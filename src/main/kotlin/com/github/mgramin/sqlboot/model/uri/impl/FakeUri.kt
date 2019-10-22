@@ -42,7 +42,7 @@ class FakeUri : Uri {
     }
 
     override fun path(): List<String> {
-        return emptyList()
+        return listOf("FAKE_TBL")
     }
 
     override fun path(index: Int): String {
