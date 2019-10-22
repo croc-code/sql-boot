@@ -33,7 +33,6 @@
 package com.github.mgramin.sqlboot.model.resource.impl
 
 import com.github.mgramin.sqlboot.model.resource.DbResource
-import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FakeResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 
@@ -42,27 +41,19 @@ import com.github.mgramin.sqlboot.model.uri.Uri
  */
 class FakeDbResource(private val uri: Uri) : DbResource {
 
-    override fun name(): String {
-        return uri.path()[uri.path().size - 1]
-    }
+    override fun name() = if (uri.path().isNotEmpty()) uri.path()[uri.path().size - 1] else ""
 
-    override fun type(): ResourceType {
-        return FakeResourceType()
-    }
+    override fun type() = FakeResourceType()
 
-    override fun dbUri(): Uri {
-        return uri
-    }
+    override fun dbUri() = uri
 
-    override fun headers(): Map<String, Any> {
-        return mapOf(
-                "schema" to "hr",
-                "table" to "persons",
-                "file" to "table.hr.persons.sql",
-                "size" to "100")
-    }
+    override fun headers() =
+            mapOf(
+                    "schema" to "hr",
+                    "table" to "persons",
+                    "file" to "table.hr.persons.sql",
+                    "size" to "100")
 
-    override fun body(): String {
-        return "Empty body, sorry ... :("
-    }
+    override fun body() = "Empty body, sorry ... :("
+
 }
