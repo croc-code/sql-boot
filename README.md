@@ -13,6 +13,7 @@
 [![DevOps By Rultor.com](http://www.rultor.com/b/CrocInc/sql-boot)](http://www.rultor.com/p/CrocInc/sql-boot)
 [![Hits-of-Code](https://hitsofcode.com/github/CrocInc/sql-boot)](https://hitsofcode.com/view/github/CrocInc/sql-boot)
 [![Scc Count Badge](https://sloc.xyz/github/CrocInc/sql-boot/)](https://github.com/CrocInc/sql-boot/)
+[![Mentioned in Awesome database tools](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/mgramin/awesome-db-tools)
 
 
 Advanced REST-wrapper for your own SQL-queries (actually not only SQL).
