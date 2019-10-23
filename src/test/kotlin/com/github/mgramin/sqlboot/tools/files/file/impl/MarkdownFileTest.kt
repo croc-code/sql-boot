@@ -38,10 +38,7 @@ import kotlin.test.assertEquals
 
 class MarkdownFileTest {
 
-    @Test
-    @Throws(IOException::class)
-    fun parse() {
-        val text = """
+    private val text = """
             |````sql
             |select u.username     as "@schema"
             |     , u.user_id      as "user_id"
@@ -58,16 +55,27 @@ class MarkdownFileTest {
             | order by u.username
             |````
             |""".trimMargin()
-        val map = MarkdownFile("test.md", text).parse()
-//        assertEquals(arrayListOf("", "row_count"), map.keys.toList())
-        assertEquals(map["1"], """select u.username     as "@schema"
+
+    @Test
+    fun name() = assertEquals("test.md", MarkdownFile("test.md", text).name())
+
+
+    @Test
+    fun content() = assertEquals(144, MarkdownFile("test.md", text).content().size)
+
+    @Test
+    fun parse() {
+
+        val markdownFile = MarkdownFile("test.md", text).parse()
+        assertEquals(markdownFile["1"], """select u.username     as "@schema"
                                 |     , u.user_id      as "user_id"
                                 |     , u.created      as "created"
                                 |  from all_users u
                                 | order by u.username""".trimMargin())
 
-        assertEquals(map["2"], """select count(1)
+        assertEquals(markdownFile["2"], """select count(1)
                                          |  from all_users u
                                          | order by u.username""".trimMargin())
     }
+
 }

@@ -47,9 +47,7 @@ import java.util.*
  */
 class MarkdownFile(private val name: String, private val text: String) : File {
 
-    override fun name(): String {
-        return name
-    }
+    override fun name() = name
 
     override fun content(): ByteArray {
         val visitor = CustomVisitor()
