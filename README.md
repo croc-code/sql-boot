@@ -56,6 +56,9 @@ Try online:
 - [index/scott](http://217.73.63.31:8007/api/oracle/headers/index/scott) - get all indexes from "scott" schema
 
 
+![Image of Yaktocat](src/main/resources/croc_cloud.png)
+
+
 Try with Docker and embedded (H2) demo db:
 ------------------------------------------
 ```
