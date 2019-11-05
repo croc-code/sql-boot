@@ -33,7 +33,7 @@
 package com.github.mgramin.sqlboot.rest.controllers
 
 import com.github.mgramin.sqlboot.exceptions.BootException
-import com.github.mgramin.sqlboot.model.connection.EndpointList
+import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
@@ -65,7 +65,7 @@ import javax.servlet.http.HttpServletRequest
 class ApiController {
 
     @Autowired
-    private lateinit var endpointList: EndpointList
+    private lateinit var endpointList: SimpleEndpointList
 
     @Autowired
     private lateinit var dbDialectList: DbDialectList

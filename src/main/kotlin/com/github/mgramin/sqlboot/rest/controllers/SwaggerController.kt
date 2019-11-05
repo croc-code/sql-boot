@@ -33,7 +33,7 @@
 package com.github.mgramin.sqlboot.rest.controllers
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.github.mgramin.sqlboot.model.connection.EndpointList
+import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
 import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
 import io.swagger.models.*
 import io.swagger.models.parameters.Parameter
@@ -62,7 +62,7 @@ import javax.servlet.http.HttpServletRequest
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot"])
 @EnableAutoConfiguration
 @CrossOrigin
-class SwaggerController @Autowired constructor(private val endpointList: EndpointList) {
+class SwaggerController @Autowired constructor(private val endpointList: SimpleEndpointList) {
 
     @RequestMapping(method = [RequestMethod.GET, RequestMethod.POST], path = ["/api"], produces = [MediaType.APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
