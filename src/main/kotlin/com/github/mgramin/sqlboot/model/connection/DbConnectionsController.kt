@@ -30,10 +30,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.mgramin.sqlboot.rest.controllers
+package com.github.mgramin.sqlboot.model.connection
 
 import com.github.mgramin.sqlboot.model.connection.Endpoint
-import com.github.mgramin.sqlboot.model.connection.EndpointList
+import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
 import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -53,11 +53,18 @@ import reactor.core.scheduler.Schedulers
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot.model.resource_type"])
 @EnableAutoConfiguration
 @CrossOrigin
-class DbConnectionsController @Autowired constructor(private val endpointList: EndpointList) {
+class EndpointListController @Autowired constructor(private val endpointList: SimpleEndpointList) : EndpointList {
 
-    val allDbConnections: List<SimpleEndpoint>
-        @RequestMapping(value = ["/endpoints"])
-        get() = endpointList.endpoints
+    @RequestMapping(value = ["/endpoints"])
+    override fun getAll() = MaskedEndpointListWrapper(endpointList).getAll()
+
+    override fun getByName(name: String): Endpoint {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getByMask(mask: String): List<Endpoint> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     @GetMapping(value = ["/endpoints/health"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     @ResponseBody

@@ -33,6 +33,7 @@
 package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
+import com.github.mgramin.sqlboot.model.connection.Endpoint
 import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import com.github.mgramin.sqlboot.model.dialect.Dialect
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
@@ -53,7 +54,7 @@ import java.nio.charset.StandardCharsets.UTF_8
  * Created by MGramin on 11.07.2017.
  */
 class FsResourceType(
-        private val endpoints: List<SimpleEndpoint>,
+        private val endpoints: List<Endpoint>,
         private val dialects: List<Dialect>
 ) : ResourceType {
 

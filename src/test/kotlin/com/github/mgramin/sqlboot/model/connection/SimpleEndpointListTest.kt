@@ -45,11 +45,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @EnableAutoConfiguration
-@ContextConfiguration(classes = [EndpointList::class], initializers = [ConfigFileApplicationContextInitializer::class])
-internal class EndpointListTest {
+@ContextConfiguration(classes = [SimpleEndpointList::class], initializers = [ConfigFileApplicationContextInitializer::class])
+internal class SimpleEndpointListTest {
 
     @Autowired
-    lateinit var endpointList: EndpointList
+    lateinit var endpointList: SimpleEndpointList
 
     @ParameterizedTest
     @ValueSource(strings = ["h2"])
