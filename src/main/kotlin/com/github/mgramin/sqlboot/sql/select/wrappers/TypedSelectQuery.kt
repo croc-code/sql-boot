@@ -50,10 +50,10 @@ class TypedSelectQuery(
     override fun properties() = origin.properties()
 
     override fun columns() =
-            dataSource
-                    .connection
-                    .use {
-                        try {
+            try {
+                dataSource
+                        .connection
+                        .use {
                             val metaData = it.prepareStatement(origin.query()).metaData
                             origin.columns()
                                     .mapIndexed { index, column ->
@@ -63,10 +63,11 @@ class TypedSelectQuery(
                                                 column.comment(),
                                                 column.properties())
                                     }
-                        } catch (e : Exception) {
-                            logger.warn(e.message)
-                            origin.columns()
                         }
-                    }
+            } catch (e: Exception) {
+                logger.warn(e.message)
+                origin.columns()
+            }
+
 
 }

@@ -130,7 +130,8 @@ class SqlResourceType(
                                 CustomFilteredSelectQuery(
                                         FilteredSelectQuery(
                                                 TypedSelectQuery(
-                                                        GrafanaSelectQuery(simpleSelectQuery),
+                                                        GrafanaSelectQuery(
+                                                                simpleSelectQuery),
                                                         dataSource = endpoint.getDataSource()),
                                                 uri.path()),
                                         uri.filter()),
