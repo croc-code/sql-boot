@@ -34,8 +34,8 @@ package com.github.mgramin.sqlboot.model.resourcetype.impl
 
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.Endpoint
-import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import com.github.mgramin.sqlboot.model.dialect.Dialect
+import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.body.BodyWrapper
@@ -45,6 +45,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.wrappers.list.SortWrapper
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.template.generator.impl.FakeTemplateGenerator
 import com.github.mgramin.sqlboot.tools.files.file.impl.MarkdownFile
+import com.github.mgramin.sqlboot.tools.files.file.impl.SimpleFile
 import org.springframework.core.io.FileSystemResource
 import reactor.core.publisher.Flux
 import java.io.File
@@ -58,11 +59,26 @@ class FsResourceType(
         private val dialects: List<Dialect>
 ) : ResourceType {
 
+    private val resourceTypes: List<ResourceType> =
+            File(FileSystemResource(endpoints.first().confDir()).file.path)
+                    .walkTopDown()
+                    .filter { it.isFile }
+                    .filter { it.extension.equals("sql", true) }
+                    .map {
+                        if (it.extension.equals("md", true))
+                            MarkdownFile(it.name, it.readText(UTF_8))
+                        else SimpleFile(it.name, listOf(it.readText(UTF_8)))
+                    }
+                    .filter { it.content().isNotEmpty() }
+                    .flatMap { it.content().asSequence() }
+                    .map { createObjectType(it) }
+                    .toList()
+
     override fun aliases() = throw BootException("Not implemented!")
 
     override fun path() = throw BootException("Not implemented!")
 
-    override fun read(uri: Uri) =
+    override fun read(uri: Uri): Flux<DbResource> =
             Flux.merge(
                     resourceTypes
                             .filter { it.name().matches(wildcardToRegex(uri)) }
@@ -77,20 +93,6 @@ class FsResourceType(
 
     @Deprecated("")
     fun resourceTypes() = resourceTypes
-
-    private val resourceTypes: List<ResourceType> =
-            walk(FileSystemResource(endpoints.first().confDir()).file.path)
-
-    private fun walk(path: String) =
-            File(path)
-                    .walkTopDown()
-                    .filter { it.isFile }
-                    .filter { it.extension.equals("md", true) }
-                    .map { MarkdownFile(it.name, it.readText(UTF_8)) }
-                    .filter { it.content().isNotEmpty() }
-                    .flatMap { it.parse().map { v -> v.value }.asSequence() }
-                    .map { createObjectType(it) }
-                    .toList()
 
     private fun createObjectType(it: String) =
             TypeWrapper(
