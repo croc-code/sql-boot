@@ -44,32 +44,32 @@ import java.util.zip.ZipOutputStream
  * @since 0.1
  */
 class ZippedFile(private val name: String, private val origins: List<File>) : File {
-    private val content: ByteArray
+    private val content: List<String>
 
     init {
-        this.content = unzip()
+        this.content = listOf(unzip())
     }
 
     override fun name(): String {
         return this.name
     }
 
-    override fun content(): ByteArray {
+    override fun content(): List<String> {
         return content
     }
 
     @Throws(BootException::class)
-    private fun unzip(): ByteArray {
+    private fun unzip(): String {
         ByteArrayOutputStream().use { bytes ->
             ZipOutputStream(bytes).use { zip ->
                 for (ent in this.origins) {
                     zip.putNextEntry(ZipEntry(ent.name()))
-                    zip.write(ent.content())
+                    zip.write(ent.content().first().toByteArray())
                     zip.closeEntry()
                 }
                 zip.close()
                 bytes.close()
-                return bytes.toByteArray()
+                return bytes.toByteArray().toString()
             }
         }
     }

@@ -38,12 +38,9 @@ import org.junit.jupiter.api.Test
 internal class SimpleFileTest {
 
     @Test
-    fun name() {
-        assertEquals("test.txt", SimpleFile("test.txt", "Hello World!".toByteArray()).name())
-    }
+    fun name() = assertEquals("test.txt", SimpleFile("test.txt", listOf("Hello World!")).name())
 
     @Test
-    fun content() {
-        assertEquals("Hello World!", String(SimpleFile("test.txt", "Hello World!".toByteArray()).content()))
-    }
+    fun content() = assertEquals("Hello World!", SimpleFile("test.txt", listOf("Hello World!")).content().first())
+
 }
