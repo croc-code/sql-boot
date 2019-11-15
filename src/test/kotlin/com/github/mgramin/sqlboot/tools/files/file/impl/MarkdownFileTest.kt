@@ -38,10 +38,7 @@ import kotlin.test.assertEquals
 
 class MarkdownFileTest {
 
-    @Test
-    @Throws(IOException::class)
-    fun parse() {
-        val text = """
+    private val text = """
             |````sql
             |select u.username     as "@schema"
             |     , u.user_id      as "user_id"
@@ -70,4 +67,5 @@ class MarkdownFileTest {
                                          |  from all_users u
                                          | order by u.username""".trimMargin())
     }
+
 }
