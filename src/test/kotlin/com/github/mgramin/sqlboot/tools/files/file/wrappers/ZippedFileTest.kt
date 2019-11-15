@@ -50,6 +50,6 @@ class ZippedFileTest {
 
     @Test
     fun content() {
-        assertEquals(144, ZippedFile("test.zip", arrayListOf(FakeFile())).content().size.toLong())
+        assertEquals(11, ZippedFile("test.zip", arrayListOf(FakeFile())).content().first().count().toLong())
     }
 }

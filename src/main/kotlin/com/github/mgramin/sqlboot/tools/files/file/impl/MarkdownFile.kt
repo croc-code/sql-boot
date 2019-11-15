@@ -47,27 +47,17 @@ import java.util.*
  */
 class MarkdownFile(private val name: String, private val text: String) : File {
 
-    override fun name(): String {
-        return name
-    }
+    override fun name() = name
 
-    override fun content(): ByteArray {
+    override fun content(): List<String> {
         val visitor = CustomVisitor()
         Parser.builder().build().parse(text).accept(visitor)
         return visitor
                 .getMap()
                 .asSequence()
                 .ifEmpty { mapOf("" to "").asSequence() }
-                .first()
-                .value
-                .toByteArray()
-    }
-
-    @Deprecated("")
-    fun parse(): Map<String, String> {
-        val visitor = CustomVisitor()
-        Parser.builder().build().parse(text).accept(visitor)
-        return visitor.getMap()
+                .map { it.value }
+                .toList()
     }
 
     class CustomVisitor : AbstractVisitor() {
@@ -88,9 +78,8 @@ class MarkdownFile(private val name: String, private val text: String) : File {
             }
         }
 
-        fun getMap(): Map<String, String> {
-            return map
-        }
+        fun getMap() = map
+
     }
 
 }

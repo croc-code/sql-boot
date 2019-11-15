@@ -41,11 +41,8 @@ import com.github.mgramin.sqlboot.tools.files.file.File
  */
 class FakeFile : File {
 
-    override fun name(): String {
-        return "test.txt"
-    }
+    override fun name() = "test.txt"
 
-    override fun content(): ByteArray {
-        return "Hello World!".toByteArray()
-    }
+    override fun content() = listOf("Hello World")
+    
 }

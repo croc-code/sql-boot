@@ -41,5 +41,5 @@ interface File {
 
     fun name(): String
 
-    fun content(): ByteArray
+    fun content(): List<String>
 }
