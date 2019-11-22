@@ -31,7 +31,3 @@ from main_schema.city;
 create view main_schema.users_vw as
 select *
 from main_schema.users;
-
-
-CREATE
-ALIAS getVersion FOR "org.h2.engine.Constants.getVersion";
