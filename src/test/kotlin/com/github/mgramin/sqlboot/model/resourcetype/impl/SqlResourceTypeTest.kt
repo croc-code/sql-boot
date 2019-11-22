@@ -38,7 +38,6 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.google.gson.JsonObject
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.ContextConfiguration
@@ -110,7 +109,7 @@ class SqlResourceTypeTest {
     fun readAllColumns() {
         StepVerifier
                 .create(createType(getAllColumnsSQL).read(DbUri("prod/column")))
-                .expectNextCount(347)
+                .expectNextCount(360)
                 .verifyComplete()
     }
 
