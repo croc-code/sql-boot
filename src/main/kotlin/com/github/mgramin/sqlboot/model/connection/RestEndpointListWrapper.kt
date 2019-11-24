@@ -32,17 +32,13 @@
 
 package com.github.mgramin.sqlboot.model.connection
 
-import com.github.mgramin.sqlboot.model.connection.Endpoint
-import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
-import com.github.mgramin.sqlboot.model.connection.SimpleEndpoint
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
 import reactor.core.scheduler.Schedulers
+import reactor.kotlin.core.publisher.toFlux
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -53,29 +49,24 @@ import reactor.core.scheduler.Schedulers
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot.model.resource_type"])
 @EnableAutoConfiguration
 @CrossOrigin
-class EndpointListController @Autowired constructor(private val endpointList: SimpleEndpointList) : EndpointList {
+class RestEndpointListWrapper @Autowired constructor(private val endpointList: SimpleEndpointList) : EndpointList {
 
     @RequestMapping(value = ["/endpoints"])
     override fun getAll() = MaskedEndpointListWrapper(endpointList).getAll()
 
-    override fun getByName(name: String): Endpoint {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getByName(name: String) = TODO("not implemented")
 
-    override fun getByMask(mask: String): List<Endpoint> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getByMask(mask: String) = TODO("not implemented")
 
     @GetMapping(value = ["/endpoints/health"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     @ResponseBody
-    internal fun health(): Flux<Endpoint> {
-        return endpointList
-                .endpoints
-                .toFlux()
-                .parallel()
-                .runOn(Schedulers.elastic())
-                .map { it as Endpoint }
-                .sequential()
-    }
+    internal fun health() =
+            endpointList
+                    .endpoints
+                    .toFlux()
+                    .parallel()
+                    .runOn(Schedulers.elastic())
+                    .map { it as Endpoint }
+                    .sequential()
 
 }

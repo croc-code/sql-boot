@@ -150,6 +150,11 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.projectreactor.kotlin</groupId>
+            <artifactId>reactor-kotlin-extensions</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
 
 
         <dependency>
