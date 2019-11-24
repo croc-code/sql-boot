@@ -63,7 +63,7 @@ class FsResourceType(
             File(FileSystemResource(endpoints.first().confDir()).file.path)
                     .walkTopDown()
                     .filter { it.isFile }
-                    .filter { it.extension.equals("sql", true) }
+                    .filter { it.extension.equals("sql", true) || it.extension.equals("md", true) }
                     .map {
                         if (it.extension.equals("md", true))
                             MarkdownFile(it.name, it.readText(UTF_8))
