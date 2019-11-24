@@ -32,7 +32,7 @@
 
 package com.github.mgramin.sqlboot.rest.controllers
 
-import com.github.mgramin.sqlboot.rest.Application
+import com.github.mgramin.sqlboot.Application
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
@@ -53,7 +53,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
  */
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [Application::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ApiControllerITCase {
+class DbResourceRESTWrapperITCase {
 
     @Autowired
     private val client: TestRestTemplate? = null
