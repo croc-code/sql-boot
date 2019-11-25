@@ -89,13 +89,13 @@ class SqlResourceTypeTest {
     @Test
     fun name() =
             assertEquals("table",
-                    SqlResourceType(getAllTablesSQL, listOf(db), listOf(FakeDialect())).name())
+                    SqlResourceType("test", getAllTablesSQL, listOf(db), listOf(FakeDialect())).name())
 
 
     @Test
     fun aliases() =
             assertEquals(arrayListOf("table"),
-                    SqlResourceType(getAllTablesSQL, listOf(db), listOf(FakeDialect())).aliases())
+                    SqlResourceType("test", getAllTablesSQL, listOf(db), listOf(FakeDialect())).aliases())
 
     @Test
     fun readAllTables() {
@@ -128,6 +128,7 @@ class SqlResourceTypeTest {
 
     private fun createType(sql: String) =
             SqlResourceType(
+                    name = "test",
                     sql = sql,
                     endpoints = listOf(db),
                     dialects = listOf(FakeDialect()))

@@ -41,6 +41,8 @@ class TypedSelectQuery(
         private val dataSource: DataSource
 ) : SelectQuery {
 
+    override fun name() = origin.name()
+
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun query() = origin.query()

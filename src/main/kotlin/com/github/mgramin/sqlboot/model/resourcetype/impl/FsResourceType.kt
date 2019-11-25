@@ -70,7 +70,8 @@ class FsResourceType(
                         else SimpleFile(it.name, listOf(it.readText(UTF_8)))
                     }
                     .filter { it.content().isNotEmpty() }
-                    .flatMap { it.content().asSequence() }
+                    .map { it.content().asSequence().map { content -> Pair(it.name(), content) } }
+                    .flatMap { it }
                     .map { createObjectType(it) }
                     .toList()
 
@@ -94,13 +95,14 @@ class FsResourceType(
     @Deprecated("")
     fun resourceTypes() = resourceTypes
 
-    private fun createObjectType(it: String) =
+    private fun createObjectType(it: Pair<String, String>) =
             TypeWrapper(
                     SelectWrapper(
                             SortWrapper(
                                     BodyWrapper(
                                             SqlResourceType(
-                                                    sql = it,
+                                                    name = it.first,
+                                                    sql = it.second,
                                                     endpoints = endpoints,
                                                     dialects = dialects),
                                             templateGenerator = FakeTemplateGenerator("[EMPTY BODY]")))))

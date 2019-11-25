@@ -37,6 +37,8 @@ import reactor.core.publisher.Flux
 
 class FakeSelectQuery : SelectQuery {
 
+    override fun name() = "fake_select_query"
+
     override fun properties() = mapOf("dialect" to "h2")
 
     override fun query() =

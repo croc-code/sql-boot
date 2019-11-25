@@ -44,6 +44,11 @@ import reactor.core.publisher.Flux
 interface SelectQuery {
 
     /**
+     * Query name
+     */
+    fun name(): String
+
+    /**
      * Select query text
      */
     fun query(): String
