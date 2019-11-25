@@ -15,30 +15,30 @@
           </template>
           <v-tooltip right v-for="item in typesByTag(tag)" :key="item.name">
             <template v-slot:activator="{ on }">
-              <v-list-item v-on="on" @click="setType(item.name)" v-if="item.properties.title">
+              <v-list-item v-on="on" @click="setType(item.name)">
                 <v-list-item-avatar>
                   <v-icon v-bind:class="item.properties.icon_class">{{ item.properties.icon || 'not_interested' }}</v-icon>
                 </v-list-item-avatar>
-                <v-list-item-content>{{ item.properties.title }}</v-list-item-content>
+                <v-list-item-content>{{ item.properties.title || item.name }}</v-list-item-content>
               </v-list-item>
             </template>
             <span v-if="item.properties.description">{{ item.properties.description }}</span>
-            <span v-else>{{ item.properties.title }}</span>
+            <span v-else>{{ item.properties.title || item.name }}</span>
           </v-tooltip>
         </v-list-group>
       </div>
 
       <v-tooltip right v-for="item in typesWithoutTags()" :key="item.name">
         <template v-slot:activator="{ on }">
-          <v-list-item v-on="on" @click="setType(item.name)" v-if="item.properties.title">
+          <v-list-item v-on="on" @click="setType(item.name)">
             <v-list-item-avatar>
               <v-icon v-bind:class="item.properties.icon_class">{{ item.properties.icon || 'not_interested' }}</v-icon>
             </v-list-item-avatar>
-            <v-list-item-content>{{ item.properties.title }}</v-list-item-content>
+            <v-list-item-content>{{ item.properties.title || item.name }}</v-list-item-content>
           </v-list-item>
         </template>
         <span v-if="item.properties.description">{{ item.properties.description }}</span>
-        <span v-else>{{ item.properties.title }}</span>
+        <span v-else>{{ item.properties.title || item.name }}</span>
       </v-tooltip>
 
     </v-list>

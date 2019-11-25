@@ -44,7 +44,7 @@ internal class SimpleSelectQueryTest {
     fun query() {
         val template = "select name /* First name*/ from persons"
         assertEquals(template,
-                SimpleSelectQuery(FakeTemplateGenerator(template)).query())
+                SimpleSelectQuery("test", FakeTemplateGenerator(template)).query())
     }
 
     @Test
@@ -52,26 +52,26 @@ internal class SimpleSelectQueryTest {
         val template = """/* { "dialect": "h2" } */
                          |select name /* First name*/
                          |  from persons""".trimMargin()
-        assertEquals(mapOf("dialect" to "h2"), SimpleSelectQuery(FakeTemplateGenerator(template)).properties())
+        assertEquals(mapOf("dialect" to "h2"), SimpleSelectQuery("test", FakeTemplateGenerator(template)).properties())
     }
 
     @Test
     fun emptyProperties() {
         val template = """select name /* First name*/
                          |  from persons""".trimMargin()
-        assertEquals(emptyMap<String, String>(), SimpleSelectQuery(FakeTemplateGenerator(template)).properties())
+        assertEquals(emptyMap<String, String>(), SimpleSelectQuery("test", FakeTemplateGenerator(template)).properties())
     }
 
     @Test
     fun columns() {
         assertEquals(listOf(SelectQuery.Column("name", "", "First name")),
-                SimpleSelectQuery(FakeTemplateGenerator("select name /* First name */ from persons")).columns())
+                SimpleSelectQuery("test", FakeTemplateGenerator("select name /* First name */ from persons")).columns())
     }
 
     @Test
     fun execute() {
         assertThrows(RuntimeException::class.java) {
-            SimpleSelectQuery(FakeTemplateGenerator("select name from persons")).execute(hashMapOf())
+            SimpleSelectQuery("test", FakeTemplateGenerator("select name from persons")).execute(hashMapOf())
         }
     }
 

@@ -39,6 +39,8 @@ class OrderedSelectQuery(
         private val orderedColumns: Map<String, String>
 ) : SelectQuery {
 
+    override fun name() = origin.name()
+
     override fun properties() = origin.properties()
 
     override fun query(): String {

@@ -59,6 +59,8 @@ class ExecutableSelectQuery(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    override fun name() = origin.name()
+    
     override fun query() = origin.query()
 
     override fun properties() = origin.properties()

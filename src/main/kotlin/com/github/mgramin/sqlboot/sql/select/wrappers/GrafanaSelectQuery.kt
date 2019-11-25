@@ -6,6 +6,8 @@ class GrafanaSelectQuery(
         private val origin: SelectQuery
 ) : SelectQuery {
 
+    override fun name() = origin.name()
+
     override fun query() = origin.query()
             .replace("${"$"}__timeFilter(time)", "1=1")
             .replace("observable_endpoint in (${"$"}observable_endpoint)", "1=1")

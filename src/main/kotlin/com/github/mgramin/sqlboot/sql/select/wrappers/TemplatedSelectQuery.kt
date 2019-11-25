@@ -41,6 +41,8 @@ class TemplatedSelectQuery(
         private val template: String
 ) : SelectQuery {
 
+    override fun name() = origin.name()
+
     override fun properties() = origin.properties()
 
     override fun query(): String {

@@ -39,6 +39,8 @@ class FilteredSelectQuery(
         private val path: List<String>
 ) : SelectQuery {
 
+    override fun name() = origin.name()
+
     override fun properties() = origin.properties()
 
     override fun query(): String {

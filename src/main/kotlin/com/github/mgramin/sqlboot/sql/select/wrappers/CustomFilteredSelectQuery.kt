@@ -41,6 +41,8 @@ class CustomFilteredSelectQuery(
         private val filter: JsonObject
 ) : SelectQuery {
 
+    override fun name() = origin.name()
+
     override fun query(): String {
         return if (filter.entrySet().size > 0) {
             val whereCondition = filter.entrySet()

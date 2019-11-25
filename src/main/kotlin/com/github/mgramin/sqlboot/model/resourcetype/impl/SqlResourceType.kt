@@ -43,13 +43,7 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.CustomFilteredSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.ExecutableSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.FilteredSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.TypedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.*
 import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -60,14 +54,20 @@ import reactor.core.publisher.Flux
  * Created by MGramin on 12.07.2017.
  */
 class SqlResourceType(
+        name: String,
         sql: String,
         private val endpoints: List<Endpoint>,
         private val dialects: List<Dialect>
 ) : ResourceType {
 
-    private val simpleSelectQuery = SimpleSelectQuery(JinjaTemplateGenerator(sql))
+    private val simpleSelectQuery = SimpleSelectQuery(name, JinjaTemplateGenerator(sql))
 
-    override fun aliases(): List<String> = listOf(simpleSelectQuery.properties()["name"]!!)
+    override fun aliases(): List<String> =
+            if (simpleSelectQuery.properties().containsKey("name")) {
+                listOf(simpleSelectQuery.properties()["name"]!!)
+            } else {
+                listOf(simpleSelectQuery.name())
+            }
 
     override fun path(): List<String> = listOf(simpleSelectQuery.columns().first().name())
 

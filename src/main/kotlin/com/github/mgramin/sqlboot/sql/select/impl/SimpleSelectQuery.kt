@@ -42,7 +42,9 @@ import com.google.gson.reflect.TypeToken
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 
-class SimpleSelectQuery(private val templateGenerator: TemplateGenerator) : SelectQuery {
+class SimpleSelectQuery(private val name: String, private val templateGenerator: TemplateGenerator) : SelectQuery {
+
+    override fun name() = name
 
     override fun query() = templateGenerator.template()
 
