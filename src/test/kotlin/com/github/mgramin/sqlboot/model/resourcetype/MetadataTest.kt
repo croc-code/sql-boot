@@ -44,7 +44,7 @@ internal class MetadataTest {
     fun description() = assertEquals("""{ "key_1": "value_1", "description": "foo" }""", metadata().comment())
 
     @Test
-    fun properties() = assertEquals(mapOf("description" to "foo", "key_1" to "value_1", "key" to "name", "visible" to true), metadata().properties())
+    fun properties() = assertEquals(mapOf("description" to "foo", "key_1" to "value_1", "visible" to true), metadata().properties())
 
     @Test
     fun compareTo() {
@@ -59,7 +59,7 @@ internal class MetadataTest {
 
     @Test
     fun toJson() = assertEquals(
-            """{"description":"foo","key_1":"value_1","visible":true,"key":"name","name":"name","type":"String","value":"name","text":"name"}""",
+            """{"description":"foo","key_1":"value_1","visible":true,"name":"name","type":"String","value":"name","text":"name"}""",
             metadata().toJson().toString())
 
     private fun metadata() = Metadata("name", "String", """{ "key_1": "value_1", "description": "foo" }""")
