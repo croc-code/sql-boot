@@ -55,7 +55,6 @@ data class Metadata(
         try {
             val map: Map<String, Any> = Gson().fromJson(comment, object : TypeToken<Map<String, Any>>() {}.type)
             this.properties.putAll(map)
-            this.properties["key"] = name.replace("@", "")
             if (map.containsKey("type")) {
                 this.type = map["type"].toString()
             }
@@ -65,9 +64,6 @@ data class Metadata(
         } catch (ignored: Exception) {
             this.properties.clear()
             val prop = HashMap<String, Any>()
-            prop["key"] = name.replace("@", "")
-            prop["label"] = name.replace("@", "")
-            prop["description"] = comment
             prop["type"] = type
             prop["visible"] = true
             this.properties.putAll(prop)
@@ -85,12 +81,10 @@ data class Metadata(
      */
     fun toJson(): JsonObject {
         val jsonObject: JsonObject = Gson().toJsonTree(properties).asJsonObject
-        val propsJson: JsonElement = Gson().toJsonTree(properties)
         jsonObject.addProperty("name", name.toLowerCase())
         jsonObject.addProperty("type", type)
-        jsonObject.addProperty("value", name.toLowerCase())
-        jsonObject.addProperty("text", properties["label"]?.toString()?:name.replace("@", ""))
-        jsonObject.add("properties", propsJson)
+        jsonObject.addProperty("value", name)
+        jsonObject.addProperty("text", properties["text"]?.toString()?:name)
         return jsonObject
     }
 

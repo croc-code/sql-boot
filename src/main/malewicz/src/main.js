@@ -170,12 +170,12 @@ const store = new Vuex.Store({
         return v.name === type
       })
       const defaultSort = meta.metadata.filter(v => {
-        return v.properties.sort
+        return v.sort
       }).map(v => v.name)[0]
       if (defaultSort) {
         const sortType = meta.metadata.filter(v => {
-          return v.properties.sort
-        })[0].properties.sort
+          return v.sort
+        })[0].sort
         state.uri = {
           connections: c,
           type: type,
