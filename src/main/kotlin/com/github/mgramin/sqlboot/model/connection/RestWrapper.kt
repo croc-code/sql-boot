@@ -45,11 +45,11 @@ import reactor.kotlin.core.publisher.toFlux
  * @version $Id: a6d2d498c7e5c3b03e04f40cf775dc5248064da8 $
  * @since 0.1
  */
-@RestController
+@RestController("EndpointListRestWrapper")
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot.model.resource_type"])
 @EnableAutoConfiguration
 @CrossOrigin
-class RestEndpointListWrapper @Autowired constructor(private val endpointList: SimpleEndpointList) : EndpointList {
+class RestWrapper @Autowired constructor(private val endpointList: SimpleEndpointList) : EndpointList {
 
     @RequestMapping(value = ["/endpoints"])
     override fun getAll() = MaskedEndpointListWrapper(endpointList).getAll()

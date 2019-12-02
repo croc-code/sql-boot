@@ -57,11 +57,11 @@ import javax.servlet.http.HttpServletRequest
  * @version $Id: 69e9609bd238163b6b97346900c17bb6efd0c037 $
  * @since 0.1
  */
-@RestController
+@RestController("DbResourceRestWrapper")
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot"])
 @EnableAutoConfiguration
 @CrossOrigin
-class DbResourceRESTWrapper {
+class RestWrapper {
 
     @Autowired
     private lateinit var endpointList: SimpleEndpointList
