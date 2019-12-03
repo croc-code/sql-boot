@@ -34,8 +34,14 @@ package com.github.mgramin.sqlboot.rest.controllers
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
-import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
-import io.swagger.models.*
+import com.github.mgramin.sqlboot.model.resourcetypelist.impl.FsResourceTypeList
+import io.swagger.models.Info
+import io.swagger.models.ModelImpl
+import io.swagger.models.Operation
+import io.swagger.models.Path
+import io.swagger.models.Response
+import io.swagger.models.Scheme
+import io.swagger.models.Swagger
 import io.swagger.models.parameters.Parameter
 import io.swagger.models.parameters.PathParameter
 import io.swagger.models.parameters.QueryParameter
@@ -54,7 +60,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
+import java.util.ArrayList
+import java.util.Arrays
 import java.util.stream.Collectors
 import javax.servlet.http.HttpServletRequest
 
@@ -96,9 +103,8 @@ class SwaggerController @Autowired constructor(private val endpointList: SimpleE
 
 
     private fun getSwaggerDescription(request: HttpServletRequest, connectionName: String): Swagger {
-        val fsResourceTypes = FsResourceType(
-                listOf(endpointList.getByName(connectionName)), emptyList())
-        val resourceTypes = fsResourceTypes.resourceTypes()
+        val resourceTypes = FsResourceTypeList(
+                listOf(endpointList.getByName(connectionName)), emptyList()).types()
         val swagger = Swagger()
 
         swagger.consumes("application/json")

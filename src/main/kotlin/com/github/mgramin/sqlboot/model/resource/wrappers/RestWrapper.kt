@@ -35,7 +35,8 @@ package com.github.mgramin.sqlboot.model.resource.wrappers
 import com.github.mgramin.sqlboot.exceptions.BootException
 import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
-import com.github.mgramin.sqlboot.model.resourcetype.impl.FsResourceType
+import com.github.mgramin.sqlboot.model.resourcetype.wrappers.ParallelResourceType
+import com.github.mgramin.sqlboot.model.resourcetypelist.impl.FsResourceTypeList
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.wrappers.SqlPlaceholdersWrapper
@@ -97,7 +98,7 @@ class RestWrapper {
     private fun getListResponseEntityHeaders(uri: Uri): ResponseEntity<List<Map<String, Any>>> {
         try {
             val connections = endpointList.getByMask(uri.connection())
-            val headers = FsResourceType(connections, dbDialectList.dialects)
+            val headers = ParallelResourceType(FsResourceTypeList(connections, dbDialectList.dialects).types())
                     .read(uri)
                     .map { it.headers() }
                     .collectList()
