@@ -55,58 +55,58 @@ import reactor.test.StepVerifier
 @ContextConfiguration(locations = ["/test_config.xml"])
 class FsResourceTypeTest {
 
-    private val dbMd = SimpleEndpoint()
-    private val connections = listOf(dbMd)
-
-    init {
-        dbMd.name = "unit_test_db_md"
-        dbMd.host = "127.0.0.1"
-        dbMd.confDir = "conf/h2/sql/database"
-        dbMd.properties = mapOf(
-                "sql_dialect" to "h2",
-                "jdbc_url" to "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
-                "jdbc_driver_class_name" to "org.h2.Driver"
-        )
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-            "prod/sessions,1",
-            "prod/schema,4",
-            "prod/s*,5",
-            "prod/tab*/bookings,5",
-            "prod/table/bookings,5",
-            "prod/table/bookings.airports,1")
-    fun read(uri: String, count: Long) {
-        connections.forEach {
-            StepVerifier
-                    .create(FsResourceType(listOf(it), listOf(FakeDialect())).read(DbUri(uri)))
-                    .expectNextCount(count)
-                    .verifyComplete()
-        }
-    }
-
-    @Test
-    @Deprecated("Deprecated")
-    fun resourceTypes() =
-            assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "constraint", "table", "schema").sorted().toList(),
-                    FsResourceType(listOf(dbMd), emptyList()).resourceTypes().map { it.name() }.sorted())
-
-    @Test
-    fun aliases() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd), emptyList()).aliases() }
-
-    @Test
-    fun path() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd), emptyList()).path() }
-
-    @ParameterizedTest
-    @CsvSource(
-            "prod/sessions,7",
-            "prod/schema,9",
-            "prod/s*,16",
-            "prod/tab*/bookings,6",
-            "prod/table/bookings,6",
-            "prod/table/bookings.airports,6")
-    fun metaData(uri: String, count: Int) =
-            assertEquals(count, FsResourceType(listOf(dbMd), listOf(FakeDialect())).metaData(DbUri(uri)).count())
+//    private val dbMd = SimpleEndpoint()
+//    private val connections = listOf(dbMd)
+//
+//    init {
+//        dbMd.name = "unit_test_db_md"
+//        dbMd.host = "127.0.0.1"
+//        dbMd.confDir = "conf/h2/sql/database"
+//        dbMd.properties = mapOf(
+//                "sql_dialect" to "h2",
+//                "jdbc_url" to "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",
+//                "jdbc_driver_class_name" to "org.h2.Driver"
+//        )
+//    }
+//
+//    @ParameterizedTest
+//    @CsvSource(
+//            "prod/sessions,1",
+//            "prod/schema,4",
+//            "prod/s*,5",
+//            "prod/tab*/bookings,5",
+//            "prod/table/bookings,5",
+//            "prod/table/bookings.airports,1")
+//    fun read(uri: String, count: Long) {
+//        connections.forEach {
+//            StepVerifier
+//                    .create(FsResourceType(listOf(it), listOf(FakeDialect())).read(DbUri(uri)))
+//                    .expectNextCount(count)
+//                    .verifyComplete()
+//        }
+//    }
+//
+//    @Test
+//    @Deprecated("Deprecated")
+//    fun resourceTypes() =
+//            assertEquals(sequenceOf("locks", "query", "sessions", "column", "index", "constraint", "table", "schema").sorted().toList(),
+//                    FsResourceType(listOf(dbMd), emptyList()).resourceTypes().map { it.name() }.sorted())
+//
+//    @Test
+//    fun aliases() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd), emptyList()).aliases() }
+//
+//    @Test
+//    fun path() = assertThrows(BootException::class.java) { FsResourceType(listOf(dbMd), emptyList()).path() }
+//
+//    @ParameterizedTest
+//    @CsvSource(
+//            "prod/sessions,7",
+//            "prod/schema,9",
+//            "prod/s*,16",
+//            "prod/tab*/bookings,6",
+//            "prod/table/bookings,6",
+//            "prod/table/bookings.airports,6")
+//    fun metaData(uri: String, count: Int) =
+//            assertEquals(count, FsResourceType(listOf(dbMd), listOf(FakeDialect())).metaData(DbUri(uri)).count())
 
 }

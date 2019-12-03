@@ -2,7 +2,7 @@
   <div>
 
     <v-toolbar>
-      <v-toolbar-title v-if="meta.properties">{{ meta.properties.title }}</v-toolbar-title>
+      <v-toolbar-title v-if="meta.properties">{{ meta.properties.title || meta.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <ColumnsComponent :typeName="meta.name"/>
       <CodeViewComponent :code="meta.query"/>
