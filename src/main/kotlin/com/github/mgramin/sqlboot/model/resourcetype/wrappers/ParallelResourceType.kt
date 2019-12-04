@@ -1,10 +1,10 @@
 package com.github.mgramin.sqlboot.model.resourcetype.wrappers
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
-import com.google.gson.JsonObject
 import reactor.core.publisher.Flux
 
 class ParallelResourceType(private val resourceTypes: List<ResourceType>) : ResourceType {
@@ -27,7 +27,7 @@ class ParallelResourceType(private val resourceTypes: List<ResourceType>) : Reso
                             .filter { it.name().matches(wildcardToRegex(uri)) }
                             .map { it.read(uri) })
 
-    override fun toJson(): JsonObject {
+    override fun toJson(): JsonNode {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

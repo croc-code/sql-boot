@@ -9,7 +9,7 @@ import org.springframework.boot.jackson.JsonComponent
 class ResourceTypeJsonSerializer : JsonSerializer<ResourceType>() {
 
     override fun serialize(resourceType: ResourceType, jsonGenerator: JsonGenerator, serializerProvider: SerializerProvider) {
-        jsonGenerator.writeEmbeddedObject(resourceType.toJson())
+        jsonGenerator.writeObject(resourceType.toJson())
     }
 
 }

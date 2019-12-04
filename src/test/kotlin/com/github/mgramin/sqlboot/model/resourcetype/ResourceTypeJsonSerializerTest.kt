@@ -20,7 +20,7 @@ internal class ResourceTypeJsonSerializerTest {
     @Test
     fun serialize() {
         val fakeResourceType = FakeResourceType()
-//        val writeValueAsString = objectMapper.writeValueAsString(fakeResourceType)
+//        val writeValueAsString = objectMapper.writeValueAsString(fakeResourceType.toJson())
 //        println(writeValueAsString)
     }
 

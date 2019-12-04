@@ -2,9 +2,7 @@ package com.github.mgramin.sqlboot.model.resourcetypelist
 
 import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
-import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.resourcetypelist.impl.FsResourceTypeList
-import com.google.gson.JsonArray
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
@@ -29,23 +27,13 @@ class RestWrapper : ResourceTypeList {
     override fun types() = FsResourceTypeList(endpointList.getAll(), dbDialectList.dialects).types()
 
     @RequestMapping(value = ["/api/{connectionName}/types"])
-    fun types(@PathVariable connectionName: String): String {
-        val jsonArray = JsonArray()
-        FsResourceTypeList(endpointList.getByMask(connectionName), dbDialectList.dialects)
-                .types()
-                .forEach { jsonArray.add(it.toJson()) }
-        return jsonArray.toString()
-    }
+    fun types(@PathVariable connectionName: String) =
+            FsResourceTypeList(endpointList.getByMask(connectionName), dbDialectList.dialects).types()
 
     @RequestMapping(value = ["/api/{connectionName}/types/{typeMask}"])
-    fun types(@PathVariable connectionName: String, @PathVariable typeMask: String): String {
-        val jsonArray = JsonArray()
-        FsResourceTypeList(endpointList.getByMask(connectionName), dbDialectList.dialects)
-                .types()
-                .filter { it.name().matches(wildcardToRegex(typeMask)) }
-                .forEach { jsonArray.add(it.toJson()) }
-        return jsonArray.toString()
-    }
+    fun types(@PathVariable connectionName: String, @PathVariable typeMask: String) =
+            FsResourceTypeList(endpointList.getByMask(connectionName), dbDialectList.dialects).types()
+                    .filter { it.name().matches(wildcardToRegex(typeMask)) }
 
     private fun wildcardToRegex(name: String) = name.replace("?", ".?").replace("*", ".*?").toRegex()
 

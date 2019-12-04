@@ -121,9 +121,9 @@ class SqlResourceTypeTest {
 
     @Test
     fun toJson() {
-        val json: JsonObject = createType(getAllColumnsSQL).toJson()
-        assertEquals("column", json.get("name").asString)
-        assertEquals("[column]", json.get("aliases").asString)
+        val json = createType(getAllColumnsSQL).toJson()
+        assertEquals("column", json.get("name").asText())
+        assertEquals("[column]", json.get("aliases").asText())
     }
 
     private fun createType(sql: String) =
