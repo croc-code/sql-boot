@@ -33,11 +33,11 @@
 package com.github.mgramin.sqlboot.model.resourcetype
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect
-import com.google.gson.Gson
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
-import java.util.*
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
+import java.util.HashMap
+
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 data class Metadata(
@@ -53,7 +53,8 @@ data class Metadata(
     init {
         this.properties = HashMap()
         try {
-            val map: Map<String, Any> = Gson().fromJson(comment, object : TypeToken<Map<String, Any>>() {}.type)
+            val mapper = ObjectMapper()
+            val map: Map<String, String> = mapper.readValue(comment, object : TypeReference<Map<String, String>>() {})
             this.properties.putAll(map)
             if (map.containsKey("type")) {
                 this.type = map["type"].toString()
@@ -79,12 +80,13 @@ data class Metadata(
     /**
      * Get as JSON
      */
-    fun toJson(): JsonObject {
-        val jsonObject: JsonObject = Gson().toJsonTree(properties).asJsonObject
-        jsonObject.addProperty("name", name.toLowerCase())
-        jsonObject.addProperty("type", type)
-        jsonObject.addProperty("value", name)
-        jsonObject.addProperty("text", properties["text"]?.toString()?:name)
+    fun toJson(): ObjectNode {
+        val jsonObject: ObjectNode = ObjectMapper().valueToTree(properties)
+
+        jsonObject.put("name", name.toLowerCase())
+        jsonObject.put("type", type)
+        jsonObject.put("value", name)
+        jsonObject.put("text", properties["text"]?.toString() ?: name)
         return jsonObject
     }
 

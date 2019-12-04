@@ -32,6 +32,9 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype.impl
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.github.mgramin.sqlboot.model.connection.Endpoint
 import com.github.mgramin.sqlboot.model.dialect.Dialect
 import com.github.mgramin.sqlboot.model.resource.DbResource
@@ -43,11 +46,14 @@ import com.github.mgramin.sqlboot.model.uri.impl.DbUri
 import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.*
+import com.github.mgramin.sqlboot.sql.select.wrappers.CustomFilteredSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.ExecutableSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.FilteredSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.TypedSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import reactor.core.publisher.Flux
 
 /**
@@ -110,16 +116,18 @@ class SqlResourceType(
                         .map { Metadata(it.name(), it.datatype(), it.comment()) }
     }
 
-    override fun toJson(): JsonObject {
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("name", name())
-        jsonObject.addProperty("aliases", aliases().toString())
-        jsonObject.addProperty("query", simpleSelectQuery.query())
-        jsonObject.add("properties", Gson().toJsonTree(simpleSelectQuery.properties()))
-        val jsonArray = JsonArray()
+    override fun toJson(): JsonNode {
+        val jsonNode: ObjectNode = ObjectMapper().createObjectNode()
+        jsonNode.put("name", name())
+        jsonNode.put("aliases", aliases().toString())
+        jsonNode.put("query", simpleSelectQuery.query())
+
+        val node: JsonNode = ObjectMapper().valueToTree(simpleSelectQuery.properties())
+        jsonNode.put("properties", node)
+        val jsonArray = ObjectMapper().createArrayNode()
         metaData(FakeUri()).forEach { jsonArray.add(it.toJson()) }
-        jsonObject.add("metadata", jsonArray)
-        return jsonObject
+        jsonNode.put("metadata", jsonArray)
+        return jsonNode
     }
 
     private fun createQuery(uri: Uri, endpoint: Endpoint): SelectQuery {

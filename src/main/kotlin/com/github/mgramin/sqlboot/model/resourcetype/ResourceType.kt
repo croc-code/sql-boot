@@ -32,9 +32,9 @@
 
 package com.github.mgramin.sqlboot.model.resourcetype
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.uri.Uri
-import com.google.gson.JsonObject
 import reactor.core.publisher.Flux
 
 /**
@@ -70,6 +70,6 @@ interface ResourceType {
     /**
      * Get as JSON
      */
-    fun toJson(): JsonObject
+    fun toJson(): JsonNode
 
 }

@@ -3,13 +3,7 @@ conf:
   dialects:
     - name: h2
       paginationQueryTemplate: >
-        {{ query }} offset {{ uri.pageSize()*(uri.pageNumber()-1) }} limit {{ uri.pageSize() }}
-    - name: postgres
-      paginationQueryTemplate: >
-        {{ query }} offset {{ uri.pageSize()*(uri.pageNumber()-1) }} limit {{ uri.pageSize() }}
-    - name: osquery
-      paginationQueryTemplate: >
-        {{ query }} limit {{ uri.pageSize()*(uri.pageNumber()-1) }}, {{ uri.pageSize() }}
+        {{ query }} limit {{ uri.pageSize() }} offset {{ uri.pageSize()*(uri.pageNumber()-1) }}
 
   endpoints:
     - name: h2

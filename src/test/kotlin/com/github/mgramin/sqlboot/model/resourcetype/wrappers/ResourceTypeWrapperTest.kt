@@ -240,7 +240,7 @@ class ResourceTypeWrapperTest {
 
         @Test
         fun toJson() {
-            assertEquals("fake_resource_type", w.toJson().get("name").asString)
+            assertEquals("fake_resource_type", w.toJson().get("name").asText())
         }
 
     }
