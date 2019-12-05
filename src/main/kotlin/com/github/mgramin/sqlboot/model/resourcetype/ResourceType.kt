@@ -59,6 +59,7 @@ interface ResourceType {
 
     /**
      * Information about the resource metadata (properties) "name" -> "type"
+     * TODO rename to columns(uri) ?
      */
     fun metaData(uri: Uri): List<Metadata>
 

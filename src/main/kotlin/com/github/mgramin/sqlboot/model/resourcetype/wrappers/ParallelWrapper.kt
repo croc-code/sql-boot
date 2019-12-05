@@ -7,7 +7,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import reactor.core.publisher.Flux
 
-class ParallelResourceType(private val resourceTypes: List<ResourceType>) : ResourceType {
+class ParallelWrapper(private val origins: List<ResourceType>) : ResourceType {
 
     override fun aliases(): List<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -23,7 +23,7 @@ class ParallelResourceType(private val resourceTypes: List<ResourceType>) : Reso
 
     override fun read(uri: Uri): Flux<DbResource> =
             Flux.merge(
-                    resourceTypes
+                    origins
                             .filter { it.name().matches(wildcardToRegex(uri)) }
                             .map { it.read(uri) })
 
