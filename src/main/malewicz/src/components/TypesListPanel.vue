@@ -102,9 +102,9 @@ export default {
     typesWithoutTags () {
       return this.$store.getters.getTypes
               .filter(el => el === 0 || Boolean(el.properties.tags))
-              // .filter(v => {
-              //   return v.properties.tags.includes('ui')
-              // })
+              .filter(v => {
+                return v.properties.tags.split(',').length === 1 && v.properties.tags.split(',')[0] === 'ui'
+              })
     },
     onlyUnique (value, index, self) {
       return self.indexOf(value) === index
