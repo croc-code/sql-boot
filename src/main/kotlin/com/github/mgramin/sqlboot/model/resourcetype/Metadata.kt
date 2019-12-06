@@ -38,7 +38,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import java.util.HashMap
 
-
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 data class Metadata(
         private val name: String,
@@ -54,7 +53,7 @@ data class Metadata(
         this.properties = HashMap()
         try {
             val mapper = ObjectMapper()
-            val map: Map<String, String> = mapper.readValue(comment, object : TypeReference<Map<String, String>>() {})
+            val map: Map<String, Any> = mapper.readValue(comment, object : TypeReference<Map<String, Any>>() {})
             this.properties.putAll(map)
             if (map.containsKey("type")) {
                 this.type = map["type"].toString()
