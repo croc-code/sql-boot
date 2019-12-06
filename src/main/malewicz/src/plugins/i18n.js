@@ -13,7 +13,8 @@ const messages = {
         noData: 'No data available',
         close: 'Close',
         cluster: 'Cluster',
-        sourceCluster: 'Source cluster'
+        sourceCluster: 'Source cluster',
+        loading: 'Loading...'
     },
     'ru': {
         connections: 'Соединения',
@@ -24,7 +25,8 @@ const messages = {
         noData: 'Нет данных',
         close: 'Закрыть',
         cluster: 'Кластер',
-        sourceCluster: 'Кластер источник'
+        sourceCluster: 'Кластер источник',
+        loading: 'Загрузка...'
     },
     'es': {
         connections: 'Conexiones',
@@ -35,7 +37,8 @@ const messages = {
         noData: 'Datos no disponibles',
         close: 'Cerrar',
         cluster: 'Racimo',
-        sourceCluster: 'Clúster fuente'
+        sourceCluster: 'Clúster fuente',
+        loading: 'Cargando...'
     }
 };
 

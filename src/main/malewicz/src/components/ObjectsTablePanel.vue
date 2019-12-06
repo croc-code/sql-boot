@@ -18,7 +18,8 @@
                   :options.sync = "options"
                   :no-data-text = "this.$t('noData')"
                   hide-default-footer
-                  :fixed-header="true"
+                  :fixed-header = "true"
+                  :loading-text = "this.$t('loading')"
                   class="elevation-1">
       <template v-slot:progress>
         <v-progress-linear color="green" :height="10" indeterminate></v-progress-linear>
