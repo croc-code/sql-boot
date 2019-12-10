@@ -57,7 +57,6 @@ class SqlResourceTypeTest {
 
     init {
         db.name = "unit_test_db"
-        db.host = "127.0.0.1"
         db.properties = mapOf(
                 "sql_dialect" to "h2",
                 "jdbc_url" to "jdbc:h2:mem:;INIT=RUNSCRIPT FROM 'classpath:schema.sql';",

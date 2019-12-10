@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.mgramin.sqlboot.sql.select.wrappers
+package com.github.mgramin.sqlboot.sql.select.wrappers.exec
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
@@ -38,8 +38,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.core.publisher.toFlux
 import reactor.core.scheduler.Schedulers
+import reactor.kotlin.core.publisher.toFlux
 import javax.sql.DataSource
 
 /**
@@ -49,7 +49,7 @@ import javax.sql.DataSource
  * @version $Id: f38638fde3d38f83edd4b8a03c570f845c856752 $
  * @since 0.1
  */
-class ExecutableSelectQuery(
+class JdbcSelectQuery(
         private val origin: SelectQuery,
         private val dataSource: DataSource,
         private val nullAlias: String
@@ -60,7 +60,7 @@ class ExecutableSelectQuery(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun name() = origin.name()
-    
+
     override fun query() = origin.query()
 
     override fun properties() = origin.properties()
@@ -69,15 +69,12 @@ class ExecutableSelectQuery(
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         val sqlText = JinjaTemplateGenerator(origin.query()).generate(variables)
-        logger.info("\n$sqlText")
 
         return Mono.fromCallable {
-            logger.info(Thread.currentThread().toString())
+            logger.info("\n$sqlText")
             val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
             return@fromCallable object : Iterator<Map<String, Any>> {
-                override fun hasNext(): Boolean {
-                    return rowSet.next()
-                }
+                override fun hasNext() = rowSet.next()
 
                 override fun next(): Map<String, Any> {
                     return rowSet

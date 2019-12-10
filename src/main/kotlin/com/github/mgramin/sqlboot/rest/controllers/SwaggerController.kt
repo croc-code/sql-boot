@@ -51,7 +51,6 @@ import io.swagger.models.properties.StringProperty
 import io.swagger.util.Json
 import io.swagger.util.Yaml
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -63,14 +62,13 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.stream.Collectors
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot"])
-@EnableAutoConfiguration
 @CrossOrigin
 class SwaggerController @Autowired constructor(private val endpointList: SimpleEndpointList) {
 
+/*
     @RequestMapping(method = [RequestMethod.GET, RequestMethod.POST], path = ["/api"], produces = [MediaType.APPLICATION_JSON_VALUE])
     @Throws(JsonProcessingException::class)
     fun apiDocsDefault(
@@ -204,15 +202,18 @@ class SwaggerController @Autowired constructor(private val endpointList: SimpleE
         }
 
         // definitions
-        /*for (resourceType in resourceTypes) {
+        */
+/*for (resourceType in resourceTypes) {
             val model = ModelImpl()
             for ((key, value) in resourceType.metaData().entries) {
                 model.property(key, StringProperty().description(value))
             }
             swagger.model(resourceType.name(), model)
-        }*/
+        }*//*
+
 
         return swagger
     }
+*/
 
 }

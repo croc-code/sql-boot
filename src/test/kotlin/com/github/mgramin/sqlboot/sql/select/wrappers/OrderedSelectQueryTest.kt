@@ -33,6 +33,7 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.exec.JdbcSelectQuery
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -64,7 +65,7 @@ internal class OrderedSelectQueryTest {
     @Test
     fun execute() {
         val selectQuery =
-                ExecutableSelectQuery(
+                JdbcSelectQuery(
                         OrderedSelectQuery(
                                 FakeSelectQuery(),
                                 mapOf("n" to "asc", "mail" to "desc")),

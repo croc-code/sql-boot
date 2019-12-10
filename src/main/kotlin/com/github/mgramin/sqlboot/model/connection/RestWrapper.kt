@@ -33,10 +33,13 @@
 package com.github.mgramin.sqlboot.model.connection
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.RestController
 import reactor.core.scheduler.Schedulers
 import reactor.kotlin.core.publisher.toFlux
 
@@ -47,7 +50,6 @@ import reactor.kotlin.core.publisher.toFlux
  */
 @RestController("EndpointListRestWrapper")
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot.model.resource_type"])
-@EnableAutoConfiguration
 @CrossOrigin
 class RestWrapper @Autowired constructor(private val endpointList: SimpleEndpointList) : EndpointList {
 

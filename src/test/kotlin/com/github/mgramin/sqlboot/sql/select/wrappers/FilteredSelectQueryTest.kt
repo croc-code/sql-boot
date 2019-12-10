@@ -33,6 +33,7 @@
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.exec.JdbcSelectQuery
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -66,7 +67,7 @@ internal class FilteredSelectQueryTest {
     @Test
     fun execute() {
         val execute: Flux<Map<String, Any>> =
-                ExecutableSelectQuery(
+                JdbcSelectQuery(
                         FilteredSelectQuery(
                                 FakeSelectQuery(),
                                 listOf("test", "test1")),
