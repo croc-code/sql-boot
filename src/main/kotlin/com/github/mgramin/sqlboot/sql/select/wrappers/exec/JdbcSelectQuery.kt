@@ -70,21 +70,22 @@ class JdbcSelectQuery(
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
         val sqlText = JinjaTemplateGenerator(origin.query()).generate(variables)
 
-        return Mono.fromCallable {
-            logger.info("\n$sqlText")
-            val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
-            return@fromCallable object : Iterator<Map<String, Any>> {
-                override fun hasNext() = rowSet.next()
+        return Mono
+                .fromCallable {
+                    logger.info("\n$sqlText")
+                    val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
+                    return@fromCallable object : Iterator<Map<String, Any>> {
+                        override fun hasNext() =
+                                rowSet.next()
 
-                override fun next(): Map<String, Any> {
-                    return rowSet
-                            .metaData
-                            .columnNames
-                            .map { it.toLowerCase() to (rowSet.getObject(it) ?: nullAlias) }
-                            .toMap()
+                        override fun next() =
+                                rowSet
+                                        .metaData
+                                        .columnNames
+                                        .map { it.toLowerCase() to (rowSet.getObject(it) ?: nullAlias) }
+                                        .toMap()
+                    }
                 }
-            }
-        }
                 .publishOn(Schedulers.parallel())
                 .map { it.toFlux() }
                 .toFlux()
