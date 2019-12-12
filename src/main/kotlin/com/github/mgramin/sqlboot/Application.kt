@@ -34,6 +34,7 @@ package com.github.mgramin.sqlboot
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import reactor.core.scheduler.Schedulers
 import java.lang.System.setProperty
 
 @SpringBootApplication
@@ -42,6 +43,7 @@ open class Application {
         @JvmStatic
         fun main(args: Array<String>) {
             setProperty("loader.path", ".")
+            Schedulers.enableMetrics();
             SpringApplication.run(Application::class.java, *args)
         }
     }

@@ -38,7 +38,7 @@ import com.github.mgramin.sqlboot.model.resourcetype.Metadata
 import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import reactor.core.publisher.Flux
-import reactor.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toFlux
 import javax.cache.Cache
 import javax.cache.CacheManager
 import javax.cache.Caching

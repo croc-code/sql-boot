@@ -47,7 +47,7 @@ import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.CustomFilteredSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.ExecutableSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.exec.JdbcSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.FilteredSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
@@ -77,31 +77,30 @@ class SqlResourceType(
 
     override fun path(): List<String> = listOf(simpleSelectQuery.columns().first().name())
 
-    override fun read(uri: Uri): Flux<DbResource> {
-        return Flux.merge(
-                endpoints
-                        .map { connection ->
-                            return@map createQuery(uri, connection).execute(hashMapOf("uri" to uri))
-                                    .map<Map<String, Any>?> {
-                                        val toMutableMap = it.toMutableMap()
-                                        toMutableMap["endpoint"] = connection.name()
-                                        toMutableMap
-                                    }
-                        }
-                        .toList())
-                .map { o ->
-                    val path = o!!.entries.map { it.value.toString() }
-                    val headers = o.entries
-                            .map { it.key to it.value }
-                            .toMap()
-                    val name = if (path.isEmpty()) {
-                        headers.asSequence().first().key
-                    } else {
-                        path[path.size - 1]
+    override fun read(uri: Uri): Flux<DbResource> = Flux
+            .merge(endpoints
+                    .map { connection ->
+                        return@map createQuery(uri, connection)
+                                .execute(hashMapOf("uri" to uri))
+                                .map<Map<String, Any>?> {
+                                    val toMutableMap = it.toMutableMap()
+                                    toMutableMap["endpoint"] = connection.name()
+                                    toMutableMap
+                                }
                     }
-                    DbResourceImpl(name, this, DbUri(headers["endpoint"].toString(), this.name(), path), headers) as DbResource
+                    .toList())
+            .map { o ->
+                val path = o!!.entries.map { it.value.toString() }
+                val headers = o.entries
+                        .map { it.key to it.value }
+                        .toMap()
+                val name = if (path.isEmpty()) {
+                    headers.asSequence().first().key
+                } else {
+                    path[path.size - 1]
                 }
-    }
+                DbResourceImpl(name, this, DbUri(headers["endpoint"].toString(), this.name(), path), headers) as DbResource
+            }
 
     override fun metaData(uri: Uri): List<Metadata> {
         val endpoint = endpoints
@@ -132,7 +131,7 @@ class SqlResourceType(
 
     private fun createQuery(uri: Uri, endpoint: Endpoint): SelectQuery {
         val dialect = dialects.first { it.name() == endpoint.properties()["sql_dialect"].toString() }
-        return ExecutableSelectQuery(
+        return JdbcSelectQuery(
                 PaginatedSelectQuery(
                         OrderedSelectQuery(
                                 CustomFilteredSelectQuery(

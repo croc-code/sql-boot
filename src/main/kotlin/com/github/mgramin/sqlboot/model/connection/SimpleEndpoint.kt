@@ -75,7 +75,7 @@ open class SimpleEndpoint(
             dataSourceNew.username = properties()["db_user"].toString()
             dataSourceNew.password = properties()["db_password"].toString()
             dataSourceNew.minIdle = 1
-            dataSourceNew.maxActive = 10
+            dataSourceNew.maxActive = 100
             dataSourceNew.maxIdle = 10
             dataSourceNew.maxWait = 10
             dataSource = dataSourceNew

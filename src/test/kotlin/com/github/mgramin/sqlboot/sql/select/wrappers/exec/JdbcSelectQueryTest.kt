@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.github.mgramin.sqlboot.sql.select.wrappers
+package com.github.mgramin.sqlboot.sql.select.wrappers.exec
 
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
@@ -49,14 +49,14 @@ import javax.sql.DataSource
  */
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(locations = ["/test_config.xml"])
-class ExecutableSelectQueryTest {
+class JdbcSelectQueryTest {
 
     @Autowired
     internal var dataSource: DataSource? = null
 
     @Test
     fun execute() {
-        val rows = ExecutableSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).collectList().block()
+        val rows = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).execute(hashMapOf()).collectList().block()
         assertEquals(arrayListOf(
                 linkedMapOf("n" to "mkyong", "mail" to "mkyong@gmail.com", "registration_date" to ""),
                 linkedMapOf("n" to "alex", "mail" to "alex@yahoo.com", "registration_date" to ""),
@@ -67,7 +67,7 @@ class ExecutableSelectQueryTest {
     @Test
     @Deprecated("Move to base test class")
     fun columns() {
-        val columns = ExecutableSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
+        val columns = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
         assertEquals(listOf(
                 SelectQuery.Column("n", "VARCHAR", "First name", emptyMap()),
                 SelectQuery.Column("mail", "VARCHAR", "Personal email", emptyMap()),
@@ -86,7 +86,7 @@ class ExecutableSelectQueryTest {
                   |             , email as mail
                   |             , registration_date
                   |          from main_schema.users)""".trimMargin(),
-                ExecutableSelectQuery(FakeSelectQuery(), dataSource!!).query())
+                JdbcSelectQuery(FakeSelectQuery(), dataSource!!).query())
     }
 
 }

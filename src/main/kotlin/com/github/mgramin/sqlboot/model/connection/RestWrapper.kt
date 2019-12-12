@@ -33,12 +33,10 @@
 package com.github.mgramin.sqlboot.model.connection
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.*
-import reactor.core.scheduler.Schedulers
-import reactor.kotlin.core.publisher.toFlux
+import org.springframework.web.bind.annotation.CrossOrigin
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * @author Maksim Gramin (mgramin@gmail.com)
@@ -47,7 +45,6 @@ import reactor.kotlin.core.publisher.toFlux
  */
 @RestController("EndpointListRestWrapper")
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot.model.resource_type"])
-@EnableAutoConfiguration
 @CrossOrigin
 class RestWrapper @Autowired constructor(private val endpointList: SimpleEndpointList) : EndpointList {
 
@@ -57,16 +54,5 @@ class RestWrapper @Autowired constructor(private val endpointList: SimpleEndpoin
     override fun getByName(name: String) = TODO("not implemented")
 
     override fun getByMask(mask: String) = TODO("not implemented")
-
-    @GetMapping(value = ["/endpoints/health"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    @ResponseBody
-    internal fun health() =
-            endpointList
-                    .endpoints
-                    .toFlux()
-                    .parallel()
-                    .runOn(Schedulers.elastic())
-                    .map { it as Endpoint }
-                    .sequential()
 
 }

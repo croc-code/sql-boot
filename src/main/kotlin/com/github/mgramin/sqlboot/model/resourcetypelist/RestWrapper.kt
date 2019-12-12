@@ -4,7 +4,6 @@ import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
 import com.github.mgramin.sqlboot.model.resourcetypelist.impl.FsResourceTypeList
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController("ResourceTypeRestWrapper")
 @ComponentScan(basePackages = ["com.github.mgramin.sqlboot"])
-@EnableAutoConfiguration
 @CrossOrigin
 class RestWrapper : ResourceTypeList {
 
