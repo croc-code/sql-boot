@@ -72,8 +72,9 @@ class JdbcSelectQuery(
 
         return Mono
                 .fromCallable {
-                    logger.info("\n$sqlText")
+                    logger.info("sql start...")
                     val rowSet = JdbcTemplate(dataSource).queryForRowSet(sqlText)
+                    logger.info("sql stop.")
                     return@fromCallable object : Iterator<Map<String, Any>> {
                         override fun hasNext() =
                                 rowSet.next()
@@ -86,13 +87,12 @@ class JdbcSelectQuery(
                                         .toMap()
                     }
                 }
-                .publishOn(Schedulers.parallel())
+                .publishOn(Schedulers.elastic())
                 .map { it.toFlux() }
                 .toFlux()
                 .doOnError { logger.warn(it.message) }
                 .onErrorReturn(Flux.empty())
                 .flatMap { it }
-
     }
 
 }
