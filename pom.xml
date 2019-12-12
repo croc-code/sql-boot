@@ -578,7 +578,7 @@
                             <groupname>sql-boot-group</groupname>
                             <sources>
                                 <source>
-                                    <location>src/main/resources/run</location>
+                                    <location>src/main/resources/rpm/run</location>
                                 </source>
                             </sources>
                         </mapping>
