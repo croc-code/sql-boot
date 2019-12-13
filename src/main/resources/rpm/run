@@ -1,11 +1,7 @@
 #!/bin/sh
 export LANG='en_US.UTF-8'
-java -Dloader.path='.' \
-     -Dspring.config.location=/etc/sql-boot/conf/$1/application.yml \
-#     -Dcom.sun.management.jmxremote \
-#     -Dcom.sun.management.jmxremote.port=9010 \
-#     -Dcom.sun.management.jmxremote.rmi.port=9010 \
-#     -Dcom.sun.management.jmxremote.authenticate=false \
-#     -Dcom.sun.management.jmxremote.ssl=false \
-#     -Djava.rmi.server.hostname=81.23.10.106 \
-     -jar ./sql-boot.jar
+
+JAVA_OPTS='-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.rmi.port=9010 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=81.23.10.106'
+
+#java -Dloader.path='.' -Dspring.config.location=application.yml $JAVA_OPTS -jar ./sql-boot.jar
+java -Dloader.path='.' -Dspring.config.location=application.yml -jar ./sql-boot.jar
