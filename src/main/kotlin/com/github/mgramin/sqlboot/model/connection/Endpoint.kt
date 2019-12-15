@@ -32,9 +32,10 @@
 
 package com.github.mgramin.sqlboot.model.connection
 
+import java.io.Serializable
 import javax.sql.DataSource
 
-interface Endpoint {
+interface Endpoint : Serializable {
 
     fun name(): String
 

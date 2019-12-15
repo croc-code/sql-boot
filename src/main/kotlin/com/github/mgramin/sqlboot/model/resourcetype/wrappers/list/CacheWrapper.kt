@@ -56,13 +56,9 @@ class CacheWrapper(private val origin: ResourceType, private val parameterName: 
             cacheManager.getCache("simpleCache")
                     ?: cacheManager.createCache("simpleCache", MutableConfiguration())
 
-    override fun aliases(): List<String> {
-        return origin.aliases()
-    }
+    override fun aliases() = origin.aliases()
 
-    override fun path(): List<String> {
-        return origin.path()
-    }
+    override fun path() = origin.path()
 
     @Throws(BootException::class)
     override fun read(uri: Uri): Flux<DbResource> {
@@ -75,9 +71,8 @@ class CacheWrapper(private val origin: ResourceType, private val parameterName: 
         return cachedResources!!.toFlux()
     }
 
-    override fun metaData(uri: Uri): List<Metadata> {
-        return origin.metaData(uri)
-    }
+    override fun metaData(uri: Uri) = origin.metaData(uri)
+
 
     override fun toJson() = origin.toJson()
 }

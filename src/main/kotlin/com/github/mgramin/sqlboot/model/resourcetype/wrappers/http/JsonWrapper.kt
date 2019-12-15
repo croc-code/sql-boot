@@ -35,6 +35,7 @@ package com.github.mgramin.sqlboot.model.resourcetype.wrappers.http
 import com.github.mgramin.sqlboot.model.connection.SimpleEndpointList
 import com.github.mgramin.sqlboot.model.dialect.DbDialectList
 import com.github.mgramin.sqlboot.model.resourcetype.wrappers.ParallelWrapper
+import com.github.mgramin.sqlboot.model.resourcetypelist.CacheWrapper
 import com.github.mgramin.sqlboot.model.resourcetypelist.impl.FsResourceTypeList
 import com.github.mgramin.sqlboot.model.uri.Uri
 import com.github.mgramin.sqlboot.model.uri.impl.DbUri
@@ -98,7 +99,8 @@ class JsonWrapper {
 
     private fun getListResponseEntityHeaders(uri: Uri): Flux<Map<String, Any>> {
         val connections = endpointList.getByMask(uri.connection())
-        return ParallelWrapper(FsResourceTypeList(connections, dbDialectList.dialects).types())
+        return ParallelWrapper(
+                CacheWrapper(FsResourceTypeList(connections, dbDialectList.dialects)).types())
                 .read(uri)
                 .map { it.headers() }
     }

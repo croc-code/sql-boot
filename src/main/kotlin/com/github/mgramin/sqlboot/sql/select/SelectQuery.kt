@@ -33,6 +33,7 @@
 package com.github.mgramin.sqlboot.sql.select
 
 import reactor.core.publisher.Flux
+import java.io.Serializable
 
 /**
  * Simple select SQL-query
@@ -41,7 +42,7 @@ import reactor.core.publisher.Flux
  * @version $Id: 3a4e282eda365f55a3031fef68fec51109ca784d $
  * @since 0.1
  */
-interface SelectQuery {
+interface SelectQuery : Serializable {
 
     /**
      * Query name
