@@ -100,7 +100,8 @@ class JsonWrapper {
     private fun getListResponseEntityHeaders(uri: Uri): Flux<Map<String, Any>> {
         val connections = endpointList.getByMask(uri.connection())
         return ParallelWrapper(
-                CacheWrapper(FsResourceTypeList(connections, dbDialectList.dialects)).types())
+//                CacheWrapper
+                (FsResourceTypeList(connections, dbDialectList.dialects)).types())
                 .read(uri)
                 .map { it.headers() }
     }
