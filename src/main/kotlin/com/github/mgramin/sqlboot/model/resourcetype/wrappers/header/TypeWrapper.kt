@@ -37,7 +37,6 @@ import com.github.mgramin.sqlboot.model.resourcetype.ResourceType
 import com.github.mgramin.sqlboot.model.uri.Uri
 import reactor.core.publisher.Flux
 
-
 class TypeWrapper(private val origin: ResourceType) : ResourceType {
 
     override fun aliases() = origin.aliases()

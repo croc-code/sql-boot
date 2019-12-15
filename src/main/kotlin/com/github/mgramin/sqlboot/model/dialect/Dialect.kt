@@ -32,7 +32,9 @@
 
 package com.github.mgramin.sqlboot.model.dialect
 
-interface Dialect {
+import java.io.Serializable
+
+interface Dialect : Serializable {
 
     fun name(): String
 

@@ -36,11 +36,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.github.mgramin.sqlboot.model.resource.DbResource
 import com.github.mgramin.sqlboot.model.uri.Uri
 import reactor.core.publisher.Flux
+import java.io.Serializable
 
 /**
  * Resource type e.g. Table, Index, Stored function etc
  */
-interface ResourceType {
+interface ResourceType : Serializable {
 
     /**
      * Name of resource type, e.g "table", "index", "stored procedure" etc

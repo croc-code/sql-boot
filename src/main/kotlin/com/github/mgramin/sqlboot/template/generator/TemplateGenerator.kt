@@ -32,10 +32,12 @@
 
 package com.github.mgramin.sqlboot.template.generator
 
+import java.io.Serializable
+
 /**
  * Template generator
  */
-interface TemplateGenerator {
+interface TemplateGenerator : Serializable {
 
     /**
      * Generate text from template
