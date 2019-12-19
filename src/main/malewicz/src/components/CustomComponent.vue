@@ -37,7 +37,7 @@
         <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">
           {{ JSON.parse(props.item[met.name].value).icon }}
         </v-icon>
-        <v-chip v-else color="green" style="cursor: pointer" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
+        <v-chip v-else color="green" style="cursor: pointer" dark>{{ JSON.parse(props.item[met.name].value).text }}</v-chip>
       </a>
     </span>
     <span v-else-if="(met.type==='inet' || met.type==='xid') && props.item[met.name]">
