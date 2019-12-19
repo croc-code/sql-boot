@@ -15,7 +15,7 @@
                 <span v-if="item.name === 'endpoint'"></span>
                 <span v-else-if="item.type === 'timestamptz'">
                   <VueCtkDateTimePicker
-                    :label="item.label"
+                    :label="item.text"
                     format="YYYY-MM-DD HH:mm"
                     color="green"
                     :range=true
@@ -23,20 +23,20 @@
                 </span>
                 <v-combobox v-else-if="item.values"
                             v-model='localFilter[item.name]'
-                            :label="item.label"
+                            :label="item.text"
                             :items="item.values"
                             clearable>
                 </v-combobox>
                 <v-text-field v-else-if="item.type == 'numeric' || item.type == 'float8' || item.type == 'int8'"
                               v-model='localFilter[item.name]'
                               type = "number"
-                              :label="item.label"
+                              :label="item.text"
                               clearable
                               filled>
                 </v-text-field>
                 <v-text-field v-else
                               v-model='localFilter[item.name]'
-                              :label="item.label"
+                              :label="item.text"
                               clearable
                               filled>
                 </v-text-field>
