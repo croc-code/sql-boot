@@ -24,5 +24,10 @@ server:
 #Metrics related configurations
 management.endpoint.metrics.enabled: true
 management.endpoints.web.exposure.include: '*'
-management.endpoint.prometheus.enabled: true
-management.metrics.export.prometheus.enabled: true
+
+management.trace.http.enabled: true
+management.auditevents.enabled: true
+
+management.metrics.export.statsd.enabled: true
+management.metrics.export.statsd.flavor: 'telegraf'
+management.metrics.export.statsd.port: 8125
