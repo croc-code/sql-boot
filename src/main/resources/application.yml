@@ -23,11 +23,21 @@ server:
 
 #Metrics related configurations
 management.endpoint.metrics.enabled: true
-management.endpoints.web.exposure.include: '*'
-
 management.trace.http.enabled: true
 management.auditevents.enabled: true
 
-management.metrics.export.statsd.enabled: true
-management.metrics.export.statsd.flavor: 'telegraf'
-management.metrics.export.statsd.port: 8125
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "httptrace"
+  metrics:
+    export:
+      statsd:
+        enabled: true
+        flavor: 'telegraf'
+        port: 8125
+  trace:
+    http:
+      include: RESPONSE_HEADERS
