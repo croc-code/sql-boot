@@ -38,6 +38,3 @@ management:
         enabled: true
         flavor: 'telegraf'
         port: 8125
-  trace:
-    http:
-      include: RESPONSE_HEADERS
