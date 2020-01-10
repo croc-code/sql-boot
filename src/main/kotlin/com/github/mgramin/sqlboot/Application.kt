@@ -34,10 +34,11 @@ package com.github.mgramin.sqlboot
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import reactor.core.scheduler.Schedulers
 import java.lang.System.setProperty
 
-@SpringBootApplication
+@SpringBootApplication(exclude = [DataSourceAutoConfiguration::class])
 open class Application {
     companion object {
         @JvmStatic
