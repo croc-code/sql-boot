@@ -31,7 +31,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "httptrace"
+        include: "*"
   metrics:
     export:
       statsd:
