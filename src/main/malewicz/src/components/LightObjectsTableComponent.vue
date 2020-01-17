@@ -37,7 +37,7 @@ export default {
   },
   created: function () {
     this.isLoading = true
-    this.$http.get(this.$store.getters.getHost + 'api/' + this.$store.getters.getAllConnections.map(function (item) { return item.name }).join('|') + '/' + this.$props.type.name + '?page=1,15').then(
+    this.$http.get(this.$store.getters.getHost + '/api/' + this.$store.getters.getAllConnections.map(function (item) { return item.name }).join('|') + '/' + this.$props.type.name + '?page=1,15').then(
       response => {
         this.desserts = response.body
         this.isLoading = false
@@ -50,7 +50,7 @@ export default {
   computed: {
     defaultMeta: function () {
       return this.$props.type.metadata.filter(v => {
-        return v.properties.visible !== false
+        return v.visible !== false
       })
     }
   },
