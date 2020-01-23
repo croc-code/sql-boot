@@ -10,7 +10,7 @@
 
       <v-app-bar app color="green" dark clipped-left dense>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-btn icon>
+        <v-btn :to="goHome()" icon>
           <v-icon>mdi-home</v-icon>
         </v-btn>
         <div class="flex-grow-1"></div>
@@ -53,6 +53,9 @@ export default {
   name: 'Application',
   components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel },
   methods: {
+    goHome() {
+      return "/" + this.$store.getters.getConnections.join("|")
+    },
     changeLocale(locale) {
       i18n.locale = locale;
     }

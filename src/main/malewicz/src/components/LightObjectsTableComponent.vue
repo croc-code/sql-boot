@@ -1,15 +1,20 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <v-toolbar color="green" dark>
+    <v-toolbar color="green" dark dense>
       <v-toolbar-title>{{ type.properties.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn :to="mainUri" icon>
+        <v-icon>storefront</v-icon>
+      </v-btn>
     </v-toolbar>
 
     <v-data-table :headers="defaultMeta"
                   :items="items"
                   class="elevation-1"
                   :loading="isLoading"
-                  :options.sync = "options">
+                  :no-data-text = "this.$t('noData')"
+                  :options.sync = "options"
+                  hide-default-footer="true">
       <template v-slot:progress>
         <v-progress-linear color="green" :height="10" indeterminate></v-progress-linear>
       </template>
@@ -33,6 +38,9 @@ export default {
     type: {}
   },
   computed: {
+    mainUri: function() {
+      return this.$store.getters.getConnections.join("|") + "/" + this.type.name + "?page=1,15"
+    },
     defaultMeta: function () {
       return this.$props.type.metadata.filter(v => {
         return v.visible !== false
@@ -50,7 +58,7 @@ export default {
           return
         }
         this.isLoading = true
-        this.$http.get(this.$store.getters.getHost + '/api/' + this.$store.getters.getConnections.join('|') + '/' + this.$props.type.name + '?page=1,15').then(
+        this.$http.get(this.$store.getters.getHost + '/api/' + this.$store.getters.getConnections.join('|') + '/' + this.$props.type.name + '?page=1,5').then(
                 response => {
                   this.items = response.body
                   this.isLoading = false
