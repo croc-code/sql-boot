@@ -16,6 +16,12 @@ export default new Router({
       props: { panel: QuickStartComponent }
     },
     {
+      path: '/:connections',
+      name: 'StartPanelWithConnections',
+      component: HelloWorld,
+      props: { panel: QuickStartComponent }
+    },
+    {
       path: '*',
       name: 'TablePanel',
       component: HelloWorld,

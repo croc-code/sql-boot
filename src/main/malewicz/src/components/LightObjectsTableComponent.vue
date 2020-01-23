@@ -3,13 +3,10 @@
     <v-toolbar color="green" dark>
       <v-toolbar-title>{{ type.properties.title }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn>
     </v-toolbar>
 
     <v-data-table :headers="defaultMeta"
-                  :items="desserts"
+                  :items="items"
                   class="elevation-1"
                   :loading="isLoading"
                   :options.sync = "options">
@@ -35,28 +32,43 @@ export default {
   props: {
     type: {}
   },
-  created: function () {
-    this.isLoading = true
-    this.$http.get(this.$store.getters.getHost + '/api/' + this.$store.getters.getAllConnections.map(function (item) { return item.name }).join('|') + '/' + this.$props.type.name + '?page=1,15').then(
-      response => {
-        this.desserts = response.body
-        this.isLoading = false
-      }, response => {
-        this.$notify({group: 'foo', type: 'error', title: 'Server error', text: response})
-        this.isLoading = false
-      }
-    )
-  },
   computed: {
     defaultMeta: function () {
       return this.$props.type.metadata.filter(v => {
         return v.visible !== false
       })
+    },
+    connections () {
+      return this.$store.getters.getConnections
     }
+  },
+  watch: {
+    connections: {
+      handler () {
+        this.isLoading = true
+        this.items = []
+        if (this.$store.getters.getConnections.length === 0) {
+
+        }
+        this.$http.get(this.$store.getters.getHost + '/api/' + this.$store.getters.getConnections.join('|') + '/' + this.$props.type.name + '?page=1,15').then(
+                response => {
+                  this.items = response.body
+                  this.isLoading = false
+                }, response => {
+                  this.$notify({group: 'foo', type: 'error', title: 'Server error', text: response})
+                  this.isLoading = false
+                }
+        )
+      },
+      immediate: true
+    },
+  },
+  created: function () {
+
   },
   data: () => ({
     isLoading: false,
-    desserts: [],
+    items: [],
     options: { "itemsPerPage": 5 }
   })
 }
