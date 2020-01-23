@@ -49,13 +49,17 @@
     <span v-else-if="met.type==='timestamptz'">{{ props.item[met.name] | formatDate }}</span>
     <span v-else-if="met.format==='size'">
       <v-tooltip bottom>
-        <span slot="activator">{{ props.item[met.name] | prettyByte }}</span>
+        <template v-slot:activator="{ on }">
+          <span v-on="on">{{ props.item[met.name] | prettyByte }}</span>
+        </template>
         <span>{{ props.item[met.name] }}</span>
       </v-tooltip>
     </span>
     <span v-else-if="met.type==='numeric' || met.type==='float8'">
       <v-tooltip bottom>
-        <span slot="activator">{{ props.item[met.name] | round(2) }}</span>
+        <template v-slot:activator="{ on }">
+          <span v-on="on">{{ props.item[met.name] | round(2) }}</span>
+        </template>
         <span>{{ props.item[met.name] }}</span>
       </v-tooltip>
     </span>
