@@ -50,7 +50,7 @@ export default {
     ]
   }),
   props: ['panel'],
-  name: 'HelloWorld',
+  name: 'Application',
   components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel },
   methods: {
     changeLocale(locale) {
