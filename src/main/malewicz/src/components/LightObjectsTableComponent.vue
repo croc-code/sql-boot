@@ -45,11 +45,11 @@ export default {
   watch: {
     connections: {
       handler () {
-        this.isLoading = true
         this.items = []
         if (this.$store.getters.getConnections.length === 0) {
-
+          return
         }
+        this.isLoading = true
         this.$http.get(this.$store.getters.getHost + '/api/' + this.$store.getters.getConnections.join('|') + '/' + this.$props.type.name + '?page=1,15').then(
                 response => {
                   this.items = response.body
