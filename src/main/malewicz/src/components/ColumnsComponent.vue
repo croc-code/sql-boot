@@ -20,7 +20,7 @@
                                 <v-list-item-title v-else>{{ column.text }}</v-list-item-title>
                                 <v-list-item-subtitle>
                                     <v-textarea v-if="column.name==='endpoint'" :value="$t('sourceCluster')" :rows=1 :flat=true readonly></v-textarea>
-                                    <v-textarea v-else :value="column.description" :rows=1 :flat=true readonly></v-textarea>
+                                    <v-textarea v-else :value="column.description || column.text" :rows=1 :flat=true readonly></v-textarea>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                         </template>
