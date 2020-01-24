@@ -40,7 +40,7 @@
         <v-chip v-else color="green" style="cursor: pointer" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
       </a>
     </span>
-    <span v-else-if="(met.type==='inet' || met.type==='xid') && props.item[met.name]">
+    <span v-else-if="(met.type==='inet') && props.item[met.name]">
       {{ props.item[met.name].value }}
     </span>
     <span v-else-if="met.format==='sql'">
