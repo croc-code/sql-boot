@@ -47,12 +47,13 @@ import com.github.mgramin.sqlboot.model.uri.impl.FakeUri
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.SimpleSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.CustomFilteredSelectQuery
-import com.github.mgramin.sqlboot.sql.select.wrappers.exec.JdbcSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.FilteredSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.GrafanaSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.OrderedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.PaginatedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.TracedSelectQuery
 import com.github.mgramin.sqlboot.sql.select.wrappers.TypedSelectQuery
+import com.github.mgramin.sqlboot.sql.select.wrappers.exec.JdbcSelectQuery
 import com.github.mgramin.sqlboot.template.generator.impl.JinjaTemplateGenerator
 import reactor.core.publisher.Flux
 
@@ -131,21 +132,23 @@ class SqlResourceType(
 
     private fun createQuery(uri: Uri, endpoint: Endpoint): SelectQuery {
         val dialect = dialects.first { it.name() == endpoint.properties()["sql_dialect"].toString() }
-        return JdbcSelectQuery(
-                PaginatedSelectQuery(
-                        OrderedSelectQuery(
-                                CustomFilteredSelectQuery(
-                                        FilteredSelectQuery(
-                                                TypedSelectQuery(
-                                                        GrafanaSelectQuery(
-                                                                simpleSelectQuery),
-                                                        dataSource = endpoint.getDataSource()),
-                                                uri.path()),
-                                        uri.filter()),
-                                uri.orderedColumns()),
-                        uri,
-                        dialect.paginationQueryTemplate()),
-                dataSource = endpoint.getDataSource())
+        return TracedSelectQuery(
+                JdbcSelectQuery(
+                        PaginatedSelectQuery(
+                                OrderedSelectQuery(
+                                        CustomFilteredSelectQuery(
+                                                FilteredSelectQuery(
+                                                        TypedSelectQuery(
+                                                                GrafanaSelectQuery(
+                                                                        simpleSelectQuery),
+                                                                dataSource = endpoint.getDataSource()),
+                                                        uri.path()),
+                                                uri.filter()),
+                                        uri.orderedColumns()),
+                                uri,
+                                dialect.paginationQueryTemplate()),
+                        dataSource = endpoint.getDataSource()),
+                uri.params().containsKey("trace"))
     }
 
 }

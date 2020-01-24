@@ -14,7 +14,8 @@ open class LoggingInMemoryHttpTraceRepository : InMemoryHttpTraceRepository() {
 
     override fun add(trace: HttpTrace) {
         super.add(trace)
-        logger.info("Time taken ${URLDecoder.decode(trace.request.uri.toASCIIString(), StandardCharsets.UTF_8.toString())} = ${trace.timeTaken}")
+        if (trace.request.uri.query != null && trace.request.uri.query.contains("trace"))
+            logger.info("Time taken ${URLDecoder.decode(trace.request.uri.toASCIIString(), StandardCharsets.UTF_8.toString())} = ${trace.timeTaken}")
     }
 
 }
