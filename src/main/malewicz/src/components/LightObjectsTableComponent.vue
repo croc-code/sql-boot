@@ -13,6 +13,7 @@
                   class="elevation-1"
                   :loading="isLoading"
                   :no-data-text = "this.$t('noData')"
+                  :loading-text = "this.$t('loading')"
                   :options.sync = "options"
                   hide-default-footer="true">
       <template v-slot:progress>
