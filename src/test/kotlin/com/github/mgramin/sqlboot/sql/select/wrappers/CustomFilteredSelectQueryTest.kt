@@ -57,7 +57,7 @@ internal class CustomFilteredSelectQueryTest {
         }
 
         println(CustomFilteredSelectQuery(select,
-                JsonParser().parse("""{ "size": "1234567891011" }""").asJsonObject).query())
+                JsonParser().parse("""{ "size": "8885080735" }""").asJsonObject).query())
 
         /*println(CustomFilteredSelectQuery(FakeSelectQuery(),
                 JsonParser().parse("""{ "registration_date": {"start": "2019-09-05 00:00","end": "2019-09-13 23:59"}}""").asJsonObject).query())
