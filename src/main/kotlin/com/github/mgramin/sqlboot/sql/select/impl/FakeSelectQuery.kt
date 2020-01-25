@@ -32,6 +32,7 @@
 
 package com.github.mgramin.sqlboot.sql.select.impl
 
+import com.github.mgramin.sqlboot.sql.select.Column
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import reactor.core.publisher.Flux
 
@@ -51,9 +52,9 @@ class FakeSelectQuery : SelectQuery {
               |          from main_schema.users)""".trimMargin()
 
     override fun columns() = listOf(
-            SelectQuery.Column("n", "VARCHAR", "First name"),
-            SelectQuery.Column("mail", "VARCHAR", "Personal email"),
-            SelectQuery.Column("registration_date", "timestamptz", "Registration date"))
+            Column("n", "VARCHAR", "First name"),
+            Column("mail", "VARCHAR", "Personal email"),
+            Column("registration_date", "timestamptz", "Registration date"))
 
 
     override fun execute(variables: Map<String, Any>): Flux<Map<String, Any>> {
