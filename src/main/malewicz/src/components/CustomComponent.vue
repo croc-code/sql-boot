@@ -33,7 +33,7 @@
 <template>
   <div>
     <span v-if="met.type==='json' && props.item[met.name]">
-      <a :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
+      <a :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link+'?page=1,15'">
         <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">
           {{ JSON.parse(props.item[met.name].value).icon }}
         </v-icon>
