@@ -50,7 +50,7 @@ class CustomFilteredSelectQuery(
                     {
                         when (origin.columns().first { column -> column.name() == it.key }.datatype()) {
                             "numeric" -> """${it.key} = ${it.value.asNumber}"""
-                            "float8" -> """${it.key} = ${it.value.toString().replace(""""""", "")}"""
+                            "float8" -> """${it.key} = ${it.value.asString}"""
                             "int8" -> """${it.key} = ${it.value.asBigInteger}"""
                             "varchar","text","name" -> """${it.key} like '${it.value.asString.replace("'", "''")}'"""
                             "timestamptz" -> """${it.key} between '${it.value.asJsonObject["start"].asString}'::timestamptz and '${it.value.asJsonObject["end"].asString}'::timestamptz"""
