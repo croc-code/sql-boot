@@ -32,6 +32,7 @@
 
 package com.github.mgramin.sqlboot.sql.select.impl
 
+import com.github.mgramin.sqlboot.sql.select.Column
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTBaseVisitor
 import com.github.mgramin.sqlboot.sql.select.impl.parser.SELECTLexer
@@ -79,8 +80,8 @@ class SimpleSelectQuery(private val name: String, private val templateGenerator:
 
         fun comment() = selectVisitorCustom.queryComment
 
-        fun parse(): List<SelectQuery.Column> {
-            return visit as List<SelectQuery.Column>
+        fun parse(): List<Column> {
+            return visit as List<Column>
         }
     }
 
@@ -93,9 +94,9 @@ class SimpleSelectQuery(private val name: String, private val templateGenerator:
             queryComment = ctx.query_comment().text
             return ctx.select_row()
                     .map { v ->
-                        SelectQuery.Column(
+                        Column(
                                 v.column_alias()?.ID()?.text
-                                        ?: (v.column_name()?.ID()?.text ?: "NULL"),"",
+                                        ?: (v.column_name()?.ID()?.text ?: "NULL"), "",
                                 v.column_comment()?.let { v1 ->
                                     v1.MULTIPLE_LINE_COMMENT().text.replace("/*", "").replace("*/", "").trim { it <= ' ' }
                                 } ?: (""), hashMapOf())

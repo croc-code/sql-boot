@@ -74,21 +74,4 @@ interface SelectQuery : Serializable {
     fun columns(): List<Column>
 
 
-    data class Column(
-            private val name: String,
-            private val datatype: String,
-            private val comment: String,
-            private val properties: Map<String, String> = emptyMap())
-    {
-
-        fun name() = name
-
-        fun datatype() = datatype
-
-        fun comment() = comment
-
-        fun properties() = properties
-
-    }
-
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Application from '@/components/Application'
 import ObjectsTablePanel from '@/components/ObjectsTablePanel'
 import QuickStartComponent from '@/components/QuickStartComponent'
 
@@ -12,13 +12,19 @@ export default new Router({
     {
       path: '/',
       name: 'StartPanel',
-      component: HelloWorld,
+      component: Application,
+      props: { panel: QuickStartComponent }
+    },
+    {
+      path: '/:connections',
+      name: 'StartPanelWithConnections',
+      component: Application,
       props: { panel: QuickStartComponent }
     },
     {
       path: '*',
       name: 'TablePanel',
-      component: HelloWorld,
+      component: Application,
       props: { panel: ObjectsTablePanel }
     }
   ]

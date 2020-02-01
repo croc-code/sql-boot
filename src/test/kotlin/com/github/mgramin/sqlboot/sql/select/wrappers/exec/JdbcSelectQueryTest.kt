@@ -32,7 +32,7 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers.exec
 
-import com.github.mgramin.sqlboot.sql.select.SelectQuery
+import com.github.mgramin.sqlboot.sql.select.Column
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
@@ -69,9 +69,9 @@ class JdbcSelectQueryTest {
     fun columns() {
         val columns = JdbcSelectQuery(FakeSelectQuery(), this.dataSource!!).columns()
         assertEquals(listOf(
-                SelectQuery.Column("n", "VARCHAR", "First name", emptyMap()),
-                SelectQuery.Column("mail", "VARCHAR", "Personal email", emptyMap()),
-                SelectQuery.Column("registration_date", "timestamptz", "Registration date", emptyMap())
+                Column("n", "VARCHAR", "First name", emptyMap()),
+                Column("mail", "VARCHAR", "Personal email", emptyMap()),
+                Column("registration_date", "timestamptz", "Registration date", emptyMap())
         ), columns)
     }
 

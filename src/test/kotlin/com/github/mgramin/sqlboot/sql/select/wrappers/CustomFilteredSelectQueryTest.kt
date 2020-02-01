@@ -32,24 +32,41 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
+import com.github.mgramin.sqlboot.sql.select.Column
+import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import com.github.mgramin.sqlboot.sql.select.impl.FakeSelectQuery
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.jupiter.api.Test
 
 internal class CustomFilteredSelectQueryTest {
 
     @Test
     fun query() {
-        println(CustomFilteredSelectQuery(FakeSelectQuery(),
+        val columns: List<Column> = listOf(mock<Column> {
+            on { name() } doReturn "size"
+            on { datatype() } doReturn "float8"
+        })
+
+        val select = mock<SelectQuery> {
+            on { name() } doReturn "fake_query"
+            on { query() } doReturn "select * from test"
+            on { columns() } doReturn columns
+        }
+
+        println(CustomFilteredSelectQuery(select,
+                JsonParser().parse("""{ "size": "8885080735" }""").asJsonObject).query())
+
+        /*println(CustomFilteredSelectQuery(FakeSelectQuery(),
                 JsonParser().parse("""{ "registration_date": {"start": "2019-09-05 00:00","end": "2019-09-13 23:59"}}""").asJsonObject).query())
         println(CustomFilteredSelectQuery(FakeSelectQuery(),
                 JsonParser().parse("""{ "n": "John Doe", "mail": "doe@mail.com" }""").asJsonObject).query())
         println(CustomFilteredSelectQuery(FakeSelectQuery(),
                 JsonParser().parse("{}").asJsonObject).query())
         println(CustomFilteredSelectQuery(FakeSelectQuery(),
-                JsonObject()).query())
+                JsonObject()).query())*/
     }
 
     @Test

@@ -10,9 +10,12 @@
 
       <v-app-bar app color="green" dark clipped-left dense>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-btn :to="goHome()" icon>
+          <v-icon>mdi-home</v-icon>
+        </v-btn>
         <div class="flex-grow-1"></div>
         <v-btn icon v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
-          <flag :iso="entry.flag" v-bind:squared=false />
+          <flag :iso="entry.flag" v-bind:squared=false></flag>
         </v-btn>
       </v-app-bar>
 
@@ -21,7 +24,7 @@
       <v-footer color="green" app>
         <span class="white--text">github.com/CrocInc/sql-boot</span>
         <v-spacer></v-spacer>
-        <span class="white--text">&copy; 2019</span>
+        <span class="white--text">&copy; 2020</span>
       </v-footer>
     </v-app>
   </div>
@@ -47,9 +50,12 @@ export default {
     ]
   }),
   props: ['panel'],
-  name: 'HelloWorld',
+  name: 'Application',
   components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel },
   methods: {
+    goHome() {
+      return "/" + this.$store.getters.getConnections.join("|")
+    },
     changeLocale(locale) {
       i18n.locale = locale;
     }
@@ -69,6 +75,17 @@ export default {
   },
   created: function () {
     this.$store.commit('changeUri', this.$router.currentRoute.fullPath)
+    this.$http.get(this.$store.state.host + '/endpoints').then(
+            response => {
+              this.$store.commit('setAllConnections', response.body)
+              let defaultConnection = this.$store.getters.getAllConnections.find(v => {
+                return v.properties.default === true
+              })
+              if (this.$store.getters.getConnections.length === 0) {
+                this.$store.commit('setConnections', [defaultConnection.name])
+              }
+            }
+    )
   }
 }
 

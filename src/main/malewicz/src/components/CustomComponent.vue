@@ -33,14 +33,14 @@
 <template>
   <div>
     <span v-if="met.type==='json' && props.item[met.name]">
-      <a :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link">
+      <a :href="'#/'+props.item['endpoint']+'/'+JSON.parse(props.item[met.name].value).link+'?page=1,15'">
         <v-icon medium v-if="JSON.parse(props.item[met.name].value).icon">
           {{ JSON.parse(props.item[met.name].value).icon }}
         </v-icon>
         <v-chip v-else color="green" style="cursor: pointer" dark>{{ JSON.parse(props.item[met.name].value).label }}</v-chip>
       </a>
     </span>
-    <span v-else-if="(met.type==='inet' || met.type==='xid') && props.item[met.name]">
+    <span v-else-if="(met.type==='inet') && props.item[met.name]">
       {{ props.item[met.name].value }}
     </span>
     <span v-else-if="met.format==='sql'">
@@ -49,13 +49,17 @@
     <span v-else-if="met.type==='timestamptz'">{{ props.item[met.name] | formatDate }}</span>
     <span v-else-if="met.format==='size'">
       <v-tooltip bottom>
-        <span slot="activator">{{ props.item[met.name] | prettyByte }}</span>
+        <template v-slot:activator="{ on }">
+          <span v-on="on">{{ props.item[met.name] | prettyByte }}</span>
+        </template>
         <span>{{ props.item[met.name] }}</span>
       </v-tooltip>
     </span>
     <span v-else-if="met.type==='numeric' || met.type==='float8'">
       <v-tooltip bottom>
-        <span slot="activator">{{ props.item[met.name] | round(2) }}</span>
+        <template v-slot:activator="{ on }">
+          <span v-on="on">{{ props.item[met.name] | round(2) }}</span>
+        </template>
         <span>{{ props.item[met.name] }}</span>
       </v-tooltip>
     </span>

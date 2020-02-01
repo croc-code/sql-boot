@@ -32,6 +32,7 @@
 
 package com.github.mgramin.sqlboot.sql.select.wrappers
 
+import com.github.mgramin.sqlboot.sql.select.Column
 import com.github.mgramin.sqlboot.sql.select.SelectQuery
 import org.slf4j.LoggerFactory
 import javax.sql.DataSource
@@ -41,9 +42,9 @@ class TypedSelectQuery(
         private val dataSource: DataSource
 ) : SelectQuery {
 
-    override fun name() = origin.name()
-
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    override fun name() = origin.name()
 
     override fun query() = origin.query()
 
@@ -59,7 +60,7 @@ class TypedSelectQuery(
                             val metaData = it.prepareStatement(origin.query()).metaData
                             origin.columns()
                                     .mapIndexed { index, column ->
-                                        SelectQuery.Column(
+                                        Column(
                                                 column.name(),
                                                 metaData.getColumnTypeName(index + 1).toString(),
                                                 column.comment(),
@@ -70,6 +71,5 @@ class TypedSelectQuery(
                 logger.warn(e.message)
                 origin.columns()
             }
-
 
 }

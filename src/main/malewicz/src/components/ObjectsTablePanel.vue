@@ -36,7 +36,7 @@
       </template>
     </v-data-table>
 
-    <v-pagination v-model="message"
+    <v-pagination v-model="pageNumber"
                   :length="getPageCount()"
                   :total-visible="5"
                   circle>
@@ -74,13 +74,13 @@ export default {
         return this.meta.metadata
       }
     },
-    completeUri () {
+    uri () {
       return this.$store.getters.getUri
     },
     types () {
       return this.$store.getters.getTypes
     },
-    message: {
+    pageNumber: {
       get () {
         return this.$store.getters.getPageNumber
       },
@@ -98,58 +98,15 @@ export default {
     }
   },
   watch: {
-    completeUri: {
-      handler (newVal, oldVal) {
-        if (this.$store.getters.getTypes.length === 0) {
-          return
-        }
-        if (this.$store.getters.getConnections.length === 0) {
-          this.items = []
-          return
-        }
-        this.meta = this.$store.getters.getTypes.find(v => {
-          return v.name === this.$store.getters.getUri.type
-        })
-        this.items = []
-        this.isLoading = true
-        this.$http.get(this.$store.getters.preparedUri).then(
-          response => {
-            this.items = response.body
-            if (this.items.length >= 15 && this.message === this.getPageCount()) {
-              this.increasePageCount()
-            }
-            this.isLoading = false
-          }, response => {
-            this.$notify({group: 'foo', type: 'error', title: 'Server error', text: response})
-            this.isLoading = false
-          }
-        )
+    uri: {
+      handler () {
+        this.call()
       },
       deep: true
     },
     types: {
-      handler (newVal, oldVal) {
-        if (this.$store.getters.getConnections.length === 0) {
-          this.items = []
-          return
-        }
-        this.meta = this.$store.getters.getTypes.find(v => {
-          return v.name === this.$store.getters.getUri.type
-        })
-        this.items = []
-        this.isLoading = true
-        this.$http.get(this.$store.getters.preparedUri).then(
-          response => {
-            this.items = response.body
-            if (this.items.length >= 15 && this.message === this.getPageCount()) {
-              this.increasePageCount()
-            }
-            this.isLoading = false
-          }, response => {
-            this.$notify({group: 'foo', type: 'error', title: 'Server error', text: response})
-            this.isLoading = false
-          }
-        )
+      handler () {
+        this.call()
       },
       deep: true
     },
@@ -167,15 +124,30 @@ export default {
   },
   methods: {
     call () {
-      this.meta = this.$store.getters.getTypes.find(v => {
-        return v.name === this.$store.getters.getUri.type
-      })
-      this.items = []
-      this.$http.get(this.$store.getters.preparedUri).then(
-        response => {
-          this.items = response.body
+        if (this.$store.getters.getTypes.length === 0) {
+            return
         }
-      )
+        if (this.$store.getters.getConnections.length === 0) {
+            this.items = []
+            return
+        }
+      this.meta = this.$store.getters.getTypes.find(v => {
+            return v.name === this.$store.getters.getUri.type
+        })
+        this.items = []
+        this.isLoading = true
+        this.$http.get(this.$store.getters.preparedUri).then(
+            response => {
+                this.items = response.body
+                if (this.items.length >= 15 && this.pageNumber === this.getPageCount()) {
+                    this.increasePageCount()
+                }
+                this.isLoading = false
+            }, response => {
+                this.$notify({group: 'foo', type: 'error', title: 'Server error', text: response})
+                this.isLoading = false
+            }
+        )
     },
     nextPage () {
       return this.$store.commit('nextPage')
