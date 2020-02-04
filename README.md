@@ -1,5 +1,3 @@
-# Treat your database as Code
-
 [![Build Status](https://travis-ci.org/crocinc/sql-boot.svg?branch=master)](https://travis-ci.org/crocinc/sql-boot)
 [![Build status](https://ci.appveyor.com/api/projects/status/jrpy23nvd03hcocb?svg=true)](https://ci.appveyor.com/project/mgramin/sql-boot)
 [![codecov](https://codecov.io/gh/CrocInc/sql-boot/branch/master/graph/badge.svg)](https://codecov.io/gh/CrocInc/sql-boot)
@@ -15,28 +13,61 @@
 [![Scc Count Badge](https://sloc.xyz/github/CrocInc/sql-boot/)](https://github.com/CrocInc/sql-boot/)
 [![Mentioned in Awesome database tools](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/mgramin/awesome-db-tools)
 
+# Treat your database as Code
 
-Advanced REST-wrapper for your own SQL-queries (actually not only SQL).
+There are many awesome REST-wrappers for your Databases (e.g. [PostgREST](https://github.com/PostgREST/postgrest), [pREST](https://github.com/prest/prest), [sandman2](https://github.com/jeffknupp/sandman2) and many others), but how about REST-wrapper for your own SQL-queries?
 
-1. Write query
-2. Put to sql-boot folder structure
-3. Get data from URI, e.g. prod_db/hr.persons?select=name,address&page=2&orderby=name+desc
+The `sql-boot` tool is a REST-like wrapper for your own SQL-queries.
+No ETLs, no generated SQL, no "automagic" - sql-boot simply transform your own SQL-query to Web resources.
 
-Feel the Power of SQL
----------------------------------------------------------
-Simple integration your sql-scripts to you infrastructure
+`sql-boot` recursively finds every *.sql files in your folders and start REST-like service and runs scripts against live databases in response to http requests.
 
 
-Share expert knowledge
-----------------------
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-oracle.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-oracle)
-https://github.com/sql-boot/sql-boot-oracle
+Example
+-------
+Save you SQL-query to `big_cities.sql`:
+````sql
+select a.airport_code as code
+     , a.airport_name
+     , a.city
+     , a.coordinates
+     , a.timezone
+  from bookings.airports a
+ where a.city in (select aa.city
+                    from bookings.airports aa
+                   group by aa.city
+                  having count(*) > 1)
+ order by
+       a.city
+     , a.airport_code
+````
 
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-postgresql.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-postgresql)
-https://github.com/sql-boot/sql-boot-postgresql
+Now `sql-boot` is ready to receive http requests (without restarting and other actions).
 
-[![Build Status](https://travis-ci.org/sql-boot/sql-boot-cassandra.svg?branch=master)](https://travis-ci.org/sql-boot/sql-boot-cassandra)
-https://github.com/sql-boot/sql-boot-cassandra
+[Execute](http://81.23.10.106:8008/api/master_db/big_cities.sql) query on "master_db" database:
+````bash
+master_db/big_cities.sql
+````
+
+[Execute](http://81.23.10.106:8008/api/.*/big_cities.sql) query against all registered databases:
+````bash
+.*/big_cities.sql
+````
+
+[Execute](http://81.23.10.106:8008/api/.*/big_cities.sql?select=code,endpoint) query against all registered databases with specified columns:
+````bash
+.*/big_cities.sql?select=code,endpoint
+````
+
+[Execute](http://81.23.10.106:8008/api/master_db/big_cities.sql?select=code&orderby=code-desc) query with ordering:
+````bash
+master_db/big_cities.sql?select=code&orderby=code-desc
+````
+
+[Execute](http://81.23.10.106:8008/api/master_db/big_cities.sql?select=code&orderby=code-desc&page=1,3) query with pagination:
+````bash
+master_db/big_cities.sql?select=code&orderby=code-desc&page=1,3
+````
 
 
 Self-documentation
@@ -44,18 +75,10 @@ Self-documentation
 sql-boot uses the [OpenAPI](https://github.com/OAI/OpenAPI-Specification) standard to generate up-to-date documentation for APIs based your SQL-queries metadata.
 You can use a tool like [Swagger-UI](https://github.com/swagger-api/swagger-ui) or [Swagger-Editor](https://github.com/swagger-api/swagger-editor) to render interactive documentation (for demo requests) or [generate client API](https://github.com/swagger-api/swagger-codegen) against the live API server.
 
+
 How to pronounce
 ----------------
 It is pronounced "sequelboot" - https://translate.google.com/?source=osdd#en/en/sequelboot
-
-
-Try online:
------------------------
-- [table/scott](http://217.73.63.31:8007/api/oracle/headers/table/scott) - get all tables from schema "scott"
-- [table/scott.emp](http://217.73.63.31:8007/api/oracle/headers/table/scott.emp) - get table "hr.emp"
-- [index/scott](http://217.73.63.31:8007/api/oracle/headers/index/scott) - get all indexes from "scott" schema
-
-[![Croc Cloud](src/main/resources/croc_cloud.png)](https://cloud.croc.ru/en/)
 
 
 Try with Docker and embedded (H2) demo db:
