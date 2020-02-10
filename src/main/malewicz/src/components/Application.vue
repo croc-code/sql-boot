@@ -36,6 +36,7 @@ import TypesListPanel from './TypesListPanel'
 import ConnectionsListPanel from './ConnectionsListPanel'
 import ObjectsTablePanel from "./ObjectsTablePanel";
 import i18n from '@/plugins/i18n';
+import pev2 from "pev2"
 
 export default {
   data: () => ({
@@ -51,7 +52,7 @@ export default {
   }),
   props: ['panel'],
   name: 'Application',
-  components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel },
+  components: {ObjectsTablePanel, ConnectionsListPanel, TypesListPanel, pev2 },
   methods: {
     goHome() {
       return "/" + this.$store.getters.getConnections.join("|")

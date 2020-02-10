@@ -1,11 +1,11 @@
 # malewicz
 
-A hackable GUI SQL-manager written on SQL itself
+# A hackable GUI SQL-manager written on SQL itself
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1b7fb7abccda4a16a4f698f40d3bd4dc)](https://app.codacy.com/app/mgramin/malewicz?utm_source=github.com&utm_medium=referral&utm_content=sql-boot/malewicz&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/sql-boot/malewicz.svg?branch=master)](https://travis-ci.org/sql-boot/malewicz)
 
-:warning: This project is in early stage of development and is currently available only as a demo (online or local) based on [simple Oracle sql-scripts](https://github.com/sql-boot/sql-boot-oracle).
+:warning: This project is in early stage of development
 
 Backend powered by [sql-boot](https://github.com/sql-boot/sql-boot)
 
