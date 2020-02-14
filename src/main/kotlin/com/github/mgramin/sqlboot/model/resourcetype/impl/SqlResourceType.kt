@@ -105,7 +105,7 @@ class SqlResourceType(
 
     override fun metaData(uri: Uri): List<Metadata> {
         val endpoint = endpoints
-                .filter { it.properties().containsKey("tags") && it.properties()["tags"] == "history" }
+                .filter { it.properties().containsKey("tags") && it.properties()["tags"].toString().contains("history") }
                 .ifEmpty { endpoints.filter { it.properties().containsKey("default") } }
                 .ifEmpty { endpoints }
                 .first()

@@ -54,7 +54,7 @@ class CustomFilteredSelectQuery(
                             "int8" -> """${it.key} = ${it.value.asBigInteger}"""
                             "varchar","text","name" -> """${it.key} like '${it.value.asString.replace("'", "''")}'"""
                             "timestamptz" -> """${it.key} between '${it.value.asJsonObject["start"].asString}'::timestamptz and '${it.value.asJsonObject["end"].asString}'::timestamptz"""
-                            else -> """${it.key} = '${it.value.asString.replace("'", "''")}'"""
+                            else -> """${it.key} = '${it.value.toString().replace("'", "''")}'"""
                         }
                     }
             """select *
