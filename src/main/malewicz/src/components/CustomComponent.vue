@@ -43,6 +43,9 @@
     <span v-else-if="(met.type==='inet') && props.item[met.name]">
       {{ props.item[met.name].value }}
     </span>
+    <span v-else-if="(met.type==='interval') && props.item[met.name]">
+      {{ props.item[met.name].value }}
+    </span>
     <span v-else-if="met.format==='sql'">
       <CodeViewComponent :code="props.item[met.name]"/>
     </span>

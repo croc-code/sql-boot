@@ -17,7 +17,7 @@
                   :loading="isLoading"
                   :options.sync = "options"
                   :no-data-text = "this.$t('noData')"
-                  hide-default-footer
+                  :hide-default-footer = true
                   :fixed-header = "true"
                   :loading-text = "this.$t('loading')"
                   class="elevation-1">
@@ -148,6 +148,8 @@ export default {
                 this.isLoading = false
             }
         )
+      this.options.sortBy[0] = this.$store.getters.getUri.orderby.field
+      this.options.sortDesc[0] = this.$store.getters.getUri.orderby.ord === 'desc';
     },
     nextPage () {
       return this.$store.commit('nextPage')

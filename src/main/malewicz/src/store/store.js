@@ -83,14 +83,6 @@ export const store = new Vuex.Store({
     },
     getConnections: state => {
       return state.uri.connections
-      /*let defaultConnection = state.allConnections.find(v => {
-        return v.properties.default === true
-      })
-      if (state.uri.connections.length === 0) {
-        return Object.values(defaultConnection)
-      } else {
-        return state.uri.connections
-      }*/
     },
     getFilter: state => {
       return state.uri.filter
@@ -126,12 +118,12 @@ export const store = new Vuex.Store({
         return v.name === type
       })
       const defaultSort = meta.metadata.filter(v => {
-        return v.sort
+        return v.default_sort
       }).map(v => v.name)[0]
       if (defaultSort) {
         const sortType = meta.metadata.filter(v => {
-          return v.sort
-        })[0].sort
+          return v.default_sort
+        })[0].default_sort
         state.uri = {
           connections: c,
           type: type,
