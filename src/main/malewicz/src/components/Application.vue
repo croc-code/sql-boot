@@ -66,7 +66,9 @@ export default {
       this.$store.commit('changeUri', to.fullPath)
     },
     getSimpleUri: function (newUri, oldUri) {
-      this.$router.push({path: '/' + newUri})
+      const newPath = '/' + newUri
+      if (decodeURI(newPath) !== decodeURI(this.$router.currentRoute.fullPath))
+        this.$router.push({ path: newPath })
     }
   },
   computed: {
