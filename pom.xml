@@ -69,7 +69,7 @@
 
         <antlr4.visitor>true</antlr4.visitor>
         <antlr4.listener>true</antlr4.listener>
-        <kotlin.version>1.3.60</kotlin.version>
+        <kotlin.version>1.6.0</kotlin.version>
     </properties>
 
     <parent>
